@@ -1,0 +1,100 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm} % For bold math symbols
+\input{premble}
+
+
+\usepackage[preprint]{corl_2026} % Use this for the initial submission.
+% \usepackage[final]{corl_2026} % Uncomment for the camera-ready ``final'' version.
+% \usepackage[preprint]{corl_2026} % Uncomment for pre-prints (e.g., arxiv); This is like ``final'', but will remove the CORL footnote.
+
+% \title{GaP:  Graph-as-Policy Multi-Agent Harness for Coding Automation Tasks}
+% \title{GaP: Harnessing Modular Automation Skills with Graph-as-Policy }
+\title{GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness For Variational Automation (VA) Tasks}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+% NOTE: authors will be visible only in the camera-ready and preprint versions (i.e., when using the option 'final' or 'preprint'). 
+% 	For the initial submission the authors will be anonymized.
+\author{
+\normalfont
+    Kaiyuan Chen$^{1,*}$ \quad
+    Shuangyu Xie$^{1,*}$ \quad
+    Letian Fu$^{1}$ \quad
+    Justin Yu$^{1}$ \quad
+    William Pacini$^{1}$ \\
+    Sandeep Bajamahal$^{1}$ \quad
+    Hudson Kim$^{1}$ \quad
+    Jaimyn Drake$^{1}$ \quad
+    Daehwa Kim$^{3}$ \quad
+    Haoru Xue$^{1}$ \\
+    Jonathan Francis$^{3,4}$ \quad
+    Christian Juette$^{4}$ \quad
+    Peter Schaldenbrand$^{3,4}$ \\
+    Muhammet Yunus Seker$^{3,4}$ \quad
+    Ruwan Wickramarachchi$^{4}$ \quad
+    Uksang Yoo$^{1,3}$ \\
+    Guanzhi Wang$^{2}$ \quad
+    Adithyavairavan Murali$^{2}$ \quad
+    Balakumar Sundaralingam$^{2}$ \\
+    S. Shankar Sastry$^{1}$ \quad
+    Spencer Huang$^{2}$ \quad
+    Yuke Zhu$^{2}$ \quad
+    Linxi ``Jim'' Fan$^{2}$ \quad
+    Ken Goldberg$^{1}$ \\[0.5em]
+    $^{1}$ University of California, Berkeley \qquad
+    $^{2}$ NVIDIA \quad \\
+    $^{3}$ Carnegie Mellon University \quad 
+    $^{4}$ Bosch \quad 
+    $^{*}$ equal contribution \\
+    Project Website: \url{https://graph-robots.github.io/gap}
+}
+% algorithm/algorithmic removed: they clash with algorithm2e (loaded in premble.tex),
+% which is the package the algorithm blocks actually use.
+\usepackage{booktabs}
+\usepackage{graphicx} % Required package
+\begin{document}
+\maketitle
+
+%===============================================================================
+\vspace{-20pt}
+\begin{center}
+    \centering
+    
+    \captionsetup{type=figure}
+    \includegraphics[width=\linewidth]{figures/GaP-v4.pdf}
+    \captionof{figure}{\textbf{GaP} system architecture. Given a  {``Variational Automation (VA)'' }task specification, GaP uses a multi-agent harness for coding tools such as Claude and Gemini to automatically generate computation graphs that include ``skill'' nodes from a Modular Open Robot Skill Library (MORSL), which includes model-based procedures (e.g. ROS~\cite{macenski2022robot}) and model-free policies (e.g. GraspGen~\cite{murali2025graspgen}). GaP then orchestrates self-learning using simulation (e.g. NVIDIA Isaac~\cite{NVIDIA_Isaac_Sim}) to iteratively refine the graph, which can then be tributinterpreted without the agents on an edge device for persistent execution over time. Bottom: 8 Variational Automation Benchmark Tasks (4 Sim and 4 Real).}
+% To support future robot applications, \benchname presents fine-grained spatial understanding and embodied decision-making challenges for Vision–Language Models (VLMs).
+% Grounded in 6 robot application domains and 39 diverse tasks, \benchname is an expert-annotated Visual Question Answering (VQA) dataset emphasizing variable robot embodiments (left), interactions with deformable objects and complex and cluttered scenes (middle), and long-horizon contextual understanding (right). }
+    \label{fig:scene-title}
+\end{center}%
+
+
+\begin{abstract}
+    For robots to work reliably in commercial and industrial applications, can recent advances in agentic coding systems combine interpretable robot programming with the open-world adaptability of model-free policies?  We focus on ``Variational Automation'' (VA), a class of tasks that have larger variations in object geometry and pose than fixed automation.  Model-free policies often struggle to close the reliability gap for VA tasks, which must be executed persistently and reliably in commercial and industrial applications. Motivated by prior work on Task and Motion Planning (TAMP) and the Robot Operating System (ROS), we introduce Graph-as-Policy (GaP), a multi-agent coding harness that generates directed computation graphs with perception, planning, and control nodes from a Modular Open Robot Skill Library (MORSL).
+    % GaP then uses environment geometry and simulation-based self-learning by automatically instantiating parameterized internal physics environments to rehearse and evaluate the policy graph, and using closed-loop state and contact feedback to iteratively refine the graph structure and node parameters prior to real-world deployment.
+    GaP then generates an internal simulation environment to rehearse task instances with different graphs in parallel to iteratively refine the graph structure and parameters to improve success rates and throughput.   Evaluation with 8 new open VA task benchmarks, 4 in simulation and 4 in real-world, suggests that GaP can achieve success rates that significantly outperform baselines. Details, code, and data will be posted online: \url{https://graph-robots.github.io/gap}
+\end{abstract}
+
+\keywords{Agentic Coding, Automation, Self-Learning} 
+
+%===============================================================================
+\input{chapters_long/intro}
+\input{chapters_long/related}
+\input{chapters_long/method}
+\input{chapters_long/evaluation}
+\input{chapters_long/conclusion}
+% no \bibliographystyle is required, since the corl style is automatically used.
+\bibliography{example}  % .bib
+
+\appendix
+\input{chapters/appendix}
+\end{document}

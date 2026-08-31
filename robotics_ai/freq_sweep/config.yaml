@@ -1,0 +1,33 @@
+# Replanning-rate sweep configuration.
+# Native operating point of MolmoAct2-LIBERO: 10Hz control, 10-step (1s) chunks.
+# VERIFY native_hz against the checkpoint's fine-tuning config before trusting results.
+
+policy:
+  model_id: allenai/MolmoAct2-LIBERO
+  dtype: bfloat16          # float32 needs ~26GB VRAM
+  device: cuda
+  flow_num_steps: 10       # flow-matching solver steps at inference
+
+env:
+  suite: libero_10         # LIBERO-Long: primary suite, most headroom below ceiling.
+                           # Secondary run if budget allows: libero_object (closest to cube packing).
+  task_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  camera_hw: 256
+  max_seconds: 60          # episode timeout in sim-seconds (scales with exec_multiplier)
+
+native:
+  native_hz: 10            # VERIFY: model's action rate; LIBERO stock control_freq is 20
+  chunk_len: 10            # actions per model query at native settings
+
+sweep:
+  episodes_per_point: 20   # per task; x10 tasks = 200 episodes per grid cell (~14pt detectable gap)
+  seeds: [0, 1, 2, 3, 4]   # cycled across episodes
+  replan_k: [1, 2, 5, 10]  # actions executed per query
+  ou_sigma: [0.0, 0.1]     # 0.0 = deterministic arm; calibrate the noisy value via the
+                           # pilot protocol in the README before running the full grid
+  ou_theta: 0.15           # OU mean-reversion rate
+  n_samples: 4             # candidate chunks per query in the coherence arm
+  coherence_k: [1, 2]      # selection needs chunk overlap, so k < chunk_len
+  coherence_rho: 0.5       # decay on future steps in the selection cost (BID Eq. 6)
+
+output_dir: results
