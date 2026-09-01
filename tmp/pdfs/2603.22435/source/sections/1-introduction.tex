@@ -1,0 +1,63 @@
+\section{Introduction}
+\splashfigure{ht!}
+Robots have long been controlled through explicit programs that combine perception, geometry, planning, and feedback~\citep{fikes1971strips, murray1994mathematical, aeronautiques1998pddl, siciliano2008springer}. As robots advanced to continuous, higher-dimensional spaces, these representations were integrated with geometric motion planning~\citep{khatib1986real}, evolving into Task-and-Motion Planning (TAMP)~\citep{kaelbling2011hierarchical}. These \textit{classical} control paradigms achieve robustness through explicit structure: human engineers manually write software that decomposes high-level goals into subtasks, compose perception and control modules, and handle failure and edge cases through trial-and-error and explicit logic. While this can offer strong interpretability and geometric precision guarantees, it relies heavily on human skill and expertise. The manual process can be very time-consuming and often produces task-specific solutions that are difficult to generalize to open-ended environments. 
+
+Driven by successes in foundation models~\citep{devlin2018bert, radford2018improving, radford2019language, brown2020language, chowdhery2023palm, achiam2023gpt, radford2021learning, li2023blip}, another robot control paradigm has emerged in the form of Vision-Language-Action (VLA) models~\citep{brohan2023rt2, kim2024openvlaopensourcevisionlanguageactionmodel, octo_2023, jang2022bc, jiang2022vima, reed2022generalist, 2024rtx, shah2023vint, fu2024icrt, huang2025otter, bjorck2025gr00t, lbmtri2025, intelligence2025pi05}. These approaches learn from large-scale visuomotor datasets to achieve impressive performance on contact-rich tasks such as shirt folding and whole-body loco-manipulation. However, VLAs inherit the limitations of their training data and design: they lack interpretability and struggle to generalize to changes in the environment, new robot embodiments, and long-horizon tasks without additional data collection and retraining.
+
+Recent advances in coding capability of Large Language Models (LLMs) suggest a way to bridge these paradigms: using coding agents to replace the human engineer. Modern coding agents have demonstrated the ability to synthesize executable code, define functions, and debug failures on software engineering benchmarks~\citep{jimenez2024swebench}. Unlike earlier language-conditioned planners limited to function calling~\citep{tellex2011understanding}, today's agents can construct mid- to low-level logic that closely resembles expert code. 
+
+Code-as-Policy (CaP) pioneers~\citep{liang2023code, singh2023progprompt} explored this approach in applications to robotics; they used human-tuned high-level primitives (e.g., \verb|stack_objs_in_order()|) that offer significant task-specific simplifications. 
+As a result, it remains unclear how much of the observed performance in robot control stems from the agent itself versus the structure imposed by these primitives. In particular, prior work does not systematically characterize how agent performance changes as such scaffolding is reduced, nor to what extent increased test-time computation—through iterative debugging, skill synthesis, ensembled reasoning, or multimodal grounding—can compensate for operating over lower-level interfaces.
+
+To address this gap, we introduce \textbf{CaP-X}, a unified framework for systematically evaluating and improving code-based robot control agents. At its core is \textbf{\gymname{}}, an interactive environment in which agents directly control robots by generating and executing programs that compose perception and control primitives. \gymname{} integrates 187 tasks from standard robot manipulation simulators (Robosuite~\citep{zhu2020robosuite}, LIBERO-PRO~\citep{liu2023libero, zhou2025liberopro}, and BEHAVIOR~\citep{li2024behavior1k}) under a shared primitive design that is intentionally compatible with both simulation and physical robot systems. 
+
+Building on \gymname{}, we construct \textbf{\benchname{}}, a benchmark designed to systematically study agentic capability along three axes: \textbf{Abstraction Level:} Varying the action space from human-crafted macros (High-Level) to atomic, fundamental primitives (Low-Level); \textbf{Temporal Interaction:} Comparing zero-shot single-turn program generation against multi-turn interaction to quantify capabilities in failure recovery and iterative reasoning; and \textbf{Perceptual Grounding:} Evaluating how different modalities of visual feedback impact the agent's ability to ground task-relevant visual features into code generation.
+We instantiate \benchname{} by focusing on a subset of 7 environments from \gymname{} and evaluate 12 state-of-the-art open- and closed-source language models and vision-language models. 
+
+Guided by insights from \benchname{} results, we derive \textbf{\sysname{}}, a training-free agentic framework that augments coding models with multi-turn interaction, visual grounding into text, an automatically synthesized task-agnostic skill library, and parallelized multi-model code generation. 
+\sysname{} achieves performance comparable to, and in some cases exceeding, human expert baselines on \benchname{} tasks. Finally, we show that \gymname{} supports \textbf{\rlname{}}--reinforcement learning on the coding agent itself. On-policy post-training with environment rewards improves task success, while synthesized programs transfer directly to real robots. 
+This paper makes the following contributions:
+\capbenchleveltable{t!}
+\begin{enumerate}
+    \item \gymname{}, a unified suite of interactive robot coding environments spanning tabletop, bimanual, and mobile manipulation tasks, designed for evaluating and training code-generating multimodal embodied agents.
+    \item CaP-Bench, a systematic benchmark that measures robot control performance across tasks and levels of primitives and modalities.
+    \item \sysname{}, a training-free, agentic harness combining multi-turn visual differencing, ensembled reasoning, and automatic skill library synthesis.
+    \item \rlname{}, reinforcement learning on the coding agent via environment reward.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

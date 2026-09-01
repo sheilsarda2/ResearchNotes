@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Related Work}
+\textbf{Code as Policies.}
+A growing line of work explores programmatic robot control, where LLMs generate executable code that orchestrates perception and control modules~\citep{gupta2023visprog, yao2022react}. In robotics, this paradigm spans grounding plans in affordances~\citep{ahn2022saycan}, composing APIs for closed-loop behaviors~\citep{singh2023progprompt, liang2023code}, generating Python programs over perception APIs~\citep{huang2023instruct2act, mu2024robocodex, goldberg2024bloxnet}, and modular vision-language agentic pipelines~\citep{shi2025maestro, huang2022inner, geminirobotics1d52025}. Structured intermediate representations such as PDDL~\citep{aeronautiques1998pddl} and Signal Temporal Logic~\citep{liu2023llmplanning, chen2024autotamp} and persistent state tracking~\citep{yoneda2024statler} improve plan reliability, while executable code is empirically a superior agent action representation~\citep{wang2024codeact}, with agents benefiting from iterative self-refinement~\citep{shinn2023reflexion, madaan2023selfrefine} and inference-time sampling~\citep{wang2023selfconsistency, snell2024scaling}. Despite this progress, most coding-agent work on robot control still relies on high-level, human-crafted APIs encoding significant task structure. \gymname{} exposes the full primitive stack down to joint-level perception and control, and \benchname{} evaluates frontier models across abstraction tiers and inference-time strategies.
+
+\textbf{Skill Synthesis and RL with LLM-Generated Code.}
+A large body of work uses LLMs as \emph{static} code generators for reward functions, curricula, and skill synthesis with a frozen LLM and a separate trained policy~\citep{ma2024eureka, yu2023l2r, liang2024eurekaverse, ma2024dreureka, du2023ellm, wang2024robogen, ahn2024autort}; complementarily, RL with verifiable rewards (RLVR) improves the model itself across reasoning, code, and agentic settings~\citep{guo2025deepseek, shao2024deepseekmath, wei2025swerl, pan2024training, feng2026retool}. \rlname{} extends RLVR to robot manipulation by directly fine-tuning the language model via GRPO on physics-simulation outcomes, rather than using the LLM to produce reward code for a separate policy.
+
+\textbf{Benchmarks for robotics and embodied agents.}
+Robotic manipulation benchmarks~\citep{zhu2020robosuite, liu2023libero, li2024behavior1k, mees2022calvin, james2019rlbench, yu2020metaworld} evaluate fixed policy interfaces rather than executable program synthesis with tiered APIs and multi-turn debugging; code benchmarks~\citep{chen2021codex, jimenez2024swebench, pan2024training} lack embodied perception; and embodied-agent benchmarks~\citep{yang2025embodiedbench, chen2025g1, wang2026visgym, liu2024agentbench, shridhar2020alfred} broaden to multimodal interactive environments but do not require executable robot-control code across abstraction tiers. \gymname{} targets this intersection.

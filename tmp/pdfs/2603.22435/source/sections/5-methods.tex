@@ -1,0 +1,64 @@
+\section{\sysname{}: An Agentic Framework for Robot Control}
+\label{sec:capagent}
+Based on the failure modes and insights identified in \benchname{}, we introduce \textbf{\sysname{}}, a training-free, agentic infrastructure for robot control that augments base foundation models with a specialized multi-turn reasoning loop and a dynamically synthesized skill library.
+The architecture of \sysname{} is designed directly to address three key gaps identified in the benchmark.
+We demonstrate the efficacy of each design choice in \sysname{} by running ablation studies using the most capable model identified from CaP-Bench (Gemini-3-Pro) bootstrapped with each design choice, shown in Figure~\ref{fig:capagentmain}. A visual walkthrough of the agentic framework is presented in \cref{fig:capagent0_sys}.
+
+
+\textbf{1. Multi-turn Visual Differencing (VDM):}
+Directly adopting the insights from Takeaway 3, \sysname{} integrates the Visual Differencing Module as part of the per-turn observation. By grounding observations in structured text rather than raw pixels, the agent mitigates the specific cross-modal alignment failures identified in the M2 tier.
+
+\capagentmain{t!}
+\textbf{2. Auto-Synthesized and Persistent Skill Libraries:}
+In analyzing low-level S3 and S4 code generations from CaP-Bench, we found that capable models routinely synthesize helper functions to perform robotics data manipulations.
+
+Motivated by agentic systems that accumulate reusable tools over time~\cite{wang2023voyager}, \textbf{\sysname{}} introduces an \textit{automatically synthesized, task-agnostic skill library} that persists across trials. Rather than requiring the agent to repeatedly re-derive low-level utilities, the library onboards commonly recurring implementation patterns and offloads fragile low-level logic, allowing the coding agent to focus on high-level semantic planning. Importantly, unlike fixed human-designed high-level APIs, these skills are \emph{discovered}: they emerge from successful executions and retain the expressivity of low-level interfaces while improving robustness through reuse.
+
+The library is constructed via an automated synthesis pipeline that can be executed by the agent itself. Specifically, we collect all successful S3-tier rollouts pooled across all 12 models and 7 Robosuite tasks (i.e., the library is not model-specific), extract function definitions via regular-expression matching, and prompt Gemini-3-Pro to identify frequently recurring, task-agnostic logic. This yields a compact library of 9 verified, task-agnostic primitives (Appendix~\ref{app:skill_lib}).
+While the current implementation performs a single synthesis pass, the process is inherently \emph{iterative}. As additional successful executions are accumulated, the agent can continue to update its skill library over time. 
+A complete list of the nine synthesized functions currently utilized by \sysname{} is provided in Appendix~\ref{app:skill_lib}.
+
+
+\textbf{3. Parallel Reasoning:}
+Results from tiers S2 and S3 indicate that failures often stem from insufficient test-time exploration rather than a lack of capability. To address this, \sysname{} employs a parallel reasoning strategy inspired by recent ensemble methods \cite{pan2025learning, jin2025learning, rodionov2025hogwild}. At each turn, the system concurrently samples candidate solutions via two configurations: Single-model: 9 queries to one model. Multi-model: 3 queries each to GPT-5.2, Claude Opus 4.5, and Gemini-3-Pro. To maximize output diversity, we vary sampling temperatures (see Appendix \ref{app:model_ensemble_details}). A central coding agent then synthesizes these candidates into a final code snippet. This parallel approach is applied to both code generation and to the decision-making process for multi-turn continuations.
+
+
+
+
+\subsection{\sysname{} Performance on \benchname{}}
+Evaluated over 100 trials per task, \sysname{} significantly outperforms single-turn baselines by integrating visual differencing, a self-synthesized skill library, and parallel reasoning (\cref{fig:capagentmain}). Despite operating solely on low-level primitives, the system achieves success rates comparable to or exceeding human-written programs on 4 out of 7 tasks, narrowing the gap toward expert-level performance.
+
+
+
+\subsection{CaP-Bench++}
+The 7 core tasks of CaP-Bench isolate abstraction, iteration, and grounding under matched conditions; CaP-Bench++ extends this to compare coding agents directly against (i) state-of-the-art VLA policies and (ii) iterated human-written code on a broader task distribution. Rather than running all 12 models across every extended task--prohibitively expensive at this scale--we focus the comparison on \sysname{}.
+We further evaluate the performance of \sysname{} on subsets of tasks from LIBERO-PRO and BEHAVIOR. We summarize the results of \sysname{}  on 30 manipulation tasks from  LIBERO-PRO in Table \ref{tab:liberoproAVG} and compare them against three state-of-the-art VLA methods: OpenVLA~\cite{kim2024openvlaopensourcevisionlanguageactionmodel}, $\pi_0$~\cite{black2024pi0visionlanguageactionflowmodel}, and $\pi_{0.5}$~\cite{intelligence2025pi05}. Although these VLA methods are training-based, \sysname{} is a training-free method that has comparable or exceeds the performance of VLA post-training on these tasks. LIBERO-PRO~\cite{zhou2025liberopro} extends the LIBERO~\cite{liu2023libero} benchmark by increasing the perturbations of tasks by reasonable amounts along object attribute perturbations, initial position perturbations, instruction perturbations, and environmental perturbations. \sysname{} and these VLA methods are evaluated along initial position perturbations (Pos) and instruction perturbations (Task). Under Pos perturbations, the initial positions of objects in the scene are swapped with one another (ex: the position of the frypan and moka pot) and under Task perturbations, the instruction is changed so that another object in the scene is manipulated (ex: ``Put the moka pot on the stove" $\rightarrow$ ``Put the frypan on the stove"). Since VLAs are trained on a different instruction distribution, they perform poorly under task perturbations, whereas CaP-Agent0 remains robust to instruction variations. Furthermore, \sysname{} achieves performance comparable to $\pi_{0.5}$ under initial position perturbations.
+
+\liberoproAVGcomparison{t!}
+\simbktask{t!}
+We evaluate our method on two long-horizon mobile manipulation tasks in BEHAVIOR, where an R1Pro wheel-based humanoid is required to pick up a radio from a table and a soda can from the floor. The results over 25 trials for each task are summarized in \cref{tab:b1k}, reporting both navigation success rates and task completion success rates. In both tasks, the robot may start with the target object outside its field of view and must actively search for and navigate toward it. Navigation is considered successful if the robot reaches a location within 1 m of the target.
+
+The robot can adjust its camera in both horizontal and vertical directions and move both its base and arm to reach the object, resulting in a substantially larger action space than in tabletop manipulation settings. Moreover, potential collisions with surrounding furniture may prevent the robot from reaching the desired pose, leading to partial execution of planned trajectories and increased task complexity.
+
+In the radio pickup task, although the robot often successfully locates and approaches the object, it may lose sight of it or encounter severe occlusions when navigating too closely, due to its limited field of view. This frequently results in missing or poor grasp poses and constitutes a major failure mode for both S3 and the human policy. In contrast, \sysname{} mitigates this issue by repositioning the robot to obtain a better view, achieving substantially higher success rates.
+For the soda can pickup task, the small object size makes accurate vertical camera alignment critical for localization. S3 often fails by adjusting the camera vertically too early, leading to unsuccessful searches within the time limit. \sysname{} adapts its search strategy based on feedback, improving navigation success. Furthermore, grasping may fail when the can is knocked over, further reducing S3’s completion rate. \sysname{} can resample grasp poses after such disturbances and successfully recover, achieving significantly higher task success and similar performance as human expert.
+
+\subsection{Let the Agent Experience the Real World}
+
+The design of the \gymname{} environment loop deliberately allows it to directly interface with real-world robot perception and control interfaces, and we additionally demonstrate zero-shot performance of \sysname{} in unseen real-world tasks on real robot embodiments including the Franka Panda and AgiBot G1 without requiring any major cross-embodiment modifications (with the exception of single arm to bimanual control primitive modifications). With no post-training, off-the-shelf VLMs such as Gemini-3-Pro and Claude Opus 4.5 can perform complex long-horizon robotics reasoning and manipulation tasks following natural language instructions. For example, when asked to ``find the object under one of the cups" (Figure \ref{fig:mech_search}), it mechanically searches through all cups with closed-loop feedback from vision. When the robot is asked to solve a math problem presented in the physical world (Figure \ref{fig:symbolic}), it perceives the visual cue, thinks, and selects the correct blocks on the first attempt. We also demonstrate embodied reasoning ability in Figure \ref{fig:everything}, where \sysname{} exhibits common sense physics reasoning and understands the sensible stacking order for objects of various shapes. Optionally, a human-in-the-loop can also interactively correct the robot's behavior by providing additional feedback in between turns. More details are documented in Appendix \ref{app:real-world-agibot}.
+
+
+
+\section{\rlname{}}
+
+
+\gymname{} enables on-policy reinforcement learning with verifiable rewards (RLVR) directly on the coding agent. To demonstrate this, we apply Group Relative Policy Optimization (GRPO)~\cite{shao2024deepseekmath, guo2025deepseek} to post-train a Qwen2.5-Coder-7B-Instruct base model~\cite{hui2024qwen2}.
+
+\textbf{Methodology.} We RL post-train on three tasks: \textit{Cube Lift, Cube Stack,} and \textit{Spill Wipe}. To ensure stable convergence, we train using the privileged state-based APIs of tier S1. This avoids the noisy reward signals present in tier S2, where compounding perception and control errors can cause otherwise correct programs to fail during execution, introducing credit assignment ambiguity similar to that observed in G1~\cite{chen2025g1}. 
+
+\caprltab{}
+\textbf{Simulation Results.} Post-training for 50 iterations per task significantly improves code compilation rates and strategic robustness. When evaluated on S2 (noisy perception), the RL post-trained model achieves substantial gains over the base model, as detailed in \cref{tab:rl_combined}.
+
+\textbf{Sim-to-Real Transfer.} A key property of \rlname{} is that what transfers across the sim-to-real boundary is the \emph{code-as-action-space}: the agent learns to compose shared perception and control tools that are fixed across simulation and reality, rather than mapping raw visual features to motor commands. We validate this on a Franka Emika robot, where the agent retains high success rates for cube lifting (84\%) and stacking (76\%), demonstrating that strategies learned in simulation remain robust under real-world perception noise on these tasks. Please refer to \cref{app:reinforcement_learning} for comparing code generation before and after RL post-training.
+
+

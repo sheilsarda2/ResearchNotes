@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{reset\PYGZus{}gpu\PYGZus{}insertion}\PYG{p}{():}
+    \PYG{n}{go\PYGZus{}home}\PYG{p}{()}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} SAM3: localize motherboard and target PCIe slot \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{scene} \PYG{o}{=} \PYG{n}{sam3\PYGZus{}localize\PYGZus{}motherboard}\PYG{p}{(}\PYG{n}{camera}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}top\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{hover\PYGZus{}pos}\PYG{p}{,} \PYG{n}{scene} \PYG{o}{=} \PYG{n}{acquire\PYGZus{}slot\PYGZus{}hover}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} grasp GPU and extract from slot \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{descend\PYGZus{}guided}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{)}
+    \PYG{n}{close\PYGZus{}gripper}\PYG{p}{(}\PYG{n}{torque\PYGZus{}limit}\PYG{o}{=}\PYG{n}{LEFT\PYGZus{}CLOSE\PYGZus{}TORQUE\PYGZus{}LIMIT}\PYG{p}{)}
+    \PYG{n}{verify\PYGZus{}grasp\PYGZus{}or\PYGZus{}raise}\PYG{p}{()}                              \PYG{c+c1}{\PYGZsh{} gripper torque check}
+    \PYG{n}{lift\PYGZus{}and\PYGZus{}pull}\PYG{p}{(}\PYG{n}{scene}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} handover: carry GPU to parking pose on table \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{n}{freespace\PYGZus{}move}\PYG{p}{(}\PYG{n}{left\PYGZus{}target\PYGZus{}pos}\PYG{o}{=}\PYG{n}{TABLE\PYGZus{}APPROACH\PYGZus{}POS}\PYG{p}{,}
+                   \PYG{n}{left\PYGZus{}target\PYGZus{}rpy}\PYG{o}{=}\PYG{n}{TABLE\PYGZus{}PLACE\PYGZus{}RPY}\PYG{p}{,}
+                   \PYG{n}{backend}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}curobo\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{release\PYGZus{}glide}\PYG{p}{(}\PYG{n}{TABLE\PYGZus{}PLACE\PYGZus{}POS}\PYG{p}{,} \PYG{n}{TABLE\PYGZus{}PLACE\PYGZus{}RPY}\PYG{p}{)}     \PYG{c+c1}{\PYGZsh{} synchronized open}
+    \PYG{n}{cartesian\PYGZus{}retract\PYGZus{}after\PYGZus{}release}\PYG{p}{()}
+    \PYG{n}{go\PYGZus{}home}\PYG{p}{()}
+\end{Verbatim}

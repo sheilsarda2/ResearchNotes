@@ -1,0 +1,110 @@
+\section{CaP-Bench: Evaluating Frontier Models}
+\abstractionlevelfigure{t}
+
+
+
+
+
+
+\textbf{Models.} We evaluate 12 state-of-the-art vision-language and language models, including closed-source frontier models (Gemini-3-Pro~\cite{google_deepmind_gemini3pro_modelcard_2025}, OpenAI GPT o1~\cite{openai_o1_system_card_2024}, o4-mini~\cite{openai_o4mini_system_card_2025}, 5.1~\cite{openai_gpt5_1_2025} and 5.2~\cite{openai_gpt5_2_2025}, and Claude Haiku 4.5~\cite{anthropic_claude_haiku_4_5_2025} and Opus 4.5~\cite{anthropic_claude_opus_4_5_2025}, and open source models (OpenAI GPT-OSS-20B and 120B~\cite{openai_gpt_oss_120b_2025}, Qwen3 235B~\cite{qwen_qwen3_235b_2025}, Qwen-2.5-Coder-7B-Instruct, Kimi K2 Instruct~\cite{moonshot_ai_2025}, and DeepSeek-V3.1-Terminus~\cite{deepseekai2024deepseekv3technicalreport}). 
+
+\textbf{Simulation Task Suite.} Primary analysis is performed across 7 core tasks ranging from single-arm manipulation to bimanual coordination: \textit{Cube Lift, Cube Stack, Spill Wipe, Peg Insertion, Cube Re-stack, Two-Arm Lift,} and \textit{Two-Arm Handover}. Each task is evaluated with 100 trials per tier, where each tier specifies the available primitives, interaction mode, and feedback/grounding signal. These 7 tasks are an intentionally controlled core for ablating abstraction, iteration, and grounding under matched conditions; the full release of \gymname{} ships 187 tasks (7 Robosuite + 130 LIBERO-PRO + 50 BEHAVIOR) for broader community evaluation. In \cref{sec:capagent}, we further extend this analysis to diverse long-horizon settings using tasks from LIBERO-PRO~\cite{zhou2025liberopro} and BEHAVIOR~\cite{li2024behavior1k}.
+
+\textbf{Protocol}. We evaluate models using \textbf{Zero-Shot Pass@1}~\citep{chen2021codex,jimenez2024swebench}. Within a trial, agents may interact with the environment over one or multiple turns, observing execution feedback and generating subsequent code to recover from errors or extract additional information; the environment is never reset during the trial. Coding agent task performance is compared against that of human expert-written reference solutions under identical environments and primitives (see Appendix~\ref{app:human_expert}).
+We introduce 4 single-turn tiers (S1-S4) and 4 multi-turn tiers (M1-M4) to \benchname{}. Refer to \cref{tab:capbench-levels} for a tabular comparison. The tiers vary three axes faced by any code-as-policy practitioner: (1) \textit{primitive abstraction} (human macros vs.\ low-level primitives), (2) \textit{level-of-iteration} (single-turn vs.\ multi-turn with structured execution feedback), and (3) \textit{mode of grounding} (raw visual inputs vs.\ text descriptions from a separate VLM). CaP-Bench isolates these axes via independently controllable tiers.
+
+
+
+
+
+
+\subsection{Single-Turn Benchmarks (S1-S4)}
+\label{subsec:singleturn}
+
+\textbf{High-Level (S1 \& S2)}: These tiers evaluate the agent's ability to reason with human-designed primitives. We evaluate this in two modes: \textbf{Privileged (S1)}, which uses ground-truth simulation state (masks and object poses), and \textbf{Non-Privileged (S2)}, which relies on real perception modules processing raw RGB-D inputs--the default setting for most prior work. We introduce S1 to disentangle high-level planning from perception noise, establishing a reasoning upper bound that allows us to distinguish between algorithmic failures and visual estimation errors.
+
+
+
+\textbf{Low-Level (S3 \& S4)}: In these tiers, human-designed abstractions are replaced by their constituent low-level primitives (e.g., \texttt{solve\_ik()}, \texttt{sam3\_text\_prompt()}), drawn directly from the APIs of each underlying package—reflecting the interfaces that human developers use to control robots. We evaluate two settings: \textbf{(S3)}, where documentation includes usage examples to scaffold low-level composition, and \textbf{(S4)}, where examples are removed and the agent must reason about program structure solely from interface definitions (function signatures and docstrings). See \cref{fig:abstractionlevel_diff} for an illustration of high-level (S1 \& S2) versus low-level (S3 \& S4) primitives; full API details at each abstraction level are provided in Appendix~\ref{app:apis}.
+
+
+\subsection{Multi-turn Benchmarks (M1-M4)} 
+
+\textbf{Text-Only Multi-turn (M1)}: In this setting, the agent receives the standard output (\texttt{stdout}) and error traces (\texttt{stderr}) from the Python sandbox after each execution turn. This enables a state introspection loop: agents can proactively inject diagnostic print statements to surface hidden symbolic variables (e.g., perception estimates) and utilize these traces to diagnose logical failures and refine code without access to visual ground truth. All other multiturn tiers (M2-M4) retain access to these code execution traces.
+
+\textbf{Multimodal (M2)}: The environment pipes the current RGB observation back into the agent's context window. The M2 tier is only available to multimodal foundation models that accept raw RGB images as input.
+
+\textbf{Visual Differencing Module (M3)}: We introduce the Visual Differencing Module (VDM), which uses a vision–language model to convert visual observations into structured natural language. VDM is provided with the task instruction alongside visual observations. In the first turn, it generates a scene description and extracts task-relevant visual attributes. In subsequent turns, it explicitly describes differences between the previous and current image observations and whether the coding agent has completed the task. The resulting text from the VDM is provided as part of the coding agent’s observation context for code generation.
+
+\textbf{Low-Level with VDM (M4)}: This tier has the same VDM as tier M3 and has access to the same low-level primitives and in-context usage examples as tier S3.  
+
+\abstractionincrease{t!}
+
+
+\subsection{Discussion}
+
+\textbf{Takeaway 1: A Significant Gap Persists Between Frontier Models and Human Experts in Single-Turn Evaluation.} 
+We benchmark open- and closed-source agents against human expert solutions under an identical set of perception and control primitives in a single-turn, zero-shot setting (S4). The human reference is a near-upper-bound: $N{=}7$ paper authors (each with 2+ years of robotics-programming experience) wrote single Python scripts at each tier using exactly the same API primitives available to the model, iterating and debugging until the solution achieved $88.5\%$ average single-turn success (see Appendix~\ref{app:human_expert} for the protocol and effort budget). As shown in \cref{fig:splash_fig}, while closed-source models consistently outperform open-source alternatives and newer architectures exhibit stronger capabilities, none yet match the success rate of human-crafted programs in a zero-shot Pass@1 setting.
+
+
+\textbf{Takeaway 2: High-Level Abstractions Boost Performance but Limit Expressivity}. 
+\cref{fig:abstraction_increase} shows a monotonic increase in task success as primitive abstraction increases, mirroring how prior Code-as-Policies~\cite{liang2023code} approaches relying on high-level primitives report strong zero-shot performance. By collapsing low-level perception, geometric reasoning, and control into human-designed primitives, these abstractions reduce the effective search space and allow models to focus on task sequencing.
+
+However, this gain comes at the cost of expressivity. As abstraction increases, the agent’s action space is increasingly constrained by human priors, imposing a generality ceiling that masks failures in low-level reasoning. In contrast, performance degradation at lower abstraction levels (S3/S4) reflects the difficulty of code synthesis, while enabling expressive behaviors, such as hierarchical perception fallback strategies (\cref{app:perception_fallbacks}), that cannot be represented by fixed high-level primitives. 
+
+This observation motivates a scalable middle ground: rather than relying on human-designed abstractions, agents should be able to recover structure from low-level primitives themselves. In \cref{sec:capagent}, we demonstrate this capability by enabling agents to distill successful execution traces into a reusable skill library. Consequently, we propose that generalist embodied coding agents be evaluated primarily on primitive-level performance, ensuring that success stems from robust reasoning rather than from the inductive biases of an over-engineered, often task-specific, API set.
+
+
+
+
+
+\codecompilation{t!}
+
+\textbf{Takeaway 3: Closing the Loop with Multi-turn and Visual Grounding Improves Performance.} We study how \textit{multi-turn interaction} and different forms of \textit{visual grounding} mitigate the performance gaps identified in Takeaways 1 and 2.
+\visualfeedbackcomp{h}
+Allowing agents to iterate and inspect their own execution traces (\texttt{stdout}/\texttt{stderr}, M1) consistently improves performance across all models (\cref{fig:visualfeedbackcomp}), highlighting the importance of explicit execution feedback for debugging and recovery.
+
+Counter-intuitively, directly interleaving raw RGB observations at each turn (M2) degrades performance relative to the text-only M1 baseline. We hypothesize this degradation is due to a cross-modal alignment gap: foundation models are rarely trained to jointly reason over software coding and images of physical task execution, making raw visual inputs difficult to integrate effectively during code synthesis.
+
+Prior work~\cite{hu2025lmgame, wang2026visgym} similarly observes that textually grounded feedback outperforms raw images, though primarily in structured environments with native text states. In contrast, robotic manipulation operates in unstructured, continuous settings without ground-truth textual descriptions. Here, the Visual Differencing Module (M3) bridges this gap by converting visual observations into structured natural language, substantially outperforming both naive image interleaving (M2) and execution-only feedback (M1) across all tasks (\cref{fig:visualfeedbackcomp}).
+
+\textit{Low-Level Primitives with Multi-turn Feedback (M4).} \cref{fig:vdmlvslvsnp} shows that agents operating over low-level primitives augmented with multi-turn feedback not only surpass high-level single-turn (S2) but can reach parity with high-level multi-turn performance (M3). This supports a \emph{test-time compute scaling} hypothesis: robustness can be synthesized at runtime by increasing an agent’s capacity for reasoning, verification, and self-correction over atomic primitives.
+
+Across all multi-turn settings (M1-M4), both coding errors (e.g., exceptions) and physical execution failures (e.g., unstable grasps) are frequently recoverable through iterative interaction. In the absence of explicit visual grounding mechanisms (M1), successful agents compensate by proactively instrumenting perception primitives to expose symbolic state--such as object poses--and performing explicit checks for task completion (e.g., verifying relative object heights to confirm stacking). Visual grounding (M2-M4) reduces the burden of such self-instrumentation but does not eliminate explicit state verification behavior through perception primitives. Instead, the strongest performance emerges when agents combine structured feedback with iterative reasoning, framing multi-turn interaction as a mechanism for hypothesis testing and error recovery in embodied control.
+\vdmlvslvsnp{h}
+
+\capagentfigure{t}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

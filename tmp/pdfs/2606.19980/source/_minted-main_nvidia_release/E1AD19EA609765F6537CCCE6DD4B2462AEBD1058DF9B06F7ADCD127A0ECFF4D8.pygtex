@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}reward\PYGZus{}from\PYGZus{}top\PYGZus{}right\PYGZus{}cam}\PYG{p}{(}\PYG{n}{rgb\PYGZus{}t}\PYG{p}{,} \PYG{n}{rgb\PYGZus{}r}\PYG{p}{):}
+    \PYG{n}{dets} \PYG{o}{=} \PYG{n}{segment\PYGZus{}zip\PYGZus{}tie\PYGZus{}views}\PYG{p}{(}\PYG{n}{rgb\PYGZus{}t}\PYG{p}{,} \PYG{n}{rgb\PYGZus{}r}\PYG{p}{,} \PYG{n}{threshold}\PYG{o}{=}\PYG{n}{sam3\PYGZus{}score\PYGZus{}threshold}\PYG{p}{)}
+    \PYG{n}{strap} \PYG{o}{=} \PYG{n}{union}\PYG{p}{([}\PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}mask\PYGZdq{}}\PYG{p}{]} \PYG{k}{for} \PYG{n}{d} \PYG{o+ow}{in} \PYG{n}{top2\PYGZus{}by\PYGZus{}score}\PYG{p}{(}\PYG{n}{dets}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}top\PYGZdq{}}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}strap\PYGZdq{}}\PYG{p}{])])}
+    \PYG{n}{head} \PYG{o}{=} \PYG{n}{top1\PYGZus{}by\PYGZus{}score}\PYG{p}{(}\PYG{n}{dets}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}top\PYGZdq{}}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}head\PYGZdq{}}\PYG{p}{])[}\PYG{l+s+s2}{\PYGZdq{}mask\PYGZdq{}}\PYG{p}{]}
+    \PYG{n}{strap} \PYG{o}{=} \PYG{n}{binary\PYGZus{}dilation}\PYG{p}{(}\PYG{n}{strap}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{n}{top\PYGZus{}dilate}\PYG{p}{)}
+    \PYG{n}{head} \PYG{o}{=} \PYG{n}{binary\PYGZus{}dilation}\PYG{p}{(}\PYG{n}{head}\PYG{p}{,} \PYG{n}{iterations}\PYG{o}{=}\PYG{n}{top\PYGZus{}dilate}\PYG{p}{)}
+    \PYG{n}{overlap} \PYG{o}{=} \PYG{p}{(}\PYG{n}{strap} \PYG{o}{\PYGZam{}} \PYG{n}{head}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()} \PYG{o}{/} \PYG{n}{head}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()}
+    \PYG{n}{protrude} \PYG{o}{=} \PYG{n}{strap}\PYG{p}{[:,} \PYG{p}{:}\PYG{n}{head\PYGZus{}left\PYGZus{}x}\PYG{p}{(}\PYG{n}{head}\PYG{p}{)]}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()} \PYG{o}{/} \PYG{n}{head}\PYG{o}{.}\PYG{n}{sum}\PYG{p}{()}
+    \PYG{n}{top\PYGZus{}ok} \PYG{o}{=} \PYG{n}{overlap} \PYG{o}{\PYGZgt{}=} \PYG{n}{top\PYGZus{}inter\PYGZus{}frac} \PYG{o+ow}{and} \PYG{n}{protrude} \PYG{o}{\PYGZgt{}=} \PYG{n}{top\PYGZus{}left\PYGZus{}mult}
+
+    \PYG{n}{right} \PYG{o}{=} \PYG{n}{binary\PYGZus{}dilation}\PYG{p}{(}\PYG{n}{dets}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}right\PYGZdq{}}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}strap\PYGZdq{}}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}mask\PYGZdq{}}\PYG{p}{],} \PYG{n}{iterations}\PYG{o}{=}\PYG{n}{right\PYGZus{}dilate}\PYG{p}{)}
+    \PYG{n}{head\PYGZus{}box} \PYG{o}{=} \PYG{n}{bbox\PYGZus{}shrunk}\PYG{p}{(}\PYG{n}{dets}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}right\PYGZdq{}}\PYG{p}{][}\PYG{l+s+s2}{\PYGZdq{}head\PYGZdq{}}\PYG{p}{],} \PYG{n}{frac}\PYG{o}{=}\PYG{n}{right\PYGZus{}shrunk\PYGZus{}frac}\PYG{p}{)}
+    \PYG{n}{labeled}\PYG{p}{,} \PYG{n}{n\PYGZus{}comp} \PYG{o}{=} \PYG{n}{label}\PYG{p}{(}\PYG{n}{right}\PYG{p}{)}
+    \PYG{k}{if} \PYG{n}{n\PYGZus{}comp} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{:}
+        \PYG{n}{right} \PYG{o}{=} \PYG{n}{right} \PYG{o}{|} \PYG{n}{connect\PYGZus{}components}\PYG{p}{(}\PYG{n}{labeled}\PYG{p}{)}
+    \PYG{n}{right\PYGZus{}ok} \PYG{o}{=} \PYG{n}{n\PYGZus{}comp} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{right} \PYG{o}{\PYGZam{}} \PYG{n}{head\PYGZus{}box}\PYG{p}{)}\PYG{o}{.}\PYG{n}{any}\PYG{p}{()}
+    \PYG{k}{return} \PYG{n}{top\PYGZus{}ok} \PYG{o+ow}{and} \PYG{n}{right\PYGZus{}ok}
+\end{Verbatim}

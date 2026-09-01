@@ -1,0 +1,63 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{SegmentAllObjectsTool}\PYG{p}{(}\PYG{n}{Tool}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Detect all instances of an object using SAM3 multi\PYGZhy{}detection.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{parameters} \PYG{o}{=} \PYG{p}{[}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}query\PYGZdq{}}\PYG{p}{,}                \PYG{l+s+s2}{\PYGZdq{}str\PYGZdq{}}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}camera\PYGZdq{}}\PYG{p}{,}               \PYG{l+s+s2}{\PYGZdq{}str\PYGZdq{}}\PYG{p}{,}   \PYG{n}{default}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}top\PYGZdq{}}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}score\PYGZus{}thresh\PYGZdq{}}\PYG{p}{,}         \PYG{l+s+s2}{\PYGZdq{}float\PYGZdq{}}\PYG{p}{,} \PYG{n}{default}\PYG{o}{=}\PYG{l+m+mf}{0.1}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}bbox\PYGZdq{}}\PYG{p}{,}           \PYG{l+s+s2}{\PYGZdq{}list\PYGZdq{}}\PYG{p}{,}  \PYG{n}{default}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}exclude\PYGZus{}bboxes\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}list\PYGZdq{}}\PYG{p}{,}  \PYG{n}{default}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}filters\PYGZdq{}}\PYG{p}{,}              \PYG{l+s+s2}{\PYGZdq{}list\PYGZdq{}}\PYG{p}{,}  \PYG{n}{default}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{),}
+        \PYG{n}{ToolParameter}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}rank\PYGZus{}by\PYGZdq{}}\PYG{p}{,}              \PYG{l+s+s2}{\PYGZdq{}dict\PYGZdq{}}\PYG{p}{,}  \PYG{n}{default}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{),}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} query:}
+    \PYG{c+c1}{\PYGZsh{}     Natural\PYGZhy{}language description of the object to segment.}
+    \PYG{c+c1}{\PYGZsh{} camera:}
+    \PYG{c+c1}{\PYGZsh{}     Camera view to capture from. One of \PYGZob{}top, left, right\PYGZcb{}.}
+    \PYG{c+c1}{\PYGZsh{} score\PYGZus{}thresh:}
+    \PYG{c+c1}{\PYGZsh{}     Minimum SAM3 confidence score. Detections below threshold are dropped.}
+    \PYG{c+c1}{\PYGZsh{} image\PYGZus{}bbox:}
+    \PYG{c+c1}{\PYGZsh{}     [x\PYGZus{}min, y\PYGZus{}min, x\PYGZus{}max, y\PYGZus{}max] pixel crop. Zeros all pixels outside the}
+    \PYG{c+c1}{\PYGZsh{}     box before sending to SAM3 to suppress background noise. Returned masks}
+    \PYG{c+c1}{\PYGZsh{}     remain in full\PYGZhy{}image coordinates so centroid\PYGZus{}world\PYGZus{}xyz back\PYGZhy{}projects correctly.}
+    \PYG{c+c1}{\PYGZsh{} image\PYGZus{}exclude\PYGZus{}bboxes:}
+    \PYG{c+c1}{\PYGZsh{}     List of [x\PYGZus{}min, y\PYGZus{}min, x\PYGZus{}max, y\PYGZus{}max] boxes to zero out before sending to}
+    \PYG{c+c1}{\PYGZsh{}     SAM3. Inverse of image\PYGZus{}bbox — used to blank known distractors (e.g. gripper}
+    \PYG{c+c1}{\PYGZsh{}     jaws). Combinable with image\PYGZus{}bbox: image\PYGZus{}bbox is applied first, then}
+    \PYG{c+c1}{\PYGZsh{}     exclusions zero out within the kept region.}
+    \PYG{c+c1}{\PYGZsh{} filters:}
+    \PYG{c+c1}{\PYGZsh{}     List of \PYGZob{}metric, op, value\PYGZcb{} dicts AND\PYGZhy{}ed together to prune detections.}
+    \PYG{c+c1}{\PYGZsh{}     metric in \PYGZob{}confidence, area, AR, C, P\PYGZcb{}; op in \PYGZob{}\PYGZgt{}=, \PYGZlt{}=\PYGZcb{}.}
+    \PYG{c+c1}{\PYGZsh{}     AR: aspect ratio; C: compactness 4*pi*area/P\PYGZca{}2; P: perimeter in pixels.}
+    \PYG{c+c1}{\PYGZsh{}     Detections with None or non\PYGZhy{}finite metric values are dropped.}
+    \PYG{c+c1}{\PYGZsh{} rank\PYGZus{}by:}
+    \PYG{c+c1}{\PYGZsh{}     \PYGZob{}metric, direction\PYGZcb{} dict controlling sort order of returned detections.}
+    \PYG{c+c1}{\PYGZsh{}     metric in \PYGZob{}confidence, area, AR, C, P\PYGZcb{}; direction in \PYGZob{}max, min\PYGZcb{}.}
+    \PYG{c+c1}{\PYGZsh{}     Default: \PYGZob{}confidence, max\PYGZcb{}.}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{execute}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{o}{**}\PYG{n}{kwargs}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{ToolResult}\PYG{p}{:}
+        \PYG{n}{rgb}         \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}fetch\PYGZus{}camera\PYGZus{}image}\PYG{p}{(}\PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}camera\PYGZdq{}}\PYG{p}{])}
+        \PYG{n}{rgb\PYGZus{}for\PYGZus{}sam} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}preprocess}\PYG{p}{(}\PYG{n}{rgb}\PYG{p}{,} \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}bbox\PYGZdq{}}\PYG{p}{],}
+                                       \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}exclude\PYGZus{}bboxes\PYGZdq{}}\PYG{p}{])}
+        \PYG{n}{detections}  \PYG{o}{=} \PYG{n}{requests}\PYG{o}{.}\PYG{n}{post}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}sam3\PYGZus{}url}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/segment\PYGZus{}all\PYGZdq{}}\PYG{p}{,}
+                          \PYG{n}{json}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}text\PYGZdq{}}\PYG{p}{:}           \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}query\PYGZdq{}}\PYG{p}{],}
+                                \PYG{l+s+s2}{\PYGZdq{}image\PYGZus{}b64\PYGZdq{}}\PYG{p}{:}      \PYG{n}{to\PYGZus{}b64}\PYG{p}{(}\PYG{n}{rgb\PYGZus{}for\PYGZus{}sam}\PYG{p}{),}
+                                \PYG{l+s+s2}{\PYGZdq{}score\PYGZus{}threshold\PYGZdq{}}\PYG{p}{:}\PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}score\PYGZus{}thresh\PYGZdq{}}\PYG{p}{]\PYGZcb{})}\PYG{o}{.}\PYG{n}{json}\PYG{p}{()}
+        \PYG{n}{depth}\PYG{p}{,} \PYG{n}{intr}\PYG{p}{,} \PYG{n}{T\PYGZus{}cam\PYGZus{}world} \PYG{o}{=} \PYG{n}{\PYGZus{}fetch\PYGZus{}camera\PYGZus{}params}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}cam}\PYG{p}{,} \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}camera\PYGZdq{}}\PYG{p}{])}
+        \PYG{n}{results} \PYG{o}{=} \PYG{p}{[}
+            \PYG{n}{SegmentationResult}\PYG{p}{(}
+                \PYG{n}{mask}               \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{load}\PYG{p}{(}\PYG{n}{io}\PYG{o}{.}\PYG{n}{BytesIO}\PYG{p}{(}\PYG{n}{base64}\PYG{o}{.}\PYG{n}{b64decode}\PYG{p}{(}\PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}mask\PYGZus{}b64\PYGZdq{}}\PYG{p}{]))),}
+                \PYG{n}{score}              \PYG{o}{=} \PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}score\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{bbox\PYGZus{}xywh}          \PYG{o}{=} \PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}bbox\PYGZus{}xywh\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{mask\PYGZus{}area}          \PYG{o}{=} \PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}mask\PYGZus{}area\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{perimeter\PYGZus{}px}       \PYG{o}{=} \PYG{n}{\PYGZus{}shape\PYGZus{}stats}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{)[}\PYG{l+s+s2}{\PYGZdq{}perimeter\PYGZus{}px\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{compactness}        \PYG{o}{=} \PYG{n}{\PYGZus{}shape\PYGZus{}stats}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{)[}\PYG{l+s+s2}{\PYGZdq{}compactness\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{centroid\PYGZus{}uv}        \PYG{o}{=} \PYG{n}{\PYGZus{}shape\PYGZus{}stats}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{)[}\PYG{l+s+s2}{\PYGZdq{}centroid\PYGZus{}uv\PYGZdq{}}\PYG{p}{],}
+                \PYG{n}{centroid\PYGZus{}world\PYGZus{}xyz} \PYG{o}{=} \PYG{n}{\PYGZus{}project\PYGZus{}centroid}\PYG{p}{(}\PYG{n}{mask}\PYG{p}{,} \PYG{n}{depth}\PYG{p}{,} \PYG{n}{intr}\PYG{p}{,} \PYG{n}{T\PYGZus{}cam\PYGZus{}world}\PYG{p}{),}
+                \PYG{n}{depth\PYGZus{}m}            \PYG{o}{=} \PYG{n}{depth}\PYG{p}{[}\PYG{n}{v}\PYG{p}{,} \PYG{n}{u}\PYG{p}{],}
+            \PYG{p}{)} \PYG{k}{for} \PYG{n}{d} \PYG{o+ow}{in} \PYG{n}{detections}
+        \PYG{p}{]}
+        \PYG{k}{return} \PYG{n}{ToolResult}\PYG{p}{(}\PYG{n}{success}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                          \PYG{n}{data}\PYG{o}{=}\PYG{n}{\PYGZus{}rank\PYGZus{}results}\PYG{p}{(}\PYG{n}{\PYGZus{}apply\PYGZus{}filters}\PYG{p}{(}\PYG{n}{results}\PYG{p}{,}
+                                             \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}filters\PYGZdq{}}\PYG{p}{]),} \PYG{n}{kwargs}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}rank\PYGZus{}by\PYGZdq{}}\PYG{p}{]))}
+\end{Verbatim}
