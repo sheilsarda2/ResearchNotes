@@ -4,7 +4,7 @@
 
 Source paper: [GaP: A Graph-as-Policy Multi-Agent Self-Learning Harness for Variational Automation Tasks](2607.05369v1.pdf), Chen et al., 2026.
 
-*Draft status: restructured for publication. Synthesis below; question-by-question evidence in the appendix.*
+*Published August 31, 2026 on [the blog](https://sheilsarda.github.io/robotics-blog/blog/compute-into-working-policy/) and Substack. Question-by-question evidence in the appendix.*
 
 Chen et al. name a real market segment. *Variational automation* is repeated robot work in a known workcell with bounded variation in object geometry and pose: groceries into baskets, cables into ports, a popcorn pan onto a burner. It sits between fixed automation, where an engineer prescribes the motion, and generalist robotics, where a model must handle scenes it has not seen. Their system, GaP, has coding agents decompose the task, pick perception, grasping, and planning skills from a library, and wire them into a typed computation graph. GaP rehearses the graph across sampled simulator scenes, the agents revise it from the recorded failures, and the finished policy runs through an interpreter with no LLM in the loop. The results are strong: success rates of 0.93 and above under pose variations that drop VLA baselines to 0.15, 18 of 20 on a physical popcorn task, 121 of 130 cable insertions.
 
