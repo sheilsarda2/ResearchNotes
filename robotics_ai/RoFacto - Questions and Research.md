@@ -1,16 +1,32 @@
 # RoFacto: questions from the annotated paper
 
+27 answers to the annotated paper, illustrated with the authors’ released videos.
+
+[Open the reading edition with video controls](RoFacto%20-%20Questions%20and%20Research.html). [Weekly review](Weekly%20Paper%20Review%20-%202026-09-10.md) · [Media credits](media/rofacto/README.md).
+
+<details>
+<summary>Paper and annotation notes</summary>
+
 Research checked September 10, 2026. Based on the seven scanned pages of *Robot-Factored World Models via Robot Rendering*, Byungjun Kim, Taeksoo Kim, Hyunsoo Cha, and Hanbyul Joo, Seoul National University and RLWRLD. [Original paper, v1](https://arxiv.org/abs/2607.22535v1) · [Project](https://bjkim95.github.io/rofacto/)
 
 The highlights identify the ideas you found novel. The questions below follow your margin and footer notes, grouped by topic. Page numbers refer to the original paper. I checked the full paper and appendix, the cited research, and available implementations. Examples and proposed experiments are identified as such; no training or robot experiments were run for this review.
 
 The companion [weekly review](Weekly%20Paper%20Review%20-%202026-09-10.md) develops the argument from these answers.
 
+The animated previews below use the authors’ released clips at their original speed, with labels added outside the imagery. Click a preview for the full video. [Media sources and presentation details](media/rofacto/README.md).
+
+</details>
+
 ## The action interface
 
 ### 1. What does “world-model conditioning” mean? (p. 3)
 
 **Conditioning means giving the model information that its prediction should depend on.** RoFacto asks it to generate a future video given a particular scene and proposed robot motion. Change the motion while holding the scene fixed, and the predicted future should change.
+
+[![Original and edited robot renderings above their corresponding generated videos](media/rofacto/action-edit.gif)](https://bjkim95.github.io/rofacto/static/videos/counterfactual/pick_tube.mp4)
+
+**Watch the target change.** Top: original/edited robot renderings. Bottom: their generated predictions. Around 3–4 seconds, the two predictions lift different objects. This makes the dependence on the motion condition visible; it does not measure counterfactual accuracy. [Full video](https://bjkim95.github.io/rofacto/static/videos/counterfactual/pick_tube.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#action-controllability)
+
 
 In Equation 4, the vertical bar means “given”:
 
@@ -50,6 +66,11 @@ Keep two distinctions separate: **numeric versus rendered** describes the repres
 
 They can reveal part of the outcome the model is supposed to predict. Imagine commanding a gripper to close around a cup. In a successful grasp, its recorded future opening may remain wider because the cup blocks the fingers. In a missed grasp, it may close completely. Supplying that future opening tells the predictor something about contact before it has predicted contact. This is an explanatory example, not a separate experiment in the paper.
 
+[![Nominal and logged-realized robot outlines over the same observed RoboCasa video](media/rofacto/contact-gap.gif)](media/rofacto/contact-gap.mp4)
+
+**Compare the outlines.** Green: nominal motion; cyan: logged realized motion. These are diagnostic overlays on the observed video, showing how the motion sources differ. The observed background is for comparison, not an extra future-video condition supplied to the model. [Full video](media/rofacto/contact-gap.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#nominal-trajectory-conditioning)
+
+
 The issue is **future-outcome information in the input**, rather than accidental mixing of the training and test sets. Current robot state is allowed. Future video is allowed as a training target. Future contact-affected robot state is privileged when the intended use is predicting the consequences of an unexecuted command.
 
 Appendix C tests three arrangements: nominal prompts for both training and inference; logged prompts for both, an oracle setting; and logged training prompts followed by nominal inference prompts. On RoboCasa-GR1, their PSNR values are 25.70, 28.26, and 24.69 respectively. The oracle has an advantage, and matching training to the nominal deployment interface beats switching to it only at inference. These results support the mismatch concern; they do not establish accurate contact physics. [RoFacto §3.2 and Appendix C, Table 4](https://arxiv.org/abs/2607.22535v1)
@@ -70,6 +91,11 @@ DWM gives that rendered hand video and a static-scene video to its generator. Th
 
 RoFacto applies a related interface to robot bodies. For its human-to-robot examples, the authors retarget human hand motion into robot motion **before** rendering the world model's condition. That ordering matters: the model sees the target robot geometry while predicting scene response. [RoFacto Appendix D](https://arxiv.org/abs/2607.22535v1)
 
+[![Recorded human demonstration beside the generated robot video](media/rofacto/human-retargeting.gif)](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4)
+
+**Follow the transferred motion.** Left: a recorded DexYCB human demonstration. Right: generated robot video after retargeting. Watch the reaching and lifting sequence; the right panel is a prediction, not footage of a robot executing the demonstration. [Full video](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#application-human-demonstration--robot-video)
+
+
 ### 6. How do the M and B RGB streams differ, and what is D in DROID? (p. 3 and earlier questions)
 
 They share camera coordinates but carry different information. The letters label streams; they do not name separate physical cameras.
@@ -84,6 +110,11 @@ They share camera coordinates but carry different information. The letters label
 **D means depth.** It represents how far surfaces lie from the camera, rather than their color. The two depth streams let the generator compare the gripper's depth with the scene's depth where their image projections overlap.
 
 “Static” refers to the underlying initial scene, not necessarily an unchanging picture. If the camera moves, the authors render that same scene from the changing viewpoints. In RoboCasa-GR1, they have the simulator's robot-free scene and camera trajectory, so they render both static RGB and depth along the path. For fixed-view DROID, the paper says it repeats the initial observation; it does not claim that every such image has had the initial robot removed. [RoFacto §§3.3–3.4 and Appendix A](https://arxiv.org/abs/2607.22535v1)
+
+[![Moving-view RoboCasa: AdaLN prediction, RoFacto prediction, and simulator reference](media/rofacto/robocasa-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4)
+
+**Watch the camera move.** Left to right: AdaLN prediction, RoFacto prediction, simulator reference. This is an output comparison; the separate B/M/D inputs are not displayed. The moving viewpoint illustrates why those inputs must share camera coordinates. [Full video](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+
 
 ### 7. How many of the related papers have I heard of? (p. 2)
 
@@ -109,6 +140,11 @@ Both ablation rows render robot meshes. The difference is the sequence of robot 
 **Raw-action mesh:** take the DROID joint/gripper targets and render them as if the robot attained each target at that instant. A command can request motion faster than the real arm can track.
 
 **Nominal mesh:** replay those targets through the robot's controller and actuation limits, then render the resulting robot-only motion. For DROID, the authors use a scene-free Isaac Lab environment to produce this trajectory. Isaac Lab is their implementation of the nominalization step, not part of the definition of a nominal trajectory. [RoFacto §4.3 and Appendix A](https://arxiv.org/abs/2607.22535v1)
+
+[![Synchronized raw-target, nominal-motion, and logged-motion overlays from the same DROID episode](media/rofacto/nominal-motion.gif)](media/rofacto/nominal-motion.mp4)
+
+**One episode, three motion sources.** Compare the magenta raw-target outline, green nominal outline, and cyan logged outline. These synchronized diagnostic overlays use the same observed background. They show motion alignment, not three generated world-model outputs; the future background is not a conditioning input. [Full video](media/rofacto/nominal-motion.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#nominal-trajectory-conditioning)
+
 
 An invented single-joint example makes the three signals distinct. Start at 0°. A command requests 90° after 0.1 seconds. Suppose a simplified controller permits only 60°/s, giving a nominal position of 6° at that time. In the real scene, contact might stop the joint at 4°. The raw target is 90°, the nominal state is 6°, and the realized state is 4°. These numbers illustrate the distinction; they are not measured Panda behavior.
 
@@ -196,6 +232,11 @@ The static context conditions a **separate generated output**. In the checked Wa
 
 This verifies the named upstream framework and DWM, with RoFacto's appendix as evidence for its mask choice. RoFacto's own adapted implementation was not available to inspect.
 
+![Explanatory diagram separating the known static-context input and mask from the generated future](media/rofacto/conditioning-mask.svg)
+
+*Explanatory diagram for Q16. The known-mask signal belongs to the context path; it does not lock the output pixels.*
+
+
 ### 17. Why are the video latents noisy? What does that make the model invariant to? (p. 5)
 
 Noise supplies a starting distribution from which the model can generate an unknown future. During training, the authors encode the known target video as $z_0$, sample Gaussian noise $\epsilon$, and form intermediate examples:
@@ -224,9 +265,21 @@ For a scalar illustration, let the clean coordinate be 2 and the noise coordinat
 
 The target is constant along that particular straight interpolation, but the learned vector field varies across noisy samples and noise levels. It combines supervision from many data/noise pairs. The direction convention matters: RoFacto defines increasing $\sigma$ as data-to-noise, so inference traverses it in reverse. [Flow Matching objective](https://arxiv.org/html/2210.02747v2#S4)
 
+
+
+![Explanatory diagram of the DiT and numerical-sampling loop, followed by VAE decoding](media/rofacto/denoising-loop.svg)
+
+*Explanatory diagram for Q17–19. Each solver step refines the clip latent; physical video time runs across the frames inside that latent.*
+
 ### 19. What is a DiT block, and what follows it in the architecture diagram? (p. 4 and earlier question)
 
-The architecture diagram is Figure 1 in the original paper; Figure 2 illustrates the realization gaps. A **diffusion transformer block** processes tokens made from patches of the video latent. Attention lets tokens exchange information; feed-forward layers transform their features. Conditioning gives this processing access to the scene, motion, text, and noise level. Multiple blocks form the denoising/vector-field predictor. [DiT §3](https://arxiv.org/html/2212.09748v2#S3)
+The architecture diagram is Figure 1 in the original paper; Figure 2 illustrates the realization gaps.
+
+[![Authors’ method overview: robot realization and rendering, static context, encoded conditions, DiT blocks, and video output](media/rofacto/method-overview.png)](https://bjkim95.github.io/rofacto/static/image/overview.png)
+
+*Authors’ Figure 1. Trace the blue robot streams and green scene streams into the model. The compact figure omits the explicit solver loop, shown in the explanatory diagram above.* [Original figure](https://bjkim95.github.io/rofacto/static/image/overview.png)
+
+ A **diffusion transformer block** processes tokens made from patches of the video latent. Attention lets tokens exchange information; feed-forward layers transform their features. Conditioning gives this processing access to the scene, motion, text, and noise level. Multiple blocks form the denoising/vector-field predictor. [DiT §3](https://arxiv.org/html/2212.09748v2#S3)
 
 The complete generation path has an intermediate step that a compact figure can hide:
 
@@ -270,6 +323,11 @@ The DiT4DiT authors have released training, evaluation, and deployment code, inc
 
 The authors inspect and present example videos to show what the method does, rather than reporting an aggregate score for those cases. The HRDexDB examples show transfer to an xArm 6–Inspire F1 arm/hand combination. The DexYCB examples show robot video generation from retargeted human motion. [RoFacto §§4.4–4.5 and Appendix D](https://arxiv.org/abs/2607.22535v1)
 
+[![xArm and Inspire hand: mesh input, generated video, and recorded reference](media/rofacto/unseen-hand.gif)](https://bjkim95.github.io/rofacto/static/videos/embodiment/hrdex_banana.mp4)
+
+**An example of qualitative evidence.** Left to right: xArm 6–Inspire F1 mesh input, generated video, recorded reference. Watch the fingers and banana during the lift. The model also receives depth, which this strip omits. One example does not establish a transfer success rate. [Full video](https://bjkim95.github.io/rofacto/static/videos/embodiment/hrdex_banana.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#zero-shot-embodiment-generalization)
+
+
 A video in which the robot approaches an object and the object moves supplies an example of the model's behavior. It does not tell us how often that behavior is correct across a representative set. The paper reports neither a task-success percentage nor a formal human-rating protocol for these transfer studies. “Qualitative” does not mean useless; it identifies the kind of evidence available and limits the generalization we can draw from it.
 
 ### 23. What are reconstruction metrics? PSNR, SSIM, LPIPS: what do these numbers mean? (p. 6)
@@ -306,6 +364,11 @@ Shrinking both images can erase the detail where they disagree. Consider an illu
 
 The higher-resolution prediction was imperfect. Averaging concealed its errors. For equal-sized block averaging, the squared average error cannot exceed the average squared error, so this operation can reduce MSE and raise PSNR. **The explanation is error averaging, not just having fewer pixels:** MSE already divides by the pixel count. A constant +10 error would survive this downsampling.
 
+![Explanatory two-pixel example: errors cancel during averaging, reducing measured MSE from 100 to zero](media/rofacto/downsampling.svg)
+
+*The same invented example shown visually. Averaging hides the discrepancy; it does not improve the original prediction.*
+
+
 “Inflate” is loose wording. The intended meaning is that a coarser comparison can make the match look better. LPIPS improves by going down; the claim cannot mean that all metric values rise. The outcome for SSIM and LPIPS depends on the images, scale, and implementation. The SSIM authors themselves discuss choosing an evaluation scale. [SSIM suggested usage](https://ece.uwaterloo.ca/~z70wang/research/ssim/)
 
 RoFacto evaluates SVD at **192×320** and Wan at **480×832**, with different training data as well. It does not report a controlled experiment evaluating identical predictions at both resolutions. Therefore SVD's 25.05 PSNR versus Wan's 21.87 does not show that SVD is the better world model or quantify a resolution effect. Compare methods within each backbone group. [RoFacto §4.2, Table 1 and Appendix B](https://arxiv.org/abs/2607.22535v1)
@@ -328,11 +391,21 @@ AdaLN means **adaptive layer normalization**: a conditioning network changes fea
 
 A limitation of the comparison follows from these details. The DROID EEF vector omits parts of the full arm configuration and shape supplied by a URDF rendering. The full Wan rendered condition also supplies scene and EEF depth. Holding the backbone fixed does not make the available information or conditioning adapters identical. The experiment tests the usefulness of the complete interface, with its geometry and depth; it does not isolate a pure “pixels versus numbers” transformation of identical information.
 
+[![DROID: AdaLN prediction, RoFacto prediction, and recorded reference](media/rofacto/droid-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4)
+
+**Compare the lift of the yellow object.** Left to right: AdaLN prediction, RoFacto prediction, recorded reference. Inspect robot placement and object motion through the clip, especially near the end. These are selected examples; Q27 gives the aggregate measurements. [Full video](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+
+
 ### 26. What is “occlusion ordering,” and why aren't these metrics enough? (p. 6)
 
 Occlusion ordering means **which surface sits in front of another from the camera's viewpoint**. If the gripper passes behind a cup, the cup should hide the overlapping part of the gripper. Drawing the fingers on top would get the ordering wrong. This describes front/back depth, not the temporal order of frames.
 
 Two objects can overlap in a 2D image while remaining far apart in 3D. At a shared projected pixel, an illustrative gripper depth of 0.8 m and cup-surface depth of 1.0 m place the gripper in front. Reversing those depths places it behind. Similar depths make contact more plausible, but do not prove contact: surface geometry, motion, and uncertainty still matter. RoFacto supplies both depth streams to help the network reason about this ambiguity; it does not install a hard contact solver through that comparison. [RoFacto §3.4 and Figure 4](https://arxiv.org/abs/2607.22535v1)
+
+[![Without depth, with paired depth, and recorded reference: compare the white paper bag](media/rofacto/depth-contact.gif)](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4)
+
+**Watch the white paper bag.** Left: without depth; middle: with paired depth; right: reference. Around 1–2.5 seconds, the no-depth prediction moves the bag with the gripper/bottle, while the depth-conditioned prediction and reference leave it approximately stationary. This is the authors’ selected false-contact example. [Full video](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning)
+
 
 Whole-image metrics can penalize incorrect contact pixels, but a brief event involving a small object may contribute little to a clip average dominated by the static scene. A plausible alternative future can also differ from the single recorded reference. The score therefore does not directly answer whether the grasp missed, whether the object moved without contact, or whether the fingers passed through it. The paper explicitly identifies small motions, brief contact, and occlusion ordering as cases where these metrics are least diagnostic, and inspects those cases visually. [RoFacto §4.2](https://arxiv.org/abs/2607.22535v1)
 
@@ -350,7 +423,13 @@ Replaying commands before rendering improves all three reported means. Adding th
 
 The novelty assessment needs a narrower claim than “render actions” or “learn only scene changes.” VAP already supplies visual action prompts; DWM already combines static-scene rendering, hand-mesh motion, and inpainting-based interaction generation. Relative to those works, RoFacto's strongest contribution is the **nominal, pre-interaction robot interface**, used during both training and inference, together with **paired EEF/scene depth** and the supporting ablations. Depth prompting in general also predates RoFacto. [VAP](https://zju3dv.github.io/VAP/), [DWM](https://snuvclab.github.io/dwm/), [RoFacto §§3–4](https://arxiv.org/abs/2607.22535v1)
 
-The paper demonstrates video prediction and qualitative motion/embodiment transfer. It does not report closed-loop policy improvement, prospective action-ranking accuracy, contact forces, or calibrated failure probabilities. The authors acknowledge dependence on robot assets/calibration, the difficulty of real moving-camera scene reconstruction, and success-heavy training data. Appendix B uses four Wan denoising steps with a distillation LoRA, but gives no wall-clock result establishing suitability for online planning. [RoFacto §5 and Appendices B, E](https://arxiv.org/abs/2607.22535v1)
+The paper demonstrates video prediction and qualitative motion/embodiment transfer.
+
+[![Dual Panda composition: mesh input, generated video, and simulator reference](media/rofacto/dual-arm.gif)](https://bjkim95.github.io/rofacto/static/videos/embodiment/dexmimicgen_dual.mp4)
+
+**A new two-Panda composition.** Left to right: mesh input, generated video, simulator reference. The strip omits the depth conditions. This is qualitative evidence for this configuration; GR1 training already includes two arms, so the claim is not that the model has never seen bimanual motion. [Full video](https://bjkim95.github.io/rofacto/static/videos/embodiment/dexmimicgen_dual.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#zero-shot-embodiment-generalization)
+
+The paper does not report closed-loop policy improvement, prospective action-ranking accuracy, contact forces, or calibrated failure probabilities. The authors acknowledge dependence on robot assets/calibration, the difficulty of real moving-camera scene reconstruction, and success-heavy training data. Appendix B uses four Wan denoising steps with a distillation LoRA, but gives no wall-clock result establishing suitability for online planning. [RoFacto §5 and Appendices B, E](https://arxiv.org/abs/2607.22535v1)
 
 As of September 10, the official [RoFacto repository](https://github.com/bjkim95/rofacto) says “Code coming soon”; no official checkpoint was located. DWM has [released code](https://github.com/snuvclab/dwm) and [CogVideoX](https://huggingface.co/byungjun-kim/DWM-CogVideoX-Fun-5b-LoRA) and [Wan](https://huggingface.co/byungjun-kim/DWM-Wan2.1-Fun-14b-LoRA) LoRA checkpoints. Those provide a precursor to study, not a reproduction of RoFacto's nominal controller replay and depth interface.
 

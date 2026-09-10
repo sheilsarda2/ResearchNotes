@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410" role="img" aria-labelledby="title desc">
+  <title id="title">Averaging pixels can hide prediction error</title>
+  <desc id="desc">Explanatory diagram. A reference pair of pixels with values 100 and 100 is compared with predicted values 90 and 110. Their mean squared error is 100. Averaging each pair into one pixel gives 100 for both the reference and prediction, making the mean squared error zero. Opposite errors cancel in this illustrative example.</desc>
+  <defs>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#183138} .small{font-size:14px;fill:#53666a} .body{font-size:17px} .label{font-size:20px;font-weight:700} .value{font-size:22px;font-weight:700;fill:#ffffff}
+    </style>
+  </defs>
+  <rect width="960" height="410" rx="14" fill="#faf8f2"/>
+  <text x="30" y="28" class="small">Explanatory diagram</text>
+  <text x="30" y="61" font-size="25" font-weight="700">Downsampling can hide disagreement</text>
+  <text x="30" y="88" class="body">An illustrative grayscale example: average each pair of pixels into one.</text>
+
+  <text x="30" y="130" class="label">Two pixels</text>
+  <text x="582" y="130" class="label">One averaged pixel</text>
+  <text x="30" y="192" class="body">Reference</text>
+  <text x="30" y="278" class="body">Prediction</text>
+  <text x="582" y="192" class="body">Reference</text>
+  <text x="582" y="278" class="body">Prediction</text>
+
+  <rect x="159" y="153" width="94" height="64" rx="6" fill="#646464"/>
+  <rect x="259" y="153" width="94" height="64" rx="6" fill="#646464"/>
+  <text x="206" y="193" text-anchor="middle" class="value" style="fill:#ffffff">100</text>
+  <text x="306" y="193" text-anchor="middle" class="value" style="fill:#ffffff">100</text>
+
+  <rect x="159" y="239" width="94" height="64" rx="6" fill="#5a5a5a"/>
+  <rect x="259" y="239" width="94" height="64" rx="6" fill="#6e6e6e"/>
+  <text x="206" y="279" text-anchor="middle" class="value" style="fill:#ffffff">90</text>
+  <text x="306" y="279" text-anchor="middle" class="value" style="fill:#ffffff">110</text>
+
+  <text x="467" y="191" text-anchor="middle" class="body">Average</text>
+  <text x="467" y="214" text-anchor="middle" class="body">each pair</text>
+  <path d="M390 237H544" fill="none" stroke="#197d75" stroke-width="3"/>
+  <path d="M532 230L532 244L547 237Z" fill="#197d75"/>
+
+  <rect x="721" y="153" width="126" height="64" rx="6" fill="#646464"/>
+  <rect x="721" y="239" width="126" height="64" rx="6" fill="#646464"/>
+  <text x="784" y="193" text-anchor="middle" class="value" style="fill:#ffffff">100</text>
+  <text x="784" y="279" text-anchor="middle" class="value" style="fill:#ffffff">100</text>
+
+  <rect x="159" y="322" width="194" height="38" rx="8" fill="#edf5f2"/>
+  <text x="256" y="348" text-anchor="middle" class="label">MSE = 100</text>
+  <rect x="721" y="322" width="126" height="38" rx="8" fill="#edf5f2"/>
+  <text x="784" y="348" text-anchor="middle" class="label">MSE = 0</text>
+  <text x="30" y="391" class="body">The −10 and +10 errors cancel. Fewer pixels alone do not explain the improvement.</text>
+</svg>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="generator" content="RoFacto reading edition">
+<title>Weekly Paper Review - September 10, 2026</title>
+<link rel="stylesheet" href="media/rofacto/reading.css">
+</head>
+<body class="review-edition">
+<a class="skip-link" href="#article">Skip to article</a>
+<header class="site-header"><a class="site-label" href="#article">RoFacto / reading notes</a>
+<nav aria-label="Reading editions"><a href="RoFacto%20-%20Questions%20and%20Research.html">Questions & research</a><a href="Weekly%20Paper%20Review%20-%202026-09-10.html" aria-current="page">Weekly review</a></nav></header>
+<div class="reading-layout"><main id="article" tabindex="-1"><article>
+<h1 id="weekly-paper-review-september-10-2026">Weekly Paper Review - September 10, 2026</h1>
+<h2 id="rofacto-robot-factored-world-models-via-robot-rendering">RoFacto: Robot-Factored World Models via Robot Rendering</h2>
+<p>Seoul National University + RLWRLD. Byungjun Kim, Taeksoo Kim, Hyunsoo Cha, Hanbyul Joo. <a href="https://arxiv.org/abs/2607.22535">arXiv 2607.22535</a> · <a href="https://bjkim95.github.io/rofacto/">project page</a> · <a href="https://github.com/bjkim95/rofacto">code placeholder</a>. July 2026 preprint; release status checked September 10.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/action-edit.jpg" aria-label="Original and edited robot renderings above their corresponding generated videos" width="1280" height="720"><source src="media/rofacto/action-edit.mp4" type="video/mp4">Your browser does not support this video. <a href="https://bjkim95.github.io/rofacto/static/videos/counterfactual/pick_tube.mp4">Open the video</a>.</video><a class="video-source" href="https://bjkim95.github.io/rofacto/static/videos/counterfactual/pick_tube.mp4">Open video separately</a></span></p>
+<p><strong>Change the motion; watch the prediction change.</strong> Top: original and edited robot renderings. Bottom: generated videos. Near the end, each prediction lifts a different object from the same initial scene. <a href="https://bjkim95.github.io/rofacto/static/videos/counterfactual/pick_tube.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#action-controllability">Authors’ example</a></p>
+<p>Companion: <a href="RoFacto%20-%20Questions%20and%20Research.html">27 questions from the annotated paper, with researched answers</a>.</p>
+<p>Previews use the authors’ released videos at their original speed; labels sit outside the imagery. Click any preview for the full video. <a href="media/rofacto/README.md">Media credits</a>.</p>
+<p>RoFacto moves command realization and robot rendering outside a learned video world model. The robot's controller and kinematics turn candidate commands into motion; the URDF and camera calibration turn that motion into images. The video model receives the rendered robot and predicts the scene's response. Its contribution centers on <strong>which motion gets rendered</strong>: a nominal trajectory computed before interaction, paired with depth that helps distinguish projected overlap from possible contact.</p>
+<p>This division of work is useful because an action command does not specify the resulting image. A joint target must pass through controller tracking and actuation limits. The resulting robot configuration must then project through a camera. A video model receiving numeric commands has to learn those relationships alongside object dynamics. RoFacto supplies them through explicit preprocessing and leaves the interaction prediction to the network.</p>
+<h3 id="nominal-motion-before-interaction">Nominal motion before interaction</h3>
+<p>A raw command, a nominal trajectory, and a recorded robot trajectory contain different information. RoFacto replays DROID's joint and gripper targets in a scene-free, robot-only Isaac Lab environment. The replay accounts for controller behavior and actuation limits without already simulating the interaction with the objects. RoboCasa-GR1 uses a collision-free shadow rollout from the clip's starting state. These produce the nominal motion that gets rendered. <a href="https://arxiv.org/abs/2607.22535v1">Paper, §3.2 and Appendix A</a>.</p>
+<p>Consider a command to close a gripper around a cup. In an empty scene, the fingers can close farther than they would around the cup. The recorded future finger positions therefore contain evidence about whether contact occurred. Feeding those positions to a predictor helps it reproduce the video, but also gives it part of the interaction outcome. That is the paper's future-state leakage concern. The nominal trajectory instead describes what the robot would do before the scene intervenes; the model must predict both the object's response and the robot's contact-induced departure from that trajectory.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/nominal-motion.jpg" aria-label="Synchronized raw-target, nominal-motion, and logged-motion overlays from the same DROID episode" width="1278" height="250"><source src="media/rofacto/nominal-motion.mp4" type="video/mp4">Your browser does not support this video. <a href="media/rofacto/nominal-motion.mp4">Open the video</a>.</video><a class="video-source" href="media/rofacto/nominal-motion.mp4">Open video separately</a></span></p>
+<p><strong>Compare raw targets, nominal motion, and logged motion.</strong> The outlines come from the same DROID episode and play in sync. They are diagnostic overlays on observed footage, not generated outputs or literal conditioning videos; the background is for visual alignment. <a href="media/rofacto/nominal-motion.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#nominal-trajectory-conditioning">Authors’ example</a></p>
+<p>This distinction concerns the task being evaluated. A video generator can legitimately accept a prescribed skeleton or motion sequence. The problem arises when a result conditioned on <em>realized future motion</em> is presented as predicting the consequences of an unexecuted command. Rendering does not remove leakage by itself; the source of the rendered motion determines what information reaches the model.</p>
+<h3 id="depth-and-contact">Depth and contact</h3>
+<p>The full interface supplies four visual streams: static scene RGB, static scene depth, robot mesh RGB, and end-effector depth. With a fixed camera, the static RGB stream repeats the initial observation. For a moving camera, the scene must be rendered along its trajectory. The scene description supplies appearance context; the paper excludes intended actions and future outcomes from the text prompt. <a href="https://arxiv.org/abs/2607.22535v1">Paper, §§3.1–3.5</a>.</p>
+<p>Imagine the gripper passing behind a cup. Their projections overlap, but the cup should hide the gripper, and the cup should not move merely because the images overlap. Move the gripper closer to the camera and the occlusion order reverses. Bring it to the cup's depth and contact becomes possible. End-effector depth needs scene depth to make these comparisons meaningful. The pair supplies geometric evidence; it does not prove that the fingers establish a stable grasp.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/depth-contact.jpg" aria-label="Without depth, with paired depth, and recorded reference: compare the white paper bag" width="1280" height="290"><source src="media/rofacto/depth-contact.mp4" type="video/mp4">Your browser does not support this video. <a href="https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4">Open the video</a>.</video><a class="video-source" href="https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4">Open video separately</a></span></p>
+<p><strong>Watch the white bag.</strong> Without depth / with paired depth / recorded reference. The no-depth prediction moves the bag with the approaching gripper and bottle; the other two keep it approximately stationary. This example shows the false-contact error that the depth pair targets. <a href="https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning">Authors’ example</a></p>
+<p>The generator still produces the complete future video. It does not paste the rendered arm over an unchanged photograph or solve contact forces. RoFacto adapts a Wan2.1 14B video inpainting model using additional conditioning channels and LoRA. Static context gives it a reference for the scene; the learned model accounts for interaction-induced changes, including objects leaving their original positions and exposing previously hidden surfaces. <a href="https://arxiv.org/abs/2607.22535v1">Paper, §3.5 and Appendix B</a>.</p>
+<p class="media-paragraph"><a href="https://bjkim95.github.io/rofacto/static/image/overview.png"><img src="media/rofacto/method-overview.png" alt="Authors’ RoFacto architecture diagram" loading="lazy" decoding="async" width="1656" height="705" /></a></p>
+<p><em>The authors’ method overview.</em> Follow the robot motion and static-scene streams into the shared model. The <a href="RoFacto%20-%20Questions%20and%20Research.html#19-what-is-a-dit-block-and-what-follows-it-in-the-architecture-diagram-p-4-and-earlier-question">Q&amp;A</a> expands the sampling step compressed in this diagram.</p>
+<h3 id="novelty">Novelty</h3>
+<p>Visual action conditioning predates RoFacto. <a href="https://zju3dv.github.io/VAP/">Visual Action Prompts</a> uses camera-aligned skeleton videos, with mesh and depth variants, to communicate human and robot motion. Its robot training prompts come from state logs. <a href="https://snuvclab.github.io/dwm/">Dexterous World Models</a> supplies the closer architectural precedent: static-scene renderings along the camera path, hand-mesh renderings, and an inpainting initialization intended to preserve scene appearance while learning interaction changes.</p>
+<p>RoFacto's specific advance over those precedents is nominal command realization before rendering, used consistently at training and inference, plus the paired end-effector/scene-depth interface. The paper tests both additions. The contribution rests on choosing and constructing a usable robot-motion signal, with the network architecture inherited from earlier work.</p>
+<h3 id="evidence">Evidence</h3>
+<p>The DROID-only ablation is the clearest evidence. The dataset and backbone stay fixed while the input changes:</p>
+<div class="table-scroll" role="region" aria-label="Scrollable table" tabindex="0"><table>
+<thead>
+<tr>
+<th>Conditioning</th>
+<th style="text-align:right">PSNR ↑</th>
+<th style="text-align:right">SSIM ↑</th>
+<th style="text-align:right">LPIPS ↓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw-action mesh</td>
+<td style="text-align:right">21.57</td>
+<td style="text-align:right">0.860</td>
+<td style="text-align:right">0.175</td>
+</tr>
+<tr>
+<td>Nominal mesh</td>
+<td style="text-align:right">22.44</td>
+<td style="text-align:right">0.872</td>
+<td style="text-align:right">0.164</td>
+</tr>
+<tr>
+<td>Nominal mesh + end-effector/scene depth</td>
+<td style="text-align:right">23.08</td>
+<td style="text-align:right">0.874</td>
+<td style="text-align:right">0.161</td>
+</tr>
+</tbody>
+</table></div>
+<p>Replaying commands before rendering improves all three reported means; adding the depth pair improves them again. PSNR rescales pixel error, SSIM compares local image structure, and LPIPS measures distance in learned visual features. None measures grasp success. Both depths enter together, so the experiment does not isolate their individual contributions. <a href="https://arxiv.org/abs/2607.22535v1">Paper, Table 2</a>.</p>
+<p>The jointly trained Wan model gives a separate comparison: on DROID, numeric AdaLN conditioning scores 18.57 PSNR, 0.824 SSIM, and 0.224 LPIPS; mesh plus depth scores 21.87, 0.859, and 0.178. The numeric baseline already receives <strong>nominal</strong> states. This comparison tests the rendered interface against numeric conditioning, while Table 2 tests the source of the rendered trajectory and the addition of depth. The SVD group uses different resolution and training data, so its numbers should not be ranked against Wan's. Downsampling can hide fine boundary and texture errors, making a coarse prediction look closer to its reference. <a href="https://arxiv.org/abs/2607.22535v1">Paper, Table 1 and Appendix B</a>.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/droid-comparison.jpg" aria-label="DROID: AdaLN prediction, RoFacto prediction, and recorded reference" width="1280" height="290"><source src="media/rofacto/droid-comparison.mp4" type="video/mp4">Your browser does not support this video. <a href="https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4">Open the video</a>.</video><a class="video-source" href="https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4">Open video separately</a></span></p>
+<p><strong>A published DROID comparison.</strong> AdaLN prediction / RoFacto prediction / recorded reference. Follow the robot and yellow object through the lift. This illustrates the comparison; the reported means summarize the held-out clips. <a href="https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#results">Authors’ example</a></p>
+<h3 id="grains-of-salt">Grains of salt</h3>
+<p>Better reproduction of the robot can improve whole-image scores without establishing better contact prediction. Small object movements and brief missed grasps may occupy few pixels. DROID's numeric baseline also describes only the end-effector pose and gripper, while the rendered input exposes the full robot geometry and camera alignment; the full method adds depth as well. This is a useful system comparison, but it does not hold every piece of input information equal.</p>
+<p>The evaluation uses 256 held-out DROID clips and 128 RoboCasa-GR1 clips. The tables give no confidence intervals or repeated-training variability. DROID contains mostly successful demonstrations, which the authors acknowledge leaves relatively little evidence about failures. The paper reports no closed-loop policy evaluation, prospective action-ranking accuracy, or hardware task-success test. Four denoising steps with a distillation LoRA reduce sampling work, but the paper gives no wall-clock latency for online planning. Its moving-view setup receives a camera trajectory and static scene from the simulator, prerequisites that require additional work in a real environment. <a href="https://arxiv.org/abs/2607.22535v1">Paper, §§4.1–5 and Appendix B</a>.</p>
+<h3 id="embodiment-and-motion-transfer">Embodiment and motion transfer</h3>
+<p>The unseen xArm 6–Inspire F1 pairing and bimanual Panda examples demonstrate that the same trained model can consume new rendered robot configurations. The evidence is qualitative. An unchanged input format and plausible example videos do not establish reliable performance across arbitrary embodiments.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/unseen-hand.jpg" aria-label="xArm and Inspire hand: mesh input, generated video, and recorded reference" width="1280" height="364"><source src="media/rofacto/unseen-hand.mp4" type="video/mp4">Your browser does not support this video. <a href="https://bjkim95.github.io/rofacto/static/videos/embodiment/hrdex_banana.mp4">Open the video</a>.</video><a class="video-source" href="https://bjkim95.github.io/rofacto/static/videos/embodiment/hrdex_banana.mp4">Open video separately</a></span></p>
+<p><strong>An unseen xArm 6–Inspire F1 pairing.</strong> Mesh input / generated video / recorded reference. Watch the hand and banana. The model also receives scene and end-effector depth, omitted from this strip. <a href="https://bjkim95.github.io/rofacto/static/videos/embodiment/hrdex_banana.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#zero-shot-embodiment-generalization">Authors’ example</a></p>
+<p>For human demonstrations, RoFacto retargets hand motion, solves robot-arm motion, renders the robot, and then generates the interaction video. That ordering matters. DWM's earlier robot-video extension replaced the human in an already-generated video. RoFacto supplies robot geometry <em>before</em> predicting the scene response, giving the generator an opportunity to account for the substituted body. It does not establish that every retargeted human grasp becomes physically executable. <a href="https://arxiv.org/abs/2607.22535v1">RoFacto, Appendix D</a>, <a href="https://arxiv.org/html/2512.17907v1#A6">DWM, Appendix F</a>.</p>
+<p class="media-paragraph"><span class="video-embed"><video controls playsinline preload="none" poster="media/rofacto/human-retargeting.jpg" aria-label="Recorded human demonstration beside the generated robot video" width="1280" height="522"><source src="media/rofacto/human-retargeting.mp4" type="video/mp4">Your browser does not support this video. <a href="https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4">Open the video</a>.</video><a class="video-source" href="https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4">Open video separately</a></span></p>
+<p><strong>Human demonstration → generated robot video.</strong> The human recording supplies the motion to retarget. The right-hand result is generated, not an execution recording. Compare the reach and lift rather than treating the demo as a robot success test. <a href="https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4">Full video</a> · <a href="https://bjkim95.github.io/rofacto/#application-human-demonstration--robot-video">Authors’ example</a></p>
+<h3 id="the-hydra-0-connection">The Hydra-0 connection</h3>
+<p>The September 1 review covered <a href="https://arxiv.org/abs/2608.18077">Hydra-0</a>, whose deployment interface projects controller-and-physics rollouts into visible point tracks. RoFacto was submitted July 24; Hydra-0 followed August 18. That earlier date qualifies the previous review's broad “no prior instance found” assessment of splitting work between a physics engine and a video model. Hydra-0's particular flow interface remains distinguishable from RoFacto's mesh/depth interface.</p>
+<p>Hydra-0 also exposes the distinction RoFacto emphasizes: its reported policy-evaluation correlation uses <strong>achieved-trajectory replay</strong>. The model receives recorded robot motion, and the policy does not act on generated observations. That experiment measures agreement under replay; it does not resolve prediction from a nominal command sequence. <a href="https://arxiv.org/html/2608.18077v1#S2.SS4">Hydra-0, §§2.4 and 4.5</a>.</p>
+<h3 id="usable">Usable</h3>
+<p>RoFacto's official repository still says “Code coming soon.” DWM is a runnable precursor with <a href="https://github.com/snuvclab/dwm">training/inference code</a> and released <a href="https://huggingface.co/byungjun-kim/DWM-CogVideoX-Fun-5b-LoRA">CogVideoX 5B</a> and <a href="https://huggingface.co/byungjun-kim/DWM-Wan2.1-Fun-14b-LoRA">Wan2.1 14B</a> checkpoints. It provides implementation groundwork; those checkpoints do not already implement RoFacto's nominal robot/depth interface.</p>
+<p>The first experiment I would run is narrower than a policy-learning loop: take proposed command segments, run robot-only nominal replay, and render them before physical execution. Compare mesh-only and paired-depth predictions against the recorded interactions, scoring false contact, missed grasps, object displacement, and occlusion order. Include failures and near misses. That would test whether the interface improves the scene response that matters for planning, beyond reproducing the robot.</p>
+<p>The depth-camera teleoperation idea in the annotations deserves its own test. A calibrated RGB-D view can provide scene geometry and a ghost-gripper overlay. Replacing the SpaceMouse also requires a way to express motion, such as camera-based hand tracking and retargeting; <a href="https://arxiv.org/abs/2307.04577">AnyTeleop</a> is a relevant precedent. I would first measure whether the depth overlay improves placement with the existing input device, then test replacing the device. RoFacto motivates the geometric hypothesis, but these would be new experiments.</p>
+
+</article><footer class="article-footer"><a href="Weekly%20Paper%20Review%20-%202026-09-10.md">Markdown source</a><a href="#article">Back to top ↑</a></footer></main></div>
+<script>
+(() => {
+  const toc = document.querySelector('.toc-shell');
+  const mobile = window.matchMedia('(max-width: 1050px)');
+  if (toc) {
+    const adapt = () => { toc.open = !mobile.matches; };
+    adapt();
+    mobile.addEventListener('change', adapt);
+    toc.addEventListener('click', event => {
+      if (mobile.matches && event.target.closest('a')) toc.open = false;
+    });
+    const links = [...toc.querySelectorAll('a[href^="#"]')];
+    const observed = links.map(link => document.getElementById(link.hash.slice(1))).filter(Boolean);
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (!visible.length) return;
+        for (const link of links) {
+          if (link.hash === '#' + visible[0].target.id) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+      }, {rootMargin: '-10% 0px -70% 0px'});
+      observed.forEach(heading => observer.observe(heading));
+    }
+  }
+})();
+</script>
+</body>
+</html>
