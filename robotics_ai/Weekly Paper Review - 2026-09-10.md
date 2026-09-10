@@ -38,7 +38,7 @@ Imagine the gripper passing behind a cup. Their projections overlap, but the cup
 
 [![Without depth, with paired depth, and recorded reference: compare the white paper bag](media/rofacto/depth-contact.gif)](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4)
 
-**Watch the white bag.** Without depth / with paired depth / recorded reference. The no-depth prediction moves the bag with the approaching gripper and bottle; the other two keep it approximately stationary. This example shows the false-contact error that the depth pair targets. [Full video](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning)
+**Watch the white bag.** Without depth / with paired depth / recorded reference. The no-depth prediction moves the bag with the approaching gripper and bottle; the other two keep it approximately stationary relative to the countertop. This example shows the false-contact error that the depth pair targets. [Full video](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning)
 
 
 The generator still produces the complete future video. It does not paste the rendered arm over an unchanged photograph or solve contact forces. RoFacto adapts a Wan2.1 14B video inpainting model using additional conditioning channels and LoRA. Static context gives it a reference for the scene; the learned model accounts for interaction-induced changes, including objects leaving their original positions and exposing previously hidden surfaces. [Paper, §3.5 and Appendix B](https://arxiv.org/abs/2607.22535v1).
@@ -70,7 +70,7 @@ The jointly trained Wan model gives a separate comparison: on DROID, numeric Ada
 
 [![DROID: AdaLN prediction, RoFacto prediction, and recorded reference](media/rofacto/droid-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4)
 
-**A published DROID comparison.** AdaLN prediction / RoFacto prediction / recorded reference. Follow the robot and yellow object through the lift. This illustrates the comparison; the reported means summarize the held-out clips. [Full video](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+**A published DROID comparison.** AdaLN prediction / RoFacto prediction / recorded reference. Compare the robot and yellow mug’s motion, particularly near the end. This illustrates the comparison; the reported means summarize the held-out clips. [Full video](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
 
 
 ### Grains of salt

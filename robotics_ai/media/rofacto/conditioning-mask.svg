@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="430" viewBox="0 0 960 430" role="img" aria-labelledby="title desc">
   <title id="title">Known conditioning does not lock the generated output</title>
-  <desc id="desc">Explanatory diagram. The static scene video and an all-one known mask condition a DiT and numerical sampler. A separate noisy future-video latent is refined into a generated future that may change. The mask marks available input, not immutable output pixels.</desc>
+  <desc id="desc">Explanatory diagram of the mask branch only. The static scene video and an all-one known mask condition a DiT and numerical sampler. A separate noisy future-video latent is refined into a generated future that may change. The mask marks available input, not immutable output pixels. Robot RGB, scene depth, end-effector depth, text, and noise-level inputs are omitted from this diagram.</desc>
   <defs>
     <style>
       text{font-family:Arial,Helvetica,sans-serif;fill:#183138} .small{font-size:14px;fill:#53666a} .body{font-size:16px} .label{font-size:20px;font-weight:700} .line{fill:none;stroke:#197d75;stroke-width:2.5}
     </style>
   </defs>
-  <rect width="960" height="410" rx="14" fill="#faf8f2"/>
-  <text x="30" y="28" class="small">Explanatory diagram</text>
+  <rect width="960" height="430" rx="14" fill="#faf8f2"/>
+  <text x="30" y="28" class="small">Explanatory diagram · mask branch only</text>
   <text x="30" y="61" font-size="25" font-weight="700">Known input ≠ locked output</text>
   <text x="30" y="88" class="body">The mask says which context is available; the model still generates a separate future.</text>
 
@@ -41,4 +41,5 @@
   <text x="688" y="328" class="body">can change from the input.</text>
 
   <text x="30" y="383" class="body">“Known” describes the conditioning signal. It is not a hard copy rule for output pixels.</text>
+  <text x="30" y="408" class="small">Robot RGB, scene depth, end-effector depth, text and noise-level inputs are omitted here.</text>
 </svg>

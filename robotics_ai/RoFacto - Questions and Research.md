@@ -1,6 +1,6 @@
 # RoFacto: questions from the annotated paper
 
-27 answers to the annotated paper, illustrated with the authors’ released videos.
+27 answers to the annotated paper, illustrated with released research videos and explanatory diagrams.
 
 [Open the reading edition with video controls](RoFacto%20-%20Questions%20and%20Research.html). [Weekly review](Weekly%20Paper%20Review%20-%202026-09-10.md) · [Media credits](media/rofacto/README.md).
 
@@ -13,7 +13,7 @@ The highlights identify the ideas you found novel. The questions below follow yo
 
 The companion [weekly review](Weekly%20Paper%20Review%20-%202026-09-10.md) develops the argument from these answers.
 
-The animated previews below use the authors’ released clips at their original speed, with labels added outside the imagery. Click a preview for the full video. [Media sources and presentation details](media/rofacto/README.md).
+The animated previews below use released clips at their original speed, with labels added outside the imagery. Q5 shows cited prior work, DWM; the other result videos are from RoFacto. Click a preview for the full video. [Media sources and presentation details](media/rofacto/README.md).
 
 </details>
 
@@ -52,9 +52,12 @@ flowchart LR
     C --> Q[Nominal robot trajectory]
     Q --> R[URDF and calibrated renderer]
     R --> M[Robot RGB and end-effector depth]
-    S[Initial scene and camera path] --> B[Static RGB and scene depth]
+    K[Shared camera path] --> R
+    K --> B[Static scene renderer]
+    S[Initial scene] --> B
+    B --> N[Static RGB and scene depth]
     M --> W[Video world model]
-    B --> W
+    N --> W
     W --> V[Predicted interaction video]
 ```
 
@@ -91,9 +94,9 @@ DWM gives that rendered hand video and a static-scene video to its generator. Th
 
 RoFacto applies a related interface to robot bodies. For its human-to-robot examples, the authors retarget human hand motion into robot motion **before** rendering the world model's condition. That ordering matters: the model sees the target robot geometry while predicting scene response. [RoFacto Appendix D](https://arxiv.org/abs/2607.22535v1)
 
-[![Recorded human demonstration beside the generated robot video](media/rofacto/human-retargeting.gif)](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4)
+[![DWM training triplet: recorded interaction, static scene, and rendered hand meshes](media/rofacto/hand-mesh-trajectory.gif)](https://snuvclab.github.io/dwm/static/videos/dataset/real_comp.mp4)
 
-**Follow the transferred motion.** Left: a recorded DexYCB human demonstration. Right: generated robot video after retargeting. Watch the reaching and lifting sequence; the right panel is a prediction, not footage of a robot executing the demonstration. [Full video](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#application-human-demonstration--robot-video)
+**Watch the rendered hands on the right.** Left to right: recorded interaction video (training target), static scene video (condition), and hand-only video (condition). The colored hand surfaces move through a sequence of poses; a mesh rendering need not display its triangle edges. This is a dataset example from **DWM, the cited prior work**, not a RoFacto prediction. [Full video](https://snuvclab.github.io/dwm/static/videos/dataset/real_comp.mp4) · [DWM’s training-data explanation](https://snuvclab.github.io/dwm/#-key-insight-1-hybrid-interaction-static-paired-video-dataset)
 
 
 ### 6. How do the M and B RGB streams differ, and what is D in DROID? (p. 3 and earlier questions)
@@ -111,9 +114,9 @@ They share camera coordinates but carry different information. The letters label
 
 “Static” refers to the underlying initial scene, not necessarily an unchanging picture. If the camera moves, the authors render that same scene from the changing viewpoints. In RoboCasa-GR1, they have the simulator's robot-free scene and camera trajectory, so they render both static RGB and depth along the path. For fixed-view DROID, the paper says it repeats the initial observation; it does not claim that every such image has had the initial robot removed. [RoFacto §§3.3–3.4 and Appendix A](https://arxiv.org/abs/2607.22535v1)
 
-[![Moving-view RoboCasa: AdaLN prediction, RoFacto prediction, and simulator reference](media/rofacto/robocasa-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4)
+![Four conditioning streams from the authors’ method figure: robot mesh RGB, end-effector depth, static scene RGB, and scene depth, with time running down each column](media/rofacto/conditioning-streams.png)
 
-**Watch the camera move.** Left to right: AdaLN prediction, RoFacto prediction, simulator reference. This is an output comparison; the separate B/M/D inputs are not displayed. The moving viewpoint illustrates why those inputs must share camera coordinates. [Full video](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+**Compare the inputs themselves.** These are cropped and rearranged details from the authors’ method figure, showing their **simulated moving-camera example**. Time runs down each column. The mesh and end-effector depth show nominal robot motion; static RGB and scene depth show the initial scene from the corresponding viewpoints. The depth colors encode distance, not surface color. For fixed-view DROID, B instead repeats the initial observed image, as described above. [Original method figure](https://bjkim95.github.io/rofacto/#method-overview)
 
 
 ### 7. How many of the related papers have I heard of? (p. 2)
@@ -393,7 +396,11 @@ A limitation of the comparison follows from these details. The DROID EEF vector 
 
 [![DROID: AdaLN prediction, RoFacto prediction, and recorded reference](media/rofacto/droid-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4)
 
-**Compare the lift of the yellow object.** Left to right: AdaLN prediction, RoFacto prediction, recorded reference. Inspect robot placement and object motion through the clip, especially near the end. These are selected examples; Q27 gives the aggregate measurements. [Full video](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+**Compare the yellow mug’s motion.** Left to right: AdaLN prediction, RoFacto prediction, recorded reference. Inspect robot placement and object motion through the clip, especially near the end. These are selected examples; Q27 gives the aggregate measurements. [Full video](https://bjkim95.github.io/rofacto/static/videos/droid/rank041.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
+
+[![Moving-view RoboCasa: AdaLN prediction, RoFacto prediction, and simulator reference](media/rofacto/robocasa-comparison.gif)](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4)
+
+**The same comparison with a moving camera.** Left to right: AdaLN prediction, RoFacto prediction, simulator reference. These are output videos; Q6 shows the separate B/M/D conditioning inputs. [Full video](https://bjkim95.github.io/rofacto/static/videos/robocasa/rank051.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#results)
 
 
 ### 26. What is “occlusion ordering,” and why aren't these metrics enough? (p. 6)
@@ -404,7 +411,7 @@ Two objects can overlap in a 2D image while remaining far apart in 3D. At a shar
 
 [![Without depth, with paired depth, and recorded reference: compare the white paper bag](media/rofacto/depth-contact.gif)](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4)
 
-**Watch the white paper bag.** Left: without depth; middle: with paired depth; right: reference. Around 1–2.5 seconds, the no-depth prediction moves the bag with the gripper/bottle, while the depth-conditioned prediction and reference leave it approximately stationary. This is the authors’ selected false-contact example. [Full video](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning)
+**Watch the white paper bag.** Left: without depth; middle: with paired depth; right: reference. Around 1–2.5 seconds, the no-depth prediction moves the bag with the gripper/bottle, while the depth-conditioned prediction and reference leave it approximately stationary relative to the countertop. This is the authors’ selected false-contact example, illustrating a consequence of ambiguous depth rather than a direct front/behind comparison. [Full video](https://bjkim95.github.io/rofacto/static/videos/depth/depth_c02_full.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#impact-of-depth-conditioning)
 
 
 Whole-image metrics can penalize incorrect contact pixels, but a brief event involving a small object may contribute little to a clip average dominated by the static scene. A plausible alternative future can also differ from the single recorded reference. The score therefore does not directly answer whether the grasp missed, whether the object moved without contact, or whether the fingers passed through it. The paper explicitly identifies small motions, brief contact, and occlusion ordering as cases where these metrics are least diagnostic, and inspects those cases visually. [RoFacto §4.2](https://arxiv.org/abs/2607.22535v1)
@@ -428,6 +435,10 @@ The paper demonstrates video prediction and qualitative motion/embodiment transf
 [![Dual Panda composition: mesh input, generated video, and simulator reference](media/rofacto/dual-arm.gif)](https://bjkim95.github.io/rofacto/static/videos/embodiment/dexmimicgen_dual.mp4)
 
 **A new two-Panda composition.** Left to right: mesh input, generated video, simulator reference. The strip omits the depth conditions. This is qualitative evidence for this configuration; GR1 training already includes two arms, so the claim is not that the model has never seen bimanual motion. [Full video](https://bjkim95.github.io/rofacto/static/videos/embodiment/dexmimicgen_dual.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#zero-shot-embodiment-generalization)
+
+[![Recorded human demonstration beside the generated robot video](media/rofacto/human-retargeting.gif)](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4)
+
+**Follow the transferred motion.** Left: a recorded DexYCB human demonstration. Right: generated robot video after retargeting. Watch the reaching and lifting sequence; the right panel is a prediction, not footage of a robot executing the demonstration. The intermediate robot render is not displayed. Q5 shows a separate hand-mesh input example from DWM. [Full video](https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4) · [Authors’ example](https://bjkim95.github.io/rofacto/#application-human-demonstration--robot-video)
 
 The paper does not report closed-loop policy improvement, prospective action-ranking accuracy, contact forces, or calibrated failure probabilities. The authors acknowledge dependence on robot assets/calibration, the difficulty of real moving-camera scene reconstruction, and success-heavy training data. Appendix B uses four Wan denoising steps with a distillation LoRA, but gives no wall-clock result establishing suitability for online planning. [RoFacto §5 and Appendices B, E](https://arxiv.org/abs/2607.22535v1)
 

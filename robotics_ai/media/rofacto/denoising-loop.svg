@@ -1,15 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="455" viewBox="0 0 960 455" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="490" viewBox="0 0 960 490" role="img" aria-labelledby="title desc">
   <title id="title">Denoising refines the whole video latent before decoding</title>
-  <desc id="desc">Explanatory diagram for RoFacto's Wan model. Encoded scene, robot, text, and noise-level conditions accompany a noisy clip latent. The DiT predicts latent velocity, a numerical sampler updates the latent, and the cycle repeats toward lower noise. After the final update, the VAE decoder produces RGB video. Video-frame time differs from denoising time.</desc>
+  <desc id="desc">Explanatory diagram for RoFacto's Wan model. Encoded scene, robot, text, and noise-level conditions accompany a noisy clip latent. The DiT predicts latent velocity. A numerical sampler uses the current latent, predicted velocity, and scheduled step size to update the latent, and the cycle repeats toward lower noise. Generation follows decreasing sigma, opposite the increasing-sigma training interpolation. After the final update, the VAE decoder produces RGB video. Video-frame time differs from denoising time.</desc>
   <defs>
     <style>
       text{font-family:Arial,Helvetica,sans-serif;fill:#183138} .small{font-size:14px;fill:#53666a} .body{font-size:16px} .label{font-size:20px;font-weight:700} .line{fill:none;stroke:#197d75;stroke-width:2.5}
     </style>
   </defs>
-  <rect width="960" height="455" rx="14" fill="#faf8f2"/>
+  <rect width="960" height="490" rx="14" fill="#faf8f2"/>
   <text x="30" y="28" class="small">Explanatory diagram</text>
   <text x="30" y="61" font-size="25" font-weight="700">Refine the latent first. Decode the video last.</text>
-  <text x="30" y="88" class="body">The DiT predicts an update direction, not a finished RGB frame.</text>
+  <text x="30" y="88" class="body">The DiT predicts latent velocity; generation follows the schedule toward lower σ.</text>
 
   <rect x="280" y="111" width="435" height="65" rx="9" fill="#edf5f2" stroke="#aac8c2"/>
   <text x="299" y="138" class="label">Conditions</text>
@@ -31,20 +31,21 @@
   <path d="M455 266H501" class="line"/>
   <path d="M491 260L491 272L503 266Z" fill="#197d75"/>
   <text x="478" y="250" text-anchor="middle" class="small">vθ</text>
-  <rect x="508" y="222" width="192" height="87" rx="10" fill="#ffffff" stroke="#197d75" stroke-width="2"/>
-  <text x="604" y="254" text-anchor="middle" class="label">Numerical sampler</text>
-  <text x="604" y="282" text-anchor="middle" class="body">Updates the latent</text>
+  <rect x="508" y="222" width="212" height="112" rx="10" fill="#ffffff" stroke="#197d75" stroke-width="2"/>
+  <text x="614" y="254" text-anchor="middle" class="label">Numerical sampler</text>
+  <text x="614" y="285" text-anchor="middle" class="body">Uses current zσ, vθ,</text>
+  <text x="614" y="310" text-anchor="middle" class="body">and scheduled step size</text>
 
-  <path d="M604 309V352H132V315" class="line"/>
+  <path d="M614 334V377H132V315" class="line"/>
   <path d="M126 327L138 327L132 313Z" fill="#197d75"/>
-  <rect x="247" y="337" width="268" height="30" rx="8" fill="#faf8f2"/>
-  <text x="381" y="357" text-anchor="middle" class="body">Repeat toward lower noise (σ → 0)</text>
+  <rect x="247" y="362" width="268" height="30" rx="8" fill="#faf8f2"/>
+  <text x="381" y="382" text-anchor="middle" class="body">Repeat toward lower noise (σ → 0)</text>
 
-  <path d="M700 266H755" class="line"/>
+  <path d="M720 266H755" class="line"/>
   <path d="M745 260L745 272L757 266Z" fill="#197d75"/>
-  <text x="728" y="195" text-anchor="middle" class="small">After final</text>
-  <text x="728" y="212" text-anchor="middle" class="small">update</text>
-  <text x="729" y="251" text-anchor="middle" class="small">latent</text>
+  <text x="741" y="195" text-anchor="middle" class="small">After final</text>
+  <text x="741" y="212" text-anchor="middle" class="small">update</text>
+  <text x="741" y="251" text-anchor="middle" class="small">latent</text>
   <rect x="762" y="222" width="168" height="87" rx="10" fill="#edf5f2" stroke="#aac8c2"/>
   <text x="846" y="255" text-anchor="middle" class="label">VAE decoder</text>
   <text x="846" y="282" text-anchor="middle" class="body">Latent → pixels</text>
@@ -52,7 +53,7 @@
   <path d="M840 328L852 328L846 340Z" fill="#197d75"/>
   <text x="846" y="365" text-anchor="middle" class="label">RGB video</text>
 
-  <path d="M30 388H930" stroke="#d8dfd9"/>
-  <text x="30" y="413" class="body"><tspan font-weight="700">Physical time:</tspan> frames inside the clip.</text>
-  <text x="30" y="438" class="body"><tspan font-weight="700">Denoising time σ:</tspan> repeated refinement of that clip, not one new frame per update.</text>
+  <path d="M30 418H930" stroke="#d8dfd9"/>
+  <text x="30" y="443" class="body"><tspan font-weight="700">Physical time:</tspan> frames inside the clip.</text>
+  <text x="30" y="468" class="body"><tspan font-weight="700">Denoising time σ:</tspan> repeated refinement of that clip, not one new frame per update.</text>
 </svg>

@@ -350,27 +350,86 @@
         "https://bjkim95.github.io/rofacto/static/videos/human2robot/detergent.mp4"
       ],
       "project_url": "https://bjkim95.github.io/rofacto/#application-human-demonstration--robot-video",
-      "source_duration_seconds": 4.733333,
+      "source_duration_seconds": 4.8,
       "source_frame_rate": "15/1",
       "source_sha256": [
         "58aa4248b62e83279600bdf5c1be5288e904b27a576f41dc9d62137f907db30a"
       ],
-      "presentation": "Complete released clips at original speed; resized, labels added outside imagery; gap clips synchronized from frame zero and placed side by side. No image regions removed or retouched. GIF preview sampled at 8 fps.",
+      "presentation": "Every decoded source frame preserved at the original frame rate; resized, labels added outside imagery; gap clips synchronized from frame zero and placed side by side. No image regions removed or retouched. GIF preview sampled at 8 fps.",
       "outputs": {
         "mp4": {
           "path": "human-retargeting.mp4",
-          "bytes": 963147,
-          "sha256": "4b8a1b6c312005b5e6181e50aeb334985774fc659f0a85d99d5a8d436242075e"
+          "bytes": 972784,
+          "sha256": "ed07258594ed262c0629f334e94d10cbbc533209ef19c742e8d5a6fa8b76a1d6"
         },
         "gif": {
           "path": "human-retargeting.gif",
-          "bytes": 5330535,
-          "sha256": "2bd8037ca0b83c1a545e7395a9286b646ca40f7e289f455ba1f4789ffd85e402"
+          "bytes": 5301489,
+          "sha256": "fdc03f6fb0a3e587d00f7447de53bb882f28181596752b1f438982a52489f747"
         },
         "jpg": {
           "path": "human-retargeting.jpg",
-          "bytes": 75920,
-          "sha256": "cd05e7a6d6ed880f2adf892a1c097978c3436411981cfb5724e2d94ce72b7b20"
+          "bytes": 75851,
+          "sha256": "9adb1cd4685bad15b6372116c91323a97caa2799b42eb997c00e2e428a362059"
+        }
+      },
+      "author": "Byungjun Kim, Taeksoo Kim, Hyunsoo Cha, Hanbyul Joo",
+      "paper": "https://arxiv.org/abs/2607.22535v1",
+      "project": "https://bjkim95.github.io/rofacto/",
+      "source_reported_duration_seconds": [
+        4.733333
+      ],
+      "source_frame_count": 72
+    },
+    {
+      "id": "hand-mesh-trajectory",
+      "files": [
+        "dwm/dataset/real_comp.mp4"
+      ],
+      "source_urls": [
+        "https://snuvclab.github.io/dwm/static/videos/dataset/real_comp.mp4"
+      ],
+      "labels": [
+        "DWM cited prior work · training data triplet"
+      ],
+      "source_panel_labels": [
+        "Interaction Video",
+        "Static Scene Video",
+        "Hand Video"
+      ],
+      "source_labels_baked_in": true,
+      "source_work": "Dexterous World Models (DWM)",
+      "relationship_to_review": "Cited prior work; training-data example, not a RoFacto result or generated prediction.",
+      "author": "Byungjun Kim, Taeksoo Kim, Junyoung Lee, Hanbyul Joo",
+      "paper": "https://arxiv.org/abs/2512.17907",
+      "project": "https://snuvclab.github.io/dwm/",
+      "project_url": "https://snuvclab.github.io/dwm/#-key-insight-1-hybrid-interaction-static-paired-video-dataset",
+      "poster_time": 3,
+      "source_duration_seconds": 7.066666666666666,
+      "source_reported_duration_seconds": [
+        7.066667
+      ],
+      "source_frame_rate": "30/1",
+      "source_frame_count": 212,
+      "source_sha256": [
+        "551a6d72abe419b1218abec1d10322f061bb9fb687b7c1068ea30dd0e993f88e"
+      ],
+      "presentation": "Every decoded source frame preserved at the original frame rate; resized, labels added outside imagery; gap clips synchronized from frame zero and placed side by side. No image regions removed or retouched. GIF preview sampled at 8 fps. Original panel headings remain visible; the added header identifies the source as cited DWM prior work.",
+      "outputs": {
+        "mp4": {
+          "path": "hand-mesh-trajectory.mp4",
+          "bytes": 201269,
+          "sha256": "f3c02debab26c72b5d7b2ad51b7e0520f91bfcc4428a051d79d177a08c774450"
+        },
+        "gif": {
+          "path": "hand-mesh-trajectory.gif",
+          "bytes": 580015,
+          "sha256": "ef2ca696252d7d62a204d64cfede179ed869fe2e5c27be89032adf0002fa2e30"
+        },
+        "jpg": {
+          "path": "hand-mesh-trajectory.jpg",
+          "bytes": 74756,
+          "sha256": "23d8800e9f68d4d133e5a3dcfa1432acf7e3a07aa7ed55433906480033f358bc"
         }
       }
     }
@@ -379,5 +438,12 @@
     "source_url": "https://bjkim95.github.io/rofacto/static/image/overview.png",
     "output": "method-overview.png",
     "transformation": "Unmodified authors' image"
+  },
+  "conditioning_streams_detail": {
+    "source": "method-overview.png",
+    "source_url": "https://bjkim95.github.io/rofacto/static/image/overview.png",
+    "path": "conditioning-streams.png",
+    "sha256": "e67e9cc0646c2339404d103640ab5f2c39b0df0328b3ead0241949ab63a89b25",
+    "transformation": "Four cropped time sequences rearranged as columns with labels; simulated moving-camera example. Exact coordinates in build_streams_figure.py."
   }
 }
