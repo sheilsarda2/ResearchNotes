@@ -1,0 +1,103 @@
+{
+  "recorded_at": "2026-09-13T18:25:15.613154+00:00",
+  "reason": "Preserve concurrent scheduling edits while restoring only the pause fields owned by deadline activation.",
+  "origin": {
+    "path": "research/timeout-fix-2026-09-13/activation.json",
+    "sha256": "f21f7a9ced1ceecf2f0b6aa9e111d3190abd84faaaaa48bb1fcb32c5036c8186"
+  },
+  "controls": {
+    "candidates-top5-efforts-3-20260913T161409Z": {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z.control.json",
+      "applied": true,
+      "before": {
+        "max_active": 16,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "paused": false,
+        "network_pool_cidr": "172.30.0.0/16"
+      },
+      "after": {
+        "max_active": 16,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "paused": true,
+        "network_pool_cidr": "172.30.0.0/16",
+        "pause_reason": "Installing verified deadline cleanup; allow admitted trials to finish before guarded runner resume."
+      },
+      "preserved_concurrent_changes": {
+        "max_active": {
+          "previous": 32,
+          "current": 16
+        }
+      }
+    },
+    "candidates-top5-efforts-256-20260913T175721Z": {
+      "path": "jobs/candidates-top5-efforts-256-20260913T175721Z.control.json",
+      "applied": true,
+      "before": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+      },
+      "after": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": true,
+        "pause_reason": "Installing verified deadline cleanup; allow admitted trials to finish before guarded runner resume.",
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+      },
+      "preserved_concurrent_changes": {
+        "shared_pool": {
+          "previous": null,
+          "current": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+        },
+        "network_pool_cidr": {
+          "previous": "172.30.0.0/16",
+          "current": "172.31.0.0/16"
+        }
+      }
+    }
+  },
+  "process_actions": [],
+  "expected_processes": {
+    "runner_pid": 19811,
+    "supervisor_pids": [
+      41043,
+      52222
+    ]
+  },
+  "new_v2_read_only_observation": {
+    "runner_pid": 52265,
+    "supervisor_pid": 52244,
+    "guard_loaded": "unconfirmed",
+    "completed": 0,
+    "target": 20736,
+    "owned_docker_containers": 0,
+    "note": "Runner started before latest launcher/module edits; no per-trial guard marker exists yet."
+  }
+}

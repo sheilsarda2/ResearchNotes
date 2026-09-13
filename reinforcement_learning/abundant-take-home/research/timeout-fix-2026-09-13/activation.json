@@ -1,0 +1,80 @@
+{
+  "recorded_at": "2026-09-13T18:18:31.137295+00:00",
+  "reason": "Pause new admissions while installing and testing deadline cleanup; already admitted trials continue.",
+  "controls": {
+    "candidates-top5-efforts-3-20260913T161409Z": {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z.control.json",
+      "before": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "paused": false,
+        "network_pool_cidr": "172.30.0.0/16"
+      },
+      "applied": true,
+      "after": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "paused": true,
+        "network_pool_cidr": "172.30.0.0/16",
+        "pause_reason": "Installing verified deadline cleanup; allow admitted trials to finish before guarded runner resume."
+      },
+      "applied_at": "2026-09-13T18:18:31.158732+00:00"
+    },
+    "candidates-top5-efforts-256-20260913T175721Z": {
+      "path": "jobs/candidates-top5-efforts-256-20260913T175721Z.control.json",
+      "before": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.30.0.0/16",
+        "paused": false
+      },
+      "applied": true,
+      "after": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 768,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.30.0.0/16",
+        "paused": true,
+        "pause_reason": "Installing verified deadline cleanup; allow admitted trials to finish before guarded runner resume."
+      },
+      "applied_at": "2026-09-13T18:18:31.162711+00:00"
+    }
+  },
+  "process_actions": [],
+  "launcher_validation": {
+    "checked_at": "2026-09-13T18:19:45.003229+00:00",
+    "installed_harbor_python_version": "0.15.0",
+    "uv_pinned_python_version": "0.15.0",
+    "model_calls": 0,
+    "syntax_checked": [
+      "scripts/harbor-benchmark-runner.py",
+      "scripts/benchmark-efforts.py",
+      "scripts/candidate-bench.py"
+    ],
+    "original_files_checked": 36,
+    "original_files_changed": []
+  }
+}

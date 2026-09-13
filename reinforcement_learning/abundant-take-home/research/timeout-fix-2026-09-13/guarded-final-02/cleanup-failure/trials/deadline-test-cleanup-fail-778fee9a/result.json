@@ -1,0 +1,109 @@
+{
+    "id": "638f69c4-5a38-4251-af84-5ab695b620b2",
+    "task_name": "task",
+    "trial_name": "deadline-test-cleanup-fail-778fee9a",
+    "trial_uri": "file:///workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/trials/deadline-test-cleanup-fail-778fee9a",
+    "task_id": {
+        "path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/task"
+    },
+    "source": null,
+    "task_checksum": "e404de055c065747f58e08f28380414665b5f05f0c273076be415d517b3cc1ed",
+    "config": {
+        "task": {
+            "path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/task",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "deadline-test-cleanup-fail-778fee9a",
+        "trials_dir": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/trials",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "test_benchmark_deadline:DelayedWriterAgent",
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "writer_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/task/writer.py",
+                "mode": "normal-background"
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": null
+    },
+    "agent_info": {
+        "name": "deadline-regression-no-model",
+        "version": "1",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "AgentQuiescenceError",
+        "exception_message": "Agent quiescence unconfirmed; evidence collection and grading withheld",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 141, in guarded_phase\n    state.update(await _finish(close_phase(execute, f'{prefix} close --phase {remote}')))\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 28, in _finish\n    await asyncio.shield(task)\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/tests/test_benchmark_deadline.py\", line 235, in reject_cleanup_proof\n    raise benchmark_deadline.AgentQuiescenceError('Injected missing cleanup proof')\nbenchmark_deadline.AgentQuiescenceError: Injected missing cleanup proof\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/single_step.py\", line 71, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 146, in guarded_phase\n    raise AgentQuiescenceError('Agent cleanup failed; grading withheld') from exc\nbenchmark_deadline.AgentQuiescenceError: Agent cleanup failed; grading withheld\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/trial.py\", line 338, in run\n    await self._run()\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/single_step.py\", line 35, in _run\n    await self._run_agent()\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/single_step.py\", line 80, in _run_agent\n    await self._sync_agent_output(self.result)\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/tests/test_benchmark_deadline.py\", line 222, in observed_boundary\n    return await _original(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 173, in checked\n    require_quiescence(trial)\n    ~~~~~~~~~~~~~~~~~~^^^^^^^\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 47, in require_quiescence\n    raise AgentQuiescenceError('Agent quiescence unconfirmed; evidence collection and grading withheld')\nbenchmark_deadline.AgentQuiescenceError: Agent quiescence unconfirmed; evidence collection and grading withheld\n",
+        "occurred_at": "2026-09-13T18:25:03.867370"
+    },
+    "started_at": "2026-09-13T18:25:01.059447Z",
+    "finished_at": "2026-09-13T18:25:15.537520Z",
+    "environment_setup": {
+        "started_at": "2026-09-13T18:25:01.064957Z",
+        "finished_at": "2026-09-13T18:25:02.477490Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-13T18:25:02.477593Z",
+        "finished_at": "2026-09-13T18:25:02.821295Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-13T18:25:03.136183Z",
+        "finished_at": "2026-09-13T18:25:03.753882Z"
+    },
+    "verifier": null,
+    "step_results": null
+}

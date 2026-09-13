@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-09-13T18:25:52.722659+00:00",
+  "reason": "New v2 runner started before the deadline guard hook; pause admission and safely restart through validated guard.",
+  "controls": {
+    "candidates-v2-top9-efforts-256-20260913T181833Z": {
+      "path": "jobs/candidates-v2-top9-efforts-256-20260913T181833Z.control.json",
+      "before": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-v2-top9-efforts-256-20260913T181833Z.images.json"
+      },
+      "after": {
+        "max_active": 32,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": true,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-v2-top9-efforts-256-20260913T181833Z.images.json",
+        "pause_reason": "Installing verified deadline cleanup; allow admitted trials to finish before guarded runner resume."
+      },
+      "applied": true,
+      "applied_at": "2026-09-13T18:25:52.724007+00:00"
+    }
+  },
+  "process_actions": [],
+  "expected_processes": {
+    "runner_pid": 52265,
+    "supervisor_pids": [
+      52244
+    ]
+  }
+}

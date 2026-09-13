@@ -1,0 +1,385 @@
+{
+  "created_at": "2026-09-13T18:25:16.053041+00:00",
+  "model_calls": 0,
+  "base_image": "python@sha256:68d914ec641a0b69267ce65184d000a2bc3a9ee2590ab702b82250ab2385735a",
+  "guarded": true,
+  "cases": [
+    {
+      "mode": "timeout",
+      "guarded": true,
+      "started_at": "2026-09-13T18:23:38.218541+00:00",
+      "elapsed_sec": 22.59352700999989,
+      "trial_name": "deadline-test-timeout-bcb5503f",
+      "reward": 1.0,
+      "exception": "AgentTimeoutError",
+      "phase_boundaries": [
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323823724510136,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_collect_artifacts",
+          "unix_ns": 1789323824434932345,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_run_verifier",
+          "unix_ns": 1789323825216172137,
+          "host_exec_client_pids": []
+        }
+      ],
+      "surviving_host_exec_client_pids": [],
+      "assertions": {
+        "verifier_reward_expected": true,
+        "no_surviving_host_exec_clients": true,
+        "expected_agent_outcome": true,
+        "verifier_execution_expected": true,
+        "all_writer_types_started": true,
+        "no_delayed_writes": true,
+        "artifact_stable_during_verifier": true,
+        "no_host_exec_clients_at_collection_or_verifier": true,
+        "cleanup_proof_expected": true,
+        "cleanup_preceded_collection_and_verification": true,
+        "all_executions_proved_quiescent": true,
+        "execution_proof_present": true
+      },
+      "passed": true,
+      "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/timeout/trials/deadline-test-timeout-bcb5503f/result.json",
+      "result_sha256": "9ccc5d4486c3b785d48b3620dafc84012f2aa336513fc201198d29a29a320099",
+      "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/timeout/trials/deadline-test-timeout-bcb5503f/verifier/deadline-checks.json",
+      "verifier_checks": {
+        "verifier_started_unix_ns": 1789323825985812804,
+        "before": {
+          "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "child.progress": "296f94ba3fe59aef236c020a3aff7b21b845766e194682d66b37d33e2318710a",
+          "child.ready": "025aad186a5ecb89aaf3a5f791e6bac2603a075d4f27208a4a9142ae43b78a98",
+          "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+          "daemon.progress": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "daemon.ready": "ac9b34bfceb05540ae8c3e279b2b8fd55059c98eff94b7519751a0aa9fae7531",
+          "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+          "new-session.progress": "971fd03f58013bbff3ddf0aba0e535c438934624337f2cebfab50ac1b0e28599",
+          "new-session.ready": "4bb6f420bf1ece0e89566882c67df1afc70625ef182e38bdc6258c3e2e88084c",
+          "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "parent.ready": "e7f993f26c4abe54da72e68dddb0731e040d5679384e1e51ad4b69ecb74ec577",
+          "agent/child-trajectory.json": "296f94ba3fe59aef236c020a3aff7b21b845766e194682d66b37d33e2318710a",
+          "agent/new-session-trajectory.json": "971fd03f58013bbff3ddf0aba0e535c438934624337f2cebfab50ac1b0e28599"
+        },
+        "after": {
+          "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "child.progress": "296f94ba3fe59aef236c020a3aff7b21b845766e194682d66b37d33e2318710a",
+          "child.ready": "025aad186a5ecb89aaf3a5f791e6bac2603a075d4f27208a4a9142ae43b78a98",
+          "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+          "daemon.progress": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "daemon.ready": "ac9b34bfceb05540ae8c3e279b2b8fd55059c98eff94b7519751a0aa9fae7531",
+          "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+          "new-session.progress": "971fd03f58013bbff3ddf0aba0e535c438934624337f2cebfab50ac1b0e28599",
+          "new-session.ready": "4bb6f420bf1ece0e89566882c67df1afc70625ef182e38bdc6258c3e2e88084c",
+          "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "parent.ready": "e7f993f26c4abe54da72e68dddb0731e040d5679384e1e51ad4b69ecb74ec577",
+          "agent/child-trajectory.json": "296f94ba3fe59aef236c020a3aff7b21b845766e194682d66b37d33e2318710a",
+          "agent/new-session-trajectory.json": "971fd03f58013bbff3ddf0aba0e535c438934624337f2cebfab50ac1b0e28599"
+        },
+        "late_files": [],
+        "ready_files": [
+          "child.ready",
+          "daemon.ready",
+          "new-session.ready",
+          "parent.ready"
+        ],
+        "checks": {
+          "all_writer_types_started": true,
+          "no_delayed_writes": true,
+          "artifact_stable_during_verifier": true
+        }
+      }
+    },
+    {
+      "mode": "normal-background",
+      "guarded": true,
+      "started_at": "2026-09-13T18:24:00.883936+00:00",
+      "elapsed_sec": 20.75596675899942,
+      "trial_name": "deadline-test-normal-backg-820fd4c0",
+      "reward": 1.0,
+      "exception": null,
+      "phase_boundaries": [
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323844996822715,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_collect_artifacts",
+          "unix_ns": 1789323845483690007,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_run_verifier",
+          "unix_ns": 1789323846203000091,
+          "host_exec_client_pids": []
+        }
+      ],
+      "surviving_host_exec_client_pids": [],
+      "assertions": {
+        "verifier_reward_expected": true,
+        "no_surviving_host_exec_clients": true,
+        "expected_agent_outcome": true,
+        "verifier_execution_expected": true,
+        "all_writer_types_started": true,
+        "no_delayed_writes": true,
+        "artifact_stable_during_verifier": true,
+        "no_host_exec_clients_at_collection_or_verifier": true,
+        "cleanup_proof_expected": true,
+        "cleanup_preceded_collection_and_verification": true,
+        "all_executions_proved_quiescent": true,
+        "execution_proof_present": true
+      },
+      "passed": true,
+      "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/normal-background/trials/deadline-test-normal-backg-820fd4c0/result.json",
+      "result_sha256": "d9436de0bb044b337cb0b83db29188f57dd459f3012f67ac81accb33c767d01f",
+      "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/normal-background/trials/deadline-test-normal-backg-820fd4c0/verifier/deadline-checks.json",
+      "verifier_checks": {
+        "verifier_started_unix_ns": 1789323846823878383,
+        "before": {
+          "child.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "child.progress": "ca0598db51d13e4dc8f26a06706d574761f76d488a5ffdaa54e303b16bfa7d5e",
+          "child.ready": "7715c32e59b68bd54796433c26627f9b34918901da98a9a16bb12aeecaa03da4",
+          "daemon.pid": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049",
+          "daemon.progress": "66661177de7ecd2fbae4f627c8d27d0876e105041212bb86441e441f6159cf06",
+          "daemon.ready": "c0d7b7b06839da0144e4acb89fcc6b4bf0eaead871037a33f0f2bb185a603970",
+          "new-session.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "new-session.progress": "772282f38e77cba374bb2d1d7747ba1ba22f5bc53fcaaa272011c2048bb09ef2",
+          "new-session.ready": "b7ac6c5dc08240c76e69fcc3adb302660724ec24609792799a9da98cd9a45dc9",
+          "parent.pid": "7a61b53701befdae0eeeffaecc73f14e20b537bb0f8b91ad7c2936dc63562b25",
+          "parent.ready": "172b6e4379b0129f401a8a37c7bbc2f240d742d2986166cb4cdeee1068aa13a1",
+          "agent/child-trajectory.json": "ca0598db51d13e4dc8f26a06706d574761f76d488a5ffdaa54e303b16bfa7d5e",
+          "agent/daemon-trajectory.json": "66661177de7ecd2fbae4f627c8d27d0876e105041212bb86441e441f6159cf06",
+          "agent/new-session-trajectory.json": "772282f38e77cba374bb2d1d7747ba1ba22f5bc53fcaaa272011c2048bb09ef2"
+        },
+        "after": {
+          "child.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "child.progress": "ca0598db51d13e4dc8f26a06706d574761f76d488a5ffdaa54e303b16bfa7d5e",
+          "child.ready": "7715c32e59b68bd54796433c26627f9b34918901da98a9a16bb12aeecaa03da4",
+          "daemon.pid": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049",
+          "daemon.progress": "66661177de7ecd2fbae4f627c8d27d0876e105041212bb86441e441f6159cf06",
+          "daemon.ready": "c0d7b7b06839da0144e4acb89fcc6b4bf0eaead871037a33f0f2bb185a603970",
+          "new-session.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "new-session.progress": "772282f38e77cba374bb2d1d7747ba1ba22f5bc53fcaaa272011c2048bb09ef2",
+          "new-session.ready": "b7ac6c5dc08240c76e69fcc3adb302660724ec24609792799a9da98cd9a45dc9",
+          "parent.pid": "7a61b53701befdae0eeeffaecc73f14e20b537bb0f8b91ad7c2936dc63562b25",
+          "parent.ready": "172b6e4379b0129f401a8a37c7bbc2f240d742d2986166cb4cdeee1068aa13a1",
+          "agent/child-trajectory.json": "ca0598db51d13e4dc8f26a06706d574761f76d488a5ffdaa54e303b16bfa7d5e",
+          "agent/daemon-trajectory.json": "66661177de7ecd2fbae4f627c8d27d0876e105041212bb86441e441f6159cf06",
+          "agent/new-session-trajectory.json": "772282f38e77cba374bb2d1d7747ba1ba22f5bc53fcaaa272011c2048bb09ef2"
+        },
+        "late_files": [],
+        "ready_files": [
+          "child.ready",
+          "daemon.ready",
+          "new-session.ready",
+          "parent.ready"
+        ],
+        "checks": {
+          "all_writer_types_started": true,
+          "no_delayed_writes": true,
+          "artifact_stable_during_verifier": true
+        }
+      }
+    },
+    {
+      "mode": "buffered-timeout",
+      "guarded": true,
+      "started_at": "2026-09-13T18:24:21.730704+00:00",
+      "elapsed_sec": 21.696576094000193,
+      "trial_name": "deadline-test-buffered-tim-5c26a7e3",
+      "reward": 1.0,
+      "exception": "AgentTimeoutError",
+      "phase_boundaries": [
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323866901874211,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_collect_artifacts",
+          "unix_ns": 1789323867515095128,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_run_verifier",
+          "unix_ns": 1789323868229720795,
+          "host_exec_client_pids": []
+        }
+      ],
+      "surviving_host_exec_client_pids": [],
+      "assertions": {
+        "verifier_reward_expected": true,
+        "no_surviving_host_exec_clients": true,
+        "expected_agent_outcome": true,
+        "verifier_execution_expected": true,
+        "all_writer_types_started": true,
+        "no_delayed_writes": true,
+        "artifact_stable_during_verifier": true,
+        "no_host_exec_clients_at_collection_or_verifier": true,
+        "cleanup_proof_expected": true,
+        "cleanup_preceded_collection_and_verification": true,
+        "all_executions_proved_quiescent": true,
+        "execution_proof_present": true
+      },
+      "passed": true,
+      "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/buffered-timeout/trials/deadline-test-buffered-tim-5c26a7e3/result.json",
+      "result_sha256": "d76189bde29b371e352ba2b689cc9db45cc245ca292722b8f015ffe60335b9d3",
+      "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/buffered-timeout/trials/deadline-test-buffered-tim-5c26a7e3/verifier/deadline-checks.json",
+      "verifier_checks": {
+        "verifier_started_unix_ns": 1789323868943753296,
+        "before": {
+          "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "child.progress": "93e9e13b9f730349552f3ca0155a53a6101fcbb72fc2dfb4576ac263512d545f",
+          "child.ready": "77f6bf8b0a8cd1887cf9b885511d9ad350a9a88a03a33ec9bac2f0f5e7173d1e",
+          "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+          "daemon.progress": "c232b125278324be2d9d150d142f051b3447bfc388cfdd53fc52a0ca92f9f069",
+          "daemon.ready": "54b2bd097c50a1df5a25293c48633b8bb498c465820c67f7285494149b94808b",
+          "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+          "new-session.progress": "fca0d37d08c64a018f075e915cf6307435645c98c3541533ae64407784ce7df8",
+          "new-session.ready": "a1c2a87a418eb78baae9a1437b67fde44dd0514d4ed07cd093ec16510e04ad92",
+          "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "parent.ready": "d2d94d5da263bd2242a7b7691f1c8ef40dbe072f9f3920b8bc57d32071b57b41",
+          "agent/child-trajectory.json": "93e9e13b9f730349552f3ca0155a53a6101fcbb72fc2dfb4576ac263512d545f",
+          "agent/daemon-trajectory.json": "c232b125278324be2d9d150d142f051b3447bfc388cfdd53fc52a0ca92f9f069",
+          "agent/new-session-trajectory.json": "fca0d37d08c64a018f075e915cf6307435645c98c3541533ae64407784ce7df8"
+        },
+        "after": {
+          "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+          "child.progress": "93e9e13b9f730349552f3ca0155a53a6101fcbb72fc2dfb4576ac263512d545f",
+          "child.ready": "77f6bf8b0a8cd1887cf9b885511d9ad350a9a88a03a33ec9bac2f0f5e7173d1e",
+          "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+          "daemon.progress": "c232b125278324be2d9d150d142f051b3447bfc388cfdd53fc52a0ca92f9f069",
+          "daemon.ready": "54b2bd097c50a1df5a25293c48633b8bb498c465820c67f7285494149b94808b",
+          "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+          "new-session.progress": "fca0d37d08c64a018f075e915cf6307435645c98c3541533ae64407784ce7df8",
+          "new-session.ready": "a1c2a87a418eb78baae9a1437b67fde44dd0514d4ed07cd093ec16510e04ad92",
+          "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+          "parent.ready": "d2d94d5da263bd2242a7b7691f1c8ef40dbe072f9f3920b8bc57d32071b57b41",
+          "agent/child-trajectory.json": "93e9e13b9f730349552f3ca0155a53a6101fcbb72fc2dfb4576ac263512d545f",
+          "agent/daemon-trajectory.json": "c232b125278324be2d9d150d142f051b3447bfc388cfdd53fc52a0ca92f9f069",
+          "agent/new-session-trajectory.json": "fca0d37d08c64a018f075e915cf6307435645c98c3541533ae64407784ce7df8"
+        },
+        "late_files": [],
+        "ready_files": [
+          "child.ready",
+          "daemon.ready",
+          "new-session.ready",
+          "parent.ready"
+        ],
+        "checks": {
+          "all_writer_types_started": true,
+          "no_delayed_writes": true,
+          "artifact_stable_during_verifier": true
+        }
+      }
+    },
+    {
+      "mode": "startup-timeout",
+      "guarded": true,
+      "started_at": "2026-09-13T18:24:43.498102+00:00",
+      "elapsed_sec": 17.513353425001696,
+      "trial_name": "deadline-test-startup-time-2e3d73e5",
+      "reward": 1.0,
+      "exception": "AgentTimeoutError",
+      "phase_boundaries": [
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323886159267304,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_collect_artifacts",
+          "unix_ns": 1789323886579589221,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_run_verifier",
+          "unix_ns": 1789323886877295887,
+          "host_exec_client_pids": []
+        }
+      ],
+      "surviving_host_exec_client_pids": [],
+      "assertions": {
+        "verifier_reward_expected": true,
+        "no_surviving_host_exec_clients": true,
+        "expected_agent_outcome": true,
+        "verifier_execution_expected": true,
+        "startup_timeout_spawned_no_writer": true,
+        "no_delayed_writes": true,
+        "artifact_stable_during_verifier": true,
+        "no_host_exec_clients_at_collection_or_verifier": true,
+        "cleanup_proof_expected": true,
+        "cleanup_preceded_collection_and_verification": true,
+        "all_executions_proved_quiescent": true
+      },
+      "passed": true,
+      "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/startup-timeout/trials/deadline-test-startup-time-2e3d73e5/result.json",
+      "result_sha256": "934f7141f184729d5c49cec2d02c18fbf549cb8bf69acf0f2e9ab78a488aaee7",
+      "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/startup-timeout/trials/deadline-test-startup-time-2e3d73e5/verifier/deadline-checks.json",
+      "verifier_checks": {
+        "verifier_started_unix_ns": 1789323887258855429,
+        "before": {},
+        "after": {},
+        "late_files": [],
+        "ready_files": [],
+        "checks": {
+          "startup_timeout_spawned_no_writer": true,
+          "no_delayed_writes": true,
+          "artifact_stable_during_verifier": true
+        }
+      }
+    },
+    {
+      "mode": "cleanup-failure",
+      "guarded": true,
+      "started_at": "2026-09-13T18:25:01.054597+00:00",
+      "elapsed_sec": 14.928635006999684,
+      "trial_name": "deadline-test-cleanup-fail-778fee9a",
+      "reward": null,
+      "exception": "AgentQuiescenceError",
+      "phase_boundaries": [
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323903855352631,
+          "host_exec_client_pids": []
+        },
+        {
+          "method": "_sync_agent_output",
+          "unix_ns": 1789323903868573506,
+          "host_exec_client_pids": []
+        }
+      ],
+      "surviving_host_exec_client_pids": [],
+      "assertions": {
+        "verifier_reward_expected": true,
+        "no_surviving_host_exec_clients": true,
+        "expected_agent_outcome": true,
+        "verifier_execution_expected": true,
+        "no_host_exec_clients_at_collection_or_verifier": true,
+        "cleanup_proof_expected": true,
+        "verifier_never_entered": true,
+        "grading_snapshot_withheld": true
+      },
+      "passed": true,
+      "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/trials/deadline-test-cleanup-fail-778fee9a/result.json",
+      "result_sha256": "4de45effce64ecdc5c400bc333ff97f19c0ded9448a08b482cbb852a35d6e71f",
+      "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-02/cleanup-failure/trials/deadline-test-cleanup-fail-778fee9a/verifier/deadline-checks.json",
+      "verifier_checks": {}
+    }
+  ],
+  "passed": true,
+  "overall_passed": true,
+  "source_files_unchanged": true,
+  "source_sha256": {
+    "scripts/benchmark_deadline.py": "3c4dd1020d5c8954e4eaa468b3f4fe4ba0814852f15da4de133ea74d73229343",
+    "scripts/benchmark_process_guard.py": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+    "scripts/benchmark_evidence.py": "fc21f3e5649d9dcaabf69b0219f53e97bda4752a4f5d2ee0bb1652eeb241956e",
+    "scripts/tests/test_benchmark_deadline.py": "26f9c6d4c488a0178e12161711b1cc7e7685d09e1d6b3ba860f019276e3612c7"
+  },
+  "harness_sha256": "26f9c6d4c488a0178e12161711b1cc7e7685d09e1d6b3ba860f019276e3612c7"
+}
