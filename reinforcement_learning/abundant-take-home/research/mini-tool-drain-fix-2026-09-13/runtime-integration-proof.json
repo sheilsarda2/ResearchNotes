@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-13T22:52:54.930638+00:00",
+  "passed": true,
+  "model_calls": 0,
+  "assertions": {
+    "unit_and_adapter_29_passed": true,
+    "actual_installed_mini_cli_help_passed": true,
+    "offline_preflight_exact_python_and_mini": true,
+    "exact_upstream_run_hash_reviewed": true,
+    "helper_binding_installed_in_agent_process": true,
+    "model_calls_zero": true,
+    "network_disabled": true,
+    "no_api_keys_or_pythonpath_copied": true,
+    "task_bytes_and_cli_flags_preserved": true,
+    "failed_preflight_withholds_mini_cli": true,
+    "screen_classification_validated_end_to_end": true,
+    "unknown_or_tampered_preflight_remains_review": true,
+    "reviewed_sources_unchanged_since_tests": true,
+    "base_runtime_source_unchanged": true,
+    "all_36_supplied_takehome_files_unchanged": true
+  },
+  "source_sha256": {
+    "scripts/benchmark_mini_tool_runtime.py": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+    "scripts/benchmark_mini_tool_bootstrap.py": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+    "scripts/benchmark_mini_tool_cleanup.py": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+    "scripts/benchmark_agent_runtime.py": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+    "scripts/benchmark_startup_failures.py": "e80ba331939942377526e080bd0f0bbe6386272765815a2039971c0ae5175da6",
+    "scripts/tests/test_benchmark_mini_tool_runtime.py": "44d010846b1e19afcc8e4d8502319f4fe35a7fde9263c0ce4f3b3862b71e07a9",
+    "scripts/tests/test_benchmark_startup_failures.py": "356e449aa3d3055a8ba1b6ccaa77604ed1852b4c07d20655a13a352ab1ed2bca",
+    "scripts/tests/test_benchmark_tool_preflight_failures.py": "3c3ff0be2d5a6cb7bdd67fa0bc5783edce702d7ef9574800b92611bdb03a93a0",
+    "scripts/run-candidate-screen.py": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1",
+    "scripts/tests/smoke_benchmark_mini_tool_runtime.py": "6a20277a9b3f0df4646305d4b41c0f9c07e2003bfe03bdd9c9ffcf82117238a8"
+  },
+  "evidence_sha256": {
+    "research/mini-tool-drain-fix-2026-09-13/runtime-integration-unit/summary.json": "9c1e0e60f8150cc2b5b54e02346f1b46046128aeee029890230d233ad85c1e79",
+    "research/mini-tool-drain-fix-2026-09-13/runtime-integration-cli-final/summary.json": "56c1422f113c753c456f0d86af59d1d792dbc20c1ba6bff4ac25499638bb7584",
+    "research/mini-tool-drain-fix-2026-09-13/reproduction-final/summary.json": "cec9db2632c4d42984da06ae18f9a6794c6970bc437a506ee93af365eb98c4ce"
+  },
+  "scope": "No paid model calls. Actual installed Mini CLI is exercised with --help; Harbor adapter transport uses an in-memory environment. Activation into future runner processes is separate.",
+  "fixture_notes": [
+    "Two earlier offline harness attempts failed on /proc magic-link handling before Mini launched. The successful run used a private copy of installed package code and console script from the original Huey runtime.",
+    "One unadmitted waiter was stopped only after verifying zero shared claims, so the live Huey source could be snapshotted before guard closure."
+  ],
+  "image_id": "sha256:a76d6fd31b9397504d4355faa5c014dcfca43249d6a2ebeb65be824a40de3261",
+  "upstream_local_module_sha256": "01dd33ae6be897458611911cc0eee1389092ea9fc6788c7eb24773e7c6342b1c"
+}

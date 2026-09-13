@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-09-13T22:56:29.020501+00:00",
+  "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+  "before": {
+    "supervisors": [
+      {
+        "pid": 72359,
+        "identity": "2427348"
+      }
+    ],
+    "runners": {
+      "candidates-all14-efforts-20-20260913T183301Z": {
+        "pid": 98349,
+        "identity": "2185934"
+      }
+    }
+  },
+  "control": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": true,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ],
+    "pause_reason": "Unclassified result or evidence mismatch requires review"
+  },
+  "reason": "Load audited Harbor transcript error label for the exact guard intervention"
+}

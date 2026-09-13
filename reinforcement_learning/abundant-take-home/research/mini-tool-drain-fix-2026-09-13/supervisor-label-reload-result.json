@@ -1,0 +1,292 @@
+{
+  "observed_at": "2026-09-13T22:57:02.476168+00:00",
+  "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+  "processes": {
+    "supervisors": [
+      {
+        "pid": 12843,
+        "identity": "2470084"
+      }
+    ],
+    "runners": {
+      "candidates-all14-efforts-20-20260913T183301Z": {
+        "pid": 98349,
+        "identity": "2185934"
+      }
+    }
+  },
+  "counted": 40,
+  "health": {
+    "ok_to_expand": false,
+    "recent_results": 7,
+    "recent_infrastructure": 1,
+    "unclassified_results": 0
+  },
+  "intervention_record": {
+    "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/huey-sqlite-leases__LAUZTSQ",
+    "task": "huey-sqlite-leases",
+    "model": "opus-5",
+    "effort": "high",
+    "status": "infrastructure",
+    "finished_at": "2026-09-13T22:51:49.601447Z",
+    "exception": "ApiRateLimitError",
+    "raw_reward": 1.0,
+    "reward": null,
+    "checks_passed": null,
+    "checks_total": null,
+    "check_unit": "individual_checks",
+    "cost_usd": 3.3594412500000006,
+    "guarded_evidence": true,
+    "benchmark_evidence": {
+      "counts": {
+        "atif_agent_steps": 39,
+        "atif_steps_with_timestamp": 39,
+        "atif_tool_calls": 44,
+        "native_assistant_turns": 39,
+        "native_tool_calls": 44,
+        "native_tool_returns": 44,
+        "native_turns_with_timestamp": 39,
+        "turn_counts_match": true
+      },
+      "request": {
+        "configured_effort": "high",
+        "configured_model": "anthropic/claude-opus-5",
+        "effort_matches": true,
+        "max_tokens": 64000,
+        "recorded_effort": "high",
+        "thinking_type": "adaptive"
+      },
+      "response_models": {
+        "atif": [
+          "anthropic/claude-opus-5"
+        ],
+        "atif_reasoning_efforts": [
+          "high"
+        ],
+        "native": [
+          "claude-opus-5"
+        ]
+      },
+      "usage": {
+        "atif_final": {
+          "total_cached_tokens": 2389540,
+          "total_completion_tokens": 55638,
+          "total_cost_usd": 3.3594412500000006,
+          "total_prompt_tokens": 2513351
+        },
+        "native_final": {
+          "api_calls": 39,
+          "instance_cost": 3.3594412500000006
+        },
+        "native_responses": {
+          "assistant_turns": 39,
+          "cost_usd": 3.35944125,
+          "turns_with_cost": 39,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 39,
+            "cache_read_input_tokens": 39,
+            "completion_tokens": 39,
+            "prompt_tokens": 39,
+            "total_tokens": 39
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 123733,
+            "cache_read_input_tokens": 2389540,
+            "completion_tokens": 55638,
+            "prompt_tokens": 2513351,
+            "total_tokens": 2568989
+          }
+        },
+        "provider_charge_may_be_missing": true,
+        "result": {
+          "cost_usd": 3.3594412500000006,
+          "n_cache_tokens": 2389540,
+          "n_input_tokens": 2513351,
+          "n_output_tokens": 55638
+        },
+        "usage_censored": true
+      },
+      "timing": {
+        "agent_execution": {
+          "complete": true,
+          "finished_at": "2026-09-13T22:51:10.760461Z",
+          "seconds": 2354.0244,
+          "started_at": "2026-09-13T22:11:56.736061Z"
+        },
+        "agent_setup": {
+          "complete": true,
+          "finished_at": "2026-09-13T22:11:56.556819Z",
+          "seconds": 27.053003,
+          "started_at": "2026-09-13T22:11:29.503816Z"
+        },
+        "environment_setup": {
+          "complete": true,
+          "finished_at": "2026-09-13T22:11:29.503761Z",
+          "seconds": 1.448755,
+          "started_at": "2026-09-13T22:11:28.055006Z"
+        },
+        "trial": {
+          "complete": true,
+          "finished_at": "2026-09-13T22:51:49.601447Z",
+          "seconds": 2421.560964,
+          "started_at": "2026-09-13T22:11:28.040483Z"
+        },
+        "verifier": {
+          "complete": true,
+          "finished_at": "2026-09-13T22:51:49.506742Z",
+          "seconds": 19.850554,
+          "started_at": "2026-09-13T22:51:29.656188Z"
+        }
+      },
+      "budget": {
+        "deadline_at": "2026-09-14T00:11:56.736429Z",
+        "deadline_source": "orchestrator",
+        "last_assistant_seconds_after_deadline": null,
+        "native_after_deadline": {
+          "assistant_turns": 0,
+          "cost_usd": null,
+          "turns_with_cost": 0,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": null,
+            "cache_read_input_tokens": null,
+            "completion_tokens": null,
+            "prompt_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "native_at_or_before_deadline": {
+          "assistant_turns": 39,
+          "cost_usd": 3.35944125,
+          "turns_with_cost": 39,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 39,
+            "cache_read_input_tokens": 39,
+            "completion_tokens": 39,
+            "prompt_tokens": 39,
+            "total_tokens": 39
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 123733,
+            "cache_read_input_tokens": 2389540,
+            "completion_tokens": 55638,
+            "prompt_tokens": 2513351,
+            "total_tokens": 2568989
+          }
+        },
+        "native_tool_returns_after_deadline": 0,
+        "native_tool_returns_without_timestamp": 0,
+        "native_unclassified": {
+          "assistant_turns": 0,
+          "cost_usd": null,
+          "turns_with_cost": 0,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": null,
+            "cache_read_input_tokens": null,
+            "completion_tokens": null,
+            "prompt_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "post_deadline_activity": false
+      },
+      "completeness": {
+        "atif": "present",
+        "config": "present",
+        "execution_and_verifier_timing": true,
+        "native": "present",
+        "pre_verifier_inputs_unchanged": true,
+        "pre_verifier_snapshot_present": true,
+        "result": "present",
+        "result_cost": true,
+        "result_usage": true
+      },
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-13T22:11:56.736429Z",
+        "all_executions_quiescent": true,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-13T22:51:12.364926Z",
+        "closed_at": "2026-09-13T22:51:12.351506Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "execution_count": 2,
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_state": "present",
+        "runtime_version": 1
+      }
+    },
+    "assistant_steps": 39,
+    "tool_calls": 44,
+    "native_assistant_turns": 39,
+    "native_tool_calls": 44,
+    "observed_model_names": [
+      "anthropic/claude-opus-5"
+    ],
+    "response_model_aliases": [
+      "claude-opus-5"
+    ],
+    "recorded_effort": "high",
+    "benchmark_evidence_sha256": "367199b30f6a1df9a45b9cc255c2faec24eb4cf1c058166522b2700b31b7abbe",
+    "result_sha256": "954b621026978bbe304d951e2f32d7257b95e5ff45f63561d38b59cc62164a4b",
+    "infrastructure_detail": "mini_tool_pipe_drain_intervention",
+    "infrastructure_incident": {
+      "code": "mini_tool_pipe_drain_intervention",
+      "resolved": false,
+      "pending_finalization": false,
+      "interrupted": true,
+      "intervention": "research/benchmark-interventions/2026-09-13-huey-mini-pipe-drain/intervention.json",
+      "intervention_sha256": "5fdc2502dc37ba8559729fb6f9fb87e2ec991256384dd0087608156ffec2f34c",
+      "exception_audit": "research/benchmark-interventions/2026-09-13-huey-mini-pipe-drain/exception-audit.json",
+      "exception_audit_sha256": "505abaf81bca7bdff978361474ed4c77869cb817c83c29931d43d46232e567bf"
+    },
+    "resolved_incident": false,
+    "usage_censored": true,
+    "provider_charge_may_be_missing": true
+  },
+  "control": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": true,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ],
+    "pause_reason": "Unclassified result or evidence mismatch requires review"
+  }
+}

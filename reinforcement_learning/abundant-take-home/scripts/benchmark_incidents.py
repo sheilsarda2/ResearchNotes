@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from benchmark_evidence import hash_file
+import benchmark_trial_intervention as interventions
 
 ROOT = Path(__file__).resolve().parents[1]
 # Keep qualified historical helpers when a new implementation is validated.
@@ -36,7 +37,7 @@ def registry_cache_stamp():
             entries.append((str(proof.relative_to(ROOT)), hash_file(proof)))
         except (OSError, ValueError, TypeError, AttributeError, RuntimeError) as error:
             entries.append((name, type(error).__name__))
-    return tuple(entries)
+    return tuple(entries) + interventions.registry_cache_stamp(root=ROOT)
 
 
 def containment_pending(trial_dir, result, *, now=None):
@@ -83,6 +84,8 @@ def contained_failure(trial_dir, result):
 
 
 def classify_incident(trial_dir, result):
+    if intervention := interventions.classify_intervention(trial_dir, result, root=ROOT):
+        return intervention
     error = (result.get('exception_info') or {}).get('exception_type')
     if error not in {'AgentQuiescenceError', 'CancelledError'}:
         return None
