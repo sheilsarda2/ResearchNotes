@@ -18,6 +18,7 @@ from benchmark_networks import install as install_trial_subnets
 from benchmark_networks import release as release_trial_subnet
 from benchmark_shared_admission import SharedAdmission
 from benchmark_deadline import install as install_deadline_guard
+from benchmark_agent_runtime import install as install_agent_runtime
 
 
 def read_json(path):
@@ -130,6 +131,7 @@ class Admission:
 
 
 def main():
+    install_agent_runtime()
     install_deadline_guard()
     admission = Admission(os.environ["HARBOR_ADMISSION_CONTROL"])
     install_trial_subnets(admission.path)

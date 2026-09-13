@@ -1,0 +1,10 @@
+{
+  "return_code": 0,
+  "elapsed_sec": 35.77421443300045,
+  "user": null,
+  "cwd": null,
+  "environment_variable_names": [
+    "LITELLM_LOCAL_MODEL_COST_MAP"
+  ],
+  "command": "set -o pipefail; set -euo pipefail; curl -LsSf https://astral.sh/uv/0.7.13/install.sh | sh && if ! grep -q 'export PATH=\"$HOME/.local/bin:$PATH\"' \"$HOME/.bashrc\" 2>/dev/null; then  echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> \"$HOME/.bashrc\"; fi && source \"$HOME/.local/bin/env\" && uv tool install --python 3.12.11 mini-swe-agent==2.4.6 && mini-swe-agent --help"
+}

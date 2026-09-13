@@ -29,7 +29,9 @@ SOURCES = {'scripts/benchmark_deadline.py', 'scripts/benchmark_process_guard.py'
 LAUNCHERS = {'scripts/harbor-resource-runner.py', 'scripts/harbor-benchmark-runner.py',
              'scripts/run-candidate-screen.py', 'scripts/run-sonnet-confirmation.py',
              'scripts/benchmark_recovery.py', 'scripts/benchmark_networks.py',
-             'scripts/benchmark_shared_admission.py', 'scripts/candidate-bench.py'}
+             'scripts/benchmark_shared_admission.py', 'scripts/candidate-bench.py',
+             'scripts/benchmark_agent_runtime.py', 'scripts/benchmark_startup_failures.py',
+             'scripts/benchmark_job_scheduling.py'}
 
 
 def now():

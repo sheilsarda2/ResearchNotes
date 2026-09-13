@@ -18,6 +18,8 @@ from dotenv import load_dotenv
 from harbor.models.job.config import JobConfig
 from benchmark_recovery import memory_snapshot, memory_block_reason, prepare_resume
 from benchmark_evidence import attach_to_record, EvidenceError
+from benchmark_startup_failures import classify_startup_failure
+from benchmark_job_scheduling import select_jobs
 
 ROOT = Path(__file__).resolve().parents[1]
 TASKS = ['luigi-generation-target', 'burn-scoped-checkpoint-remap',
@@ -122,6 +124,12 @@ def inspect(path, task_map, models=MODELS):
         return record
     trace = read_json(path.parent / 'agent/mini-swe-agent.trajectory.json')
     exit_status = trace.get('info', {}).get('exit_status')
+    startup_failure = classify_startup_failure(path.parent, result)
+    if startup_failure:
+        record.update(status='infrastructure',
+                      infrastructure_detail=startup_failure['code'],
+                      startup_failure=startup_failure)
+        return record
     if error and error not in {'AgentTimeoutError', 'VerifierTimeoutError'}:
         before_agent = not (result.get('agent_execution') or {}).get('started_at')
         gateway = re.search(r'BadGatewayError|RateLimitError|APIConnectionError|APITimeoutError|'
@@ -310,6 +318,7 @@ def main():
         completed = sum(r['completed'] for r in rows)
         review = sum(r['status'] == 'review' for r in records)
         active = {job['name']: pid for job in plan['jobs'] if (pid := common.active_pid(job['name']))}
+        active.update({name: child.pid for name, child in children.items()})
         control = read_json(control_path)
         if review and not control.get('paused'):
             control.update(paused=True, pause_reason='Unclassified result or evidence mismatch requires review')
@@ -352,10 +361,11 @@ def main():
             verify_tasks(plan)
             print('COMPLETE: all task/model/effort groups reached their sample size.', flush=True)
             return
-        if dependency_ready and not active and not review and not control.get('paused') and time.monotonic()-last_start > 60:
-            unfinished = [job for job in plan['jobs']
-                          if not read_json(ROOT/'jobs'/job['name']/'result.json').get('finished_at')]
-            if not unfinished and not blocked:
+        if dependency_ready and not review and not control.get('paused') and time.monotonic()-last_start > 60:
+            finished = {job['name'] for job in plan['jobs']
+                        if read_json(ROOT/'jobs'/job['name']/'result.json').get('finished_at')}
+            unfinished, may_create_repairs = select_jobs(plan['jobs'], active, finished)
+            if may_create_repairs and not blocked:
                 for task in task_names:
                     missing = [agent(r['model'], r['effort']) for r in rows if r['task'] == task
                                for _ in range(args.attempts-r['completed'])]

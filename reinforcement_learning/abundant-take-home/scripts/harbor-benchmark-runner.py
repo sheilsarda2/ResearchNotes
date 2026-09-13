@@ -5,10 +5,12 @@ Use Harbor's Python environment. This entrypoint adds no resource admission
 policy; campaign supervisors retain their existing scheduling and task budgets.
 """
 from benchmark_deadline import install
+from benchmark_agent_runtime import install as install_agent_runtime
 from harbor.cli.main import app
 
 
 def main():
+    install_agent_runtime()
     install()
     app()
 

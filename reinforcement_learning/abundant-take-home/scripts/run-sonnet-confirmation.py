@@ -20,6 +20,7 @@ from dotenv import load_dotenv
 from harbor.models.job.config import JobConfig
 from benchmark_recovery import memory_snapshot, memory_block_reason, prepare_resume
 from benchmark_evidence import attach_to_record, EvidenceError
+from benchmark_startup_failures import classify_startup_failure
 
 ROOT = Path(__file__).resolve().parents[1]
 TASK = ROOT / "restaurant-weekly-cost-control-audit"
@@ -117,6 +118,12 @@ def inspect_trial(path, model=MODEL):
     if evidence_ready is None:
         return None
     if not evidence_ready:
+        return record
+    startup_failure = classify_startup_failure(path.parent, result)
+    if startup_failure:
+        record.update(status='infrastructure',
+                      infrastructure_detail=startup_failure['code'],
+                      startup_failure=startup_failure)
         return record
     if error and error != "AgentTimeoutError":
         message = exception.get("exception_message", "")
