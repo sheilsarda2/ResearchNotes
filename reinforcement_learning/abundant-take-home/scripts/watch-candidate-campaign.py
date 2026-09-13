@@ -99,6 +99,43 @@ def stale_idle_runner(paused, memory_blocked, active, containers, finished, idle
     return not (paused or memory_blocked or active or containers or finished) and idle_seconds >= 300
 
 
+def confirmed_shared_wait(process, shared_control, shared, now=None):
+    """Recognize a live runner waiting on the shared pool, not a stalled queue."""
+    participants = shared.get('participants', {})
+    matches = [p for p in participants.values()
+               if p['pid'] == process['pid'] and p['identity'] == process['identity']]
+    if len(matches) != 1:
+        return None
+    participant = matches[0]
+    control_path = Path(participant['control']).resolve()
+    if not control_path.is_relative_to(ROOT / 'jobs'):
+        return None
+    resources = read(control_path.with_suffix('.resources.json'))
+    # The admission loop keeps writing while Docker inventory is collected.
+    # Sample after reading its newest timestamp, not at the cycle's start.
+    now = time.time() if now is None else now
+    try:
+        local_age = now - datetime.fromisoformat(resources['updated_at'].replace('Z', '+00:00')).timestamp()
+        shared_age = now - shared['updated_at']
+    except (KeyError, TypeError, ValueError, AttributeError):
+        return None
+    if not (0 <= local_age < 90 and 0 <= shared_age < 90):
+        return None
+    reason = resources.get('admission_wait_reason')
+    limit = shared_control.get('max_active', 32)
+    claims = sum(len(p['trials']) for p in participants.values())
+    external = shared.get('external_trials', 0)
+    if reason == 'shared concurrency' and claims + external >= limit:
+        return reason
+    if reason == 'shared campaign allocation':
+        external_peers = sum(process_identity(p['pid']) == p['identity']
+                             for p in shared_control.get('external_peers', []))
+        allocation = max(1, limit // (len(participants) + external_peers))
+        if len(participant['trials']) >= allocation:
+            return reason
+    return None
+
+
 def signal_named(info, sig):
     if process_identity(info['pid']) != info['identity']:
         return False
@@ -245,13 +282,17 @@ def cycle(base, state, apply):
     state['supervisor_restarts'] = restarts
     idle = state.setdefault('runner_idle_since', {})
     attempts = state.setdefault('runner_restarts', {})
+    report['admission_waits'] = {}
     for name, process in processes['runners'].items():
         occupied = [trial for trial in active if trial['job'] == name]
         owned = running_under(containers, ROOT/'jobs'/name)
         job_control = read(ROOT/'jobs'/f'{name}.control.json') or control
         gated = bool(memory_block_reason(job_control, snapshot) or memory_block_reason(shared_control, snapshot))
+        shared_wait = confirmed_shared_wait(process, shared_control, shared)
+        if shared_wait:
+            report['admission_waits'][name] = shared_wait
         finished = bool(read(ROOT/'jobs'/name/'result.json').get('finished_at'))
-        if occupied or owned or job_control.get('paused') or gated or finished:
+        if occupied or owned or job_control.get('paused') or gated or shared_wait or finished:
             idle.pop(name, None)
             continue
         idle.setdefault(name, now)
@@ -269,7 +310,11 @@ def cycle(base, state, apply):
                         latest = read(shared_path.with_suffix('.state.json'))
                         claims = [p for p in latest.get('participants', {}).values()
                                   if p['pid'] == process['pid'] and p['identity'] == process['identity'] and p['trials']]
-                        if not claims and signal_named(process, signal.SIGINT):
+                        shared_wait = confirmed_shared_wait(process, read(shared_path), latest)
+                        if shared_wait:
+                            idle.pop(name, None)
+                            report['admission_waits'][name] = shared_wait
+                        elif not claims and signal_named(process, signal.SIGINT):
                             history.append(now)
                             report['actions'].append({'restarted_empty_runner': name})
             else:
@@ -286,6 +331,8 @@ def cycle(base, state, apply):
         report['status'] = 'running'
     elif memory_block_reason(control, snapshot) or memory_block_reason(shared_control, snapshot):
         report['status'] = 'waiting_for_memory'
+    elif report['admission_waits']:
+        report['status'] = 'waiting_for_shared_resources'
     else:
         report['status'] = 'starting'
     return report

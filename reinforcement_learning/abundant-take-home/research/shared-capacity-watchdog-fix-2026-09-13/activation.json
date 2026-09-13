@@ -1,0 +1,159 @@
+{
+  "started_at": "2026-09-13T22:21:31.827340+00:00",
+  "status": "active_verified",
+  "model_calls": 0,
+  "validation_sha256": "afb374ea3cb59f62a956e0094c974c0a5f83b83dea3254097f448696e6cde3c2",
+  "source_sha256": {
+    "scripts/watch-candidate-campaign.py": "7ce00e953ac35a11f83e3c6e4bf3e06db1d3be962be0727ee5f3eef77e84a7cd",
+    "scripts/tests/test_candidate_watchdog.py": "0b582d1a9649f7168154e8780cd0d8097e5b6ac6daa07a32cbb75e78257a2eb9"
+  },
+  "campaigns": {
+    "candidates-all14-efforts-20-20260913T183301Z": {
+      "watchdog_before": {
+        "pid": 45274,
+        "identity": "2243733"
+      },
+      "wrapper": {
+        "pid": 96224,
+        "identity": "1405104"
+      },
+      "processes_before": {
+        "supervisors": [
+          {
+            "pid": 98232,
+            "identity": "2183750"
+          }
+        ],
+        "runners": {
+          "candidates-all14-efforts-20-20260913T183301Z": {
+            "pid": 98349,
+            "identity": "2185934"
+          }
+        }
+      },
+      "control_before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+        "image_readiness_tasks": [
+          "rs-burn-store-pytorch-reader",
+          "rs-zenoh-timestamp-instrumentation",
+          "rs-burn-onnx-rnn-runtime-weights",
+          "cpp-foxglove-sdk-parameter-handler",
+          "py-zarr-python-cast-value-scale-offset",
+          "cpp-zenoh-cpp-connectivity-api",
+          "cpp-rosbag2-mixed-serialization-playback",
+          "py-rosbags-rosbag2-storage-writers",
+          "rs-rerun-chunk-optimizer"
+        ],
+        "excluded_tasks": [
+          "burn-scoped-checkpoint-remap",
+          "rs-zenoh-timestamp-instrumentation"
+        ]
+      },
+      "watchdog_after": {
+        "pid": 48565,
+        "identity": "2260381"
+      },
+      "processes_after": {
+        "supervisors": [
+          {
+            "pid": 98232,
+            "identity": "2183750"
+          }
+        ],
+        "runners": {
+          "candidates-all14-efforts-20-20260913T183301Z": {
+            "pid": 98349,
+            "identity": "2185934"
+          }
+        }
+      },
+      "verified_report": {
+        "updated_at": "2026-09-13T22:22:01.889692+00:00",
+        "status": "running",
+        "active_trials": 11,
+        "admission_waits": {},
+        "actions": [],
+        "alerts": []
+      }
+    },
+    "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+      "watchdog_before": {
+        "pid": 45275,
+        "identity": "2243733"
+      },
+      "wrapper": {
+        "pid": 27183,
+        "identity": "2209836"
+      },
+      "processes_before": {
+        "supervisors": [
+          {
+            "pid": 27214,
+            "identity": "2209849"
+          }
+        ],
+        "runners": {
+          "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+            "pid": 27215,
+            "identity": "2209865"
+          }
+        }
+      },
+      "control_before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "excluded_tasks": []
+      },
+      "watchdog_after": {
+        "pid": 48564,
+        "identity": "2260381"
+      },
+      "processes_after": {
+        "supervisors": [
+          {
+            "pid": 27214,
+            "identity": "2209849"
+          }
+        ],
+        "runners": {
+          "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+            "pid": 27215,
+            "identity": "2209865"
+          }
+        }
+      },
+      "verified_report": {
+        "updated_at": "2026-09-13T22:22:01.888191+00:00",
+        "status": "running",
+        "active_trials": 1,
+        "admission_waits": {},
+        "actions": [],
+        "alerts": []
+      }
+    }
+  },
+  "reason": "Final activation also samples freshness after concurrent admission updates.",
+  "verified_at": "2026-09-13T22:22:18.672414+00:00",
+  "runner_and_supervisor_identities_preserved": true,
+  "admission_controls_unchanged": true
+}

@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import datetime, timezone
 import importlib.util
 import json
 import os
@@ -127,6 +128,126 @@ class WatchdogTests(unittest.TestCase):
                     for child in watchdog.CHILDREN:
                         child.poll()
                     watchdog.CHILDREN.clear()
+
+
+class SharedWaitWatchdogTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        (self.root / 'jobs').mkdir()
+        self.base = 'waiting-efforts-20-test'
+        self.control = self.root / 'jobs' / (self.base + '.control.json')
+        self.shared_path = self.root / 'jobs/shared.control.json'
+        self.process = {'pid': 900001, 'identity': 'waiting'}
+        self.shared_control = {'max_active': 12}
+        self.shared = {'updated_at': time.time(), 'participants': {
+            'waiting': {**self.process, 'control': str(self.control), 'trials': {}},
+            'other': {'pid': 900002, 'identity': 'other', 'control': str(self.root / 'jobs/other.control.json'),
+                      'trials': {f'trial-{i}': {} for i in range(12)}}}}
+        self.resources = {'updated_at': datetime.now(timezone.utc).isoformat(),
+                          'active_trials': 0, 'admission_wait_reason': 'shared concurrency'}
+        active = patch.object(watchdog, 'ROOT', self.root)
+        active.start()
+        self.addCleanup(active.stop)
+        self.save()
+
+    def save(self):
+        for path, value in ((self.shared_path, self.shared_control),
+                            (self.shared_path.with_suffix('.state.json'), self.shared),
+                            (self.control.with_suffix('.resources.json'), self.resources)):
+            path.write_text(json.dumps(value))
+
+    def test_fresh_pool_full_wait_is_confirmed_without_own_admissions(self):
+        self.assertEqual(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared),
+                         'shared concurrency')
+
+    def test_freshness_clock_is_sampled_after_reading_new_admission_status(self):
+        clock = [100.0]
+        self.shared['updated_at'] = 100.0
+        self.resources['updated_at'] = datetime.fromtimestamp(101, timezone.utc).isoformat()
+
+        def admission_read(_path):
+            clock[0] = 102.0
+            return self.resources
+
+        with patch.object(watchdog, 'read', side_effect=admission_read), \
+                patch.object(watchdog.time, 'time', side_effect=lambda: clock[0]):
+            self.assertEqual(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared),
+                             'shared concurrency')
+
+    def test_stale_unregistered_and_no_longer_full_waits_are_not_protected(self):
+        self.resources['updated_at'] = '2020-01-01T00:00:00Z'
+        self.save()
+        self.assertIsNone(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared))
+        self.resources['updated_at'] = datetime.now(timezone.utc).isoformat()
+        self.save()
+        self.assertIsNone(watchdog.confirmed_shared_wait({'pid': 900003, 'identity': 'unknown'}, self.shared_control, self.shared))
+        self.shared['participants']['other']['trials'].pop('trial-0')
+        self.assertIsNone(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared))
+        self.shared['participants']['other']['trials']['trial-0'] = {}
+        self.shared['updated_at'] = time.time() - 91
+        self.assertIsNone(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared))
+
+    def test_allocation_wait_requires_actual_fair_share_occupancy(self):
+        self.resources['admission_wait_reason'] = 'shared campaign allocation'
+        self.shared['participants']['other']['trials'] = {}
+        self.shared['participants']['waiting']['trials'] = {f'trial-{i}': {} for i in range(6)}
+        self.save()
+        self.assertEqual(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared),
+                         'shared campaign allocation')
+        self.shared['participants']['waiting']['trials'].pop('trial-0')
+        self.assertIsNone(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared))
+
+    def cycle(self, *, inventory_delay=False):
+        documents = {'benchmark-user-plan.json': {'active_full_campaign': self.base},
+                     self.base + '.plan.json': {'jobs': [{'name': self.base}]},
+                     self.base + '.summary.json': {'status': 'running'},
+                     self.base + '.control.json': {'max_active': 12, 'shared_pool': str(self.shared_path)}}
+        for name, value in documents.items():
+            (self.root / 'jobs' / name).write_text(json.dumps(value))
+        state = {'runner_idle_since': {} if inventory_delay else {self.base: time.time() - 400}}
+        clock = [time.time()]
+
+        def containers(_directory):
+            if inventory_delay:
+                self.resources['updated_at'] = datetime.fromtimestamp(clock[0] + 1, timezone.utc).isoformat()
+                self.shared['updated_at'] = clock[0] + 1
+                clock[0] += 2
+                self.save()
+            return []
+
+        with patch.object(watchdog, 'inventory', return_value={
+                'supervisors': [{'pid': 900004, 'identity': 'supervisor'}], 'runners': {self.base: self.process}}), \
+                patch.object(watchdog, 'process_identity', side_effect=lambda pid: {900001: 'waiting', 900002: 'other'}.get(pid)), \
+                patch.object(watchdog, 'job_containers', side_effect=containers), \
+                patch.object(watchdog.time, 'time', side_effect=lambda: clock[0]), \
+                patch.object(watchdog, 'memory_snapshot', return_value={
+                    'total_mb': 32768, 'available_mb': 24000, 'memory_pressure_pct': 0}), \
+                patch.object(watchdog, 'signal_named', return_value=True) as signal_call:
+            report = watchdog.cycle(self.base, state, True)
+        return report, state, signal_call
+
+    def test_empty_runner_waiting_for_another_campaign_is_not_signalled(self):
+        report, state, signal_call = self.cycle()
+        signal_call.assert_not_called()
+        self.assertEqual(report['status'], 'waiting_for_shared_resources')
+        self.assertEqual(report['admission_waits'][self.base], 'shared concurrency')
+        self.assertNotIn(self.base, state['runner_idle_since'])
+
+    def test_cycle_start_time_does_not_make_new_wait_status_appear_future_dated(self):
+        report, state, signal_call = self.cycle(inventory_delay=True)
+        signal_call.assert_not_called()
+        self.assertEqual(report['status'], 'waiting_for_shared_resources')
+        self.assertEqual(report['admission_waits'][self.base], 'shared concurrency')
+        self.assertNotIn(self.base, state['runner_idle_since'])
+
+    def test_unknown_true_idle_runner_keeps_existing_recovery(self):
+        self.shared['participants']['other']['trials'] = {}
+        self.save()
+        report, state, signal_call = self.cycle()
+        signal_call.assert_called_once_with(self.process, signal.SIGINT)
+        self.assertIn({'restarted_empty_runner': self.base}, report['actions'])
 
 
 if __name__ == '__main__':

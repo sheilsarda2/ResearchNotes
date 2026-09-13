@@ -1,0 +1,231 @@
+{
+  "started_at": "2026-09-13T22:18:45.342544+00:00",
+  "status": "active_verified",
+  "model_calls": 0,
+  "tests_passed": 13,
+  "source_sha256": {
+    "scripts/watch-candidate-campaign.py": "d3a3a7c96e26c4ba224ebfe8d95fdc99039301f5bc2cc1b01b795671b01c53a0",
+    "scripts/tests/test_candidate_watchdog.py": "bec37bf711450c281f207d3eaaf29ea161b5e34629e402b6b88cc6e815ef9f7e"
+  },
+  "campaigns": {
+    "candidates-all14-efforts-20-20260913T183301Z": {
+      "watchdog_before": {
+        "pid": 96227,
+        "identity": "1405105"
+      },
+      "wrapper": {
+        "pid": 96224,
+        "identity": "1405104"
+      },
+      "processes_before": {
+        "supervisors": [
+          {
+            "pid": 98232,
+            "identity": "2183750"
+          }
+        ],
+        "runners": {
+          "candidates-all14-efforts-20-20260913T183301Z": {
+            "pid": 98349,
+            "identity": "2185934"
+          }
+        }
+      },
+      "control_before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+        "image_readiness_tasks": [
+          "rs-burn-store-pytorch-reader",
+          "rs-zenoh-timestamp-instrumentation",
+          "rs-burn-onnx-rnn-runtime-weights",
+          "cpp-foxglove-sdk-parameter-handler",
+          "py-zarr-python-cast-value-scale-offset",
+          "cpp-zenoh-cpp-connectivity-api",
+          "cpp-rosbag2-mixed-serialization-playback",
+          "py-rosbags-rosbag2-storage-writers",
+          "rs-rerun-chunk-optimizer"
+        ],
+        "excluded_tasks": [
+          "burn-scoped-checkpoint-remap",
+          "rs-zenoh-timestamp-instrumentation"
+        ]
+      },
+      "summary_before": {
+        "updated_at": "2026-09-13T22:18:39.456353+00:00",
+        "job": "candidates-all14-efforts-20-20260913T183301Z",
+        "status": "running",
+        "completed": 34,
+        "target": 2160,
+        "active_jobs": {
+          "candidates-all14-efforts-20-20260913T183301Z": 98349
+        },
+        "target_concurrency": 12,
+        "excluded_tasks": [
+          "burn-scoped-checkpoint-remap",
+          "rs-zenoh-timestamp-instrumentation"
+        ],
+        "after_summary": null,
+        "health": {
+          "ok_to_expand": true,
+          "recent_results": 1,
+          "recent_infrastructure": 0,
+          "unclassified_results": 0
+        },
+        "resources": {
+          "updated_at": "2026-09-13T22:18:37.785119+00:00",
+          "active_trials": 11,
+          "peak_active_trials": 12,
+          "available_mb": 24905,
+          "memory_pressure_pct": 1.84,
+          "admission_wait_reason": "memory pressure",
+          "trial_names": [
+            "luigi-generation-target__qxwmpMC",
+            "rs-burn-store-pytorch-reader__dVXYtU8",
+            "sqlite-utils-schema-plan__vKTXxky",
+            "rs-burn-onnx-rnn-runtime-weights__6AHBGQa",
+            "diskcache-online-reshard__tnYKGdt",
+            "cpp-foxglove-sdk-parameter-handl__ZhwWXAK",
+            "huey-sqlite-leases__LAUZTSQ",
+            "py-zarr-python-cast-value-scale__qXMGvhn",
+            "cpp-zenoh-cpp-connectivity-api__iNXNSXx",
+            "cpp-rosbag2-mixed-serialization__BGeDCkc",
+            "rs-rerun-chunk-optimizer__S4dbqtL"
+          ]
+        }
+      },
+      "watchdog_after": {
+        "pid": 45274,
+        "identity": "2243733"
+      },
+      "processes_after": {
+        "supervisors": [
+          {
+            "pid": 98232,
+            "identity": "2183750"
+          }
+        ],
+        "runners": {
+          "candidates-all14-efforts-20-20260913T183301Z": {
+            "pid": 98349,
+            "identity": "2185934"
+          }
+        }
+      },
+      "verified_report": {
+        "updated_at": "2026-09-13T22:19:15.404536+00:00",
+        "status": "running",
+        "active_trials": 11,
+        "admission_waits": {},
+        "actions": [],
+        "alerts": []
+      }
+    },
+    "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+      "watchdog_before": {
+        "pid": 27186,
+        "identity": "2209837"
+      },
+      "wrapper": {
+        "pid": 27183,
+        "identity": "2209836"
+      },
+      "processes_before": {
+        "supervisors": [
+          {
+            "pid": 27214,
+            "identity": "2209849"
+          }
+        ],
+        "runners": {
+          "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+            "pid": 27215,
+            "identity": "2209865"
+          }
+        }
+      },
+      "control_before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "excluded_tasks": []
+      },
+      "summary_before": {
+        "updated_at": "2026-09-13T22:18:37.026505+00:00",
+        "job": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+        "status": "running",
+        "completed": 0,
+        "target": 180,
+        "active_jobs": {
+          "candidates-zenoh-v3-efforts-20-20260913T221317Z": 27215
+        },
+        "target_concurrency": 12,
+        "excluded_tasks": [],
+        "after_summary": null,
+        "health": {
+          "ok_to_expand": true,
+          "recent_results": 0,
+          "recent_infrastructure": 0,
+          "unclassified_results": 0
+        },
+        "resources": {
+          "updated_at": "2026-09-13T22:18:33.451340+00:00",
+          "active_trials": 1,
+          "peak_active_trials": 1,
+          "available_mb": 24303,
+          "memory_pressure_pct": 1.43,
+          "admission_wait_reason": "memory pressure",
+          "trial_names": [
+            "rs-zenoh-timestamp-instrumentati__XsLhxGQ"
+          ]
+        }
+      },
+      "watchdog_after": {
+        "pid": 45275,
+        "identity": "2243733"
+      },
+      "processes_after": {
+        "supervisors": [
+          {
+            "pid": 27214,
+            "identity": "2209849"
+          }
+        ],
+        "runners": {
+          "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+            "pid": 27215,
+            "identity": "2209865"
+          }
+        }
+      },
+      "verified_report": {
+        "updated_at": "2026-09-13T22:19:15.403355+00:00",
+        "status": "running",
+        "active_trials": 1,
+        "admission_waits": {},
+        "actions": [],
+        "alerts": []
+      }
+    }
+  },
+  "verified_at": "2026-09-13T22:19:45.480365+00:00",
+  "runner_and_supervisor_identities_preserved": true,
+  "admission_controls_unchanged": true
+}
