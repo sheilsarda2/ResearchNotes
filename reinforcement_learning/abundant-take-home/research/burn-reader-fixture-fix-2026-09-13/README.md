@@ -6,7 +6,8 @@ change adds a valid protocol-2 `sys_info` pickle to
 `test_tar_absurd_storage_count_is_an_error` in `tests/hidden/reader/mod.rs`.
 The fixture retains its count of 2^40 storages, empty tensor table, empty object,
 and every original assertion. Instructions, budgets, resources, scoring, oracle,
-and all other files are unchanged. This revision is not promoted.
+and all other files are unchanged. The validated revision now runs in its own
+180-trial replacement cohort.
 
 The prior fixture omitted `sys_info`, although instruction line 108 lists it
 among the TAR entries. Trial `rs-burn-store-pytorch-reader__dVXYtU8` rejected that
@@ -48,11 +49,14 @@ Docker's lowercase missing-container message after successful removal. Its raw
 result and exact script are preserved. `diagnostic001-claim-cleanup.json` records
 the independent absence/owner checks and removal of only its stale shared claim.
 
-`planned-cohort.json` records a prepared 180-trial replacement cohort, with the
-same models and efforts. It has not started. The old task has a task-specific
-readiness hold; its six historical attempts, including four counted outcomes,
-remain unchanged. Promotion waits for the rolling runtime activation to finish.
-The intended final total is main 1,980 + Zenoh v3 180 + Burn v3 180 = 2,340.
+`planned-cohort.json` records the original preparation of the replacement cohort.
+The later promotion is recorded in `../revision-promotion-2026-09-13/`. Its
+campaign is `candidates-burn-reader-v3-efforts-20-20260913T232621Z`, with the same
+models, efforts and 20 attempts per cell. The old task retains its readiness
+hold and is excluded from main's current cells; all six historical attempts,
+including four previously counted outcomes, remain unchanged. An audited
+activation rebase allowed this cohort to start during the remaining rollout.
+The combined plan is main 1,800 + three 180-trial revision cohorts = 2,340.
 
 ## Reproduce the Harbor controls
 

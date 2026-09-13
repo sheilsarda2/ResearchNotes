@@ -1,0 +1,619 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-13T23:38:35.150737+00:00",
+  "passed": true,
+  "model_calls": 0,
+  "run_identity": "research/diskcache-lease-spec-fix-2026-09-13/harbor-controls-final/run-identity.json",
+  "run_identity_sha256": "2184d251ba817ba56daae95ea97692cfea6ef81544e959968ef7c2af18b8f64e",
+  "controls": {
+    "oracle": {
+      "job": "diskcache-online-reshard-v2-oracle-20260913T233835Z",
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+        "run",
+        "-p",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/diskcache-online-reshard-v2",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/diskcache-lease-spec-fix-2026-09-13/harbor-controls-final/jobs",
+        "--job-name",
+        "diskcache-online-reshard-v2-oracle-20260913T233835Z"
+      ],
+      "passed": true,
+      "model_calls": 0,
+      "exit_code": 0,
+      "result": "research/diskcache-lease-spec-fix-2026-09-13/harbor-controls-final/jobs/diskcache-online-reshard-v2-oracle-20260913T233835Z/diskcache-online-reshard-v2__QiaogRU/result.json",
+      "result_sha256": "0063557122195c6b09bf20912e32513c02daa7ce9c589323c62fc98aa472a64b",
+      "reward": 1,
+      "exception": null,
+      "task_checksum": "977f4cec3524d213a696a9ab660d067b71e1bbff34ae42f3ddc0feab6009c017",
+      "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+      },
+      "individual_checks": {
+        "format": "individual_checks",
+        "tests": 45,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 45,
+        "cases": [
+          {
+            "classname": "",
+            "name": "test_exports_and_persisted_configuration",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[0]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[-1]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[True]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[1.2]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[4]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_fencing_pause_abort_and_idempotence",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_online_mutations_after_baseline_was_copied",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_bulk_clear_does_not_resurrect_copied_rows",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_ttl_touch_expire_absolute_deadlines",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_serialization_streams_and_large_payloads[disk]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_serialization_streams_and_large_payloads[json]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_transaction_rollback_and_lifecycle_rejection",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[17]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[43]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[991]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_existing_clients_memoize_pickle_named_stores",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_adoption_and_wrong_counts",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_copy_does_not_cull_due_to_new_per_shard_limits",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[checksum]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[schema]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[truncated]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_missing_payload_prevents_cutover",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_process_lease_is_nonblocking_and_released",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-begin]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-cutover]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-abort]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-begin]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-cutover]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-abort]",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_copy_worker_replays_latest_source_payload",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_culling_during_migration_is_reconciled",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_competing_process_increment_and_migration",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_copy_reads_file_payloads_incrementally",
+            "status": "passed"
+          },
+          {
+            "classname": "",
+            "name": "test_plain_fanout_native_transactions_are_preserved",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_set_get_delete",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_incr",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_decr",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_read",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_pop",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_expire",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_evict",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_clear",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_pickle",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_memoize",
+            "status": "passed"
+          }
+        ]
+      },
+      "timings": {
+        "environment_setup": {
+          "started_at": "2026-09-13T23:38:36.736266Z",
+          "finished_at": "2026-09-13T23:38:38.905306Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-09-13T23:38:39.051333Z",
+          "finished_at": "2026-09-13T23:38:39.281931Z"
+        },
+        "verifier": {
+          "started_at": "2026-09-13T23:38:50.375239Z",
+          "finished_at": "2026-09-13T23:39:09.299419Z"
+        }
+      },
+      "trial_file_sha256": {
+        "agent/oracle.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/manifest.json": "02dd119ef2908d7ff1804d7254d55156b555cfb9023c0fce13afe4c03d2b3f9d",
+        "artifacts/submission/diskcache/__init__.py": "ab15941575b3a7f809d763f279a02a8d0298e594842894e2b62d6e79b1dd757a",
+        "artifacts/submission/diskcache/cli.py": "455bfa1729fb87fd04e41a00549cdb6e33963c31d73b466336087d83908144ff",
+        "artifacts/submission/diskcache/core.py": "7f113a059819429e806667068479ff0e085a5f225641da97fdd0b3fcd6a362cc",
+        "artifacts/submission/diskcache/djangocache.py": "497f2397677ebdf38c1bb85766eba1d950a764450ffa61c68d82e933645d31a4",
+        "artifacts/submission/diskcache/fanout.py": "1381a4fa9b801ac6a2ab27f8e5894b7554dfd9133583b432f933d2ba0d44969a",
+        "artifacts/submission/diskcache/persistent.py": "0a2af708f7ad01f0021e5084cd8d4fe41fd8ad93cf796aaca0aae4b81071702a",
+        "artifacts/submission/diskcache/recipes.py": "76be82b59ebb9d17b75cc5018f627a0ffb9fb6ab8c8bfacda59060f22ea57d13",
+        "artifacts/submission/diskcache/reshard.py": "045d7f709c4719c183a68d11b6eb039d6f17ce3acdc32822b1fabfe0c6fad16f",
+        "benchmark-deadline.json": "71c40d563f457446fb2eaacebba8d24696ad3411b305755fb4abdd5ab0dc9cf1",
+        "benchmark-evidence.json": "67b4c498ccca772829dcd0643c991e252b20b4f1fbde1d69768862eeba89dc58",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "9c02de716fa2109f8ab855d81a4c27ef22e816275798866f168670c32fda5cbe",
+        "config.json": "5ad684df5c4a9dfbb69587a8c803b24c06680362043af9d864ed2e7b37e292a1",
+        "result.json": "0063557122195c6b09bf20912e32513c02daa7ce9c589323c62fc98aa472a64b",
+        "trial.log": "ec073b0f0a04b34e7a524cbf12e5e1ca069e7d58d2bb6a0f514bd9c974819749",
+        "verifier/results.xml": "744100f90bf3c1983da1362462743f3b789fc836c9a1f2d9d7799a034ad2f373",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/test-stdout.txt": "f4cb93a1a71f4c469c61d645d471dadbdf2c3bbe3fecb346079628a20007daea"
+      },
+      "wall_seconds": 35.13
+    },
+    "nop": {
+      "job": "diskcache-online-reshard-v2-nop-20260913T233835Z",
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+        "run",
+        "-p",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/diskcache-online-reshard-v2",
+        "-a",
+        "nop",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/diskcache-lease-spec-fix-2026-09-13/harbor-controls-final/jobs",
+        "--job-name",
+        "diskcache-online-reshard-v2-nop-20260913T233835Z"
+      ],
+      "passed": true,
+      "model_calls": 0,
+      "exit_code": 0,
+      "result": "research/diskcache-lease-spec-fix-2026-09-13/harbor-controls-final/jobs/diskcache-online-reshard-v2-nop-20260913T233835Z/diskcache-online-reshard-v2__LGv9Enq/result.json",
+      "result_sha256": "6a303b6a373e2af6a641ac60863a86d3dfff1075cb1190933ce2f2808ba4370c",
+      "reward": 0,
+      "exception": null,
+      "task_checksum": "977f4cec3524d213a696a9ab660d067b71e1bbff34ae42f3ddc0feab6009c017",
+      "agent_info": {
+        "name": "nop",
+        "version": "1.0.0",
+        "model_info": null
+      },
+      "individual_checks": {
+        "format": "individual_checks",
+        "tests": 45,
+        "failures": 0,
+        "errors": 34,
+        "skipped": 0,
+        "passed": 11,
+        "cases": [
+          {
+            "classname": "",
+            "name": "test_exports_and_persisted_configuration",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[0]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[-1]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[True]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[1.2]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_invalid_counts[4]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_fencing_pause_abort_and_idempotence",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_online_mutations_after_baseline_was_copied",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_bulk_clear_does_not_resurrect_copied_rows",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_ttl_touch_expire_absolute_deadlines",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_serialization_streams_and_large_payloads[disk]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_serialization_streams_and_large_payloads[json]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_transaction_rollback_and_lifecycle_rejection",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[17]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[43]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_stateful_reference_model[991]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_existing_clients_memoize_pickle_named_stores",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_adoption_and_wrong_counts",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_copy_does_not_cull_due_to_new_per_shard_limits",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[checksum]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[schema]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_metadata_corruption_fails_closed[truncated]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_missing_payload_prevents_cutover",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_process_lease_is_nonblocking_and_released",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-begin]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-cutover]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[before-abort]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-begin]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-cutover]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_at_atomic_metadata_publication[after-abort]",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_killed_copy_worker_replays_latest_source_payload",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_culling_during_migration_is_reconciled",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_competing_process_increment_and_migration",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_copy_reads_file_payloads_incrementally",
+            "status": "error"
+          },
+          {
+            "classname": "",
+            "name": "test_plain_fanout_native_transactions_are_preserved",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_set_get_delete",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_incr",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_decr",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_read",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_pop",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_expire",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_evict",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_clear",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_pickle",
+            "status": "passed"
+          },
+          {
+            "classname": "tests.test_fanout",
+            "name": "test_memoize",
+            "status": "passed"
+          }
+        ]
+      },
+      "timings": {
+        "environment_setup": {
+          "started_at": "2026-09-13T23:39:11.719449Z",
+          "finished_at": "2026-09-13T23:39:12.976972Z"
+        },
+        "agent_execution": {
+          "started_at": "2026-09-13T23:39:13.124995Z",
+          "finished_at": "2026-09-13T23:39:13.125141Z"
+        },
+        "verifier": {
+          "started_at": "2026-09-13T23:39:24.142993Z",
+          "finished_at": "2026-09-13T23:39:37.397720Z"
+        }
+      },
+      "trial_file_sha256": {
+        "artifacts/manifest.json": "02dd119ef2908d7ff1804d7254d55156b555cfb9023c0fce13afe4c03d2b3f9d",
+        "artifacts/submission/diskcache/__init__.py": "25c12dcf6db81becac1e6832c5621ddbc034c107c22227f499dbf8b6a0be6719",
+        "artifacts/submission/diskcache/cli.py": "455bfa1729fb87fd04e41a00549cdb6e33963c31d73b466336087d83908144ff",
+        "artifacts/submission/diskcache/core.py": "7f113a059819429e806667068479ff0e085a5f225641da97fdd0b3fcd6a362cc",
+        "artifacts/submission/diskcache/djangocache.py": "497f2397677ebdf38c1bb85766eba1d950a764450ffa61c68d82e933645d31a4",
+        "artifacts/submission/diskcache/fanout.py": "1381a4fa9b801ac6a2ab27f8e5894b7554dfd9133583b432f933d2ba0d44969a",
+        "artifacts/submission/diskcache/persistent.py": "0a2af708f7ad01f0021e5084cd8d4fe41fd8ad93cf796aaca0aae4b81071702a",
+        "artifacts/submission/diskcache/recipes.py": "76be82b59ebb9d17b75cc5018f627a0ffb9fb6ab8c8bfacda59060f22ea57d13",
+        "benchmark-deadline.json": "8f8bc399c84a3df6301b7e646622db748d384bff04a495e0ea2947dfd077017a",
+        "benchmark-evidence.json": "7f71e182d2a81ba577678c14829819cce9e4dc8204500c85a67f50eb181d9cf4",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "3002600f81b8c978fbd73082b351ac618bfdf7128bc816e212dc1f20f6d2339e",
+        "config.json": "4370a57e877dcc6a74d10c9136d7b1308939924e96c4c113a531000997b542b4",
+        "result.json": "6a303b6a373e2af6a641ac60863a86d3dfff1075cb1190933ce2f2808ba4370c",
+        "trial.log": "ec073b0f0a04b34e7a524cbf12e5e1ca069e7d58d2bb6a0f514bd9c974819749",
+        "verifier/results.xml": "fd58d113794692e24b4214a065231892800bcf647a489857ec363d4c9da02664",
+        "verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "verifier/test-stdout.txt": "a738143ecc99d1c3f1a43f87e2fdd818ae369113b68bcba8d3b9b7c6e077a333"
+      },
+      "wall_seconds": 27.94
+    }
+  },
+  "inputs_unchanged": true,
+  "tooling_unchanged": true,
+  "finished_at": "2026-09-13T23:39:38.585906+00:00"
+}

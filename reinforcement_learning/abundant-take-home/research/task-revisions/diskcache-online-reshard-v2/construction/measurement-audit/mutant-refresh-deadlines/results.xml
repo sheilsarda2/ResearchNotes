@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.120" timestamp="2026-09-13T08:09:13.884649+00:00" hostname="da3be750d4f1"><testcase classname="test_online_reshard" name="test_ttl_touch_expire_absolute_deadlines" time="0.063"><failure message="AssertionError: assert {'expires': (...3.97603, 'b')} == {'expires': (...3.97603, 'b')}&#10;  &#10;  Differing items:&#10;  {'expires': ('old', 1789294153.954724, 'a')} != {'expires': ('old', 1789290553.954724, 'a')}&#10;  {'touch': ('yes', 1789297753.97603, 'b')} != {'touch': ('yes', 1789294153.97603, 'b')}&#10;  Use -v to get more diff">api = &lt;class 'diskcache.reshard.ReshardableFanoutCache'&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_ttl_touch_expire_absolute0')
+
+    def test_ttl_touch_expire_absolute_deadlines(api, tmp_path):
+        # Use real, well-separated deadlines. A new module can import its own clock
+        # or a time alias without disagreeing with patched upstream modules.
+        c = api(tmp_path, shards=2, eviction_policy='none')
+        c.set('expires', 'old', expire=3600, tag='a')
+        c.set('touch', 'yes', expire=3600, tag='b')
+        c.set('natural', 'gone', expire=-3600)
+        c.set('remove', 'gone', expire=-7200)
+        token = c.begin_reshard(3)['migration_id']
+        c.step_reshard(token, 1)
+        c.touch('touch', expire=7200)
+        touched = c.get('touch', expire_time=True, tag=True)
+        c.expire()
+        # Leave another expired row without an explicit cleanup call, so migration
+        # must preserve its invisibility rather than assigning it a fresh TTL.
+        c.set('natural', 'gone', expire=-3600)
+        expected = snapshot(c)
+        finish(c, token)
+&gt;       assert snapshot(c) == expected
+E       AssertionError: assert {'expires': (...3.97603, 'b')} == {'expires': (...3.97603, 'b')}
+E         
+E         Differing items:
+E         {'expires': ('old', 1789294153.954724, 'a')} != {'expires': ('old', 1789290553.954724, 'a')}
+E         {'touch': ('yes', 1789297753.97603, 'b')} != {'touch': ('yes', 1789294153.97603, 'b')}
+E         Use -v to get more diff
+
+/tests/test_online_reshard.py:171: AssertionError</failure></testcase></testsuite></testsuites>

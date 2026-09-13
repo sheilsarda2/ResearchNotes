@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-13T23:38:22.780112+00:00",
+  "passed": true,
+  "model_calls": 0,
+  "docker_runs": 0,
+  "historical_results_modified": false,
+  "syntax_checked": [
+    "validate_controls.py",
+    "freeze_revision.py"
+  ],
+  "source_sha256": {
+    "validate_controls.py": "0e8b7d40fa7abed5ad4714b57670174e382dafa92de44ccc60ea7c350d745ccf",
+    "freeze_revision.py": "a6477e99b104a07b55cf0ed604c9b8dc7acd0e9d1539aaa9c8cfeb5a6d69186c"
+  },
+  "check_only": {
+    "check_only": true,
+    "passed": true,
+    "model_calls": 0,
+    "docker_runs": 0,
+    "task": "research/task-revisions/diskcache-online-reshard-v2",
+    "task_files": 50,
+    "check_format": "individual_checks",
+    "expected_checks": 45,
+    "original_supplied_files": 36,
+    "admission": {
+      "max_active": 1,
+      "min_total_mb": 30000,
+      "reserve_mb": 4096,
+      "startup_reserve_mb": 1536,
+      "startup_window_sec": 120,
+      "start_interval_sec": 5,
+      "max_memory_pressure_pct": 1.0,
+      "pressure_cooldown_sec": 60,
+      "network_pool_cidr": "172.31.0.0/16",
+      "paused": false,
+      "shared_pool": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+    },
+    "commands": [
+      [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+        "run",
+        "-p",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/diskcache-online-reshard-v2",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/diskcache-lease-spec-fix-2026-09-13/harbor-validation-20260913T233822Z/jobs",
+        "--job-name",
+        "diskcache-online-reshard-v2-oracle-20260913T233822Z"
+      ],
+      [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+        "run",
+        "-p",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/diskcache-online-reshard-v2",
+        "-a",
+        "nop",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/diskcache-lease-spec-fix-2026-09-13/harbor-validation-20260913T233822Z/jobs",
+        "--job-name",
+        "diskcache-online-reshard-v2-nop-20260913T233822Z"
+      ]
+    ]
+  },
+  "existing_junit_compatibility": [
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/diskcache-online-reshard__g4M9xAw/verifier/results.xml",
+      "sha256": "f84ddbec4a02952d0e8e20b6788da0a4a204f35e64a3cfd7aac0b7b8946264b7",
+      "tests": 45,
+      "passed": 44,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__4LbVd7e/verifier/results.xml",
+      "sha256": "30b6b9038d85e58c3a5dfecc6dcab95e682705b08d904d53c025ab430a8035ea",
+      "tests": 45,
+      "passed": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__6QcCXMs/verifier/results.xml",
+      "sha256": "aa4dd42bb78115a6e0801e7c1a23da7884fcffa285294bf3f956f29a7f42aa1b",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__AJmVCJE/verifier/results.xml",
+      "sha256": "4b2071e90e8271fc222330c074c62636464a7d557e20bddc23cdcfcade0c47b8",
+      "tests": 45,
+      "passed": 43,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__Aaz5bXd/verifier/results.xml",
+      "sha256": "c84bdcaa64d475679b1ccc8f4bab3206cd995ff7898f68e499c0b8670a9c7f41",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__DWFo3AX/verifier/results.xml",
+      "sha256": "d64c005f79e57deaaf648654f8564b96b7141dd25a1b1c0ca1b4c25d3c3c3e44",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__HMGjrvH/verifier/results.xml",
+      "sha256": "2c1b967e2902f6d1fb23ee62c7424c7bd9be22614cf4ccfe2d0c3d86829ba48d",
+      "tests": 45,
+      "passed": 43,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__T6oiCyf/verifier/results.xml",
+      "sha256": "fd90a8b5dc31d09735d53e18a587d38eb7223e27c497160b36a48d651f47e238",
+      "tests": 45,
+      "passed": 44,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__gwyJvMM/verifier/results.xml",
+      "sha256": "5c5bfa9393f9df8e45c5cade578a25122b2c76cb3a8f567f5c156c1c40b322b8",
+      "tests": 45,
+      "passed": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__on2yMxw/verifier/results.xml",
+      "sha256": "c1e8fff6a74a2cb51f248cd302271d42a9128453814963d3eb5bd83551b90d15",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__tVf3A8r/verifier/results.xml",
+      "sha256": "4031b52dd8f0894bf56539e6424e97c4eb0ddb959f053c89d608a9feb39755a9",
+      "tests": 45,
+      "passed": 42,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__u7zbUor/verifier/results.xml",
+      "sha256": "515e489f9b6fc2ee56d15ecd1252834a9ae9d91c50d3fc414ad15946d994d16d",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    },
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z/diskcache-online-reshard__yNvzoHR/verifier/results.xml",
+      "sha256": "0b2947d3585f64c117d2caf3eabd43e08eb2def3072dc3f6e583a0486b3f43ec",
+      "tests": 45,
+      "passed": 11,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0
+    }
+  ],
+  "revision_controls_run": false
+}

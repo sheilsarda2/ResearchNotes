@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.174" timestamp="2026-09-13T07:58:04.464453+00:00" hostname="a9338d9f3f19"><testcase classname="test_online_reshard" name="test_ttl_touch_expire_absolute_deadlines" time="0.107"><failure message="AssertionError: assert {'expires': (... 4634.0, 'b')} == {'expires': (... 1034.0, 'b')}&#10;  &#10;  Differing items:&#10;  {'expires': ('old', 4610.0, 'a')} != {'expires': ('old', 1010.0, 'a')}&#10;  {'touch': ('yes', 4634.0, 'b')} != {'touch': ('yes', 1034.0, 'b')}&#10;  Use -v to get more diff">api = &lt;class 'diskcache.reshard.ReshardableFanoutCache'&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_ttl_touch_expire_absolute0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0xffff8e72e9c0&gt;
+
+    def test_ttl_touch_expire_absolute_deadlines(api, tmp_path, monkeypatch):
+        now = [1000.0]
+        import diskcache.core as core
+        import diskcache.fanout as fanout
+        actual_time = core.time
+        clock = types.SimpleNamespace(time=lambda: now[0], sleep=actual_time.sleep)
+        monkeypatch.setattr(core, 'time', clock)
+        monkeypatch.setattr(fanout, 'time', clock)
+        c = api(tmp_path, shards=2, eviction_policy='none')
+        c.set('expires', 'old', expire=10, tag='a')
+        c.set('touch', 'yes', expire=5, tag='b')
+        c.set('natural', 'gone', expire=7)
+        token = c.begin_reshard(3)['migration_id']
+        c.step_reshard(token, 3)
+        now[0] = 1004
+        c.touch('touch', expire=30)
+        now[0] = 1008
+        c.expire()
+        expected = snapshot(c)
+        finish(c, token)
+&gt;       assert snapshot(c) == expected
+E       AssertionError: assert {'expires': (... 4634.0, 'b')} == {'expires': (... 1034.0, 'b')}
+E         
+E         Differing items:
+E         {'expires': ('old', 4610.0, 'a')} != {'expires': ('old', 1010.0, 'a')}
+E         {'touch': ('yes', 4634.0, 'b')} != {'touch': ('yes', 1034.0, 'b')}
+E         Use -v to get more diff
+
+/tests/test_online_reshard.py:174: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.248" timestamp="2026-09-13T07:58:04.465381+00:00" hostname="08bea5ec74cf"><testcase classname="test_online_reshard" name="test_fencing_pause_abort_and_idempotence" time="0.179"><failure message="Failed: DID NOT RAISE &lt;class 'diskcache.reshard.ReshardConflictError'&gt;">api = &lt;class 'diskcache.reshard.ReshardableFanoutCache'&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_fencing_pause_abort_and_i0')
+
+    def test_fencing_pause_abort_and_idempotence(api, tmp_path):
+        c = api(tmp_path, shards=2)
+        c['a'] = 1
+        assert c.begin_reshard(2)['migration_id'] is None
+        state = c.begin_reshard(4, expected_epoch=0)
+        token = state['migration_id']
+        state['shards'] = 123
+        assert c.reshard_status()['shards'] == 2
+        assert c.begin_reshard(4)['migration_id'] == token
+        with pytest.raises(dc.ReshardConflictError):
+            c.begin_reshard(3)
+        with pytest.raises(dc.ReshardConflictError):
+            c.begin_reshard(4, expected_epoch=1)
+        c.pause_reshard(token)
+        c.pause_reshard(token)
+        with pytest.raises(dc.ReshardPausedError):
+            c.step_reshard(token)
+        c['a'] = 2
+        c.close()
+        c = api(tmp_path)
+        assert c.reshard_status()['phase'] == 'paused'
+        assert c['a'] == 2
+        c.resume_reshard(token)
+        c.resume_reshard(token)
+        c.step_reshard(token, 1)
+        assert c.abort_reshard(token)['epoch'] == 0
+        assert c['a'] == 2
+        newer = c.begin_reshard(3)['migration_id']
+        assert newer != token
+        for method in (c.pause_reshard, c.resume_reshard, c.abort_reshard, c.step_reshard):
+&gt;           with pytest.raises(dc.ReshardConflictError):
+E           Failed: DID NOT RAISE &lt;class 'diskcache.reshard.ReshardConflictError'&gt;
+
+/tests/test_online_reshard.py:107: Failed</failure></testcase></testsuite></testsuites>

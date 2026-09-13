@@ -1,0 +1,230 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 580B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/7] FROM docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#4 resolve docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7 0.0s done
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 655.44kB done
+#5 DONE 0.0s
+
+#6 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends bash git curl gzip && rm -rf /var/lib/apt/lists/*
+#6 0.205 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#6 0.323 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#6 0.372 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#6 0.433 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8689 kB]
+#6 2.494 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#6 2.508 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [335 kB]
+#6 2.984 Fetched 9273 kB in 3s (3236 kB/s)
+#6 2.984 Reading package lists...
+#6 3.177 Reading package lists...
+#6 3.394 Building dependency tree...
+#6 3.472 Reading state information...
+#6 3.534 gzip is already the newest version (1.12-1).
+#6 3.534 gzip set to manually installed.
+#6 3.534 The following additional packages will be installed:
+#6 3.534   git-man libbrotli1 libcurl3-gnutls libcurl4 liberror-perl libexpat1
+#6 3.534   libgdbm-compat4 libldap-2.5-0 libnghttp2-14 libperl5.36 libpsl5 librtmp1
+#6 3.534   libsasl2-2 libsasl2-modules-db libssh2-1 perl perl-modules-5.36
+#6 3.535 Suggested packages:
+#6 3.535   bash-doc gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email
+#6 3.535   git-gui gitk gitweb git-cvs git-mediawiki git-svn sensible-utils perl-doc
+#6 3.535   libterm-readline-gnu-perl | libterm-readline-perl-perl make
+#6 3.535   libtap-harness-archive-perl
+#6 3.535 Recommended packages:
+#6 3.535   bash-completion patch less ssh-client libldap-common publicsuffix
+#6 3.535   libsasl2-modules
+#6 3.604 The following NEW packages will be installed:
+#6 3.605   curl git git-man libbrotli1 libcurl3-gnutls libcurl4 liberror-perl libexpat1
+#6 3.605   libgdbm-compat4 libldap-2.5-0 libnghttp2-14 libperl5.36 libpsl5 librtmp1
+#6 3.605   libsasl2-2 libsasl2-modules-db libssh2-1 perl perl-modules-5.36
+#6 3.605 The following packages will be upgraded:
+#6 3.606   bash
+#6 3.656 1 upgraded, 19 newly installed, 0 to remove and 27 not upgraded.
+#6 3.656 Need to get 19.8 MB of archives.
+#6 3.656 After this operation, 105 MB of additional disk space will be used.
+#6 3.656 Get:1 http://deb.debian.org/debian bookworm/main arm64 bash arm64 5.2.15-2+b13 [1444 kB]
+#6 3.796 Get:2 http://deb.debian.org/debian bookworm/main arm64 perl-modules-5.36 all 5.36.0-7+deb12u3 [2815 kB]
+#6 3.860 Get:3 http://deb.debian.org/debian bookworm/main arm64 libgdbm-compat4 arm64 1.23-3 [48.0 kB]
+#6 3.860 Get:4 http://deb.debian.org/debian bookworm/main arm64 libperl5.36 arm64 5.36.0-7+deb12u3 [4009 kB]
+#6 3.944 Get:5 http://deb.debian.org/debian bookworm/main arm64 perl arm64 5.36.0-7+deb12u3 [239 kB]
+#6 3.993 Get:6 http://deb.debian.org/debian bookworm/main arm64 libbrotli1 arm64 1.0.9-2+b6 [269 kB]
+#6 3.999 Get:7 http://deb.debian.org/debian bookworm/main arm64 libsasl2-modules-db arm64 2.1.28+dfsg-10 [20.8 kB]
+#6 3.999 Get:8 http://deb.debian.org/debian bookworm/main arm64 libsasl2-2 arm64 2.1.28+dfsg-10 [58.0 kB]
+#6 4.041 Get:9 http://deb.debian.org/debian bookworm/main arm64 libldap-2.5-0 arm64 2.5.13+dfsg-5 [171 kB]
+#6 4.052 Get:10 http://deb.debian.org/debian bookworm/main arm64 libnghttp2-14 arm64 1.52.0-1+deb12u3 [69.0 kB]
+#6 4.053 Get:11 http://deb.debian.org/debian bookworm/main arm64 libpsl5 arm64 0.21.2-1 [58.6 kB]
+#6 4.054 Get:12 http://deb.debian.org/debian bookworm/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b2 [59.4 kB]
+#6 4.089 Get:13 http://deb.debian.org/debian-security bookworm-security/main arm64 libssh2-1 arm64 1.10.0-3+deb12u1 [169 kB]
+#6 4.092 Get:14 http://deb.debian.org/debian bookworm/main arm64 libcurl4 arm64 7.88.1-10+deb12u15 [367 kB]
+#6 4.096 Get:15 http://deb.debian.org/debian bookworm/main arm64 curl arm64 7.88.1-10+deb12u15 [310 kB]
+#6 4.121 Get:16 http://deb.debian.org/debian bookworm/main arm64 libcurl3-gnutls arm64 7.88.1-10+deb12u15 [362 kB]
+#6 4.127 Get:17 http://deb.debian.org/debian-security bookworm-security/main arm64 libexpat1 arm64 2.5.0-1+deb12u3 [87.9 kB]
+#6 4.129 Get:18 http://deb.debian.org/debian bookworm/main arm64 liberror-perl all 0.17029-2 [29.0 kB]
+#6 4.129 Get:19 http://deb.debian.org/debian bookworm/main arm64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+#6 4.169 Get:20 http://deb.debian.org/debian bookworm/main arm64 git arm64 1:2.39.5-0+deb12u3 [7153 kB]
+#6 4.339 debconf: delaying package configuration, since apt-utils is not installed
+#6 4.353 Fetched 19.8 MB in 1s (29.4 MB/s)
+#6 4.364 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6688 files and directories currently installed.)
+#6 4.368 Preparing to unpack .../bash_5.2.15-2+b13_arm64.deb ...
+#6 4.370 update-alternatives: warning: alternative /usr/share/man/man7/bash-builtins.7.gz (part of link group builtins.7.gz) doesn't exist; removing from list of alternatives
+#6 4.371 update-alternatives: warning: /etc/alternatives/builtins.7.gz is dangling; it will be updated with best choice
+#6 4.375 Unpacking bash (5.2.15-2+b13) over (5.2.15-2+b9) ...
+#6 4.447 Setting up bash (5.2.15-2+b13) ...
+#6 4.460 update-alternatives: error: alternative path /usr/share/man/man7/bash-builtins.7.gz doesn't exist
+#6 4.471 Selecting previously unselected package perl-modules-5.36.
+#6 4.471 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6688 files and directories currently installed.)
+#6 4.473 Preparing to unpack .../00-perl-modules-5.36_5.36.0-7+deb12u3_all.deb ...
+#6 4.476 Unpacking perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#6 4.630 Selecting previously unselected package libgdbm-compat4:arm64.
+#6 4.631 Preparing to unpack .../01-libgdbm-compat4_1.23-3_arm64.deb ...
+#6 4.634 Unpacking libgdbm-compat4:arm64 (1.23-3) ...
+#6 4.653 Selecting previously unselected package libperl5.36:arm64.
+#6 4.654 Preparing to unpack .../02-libperl5.36_5.36.0-7+deb12u3_arm64.deb ...
+#6 4.655 Unpacking libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#6 4.842 Selecting previously unselected package perl.
+#6 4.842 Preparing to unpack .../03-perl_5.36.0-7+deb12u3_arm64.deb ...
+#6 4.845 Unpacking perl (5.36.0-7+deb12u3) ...
+#6 4.863 Selecting previously unselected package libbrotli1:arm64.
+#6 4.864 Preparing to unpack .../04-libbrotli1_1.0.9-2+b6_arm64.deb ...
+#6 4.865 Unpacking libbrotli1:arm64 (1.0.9-2+b6) ...
+#6 4.885 Selecting previously unselected package libsasl2-modules-db:arm64.
+#6 4.885 Preparing to unpack .../05-libsasl2-modules-db_2.1.28+dfsg-10_arm64.deb ...
+#6 4.886 Unpacking libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#6 4.898 Selecting previously unselected package libsasl2-2:arm64.
+#6 4.898 Preparing to unpack .../06-libsasl2-2_2.1.28+dfsg-10_arm64.deb ...
+#6 4.899 Unpacking libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#6 4.912 Selecting previously unselected package libldap-2.5-0:arm64.
+#6 4.913 Preparing to unpack .../07-libldap-2.5-0_2.5.13+dfsg-5_arm64.deb ...
+#6 4.914 Unpacking libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#6 4.930 Selecting previously unselected package libnghttp2-14:arm64.
+#6 4.931 Preparing to unpack .../08-libnghttp2-14_1.52.0-1+deb12u3_arm64.deb ...
+#6 4.933 Unpacking libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#6 4.946 Selecting previously unselected package libpsl5:arm64.
+#6 4.947 Preparing to unpack .../09-libpsl5_0.21.2-1_arm64.deb ...
+#6 4.948 Unpacking libpsl5:arm64 (0.21.2-1) ...
+#6 4.961 Selecting previously unselected package librtmp1:arm64.
+#6 4.962 Preparing to unpack .../10-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_arm64.deb ...
+#6 4.963 Unpacking librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#6 4.981 Selecting previously unselected package libssh2-1:arm64.
+#6 4.982 Preparing to unpack .../11-libssh2-1_1.10.0-3+deb12u1_arm64.deb ...
+#6 4.986 Unpacking libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#6 5.004 Selecting previously unselected package libcurl4:arm64.
+#6 5.005 Preparing to unpack .../12-libcurl4_7.88.1-10+deb12u15_arm64.deb ...
+#6 5.006 Unpacking libcurl4:arm64 (7.88.1-10+deb12u15) ...
+#6 5.028 Selecting previously unselected package curl.
+#6 5.028 Preparing to unpack .../13-curl_7.88.1-10+deb12u15_arm64.deb ...
+#6 5.030 Unpacking curl (7.88.1-10+deb12u15) ...
+#6 5.051 Selecting previously unselected package libcurl3-gnutls:arm64.
+#6 5.051 Preparing to unpack .../14-libcurl3-gnutls_7.88.1-10+deb12u15_arm64.deb ...
+#6 5.053 Unpacking libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#6 5.074 Selecting previously unselected package libexpat1:arm64.
+#6 5.075 Preparing to unpack .../15-libexpat1_2.5.0-1+deb12u3_arm64.deb ...
+#6 5.076 Unpacking libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#6 5.087 Selecting previously unselected package liberror-perl.
+#6 5.088 Preparing to unpack .../16-liberror-perl_0.17029-2_all.deb ...
+#6 5.089 Unpacking liberror-perl (0.17029-2) ...
+#6 5.099 Selecting previously unselected package git-man.
+#6 5.099 Preparing to unpack .../17-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+#6 5.100 Unpacking git-man (1:2.39.5-0+deb12u3) ...
+#6 5.169 Selecting previously unselected package git.
+#6 5.170 Preparing to unpack .../18-git_1%3a2.39.5-0+deb12u3_arm64.deb ...
+#6 5.172 Unpacking git (1:2.39.5-0+deb12u3) ...
+#6 5.369 Setting up libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#6 5.375 Setting up libpsl5:arm64 (0.21.2-1) ...
+#6 5.379 Setting up libbrotli1:arm64 (1.0.9-2+b6) ...
+#6 5.385 Setting up libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#6 5.391 Setting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#6 5.395 Setting up perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#6 5.401 Setting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#6 5.408 Setting up libgdbm-compat4:arm64 (1.23-3) ...
+#6 5.411 Setting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#6 5.416 Setting up git-man (1:2.39.5-0+deb12u3) ...
+#6 5.419 Setting up libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#6 5.423 Setting up libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#6 5.427 Setting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#6 5.485 Setting up perl (5.36.0-7+deb12u3) ...
+#6 5.497 Setting up libcurl4:arm64 (7.88.1-10+deb12u15) ...
+#6 5.505 Setting up curl (7.88.1-10+deb12u15) ...
+#6 5.514 Setting up libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#6 5.520 Setting up liberror-perl (0.17029-2) ...
+#6 5.523 Setting up git (1:2.39.5-0+deb12u3) ...
+#6 5.533 Processing triggers for libc-bin (2.36-9+deb12u13) ...
+#6 5.544 Processing triggers for debianutils (5.7-0.5~deb12u1) ...
+#6 DONE 5.6s
+
+#7 [3/7] COPY requirements.txt /tmp/requirements.txt
+#7 DONE 0.0s
+
+#8 [4/7] RUN pip install --no-cache-dir -r /tmp/requirements.txt
+#8 1.045 Collecting setuptools==70.3.0 (from -r /tmp/requirements.txt (line 1))
+#8 1.189   Downloading setuptools-70.3.0-py3-none-any.whl.metadata (5.8 kB)
+#8 1.240 Collecting wheel==0.45.1 (from -r /tmp/requirements.txt (line 2))
+#8 1.279   Downloading wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
+#8 1.349 Collecting pytest==8.3.5 (from -r /tmp/requirements.txt (line 3))
+#8 1.376   Downloading pytest-8.3.5-py3-none-any.whl.metadata (7.6 kB)
+#8 1.409 Collecting iniconfig==2.1.0 (from -r /tmp/requirements.txt (line 4))
+#8 1.443   Downloading iniconfig-2.1.0-py3-none-any.whl.metadata (2.7 kB)
+#8 1.490 Collecting packaging==25.0 (from -r /tmp/requirements.txt (line 5))
+#8 1.518   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+#8 1.555 Collecting pluggy==1.5.0 (from -r /tmp/requirements.txt (line 6))
+#8 1.590   Downloading pluggy-1.5.0-py3-none-any.whl.metadata (4.8 kB)
+#8 1.625 Downloading setuptools-70.3.0-py3-none-any.whl (931 kB)
+#8 1.746    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 931.1/931.1 kB 16.7 MB/s eta 0:00:00
+#8 1.782 Downloading wheel-0.45.1-py3-none-any.whl (72 kB)
+#8 1.817 Downloading pytest-8.3.5-py3-none-any.whl (343 kB)
+#8 1.854 Downloading iniconfig-2.1.0-py3-none-any.whl (6.0 kB)
+#8 1.888 Downloading packaging-25.0-py3-none-any.whl (66 kB)
+#8 1.925 Downloading pluggy-1.5.0-py3-none-any.whl (20 kB)
+#8 1.933 Installing collected packages: wheel, setuptools, pluggy, packaging, iniconfig, pytest
+#8 2.293 Successfully installed iniconfig-2.1.0 packaging-25.0 pluggy-1.5.0 pytest-8.3.5 setuptools-70.3.0 wheel-0.45.1
+#8 2.293 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 2.506 
+#8 2.506 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#8 2.506 [notice] To update, run: pip install --upgrade pip
+#8 DONE 2.6s
+
+#9 [5/7] WORKDIR /workspace/repo
+#9 DONE 0.0s
+
+#10 [6/7] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 DONE 0.0s
+
+#11 [7/7] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz && pip install --no-build-isolation --no-deps -e .
+#11 0.283 Obtaining file:///workspace/repo
+#11 0.283   Preparing metadata (setup.py): started
+#11 0.401   Preparing metadata (setup.py): finished with status 'done'
+#11 0.403 Installing collected packages: diskcache
+#11 0.404   DEPRECATION: Legacy editable install of diskcache==5.6.3 from file:///workspace/repo (setup.py develop) is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+#11 0.404   Running setup.py develop for diskcache
+#11 0.486 Successfully installed diskcache-5.6.3
+#11 0.486 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#11 0.676 
+#11 0.676 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#11 0.676 [notice] To update, run: pip install --upgrade pip
+#11 DONE 0.7s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 1.5s done
+#12 exporting manifest sha256:c596c75084b4803371ae14f1d3bbf6a7e5167136e640d774c16f664c1566a0c6 done
+#12 exporting config sha256:063cc4bbd3413e2c6e1dc9ecde7f3093e18bcb5b7463dab70ad03056e8912d5c done
+#12 exporting attestation manifest sha256:84ab3935f8cbd7085e6de70aea1c6c7215603e8a4bf975c9d029d01122fb9af5 done
+#12 exporting manifest list sha256:ab5a0ae09a6298e632a74edace5c28aad022c0c40c43fd08574494d0084c6b31 done
+#12 naming to docker.io/library/abundant-diskcache-online-reshard:dev done
+#12 unpacking to docker.io/library/abundant-diskcache-online-reshard:dev
+#12 unpacking to docker.io/library/abundant-diskcache-online-reshard:dev 0.4s done
+#12 DONE 1.9s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/vkgcwucimt0s7apfyhsass3i9
