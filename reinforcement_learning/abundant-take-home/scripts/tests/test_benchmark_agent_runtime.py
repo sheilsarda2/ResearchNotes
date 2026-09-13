@@ -4,8 +4,9 @@
 Run with the devcontainer's Harbor interpreter and PYTHONPATH=scripts:
   python scripts/tests/test_benchmark_agent_runtime.py --docker --output NEW_DIR
 
-Uses the cached, frozen Foxglove task image. Only disposable containers created
-by this harness are removed. No agent.run(), trial, verifier, or model is run.
+The Docker smoke uses the cached, frozen Foxglove image and removes only its own
+disposable containers. It runs no agent, trial, verifier or model. Unit tests also
+exercise the Harbor run adapter with mocked execution and file uploads.
 """
 from __future__ import annotations
 
@@ -16,8 +17,15 @@ import hashlib
 import json
 from pathlib import Path
 import shlex
+import sys
+import tempfile
 import time
+import unittest
 import uuid
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from benchmark_agent_runtime import BenchmarkAgentPreflightError, LAUNCH_PREFIX, LAUNCH_SUFFIX, task_file_command
 
 
 IMAGE = 'sha256:c1bc2b2f9f3d218562a00260f5cd402c9e410e48b933b3fdfb4f228e46379c98'
@@ -241,6 +249,112 @@ def main() -> int:
     if not args.docker:
         parser.error('--docker is required; no model calls are made')
     return asyncio.run(main_async(args))
+
+
+class TaskFileCommandTests(unittest.TestCase):
+    def command(self, instruction, specs='-c mini -c model.model_kwargs.output_config.effort=high '):
+        return (LAUNCH_PREFIX + ' --yolo --model=anthropic/claude-sonnet-5 --task=' +
+                shlex.quote(instruction) + ' --output=/logs/agent/mini-swe-agent.trajectory.json ' + specs + LAUNCH_SUFFIX)
+
+    def test_shell_words_and_unicode_are_exact_config_data_not_process_arguments(self):
+        instruction = "zenohd advanced_pub_sub\nDon't expand $HOME or `uname`; 🦀 café\r\n  keep spacing  "
+        original = self.command(instruction)
+        rewritten, payload = task_file_command(original, '/tmp/benchmark-agent-input-fixture/task.yaml')
+        for word in ('zenohd', 'advanced_pub_sub', '--task='):
+            self.assertNotIn(word, rewritten)
+        self.assertEqual(json.loads(payload)['run']['task'].encode('utf-8'), instruction.encode('utf-8'))
+        self.assertIn('--model=anthropic/claude-sonnet-5', rewritten)
+        self.assertIn('model.model_kwargs.output_config.effort=high', rewritten)
+        self.assertTrue(rewritten.endswith(LAUNCH_SUFFIX))
+
+    def test_task_config_is_last_and_preserves_existing_config_precedence(self):
+        original = self.command('exact task', '-c mini -c /tmp/custom.yaml -c run.task=overridden ')
+        rewritten, _ = task_file_command(original, '/tmp/benchmark-agent-input-fixture/task.yaml')
+        tokens = shlex.split(rewritten)
+        specs = [tokens[index + 1] for index, token in enumerate(tokens[:-1]) if token == '-c']
+        self.assertEqual(specs, ['mini', '/tmp/custom.yaml', 'run.task=overridden',
+                                 '/tmp/benchmark-agent-input-fixture/task.yaml'])
+
+    def test_builtin_default_is_added_when_original_had_no_config_flags(self):
+        rewritten, _ = task_file_command(self.command('task', ''), '/tmp/benchmark-agent-input-fixture/task.yaml')
+        tokens = shlex.split(rewritten)
+        specs = [tokens[index + 1] for index, token in enumerate(tokens[:-1]) if token == '-c']
+        self.assertEqual(specs, ['mini', '/tmp/benchmark-agent-input-fixture/task.yaml'])
+
+    def test_missing_duplicate_empty_task_and_changed_launch_fail_before_execution(self):
+        command = self.command('task')
+        variants = [command.replace('--task=task', ''), command.replace('--task=task', '--task=task --task=other'),
+                    self.command(''), command.replace('mini-swe-agent ', 'other-agent ', 1),
+                    command.replace('--exit-immediately', '--changed-exit-flag')]
+        for value in variants:
+            with self.subTest(value=value[:70]):
+                with self.assertRaises(BenchmarkAgentPreflightError):
+                    task_file_command(value, '/tmp/benchmark-agent-input-fixture/task.yaml')
+
+    def test_yaml_loader_preserves_non_bmp_characters_and_crlf(self):
+        try:
+            import yaml
+        except ImportError:
+            self.skipTest('YAML loader is available in the Harbor environment')
+        instruction = '🦀\r\nzenohd\n\tending spaces  '
+        _, payload = task_file_command(self.command(instruction), '/tmp/benchmark-agent-input-fixture/task.yaml')
+        self.assertEqual(yaml.safe_load(payload)['run']['task'].encode('utf-8'), instruction.encode('utf-8'))
+
+
+class TaskFileRuntimeTests(unittest.IsolatedAsyncioTestCase):
+    async def test_real_harbor_adapter_uploads_exact_task_and_preserves_request_fields(self):
+        try:
+            from harbor.agents.installed.mini_swe_agent import MiniSweAgent
+            from harbor.models.agent.context import AgentContext
+            from harbor.environments.base import ExecResult
+        except ImportError:
+            self.skipTest('Run integration check with the Harbor interpreter')
+        import benchmark_agent_runtime
+
+        class UploadEnvironment:
+            def __init__(self):
+                self.uploads = {}
+
+            async def upload_file(self, source, target):
+                self.uploads[target] = Path(source).read_bytes()
+
+        instruction = "Preserve 🦀 and quotes ' plus zenohd advanced_pub_sub\r\nexactly.\n"
+        with tempfile.TemporaryDirectory() as temporary:
+            environment = UploadEnvironment()
+            agent = MiniSweAgent(logs_dir=Path(temporary), version='2.4.6',
+                                 model_name='anthropic/claude-sonnet-5', reasoning_effort='high')
+            calls = []
+
+            async def execute(environment, command, **kwargs):
+                calls.append((command, kwargs))
+                return ExecResult(return_code=0, stdout='', stderr='')
+
+            # Restore class methods after this isolated test; patch installation
+            # must not leak into the no-model Docker original-vs-fixed smoke.
+            with patch.object(MiniSweAgent, 'install', MiniSweAgent.install), \
+                    patch.object(MiniSweAgent, 'run', MiniSweAgent.run), \
+                    patch.object(MiniSweAgent, '_benchmark_python_installed', False, create=True):
+                benchmark_agent_runtime.install()
+                agent.exec_as_agent = execute
+                with patch.object(agent, '_get_env', return_value='synthetic-no-network-value'):
+                    await agent.run(instruction=instruction, environment=environment, context=AgentContext())
+            self.assertEqual(len(environment.uploads), 1)
+            path, payload = next(iter(environment.uploads.items()))
+            self.assertEqual(json.loads(payload)['run']['task'], instruction)
+            self.assertTrue(path.startswith('/tmp/benchmark-agent-input-'))
+            self.assertTrue(path.endswith('/task.yaml'))
+            launched = [(command, kwargs) for command, kwargs in calls if command.startswith(LAUNCH_PREFIX)]
+            self.assertEqual(len(launched), 1)
+            command, kwargs = launched[0]
+            self.assertNotIn('zenohd', command)
+            self.assertNotIn('advanced_pub_sub', command)
+            self.assertNotIn('--task=', command)
+            self.assertIn('output_config.effort=high', command)
+            self.assertIn('thinking.type=adaptive', command)
+            self.assertIn('max_tokens=64000', command)
+            metadata = json.loads((Path(temporary) / 'benchmark-agent-input.json').read_text())
+            self.assertEqual(metadata['task_sha256'], hashlib.sha256(instruction.encode('utf-8')).hexdigest())
+            self.assertEqual(metadata['task_utf8_bytes'], len(instruction.encode('utf-8')))
 
 
 if __name__ == '__main__':

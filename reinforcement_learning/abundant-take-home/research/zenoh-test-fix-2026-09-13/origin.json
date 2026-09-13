@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-09-13T21:40:51.514411+00:00",
+  "source_task": "candidates_v2/rs-zenoh-timestamp-instrumentation",
+  "source_files_sha256": {
+    "instruction.md": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b",
+    "tests/hidden/zenoh/tests/timestamp_instrumentation.rs": "17b2ca11aeebbccb5ef9ff15f54b1326f2526e4b93c052cd93a6d2ba69e22214",
+    "tests/image-source/gold.patch": "0b54739d6bd3a421a10fdbccaedcc22e560143048c5e673a17f05aa7308da7d9",
+    "task.toml": "cabf63e79fb10644d52eec42a0678f6d15c25f7a030f67f8c82e88d1985c5cc2",
+    "provenance.json": "c632c04a5d82175afaf461ee86cb42c6c4f17186940e14eb5015f1c54720b8ca",
+    "STATUS.md": "153288d264ac558262f37ae9f38885119656a5c1b5e35d5143c2ffdad4683088"
+  },
+  "source_pr": "https://github.com/eclipse-zenoh/zenoh/pull/2620",
+  "finding": "Our behavioral task contract omitted an internal module layout dependency inherited from the upstream integration test.",
+  "source_failure_trials": [
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-zenoh-timestamp-instrumentati__sAWGR4Y",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-zenoh-timestamp-instrumentati__nBCUPNz"
+  ],
+  "old_revision_admission_hold": "jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+  "correction": "Use documented literal u8 wire codes in interception_point_try_from_valid; remove the internal protocol import.",
+  "validation_status": "passed",
+  "exclusion_activation_record": "research/zenoh-test-fix-2026-09-13/exclusion-activation.json",
+  "validated_revision_manifest": "research/zenoh-test-fix-2026-09-13/frozen-task-manifest.json"
+}

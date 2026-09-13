@@ -1,7 +1,7 @@
-"""Install mini-swe-agent with a compatible, explicit Python interpreter.
+"""Pin agent Python and keep task instructions out of process arguments.
 
-This process-local hook changes the agent's uv tool environment only. The task's
-system Python, source files, verifier and time/resource limits are unchanged.
+Process-local hooks change the agent's uv environment and input transport. Task
+text, system Python, source files, verifier and time/resource limits are preserved.
 """
 from __future__ import annotations
 
@@ -10,10 +10,14 @@ import hashlib
 import json
 from pathlib import Path
 import shlex
+import tempfile
+import uuid
 
 
 PYTHON_VERSION = '3.12.11'
 PREFLIGHT_PREFIX = 'BENCHMARK_AGENT_RUNTIME='
+LAUNCH_PREFIX = '. "$HOME/.local/bin/env"; mini-swe-agent '
+LAUNCH_SUFFIX = '--exit-immediately 2>&1 </dev/null | tee /logs/agent/mini-swe-agent.txt'
 PREFLIGHT_CODE = '''import importlib.metadata, json, platform, sys
 from minisweagent.models.litellm_model import LitellmModel
 assert platform.python_version() == "3.12.11", "Unexpected agent Python version"
@@ -45,12 +49,42 @@ def preflight_command() -> str:
             '"$benchmark_tool_dir/mini-swe-agent/bin/python" -c ' + shlex.quote(PREFLIGHT_CODE))
 
 
+def task_file_command(command: str, config_path: str) -> tuple[str, bytes]:
+    """Move the exact CLI task into mini 2.4.6's final config specification.
+
+    Mini has no task-file flag. Its YAML config loader accepts JSON syntax, and
+    run.task is used verbatim when --task is absent. The last config preserves
+    --task's precedence over user-supplied run.task settings. A neutral filename
+    keeps task words out of the agent, bash, Docker and process-guard argv.
+    """
+    if not command.startswith(LAUNCH_PREFIX) or not command.endswith(LAUNCH_SUFFIX):
+        raise BenchmarkAgentPreflightError('Unsupported Harbor mini-swe-agent launch command')
+    tokens = shlex.split(command)
+    tasks = [token[len('--task='):] for token in tokens if token.startswith('--task=')]
+    if len(tasks) != 1 or not tasks[0]:
+        raise BenchmarkAgentPreflightError('Expected one nonempty inline agent task')
+    instruction = tasks[0]
+    inline = '--task=' + shlex.quote(instruction)
+    if command.count(inline) != 1:
+        raise BenchmarkAgentPreflightError('Agent task shell quoting is unsupported')
+    if not config_path.startswith('/tmp/benchmark-agent-input-') or not config_path.endswith('/task.yaml'):
+        raise BenchmarkAgentPreflightError('Expected a neutral agent task config path')
+    has_config = any(token in ('-c', '--config') or token.startswith('--config=') for token in tokens)
+    rewritten = command.replace(inline, '' if has_config else '-c mini', 1)
+    rewritten = rewritten[:-len(LAUNCH_SUFFIX)] + '-c ' + shlex.quote(config_path) + ' ' + LAUNCH_SUFFIX
+    # Keep non-BMP characters literal: YAML's JSON-compatible parser does not
+    # necessarily recombine JSON surrogate-pair escapes into one character.
+    payload = json.dumps({'run': {'task': instruction}}, ensure_ascii=False).encode('utf-8') + b'\n'
+    return rewritten, payload
+
+
 def install():
     from harbor.agents.installed.mini_swe_agent import MiniSweAgent
 
     if getattr(MiniSweAgent, '_benchmark_python_installed', False):
         return
     original = MiniSweAgent.install
+    original_run = MiniSweAgent.run
 
     @functools.wraps(original)
     async def install_with_python(agent, environment):
@@ -97,4 +131,49 @@ def install():
                 output.write('\n')
 
     MiniSweAgent.install = install_with_python
+
+    @functools.wraps(original_run)
+    async def run_with_task_file(agent, *args, **kwargs):
+        execute = agent.exec_as_agent
+        rewritten_launches = 0
+
+        async def file_exec(environment, command, *exec_args, **exec_kwargs):
+            nonlocal rewritten_launches
+            if not command.startswith(LAUNCH_PREFIX):
+                return await execute(environment, command, *exec_args, **exec_kwargs)
+            if rewritten_launches:
+                raise BenchmarkAgentPreflightError('Unexpected second agent launch')
+            remote_dir = '/tmp/benchmark-agent-input-' + uuid.uuid4().hex
+            remote = remote_dir + '/task.yaml'
+            rewritten, payload = task_file_command(command, remote)
+            rewritten_launches += 1
+            await execute(environment, command='install -d -m 700 ' + shlex.quote(remote_dir))
+            with tempfile.TemporaryDirectory(prefix='benchmark-agent-input-') as temporary:
+                source = Path(temporary) / 'task.yaml'
+                source.write_bytes(payload)
+                # upload_file may copy as root; the private directory belongs
+                # to the agent, and readable file mode supports non-root users.
+                source.chmod(0o644)
+                await environment.upload_file(source, remote)
+            task_bytes = json.loads(payload)['run']['task'].encode('utf-8')
+            metadata = {'schema_version': 1, 'delivery': 'final_run_task_config',
+                        'task_sha256': hashlib.sha256(task_bytes).hexdigest(),
+                        'task_utf8_bytes': len(task_bytes),
+                        'config_sha256': hashlib.sha256(payload).hexdigest()}
+            agent.logs_dir.mkdir(parents=True, exist_ok=True)
+            with (agent.logs_dir / 'benchmark-agent-input.json').open('x') as output:
+                json.dump(metadata, output, indent=2)
+                output.write('\n')
+            return await execute(environment, rewritten, *exec_args, **exec_kwargs)
+
+        agent.exec_as_agent = file_exec
+        try:
+            result = await original_run(agent, *args, **kwargs)
+            if rewritten_launches != 1:
+                raise BenchmarkAgentPreflightError('Agent task was not delivered through a file')
+            return result
+        finally:
+            agent.exec_as_agent = execute
+
+    MiniSweAgent.run = run_with_task_file
     MiniSweAgent._benchmark_python_installed = True

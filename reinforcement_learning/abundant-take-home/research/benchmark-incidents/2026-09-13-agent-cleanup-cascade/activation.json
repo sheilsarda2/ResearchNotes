@@ -1,0 +1,151 @@
+{
+  "started_at": "2026-09-13T22:08:56.665216+00:00",
+  "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+  "before": {
+    "supervisors": [
+      {
+        "pid": 31530,
+        "identity": "2023887"
+      }
+    ],
+    "runners": {}
+  },
+  "control_before": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": true,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ],
+    "pause_reason": "Unclassified result or evidence mismatch requires review"
+  },
+  "original_job_config_sha256": "62e05e672a2d71120355480f7ce0e844374e2ca0aed8f01a084f31340aba975f",
+  "status": "active_runtime_verified",
+  "resumed_at": "2026-09-13T22:09:33.623219+00:00",
+  "reviewed_health": {
+    "ok_to_expand": false,
+    "recent_results": 1,
+    "recent_infrastructure": 0,
+    "unclassified_results": 0
+  },
+  "resolved_infrastructure_trials": 12,
+  "completed": 33,
+  "target": 2160,
+  "control_after": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ]
+  },
+  "after": {
+    "supervisors": [
+      {
+        "pid": 98232,
+        "identity": "2183750"
+      }
+    ],
+    "runners": {}
+  },
+  "verified_at": "2026-09-13T22:10:47.247366+00:00",
+  "new_trials_with_verified_runtime": [
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__6AHBGQa",
+      "evidence_sha256": {
+        "agent/benchmark-agent-input.json": "17d520cc5a131717b5e0225b1558297069ba466b7093c87ec43447ccd6eb905b",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+      }
+    },
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-store-pytorch-reader__dVXYtU8",
+      "evidence_sha256": {
+        "agent/benchmark-agent-input.json": "a5b6b6e9f3a556057ab695bcad329d5aee3cbeba5e2e916b6f6bafdd22774beb",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+      }
+    },
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__qxwmpMC",
+      "evidence_sha256": {
+        "agent/benchmark-agent-input.json": "5c3a7d1bffaa9e334f593cf442657408e859914a51f98dcb25266200f33aba0a",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+      }
+    },
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky",
+      "evidence_sha256": {
+        "agent/benchmark-agent-input.json": "e40ad59cfb491fe59ee17ea136b141b5130f7584c856e0c7335f44d2e62808cb",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+      }
+    },
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-foxglove-sdk-parameter-handl__ZhwWXAK",
+      "evidence_sha256": {
+        "agent/benchmark-agent-input.json": "c840a7d8c2800eb14f3a5c959f4ec16a5cfee8b03b5fadbb791086b6d1cbe62f",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+      }
+    }
+  ],
+  "running_summary": {
+    "updated_at": "2026-09-13T22:10:37.749350+00:00",
+    "status": "running",
+    "completed": 33,
+    "target": 2160,
+    "active_jobs": {
+      "candidates-all14-efforts-20-20260913T183301Z": 98349
+    },
+    "health": {
+      "ok_to_expand": true,
+      "recent_results": 0,
+      "recent_infrastructure": 0,
+      "unclassified_results": 0
+    }
+  }
+}

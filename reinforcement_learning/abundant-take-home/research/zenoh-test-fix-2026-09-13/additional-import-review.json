@@ -1,0 +1,17 @@
+{
+  "reviewed_at": "2026-09-13T22:11:10.920346+00:00",
+  "scope": "Remaining new-feature imports and module-qualified references in hidden Rust targets and reference peer",
+  "finding": "No additional undocumented timestamp internal-module requirement found. New-feature imports use the documented zenoh::timestamp_stack API. Remaining imports use existing APIs or pristine helper crates. Reference peer builds against gold tree only. This bounded review is not proof of general task completeness.",
+  "source_sha256": {
+    "instruction.md": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b",
+    "tests/hidden/zenoh/tests/timestamp_instrumentation.rs": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487",
+    "tests/hidden/zenoh/tests/ts_interop.rs": "b90fe6c36b798cf9c08b9b801e6cb5b4655cd9a88309896b5e45ea3928023b6b",
+    "tests/hidden/zenoh-ext/tests/ts_advanced.rs": "65f514d9ce7869db4bd24264c334f202e950ab48b719910d24fd785836a3dd61",
+    "tests/ts_peer/src/main.rs": "8bf34134041e0f9618f8713d00ea0023fd1a9459f607fd07dfd4863f46c7a6b0",
+    "tests/test.sh": "6dfb4f6574d540c54bcd07695e51405e21884ea789cfe755ea0a5eed09bb4441"
+  },
+  "tests_retained": 47,
+  "assertion_macros_retained": 108,
+  "changed_task_files": 1,
+  "model_calls": 0
+}

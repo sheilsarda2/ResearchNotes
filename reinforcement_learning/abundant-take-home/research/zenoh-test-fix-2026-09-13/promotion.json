@@ -1,0 +1,159 @@
+{
+  "created_at": "2026-09-13T22:13:18.178959+00:00",
+  "status": "queued_for_shared_capacity",
+  "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+  "manifest": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.tasks.json",
+  "manifest_sha256": "99ed5b56c7c760ac8fc98a3e10ceed3dce42e0d6e9789e742095bab5c8e86ea4",
+  "target_trials": 180,
+  "models": [
+    "fable-5-1",
+    "opus-5",
+    "sonnet-5"
+  ],
+  "efforts": [
+    "medium",
+    "high",
+    "max"
+  ],
+  "attempts_per_cell": 20,
+  "started_at": "2026-09-13T22:13:36.409742+00:00",
+  "watchdog_launcher_pid": 27183,
+  "shared_concurrency": 12,
+  "control": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "excluded_tasks": []
+  },
+  "user_plan_before": {
+    "updated_at": "2026-09-13T21:42:25.051963+00:00",
+    "active_full_campaign": "candidates-all14-efforts-20-20260913T183301Z",
+    "iterations_per_task_model_effort": 20,
+    "total_full_trials": 2160,
+    "models": [
+      "fable-5-1",
+      "opus-5",
+      "sonnet-5"
+    ],
+    "efforts": [
+      "medium",
+      "high",
+      "max"
+    ],
+    "shared_concurrency": 12,
+    "superseded_do_not_resume": [
+      "candidates-top5-efforts-256-20260913T175721Z",
+      "candidates-v2-top9-efforts-256-20260913T181833Z"
+    ],
+    "pilot_remains_separate": true,
+    "image_prewarmer_continues_for_combined_queue": 52243,
+    "pilot_status": "cancelled",
+    "cancelled_do_not_resume": [
+      "candidates-top5-efforts-3-20260913T161409Z"
+    ],
+    "pilot_cancellation_archive": "jobs/cancellations/candidates-top5-efforts-3-20260913T161409Z-20260913T194155Z",
+    "active_task_count": 12,
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ],
+    "pending_activation": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation.json",
+    "activation_status_path": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation-watcher.json",
+    "watchdog": {
+      "launcher_pid": 96223,
+      "interval_seconds": 30,
+      "status_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.json",
+      "log_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.log",
+      "automatic_recovery": true
+    },
+    "pending_task_revision": {
+      "source_task": "rs-zenoh-timestamp-instrumentation",
+      "revision_task": "rs-zenoh-timestamp-instrumentation-v3",
+      "reason": "Undocumented hidden-test internal import; reference and alternative-layout validation pending.",
+      "planned_trials_after_validation": 180
+    }
+  },
+  "user_plan_after": {
+    "updated_at": "2026-09-13T22:13:36.408221+00:00",
+    "active_full_campaign": "candidates-all14-efforts-20-20260913T183301Z",
+    "iterations_per_task_model_effort": 20,
+    "total_full_trials": 2340,
+    "models": [
+      "fable-5-1",
+      "opus-5",
+      "sonnet-5"
+    ],
+    "efforts": [
+      "medium",
+      "high",
+      "max"
+    ],
+    "shared_concurrency": 12,
+    "superseded_do_not_resume": [
+      "candidates-top5-efforts-256-20260913T175721Z",
+      "candidates-v2-top9-efforts-256-20260913T181833Z"
+    ],
+    "pilot_remains_separate": true,
+    "image_prewarmer_continues_for_combined_queue": 52243,
+    "pilot_status": "cancelled",
+    "cancelled_do_not_resume": [
+      "candidates-top5-efforts-3-20260913T161409Z"
+    ],
+    "pilot_cancellation_archive": "jobs/cancellations/candidates-top5-efforts-3-20260913T161409Z-20260913T194155Z",
+    "active_task_count": 13,
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap",
+      "rs-zenoh-timestamp-instrumentation"
+    ],
+    "pending_activation": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation.json",
+    "activation_status_path": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation-watcher.json",
+    "watchdog": {
+      "launcher_pid": 96223,
+      "interval_seconds": 30,
+      "status_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.json",
+      "log_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.log",
+      "automatic_recovery": true
+    },
+    "active_revision_campaigns": [
+      "candidates-zenoh-v3-efforts-20-20260913T221317Z"
+    ],
+    "task_revisions": [
+      {
+        "source_task": "rs-zenoh-timestamp-instrumentation",
+        "task": "rs-zenoh-timestamp-instrumentation-v3",
+        "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+        "manifest_sha256": "99ed5b56c7c760ac8fc98a3e10ceed3dce42e0d6e9789e742095bab5c8e86ea4",
+        "validation": "oracle=1, nop=0; both alternative-layout compile/conversion diagnostics passed",
+        "historical_results_remain_separate": true
+      }
+    ]
+  },
+  "plan_sha256": "0cd0abf9a7da5b6c5147e9ae466d4959a06b32778bdd9add3b50eb3eb8b46b85",
+  "config_sha256": "e897b5fc1d06c87820a63b3a3ef5c8b889ed4208ce24f015710becc1df1bc9bb",
+  "verified_at": "2026-09-13T22:14:39.357227+00:00",
+  "summary": {
+    "updated_at": "2026-09-13T22:14:36.777348+00:00",
+    "status": "running",
+    "completed": 0,
+    "target": 180,
+    "active_jobs": {
+      "candidates-zenoh-v3-efforts-20-20260913T221317Z": 27215
+    },
+    "health": {
+      "ok_to_expand": true,
+      "recent_results": 0,
+      "recent_infrastructure": 0,
+      "unclassified_results": 0
+    }
+  },
+  "active_trials": 0,
+  "admission_wait_reason": "shared concurrency"
+}

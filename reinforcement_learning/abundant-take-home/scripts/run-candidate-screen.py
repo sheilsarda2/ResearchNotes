@@ -20,6 +20,7 @@ from benchmark_recovery import memory_snapshot, memory_block_reason, prepare_res
 from benchmark_evidence import attach_to_record, compare_snapshot, EvidenceError
 from benchmark_startup_failures import classify_startup_failure
 from benchmark_job_scheduling import select_jobs
+from benchmark_incidents import classify_incident, containment_pending, registry_cache_stamp
 
 ROOT = Path(__file__).resolve().parents[1]
 TASKS = ['luigi-generation-target', 'burn-scoped-checkpoint-remap',
@@ -173,6 +174,14 @@ def inspect(path, task_map, models=MODELS):
     evidence_ready = attach_to_record(record, path.parent)
     if evidence_ready is None:
         return None
+    incident = classify_incident(path.parent, result)
+    if incident:
+        record.update(status='infrastructure', infrastructure_detail=incident['code'],
+                      infrastructure_incident=incident, resolved_incident=incident['resolved'],
+                      usage_censored=True, provider_charge_may_be_missing=True)
+        return record
+    if containment_pending(path.parent, result):
+        return None
     if not evidence_ready:
         return record
     trace = read_json(path.parent / 'agent/mini-swe-agent.trajectory.json')
@@ -307,6 +316,10 @@ def main():
     if selection:
         assert plan['tasks'] == selection, 'Task manifest differs from the locked plan'
     verify_tasks(plan)
+    excluded_tasks = set(plan.get('excluded_tasks', []))
+    assert excluded_tasks <= set(task_names), 'Excluded task is not in the original selection'
+    task_names = [name for name in task_names if name not in excluded_tasks]
+    assert task_names and plan['target'] == len(task_names)*len(models)*len(EFFORTS)*args.attempts
     control_path = prefix.with_suffix('.control.json')
     if not control_path.exists():
         dump(control_path, {'max_active': args.workers, 'min_total_mb': 30000,
@@ -318,6 +331,7 @@ def main():
     if args.plan_only:
         print(f'Planned {plan["target"]} trials: {plan_path}')
         return
+    assert set(read_json(control_path).get('excluded_tasks', [])) == excluded_tasks, 'Runner and campaign task selections differ'
     load_dotenv(ROOT / '.env')
     os.environ['ANTHROPIC_API_KEY'] = os.environ['TAKE_HOME_TOKEN']
     os.environ['HARBOR_ADMISSION_CONTROL'] = str(control_path)
@@ -330,15 +344,17 @@ def main():
     while True:
         children = {n: p for n, p in children.items() if p.poll() is None}
         records = []
+        incident_stamp = registry_cache_stamp()
         for job in plan['jobs']:
             for path in sorted((ROOT / 'jobs' / job['name']).glob('*/result.json')):
                 evidence = [path, path.parent/'agent/mini-swe-agent.trajectory.json',
                             path.parent/'agent/trajectory.json',
                             path.parent/'benchmark-runtime.json',
                             path.parent/'benchmark-evidence.json',
+                            path.parent/'benchmark-containment.json',
                             path.parent/'verifier/results.xml', path.parent/'verifier/cargo-tests.log',
                             path.parent/'verifier/score.json']
-                stamp = tuple((p.stat().st_mtime_ns, p.stat().st_size) if p.exists() else None for p in evidence)
+                stamp = (incident_stamp, tuple((p.stat().st_mtime_ns, p.stat().st_size) if p.exists() else None for p in evidence))
                 if path not in cache or cache[path][0] != stamp or cache[path][1] is None:
                     try:
                         record = inspect(path, task_map, models)
@@ -351,7 +367,7 @@ def main():
                                   'status': 'review', 'exception': f'EvidenceMismatch:{type(error).__name__}:{error}',
                                   'reward': None, 'cost_usd': None}
                     cache[path] = stamp, record
-                if cache[path][1]:
+                if cache[path][1] and cache[path][1].get('task') not in excluded_tasks:
                     records.append(cache[path][1])
         rows = []
         for task in task_names:
@@ -380,6 +396,10 @@ def main():
         active = {job['name']: pid for job in plan['jobs'] if (pid := common.active_pid(job['name']))}
         active.update({name: child.pid for name, child in children.items()})
         control = read_json(control_path)
+        image_status = read_json(Path(control['image_readiness'])) if control.get('image_readiness') else {}
+        if image_status.get('failures') and not control.get('paused'):
+            control.update(paused=True, pause_reason='Task image build failed; review prewarm logs')
+            dump(control_path, control)
         if review and not control.get('paused'):
             control.update(paused=True, pause_reason='Unclassified result or evidence mismatch requires review')
             dump(control_path, control)
@@ -387,7 +407,7 @@ def main():
         # Ordinary model failures and verified failing implementations that
         # exhaust the verifier budget remain in the success-rate denominator.
         now = datetime.now(timezone.utc)
-        recent = [r for r in records if r.get('finished_at') and
+        recent = [r for r in records if r.get('finished_at') and not r.get('resolved_incident') and
                   (now-datetime.fromisoformat(r['finished_at'].replace('Z', '+00:00'))).total_seconds() <= 1800]
         recent_infra = sum(r['status'] == 'infrastructure' for r in recent)
         unhealthy = recent_infra >= 5 and recent_infra >= len(recent)/2
@@ -403,7 +423,8 @@ def main():
         summary = {'updated_at': datetime.now(timezone.utc).isoformat(), 'job': base,
                    'status': 'complete' if done else 'needs_review' if review else 'paused' if control.get('paused') else 'queued' if not dependency_ready else 'running' if active else 'waiting_for_memory' if blocked else 'starting',
                    'completed': completed, 'target': plan['target'], 'active_jobs': active,
-                   'target_concurrency': args.workers, 'settings': rows, 'trials': records,
+                   'target_concurrency': min(args.workers, control.get('max_active', args.workers)),
+                   'excluded_tasks': sorted(excluded_tasks), 'settings': rows, 'trials': records,
                    'after_summary': after_summary,
                    'health': {'ok_to_expand': not review and not unhealthy and not control.get('paused'),
                               'recent_results': len(recent), 'recent_infrastructure': recent_infra,

@@ -1,0 +1,116 @@
+{
+    "id": "a7679135-ac95-4fce-8558-1b48e7043f56",
+    "task_name": "task",
+    "trial_name": "deadline-test-startup-time-c913df76",
+    "trial_uri": "file:///workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/startup-timeout/trials/deadline-test-startup-time-c913df76",
+    "task_id": {
+        "path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/startup-timeout/task"
+    },
+    "source": null,
+    "task_checksum": "505454f3bac85eeab4c70cfb9ee9b1b83db0b6340c05481bf59b52b114f7fc5e",
+    "config": {
+        "task": {
+            "path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/startup-timeout/task",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "deadline-test-startup-time-c913df76",
+        "trials_dir": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/startup-timeout/trials",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "test_benchmark_deadline:DelayedWriterAgent",
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {
+                "writer_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/startup-timeout/task/writer.py",
+                "mode": "startup-timeout"
+            },
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": null
+    },
+    "agent_info": {
+        "name": "deadline-regression-no-model",
+        "version": "1",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": {
+        "exception_type": "AgentTimeoutError",
+        "exception_message": "Agent execution timed out after 0.001 seconds",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/tasks.py\", line 488, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 106, in timed_agent_run\n    return await agent_run(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/tests/test_benchmark_deadline.py\", line 188, in run\n    await environment.exec(f'python /workspace/deadline-writer.py {self.mode}')\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 121, in guarded_exec\n    result = await execute(command=wrapped, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 765, in exec\n    return await self._compose_exec(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<6 lines>...\n    )\n    ^\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 842, in _compose_exec\n    return await self._run_docker_compose_command(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<4 lines>...\n    )\n    ^\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/environments/docker/docker.py\", line 401, in _run_docker_compose_command\n    process = await asyncio.create_subprocess_exec(\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n    )\n    ^\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/subprocess.py\", line 224, in create_subprocess_exec\n    transport, protocol = await loop.subprocess_exec(\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<3 lines>...\n        stderr=stderr, **kwds)\n        ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/base_events.py\", line 1809, in subprocess_exec\n    transport = await self._make_subprocess_transport(\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        protocol, popen_args, False, stdin, stdout, stderr,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        bufsize, **kwargs)\n        ^^^^^^^^^^^^^^^^^^\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/unix_events.py\", line 210, in _make_subprocess_transport\n    await waiter\nasyncio.exceptions.CancelledError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/trial.py\", line 424, in _run_agent_phase\n    await asyncio.wait_for(\n    ...<6 lines>...\n    )\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/tasks.py\", line 487, in wait_for\n    async with timeouts.timeout(timeout):\n               ~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/asyncio/timeouts.py\", line 115, in __aexit__\n    raise TimeoutError from exc_val\nTimeoutError\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/single_step.py\", line 71, in _run_agent\n    await self._run_agent_phase(\n    ...<4 lines>...\n    )\n  File \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_deadline.py\", line 130, in guarded_phase\n    await original_phase(trial, target=target, instruction=instruction,\n                         timeout_sec=timeout_sec, user=user, step_cfg=step_cfg)\n  File \"/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/trial/trial.py\", line 433, in _run_agent_phase\n    raise AgentTimeoutError(\n        f\"Agent execution timed out after {timeout_sec} seconds\"\n    ) from exc\nharbor.trial.errors.AgentTimeoutError: Agent execution timed out after 0.001 seconds\n",
+        "occurred_at": "2026-09-13T22:01:28.528659"
+    },
+    "started_at": "2026-09-13T22:01:27.360676Z",
+    "finished_at": "2026-09-13T22:01:41.351083Z",
+    "environment_setup": {
+        "started_at": "2026-09-13T22:01:27.362562Z",
+        "finished_at": "2026-09-13T22:01:28.166976Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-13T22:01:28.166994Z",
+        "finished_at": "2026-09-13T22:01:28.256853Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-13T22:01:28.391330Z",
+        "finished_at": "2026-09-13T22:01:28.392102Z"
+    },
+    "verifier": {
+        "started_at": "2026-09-13T22:01:28.805909Z",
+        "finished_at": "2026-09-13T22:01:30.968742Z"
+    },
+    "step_results": null
+}

@@ -1,0 +1,92 @@
+{
+  "mode": "timeout",
+  "guarded": true,
+  "started_at": "2026-09-13T22:00:42.831197+00:00",
+  "elapsed_sec": 15.094628340000781,
+  "trial_name": "deadline-test-timeout-ea1ca0f3",
+  "reward": 1.0,
+  "exception": "AgentTimeoutError",
+  "phase_boundaries": [
+    {
+      "method": "_sync_agent_output",
+      "unix_ns": 1789336845023944885,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_collect_artifacts",
+      "unix_ns": 1789336845173938010,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_run_verifier",
+      "unix_ns": 1789336845312282135,
+      "host_exec_client_pids": []
+    }
+  ],
+  "surviving_host_exec_client_pids": [],
+  "assertions": {
+    "verifier_reward_expected": true,
+    "no_surviving_host_exec_clients": true,
+    "expected_agent_outcome": true,
+    "verifier_execution_expected": true,
+    "all_writer_types_started": true,
+    "no_delayed_writes": true,
+    "artifact_stable_during_verifier": true,
+    "no_host_exec_clients_at_collection_or_verifier": true,
+    "cleanup_proof_expected": true,
+    "cleanup_preceded_collection_and_verification": true,
+    "all_executions_proved_quiescent": true,
+    "execution_proof_present": true
+  },
+  "passed": true,
+  "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/timeout/trials/deadline-test-timeout-ea1ca0f3/result.json",
+  "result_sha256": "c8bfe39e19f436f658247b458bfe8f39c2509835eadfe0c8b5cd643dd5012de5",
+  "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-final/timeout/trials/deadline-test-timeout-ea1ca0f3/verifier/deadline-checks.json",
+  "verifier_checks": {
+    "verifier_started_unix_ns": 1789336845475107718,
+    "before": {
+      "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+      "child.progress": "2b518e615645ebda66233683e7a2874690fa7edf7b54402a924ad44fe8ea5d0c",
+      "child.ready": "e15e8b232870dda71de1f8e796c6458b6038015b9fc1b85f67375092879d499f",
+      "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+      "daemon.progress": "68817146cc0d86c844ef3768ef026db58f56c0014c4f26db586489851a588850",
+      "daemon.ready": "7069a74160bde72441caeeddc158623e5faa3e61d524bd3ed89673e8d1273c7a",
+      "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+      "new-session.progress": "641215cb477848841435f01e79e16dcac24e8f3b63cd0b01b192ae9206de16b5",
+      "new-session.ready": "b26a064d6998742b333814fe9a982de5e811c2d0579e9e3bb2b9ccc1f1457429",
+      "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+      "parent.ready": "6dbe1658f37de57305d5d86abccea95c9a33c6ce57f1dded290dc866a3b926b0",
+      "agent/child-trajectory.json": "2b518e615645ebda66233683e7a2874690fa7edf7b54402a924ad44fe8ea5d0c",
+      "agent/daemon-trajectory.json": "68817146cc0d86c844ef3768ef026db58f56c0014c4f26db586489851a588850",
+      "agent/new-session-trajectory.json": "641215cb477848841435f01e79e16dcac24e8f3b63cd0b01b192ae9206de16b5"
+    },
+    "after": {
+      "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+      "child.progress": "2b518e615645ebda66233683e7a2874690fa7edf7b54402a924ad44fe8ea5d0c",
+      "child.ready": "e15e8b232870dda71de1f8e796c6458b6038015b9fc1b85f67375092879d499f",
+      "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+      "daemon.progress": "68817146cc0d86c844ef3768ef026db58f56c0014c4f26db586489851a588850",
+      "daemon.ready": "7069a74160bde72441caeeddc158623e5faa3e61d524bd3ed89673e8d1273c7a",
+      "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+      "new-session.progress": "641215cb477848841435f01e79e16dcac24e8f3b63cd0b01b192ae9206de16b5",
+      "new-session.ready": "b26a064d6998742b333814fe9a982de5e811c2d0579e9e3bb2b9ccc1f1457429",
+      "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+      "parent.ready": "6dbe1658f37de57305d5d86abccea95c9a33c6ce57f1dded290dc866a3b926b0",
+      "agent/child-trajectory.json": "2b518e615645ebda66233683e7a2874690fa7edf7b54402a924ad44fe8ea5d0c",
+      "agent/daemon-trajectory.json": "68817146cc0d86c844ef3768ef026db58f56c0014c4f26db586489851a588850",
+      "agent/new-session-trajectory.json": "641215cb477848841435f01e79e16dcac24e8f3b63cd0b01b192ae9206de16b5"
+    },
+    "late_files": [],
+    "ready_files": [
+      "child.ready",
+      "daemon.ready",
+      "new-session.ready",
+      "parent.ready"
+    ],
+    "checks": {
+      "all_writer_types_started": true,
+      "no_delayed_writes": true,
+      "artifact_stable_during_verifier": true
+    }
+  }
+}

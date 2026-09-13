@@ -19,6 +19,7 @@ from benchmark_networks import release as release_trial_subnet
 from benchmark_shared_admission import SharedAdmission
 from benchmark_deadline import install as install_deadline_guard
 from benchmark_agent_runtime import install as install_agent_runtime
+from benchmark_task_selection import install as install_task_selection
 
 
 def read_json(path):
@@ -96,7 +97,9 @@ class Admission:
                 readiness = read_json(Path(config['image_readiness'])) if config.get('image_readiness') else None
                 if config.get("paused", False):
                     reason = "paused"
-                elif readiness is not None and (task_name or name.rsplit('__', 1)[0]) not in readiness.get('ready_tasks', []):
+                elif (readiness is not None and
+                      (task_name or name.rsplit('__', 1)[0]) in config.get('image_readiness_tasks', [task_name or name.rsplit('__', 1)[0]]) and
+                      (task_name or name.rsplit('__', 1)[0]) not in readiness.get('ready_tasks', [])):
                     reason = 'prebuilding task images'
                 elif snapshot['total_mb'] < config.get("min_total_mb", 0):
                     reason = "Docker memory allocation"
@@ -134,6 +137,7 @@ def main():
     install_agent_runtime()
     install_deadline_guard()
     admission = Admission(os.environ["HARBOR_ADMISSION_CONTROL"])
+    install_task_selection(admission.path)
     install_trial_subnets(admission.path)
 
     async def admitted_trial(queue, config):

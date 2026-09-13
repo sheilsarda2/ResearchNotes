@@ -1,0 +1,731 @@
+   Compiling zenoh-protocol v1.9.0 (/workspace/build/commons/zenoh-protocol)
+   Compiling zenoh v1.9.0 (/workspace/build/zenoh)
+   Compiling zenoh-codec v1.9.0 (/workspace/build/commons/zenoh-codec)
+   Compiling zenoh-config v1.9.0 (/workspace/build/commons/zenoh-config)
+   Compiling zenoh-link-commons v1.9.0 (/workspace/build/io/zenoh-link-commons)
+   Compiling zenoh-plugin-trait v1.9.0 (/workspace/build/plugins/zenoh-plugin-trait)
+   Compiling zenoh-link-quic_datagram v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic_datagram)
+   Compiling zenoh-link-tcp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link-udp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-udp)
+   Compiling zenoh-link-quic v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic)
+   Compiling zenoh-link-ws v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-ws)
+   Compiling zenoh-link-unixsock_stream v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-unixsock_stream)
+   Compiling zenoh-link-tls v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tls)
+   Compiling zenoh-link v1.9.0 (/workspace/build/io/zenoh-link)
+   Compiling zenoh-transport v1.9.0 (/workspace/build/io/zenoh-transport)
+   Compiling zenoh-test v1.9.0 (/workspace/build/commons/zenoh-test)
+error[E0432]: unresolved import `zenoh::timestamp_stack`
+  --> zenoh/tests/timestamp_instrumentation.rs:22:5
+   |
+22 |     timestamp_stack::{
+   |     ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `zenoh`
+
+error[E0433]: cannot find `timestamp_stack` in `zenoh`
+  --> zenoh/tests/timestamp_instrumentation.rs:78:21
+   |
+78 |     record: &zenoh::timestamp_stack::TimestampStackRecord,
+   |                     ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `zenoh`
+
+error[E0433]: cannot find `timestamp_stack` in `zenoh`
+  --> zenoh/tests/timestamp_instrumentation.rs:93:21
+   |
+93 |     record: &zenoh::timestamp_stack::InstrumentationTimestamp,
+   |                     ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `zenoh`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:198:40
+    |
+198 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:202:10
+    |
+201 |       let ts_stack = sample
+    |  ____________________-
+202 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+202 -         .timestamp_stack()
+202 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:227:40
+    |
+227 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:231:10
+    |
+230 |       let ts_stack = sample
+    |  ____________________-
+231 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+231 -         .timestamp_stack()
+231 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:257:40
+    |
+257 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:261:10
+    |
+260 |       let ts_stack = sample
+    |  ____________________-
+261 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+261 -         .timestamp_stack()
+261 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:284:40
+    |
+284 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:288:10
+    |
+287 |       let ts_stack = sample
+    |  ____________________-
+288 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+288 -         .timestamp_stack()
+288 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:307:40
+    |
+307 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:311:10
+    |
+310 |       let ts_stack = sample
+    |  ____________________-
+311 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+311 -         .timestamp_stack()
+311 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:330:40
+    |
+330 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:334:10
+    |
+333 |       let ts_stack = sample
+    |  ____________________-
+334 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+334 -         .timestamp_stack()
+334 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:357:16
+    |
+357 |         sample.timestamp_stack().is_none(),
+    |                ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+357 -         sample.timestamp_stack().is_none(),
+357 +         sample.timestamp().is_none(),
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:383:40
+    |
+383 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:388:10
+    |
+387 |       let local_ts_stack = local_sample
+    |  __________________________-
+388 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+388 -         .timestamp_stack()
+388 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:405:10
+    |
+404 |       let remote_ts_stack = remote_sample
+    |  ___________________________-
+405 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+405 -         .timestamp_stack()
+405 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:446:40
+    |
+446 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:451:10
+    |
+450 |       let local_ts_stack = local_sample
+    |  __________________________-
+451 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+451 -         .timestamp_stack()
+451 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:495:40
+    |
+495 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:500:10
+    |
+499 |       let remote_ts_stack = remote_sample
+    |  ___________________________-
+500 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+500 -         .timestamp_stack()
+500 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:543:40
+    |
+543 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:547:10
+    |
+546 |       let ts_stack = sample
+    |  ____________________-
+547 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+547 -         .timestamp_stack()
+547 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:568:40
+    |
+568 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:572:10
+    |
+571 |       let ts_stack = sample
+    |  ____________________-
+572 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+572 -         .timestamp_stack()
+572 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:593:40
+    |
+593 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:597:10
+    |
+596 |       let ts_stack = sample
+    |  ____________________-
+597 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+597 -         .timestamp_stack()
+597 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:619:40
+    |
+619 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:624:10
+    |
+623 |       let ts_stack = sample
+    |  ____________________-
+624 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+624 -         .timestamp_stack()
+624 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:652:16
+    |
+652 |         sample.timestamp_stack().is_none(),
+    |                ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+652 -         sample.timestamp_stack().is_none(),
+652 +         sample.timestamp().is_none(),
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:674:40
+    |
+674 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:678:10
+    |
+677 |       let ts_stack = sample
+    |  ____________________-
+678 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+678 -         .timestamp_stack()
+678 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:699:40
+    |
+699 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:703:10
+    |
+702 |       let ts_stack = sample
+    |  ____________________-
+703 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+703 -         .timestamp_stack()
+703 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:726:40
+    |
+726 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:730:10
+    |
+729 |       let ts_stack = sample
+    |  ____________________-
+730 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+730 -         .timestamp_stack()
+730 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:751:40
+    |
+751 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:755:10
+    |
+754 |       let ts_stack = sample
+    |  ____________________-
+755 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+755 -         .timestamp_stack()
+755 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:779:40
+    |
+779 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:783:10
+    |
+782 |       let ts_stack = sample
+    |  ____________________-
+783 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+783 -         .timestamp_stack()
+783 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:805:40
+    |
+805 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:809:10
+    |
+808 |       let ts_stack = sample
+    |  ____________________-
+809 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+809 -         .timestamp_stack()
+809 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:833:40
+    |
+833 |     ztimeout!(publisher.put("payload").timestamp_instrumentation(instr)).unwrap();
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:837:10
+    |
+836 |       let ts_stack = sample
+    |  ____________________-
+837 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+837 -         .timestamp_stack()
+837 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:865:16
+    |
+865 |         sample.timestamp_stack().is_none(),
+    |                ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+865 -         sample.timestamp_stack().is_none(),
+865 +         sample.timestamp().is_none(),
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:887:34
+    |
+887 |     ztimeout!(publisher.delete().timestamp_instrumentation(instr)).unwrap();
+    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderDelete>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:892:10
+    |
+891 |       let ts_stack = sample
+    |  ____________________-
+892 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+892 -         .timestamp_stack()
+892 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:914:34
+    |
+914 |     ztimeout!(publisher.delete().timestamp_instrumentation(instr)).unwrap();
+    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderDelete>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:919:10
+    |
+918 |       let ts_stack = sample
+    |  ____________________-
+919 | |         .timestamp_stack()
+    | |_________-^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+919 -         .timestamp_stack()
+919 +         .timestamp()
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:947:49
+    |
+947 |     let local_replies = ztimeout!(peer1.get(ke).timestamp_instrumentation(instr)).unwrap();
+    |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+   --> zenoh/tests/timestamp_instrumentation.rs:952:10
+    |
+951 |       let query_ts_stack = query
+    |  __________________________-
+952 | |         .timestamp_stack()
+    | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1016:10
+     |
+1012 |       let replies = ztimeout!(peer1
+     |  _____________________________-
+1013 | |         .get(ke)
+1014 | |         // Disable consolidation to receive both replies
+1015 | |         .consolidation(ConsolidationMode::None)
+1016 | |         .timestamp_instrumentation(instr))
+     | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1025:10
+     |
+1024 |       let local_query_ts = local_query
+     |  __________________________-
+1025 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1041:10
+     |
+1040 |       let remote_query_ts = remote_query
+     |  ___________________________-
+1041 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1104:43
+     |
+1104 |     let replies = ztimeout!(peer1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1108:10
+     |
+1107 |       let ts_stack = query
+     |  ____________________-
+1108 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1146:43
+     |
+1146 |     let replies = ztimeout!(peer1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1150:10
+     |
+1149 |       let ts_stack = query
+     |  ____________________-
+1150 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1195:15
+     |
+1195 |         query.timestamp_stack().is_none(),
+     |               ^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+
+error[E0599]: no method named `timestamp_stack` found for reference `&Sample` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1230:16
+     |
+1230 |         sample.timestamp_stack().is_none(),
+     |                ^^^^^^^^^^^^^^^
+     |
+help: there is a method `timestamp` with a similar name
+     |
+1230 -         sample.timestamp_stack().is_none(),
+1230 +         sample.timestamp().is_none(),
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1251:45
+     |
+1251 |     let replies = ztimeout!(client1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1255:10
+     |
+1254 |       let ts_stack = query
+     |  ____________________-
+1255 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1302:45
+     |
+1302 |     let replies = ztimeout!(client1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1306:10
+     |
+1305 |       let ts_stack = query
+     |  ____________________-
+1306 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1346:43
+     |
+1346 |     let replies = ztimeout!(peer1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1350:10
+     |
+1349 |       let ts_stack = query
+     |  ____________________-
+1350 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1387:57
+     |
+1387 |         ztimeout!(zenoh::open(zenoh::Config::default()).with_timestamp_callback(cb)).unwrap();
+     |                                                         ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1430:50
+     |
+1430 |     let session1 = ztimeout!(zenoh::open(config).with_timestamp_callback(cb_query)).unwrap();
+     |                                                  ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1444:51
+     |
+1444 |     let session2 = ztimeout!(zenoh::open(config2).with_timestamp_callback(cb_reply)).unwrap();
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1518:57
+     |
+1518 |         ztimeout!(zenoh::open(zenoh::Config::default()).with_timestamp_callback(cb)).unwrap();
+     |                                                         ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<Config>`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `QuerierGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1561:43
+     |
+1561 |     let replies = ztimeout!(querier.get().timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `QuerierGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1565:10
+     |
+1564 |       let ts_stack = query
+     |  ____________________-
+1565 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `QuerierGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1593:43
+     |
+1593 |     let replies = ztimeout!(querier.get().timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `QuerierGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1597:10
+     |
+1596 |       let ts_stack = query
+     |  ____________________-
+1597 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+Some errors have detailed explanations: E0432, E0433, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (test "timestamp_instrumentation") due to 76 previous errors
+warning: build failed, waiting for other jobs to finish...

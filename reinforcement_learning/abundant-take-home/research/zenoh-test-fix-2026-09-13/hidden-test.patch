@@ -1,0 +1,18 @@
+--- a/tests/hidden/zenoh/tests/timestamp_instrumentation.rs
++++ b/tests/hidden/zenoh/tests/timestamp_instrumentation.rs
+@@ -168,12 +168,11 @@
+ 
+ #[test]
+ fn interception_point_try_from_valid() {
+-    use zenoh_protocol::network::timestamp_stack::interception_point;
+-    let send: InterceptionPoint = interception_point::SEND.try_into().unwrap();
++    let send: InterceptionPoint = 0b001u8.try_into().unwrap();
+     assert_eq!(send, InterceptionPoint::Send);
+-    let route: InterceptionPoint = interception_point::ROUTE.try_into().unwrap();
++    let route: InterceptionPoint = 0b010u8.try_into().unwrap();
+     assert_eq!(route, InterceptionPoint::Route);
+-    let receive: InterceptionPoint = interception_point::RECEIVE.try_into().unwrap();
++    let receive: InterceptionPoint = 0b100u8.try_into().unwrap();
+     assert_eq!(receive, InterceptionPoint::Receive);
+ }
+ 
