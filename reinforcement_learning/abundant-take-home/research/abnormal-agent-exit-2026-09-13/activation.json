@@ -1,0 +1,116 @@
+{
+  "restart_requested_at": "2026-09-13T21:33:06.332765+00:00",
+  "old_supervisor": {
+    "pid": 85772,
+    "identity": "1353976"
+  },
+  "preserved_runner": {
+    "pid": 12321,
+    "identity": "1569590"
+  },
+  "before_control": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": true,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-v2-top9-efforts-256-20260913T181833Z.images.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap"
+    ],
+    "pause_reason": "Unclassified result or evidence mismatch requires review"
+  },
+  "before_active_trials": 2,
+  "strategy": "Terminate only supervisor; existing watchdog restarts it; retain active runner and trial processes.",
+  "resumed_at": "2026-09-13T21:33:34.870645+00:00",
+  "new_supervisor": {
+    "pid": 94078,
+    "identity": "1969551"
+  },
+  "after_control": {
+    "max_active": 12,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+    "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-v2-top9-efforts-256-20260913T181833Z.images.json",
+    "image_readiness_tasks": [
+      "rs-burn-store-pytorch-reader",
+      "rs-zenoh-timestamp-instrumentation",
+      "rs-burn-onnx-rnn-runtime-weights",
+      "cpp-foxglove-sdk-parameter-handler",
+      "py-zarr-python-cast-value-scale-offset",
+      "cpp-zenoh-cpp-connectivity-api",
+      "cpp-rosbag2-mixed-serialization-playback",
+      "py-rosbags-rosbag2-storage-writers",
+      "rs-rerun-chunk-optimizer"
+    ],
+    "excluded_tasks": [
+      "burn-scoped-checkpoint-remap"
+    ]
+  },
+  "completed_at_resume": 34,
+  "review_at_resume": 0,
+  "passes_at_resume": 14,
+  "resumed_admissions": {
+    "checked_at": "2026-09-13T21:34:30.059054+00:00",
+    "paused": false,
+    "active_trials": 4,
+    "newly_admitted_trials": {
+      "cpp-foxglove-sdk-parameter-handl__yGCsR3V": {
+        "started_at": 1789335257.6163652,
+        "startup_reserve_mb": 1536
+      },
+      "py-zarr-python-cast-value-scale__sUW5jd8": {
+        "started_at": 1789335263.2919912,
+        "startup_reserve_mb": 1536
+      },
+      "rs-burn-onnx-rnn-runtime-weights__YuVKqQ2": {
+        "started_at": 1789335268.2929661,
+        "startup_reserve_mb": 1536
+      }
+    },
+    "summary_status": "running",
+    "completed": 34,
+    "target": 2340,
+    "passes": 14,
+    "review": 0,
+    "processes": {
+      "supervisors": [
+        {
+          "pid": 94078,
+          "identity": "1969551"
+        }
+      ],
+      "runners": {
+        "candidates-all14-efforts-20-20260913T183301Z": {
+          "pid": 12321,
+          "identity": "1569590"
+        }
+      }
+    }
+  }
+}

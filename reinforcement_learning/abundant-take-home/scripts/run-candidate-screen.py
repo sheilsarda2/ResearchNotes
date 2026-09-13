@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from dotenv import load_dotenv
 from harbor.models.job.config import JobConfig
 from benchmark_recovery import memory_snapshot, memory_block_reason, prepare_resume
-from benchmark_evidence import attach_to_record, EvidenceError
+from benchmark_evidence import attach_to_record, compare_snapshot, EvidenceError
 from benchmark_startup_failures import classify_startup_failure
 from benchmark_job_scheduling import select_jobs
 
@@ -85,6 +85,59 @@ def checks(directory, check_format=None):
     return None, None
 
 
+def validate_abnormal_exit(record, result, expected, directory, reward, passed, total):
+    """Accept completed verifier outcomes after an interrupted model attempt.
+
+    Both successes and failures follow this rule. An abnormal exit is neither a
+    free retry nor proof of task failure when the frozen verifier completed.
+    Unknown or incomplete evidence stays under review.
+    """
+    assert record['exception'] == 'NonZeroAgentExitCodeError'
+    assert record.get('guarded_evidence') is True, 'Abnormal exit requires guarded evidence'
+    evidence = record['benchmark_evidence']
+    complete, lifecycle = evidence['completeness'], evidence['lifecycle']
+    assert all(complete.get(key) is True for key in (
+        'execution_and_verifier_timing', 'pre_verifier_snapshot_present',
+        'pre_verifier_inputs_unchanged')), 'Abnormal exit lacks completed, frozen verifier evidence'
+    assert complete.get('native') == complete.get('atif') == 'present'
+    counts = evidence['counts']
+    assert counts.get('native_assistant_turns', 0) > 0 and counts.get('atif_agent_steps', 0) > 0
+    assert counts.get('turn_counts_match') is True, 'Abnormal exit has mismatched saved turns'
+    assert evidence['request'].get('effort_matches') is True
+    assert result['agent_info']['version'] == '2.4.6'
+    assert lifecycle.get('runtime_present') is True and lifecycle.get('deadline_record_present') is True
+    assert lifecycle.get('execution_count', 0) > 0 and not lifecycle.get('cleanup_error')
+    assert lifecycle.get('quiescent') is True and lifecycle.get('all_executions_quiescent') is True
+    assert evidence['budget'].get('post_deadline_activity') is False
+
+    def timestamp(value):
+        assert isinstance(value, str), 'Abnormal exit requires complete timing evidence'
+        stamp = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        assert stamp.tzinfo is not None, 'Abnormal exit requires aware timing evidence'
+        return stamp
+
+    agent_phase, verifier = result['agent_execution'], result['verifier']
+    assert (timestamp(agent_phase['started_at']) <= timestamp(agent_phase['finished_at'])
+            <= timestamp(lifecycle['cleanup_finished_at']) <= timestamp(verifier['started_at'])
+            <= timestamp(verifier['finished_at']) <= timestamp(result['finished_at'])), \
+        'Abnormal exit cleanup or verifier timing is inconsistent'
+    assert type(reward) in (int, float) and reward in (0, 1), 'Verifier did not produce a binary outcome'
+    assert total and passed is not None and 0 <= passed <= total, 'Missing verifier check evidence'
+    assert (passed == total) == (reward == 1), 'Reward disagrees with verifier checks'
+    assert (directory / 'artifacts/submission').is_dir(), 'Missing submitted source artifacts'
+    assert float((directory / 'verifier/reward.txt').read_text().strip()) == reward
+    if expected.get('check_format') == 'verifier_groups':
+        score = read_json(directory / 'verifier/score.json')
+        assert score.get('reward') == reward, 'Verifier score disagrees with raw reward'
+        assert set(expected['expected_verifier_groups']) <= set(score['groups']), \
+            'Abnormal exit result omitted verifier groups'
+    # This path is uncommon and cached by the supervisor. Recheck the complete
+    # saved artifact/trace/verifier snapshot before overriding exception review.
+    saved = read_json(directory / 'benchmark-evidence.json')
+    assert compare_snapshot(directory, saved['input_snapshot'])['matches'], \
+        'Abnormal exit evidence changed since finalization'
+
+
 def inspect(path, task_map, models=MODELS):
     path = Path(path).resolve()
     result = read_json(path)
@@ -138,7 +191,9 @@ def inspect(path, task_map, models=MODELS):
         if before_agent or error in common.INFRA_ERRORS or gateway or exit_status in common.INFRA_ERRORS:
             record['status'] = 'infrastructure'
             record['infrastructure_detail'] = exit_status or error
-        return record
+            return record
+        if error != 'NonZeroAgentExitCodeError':
+            return record
     settings = trace.get('info', {}).get('config', {}).get('model', {}).get('model_kwargs')
     if settings is None:
         assert error == 'AgentTimeoutError', 'Missing effective request configuration'
@@ -150,6 +205,11 @@ def inspect(path, task_map, models=MODELS):
     if error is None:
         assert result['agent_info']['version'] == '2.4.6' and reward in (0, 1)
     passed, total = checks(path.parent, expected.get('check_format'))
+    if error == 'NonZeroAgentExitCodeError':
+        validate_abnormal_exit(record, result, expected, path.parent, reward, passed, total)
+        record.update(agent_exit_abnormal=True,
+                      outcome_basis='completed_verifier_after_agent_exit',
+                      usage_censored=True, provider_charge_may_be_missing=True)
     if error == 'VerifierTimeoutError':
         # Success requires finishing the unchanged verifier within its original
         # budget. Preserve raw_reward=None and report budget failures separately;
@@ -176,7 +236,7 @@ def inspect(path, task_map, models=MODELS):
             score = read_json(path.parent / 'verifier/score.json')
             assert score.get('reward') == 1
             assert set(expected['expected_verifier_groups']) <= set(score['groups']), 'Passing result omitted verifier groups'
-    record.update(status='timeout' if error else 'scored', reward=int(reward == 1),
+    record.update(status='timeout' if error == 'AgentTimeoutError' else 'scored', reward=int(reward == 1),
                   checks_passed=passed, checks_total=total)
     return record
 
