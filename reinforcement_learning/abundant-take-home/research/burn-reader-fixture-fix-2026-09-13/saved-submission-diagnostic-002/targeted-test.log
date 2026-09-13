@@ -1,0 +1,36 @@
+     Removed 1489 files, 3.1GiB total
+   Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.12s
+     Running unittests src/lib.rs (target/debug/deps/burn_store-a93be7a4a4b93e29)
+
+running 1 test
+test pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error ... FAILED
+
+failures:
+
+---- pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error stdout ----
+
+thread 'pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error' (311) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1455:5:
+unexpected error: Invalid PyTorch file format: archive member declares 1099511627776 entries, more than its 11 bytes could hold
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: burn_store::pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error
+             at ./src/pytorch/tests/reader/mod.rs:1455:5
+   3: burn_store::pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1430:47
+   4: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   5: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 288 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `-p burn-store --lib`

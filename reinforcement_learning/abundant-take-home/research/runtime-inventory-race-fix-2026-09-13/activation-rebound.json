@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-13T22:57:11.812308+00:00",
+  "requested": [
+    {
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "pid": 98349
+    },
+    {
+      "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+      "pid": 27215
+    }
+  ],
+  "proof": "research/mini-tool-drain-fix-2026-09-13/runtime-integration-proof.json",
+  "proof_sha256": "c7ff611e3ca1556ba93eb01fdc249c73cbe06081699d9d35d8fbe3475bb17d1b",
+  "source_sha256": {
+    "scripts/tests/smoke_benchmark_mini_tool_runtime.py": "6a20277a9b3f0df4646305d4b41c0f9c07e2003bfe03bdd9c9ffcf82117238a8",
+    "scripts/benchmark_mini_tool_runtime.py": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+    "scripts/tests/test_benchmark_mini_tool_runtime.py": "44d010846b1e19afcc8e4d8502319f4fe35a7fde9263c0ce4f3b3862b71e07a9",
+    "scripts/tests/test_benchmark_tool_preflight_failures.py": "3c3ff0be2d5a6cb7bdd67fa0bc5783edce702d7ef9574800b92611bdb03a93a0",
+    "scripts/tests/test_benchmark_startup_failures.py": "356e449aa3d3055a8ba1b6ccaa77604ed1852b4c07d20655a13a352ab1ed2bca",
+    "scripts/benchmark_deadline.py": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/activate-benchmark-deadline.py": "ae9102babc12855c58a964586a72203a4e62c48d62c7a3280ca9e70aa6e77c63",
+    "scripts/benchmark_agent_runtime.py": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+    "scripts/benchmark_job_scheduling.py": "6316c96998ca9882b5560cc89f28250e9f78ef3cb22ff2a3db2658bcd92b69c8",
+    "scripts/harbor-benchmark-runner.py": "40a96b84b334471e22a70baed5bee1680a69befeebf666469ae73b852f0c3693",
+    "scripts/activate-benchmark-tool-runtime.py": "a17e0c4e6ab275cf17809aecdffb8f4b2f9e7c28312b19c3875946715d74ace7",
+    "scripts/benchmark_mini_tool_bootstrap.py": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+    "scripts/harbor-resource-runner.py": "f704bcb3af058e5ea5020bebba4068374734176703e85e60f98835d302c3f1d5",
+    "scripts/benchmark_shared_admission.py": "20adc7876d0dad4bcca1824549f0021d1c9d91497f04f4bd7525321037cd0a85",
+    "scripts/benchmark_trial_containment.py": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+    "scripts/run-candidate-screen.py": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1",
+    "scripts/benchmark_process_guard.py": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+    "scripts/benchmark_mini_tool_cleanup.py": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+    "scripts/benchmark_task_selection.py": "c8f847a796f5320ff408287d4aa8e9d10daaef61e2224eb910ededea7645db35",
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "scripts/benchmark_startup_failures.py": "e80ba331939942377526e080bd0f0bbe6386272765815a2039971c0ae5175da6",
+    "scripts/tests/test_activate_benchmark_tool_runtime.py": "b3fab00cffa5bafbc86838db040c207e4d9e0c5b0ca18208f759d72355f5522e",
+    "research/runtime-inventory-race-fix-2026-09-13/validation.json": "ee33880d3d3f3520de3e3682d77aeaa2d0cb11bb3159eead003fb68222cff14e",
+    "research/runtime-inventory-race-fix-2026-09-13/tests.log": "a266d223b92917f616b3b5c4dbccf6c3fc9dedcd7b58838dc485ef531b7afe4e",
+    "research/runtime-inventory-race-fix-2026-09-13/rebind-review.json": "c338badf18acc532912812f148cfc3ae67eb0e501bae7c9b6a510557576fdeb6"
+  },
+  "campaigns": [
+    {
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "runner": {
+        "pid": 98349,
+        "start_ticks": "2185934",
+        "job": "candidates-all14-efforts-20-20260913T183301Z"
+      },
+      "job_names": [
+        "candidates-all14-efforts-20-20260913T183301Z",
+        "candidates-all14-efforts-20-20260913T183301Z-repair-python310-001"
+      ],
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "shared_control": "jobs/candidate-campaigns-shared.control.json",
+      "before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+        "image_readiness_tasks": [
+          "rs-burn-store-pytorch-reader",
+          "rs-zenoh-timestamp-instrumentation",
+          "rs-burn-onnx-rnn-runtime-weights",
+          "cpp-foxglove-sdk-parameter-handler",
+          "py-zarr-python-cast-value-scale-offset",
+          "cpp-zenoh-cpp-connectivity-api",
+          "cpp-rosbag2-mixed-serialization-playback",
+          "py-rosbags-rosbag2-storage-writers",
+          "rs-rerun-chunk-optimizer"
+        ],
+        "excluded_tasks": [
+          "burn-scoped-checkpoint-remap",
+          "rs-zenoh-timestamp-instrumentation"
+        ]
+      },
+      "after": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": true,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "image_readiness": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json",
+        "image_readiness_tasks": [
+          "rs-burn-store-pytorch-reader",
+          "rs-zenoh-timestamp-instrumentation",
+          "rs-burn-onnx-rnn-runtime-weights",
+          "cpp-foxglove-sdk-parameter-handler",
+          "py-zarr-python-cast-value-scale-offset",
+          "cpp-zenoh-cpp-connectivity-api",
+          "cpp-rosbag2-mixed-serialization-playback",
+          "py-rosbags-rosbag2-storage-writers",
+          "rs-rerun-chunk-optimizer"
+        ],
+        "excluded_tasks": [
+          "burn-scoped-checkpoint-remap",
+          "rs-zenoh-timestamp-instrumentation"
+        ],
+        "pause_reason": "Rolling tool-runtime activation runtime-activation-mini-tool-20260913T225800Z"
+      },
+      "workload_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z.plan.json": "496e297322f91c33b8cdfc5c5ed3080cd8a1e5c26e9966fac52f1e4292634013",
+        "jobs/candidate-campaigns-shared.control.json": "29d7f5f4df8e7a64010849a127ec4f57f67bb4ab956934f910037645d368c5b7",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z.config.json": "bc15169bde31a02f6f2ca128e27a73e43a048543e4b19e7db897cb13eb98aac5",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/config.json": "36df1608763509a6167485268652b3c8a3bc0ffa913298b1590ba54a33efee6d",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/lock.json": "563ae03edf3a5b984774083df56934cfdf672460913615795b5043be159d4d04",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z-repair-python310-001.config.json": "672d5f4a838fda760bc390581ea18ea3b9897a13f7d68ee41d3ffdb7c95e4040",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z-repair-python310-001/config.json": "e573b3075953558c7c7d354b3b7ba447fe90df7c027418c8fa32103921b20346",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z-repair-python310-001/lock.json": "5f2e9fbca6dd2e8f6906cc86580ef192e1773b391ecc9c5e61d08c86bb22845f"
+      },
+      "phase": "draining",
+      "started_at": "2026-09-13T22:57:11.994840+00:00",
+      "consecutive_empty": 0,
+      "drain": {
+        "active_trials": 2,
+        "shared_claims": 2,
+        "old_runner_alive": true,
+        "resource_status_fresh": true,
+        "ready": false,
+        "running_trial_containers": 2
+      }
+    },
+    {
+      "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+      "runner": {
+        "pid": 27215,
+        "start_ticks": "2209865",
+        "job": "candidates-zenoh-v3-efforts-20-20260913T221317Z"
+      },
+      "job_names": [
+        "candidates-zenoh-v3-efforts-20-20260913T221317Z"
+      ],
+      "control": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+      "shared_control": "jobs/candidate-campaigns-shared.control.json",
+      "before": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": false,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "excluded_tasks": []
+      },
+      "after": {
+        "max_active": 12,
+        "min_total_mb": 30000,
+        "reserve_mb": 4096,
+        "startup_reserve_mb": 1536,
+        "startup_window_sec": 120,
+        "start_interval_sec": 5,
+        "max_memory_pressure_pct": 1.0,
+        "pressure_cooldown_sec": 60,
+        "network_pool_cidr": "172.31.0.0/16",
+        "paused": true,
+        "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json",
+        "excluded_tasks": [],
+        "pause_reason": "Rolling tool-runtime activation runtime-activation-mini-tool-20260913T225800Z"
+      },
+      "workload_sha256": {
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.plan.json": "0cd0abf9a7da5b6c5147e9ae466d4959a06b32778bdd9add3b50eb3eb8b46b85",
+        "jobs/candidate-campaigns-shared.control.json": "29d7f5f4df8e7a64010849a127ec4f57f67bb4ab956934f910037645d368c5b7",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.config.json": "e897b5fc1d06c87820a63b3a3ef5c8b889ed4208ce24f015710becc1df1bc9bb",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/config.json": "02b0969155fa32cca307c89c8ed46806982415be373fdf0a971cdfca8b6d68a4",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/lock.json": "26ba2946299dfc00eb9effafc7a62831162f227f7d2af7f2eec0b691c3a4ecb8"
+      },
+      "phase": "pending"
+    }
+  ],
+  "status": "blocked",
+  "updated_at": "2026-09-13T23:23:51.359688+00:00",
+  "watcher": {
+    "pid": 13837,
+    "start_ticks": "2471358"
+  },
+  "error": "CalledProcessError",
+  "reviewed_rebindings": [
+    {
+      "review": "research/runtime-inventory-race-fix-2026-09-13/rebind-review.json",
+      "sha256": "c338badf18acc532912812f148cfc3ae67eb0e501bae7c9b6a510557576fdeb6"
+    }
+  ]
+}

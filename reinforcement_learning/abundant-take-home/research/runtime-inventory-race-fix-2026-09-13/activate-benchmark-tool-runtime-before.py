@@ -22,7 +22,6 @@ import os
 from pathlib import Path
 import re
 import signal
-import subprocess
 import threading
 import time
 
@@ -34,71 +33,7 @@ _spec.loader.exec_module(_helpers)
 process = _helpers.process
 same_process = _helpers.same_process
 safe_identity = _helpers.safe_identity
-
-
-def job_containers(directory):
-    """Retry only containers removed between list and metadata-only inspect.
-
-    A disappearing container invalidates that whole snapshot. Never interpret
-    partial output, daemon failures, or malformed metadata as an empty job.
-    """
-    directory = Path(directory).resolve()
-    template = '{"id":{{json .Id}},"name":{{json .Name}},"state":{{json .State}},"mounts":{{json .Mounts}}}'
-    missing = re.compile(r'(?:Error:\s*|Error response from daemon:\s*)?'
-                         r'No such (?:object|container):\s*([0-9a-f]{12,64})', re.IGNORECASE)
-    for _ in range(3):
-        listing = subprocess.run(['docker', 'ps', '-aq', '--no-trunc'],
-                                 text=True, capture_output=True, timeout=20)
-        if listing.returncode != 0 or listing.stderr.strip():
-            raise RuntimeError('Docker container listing failed; empty-work evidence unavailable')
-        ids = listing.stdout.split()
-        if len(ids) != len(set(ids)) or any(re.fullmatch('[0-9a-f]{64}', item) is None for item in ids):
-            raise RuntimeError('Docker container listing is malformed')
-        if not ids:
-            return []
-        inspected = subprocess.run(['docker', 'inspect', '--format', template, *ids],
-                                   text=True, capture_output=True, timeout=30)
-        if inspected.returncode:
-            errors = inspected.stderr.strip().splitlines()
-            matches = [missing.fullmatch(line.strip()) for line in errors]
-            if (inspected.returncode == 1 and matches and all(matches)
-                    and all(sum(item.startswith(match[1]) for item in ids) == 1 for match in matches)):
-                continue  # Re-list, including any new containers; discard partial stdout.
-            raise RuntimeError('Docker container inspection failed; empty-work evidence unavailable')
-        if inspected.stderr.strip():
-            raise RuntimeError('Unexpected Docker inspection diagnostics')
-        containers, observed, owned = [], set(), []
-        try:
-            containers = [json.loads(line) for line in inspected.stdout.splitlines()]
-        except (TypeError, ValueError) as error:
-            raise RuntimeError('Docker container inspection is malformed') from error
-        for container in containers:
-            if not isinstance(container, dict):
-                raise RuntimeError('Docker container inspection is malformed')
-            identity, state, mounts = container.get('id'), container.get('state'), container.get('mounts')
-            if (not isinstance(identity, str) or identity not in ids or identity in observed
-                    or not isinstance(container.get('name'), str)
-                    or not isinstance(state, dict) or type(state.get('Running')) is not bool
-                    or not isinstance(mounts, list)):
-                raise RuntimeError('Docker container inspection is incomplete or inconsistent')
-            observed.add(identity)
-            belongs = False
-            for mount in mounts:
-                if not isinstance(mount, dict):
-                    raise RuntimeError('Docker mount metadata is malformed')
-                source = mount.get('Source')
-                if source in (None, '') and mount.get('Type') == 'tmpfs':
-                    continue
-                if not isinstance(source, str) or not Path(source).is_absolute():
-                    raise RuntimeError('Docker mount source is unavailable or malformed')
-                if Path(source).is_relative_to(directory):
-                    belongs = True
-            if belongs:
-                owned.append(container)
-        if observed != set(ids):
-            raise RuntimeError('Docker inspection omitted listed containers')
-        return owned
-    raise RuntimeError('Docker inventory kept changing after three attempts; empty-work evidence unavailable')
+job_containers = _helpers.job_containers
 
 RUNTIME_SOURCES = {
     'runtime_wrapper_sha256': 'scripts/benchmark_mini_tool_runtime.py',

@@ -1,0 +1,72 @@
+{
+    "schema_version": 1,
+    "created_at": "2026-09-13T23:21:00.906534Z",
+    "harbor": {
+        "version": "0.15.0",
+        "is_editable": false
+    },
+    "invocation": [
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+        "run",
+        "-p",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v3",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-fixture-fix-2026-09-13/harbor-validation-20260913T232058Z/jobs",
+        "--job-name",
+        "rs-burn-store-pytorch-reader-v3-oracle-20260913T232058Z"
+    ],
+    "n_concurrent_trials": 1,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "VerifierOutputParseError",
+            "RewardFileNotFoundError",
+            "RewardFileEmptyError",
+            "AgentTimeoutError",
+            "VerifierTimeoutError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "task": {
+                "name": "rs-burn-store-pytorch-reader-v3",
+                "type": "local",
+                "digest": "sha256:f0507b6950765711f88f595057f21dc19ed3ee0f9abc67052a4b147006a1916b",
+                "path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v3"
+            },
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "oracle",
+                "skills": [],
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {},
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "env": {},
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {},
+                "disable": false
+            }
+        }
+    ]
+}

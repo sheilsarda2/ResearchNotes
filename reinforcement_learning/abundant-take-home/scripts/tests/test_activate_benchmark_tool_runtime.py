@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sys
 import tempfile
+import subprocess
 import time
 import unittest
 from unittest.mock import Mock, patch
@@ -15,6 +16,93 @@ sys.path.insert(0, str(SCRIPTS))
 spec = importlib.util.spec_from_file_location('tool_activation', SCRIPTS / 'activate-benchmark-tool-runtime.py')
 activation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(activation)
+
+
+class ContainerInventoryTests(unittest.TestCase):
+    def setUp(self):
+        self.job = Path('/workspaces/project/jobs/main')
+        self.one, self.two, self.three = 'a' * 64, 'b' * 64, 'c' * 64
+
+    def response(self, stdout='', stderr='', returncode=0):
+        return subprocess.CompletedProcess(['synthetic-docker'], returncode, stdout, stderr)
+
+    def record(self, identity, source=None, running=True):
+        return {'id': identity, 'name': '/trial-' + identity[:12],
+                'state': {'Running': running}, 'mounts': [
+                    {'Type': 'bind', 'Source': str(source or self.job / 'trial/agent')}]}
+
+    def inspected(self, *records):
+        return self.response('\n'.join(json.dumps(r) for r in records))
+
+    def test_removed_container_retries_whole_inventory_and_keeps_new_live_work(self):
+        owned = self.record(self.three)
+        other = self.record(self.two, Path('/workspaces/project/jobs/other/trial'))
+        responses = [self.response(self.one + '\n' + self.two),
+                     self.response(json.dumps(other), f'Error: No such object: {self.one}\n', 1),
+                     self.response(self.two + '\n' + self.three), self.inspected(other, owned)]
+        with patch.object(activation.subprocess, 'run', side_effect=responses) as run:
+            self.assertEqual(activation.job_containers(self.job), [owned])
+            self.assertEqual(run.call_count, 4)
+            self.assertEqual(run.call_args_list[0].args[0], ['docker', 'ps', '-aq', '--no-trunc'])
+            self.assertIn(self.three, run.call_args_list[-1].args[0])
+            self.assertNotIn('.Config', run.call_args_list[-1].args[0][3])
+
+    def test_known_abbreviated_removal_followed_by_empty_listing_is_empty(self):
+        with patch.object(activation.subprocess, 'run', side_effect=[
+                self.response(self.one),
+                self.response('', f'Error response from daemon: No such container: {self.one[:12]}', 1),
+                self.response('')]) as run:
+            self.assertEqual(activation.job_containers(self.job), [])
+            self.assertEqual(run.call_count, 3)
+
+    def test_only_owned_mounts_are_selected_with_native_running_booleans(self):
+        stopped = self.record(self.one, running=False)
+        unrelated = self.record(self.two, self.job.with_name('main-other') / 'agent')
+        unrelated['mounts'].append({'Type': 'tmpfs', 'Destination': '/tmp'})
+        with patch.object(activation.subprocess, 'run', side_effect=[
+                self.response(self.one + '\n' + self.two), self.inspected(stopped, unrelated)]):
+            self.assertEqual(activation.job_containers(self.job), [stopped])
+
+    def test_unknown_daemon_or_unrequested_missing_error_never_becomes_empty(self):
+        for stderr in ('Cannot connect to the Docker daemon',
+                       'permission denied while trying to connect',
+                       f'Error: No such object: {self.two}',
+                       f'Error: No such object: {self.one}\nconnection reset by peer'):
+            with self.subTest(stderr=stderr), patch.object(activation.subprocess, 'run', side_effect=[
+                    self.response(self.one), self.response('', stderr, 1)]) as run:
+                with self.assertRaisesRegex(RuntimeError, 'inspection failed'):
+                    activation.job_containers(self.job)
+                self.assertEqual(run.call_count, 2)
+
+    def test_repeated_removal_is_bounded_and_never_authorizes_empty(self):
+        responses = [self.response(self.one), self.response('', f'Error: No such object: {self.one}', 1)] * 3
+        with patch.object(activation.subprocess, 'run', side_effect=responses) as run:
+            with self.assertRaisesRegex(RuntimeError, 'three attempts'):
+                activation.job_containers(self.job)
+            self.assertEqual(run.call_count, 6)
+
+    def test_missing_duplicate_unknown_or_malformed_inspection_is_rejected(self):
+        valid = self.record(self.one)
+        responses = [self.response(''), self.response('not-json'), self.response('[]'),
+                     self.inspected(valid, valid), self.inspected(self.record(self.two)),
+                     self.inspected(dict(valid, state={'Running': 'false'})),
+                     self.inspected(dict(valid, mounts=[{'Source': 'relative/path'}]))]
+        for response in responses:
+            with self.subTest(stdout=response.stdout), patch.object(activation.subprocess, 'run',
+                    side_effect=[self.response(self.one), response]):
+                with self.assertRaises(RuntimeError):
+                    activation.job_containers(self.job)
+
+    def test_listing_failure_malformed_ids_and_timeout_are_fail_closed(self):
+        for response in (self.response('', 'daemon unavailable', 1), self.response('not-an-id'),
+                         self.response(self.one + '\n' + self.one)):
+            with patch.object(activation.subprocess, 'run', return_value=response) as run:
+                with self.assertRaises(RuntimeError):
+                    activation.job_containers(self.job)
+                run.assert_called_once()
+        with patch.object(activation.subprocess, 'run', side_effect=subprocess.TimeoutExpired('docker', 20)):
+            with self.assertRaises(subprocess.TimeoutExpired):
+                activation.job_containers(self.job)
 
 
 class RollingActivationTests(unittest.TestCase):

@@ -1,0 +1,65 @@
+{
+  "check_only": true,
+  "passed": true,
+  "model_calls": 0,
+  "docker_runs": 0,
+  "task": "research/task-revisions/rs-burn-store-pytorch-reader-v3",
+  "task_files": 64,
+  "expected_verifier_groups": [
+    "build",
+    "anticheat",
+    "pytorch_unit",
+    "safetensors_unit",
+    "integration",
+    "pytorch_tests_crate",
+    "fixture_matrix",
+    "reject_cases"
+  ],
+  "admission": {
+    "max_active": 1,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+  },
+  "commands": [
+    [
+      "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+      "run",
+      "-p",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v3",
+      "-a",
+      "oracle",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-fixture-fix-2026-09-13/harbor-validation-20260913T232048Z/jobs",
+      "--job-name",
+      "rs-burn-store-pytorch-reader-v3-oracle-20260913T232048Z"
+    ],
+    [
+      "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/harbor-resource-runner.py",
+      "run",
+      "-p",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v3",
+      "-a",
+      "nop",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-fixture-fix-2026-09-13/harbor-validation-20260913T232048Z/jobs",
+      "--job-name",
+      "rs-burn-store-pytorch-reader-v3-nop-20260913T232048Z"
+    ]
+  ]
+}

@@ -1,0 +1,13 @@
+--- candidates_v2/rs-burn-store-pytorch-reader/tests/hidden/reader/mod.rs
++++ research/task-revisions/rs-burn-store-pytorch-reader-v3/tests/hidden/reader/mod.rs
+@@ -1433,6 +1433,10 @@
+     let path = dir.path().join("count.tar");
+     let mut builder = tar::Builder::new(std::fs::File::create(&path).unwrap());
+     for (name, data) in [
++        (
++            "sys_info",
++            b"\x80\x02}q\x00(X\x10\x00\x00\x00protocol_versionq\x01M\xe9\x03X\x0d\x00\x00\x00little_endianq\x02\x88X\x0a\x00\x00\x00type_sizesq\x03}q\x04(X\x05\x00\x00\x00shortq\x05K\x02X\x03\x00\x00\x00intq\x06K\x04X\x04\x00\x00\x00longq\x07K\x08uu.".as_slice(),
++        ),
+         (
+             "storages",
+             b"\x80\x02\x8a\x06\x00\x00\x00\x00\x00\x01.".as_slice(),
