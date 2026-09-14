@@ -1,0 +1,251 @@
+diff --git a/crates/burn-store/src/keyremapper.rs b/crates/burn-store/src/keyremapper.rs
+index 803d908..4b27a80 100644
+--- a/crates/burn-store/src/keyremapper.rs
++++ b/crates/burn-store/src/keyremapper.rs
+@@ -167,6 +167,35 @@ impl KeyRemapper {
+     }
+ }
+ 
++/// Policy for renumbering numeric path segments by their original prefix.
++///
++/// Rules match the prefix before a numeric segment, without its trailing dot.
++/// The last matching rule wins. An unmatched prefix uses the configured default.
++#[derive(Debug, Clone)]
++pub struct IndexMappingPolicy {
++    default_map: bool,
++    rules: Vec<(Regex, bool)>,
++}
++
++impl IndexMappingPolicy {
++    /// Create a policy with the given fallback behavior.
++    pub fn new(default_map: bool) -> Self {
++        Self { default_map, rules: Vec::new() }
++    }
++
++    /// Add a regex rule. Invalid regex syntax returns an error.
++    pub fn with_rule(mut self, prefix_pattern: impl AsRef<str>, map: bool) -> Result<Self, regex::Error> {
++        self.rules.push((Regex::new(prefix_pattern.as_ref())?, map));
++        Ok(self)
++    }
++
++    /// Decide whether to renumber the indices immediately under a prefix.
++    pub fn should_map(&self, prefix: &str) -> bool {
++        self.rules.iter().rev().find(|(pattern, _)| pattern.is_match(prefix))
++            .map(|(_, map)| *map).unwrap_or(self.default_map)
++    }
++}
++
+ /// Map tensor paths to have contiguous numeric indices.
+ ///
+ /// This function detects numeric indices in tensor paths and renumbers them
+@@ -213,6 +242,17 @@ impl KeyRemapper {
+ /// * A vector of (new_path, original_path) showing the transformations
+ pub fn map_indices_contiguous(
+     tensors: Vec<PackTensor>,
++) -> (Vec<PackTensor>, Vec<(String, String)>) {
++    map_indices_contiguous_with_policy(tensors, &IndexMappingPolicy::new(true))
++}
++
++/// Renumber selected numeric prefixes while preserving tensor values and order.
++///
++/// Prefix matching uses the input names, before any numeric segment is changed.
++/// Store callers apply explicit key-remapping patterns before this stage.
++pub fn map_indices_contiguous_with_policy(
++    tensors: Vec<PackTensor>,
++    policy: &IndexMappingPolicy,
+ ) -> (Vec<PackTensor>, Vec<(String, String)>) {
+     if tensors.is_empty() {
+         return (tensors, Vec::new());
+@@ -241,6 +281,10 @@ pub fn map_indices_contiguous(
+                     String::new()
+                 };
+ 
++                if !policy.should_map(prefix.strip_suffix('.').unwrap_or(&prefix)) {
++                    continue;
++                }
++
+                 index_maps
+                     .entry(prefix)
+                     .or_default()
+diff --git a/crates/burn-store/src/lib.rs b/crates/burn-store/src/lib.rs
+index f6de4cb..97cde6c 100644
+--- a/crates/burn-store/src/lib.rs
++++ b/crates/burn-store/src/lib.rs
+@@ -103,7 +103,7 @@ pub use traits::{ModuleSnapshot, ModuleStore};
+ #[cfg(feature = "std")]
+ mod keyremapper;
+ #[cfg(feature = "std")]
+-pub use keyremapper::{KeyRemapper, map_indices_contiguous};
++pub use keyremapper::{IndexMappingPolicy, KeyRemapper, map_indices_contiguous, map_indices_contiguous_with_policy};
+ 
+ /// Serde-based deserialization of nested values, used for importing model weights from external
+ /// formats (e.g. PyTorch's pickle `.pt` files).
+diff --git a/crates/burn-store/src/pytorch/store.rs b/crates/burn-store/src/pytorch/store.rs
+index bf23b3f..9cce90c 100644
+--- a/crates/burn-store/src/pytorch/store.rs
++++ b/crates/burn-store/src/pytorch/store.rs
+@@ -2,7 +2,7 @@
+ 
+ use crate::{
+     ApplyResult, KeyRemapper, ModuleSnapshot, ModuleStore, PathFilter, PyTorchToBurnAdapter,
+-    map_indices_contiguous,
++    IndexMappingPolicy, map_indices_contiguous, map_indices_contiguous_with_policy,
+ };
+ 
+ use alloc::collections::BTreeMap;
+@@ -80,6 +80,7 @@ pub struct PytorchStore {
+     pub(crate) skip_enum_variants: bool,
+     /// Enable contiguous mapping of layer indices (default: true)
+     pub(crate) map_indices_contiguous: bool,
++    index_mapping_policy: Option<IndexMappingPolicy>,
+     /// Cached tensors (parsed once, reused)
+     tensors_cache: Option<BTreeMap<String, PackTensor>>,
+ }
+@@ -109,6 +110,7 @@ impl PytorchStore {
+             // Enable contiguous index mapping by default for PyTorch files
+             // This handles nn.Sequential models with gaps in layer indices
+             map_indices_contiguous: true,
++            index_mapping_policy: None,
+             tensors_cache: None,
+         }
+     }
+@@ -310,9 +312,20 @@ impl PytorchStore {
+     /// ```
+     pub fn map_indices_contiguous(mut self, map: bool) -> Self {
+         self.map_indices_contiguous = map;
++        self.index_mapping_policy = None;
++        self.tensors_cache = None;
+         self
+     }
+ 
++    /// Set a prefix-scoped index policy. This replaces the global boolean setting.
++    /// Explicit key remapping runs first; numeric prefix rules use those input names.
++    pub fn with_index_mapping_policy(mut self, policy: IndexMappingPolicy) -> Self {
++        self.index_mapping_policy = Some(policy);
++        self.tensors_cache = None;
++        self
++    }
++
++
+     /// Apply remapping to tensors.
+     fn apply_remapping(&self, tensors: Vec<PackTensor>) -> Vec<PackTensor> {
+         if self.remapper.is_empty() {
+@@ -421,7 +434,10 @@ impl PytorchStore {
+ 
+         // Apply contiguous index mapping if enabled
+         // This must be done after remapping so that remapped paths are mapped
+-        if self.map_indices_contiguous {
++        if let Some(policy) = &self.index_mapping_policy {
++            let (mapped, _) = map_indices_contiguous_with_policy(tensors, policy);
++            tensors = mapped;
++        } else if self.map_indices_contiguous {
+             let (mapped, _) = map_indices_contiguous(tensors);
+             tensors = mapped;
+         }
+diff --git a/crates/burn-store/src/safetensors/store.rs b/crates/burn-store/src/safetensors/store.rs
+index 921ee06..e4ddcf2 100644
+--- a/crates/burn-store/src/safetensors/store.rs
++++ b/crates/burn-store/src/safetensors/store.rs
+@@ -4,7 +4,7 @@ use crate::bridge;
+ use crate::{ApplyResult, IdentityAdapter, ModuleAdapter, ModuleSnapshot, ModuleStore, PathFilter};
+ 
+ #[cfg(feature = "std")]
+-use crate::{KeyRemapper, map_indices_contiguous};
++use crate::{IndexMappingPolicy, KeyRemapper, map_indices_contiguous, map_indices_contiguous_with_policy};
+ use alloc::boxed::Box;
+ use alloc::collections::BTreeMap;
+ use alloc::format;
+@@ -134,6 +134,8 @@ impl SafetensorsStore {
+             // Contiguous index mapping is off by default for SafeTensors
+             // (SafeTensors files typically have clean, contiguous indices)
+             map_indices_contiguous: false,
++            #[cfg(feature = "std")]
++            index_mapping_policy: None,
+             from_adapter: Box::new(IdentityAdapter),
+             to_adapter: Box::new(IdentityAdapter),
+             tensors_cache: None,
+@@ -154,6 +156,8 @@ impl SafetensorsStore {
+             // Contiguous index mapping is off by default for SafeTensors
+             #[cfg(feature = "std")]
+             map_indices_contiguous: false,
++            #[cfg(feature = "std")]
++            index_mapping_policy: None,
+             from_adapter: Box::new(IdentityAdapter),
+             to_adapter: Box::new(IdentityAdapter),
+             tensors_cache: None,
+@@ -443,12 +447,24 @@ impl SafetensorsStore {
+     #[cfg(feature = "std")]
+     pub fn map_indices_contiguous(mut self, map: bool) -> Self {
+         match &mut self {
+-            Self::File(p) => p.map_indices_contiguous = map,
+-            Self::Memory(p) => p.map_indices_contiguous = map,
++            Self::File(p) => { p.map_indices_contiguous = map; p.index_mapping_policy = None; p.tensors_cache = None; },
++            Self::Memory(p) => { p.map_indices_contiguous = map; p.index_mapping_policy = None; p.tensors_cache = None; },
++        }
++        self
++    }
++
++    /// Set a prefix-scoped index policy for loading. Replaces the global setting.
++    /// Explicit key remapping runs first; numeric prefix rules use those input names.
++    #[cfg(feature = "std")]
++    pub fn with_index_mapping_policy(mut self, policy: IndexMappingPolicy) -> Self {
++        match &mut self {
++            Self::File(p) => { p.index_mapping_policy = Some(policy); p.tensors_cache = None; },
++            Self::Memory(p) => { p.index_mapping_policy = Some(policy); p.tensors_cache = None; },
+         }
+         self
+     }
+ 
++
+     /// Set whether to overwrite existing files when saving (default: false).
+     ///
+     /// When set to `false`, attempting to save to an existing file will result in an error.
+@@ -533,6 +549,8 @@ pub struct FileStore {
+     skip_enum_variants: bool,
+     /// Enable contiguous mapping of layer indices (default: false)
+     map_indices_contiguous: bool,
++    #[cfg(feature = "std")]
++    index_mapping_policy: Option<IndexMappingPolicy>,
+     from_adapter: Box<dyn ModuleAdapter>,
+     to_adapter: Box<dyn ModuleAdapter>,
+     /// Cached tensors (parsed once, reused)
+@@ -552,6 +570,8 @@ pub struct MemoryStore {
+     /// Enable contiguous mapping of layer indices (default: false)
+     #[cfg(feature = "std")]
+     map_indices_contiguous: bool,
++    #[cfg(feature = "std")]
++    index_mapping_policy: Option<IndexMappingPolicy>,
+     from_adapter: Box<dyn ModuleAdapter>,
+     to_adapter: Box<dyn ModuleAdapter>,
+     /// Cached tensors (parsed once, reused)
+@@ -571,6 +591,8 @@ impl Default for MemoryStore {
+             skip_enum_variants: false,
+             #[cfg(feature = "std")]
+             map_indices_contiguous: false,
++            #[cfg(feature = "std")]
++            index_mapping_policy: None,
+             from_adapter: Box::new(IdentityAdapter),
+             to_adapter: Box::new(IdentityAdapter),
+             tensors_cache: None,
+@@ -889,9 +911,18 @@ impl SafetensorsStore {
+         // Apply contiguous index mapping if enabled
+         // This must be done after remapping so that remapped paths are mapped
+         #[cfg(feature = "std")]
+-        if self.get_map_indices_contiguous() {
+-            let (mapped, _) = map_indices_contiguous(tensors);
+-            tensors = mapped;
++        {
++            let policy = match self {
++                Self::File(p) => p.index_mapping_policy.as_ref(),
++                Self::Memory(p) => p.index_mapping_policy.as_ref(),
++            };
++            if let Some(policy) = policy {
++                let (mapped, _) = map_indices_contiguous_with_policy(tensors, policy);
++                tensors = mapped;
++            } else if self.get_map_indices_contiguous() {
++                let (mapped, _) = map_indices_contiguous(tensors);
++                tensors = mapped;
++            }
+         }
+ 
+         // Build cache as BTreeMap

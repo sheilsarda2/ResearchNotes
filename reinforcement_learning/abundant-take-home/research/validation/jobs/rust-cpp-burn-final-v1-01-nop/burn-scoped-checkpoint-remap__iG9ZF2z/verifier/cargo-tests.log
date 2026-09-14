@@ -1,0 +1,146 @@
+   Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.30s
+     Running tests/upstream_keyremapper.rs (/opt/cargo-target/debug/deps/upstream_keyremapper-e741868ab4469576)
+
+running 12 tests
+test tests::test_key_remapper_basic ... ok
+test tests::test_key_remapper_empty ... ok
+test tests::test_key_remapper_from_patterns ... ok
+test tests::test_key_remapper_multiple_patterns ... ok
+test tests::test_map_indices_contiguous_already_contiguous ... ok
+test tests::test_map_indices_contiguous_basic ... ok
+test tests::test_map_indices_contiguous_deeply_nested ... ok
+test tests::test_map_indices_contiguous_empty ... ok
+test tests::test_map_indices_contiguous_mixed_indexed_and_non_indexed ... ok
+test tests::test_map_indices_contiguous_multiple_prefixes ... ok
+test tests::test_map_indices_contiguous_nested_sequential ... ok
+test tests::test_map_indices_contiguous_no_indices ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.11s
+     Running tests/store_defaults.rs (/opt/cargo-target/debug/deps/store_defaults-dee223a8a2579e20)
+
+running 3 tests
+test pytorch_default_remains_all_indices ... ok
+test safetensors_file_default_remains_no_indices ... ok
+test safetensors_memory_default_remains_no_indices ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+error[E0432]: unresolved imports `burn_store::IndexMappingPolicy`, `burn_store::map_indices_contiguous_with_policy`
+ --> tests/scoped.rs:6:18
+  |
+6 | use burn_store::{IndexMappingPolicy, ModuleSnapshot, ModuleStore, PytorchStore, SafetensorsStore,
+  |                  ^^^^^^^^^^^^^^^^^^ no `IndexMappingPolicy` in the root
+7 |     map_indices_contiguous, map_indices_contiguous_with_policy};
+  |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `map_indices_contiguous_with_policy` in the root
+
+error[E0599]: no method named `with_index_mapping_policy` found for struct `PytorchStore` in the current scope
+   --> tests/scoped.rs:102:10
+    |
+101 |       check_partial(PytorchStore::from_file(fixture("partial.pt")).allow_partial(true)
+    |  ___________________-
+102 | |         .with_index_mapping_policy(preserve_flows()));
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PytorchStore`
+    | |_________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:104:10
+    |
+103 |       check_partial(SafetensorsStore::from_file(fixture("partial.safetensors")).allow_partial(true)
+    |  ___________________-
+104 | |         .with_index_mapping_policy(preserve_flows()));
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+    | |_________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for struct `PytorchStore` in the current scope
+   --> tests/scoped.rs:118:65
+    |
+118 |         check_load(PytorchStore::from_file(fixture("mixed.pt")).with_index_mapping_policy(p));
+    |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PytorchStore`
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:124:78
+    |
+124 |         check_load(SafetensorsStore::from_file(fixture("mixed.safetensors")).with_index_mapping_policy(p.clone()));
+    |                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:126:14
+    |
+125 |           check_load(SafetensorsStore::from_bytes(Some(std::fs::read(fixture("mixed.safetensors")).unwrap()))
+    |  ____________________-
+126 | |             .with_index_mapping_policy(p));
+    | |             -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+    | |_____________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for struct `PytorchStore` in the current scope
+   --> tests/scoped.rs:134:62
+    |
+133 |       check_load(PytorchStore::from_file(fixture("renamed.pt"))
+    |  ________________-
+134 | |         .with_key_remapping(r"^source_encoder\.","encoder.").with_index_mapping_policy(p.clone()));
+    | |                                                             -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PytorchStore`
+    | |_____________________________________________________________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:136:62
+    |
+135 |       check_load(SafetensorsStore::from_file(fixture("renamed.safetensors"))
+    |  ________________-
+136 | |         .with_key_remapping(r"^source_encoder\.","encoder.").with_index_mapping_policy(p));
+    | |                                                             -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+    | |_____________________________________________________________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for struct `PytorchStore` in the current scope
+   --> tests/scoped.rs:142:10
+    |
+141 |       check_load(PytorchStore::from_file(fixture("mixed.pt"))
+    |  ________________-
+142 | |         .with_index_mapping_policy(IndexMappingPolicy::new(true)).map_indices_contiguous(false)
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PytorchStore`
+    | |_________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:146:10
+    |
+145 |       check_load(SafetensorsStore::from_file(fixture("mixed.safetensors"))
+    |  ________________-
+146 | |         .with_index_mapping_policy(IndexMappingPolicy::new(true)).map_indices_contiguous(false)
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+    | |_________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for struct `PytorchStore` in the current scope
+   --> tests/scoped.rs:150:10
+    |
+149 |       check_load(PytorchStore::from_file(fixture("mixed.pt")).map_indices_contiguous(false)
+    |  ________________-
+150 | |         .with_index_mapping_policy(preserve_flows()));
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PytorchStore`
+    | |_________|
+    |
+
+error[E0599]: no method named `with_index_mapping_policy` found for enum `SafetensorsStore` in the current scope
+   --> tests/scoped.rs:152:10
+    |
+151 |       check_load(SafetensorsStore::from_file(fixture("mixed.safetensors")).map_indices_contiguous(true)
+    |  ________________-
+152 | |         .with_index_mapping_policy(collapse_encoder()));
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SafetensorsStore`
+    | |_________|
+    |
+
+Some errors have detailed explanations: E0432, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `burn-scoped-policy-checks` (test "scoped") due to 12 previous errors

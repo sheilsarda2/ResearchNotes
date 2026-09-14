@@ -1,0 +1,57 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 715B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/9] FROM docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#4 resolve docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 10.15MB 0.1s done
+#5 DONE 0.1s
+
+#6 [7/9] COPY image-source/smoke /opt/burn-checks
+#6 CACHED
+
+#7 [4/9] WORKDIR /workspace/repo
+#7 CACHED
+
+#8 [5/9] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#8 CACHED
+
+#9 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends python3 ca-certificates git && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [6/9] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [3/9] COPY image-source/cargo-config.toml /usr/local/cargo/config.toml
+#11 CACHED
+
+#12 [8/9] RUN cargo build --locked --manifest-path /opt/burn-checks/Cargo.toml
+#12 CACHED
+
+#13 [9/9] COPY . /tests
+#13 DONE 0.1s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 0.2s done
+#14 exporting manifest sha256:a889028081386aecc94d1d46aaab3365bc9c11b068c3dc389c64caa550e16246 done
+#14 exporting config sha256:8ed8081d833bbf051f748950a3513f306b39f4ff2245e68600f352b427c9f64e done
+#14 exporting attestation manifest sha256:9d8fa4a3fa27460a71f93b81a2b1f460671da1fe47fad3377a445d2c1380a857 0.0s done
+#14 exporting manifest list sha256:2d94253da64e386ccb4622c4cba9a69691a19a0456d2c18d8a3525be49625916 done
+#14 naming to docker.io/library/abundant-burn-scoped-verifier-local:latest done
+#14 unpacking to docker.io/library/abundant-burn-scoped-verifier-local:latest 0.0s done
+#14 DONE 0.4s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/mld3opqx33rehw50eb8tc0g1n

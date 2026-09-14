@@ -1,0 +1,93 @@
+{
+  "upstream": {
+    "url": "https://github.com/tracel-ai/burn",
+    "commit": "1414c8a14e5169ef5e5fc67f9b8ab01a25d6352d",
+    "source_version": "0.22.0-pre.3",
+    "license": "MIT OR Apache-2.0",
+    "archive_sha256": "acc08ecc6e83756f77ef4a3a8fd899157f89dba3fcbc40510efc3188b82ed08f"
+  },
+  "checked_at_utc": "2026-09-13T10:32:43.068953+00:00",
+  "sources": [
+    {
+      "url": "https://github.com/tracel-ai/burn/issues/4716",
+      "role": "real model-import naming mismatch"
+    },
+    {
+      "url": "https://github.com/tracel-ai/burn/issues/4716#issuecomment-5576304561",
+      "role": "maintainer proposed scoped policy"
+    },
+    {
+      "url": "https://github.com/tracel-ai/burn/pull/4150",
+      "role": "existing global renumbering prior art"
+    },
+    {
+      "url": "https://github.com/tracel-ai/burn/pull/5656",
+      "role": "adjacent reader extraction, no scoped policy implementation"
+    }
+  ],
+  "contribution": "AI-assisted Harbor task, explicit bounded policy API, reference implementation, independent loader/value tests and protected upstream key-remapper regressions.",
+  "implementation_surface": [
+    "crates/burn-store/src"
+  ],
+  "runtime": {
+    "toolchain": "1.98.1",
+    "image": "rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa",
+    "dependencies": "locked standalone harness, fetched/compiled at image build, Cargo offline during grading",
+    "cargo_lock_sha256": "a5fdb37f0fb011c5060a28fe73863bab4c6b4b351eeb6b3020a1cd8b2c6b409e",
+    "arm64": "target-feature=+fp16 set in own Cargo config; not applied on x86",
+    "verifier_network": "no-network"
+  },
+  "public_solution_overlap": {
+    "finding": "No exact public implementation found in bounded issue/comment and all-state PR searches; explicit per-index KeyRemapper workaround is usable.",
+    "evidence": "../../research/rust-cpp-10-to-5/burn/findings.md"
+  },
+  "research_reproduction": "../../research/rust-cpp-10-to-5/burn/store-probe-final.json",
+  "difficulty": {
+    "metadata_label": "medium",
+    "natural_scope": "shared prefix mapping policy and two existing store interfaces; no unrelated import/durability redesign",
+    "measured_model_headroom": null,
+    "agent_horizon": "unmeasured; no >75-step claim",
+    "paid_model_trials": false
+  },
+  "validation": {
+    "state": "direct_isolated_verifier_complete",
+    "architecture": "linux/arm64",
+    "baseline": {
+      "container_exit": 0,
+      "elapsed_seconds": 9.802675416,
+      "diagnostics": {
+        "exit_code": 1,
+        "passed": 15,
+        "expected": 24,
+        "reward": 0
+      }
+    },
+    "reference": {
+      "container_exit": 0,
+      "elapsed_seconds": 13.807166958,
+      "diagnostics": {
+        "exit_code": 0,
+        "passed": 24,
+        "expected": 24,
+        "reward": 1
+      }
+    },
+    "test_counts": {
+      "independent_scoped": 9,
+      "independent_defaults": 3,
+      "protected_upstream": 12
+    },
+    "images": {
+      "abundant-burn-scoped-agent-local": "sha256:bf77dfa4184a0a19e8194828f16861a40aaf815bb840c81955895e8f7d08453c",
+      "abundant-burn-scoped-verifier-local": "sha256:2d94253da64e386ccb4622c4cba9a69691a19a0456d2c18d8a3525be49625916"
+    },
+    "source_audit": "construction/source-audit.json",
+    "agent_image_audit": "construction/agent-image-audit.json",
+    "harbor_oracle_nop": "recorded externally after task freeze; see repository research/shortlist.json and research/validation/README.md"
+  },
+  "limits": [
+    "fixture mirrors reported naming constraints but is not original private model",
+    "artifact boundary protects manifest/dependencies/tests; arbitrary submitted Rust code is not claimed to be perfectly isolated",
+    "configured-before-first-read is the required store lifecycle; cache reconfiguration support in reference is incidental"
+  ]
+}

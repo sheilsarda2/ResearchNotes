@@ -1,0 +1,50 @@
+   Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.39s
+     Running tests/upstream_keyremapper.rs (/opt/cargo-target/debug/deps/upstream_keyremapper-e741868ab4469576)
+
+running 12 tests
+test tests::test_key_remapper_basic ... ok
+test tests::test_key_remapper_empty ... ok
+test tests::test_key_remapper_from_patterns ... ok
+test tests::test_key_remapper_multiple_patterns ... ok
+test tests::test_map_indices_contiguous_already_contiguous ... ok
+test tests::test_map_indices_contiguous_basic ... ok
+test tests::test_map_indices_contiguous_deeply_nested ... ok
+test tests::test_map_indices_contiguous_empty ... ok
+test tests::test_map_indices_contiguous_mixed_indexed_and_non_indexed ... ok
+test tests::test_map_indices_contiguous_multiple_prefixes ... ok
+test tests::test_map_indices_contiguous_nested_sequential ... ok
+test tests::test_map_indices_contiguous_no_indices ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.53s
+     Running tests/store_defaults.rs (/opt/cargo-target/debug/deps/store_defaults-dee223a8a2579e20)
+
+running 3 tests
+test pytorch_default_remains_all_indices ... ok
+test safetensors_file_default_remains_no_indices ... ok
+test safetensors_memory_default_remains_no_indices ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling burn-scoped-policy-checks v0.1.0 (/tests/checks)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.06s
+     Running tests/scoped.rs (/opt/cargo-target/debug/deps/scoped-378be3536fac0240)
+
+running 9 tests
+test all_none_empty_root_and_non_numeric_compatibility ... ok
+test boolean_compatibility_and_last_setter_wins ... ok
+test explicit_key_remapping_precedes_index_policy_in_both_stores ... ok
+test last_rule_wins_with_default_and_invalid_regex ... ok
+test mixed_prefixes_preserve_values_and_input_order ... ok
+test nested_rules_use_original_parent_indices ... ok
+test partial_load_reports_scoped_missing_and_unused_names ... ok
+test pytorch_real_load_supports_both_default_directions ... ok
+test safetensors_file_and_memory_real_load ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+{"exit_code": 0, "passed": 24, "expected": 24, "reward": 1}

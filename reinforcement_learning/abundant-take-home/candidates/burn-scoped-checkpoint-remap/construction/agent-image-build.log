@@ -1,0 +1,53 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 661B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#4 resolve docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 9.99MB 0.1s done
+#5 DONE 0.1s
+
+#6 [3/8] COPY cargo-config.toml /usr/local/cargo/config.toml
+#6 CACHED
+
+#7 [5/8] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#7 CACHED
+
+#8 [6/8] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+#8 CACHED
+
+#9 [4/8] WORKDIR /workspace/repo
+#9 CACHED
+
+#10 [7/8] COPY smoke /opt/burn-checks
+#10 CACHED
+
+#11 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends python3 ca-certificates git && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [8/8] RUN cargo build --locked --manifest-path /opt/burn-checks/Cargo.toml
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 exporting manifest sha256:b1ba90c5e4364631635395e6678dab4260813d32b8d6de769de9647c9005564f done
+#13 exporting config sha256:ee4e2ee22ade6fcdd59e0dcbbe6a2cdfd8efa40502165d8b4de830ba0ddb7f39 done
+#13 exporting attestation manifest sha256:208b619c7d929dc8dc7d943ad28affae78af56e0433114ac4cdb779d9c55f134 0.0s done
+#13 exporting manifest list sha256:bf77dfa4184a0a19e8194828f16861a40aaf815bb840c81955895e8f7d08453c done
+#13 naming to docker.io/library/abundant-burn-scoped-agent-local:latest done
+#13 unpacking to docker.io/library/abundant-burn-scoped-agent-local:latest 0.0s done
+#13 DONE 0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/vwfj1j6n4ncxa1v3xn0hrw5u5
