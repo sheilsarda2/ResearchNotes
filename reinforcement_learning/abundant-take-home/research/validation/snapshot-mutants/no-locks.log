@@ -1,0 +1,47 @@
+........................F.....                                           [100%]
+=================================== FAILURES ===================================
+__ test_concurrent_writes_between_shard_copies_cannot_create_a_mixed_snapshot __
+
+api = <module 'diskcache.snapshot' from '/workspace/repo/diskcache/snapshot.py'>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_concurrent_writes_between0')
+
+    def test_concurrent_writes_between_shard_copies_cannot_create_a_mixed_snapshot(api, tmp_path):
+        with FanoutCache(tmp_path/'source', shards=4, timeout=0) as source:
+            for i in range(60):
+                source.set(str(i), 'old', retry=True)
+            # Open the competitor before snapshotting: constructors may write schema.
+            with FanoutCache(tmp_path/'source', shards=4, timeout=0) as competitor:
+                attempted = []
+                def concurrent_write(event):
+                    if attempted:
+                        return
+                    attempted.append(True)
+                    for i in range(60):
+                        # Non-retrying writes finish immediately when a shard is
+                        # locked. Lock-free snapshot implementations may accept them
+                        # but still have to produce a coherent snapshot.
+                        competitor.set(str(i), 'new', retry=False)
+                source.snapshot(tmp_path/'snap', progress=concurrent_write)
+            with api.restore_snapshot(tmp_path/'snap', tmp_path/'restored') as restored:
+>               assert len({restored[str(i)] for i in range(60)}) == 1
+E               AssertionError: assert 2 == 1
+E                +  where 2 = len({'new', 'old'})
+
+/tests/test_snapshots.py:248: AssertionError
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/tests/pytest-cache-files-z52g6wni'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/lastfailed: [Errno 30] Read-only file system: '/tests/pytest-cache-files-2f759i2r'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+../../usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51
+  /usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/stepwise: [Errno 30] Read-only file system: '/tests/pytest-cache-files-bb7asg9_'
+    session.config.cache.set(STEPWISE_CACHE_DIR, [])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../../tests/test_snapshots.py::test_concurrent_writes_between_shard_copies_cannot_create_a_mixed_snapshot
+1 failed, 29 passed, 3 warnings in 2.27s

@@ -1,0 +1,71 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___ test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects ___
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_checkpoint_write_failure_0')
+
+    def test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects(tmp_path):
+        source = write_rows(tmp_path / "e.ndjson", [
+            {"id": 1, "value": "a"}, {"id": 2, "value": "b"},
+            {"id": 3, "value": "c", "new_column": 3},
+            {"id": 4, "value": "d", "new_column": 4},
+        ])
+        target = tmp_path / "e.db"
+        with Database(target) as db:
+            with pytest.raises(Paused):
+                db["events"].insert_file_resumable(source, import_id="job", pk="id", alter=True, batch_size=2, progress=pause)
+            db.execute("CREATE TABLE audit (value TEXT)")
+            db.execute("CREATE TRIGGER log_event AFTER INSERT ON events BEGIN INSERT INTO audit VALUES (NEW.value); END")
+            db.execute("CREATE TRIGGER reject_progress BEFORE UPDATE ON _sqlite_utils_imports WHEN NEW.rows_committed > 2 BEGIN SELECT RAISE(ABORT, 'checkpoint unavailable'); END")
+        before = logical_dump(target)
+        with Database(target) as db:
+            with pytest.raises(sqlite3.IntegrityError, match="checkpoint unavailable"):
+                db["events"].insert_file_resumable(source, import_id="job", pk="id", alter=True, batch_size=2)
+>       assert logical_dump(target) == before
+E       assert ['BEGIN TRANS...\'d\');', ...] == ['BEGIN TRANS...\'a\');', ...]
+E         
+E         At index 4 diff: 'INSERT INTO "audit" VALUES(\'c\');' != 'CREATE TABLE "events" (\n   "id" INTEGER PRIMARY KEY,\n   "value" TEXT\n);'
+E         Left contains 4 more items, first extra item: 'INSERT INTO "events" VALUES(4,\'d\',4);'
+E         Use -v to get more diff
+
+/tests/test_resumable_import.py:174: AssertionError
+______________ test_internal_sql_subbatches_are_one_logical_batch ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_internal_sql_subbatches_a0')
+
+    def test_internal_sql_subbatches_are_one_logical_batch(tmp_path):
+        target = tmp_path / "wide.db"
+        source = tmp_path / "wide.ndjson"
+        wide = [{"id": i, **{f"c{j}": j for j in range(600)}} for i in (1, 2, 3)]
+        write_rows(source, wide)
+        with Database(target) as db:
+            db["events"].insert({"id": 0, **{f"c{j}": j for j in range(600)}}, pk="id")
+            db.execute("CREATE TRIGGER third_fails BEFORE INSERT ON events WHEN NEW.id=3 BEGIN SELECT RAISE(ABORT, 'third failed'); END")
+        with sqlite3.connect(target) as conn:
+            before = conn.execute("SELECT type, name, sql FROM sqlite_master ORDER BY name").fetchall()
+        with Database(target) as db:
+            with pytest.raises(sqlite3.IntegrityError, match="third failed"):
+                db["events"].insert_file_resumable(source, import_id="job", pk="id", batch_size=3)
+        with sqlite3.connect(target) as conn:
+>           assert conn.execute("SELECT type, name, sql FROM sqlite_master ORDER BY name").fetchall() == before
+E           assert [('table', '_...iled'); END")] == [('table', 'e...iled'); END")]
+E             
+E             At index 0 diff: ('table', '_sqlite_utils_imports', 'CREATE TABLE _sqlite_utils_imports (import_id TEXT PRIMARY KEY, table_name TEXT NOT NULL, source_sha256 TEXT NOT NULL, options_json TEXT NOT NULL, byte_offset INTEGER NOT NULL, rows_committed INTEGER NOT NULL, completed INTEGER NOT NULL CHECK(completed IN (0, 1)))') != ('table', 'events', 'CREATE TABLE "events" (\n   "id" INTEGER PRIMARY KEY,\n   "c0" INTEGER,\n   "c1" INTEGER,\n   "c2" INTEGER,\n   "c3" INTEGER,\n   "c4" INTEGER,\n   "c5" INTEGER,\n   "c6" INTEGER,\n   "c7" INTEGER,\n   "c8" INTEGER,\n   "c9" INTEGER...
+E             
+E             ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/tests/test_resumable_import.py:215: AssertionError
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:469
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:469: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/tests/pytest-cache-files-lr3wltzl'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:423
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:423: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/lastfailed: [Errno 30] Read-only file system: '/tests/pytest-cache-files-6t5qzypc'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../../tests/test_resumable_import.py::test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects
+FAILED ../../tests/test_resumable_import.py::test_internal_sql_subbatches_are_one_logical_batch
+2 failed, 49 deselected, 2 warnings in 0.13s

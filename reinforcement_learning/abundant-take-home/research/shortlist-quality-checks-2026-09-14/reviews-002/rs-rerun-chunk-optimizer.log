@@ -1,0 +1,242 @@
+
+🔎 Checking task quality...
+  1/1 Mean: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:10:15 0:00:00                 Task Quality Checks: rs-rerun-chunk-optimizer                  
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Check                        ┃ Outcome ┃ Explanation                         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Behavior In Task Description │ pass    │ instruction.md is extremely         │
+│                              │         │ detailed: it specifies exact public │
+│                              │         │ API signatures (structs, enums,     │
+│                              │         │ function signatures, error          │
+│                              │         │ variants), exact                    │
+│                              │         │ vocabulary/definitions (group,      │
+│                              │         │ slice, split band, measured size),  │
+│                              │         │ and numbered requirements R1-R8     │
+│                              │         │ with sub-clauses (R2.1-R2.7,        │
+│                              │         │ R3.1-R3.8, R4.1-R4.8) that map      │
+│                              │         │ one-to-one to the assertions listed │
+│                              │         │ in provenance.json's 'derivability' │
+│                              │         │ section and to the hidden test      │
+│                              │         │ names. Filenames (optimize.rs,      │
+│                              │         │ optimizer_contract.rs,              │
+│                              │         │ footers_and_manifests.rs), module   │
+│                              │         │ paths, and exact commands (cargo    │
+│                              │         │ test --offline -p ...) are given.   │
+│                              │         │ Cross-checking the hidden tests     │
+│                              │         │ against the instruction text shows  │
+│                              │         │ the behavior they exercise          │
+│                              │         │ (identity/ptr_eq rules,             │
+│                              │         │ idempotence, row guards, own_chunk  │
+│                              │         │ rule resolution order, error        │
+│                              │         │ variants,                           │
+│                              │         │ InMemoryChunkProvider/LazyStore     │
+│                              │         │ contracts) is explicitly and        │
+│                              │         │ precisely described in the          │
+│                              │         │ instruction, not merely implied by  │
+│                              │         │ examples.                           │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Behavior In Tests            │ pass    │ All eight requirement groups (R1    │
+│                              │         │ public API via testing module       │
+│                              │         │ tests, R2 planning, R3 own-chunk    │
+│                              │         │ rules, R4 merge/split runs and      │
+│                              │         │ error surface, R6                   │
+│                              │         │ InMemoryChunkProvider, R7           │
+│                              │         │ LazyStore, R8 duplicate-name        │
+│                              │         │ temporal map) have corresponding    │
+│                              │         │ tests, verified via                 │
+│                              │         │ provenance.json's derivability list │
+│                              │         │ which maps every listed assertion   │
+│                              │         │ to an instruction_ref, and via      │
+│                              │         │ direct inspection of                │
+│                              │         │ tests/hidden/*.rs (e.g.             │
+│                              │         │ own_chunk_without_entity_filter_co… │
+│                              │         │ provider_load_failure_is_reported,  │
+│                              │         │ split_band_helpers_are_exact,       │
+│                              │         │ temporal_map_reads_every_descripto… │
+│                              │         │ Existing regression suites          │
+│                              │         │ (analysis, re_log_encoding,         │
+│                              │         │ re_chunk_store tests) are also run  │
+│                              │         │ to guard the 'keep everything       │
+│                              │         │ working' requirement in Section 0.  │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Informative Test Structure   │ pass    │ tests/hidden/optimizer_contract.rs  │
+│                              │         │ and optimize.rs use clear header    │
+│                              │         │ doc-comments describing intent,     │
+│                              │         │ section-comment banners (e.g. '//   │
+│                              │         │ --- Fixtures'), descriptive helper  │
+│                              │         │ function names, and test function   │
+│                              │         │ names that directly describe the    │
+│                              │         │ behavior under test (e.g.           │
+│                              │         │ own_chunk_rules_first_match_wins,   │
+│                              │         │ unsorted_output_never_exceeds_unso… │
+│                              │         │ test.sh is also clearly commented   │
+│                              │         │ with a numbered protocol            │
+│                              │         │ (clean-room overlay, hidden test    │
+│                              │         │ install, anti-cheat, build, run)    │
+│                              │         │ making the verification flow easy   │
+│                              │         │ to follow.                          │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Anti Cheating Measures       │ pass    │ The verifier performs a clean-room  │
+│                              │         │ overlay: only the three src/        │
+│                              │         │ directories are kept from the       │
+│                              │         │ agent's submission, everything else │
+│                              │         │ (manifests, Cargo.lock, tests/,     │
+│                              │         │ snapshots) is reset from a pristine │
+│                              │         │ copy, preventing the agent from     │
+│                              │         │ tampering with test files or        │
+│                              │         │ snapshots. An explicit anti-cheat   │
+│                              │         │ grep step blocks                    │
+│                              │         │ process/exec/env/include!/reward.t… │
+│                              │         │ patterns and insta test-harness     │
+│                              │         │ tampering. Hidden tests             │
+│                              │         │ (optimize.rs,                       │
+│                              │         │ optimizer_contract.rs,              │
+│                              │         │ footers_and_manifests.rs) and the   │
+│                              │         │ solution patch are not included in  │
+│                              │         │ the agent-facing                    │
+│                              │         │ environment/upstream.tar.gz         │
+│                              │         │ (verified identical to              │
+│                              │         │ tests/image-source archive, with no │
+│                              │         │ hidden test files present). The     │
+│                              │         │ environment is offline (no-network) │
+│                              │         │ for both agent build and verifier,  │
+│                              │         │ preventing lookups of the answer    │
+│                              │         │ from the internet. Exact test       │
+│                              │         │ counts are enforced, preventing     │
+│                              │         │ trivially disabling tests.          │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Structured Data Schema       │ pass    │ The required output is a Rust       │
+│                              │         │ public API (not a data file), and   │
+│                              │         │ the exact schema (struct fields,    │
+│                              │         │ enum variants, function signatures, │
+│                              │         │ Error variants with exact field     │
+│                              │         │ names/types) is given verbatim in   │
+│                              │         │ instruction.md Section 1, which is  │
+│                              │         │ normative per 'All of the following │
+│                              │         │ must be reachable exactly under     │
+│                              │         │ these paths and names.' This        │
+│                              │         │ satisfies the schema-documentation  │
+│                              │         │ intent of the criterion for a       │
+│                              │         │ code-artifact task.                 │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Pinned Dependencies          │ pass    │ The workspace's Cargo.lock (15632   │
+│                              │         │ lines, 1257 locked crates) is baked │
+│                              │         │ into environment/upstream.tar.gz    │
+│                              │         │ and used with `cargo fetch          │
+│                              │         │ --locked` and `cargo test --locked  │
+│                              │         │ --offline`, so all Rust dependency  │
+│                              │         │ versions are fully pinned and       │
+│                              │         │ reproducible offline. apt packages  │
+│                              │         │ (build-essential, cmake, etc.) are  │
+│                              │         │ unpinned, which is acceptable per   │
+│                              │         │ the guidance that apt packages      │
+│                              │         │ generally need not be pinned.       │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Typos                        │ pass    │ No functionally significant typos   │
+│                              │         │ were found in instruction.md, the   │
+│                              │         │ Dockerfiles, test.sh, or hidden     │
+│                              │         │ test files; filenames, module       │
+│                              │         │ paths, and commands referenced in   │
+│                              │         │ instruction.md match the actual     │
+│                              │         │ file tree exactly (e.g.             │
+│                              │         │ tests/optimize.rs,                  │
+│                              │         │ tests/optimizer_contract.rs,        │
+│                              │         │ tests/footers_and_manifests.rs,     │
+│                              │         │ EXPECTED test counts in test.sh     │
+│                              │         │ matching actual # counts in each    │
+│                              │         │ hidden file). The 'R2-R5' phrasing  │
+│                              │         │ in Section 9 is a loose shorthand   │
+│                              │         │ (actual requirement tags are        │
+│                              │         │ R2/R3/R4) but is a minor stylistic  │
+│                              │         │ looseness rather than a typo that   │
+│                              │         │ would cause confusion or failure.   │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Tests Or Solution In Image   │ pass    │ environment/Dockerfile (the         │
+│                              │         │ agent-facing image) only COPYs      │
+│                              │         │ upstream.tar.gz; it does not copy   │
+│                              │         │ tests/ or solution/. The            │
+│                              │         │ upstream.tar.gz was diffed          │
+│                              │         │ byte-for-byte against               │
+│                              │         │ tests/image-source/upstream.tar.gz  │
+│                              │         │ and contains no hidden test files   │
+│                              │         │ (optimize.rs, optimizer_contract.rs │
+│                              │         │ are absent; only pre-existing       │
+│                              │         │ regression tests like analysis.rs   │
+│                              │         │ are present, which is               │
+│                              │         │ expected/necessary background       │
+│                              │         │ state, not the hidden oracle        │
+│                              │         │ tests). tests/Dockerfile            │
+│                              │         │ (verifier-only image) legitimately  │
+│                              │         │ copies its own tests/ directory     │
+│                              │         │ including hidden tests, which is    │
+│                              │         │ correct and separate from the agent │
+│                              │         │ image.                              │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Test Deps In Image           │ pass    │ Test-only Rust dependencies (insta, │
+│                              │         │ anyhow, tempfile, async-trait,      │
+│                              │         │ arrow used in dev-dependencies) are │
+│                              │         │ declared in the crates' Cargo.toml  │
+│                              │         │ files (part of the seeded upstream  │
+│                              │         │ tree) and are necessarily compiled  │
+│                              │         │ together with the crate's own tests │
+│                              │         │ during the pre-warm build step;     │
+│                              │         │ this is standard and unavoidable    │
+│                              │         │ for Cargo-based Rust workspaces     │
+│                              │         │ (dev-dependencies cannot be         │
+│                              │         │ separated from the crate build). No │
+│                              │         │ extraneous test-only system         │
+│                              │         │ packages are baked in beyond what's │
+│                              │         │ needed to build the workspace, and  │
+│                              │         │ the same package selection/build    │
+│                              │         │ steps are used consistently for     │
+│                              │         │ image warm-up, agent iteration and  │
+│                              │         │ verifier.                           │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Hardcoded Solution           │ pass    │ solution/solve.sh applies           │
+│                              │         │ solution/changes.patch, which is    │
+│                              │         │ the actual upstream diff (16 files, │
+│                              │         │ +2445/-109 lines) implementing the  │
+│                              │         │ real feature code (new modules,     │
+│                              │         │ error variants, planning/execution  │
+│                              │         │ logic) rather than printing/echoing │
+│                              │         │ a final text answer to a question.  │
+│                              │         │ It then performs a genuine sanity   │
+│                              │         │ check by compiling and              │
+│                              │         │ type-checking the offline workspace │
+│                              │         │ (`cargo check --offline --locked -p │
+│                              │         │ ... --tests`). Applying a full      │
+│                              │         │ source-code patch that must         │
+│                              │         │ independently satisfy all hidden    │
+│                              │         │ tests is the standard/expected form │
+│                              │         │ of a reference solution for a       │
+│                              │         │ code-implementation task, not a     │
+│                              │         │ shortcut that reads from an oracle  │
+│                              │         │ file at grading time.               │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ File Reference Mentioned     │ pass    │ The task's deliverable is source    │
+│                              │         │ code in specific crate directories, │
+│                              │         │ not a generated data file.          │
+│                              │         │ instruction.md explicitly states    │
+│                              │         │ which directories/files the agent   │
+│                              │         │ may edit ('Edit only these          │
+│                              │         │ directories:                        │
+│                              │         │ crates/store/re_chunk_optimizer/sr… │
+│                              │         │ crates/store/re_log_encoding/src/,  │
+│                              │         │ crates/store/re_chunk_store/src/'), │
+│                              │         │ and these exactly match the         │
+│                              │         │ artifact paths declared in          │
+│                              │         │ task.toml, so the relevant file     │
+│                              │         │ locations are clearly and correctly │
+│                              │         │ communicated to the agent.          │
+└──────────────────────────────┴─────────┴─────────────────────────────────────┘
+Agent cost: $0.6660
+
+Report: 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/sh
+ortlist-quality-checks-2026-09-14/reviews-002/jobs/rs-rerun-chunk-optimizer-qual
+ity-20260914T051534Z/check_report.json
+Inspect results by running `harbor view 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/sh
+ortlist-quality-checks-2026-09-14/reviews-002/jobs`
+In the viewer, open a trial's Artifacts tab to read its check-result.json, and 
+use ← / → to switch between tasks.

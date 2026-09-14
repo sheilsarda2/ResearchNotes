@@ -1,0 +1,83 @@
+##### 11:00:29 START py-mcap-writer-chunk-summary
+== py-mcap-writer-chunk-summary: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=138s job=py-mcap-writer-chunk-summary-oracle-20260913T110029Z
+== py-mcap-writer-chunk-summary: nop
+nop rc=0 reward/exception=[0.0  ] wall=81s job=py-mcap-writer-chunk-summary-nop-20260913T110029Z
+funnel stage: rejected
+##### 11:04:08 END py-mcap-writer-chunk-summary
+##### 11:04:08 START py-onnx-reference-rnn
+== py-onnx-reference-rnn: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=170s job=py-onnx-reference-rnn-oracle-20260913T110408Z
+== py-onnx-reference-rnn: nop
+nop rc=0 reward/exception=[0.0  ] wall=29s job=py-onnx-reference-rnn-nop-20260913T110408Z
+funnel stage: nop_pass
+##### 11:07:27 END py-onnx-reference-rnn
+##### 11:07:27 START py-rosbags-rosbag2-storage-writers
+== py-rosbags-rosbag2-storage-writers: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=91s job=py-rosbags-rosbag2-storage-writers-oracle-20260913T110727Z
+== py-rosbags-rosbag2-storage-writers: nop
+nop rc=0 reward/exception=[0.0  ] wall=16s job=py-rosbags-rosbag2-storage-writers-nop-20260913T110727Z
+funnel stage: nop_pass
+##### 11:09:14 END py-rosbags-rosbag2-storage-writers
+##### 11:09:14 START py-zarr-python-cast-value-scale-offset
+== py-zarr-python-cast-value-scale-offset: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=104s job=py-zarr-python-cast-value-scale-offset-oracle-20260913T110914Z
+== py-zarr-python-cast-value-scale-offset: nop
+nop rc=0 reward/exception=[0.0  ] wall=12s job=py-zarr-python-cast-value-scale-offset-nop-20260913T110914Z
+funnel stage: rejected
+##### 11:11:10 END py-zarr-python-cast-value-scale-offset
+##### 11:11:10 START py-xarray-zarr-align-chunks
+== py-xarray-zarr-align-chunks: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=97s job=py-xarray-zarr-align-chunks-oracle-20260913T111111Z
+== py-xarray-zarr-align-chunks: nop
+nop rc=0 reward/exception=[0.0  ] wall=42s job=py-xarray-zarr-align-chunks-nop-20260913T111111Z
+funnel stage: nop_pass
+##### 11:13:31 END py-xarray-zarr-align-chunks
+##### PYTHON CHAIN FINISHED
+##### 11:13:47 START py-mcap-writer-chunk-summary (rerun after harness fix)
+== py-mcap-writer-chunk-summary: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=83s job=py-mcap-writer-chunk-summary-oracle-20260913T111347Z
+== py-mcap-writer-chunk-summary: nop
+nop rc=0 reward/exception=[0.0  ] wall=80s job=py-mcap-writer-chunk-summary-nop-20260913T111347Z
+funnel stage: rejected
+##### 11:16:30 END py-mcap rerun
+##### PY-MCAP RERUN FINISHED
+##### 11:16:35 START py-zarr-python-cast-value-scale-offset (rerun after lookup fix)
+== py-zarr-python-cast-value-scale-offset: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=13s job=py-zarr-python-cast-value-scale-offset-oracle-20260913T111635Z
+== py-zarr-python-cast-value-scale-offset: nop
+nop rc=0 reward/exception=[0.0  ] wall=13s job=py-zarr-python-cast-value-scale-offset-nop-20260913T111635Z
+funnel stage: rejected
+##### 11:17:02 END py-zarr rerun
+##### PY-ZARR RERUN FINISHED
+##### 11:18:59 START py-zarr rerun 2
+== py-zarr-python-cast-value-scale-offset: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=30s job=py-zarr-python-cast-value-scale-offset-oracle-20260913T111859Z
+== py-zarr-python-cast-value-scale-offset: nop
+nop rc=0 reward/exception=[0.0  ] wall=30s job=py-zarr-python-cast-value-scale-offset-nop-20260913T111859Z
+funnel stage: nop_pass
+##### 11:20:00 END py-zarr rerun 2
+##### 11:20:00 START py-mcap rerun 2
+== py-mcap-writer-chunk-summary: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=130s job=py-mcap-writer-chunk-summary-oracle-20260913T112000Z
+== py-mcap-writer-chunk-summary: nop
+nop rc=0 reward/exception=[0.0  ] wall=100s job=py-mcap-writer-chunk-summary-nop-20260913T112000Z
+funnel stage: rejected
+##### 11:23:50 END py-mcap rerun 2
+##### PYTHON RERUNS 2 FINISHED
+##### 11:24:31 START py-mcap rerun 3
+== py-mcap-writer-chunk-summary: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=100s job=py-mcap-writer-chunk-summary-oracle-20260913T112431Z
+== py-mcap-writer-chunk-summary: nop
+nop rc=0 reward/exception=[0.0  ] wall=339s job=py-mcap-writer-chunk-summary-nop-20260913T112431Z
+funnel stage: oracle_fail
+##### 11:31:51 END py-mcap rerun 3
+##### PY-MCAP RERUN 3 FINISHED
+##### 11:32:03 START py-mcap rerun 4
+== py-mcap-writer-chunk-summary: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=94s job=py-mcap-writer-chunk-summary-oracle-20260913T113203Z
+== py-mcap-writer-chunk-summary: nop
+nop rc=0 reward/exception=[0.0  ] wall=109s job=py-mcap-writer-chunk-summary-nop-20260913T113203Z
+funnel stage: nop_pass
+##### 11:35:27 END py-mcap rerun 4
+##### PY-MCAP RERUN 4 FINISHED

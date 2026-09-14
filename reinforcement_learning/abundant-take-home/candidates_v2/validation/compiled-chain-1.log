@@ -1,0 +1,145 @@
+##### 11:17:17 START cpp-mcap-indexed-reader
+== cpp-mcap-indexed-reader: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=153s job=cpp-mcap-indexed-reader-oracle-20260913T111717Z
+== cpp-mcap-indexed-reader: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=32s job=cpp-mcap-indexed-reader-nop-20260913T111717Z
+funnel stage: built
+##### 11:20:22 END cpp-mcap-indexed-reader
+##### 11:20:22 START rs-burn-onnx-rnn-runtime-weights
+== rs-burn-onnx-rnn-runtime-weights: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=123s job=rs-burn-onnx-rnn-runtime-weights-oracle-20260913T112022Z
+== rs-burn-onnx-rnn-runtime-weights: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=12s job=rs-burn-onnx-rnn-runtime-weights-nop-20260913T112022Z
+funnel stage: built
+##### 11:22:37 END rs-burn-onnx-rnn-runtime-weights
+##### 11:22:37 START rs-mcap-cli-recover-parity
+== rs-mcap-cli-recover-parity: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=178s job=rs-mcap-cli-recover-parity-oracle-20260913T112237Z
+== rs-mcap-cli-recover-parity: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=14s job=rs-mcap-cli-recover-parity-nop-20260913T112237Z
+funnel stage: built
+##### 11:25:51 END rs-mcap-cli-recover-parity
+##### 11:25:51 START rs-burn-store-pytorch-reader
+== rs-burn-store-pytorch-reader: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=387s job=rs-burn-store-pytorch-reader-oracle-20260913T112551Z
+== rs-burn-store-pytorch-reader: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=124s job=rs-burn-store-pytorch-reader-nop-20260913T112551Z
+funnel stage: built
+##### 11:34:23 END rs-burn-store-pytorch-reader
+##### COMPILED CHAIN 1 FINISHED
+##### 11:34:32 START cpp-mcap-indexed-reader (rerun after portability fix)
+== cpp-mcap-indexed-reader: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=67s job=cpp-mcap-indexed-reader-oracle-20260913T113432Z
+== cpp-mcap-indexed-reader: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=12s job=cpp-mcap-indexed-reader-nop-20260913T113432Z
+funnel stage: built
+##### 11:35:52 END cpp-mcap-indexed-reader rerun
+##### 11:35:52 START rs-burn-onnx-rnn-runtime-weights (rerun after portability fix)
+== rs-burn-onnx-rnn-runtime-weights: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=134s job=rs-burn-onnx-rnn-runtime-weights-oracle-20260913T113552Z
+== rs-burn-onnx-rnn-runtime-weights: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=50s job=rs-burn-onnx-rnn-runtime-weights-nop-20260913T113552Z
+funnel stage: built
+##### 11:38:57 END rs-burn-onnx-rnn-runtime-weights rerun
+##### COMPILED RERUNS A FINISHED
+##### 11:38:58 START rs-rerun-chunk-optimizer
+== rs-rerun-chunk-optimizer: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=927s job=rs-rerun-chunk-optimizer-oracle-20260913T113858Z
+== rs-rerun-chunk-optimizer: nop
+nop rc=0 reward/exception=[0.0  ] wall=39s job=rs-rerun-chunk-optimizer-nop-20260913T113858Z
+funnel stage: oracle_fail
+##### 11:55:04 END rs-rerun-chunk-optimizer
+##### 11:55:04 START cpp-zenoh-cpp-connectivity-api
+== cpp-zenoh-cpp-connectivity-api: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=13s job=cpp-zenoh-cpp-connectivity-api-oracle-20260913T115504Z
+== cpp-zenoh-cpp-connectivity-api: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=1s job=cpp-zenoh-cpp-connectivity-api-nop-20260913T115504Z
+funnel stage: built
+##### 11:55:18 END cpp-zenoh-cpp-connectivity-api
+##### COMPILED CHAIN 2 FINISHED
+##### 11:55:41 START rs-burn-store-pytorch-reader (rerun with CARGO_BUILD_JOBS=4)
+== rs-burn-store-pytorch-reader: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=352s job=rs-burn-store-pytorch-reader-oracle-20260913T115541Z
+== rs-burn-store-pytorch-reader: nop
+nop rc=0 reward/exception=[0.0  ] wall=85s job=rs-burn-store-pytorch-reader-nop-20260913T115541Z
+funnel stage: nop_pass
+##### 12:02:59 END rs-burn-store rerun
+##### COMPILED RERUNS B FINISHED
+##### 12:03:03 START rs-burn-onnx-rnn-runtime-weights (rerun 3, openssl fix)
+== rs-burn-onnx-rnn-runtime-weights: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=579s job=rs-burn-onnx-rnn-runtime-weights-oracle-20260913T120303Z
+== rs-burn-onnx-rnn-runtime-weights: nop
+nop rc=0 reward/exception=[0.0  ] wall=149s job=rs-burn-onnx-rnn-runtime-weights-nop-20260913T120303Z
+funnel stage: oracle_fail
+##### 12:15:11 END rs-burn-onnx rerun 3
+##### COMPILED RERUNS C FINISHED
+##### 12:15:13 START rs-rerun-chunk-optimizer (rerun, snapshot anti-cheat fix)
+== rs-rerun-chunk-optimizer: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=79s job=rs-rerun-chunk-optimizer-oracle-20260913T121513Z
+== rs-rerun-chunk-optimizer: nop
+nop rc=0 reward/exception=[0.0  ] wall=42s job=rs-rerun-chunk-optimizer-nop-20260913T121513Z
+funnel stage: nop_pass
+##### 12:17:14 END rs-rerun rerun
+##### COMPILED RERUNS D FINISHED
+##### 12:17:43 START rs-burn-onnx-rnn-runtime-weights (rerun 4, official count 860)
+== rs-burn-onnx-rnn-runtime-weights: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=165s job=rs-burn-onnx-rnn-runtime-weights-oracle-20260913T121743Z
+== rs-burn-onnx-rnn-runtime-weights: nop
+nop rc=0 reward/exception=[0.0  ] wall=145s job=rs-burn-onnx-rnn-runtime-weights-nop-20260913T121743Z
+funnel stage: nop_pass
+##### 12:22:53 END rs-burn-onnx rerun 4
+##### COMPILED RERUNS E FINISHED
+##### 12:23:49 START rs-zenoh-timestamp-instrumentation (heavy chain)
+== rs-zenoh-timestamp-instrumentation: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=367s job=rs-zenoh-timestamp-instrumentation-oracle-20260913T122349Z
+== rs-zenoh-timestamp-instrumentation: nop
+nop rc=0 reward/exception=[0.0  ] wall=43s job=rs-zenoh-timestamp-instrumentation-nop-20260913T122349Z
+funnel stage: oracle_fail
+##### 12:30:39 END rs-zenoh-timestamp-instrumentation
+##### 12:30:39 START cpp-rosbag2-mixed-serialization-playback (heavy chain)
+== cpp-rosbag2-mixed-serialization-playback: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=33s job=cpp-rosbag2-mixed-serialization-playback-oracle-20260913T123039Z
+== cpp-rosbag2-mixed-serialization-playback: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=2s job=cpp-rosbag2-mixed-serialization-playback-nop-20260913T123039Z
+funnel stage: built
+##### 12:31:14 END cpp-rosbag2-mixed-serialization-playback
+##### 12:31:14 START cpp-foxglove-sdk-parameter-handler (heavy chain)
+== cpp-foxglove-sdk-parameter-handler: oracle
+##### 12:31:55 END cpp-rosbag2-mixed-serialization-playback (detected)
+##### 12:31:55 START rs-zenoh-timestamp-instrumentation (heavy chain 2)
+== rs-zenoh-timestamp-instrumentation: oracle
+oracle rc=0 reward/exception=[0.0  ] wall=635s job=rs-zenoh-timestamp-instrumentation-oracle-20260913T123155Z
+== rs-zenoh-timestamp-instrumentation: nop
+nop rc=0 reward/exception=[0.0  ] wall=66s job=rs-zenoh-timestamp-instrumentation-nop-20260913T123155Z
+funnel stage: oracle_fail
+##### 12:43:36 END rs-zenoh-timestamp-instrumentation
+##### 12:43:36 START cpp-foxglove-sdk-parameter-handler (heavy chain 2)
+== cpp-foxglove-sdk-parameter-handler: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=129s job=cpp-foxglove-sdk-parameter-handler-oracle-20260913T124336Z
+== cpp-foxglove-sdk-parameter-handler: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=89s job=cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z
+funnel stage: built
+##### 12:47:14 END cpp-foxglove-sdk-parameter-handler
+##### 12:47:14 START cpp-rerun-cpp-ffi-bridge (heavy chain 2)
+== cpp-rerun-cpp-ffi-bridge: oracle
+oracle rc=0 reward/exception=[None RuntimeError ] wall=47s job=cpp-rerun-cpp-ffi-bridge-oracle-20260913T124714Z
+== cpp-rerun-cpp-ffi-bridge: nop
+nop rc=0 reward/exception=[None RuntimeError ] wall=8s job=cpp-rerun-cpp-ffi-bridge-nop-20260913T124714Z
+funnel stage: built
+##### 12:48:09 END cpp-rerun-cpp-ffi-bridge
+##### HEAVY CHAIN 2 FINISHED
+##### 17:13:36 START cpp-zenoh-cpp-connectivity-api (hygiene revalidation)
+== cpp-zenoh-cpp-connectivity-api: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=793s job=cpp-zenoh-cpp-connectivity-api-oracle-20260913T171336Z
+== cpp-zenoh-cpp-connectivity-api: nop
+nop rc=0 reward/exception=[0.0  ] wall=300s job=cpp-zenoh-cpp-connectivity-api-nop-20260913T171336Z
+funnel stage: nop_pass
+##### 17:31:49 END cpp-zenoh-cpp-connectivity-api
+##### 17:41:20 START cpp-rosbag2-mixed-serialization-playback (hygiene revalidation)
+== cpp-rosbag2-mixed-serialization-playback: oracle
+oracle rc=0 reward/exception=[1.0  ] wall=319s job=cpp-rosbag2-mixed-serialization-playback-oracle-20260913T174120Z
+== cpp-rosbag2-mixed-serialization-playback: nop
+nop rc=0 reward/exception=[0.0  ] wall=38s job=cpp-rosbag2-mixed-serialization-playback-nop-20260913T174120Z
+funnel stage: nop_pass
+##### 17:47:18 END cpp-rosbag2-mixed-serialization-playback
+##### HYGIENE REVALIDATION FINISHED

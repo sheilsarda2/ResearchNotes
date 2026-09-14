@@ -1,0 +1,191 @@
+
+🔎 Checking task quality...
+  1/1 Mean: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:06:24 0:00:00              Task Quality Checks: rs-burn-store-pytorch-reader-v4              
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Check                        ┃ Outcome ┃ Explanation                         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Behavior In Task Description │ pass    │ instruction.md is extremely         │
+│                              │         │ detailed: it enumerates the public  │
+│                              │         │ API verbatim (matching the real     │
+│                              │         │ reader.rs signatures), documents    │
+│                              │         │ every container format (pickle      │
+│                              │         │ protocols 0-5 opcodes,              │
+│                              │         │ ZIP/legacy/TAR/plain-pickle         │
+│                              │         │ layouts), lists numbered behavioral │
+│                              │         │ requirements R1-R15 with exact      │
+│                              │         │ error-message substrings, and       │
+│                              │         │ section 6 states the exact grading  │
+│                              │         │ groups and counts (108/52/20/37/28  │
+│                              │         │ files/428 tensors/32 reject cases)  │
+│                              │         │ that the hidden tests check.        │
+│                              │         │ Cross-checking against the actual   │
+│                              │         │ base source (reader.rs) confirms    │
+│                              │         │ the API section is accurate, and    │
+│                              │         │ provenance.json's derivability list │
+│                              │         │ maps essentially every hidden       │
+│                              │         │ assertion back to a specific        │
+│                              │         │ instruction section.                │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Behavior In Tests            │ pass    │ The hidden reader/store unit tests  │
+│                              │         │ (71+37), the fixture_matrix.rs      │
+│                              │         │ differential harness, and the 32    │
+│                              │         │ reject-case checks exercise         │
+│                              │         │ essentially every requirement       │
+│                              │         │ called out in instruction.md        │
+│                              │         │ (protocol coverage,                 │
+│                              │         │ zero-substitution ban, R6 bounds    │
+│                              │         │ validation, R12 resource limits,    │
+│                              │         │ R2/R3 ZIP layouts, R8/R9 legacy/TAR │
+│                              │         │ parsing, R10                        │
+│                              │         │ naming/read_pickle_data semantics). │
+│                              │         │ provenance.json's 'derivability'    │
+│                              │         │ array explicitly pairs dozens of    │
+│                              │         │ test assertions with the            │
+│                              │         │ instruction clause they verify,     │
+│                              │         │ indicating strong test/spec         │
+│                              │         │ alignment.                          │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Informative Test Structure   │ pass    │ tests/test.sh is broken into        │
+│                              │         │ clearly numbered/commented stages   │
+│                              │         │ (inventory+anti-cheat, clean-room   │
+│                              │         │ overlay, build, hidden groups,      │
+│                              │         │ fixture matrix, reject cases).      │
+│                              │         │ tests/harness/fixture_matrix.rs has │
+│                              │         │ doc comments per test explaining    │
+│                              │         │ what is being verified and emits    │
+│                              │         │ per-fixture PASS/FAIL lines for     │
+│                              │         │ attribution. Hidden reader/store    │
+│                              │         │ test files use descriptive test     │
+│                              │         │ function names                      │
+│                              │         │ (test_legacy_big_endian_file_is_re… │
+│                              │         │ test_zip_checksum_mismatch_is_an_e… │
+│                              │         │ etc.) and gen_fixtures.py documents │
+│                              │         │ its manifest.tsv row schema in its  │
+│                              │         │ module docstring.                   │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Anti Cheating Measures       │ pass    │ The independent oracle (PyTorch     │
+│                              │         │ 2.13 CPU) is installed and used to  │
+│                              │         │ generate fixtures only at verifier  │
+│                              │         │ image build time (network available │
+│                              │         │ then); the verifier itself runs     │
+│                              │         │ with network_mode=no-network so     │
+│                              │         │ nothing can be fetched at grading   │
+│                              │         │ time. The fixture manifest with     │
+│                              │         │ expected crc32/bytesum values lives │
+│                              │         │ under /opt/fixtures inside the      │
+│                              │         │ verifier image only, never shipped  │
+│                              │         │ to the agent. test.sh actively      │
+│                              │         │ greps submitted sources for         │
+│                              │         │ references to /logs, /tests/,       │
+│                              │         │ /opt/, manifest.tsv, BURN_PT_ env   │
+│                              │         │ vars, fixture_matrix, process       │
+│                              │         │ spawning,                           │
+│                              │         │ include_bytes!/include_str!, and    │
+│                              │         │ cfg!(test), blocking the obvious    │
+│                              │         │ shortcuts. The base upstream.tar.gz │
+│                              │         │ given to the agent is verified (via │
+│                              │         │ sha256) to be the pre-fix buggy     │
+│                              │         │ code, not the patched version, so   │
+│                              │         │ the fix must actually be            │
+│                              │         │ implemented.                        │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Structured Data Schema       │ pass    │ The task's 'output' is a Rust       │
+│                              │         │ library API (PytorchReader,         │
+│                              │         │ PytorchMetadata, PickleValue,       │
+│                              │         │ FileFormat, ByteOrder,              │
+│                              │         │ PytorchError, etc.), and            │
+│                              │         │ instruction.md section 2 gives the  │
+│                              │         │ exact struct/enum definitions and   │
+│                              │         │ method signatures the               │
+│                              │         │ implementation must expose, plus    │
+│                              │         │ exact Display-prefix strings for    │
+│                              │         │ errors. This is a normative schema, │
+│                              │         │ not just illustrative examples.     │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Pinned Dependencies          │ pass    │ The base Rust image is pinned by    │
+│                              │         │ tag and sha256 digest in both       │
+│                              │         │ Dockerfiles; the burn-store         │
+│                              │         │ Cargo.toml dependency set (zip 8.6, │
+│                              │         │ tar 0.4, etc.) is fixed and         │
+│                              │         │ explicitly called out as unchanged  │
+│                              │         │ in instruction.md. The verifier's   │
+│                              │         │ Python-side reference               │
+│                              │         │ implementation pins                 │
+│                              │         │ torch==2.13.0+cpu and numpy==2.4.6  │
+│                              │         │ exactly.                            │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Typos                        │ pass    │ A codespell pass over the whole     │
+│                              │         │ task tree and manual cross-checking │
+│                              │         │ of referenced filenames/functions   │
+│                              │         │ (test_data_path,                    │
+│                              │         │ create_tar_format.py, manifest.tsv  │
+│                              │         │ row kinds, Cargo dependency names,  │
+│                              │         │ API signatures vs. actual           │
+│                              │         │ reader.rs) turned up no meaningful  │
+│                              │         │ typos; the few codespell hits were  │
+│                              │         │ false positives (an abbreviation    │
+│                              │         │ 'COO' sparse-format name and noise  │
+│                              │         │ inside the binary patch diff).      │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Tests Or Solution In Image   │ pass    │ environment/Dockerfile (the         │
+│                              │         │ agent-facing image) only COPYs      │
+│                              │         │ upstream.tar.gz (the pristine       │
+│                              │         │ pre-fix repository archive) and     │
+│                              │         │ never references tests/ or          │
+│                              │         │ solution/. Those directories are    │
+│                              │         │ only copied into tests/Dockerfile   │
+│                              │         │ (the verifier-only image), which is │
+│                              │         │ not delivered to the agent.         │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Test Deps In Image           │ pass    │ PyTorch and numpy (the test-only    │
+│                              │         │ reference oracle) are installed     │
+│                              │         │ exclusively in tests/Dockerfile via │
+│                              │         │ a dedicated venv;                   │
+│                              │         │ environment/Dockerfile (agent       │
+│                              │         │ image) installs only generic build  │
+│                              │         │ tooling (gcc, cmake, python3        │
+│                              │         │ stdlib) with no torch/numpy,        │
+│                              │         │ matching the instructions'          │
+│                              │         │ statement that the agent only has   │
+│                              │         │ 'python3 (standard library only, no │
+│                              │         │ torch)'.                            │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Hardcoded Solution           │ pass    │ solution/solve.sh applies the       │
+│                              │         │ actual upstream PR diff (git apply  │
+│                              │         │ --binary of changes.patch, which    │
+│                              │         │ rewrites                            │
+│                              │         │ reader.rs/pickle_reader.rs/storage… │
+│                              │         │ with real parsing and validation    │
+│                              │         │ logic) and then runs `cargo build`  │
+│                              │         │ as a sanity check; it does not      │
+│                              │         │ merely print or cat a final         │
+│                              │         │ answer/string. The patch itself is  │
+│                              │         │ a genuine, non-trivial source-level │
+│                              │         │ fix (new storage.rs module,         │
+│                              │         │ rewritten pickle_reader, removed    │
+│                              │         │ lazy_data.rs, etc.).                │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ File Reference Mentioned     │ pass    │ instruction.md explicitly states    │
+│                              │         │ the only artifact collected/graded  │
+│                              │         │ is the directory the agent must     │
+│                              │         │ edit ('Edit only                    │
+│                              │         │ crates/burn-store/src/. That        │
+│                              │         │ directory is the only thing         │
+│                              │         │ collected from your container and   │
+│                              │         │ graded'), matching task.toml's []   │
+│                              │         │ source path exactly. There is no    │
+│                              │         │ separate hidden required output     │
+│                              │         │ filename that instruction.md fails  │
+│                              │         │ to mention.                         │
+└──────────────────────────────┴─────────┴─────────────────────────────────────┘
+Agent cost: $1.0647
+
+Report: 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/sh
+ortlist-quality-checks-2026-09-14/reviews-002/jobs/rs-burn-store-pytorch-reader-
+v4-quality-20260914T051534Z/check_report.json
+Inspect results by running `harbor view 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/sh
+ortlist-quality-checks-2026-09-14/reviews-002/jobs`
+In the viewer, open a trial's Artifacts tab to read its check-result.json, and 
+use ← / → to switch between tasks.

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-14T05:40:21.825896+00:00",
+  "task": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3",
+  "classification": "genuine gap in direct test coverage, not a test/spec overconstraint",
+  "review_report": "research/shortlist-quality-checks-2026-09-14/reviews-002/jobs/rs-zenoh-timestamp-instrumentation-v3-quality-20260914T051534Z/check_report.json",
+  "review_report_sha256": "d0f316d65131d97232194f9d22e298e8ec7b6d06b3ca6e20e1c07d1d5b842254",
+  "criterion": "behavior_in_tests",
+  "verdict": "The reviewer is supported on missing direct coverage of robustness contract6 and admin-space Receive contract7. Existing normal codec/interop coverage and public TryFrom invalid-value testing narrow the claim. No mutation test was run, so an assertion that every such omission necessarily passes is not proven.",
+  "contract": [
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+      "line": 120,
+      "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+      "line": 124,
+      "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+      "line": 136,
+      "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+    }
+  ],
+  "reviewed_sources": [
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/test.sh",
+      "line": 60,
+      "sha256": "6dfb4f6574d540c54bcd07695e51405e21884ea789cfe755ea0a5eed09bb4441"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/test.sh",
+      "line": 108,
+      "sha256": "6dfb4f6574d540c54bcd07695e51405e21884ea789cfe755ea0a5eed09bb4441"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/test.sh",
+      "line": 227,
+      "sha256": "6dfb4f6574d540c54bcd07695e51405e21884ea789cfe755ea0a5eed09bb4441"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/timestamp_instrumentation.rs",
+      "line": 180,
+      "sha256": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/ts_interop.rs",
+      "line": 294,
+      "sha256": "b90fe6c36b798cf9c08b9b801e6cb5b4655cd9a88309896b5e45ea3928023b6b"
+    },
+    {
+      "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/ts_interop.rs",
+      "line": 356,
+      "sha256": "b90fe6c36b798cf9c08b9b801e6cb5b4655cd9a88309896b5e45ea3928023b6b"
+    }
+  ],
+  "findings": [
+    {
+      "behavior": "A stack never grows beyond255 records; rejectzero conf_flags and count>255; skipunknown interception or undecodable UHLC perrecord",
+      "direct_coverage_found": false,
+      "qualified_existing_coverage": "Public InterceptionPoint TryFrom invalid0xFF is tested, but that does not test skipping an invalid record in a decoded stack. Pristine codec tests round-trip Push::rand/Request::rand/Response::rand; the instruction prescribes randomly populating0\u20133 records, providing well-formed coverage without forcing boundary/malformed inputs."
+    },
+    {
+      "behavior": "Admin space appends Receive instrumentation",
+      "direct_coverage_found": false,
+      "qualified_existing_coverage": "Pristine adminspace tests exercise admin behavior but contain no timestamp instrumentation/stack assertions. Router Route instrumentation is covered; that does not establish the separate admin Receive path. Only test_adminspace_read is interface-skipped; do not say all adminspace tests are skipped."
+    }
+  ],
+  "pristine_source_members": [
+    {
+      "archive": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/environment/upstream.tar.gz",
+      "archive_sha256": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+      "member": "zenoh/tests/adminspace.rs",
+      "member_sha256": "790ed5f79e8460521e1023131a5f3fac328e1bdebc82ba564e3a997cb44551b1",
+      "bytes": 33831
+    },
+    {
+      "archive": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/environment/upstream.tar.gz",
+      "archive_sha256": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+      "member": "commons/zenoh-codec/tests/codec.rs",
+      "member_sha256": "343e22ab6da2e62891e305fe5ff9b48f6357aee48300a1890122a34378a419b7",
+      "bytes": 14774
+    }
+  ],
+  "scope": "Read-only static inspection of current hidden tests, scoring commands, and selected pristine test source; no model calls, Docker trial, mutation/replay or task/runtime/control edits.",
+  "model_calls": 0,
+  "task_or_grader_changes": false,
+  "recommended_handling": "Retain this failed quality criterion in the delivered evidence. If closing the gap later, author targeted malformed-wire/boundary and instrumented admin-space tests under a new task revision and revalidate; do not silently change the scored v3 or retroactively reinterpret its past outcomes."
+}

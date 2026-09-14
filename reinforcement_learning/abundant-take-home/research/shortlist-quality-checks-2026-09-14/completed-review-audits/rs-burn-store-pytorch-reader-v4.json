@@ -1,0 +1,276 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-14T05:33:12.535540+00:00",
+  "task": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+  "original_task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+  "check_report": "research/shortlist-quality-checks-2026-09-14/reviews-002/jobs/rs-burn-store-pytorch-reader-v4-quality-20260914T051534Z/check_report.json",
+  "check_report_sha256": "b67ffe73dd44e57f3a8b899e0c9c8a7e974fdf39f4758d843c868cb625af8102",
+  "valid_review_report": true,
+  "rubric_pass": 11,
+  "rubric_fail": [],
+  "rubric_not_applicable": [],
+  "reviewer_explanation_caveats": [],
+  "evidence": {
+    "schema_version": 1,
+    "step_definition": "ATIF source=agent steps and native role=assistant turns are counted separately; tool calls are a separate count.",
+    "identity": {
+      "trial_name": "check-rs-burn-store-pytorch-read__JEdtrF2",
+      "task_name": "check-rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "c0e5cedcd14cc385d60851063d41a0429f6ca28bc86b0355a525231ee3076a2d",
+      "agent": "mini-swe-agent",
+      "agent_version": "2.4.6"
+    },
+    "outcome": {
+      "reward": 1.0,
+      "exception_type": null,
+      "finished_at": "2026-09-14T05:32:26.937352Z"
+    },
+    "request": {
+      "configured_model": "anthropic/claude-sonnet-5",
+      "configured_effort": "high",
+      "recorded_effort": "high",
+      "effort_matches": true,
+      "thinking_type": "adaptive",
+      "max_tokens": 64000
+    },
+    "response_models": {
+      "atif": [
+        "anthropic/claude-sonnet-5"
+      ],
+      "native": [
+        "claude-sonnet-5"
+      ],
+      "atif_reasoning_efforts": [
+        "high"
+      ]
+    },
+    "counts": {
+      "atif_agent_steps": 59,
+      "native_assistant_turns": 59,
+      "atif_tool_calls": 59,
+      "native_tool_calls": 59,
+      "native_tool_returns": 59,
+      "turn_counts_match": true,
+      "atif_steps_with_timestamp": 59,
+      "native_turns_with_timestamp": 59
+    },
+    "usage": {
+      "result": {
+        "n_input_tokens": 3396467,
+        "n_cache_tokens": 3303594,
+        "n_output_tokens": 17188,
+        "cost_usd": 1.0647223
+      },
+      "atif_final": {
+        "total_prompt_tokens": 3396467,
+        "total_completion_tokens": 17188,
+        "total_cached_tokens": 3303594,
+        "total_cost_usd": 1.0647223
+      },
+      "native_final": {
+        "instance_cost": 1.0647223,
+        "api_calls": 59
+      },
+      "native_responses": {
+        "assistant_turns": 59,
+        "usage_totals": {
+          "prompt_tokens": 3396467,
+          "completion_tokens": 17188,
+          "total_tokens": 3413655,
+          "cache_creation_input_tokens": 92755,
+          "cache_read_input_tokens": 3303594
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 59,
+          "completion_tokens": 59,
+          "total_tokens": 59,
+          "cache_creation_input_tokens": 59,
+          "cache_read_input_tokens": 59
+        },
+        "cost_usd": 1.0647223000000001,
+        "turns_with_cost": 59
+      },
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false
+    },
+    "budget": {
+      "deadline_at": null,
+      "deadline_source": null,
+      "native_at_or_before_deadline": null,
+      "native_after_deadline": null,
+      "native_unclassified": {
+        "assistant_turns": 59,
+        "usage_totals": {
+          "prompt_tokens": 3396467,
+          "completion_tokens": 17188,
+          "total_tokens": 3413655,
+          "cache_creation_input_tokens": 92755,
+          "cache_read_input_tokens": 3303594
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 59,
+          "completion_tokens": 59,
+          "total_tokens": 59,
+          "cache_creation_input_tokens": 59,
+          "cache_read_input_tokens": 59
+        },
+        "cost_usd": 1.0647223000000001,
+        "turns_with_cost": 59
+      },
+      "native_tool_returns_after_deadline": null,
+      "native_tool_returns_without_timestamp": 0,
+      "last_assistant_seconds_after_deadline": null,
+      "post_deadline_activity": null
+    },
+    "timing": {
+      "environment_setup": {
+        "started_at": "2026-09-14T05:27:37.276986Z",
+        "finished_at": "2026-09-14T05:27:38.225734Z",
+        "seconds": 0.948748,
+        "complete": true
+      },
+      "agent_setup": {
+        "started_at": "2026-09-14T05:27:38.226313Z",
+        "finished_at": "2026-09-14T05:28:22.317551Z",
+        "seconds": 44.091238,
+        "complete": true
+      },
+      "agent_execution": {
+        "started_at": "2026-09-14T05:28:22.552406Z",
+        "finished_at": "2026-09-14T05:32:13.439929Z",
+        "seconds": 230.887523,
+        "complete": true
+      },
+      "verifier": {
+        "started_at": "2026-09-14T05:32:13.949293Z",
+        "finished_at": "2026-09-14T05:32:14.133071Z",
+        "seconds": 0.183778,
+        "complete": true
+      },
+      "trial": {
+        "started_at": "2026-09-14T05:27:37.247274Z",
+        "finished_at": "2026-09-14T05:32:26.937352Z",
+        "seconds": 289.690078,
+        "complete": true
+      }
+    },
+    "lifecycle": {
+      "runtime_present": true,
+      "runtime_state": "present",
+      "runtime_version": 1,
+      "runtime_helper_sha256": null,
+      "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+      "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+      "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+      "deadline_record_present": true,
+      "deadline_record_state": "present",
+      "agent_phase_started": true,
+      "agent_run_started_at": "2026-09-14T05:28:22.553015Z",
+      "quiescent": true,
+      "closed_at": "2026-09-14T05:32:13.533937Z",
+      "cleanup_finished_at": "2026-09-14T05:32:13.541130Z",
+      "cleanup_error": null,
+      "execution_count": 3,
+      "all_executions_quiescent": true
+    },
+    "completeness": {
+      "config": "present",
+      "result": "present",
+      "atif": "present",
+      "native": "present",
+      "result_usage": true,
+      "result_cost": true,
+      "execution_and_verifier_timing": true,
+      "pre_verifier_snapshot_present": true,
+      "pre_verifier_inputs_unchanged": true
+    },
+    "pre_verifier_snapshot_check": {
+      "matches": true,
+      "expected_sha256": "f3f8c86d2982234ecf5ae056acb646d7ea177d85ecc03c4c0474f2560c6a5552",
+      "observed_sha256": "f3f8c86d2982234ecf5ae056acb646d7ea177d85ecc03c4c0474f2560c6a5552",
+      "changed_paths": []
+    },
+    "input_snapshot": {
+      "schema_version": 1,
+      "hash_algorithm": "sha256",
+      "paths": [
+        "agent/mini-swe-agent.trajectory.json",
+        "agent/trajectory.json",
+        "artifacts",
+        "benchmark-deadline.json",
+        "benchmark-runtime.json",
+        "config.json",
+        "result.json",
+        "verifier"
+      ],
+      "entries": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "kind": "file",
+          "size": 753520,
+          "sha256": "003e891baf81b87d37bb79bb76f554bdbd9d92f3ba8d0a0fb8152b4eef19f751"
+        },
+        "agent/trajectory.json": {
+          "kind": "file",
+          "size": 278118,
+          "sha256": "2dc281796648c0d3d2f07fa0847865e00fd8bb74791f343e4753eb59a587e999"
+        },
+        "artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/check-result.json": {
+          "kind": "file",
+          "size": 5828,
+          "sha256": "f9a2c3662ee8b5b317d4d29cd7ba533b1b2c9011d8a699535682bb778bc4d123"
+        },
+        "artifacts/logs": {
+          "kind": "directory"
+        },
+        "artifacts/logs/artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/manifest.json": {
+          "kind": "file",
+          "size": 318,
+          "sha256": "d2f0b6d0ad05349b927d9c8237c9c921a1a30468c2289f2f112d919655ce03a4"
+        },
+        "benchmark-deadline.json": {
+          "kind": "file",
+          "size": 1478,
+          "sha256": "cff35c8b2376d287910ea6a927291ac016d1ae2713994d6d10b706d7cc24f06c"
+        },
+        "benchmark-runtime.json": {
+          "kind": "file",
+          "size": 338,
+          "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+        },
+        "config.json": {
+          "kind": "file",
+          "size": 2154,
+          "sha256": "482b2d38b9feb86bb5fb056208c7eec7253e07134741e2da20306b926e17329c"
+        },
+        "result.json": {
+          "kind": "file",
+          "size": 4277,
+          "sha256": "15627951373a0e36d18b26f3650b6cdc42c0df6964ec2d53a4d691513128d3e2"
+        },
+        "verifier": {
+          "kind": "directory"
+        },
+        "verifier/reward.txt": {
+          "kind": "file",
+          "size": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "verifier/test-stdout.txt": {
+          "kind": "file",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "sha256": "fdad5aa989589a0c066b059b49a8f17b399faffae574b68a3ac4fe68c0b24f37"
+    }
+  },
+  "audit_source_sha256": "4405b046ce0f8f372b9be77c2ac8c6d4a0fef81fe2f182b980641c0b3ab6475b",
+  "evidence_collector_sha256": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5",
+  "raw_trial_files_unchanged": true
+}

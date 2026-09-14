@@ -1,0 +1,18 @@
+# Reference interop peer. Built ONLY inside the verifier image, from the upstream
+# gold tree (merge commit 89ab32cb of eclipse-zenoh/zenoh#2620). Never shipped to
+# the agent environment.
+[package]
+name = "ts_peer"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "EPL-2.0 OR Apache-2.0"
+
+[[bin]]
+name = "ts_peer"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros", "time"] }
+zenoh = { workspace = true, features = ["default", "unstable"] }
+zenoh-config = { workspace = true }

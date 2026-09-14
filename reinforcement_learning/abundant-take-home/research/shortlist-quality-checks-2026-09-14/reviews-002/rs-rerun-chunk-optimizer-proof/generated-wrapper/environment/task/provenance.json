@@ -1,0 +1,289 @@
+{
+  "task_id": "rs-rerun-chunk-optimizer",
+  "language": "rust",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/rerun-io/rerun",
+    "base_commit": "c1ea47a3b80b3eb00f2b0e54c8887b589728bec6",
+    "base_commit_date": "2026-09-02",
+    "base_commit_note": "First parent of bef4ed8d920e58a6355496abe93ad45a188567a8 (the first commit of the two-commit stack). environment/upstream.tar.gz is `git archive` of that tree with (a) the manifests of re_chunk_optimizer, re_chunk_store, re_log_encoding and the matching Cargo.lock edges pre-seeded from the gold commits (dependency declarations only, so the agent never edits manifests; rerun_py edges omitted) and (b) tests/assets, examples/python, examples/notebook, rerun_js, rerun_notebook excluded (622 MB of binary fixtures unused by the graded crates). Seeded synthetic commit in the scratch worktree: 294fd3b1ffdf1c9857714033c32ec140eb15ee60.",
+    "license": "MIT OR Apache-2.0"
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "68a9a6667321426a580cfa92c24f8a888b64061ae9419cecee07cca42ec5c9d4",
+    "bytes": 59733076,
+    "clean_git_archive": true,
+    "excluded_paths": [
+      "tests/assets/",
+      "examples/python/",
+      "examples/notebook/",
+      "rerun_js/",
+      "rerun_notebook/"
+    ],
+    "seeded_files": [
+      "crates/store/re_chunk_optimizer/Cargo.toml",
+      "crates/store/re_chunk_store/Cargo.toml",
+      "crates/store/re_log_encoding/Cargo.toml",
+      "Cargo.lock"
+    ]
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/rerun-io/rerun/commit/bef4ed8d920e58a6355496abe93ad45a188567a8 + https://github.com/rerun-io/rerun/commit/38a25c277ef4c29f07aeb14e159b1ca2dec715ec (upstream PRs rerun-io/reality#3244-followup and #3412-followup, synced to the public repo as direct commits with Source-Ref b28961df / 6579459d)",
+    "title": "Basic end-to-end chunk-index-based optimizer + Add support for `own_chunk` to chunk optimizer",
+    "merged_at": "2026-09-02 and 2026-09-09",
+    "composition": "38a25c277e cherry-picks cleanly onto bef4ed8d92 (no intermediate commit touched re_chunk_optimizer or re_log_encoding); rerun_py changes dropped (not built); Cargo.toml/Cargo.lock changes moved into the base.",
+    "gold_patch": {
+      "path": "solution/changes.patch",
+      "sha256": "a39916c2a08bb192505285d5bc9bc12aa6f1f3f7b4e1e205048220b8af6f6923",
+      "files": 16,
+      "additions": 2445,
+      "deletions": 109,
+      "additions_outside_inline_test_modules": 1566,
+      "additions_inside_inline_cfg_test_modules": 879,
+      "file_list": [
+        "crates/store/re_chunk_optimizer/src/error.rs",
+        "crates/store/re_chunk_optimizer/src/executor/merge_split.rs",
+        "crates/store/re_chunk_optimizer/src/executor/mod.rs",
+        "crates/store/re_chunk_optimizer/src/lib.rs",
+        "crates/store/re_chunk_optimizer/src/optimize.rs",
+        "crates/store/re_chunk_optimizer/src/plan.rs",
+        "crates/store/re_chunk_optimizer/src/settings.rs",
+        "crates/store/re_chunk_optimizer/src/view.rs",
+        "crates/store/re_chunk_store/src/lazy_store.rs",
+        "crates/store/re_log_encoding/src/chunk_provider/in_memory.rs",
+        "crates/store/re_log_encoding/src/chunk_provider/mod.rs",
+        "crates/store/re_log_encoding/src/lib.rs",
+        "crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs",
+        "crates/store/re_server/src/rerun_cloud/mod.rs",
+        "crates/store/re_server/src/store/resolved_store.rs",
+        "crates/store/re_server/src/store/source.rs"
+      ]
+    },
+    "hidden_tests": {
+      "crates/store/re_chunk_optimizer/tests/optimize.rs": "upstream, 1127 lines, 22 tests",
+      "crates/store/re_log_encoding/tests/footers_and_manifests.rs": "upstream, +50 lines (1 new test of 10)",
+      "crates/store/re_chunk_optimizer/tests/optimizer_contract.rs": "authored, 15 tests"
+    }
+  },
+  "oracle": {
+    "type": "pr_tests",
+    "reference": "Upstream PR tests (22 + 1) run against the clean-room rebuilt tree, plus 15 authored contract tests (provider/LazyStore integration, error surface, data survival, idempotence, exact band arithmetic) and 49 upstream regression tests of re_chunk_optimizer(analysis), re_log_encoding and re_chunk_store. No gold-output comparison: merged chunks get random ChunkIds and cut points legitimately depend on the accumulation strategy, so the oracle is property-based, not byte-identical."
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "Both commits landed in the public repo on 2026-09-02 and 2026-09-09 (4-11 days before task construction); the crate is one week older (analysis-only skeleton from 2026-08-27). Commit messages state the upstream code was largely agent-written and human-reviewed."
+  },
+  "horizon": {
+    "proxy": "16 files, +2445/-109 (1566 non-test lines) across 3 crates (+3 one-line fixes in re_server); 5 new modules; ~22 interacting behavioural requirements (planning, slicing, rules, admission/fit, split, merge gates, row guards, identity, idempotence, error surface, two neighbouring-crate additions, one index-parsing fix)",
+    "hypothesis_steps": ">150",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/rerun-io/rerun/commit/bef4ed8d920e58a6355496abe93ad45a188567a8 (design rationale: memory-bounded, plan/execute split, merge-run planning, 20% split hysteresis)",
+      "https://github.com/rerun-io/rerun/commit/38a25c277ef4c29f07aeb14e159b1ca2dec715ec (own_chunk for the dataloader team; benchmark table vs legacy `rrd optimize`)",
+      "https://github.com/rerun-io/rerun/commit/03c1a26ed23fffa38820a54100e795fcdf913679 (crate introduction, `rerun rrd stats` optimizedness assessment)",
+      "linear project chunk-index-based-rechunking (RR-4328, RR-4568, RR-5536, RR-5587, RR-5613, RR-5622, referenced in code comments)"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "optimize.rs::end_to_end - four uniform chunks merge into two 4-row outputs <= target; oversized chunk splits into >1 pieces totalling 8 rows; row set preserved",
+      "instruction_ref": "R4.2, R4.3, R2.7"
+    },
+    {
+      "assertion": "optimize.rs::exact_fill_packs - chunks summing exactly to target pack together (<= fit); output count equals analysis lower bound",
+      "instruction_ref": "R4.3 (fit test uses <=; framing collapses)"
+    },
+    {
+      "assertion": "optimize.rs::lone_chunk_identity - a lone chunk is emitted as the same Arc and ChunkId",
+      "instruction_ref": "R4.5"
+    },
+    {
+      "assertion": "optimize.rs::band_chunk_emits_alone - a chunk in (target, 1.2 target] is not split, emits alone, neighbours emitted alone with identity, in run order",
+      "instruction_ref": "R4.2 (band), R4.3, R4.5"
+    },
+    {
+      "assertion": "optimize.rs::lazy_loading - no loads at planning; one load per single-chunk run as the stream is polled",
+      "instruction_ref": "R2.1, R4.1"
+    },
+    {
+      "assertion": "optimize.rs::encoding_mismatch - non-concatenable chunks are not merged, no error, identity preserved",
+      "instruction_ref": "R4.4, R4.5"
+    },
+    {
+      "assertion": "optimize.rs::mismatched_blocker_mid_run - a mismatched chunk separates the run; neighbours are never merged across it; three identity outputs in run order",
+      "instruction_ref": "R4.4 (adjacent-only), R4.5"
+    },
+    {
+      "assertion": "optimize.rs::merge_correctness - merged chunk has a fresh id, RowId-sorted rows, unioned null-padded columns",
+      "instruction_ref": "R4.4"
+    },
+    {
+      "assertion": "optimize.rs::unsorted_merge_past_guard_is_refused - unsorted merge over max_rows_if_unsorted is refused (operands sorted, identity); kept when the guard is None",
+      "instruction_ref": "R4.7, R4.4"
+    },
+    {
+      "assertion": "optimize.rs::unsorted_row_guard - unsorted content cuts at max_rows_if_unsorted; sorted guard cuts before merging; both None merges everything; sorted run unaffected by small unsorted guard",
+      "instruction_ref": "R4.3, R4.7"
+    },
+    {
+      "assertion": "optimize.rs::oversized_chunk_splits_mid_run - oversized chunk mid-run is split into fresh pieces, neighbours keep identity and order, rows preserved",
+      "instruction_ref": "R4.2, R4.5, R2.7"
+    },
+    {
+      "assertion": "optimize.rs::split_tail_coalesces - split pieces re-enter the input sequence; tail piece merges with the following chunk",
+      "instruction_ref": "R4.2 (pieces take the chunk's place)"
+    },
+    {
+      "assertion": "optimize.rs::unsorted_chunk_splits_on_unsorted_guard - lone unsorted chunk over max_rows_if_unsorted splits [2,2,1]; passes whole when the guard is None",
+      "instruction_ref": "R4.2 (c)"
+    },
+    {
+      "assertion": "optimize.rs::tiny_chunks_file - 64 tiny chunks via RrdChunkProvider pack to within one of the data floor and beat first-fit over index sizes and over measured sizes",
+      "instruction_ref": "R4.3 (measured merged size, data floor)"
+    },
+    {
+      "assertion": "optimize.rs::convergence - re-optimizing the output is a no-op: same count and ChunkId set; outputs inside the band",
+      "instruction_ref": "R4.6"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_separates_columns - a Type rule puts the colors of mixed chunks into a dedicated single-column chunk; cell set preserved",
+      "instruction_ref": "R3.3, R3.4, R2.7"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_identity - already-split inputs come out untouched, colors run before the rest run (input order)",
+      "instruction_ref": "R3.4 (own runs first), R4.5"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_convergence - split output re-optimizes to a no-op; outputs grouped colors then points",
+      "instruction_ref": "R3.4, R4.6"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_run_target - MergeSplit override rechunks the own column at its own target",
+      "instruction_ref": "R3.5"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_static - a static mixed chunk splits into two static chunks with fresh ids, colors first",
+      "instruction_ref": "R2.2, R3.4"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_entity_filter - a rule applies to the entities its filter names and no other",
+      "instruction_ref": "R3.2"
+    },
+    {
+      "assertion": "optimize.rs::own_chunk_passthrough - merging disabled + rule: each mixed chunk yields exactly its two slices, nothing merges",
+      "instruction_ref": "R3.6"
+    },
+    {
+      "assertion": "footers_and_manifests.rs::temporal_map_reads_every_descriptor_variant - typed and untyped variants of one identifier both appear in the temporal map with row count and time range",
+      "instruction_ref": "R8"
+    },
+    {
+      "assertion": "optimizer_contract.rs::in_memory_provider_basics - manifest rows = chunks, loads return the same Arcs, unknown id errors",
+      "instruction_ref": "R6"
+    },
+    {
+      "assertion": "optimizer_contract.rs::lazy_store_is_a_chunk_provider - LazyStore usable as Arc<dyn ChunkProvider>; chunks_loaded counts trait loads; rows preserved",
+      "instruction_ref": "R7"
+    },
+    {
+      "assertion": "optimizer_contract.rs::provider_load_failure_is_reported - Error::LoadChunks with entity and num_chunks",
+      "instruction_ref": "R4.8"
+    },
+    {
+      "assertion": "optimizer_contract.rs::provider_omitting_a_chunk_is_reported - Error::MissingChunk naming the absent chunk",
+      "instruction_ref": "R4.8"
+    },
+    {
+      "assertion": "optimizer_contract.rs::planning_is_pure - constructing/dropping the stream loads nothing",
+      "instruction_ref": "R2.1"
+    },
+    {
+      "assertion": "optimizer_contract.rs::disabled_optimization_passes_everything_through - merge_split None: every chunk emitted once, identity",
+      "instruction_ref": "R2.6"
+    },
+    {
+      "assertion": "optimizer_contract.rs::statics_never_merge_or_split - statics whole and identity even when far over the band or sharing an entity",
+      "instruction_ref": "R2.2"
+    },
+    {
+      "assertion": "optimizer_contract.rs::chunks_that_do_not_fit_together_emit_alone_in_order - target == size: four identity outputs in order; 2*size: [4,4]",
+      "instruction_ref": "R4.3, R4.5"
+    },
+    {
+      "assertion": "optimizer_contract.rs::oversized_chunk_splits_into_fresh_pieces - pieces have fresh ids, keep rows, are inside the band; second pass does not increase count",
+      "instruction_ref": "R4.2, R4.6"
+    },
+    {
+      "assertion": "optimizer_contract.rs::unsorted_output_never_exceeds_unsorted_guard - no unsorted output over max_rows_if_unsorted; rows preserved",
+      "instruction_ref": "R4.7, R2.7"
+    },
+    {
+      "assertion": "optimizer_contract.rs::own_chunk_type_selector_ignores_untyped_columns - Type matches typed column only; Column matches untyped; no-match leaves identity",
+      "instruction_ref": "R3.3, R3.7"
+    },
+    {
+      "assertion": "optimizer_contract.rs::own_chunk_rules_first_match_wins - rule order decides Passthrough vs merge",
+      "instruction_ref": "R3.1, R3.5"
+    },
+    {
+      "assertion": "optimizer_contract.rs::own_chunk_without_entity_filter_covers_properties_subtree - None filter covers /__properties; EntityPathFilter::all() does not",
+      "instruction_ref": "R3.2"
+    },
+    {
+      "assertion": "optimizer_contract.rs::heterogeneous_fixture_survives_and_converges - cell set preserved, own column isolated for the filtered entity, outputs inside band, second pass count <=",
+      "instruction_ref": "R2.7, R3.4, R4.6"
+    },
+    {
+      "assertion": "optimizer_contract.rs::split_band_helpers_are_exact - 5*size > 6*max_bytes; smallest_non_splitting_target = ceil(5*size/6)",
+      "instruction_ref": "R1 (testing module)"
+    },
+    {
+      "assertion": "analysis.rs (5 tests, insta snapshot) - analyze_chunk_index unchanged",
+      "instruction_ref": "Section 0 (keep existing behaviour)"
+    },
+    {
+      "assertion": "re_log_encoding arrow_encode_roundtrip (1) and the 9 pre-existing footers_and_manifests tests",
+      "instruction_ref": "Section 0"
+    },
+    {
+      "assertion": "re_chunk_store compact(18) correctness(4) dataframe(3) drop_time_range(1) formatting(1) gc(5) reads(10) stats(1)",
+      "instruction_ref": "Section 0"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "host": "not yet built in Docker (phase rule); estimates in STATUS.md from a local macOS build: 33.4 CPU-min for `cargo test -p re_chunk_optimizer -p re_log_encoding --no-run` + 3.75 CPU-min for re_chunk_store tests",
+    "oracle_wall_seconds": 79,
+    "env_setup_seconds": 16,
+    "verifier_seconds": 56,
+    "nop_wall_seconds": 42
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "rs-rerun-chunk-optimizer-oracle-20260913T121513Z",
+      "nop": "rs-rerun-chunk-optimizer-nop-20260913T121513Z"
+    },
+    "local_checks": {
+      "gold_tree_tests": "optimize 22/22, footers_and_manifests 10/10, optimizer_contract 15/15, analysis 5/5, arrow_encode_roundtrip 1/1, re_chunk_store 43/43 + memory_test 1/1 (macOS arm64, rustc 1.96.0, 2026-09-13)",
+      "nop_tree": "hidden tests fail to compile against the seeded base (E0432/E0277/E0599)",
+      "solution_patch": "git apply --check OK on extracted upstream.tar.gz"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

@@ -1,0 +1,62 @@
+............F.................                                           [100%]
+=================================== FAILURES ===================================
+__________ test_corruption_rejected_before_restore_publication[bytes] __________
+
+api = <module 'diskcache.snapshot' from '/workspace/repo/diskcache/snapshot.py'>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_corruption_rejected_befor0')
+damage = 'bytes'
+
+    @pytest.mark.parametrize('damage', ['bytes', 'missing', 'extra', 'symlink', 'traversal', 'absolute',
+                                        'version', 'codec', 'topology', 'database', 'payload-reference'])
+    def test_corruption_rejected_before_restore_publication(api, tmp_path, damage):
+        with Cache(tmp_path/'source', disk_min_file_size=1) as c:
+            c['data'] = b'x' * 2000
+            c.snapshot(tmp_path/'snap')
+        snap = tmp_path/'snap'
+        m = manifest(snap)
+        payload = next(n for n in m['files'] if not n.endswith('cache.db'))
+        if damage == 'bytes':
+            (snap/payload).write_bytes(b'damaged')
+        elif damage == 'missing':
+            (snap/payload).unlink()
+        elif damage == 'extra':
+            (snap/'surprise').write_text('not listed')
+        elif damage == 'symlink':
+            outside = tmp_path/'outside'
+            shutil.copyfile(snap/payload, outside)
+            (snap/payload).unlink()
+            (snap/payload).symlink_to(outside)
+        elif damage in ('traversal', 'absolute'):
+            m['files']['../outside' if damage == 'traversal' else '/outside'] = m['files'].pop(payload)
+            rewrite_manifest(snap, m)
+        elif damage in ('version', 'codec', 'topology'):
+            m[{'version':'format_version', 'codec':'disk', 'topology':'shards'}[damage]] = {'version':2, 'codec':'os.system', 'topology':2}[damage]
+            rewrite_manifest(snap, m)
+        elif damage == 'database':
+            (snap/'data/cache.db').write_bytes(b'not sqlite')
+            rehash(snap, 'data/cache.db')
+        else:
+            with sqlite3.connect(snap/'data/cache.db') as db:
+                db.execute("UPDATE Cache SET filename = '../../outside'")
+            rehash(snap, 'data/cache.db')
+>       with pytest.raises(ValueError):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+/tests/test_snapshots.py:207: Failed
+=============================== warnings summary ===============================
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/tests/pytest-cache-files-rlq8cdnd'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../../usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429
+  /usr/local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/lastfailed: [Errno 30] Read-only file system: '/tests/pytest-cache-files-0zb4w2se'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+../../usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51
+  /usr/local/lib/python3.12/site-packages/_pytest/stepwise.py:51: PytestCacheWarning: could not create cache path /tests/.pytest_cache/v/cache/stepwise: [Errno 30] Read-only file system: '/tests/pytest-cache-files-ma7n3i58'
+    session.config.cache.set(STEPWISE_CACHE_DIR, [])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED ../../tests/test_snapshots.py::test_corruption_rejected_before_restore_publication[bytes]
+1 failed, 29 passed, 3 warnings in 2.23s

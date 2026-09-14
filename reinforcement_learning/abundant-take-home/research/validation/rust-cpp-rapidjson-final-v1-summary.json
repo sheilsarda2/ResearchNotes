@@ -1,0 +1,76 @@
+{
+  "input_manifest": "research/validation/rust-cpp-rapidjson-final-v1-inputs.json",
+  "tasks": {
+    "rapidjson-schema-property-membership": {
+      "id": "rapidjson-schema-property-membership",
+      "path": "candidates/rapidjson-schema-property-membership",
+      "validated_task_sha256": "ee2ac3eae9c5b26bf004c290e90d9fef21343353992fbf4b3544e92da2a804e9",
+      "validated_harbor_task_checksum": "c8a5f4fd1ecc131d2370b8e25fee4e22a1f414fa59950ea696ce12eac885b229",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-rapidjson-final-v1-01-oracle/rapidjson-schema-property-member__Yanbaf4/result.json",
+        "nop": "research/validation/jobs/rust-cpp-rapidjson-final-v1-01-nop/rapidjson-schema-property-member__Ws2QYwD/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "580050b09fb4aada3c94dc641ccb119b944a55a257382bd6b7fd3fd1f5cdeee0",
+        "nop": "01c031ba0f8d597b6c3f1e79f6aff13aa421637a7cf5be6ffce593a016a193cb"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "compile-independent": {
+          "exit_code": 0,
+          "seconds": 2.169462083998951
+        },
+        "independent": {
+          "exit_code": 0,
+          "seconds": 0.005324750003637746,
+          "cases": 49,
+          "checks": 309,
+          "failed": 0
+        },
+        "compile-upstream": {
+          "exit_code": 0,
+          "seconds": 34.448422807996394
+        },
+        "upstream": {
+          "exit_code": 0,
+          "seconds": 0.04872770800284343,
+          "expected_names": [
+            "Object_AdditionalPropertiesBoolean",
+            "Object_AdditionalPropertiesObject",
+            "Object_PatternProperties",
+            "Object_PatternProperties_AdditionalPropertiesBoolean",
+            "Object_PatternProperties_AdditionalPropertiesObject",
+            "Object_PatternProperties_ErrorConflict",
+            "Object_Properties",
+            "Object_PropertiesRange",
+            "Object_Properties_PatternProperties",
+            "Object_PropertyDependencies",
+            "Object_Required",
+            "Object_Required_PassWithDefault",
+            "Object_SchemaDependencies"
+          ],
+          "observed_names": [
+            "Object_AdditionalPropertiesBoolean",
+            "Object_AdditionalPropertiesObject",
+            "Object_PatternProperties",
+            "Object_PatternProperties_AdditionalPropertiesBoolean",
+            "Object_PatternProperties_AdditionalPropertiesObject",
+            "Object_PatternProperties_ErrorConflict",
+            "Object_Properties",
+            "Object_PropertiesRange",
+            "Object_Properties_PatternProperties",
+            "Object_PropertyDependencies",
+            "Object_Required",
+            "Object_Required_PassWithDefault",
+            "Object_SchemaDependencies"
+          ],
+          "collected": 13
+        },
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified"
+    }
+  },
+  "failures": []
+}

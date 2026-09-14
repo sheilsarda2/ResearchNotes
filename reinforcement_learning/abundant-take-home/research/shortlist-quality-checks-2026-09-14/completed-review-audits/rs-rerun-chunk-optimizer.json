@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-14T05:28:14.531052+00:00",
+  "task": "candidates_v2/rs-rerun-chunk-optimizer",
+  "original_task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+  "check_report": "research/shortlist-quality-checks-2026-09-14/reviews-002/jobs/rs-rerun-chunk-optimizer-quality-20260914T051534Z/check_report.json",
+  "check_report_sha256": "dc0ea43d9189f40f9dbfd2181ba66c3ed7fad649ef42583b9bad16ce9be16b69",
+  "valid_review_report": true,
+  "rubric_pass": 11,
+  "rubric_fail": [],
+  "rubric_not_applicable": [],
+  "reviewer_explanation_caveats": [
+    {
+      "criterion": "anti_cheating_measures",
+      "type": "reviewer_explanation_overstatement",
+      "reviewer_claim": "The environment is offline (no-network) for both agent build and verifier",
+      "assessment": "Only the verifier is explicitly configured no-network. Cargo offline is a dependency-resolution setting, not whole-agent network isolation. Do not repeat this explanation as a proven network isolation property.",
+      "source": "candidates_v2/rs-rerun-chunk-optimizer/task.toml",
+      "source_sha256": "c9b051184e03bc9eefd0e4518bda9f2260c36a8c29aed77c07048d0268ea37c3",
+      "changes_required_to_task": false
+    }
+  ],
+  "evidence": {
+    "schema_version": 1,
+    "step_definition": "ATIF source=agent steps and native role=assistant turns are counted separately; tool calls are a separate count.",
+    "identity": {
+      "trial_name": "check-rs-rerun-chunk-optimizer__i3rifzq",
+      "task_name": "check-rs-rerun-chunk-optimizer",
+      "task_checksum": "5de171dd2d816377db908c4405aff45ec6443128bf048ca99395742c87fb3e24",
+      "agent": "mini-swe-agent",
+      "agent_version": "2.4.6"
+    },
+    "outcome": {
+      "reward": 1.0,
+      "exception_type": null,
+      "finished_at": "2026-09-14T05:25:58.625320Z"
+    },
+    "request": {
+      "configured_model": "anthropic/claude-sonnet-5",
+      "configured_effort": "high",
+      "recorded_effort": "high",
+      "effort_matches": true,
+      "thinking_type": "adaptive",
+      "max_tokens": 64000
+    },
+    "response_models": {
+      "atif": [
+        "anthropic/claude-sonnet-5"
+      ],
+      "native": [
+        "claude-sonnet-5"
+      ],
+      "atif_reasoning_efforts": [
+        "high"
+      ]
+    },
+    "counts": {
+      "atif_agent_steps": 39,
+      "native_assistant_turns": 39,
+      "atif_tool_calls": 46,
+      "native_tool_calls": 46,
+      "native_tool_returns": 46,
+      "turn_counts_match": true,
+      "atif_steps_with_timestamp": 39,
+      "native_turns_with_timestamp": 39
+    },
+    "usage": {
+      "result": {
+        "n_input_tokens": 1929793,
+        "n_cache_tokens": 1862903,
+        "n_output_tokens": 12622,
+        "cost_usd": 0.6659865999999999
+      },
+      "atif_final": {
+        "total_prompt_tokens": 1929793,
+        "total_completion_tokens": 12622,
+        "total_cached_tokens": 1862903,
+        "total_cost_usd": 0.6659865999999999
+      },
+      "native_final": {
+        "instance_cost": 0.6659865999999999,
+        "api_calls": 39
+      },
+      "native_responses": {
+        "assistant_turns": 39,
+        "usage_totals": {
+          "prompt_tokens": 1929793,
+          "completion_tokens": 12622,
+          "total_tokens": 1942415,
+          "cache_creation_input_tokens": 66812,
+          "cache_read_input_tokens": 1862903
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 39,
+          "completion_tokens": 39,
+          "total_tokens": 39,
+          "cache_creation_input_tokens": 39,
+          "cache_read_input_tokens": 39
+        },
+        "cost_usd": 0.6659866000000001,
+        "turns_with_cost": 39
+      },
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false
+    },
+    "budget": {
+      "deadline_at": null,
+      "deadline_source": null,
+      "native_at_or_before_deadline": null,
+      "native_after_deadline": null,
+      "native_unclassified": {
+        "assistant_turns": 39,
+        "usage_totals": {
+          "prompt_tokens": 1929793,
+          "completion_tokens": 12622,
+          "total_tokens": 1942415,
+          "cache_creation_input_tokens": 66812,
+          "cache_read_input_tokens": 1862903
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 39,
+          "completion_tokens": 39,
+          "total_tokens": 39,
+          "cache_creation_input_tokens": 39,
+          "cache_read_input_tokens": 39
+        },
+        "cost_usd": 0.6659866000000001,
+        "turns_with_cost": 39
+      },
+      "native_tool_returns_after_deadline": null,
+      "native_tool_returns_without_timestamp": 0,
+      "last_assistant_seconds_after_deadline": null,
+      "post_deadline_activity": null
+    },
+    "timing": {
+      "environment_setup": {
+        "started_at": "2026-09-14T05:22:12.813686Z",
+        "finished_at": "2026-09-14T05:22:17.735929Z",
+        "seconds": 4.922243,
+        "complete": true
+      },
+      "agent_setup": {
+        "started_at": "2026-09-14T05:22:17.736024Z",
+        "finished_at": "2026-09-14T05:22:54.558671Z",
+        "seconds": 36.822647,
+        "complete": true
+      },
+      "agent_execution": {
+        "started_at": "2026-09-14T05:22:54.877116Z",
+        "finished_at": "2026-09-14T05:25:46.127444Z",
+        "seconds": 171.250328,
+        "complete": true
+      },
+      "verifier": {
+        "started_at": "2026-09-14T05:25:46.670823Z",
+        "finished_at": "2026-09-14T05:25:46.835862Z",
+        "seconds": 0.165039,
+        "complete": true
+      },
+      "trial": {
+        "started_at": "2026-09-14T05:22:12.664406Z",
+        "finished_at": "2026-09-14T05:25:58.625320Z",
+        "seconds": 225.960914,
+        "complete": true
+      }
+    },
+    "lifecycle": {
+      "runtime_present": true,
+      "runtime_state": "present",
+      "runtime_version": 1,
+      "runtime_helper_sha256": null,
+      "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+      "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+      "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+      "deadline_record_present": true,
+      "deadline_record_state": "present",
+      "agent_phase_started": true,
+      "agent_run_started_at": "2026-09-14T05:22:54.877808Z",
+      "quiescent": true,
+      "closed_at": "2026-09-14T05:25:46.287830Z",
+      "cleanup_finished_at": "2026-09-14T05:25:46.294586Z",
+      "cleanup_error": null,
+      "execution_count": 3,
+      "all_executions_quiescent": true
+    },
+    "completeness": {
+      "config": "present",
+      "result": "present",
+      "atif": "present",
+      "native": "present",
+      "result_usage": true,
+      "result_cost": true,
+      "execution_and_verifier_timing": true,
+      "pre_verifier_snapshot_present": true,
+      "pre_verifier_inputs_unchanged": true
+    },
+    "pre_verifier_snapshot_check": {
+      "matches": true,
+      "expected_sha256": "2b72a39f1f5d92042c6c983d4879eef8c858b8346808425aee57fe994214d268",
+      "observed_sha256": "2b72a39f1f5d92042c6c983d4879eef8c858b8346808425aee57fe994214d268",
+      "changed_paths": []
+    },
+    "input_snapshot": {
+      "schema_version": 1,
+      "hash_algorithm": "sha256",
+      "paths": [
+        "agent/mini-swe-agent.trajectory.json",
+        "agent/trajectory.json",
+        "artifacts",
+        "benchmark-deadline.json",
+        "benchmark-runtime.json",
+        "config.json",
+        "result.json",
+        "verifier"
+      ],
+      "entries": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "kind": "file",
+          "size": 556770,
+          "sha256": "128833ad8cd426163a7214e43ac170dd47bad08e730271297cdbc80cd4e27d01"
+        },
+        "agent/trajectory.json": {
+          "kind": "file",
+          "size": 205679,
+          "sha256": "bf85ba6c81c2b1b516607584c9c0530982984264d9b30f079fa09f4750295ede"
+        },
+        "artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/check-result.json": {
+          "kind": "file",
+          "size": 7510,
+          "sha256": "c00040c4ca80b5dd29ceb947c229803f2cd9cdfe4b89c29597e3a4199fcdf504"
+        },
+        "artifacts/logs": {
+          "kind": "directory"
+        },
+        "artifacts/logs/artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/manifest.json": {
+          "kind": "file",
+          "size": 318,
+          "sha256": "d2f0b6d0ad05349b927d9c8237c9c921a1a30468c2289f2f112d919655ce03a4"
+        },
+        "benchmark-deadline.json": {
+          "kind": "file",
+          "size": 1474,
+          "sha256": "ac92207774f4e4ea8c8e7a0b94c9a1921514b5da2d1aea13637731dcddc3b1e9"
+        },
+        "benchmark-runtime.json": {
+          "kind": "file",
+          "size": 338,
+          "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+        },
+        "config.json": {
+          "kind": "file",
+          "size": 2138,
+          "sha256": "b4449120acb717373ec66b196967cc49e3c81bdccb08572c73eaba5b342c334d"
+        },
+        "result.json": {
+          "kind": "file",
+          "size": 4245,
+          "sha256": "a251a96fb64516d8bb53e52b07db2edf5aef710dba8606db9fbef25ea996b883"
+        },
+        "verifier": {
+          "kind": "directory"
+        },
+        "verifier/reward.txt": {
+          "kind": "file",
+          "size": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "verifier/test-stdout.txt": {
+          "kind": "file",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "sha256": "fa1ebb225789c88a926dc85e90919cb5db77801be887667c95ba25ee058e6d43"
+    }
+  },
+  "audit_source_sha256": "4405b046ce0f8f372b9be77c2ac8c6d4a0fef81fe2f182b980641c0b3ab6475b",
+  "evidence_collector_sha256": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5",
+  "raw_trial_files_unchanged": true
+}
