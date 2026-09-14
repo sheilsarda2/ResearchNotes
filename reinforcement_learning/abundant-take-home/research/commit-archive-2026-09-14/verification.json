@@ -1,0 +1,77 @@
+{
+  "checked_at_utc": "2026-09-14T20:08:33.358080+00:00",
+  "base_commit": "d63f50d178b964bae05969c02ce4ebe7f5c25840",
+  "verified_through_commit": "073cf3bf29780fabf5baf61cda4710973b4d229b",
+  "archive_commits": 39,
+  "task_commits": 30,
+  "final_index_commit": "The next commit adds this receipt and the index.",
+  "files_verified": 16773,
+  "bytes_verified": 904185680,
+  "git_tree_matches_reviewed_worktree": true,
+  "source_manifest_sha256": "05676315675edd2770fd0b0339ae01af77ea7d17568c4e191e25bab86db88d2e",
+  "original_files_checked": 36,
+  "original_files_unchanged": true,
+  "submission_artifacts": [
+    {
+      "path": "Take home challenge results - Sheil Sarda 091426.pdf",
+      "bytes": 192462,
+      "sha256": "ded09d029c504a762ecfff347ced3fd884f7cdda0b0068518838b61298269506",
+      "unchanged": true
+    },
+    {
+      "path": "research/final-submission-2026-09-14/abundant-take-home-sheil-sarda-20260914.zip",
+      "bytes": 579642121,
+      "sha256": "93239c8c0a8e3049930f905b8fbd66e3718652831e4a5b30993f68908e072665",
+      "unchanged": true
+    }
+  ],
+  "tests": {
+    "passed": 53,
+    "coverage_priority": 8,
+    "interleaving": 13,
+    "deadline_activation": 8,
+    "portable_watchdog": 24,
+    "excluded_linux_only": [
+      "WatchdogTests.test_recovers_real_missing_and_stale_supervisor_without_model_calls",
+      "WatchdogTests.test_reused_pid_is_never_signalled"
+    ],
+    "watchdog_temp_root": "/private/tmp",
+    "python": "3.9.6",
+    "limitations": [
+      "Two watchdog tests depend on Linux /proc and pidfd APIs; the current host is macOS.",
+      "Viewer integration, live activation, paid trials and Docker controls were not rerun during archival."
+    ],
+    "syntax_checks": {
+      "python_files": 21,
+      "shell_files": 5,
+      "javascript": "scripts/harbor-viewer/effort-badge.js"
+    },
+    "lock_cache_checks": "Isolated deduplication, scope and exception-restoration checks passed.",
+    "commands": [
+      "python3 -m unittest discover -s scripts/tests -p 'test_benchmark_coverage_priority.py' -v",
+      "python3 -m unittest discover -s scripts/tests -p 'test_benchmark_interleaving.py' -v",
+      "python3 -m unittest discover -s scripts/tests -p 'test_activate_benchmark_deadline.py' -v"
+    ],
+    "watchdog_selection": "All tests in WatchdogTests and SharedWaitWatchdogTests except excluded_linux_only; TMPDIR=/private/tmp."
+  },
+  "preserved_historical_validation": {
+    "oracle_nop_jobs": 139,
+    "files": 13975,
+    "bytes": 163354686,
+    "excluded_generated_executables": 8
+  },
+  "local_only": [
+    "Results deck 091426.pptx and timestamped intermediate PowerPoint exports; earlier committed presentation exports remain in history.",
+    "Submission ZIP and other large generated ZIPs, retained locally with recorded hashes",
+    "Upstream checkouts, compiler targets and generated verifier executables",
+    "Runtime lock files and live campaign-control changes",
+    "Unrelated .DS_Store modifications"
+  ],
+  "independent_audit": {
+    "complete_task_packages": 30,
+    "validation_job_mapping_checked": 139,
+    "adjacent_job_log_mapping_checked": 87,
+    "real_credentials_found": false,
+    "historical_incomplete_job": "research/validation/jobs/snapshot-oracle-v1"
+  }
+}

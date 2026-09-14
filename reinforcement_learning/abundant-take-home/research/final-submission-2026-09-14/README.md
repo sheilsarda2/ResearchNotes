@@ -15,4 +15,4 @@ The archive is 579,642,121 bytes (about 580 MB). Its SHA-256 is `93239c8c0a8e304
 
 `build-submission.py` copies the previously verified `review-pack-99-002.zip`, appends the user's PDF, and checks the resulting contents against the frozen plan and report hash. It preserves the earlier packages. It refuses to overwrite an existing completed or partial output. The previous supporting-evidence ZIP remains separate and is not nested into this submission.
 
-The ZIP is ready for the user's personal take-home upload page. No upload has been performed.
+The user confirmed submission on September 14, 2026. The upload was performed by the user; the archive and PDF above identify the prepared submission.
