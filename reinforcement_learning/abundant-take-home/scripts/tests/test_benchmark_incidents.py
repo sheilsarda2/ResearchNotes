@@ -116,6 +116,25 @@ class IncidentTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self.classify()
 
+    def test_exact_scheduling_cancellation_during_verifier_is_infrastructure(self):
+        self.result['agent_execution'] = {'started_at':'2026-09-13T21:50:00Z'}
+        self.result['verifier'] = {'started_at':'2026-09-13T21:54:00Z'}
+        self.write(self.trial/'result.json', self.result)
+        self.write(self.trial/'config.json', {'trial_name':'trial'})
+        log = self.root/'jobs/saved-runner.log'
+        log.write_text('cached_state FileNotFoundError candidate-campaigns-shared.control.state.json')
+        proof = self.root/'research/proof.json'
+        self.write(proof, {'passed':True,'model_calls':0,'transient_read_regression_passed':True})
+        self.manifest.update(kind='admission_state_read_cancelled_siblings',
+            runner_log='jobs/saved-runner.log',runner_log_sha256=self.hash(log),
+            resolution={'proof':'research/proof.json','proof_sha256':self.hash(proof)})
+        self.manifest['trials']['jobs/campaign/trial']['files'] = {n:self.hash(self.trial/n) for n in (
+            'result.json','config.json','benchmark-evidence.json','benchmark-deadline.json')}
+        self.write(self.manifest_path,self.manifest)
+        self.assertTrue(self.classify()['resolved'])
+        self.result['verifier_result'] = {'rewards':{'reward':0}}
+        self.assertIsNone(self.classify(), 'A graded failure must retain its score')
+
 
 if __name__ == '__main__':
     unittest.main()

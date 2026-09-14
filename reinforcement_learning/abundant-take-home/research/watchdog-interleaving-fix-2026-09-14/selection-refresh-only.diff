@@ -1,0 +1,31 @@
+--- a/scripts/benchmark_interleaving.py
++++ b/scripts/benchmark_interleaving.py
+@@ -71,11 +71,13 @@
+ def refresh_selection(shared):
+     """Follow explicitly promoted task revisions when their next runner starts."""
+     plan_path = shared.path.parent / 'benchmark-user-plan.json'
+-    if not plan_path.exists():
+-        return
+-    user_plan = json.loads(plan_path.read_text())
+-    campaigns = [user_plan['active_full_campaign'], *user_plan.get('active_revision_campaigns', [])]
+     with shared.locked() as (_, state):
++        # A promotion writes policy and user plan under this same lock. Reading
++        # before acquiring it can replay an old selection after promotion.
++        if not plan_path.exists():
++            return
++        user_plan = json.loads(plan_path.read_text())
++        campaigns = [user_plan['active_full_campaign'], *user_plan.get('active_revision_campaigns', [])]
+         policy = state.get('interleaving')
+         if not policy or (policy['campaigns'] == campaigns and
+                           policy.get('excluded_tasks', []) == user_plan.get('excluded_tasks', [])):
+@@ -93,7 +95,9 @@
+             fresh['counts'][receipt['cell']] += 1
+         fresh.update(retired_receipts=retired, installed_at=policy['installed_at'],
+                      selection_updated_at=time.time())
+-        state['interleaving'] = fresh
++        # Refresh dispatch fields without dropping revision archives or other
++        # policy metadata owned by the promotion tooling.
++        state['interleaving'] = {**policy, **fresh}
+     _cache.clear()
+ 
+ 

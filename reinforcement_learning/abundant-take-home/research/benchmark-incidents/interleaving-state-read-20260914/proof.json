@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "model_calls": 0,
+  "assertions": {
+    "same_pid": true,
+    "ongoing_task_kept_running": true,
+    "unseen_cells_admitted": true,
+    "ahead_cell_waits": true,
+    "worker_alive": true
+  },
+  "final_state": {
+    "participants": {
+      "86659:2991722": {
+        "pid": 86659,
+        "identity": "2991722",
+        "control": "/tmp/tmp0rrt9wv6/local.json",
+        "trials": {
+          "behind-next": {
+            "started_at": 1789345436.8671534,
+            "startup_reserve_mb": 768
+          },
+          "third-next": {
+            "started_at": 1789345436.8700933,
+            "startup_reserve_mb": 768
+          }
+        }
+      }
+    },
+    "interleaving": {
+      "campaigns": [
+        "job"
+      ],
+      "cells": {
+        "[\"ahead\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        },
+        "[\"behind\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        },
+        "[\"third\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        }
+      },
+      "counts": {
+        "[\"ahead\",\"m\",\"high\"]": 2,
+        "[\"behind\",\"m\",\"high\"]": 1,
+        "[\"third\",\"m\",\"high\"]": 1
+      },
+      "receipts": {
+        "behind-next": {
+          "cell": "[\"behind\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1789345436.8671534,
+          "source": "atomic_admission"
+        },
+        "third-next": {
+          "cell": "[\"third\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1789345436.8700933,
+          "source": "atomic_admission"
+        }
+      }
+    },
+    "updated_at": 1789345436.8769245,
+    "active_trials": 2,
+    "external_trials": 0,
+    "peak_active_trials": 2,
+    "available_mb": 30000,
+    "memory_pressure_pct": 0,
+    "last_wait_reason": "interleaving: waiting for remaining cells in round",
+    "last_start": 1789345436.8700933
+  },
+  "before": {
+    "pid": 86659,
+    "ticks": 1,
+    "active": [
+      "ongoing-fake-agent"
+    ],
+    "registered": 0,
+    "module_id": 281473239164032,
+    "method": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_shared_admission.py"
+  },
+  "after": {
+    "pid": 86659,
+    "ticks": 8,
+    "active": [
+      "behind-next",
+      "ongoing-fake-agent",
+      "third-next"
+    ],
+    "registered": 3,
+    "module_id": 281473239164032,
+    "method": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_shared_admission.py"
+  },
+  "activation": {
+    "pid": 86659,
+    "started_at": 1789345436.7123432,
+    "passed": true,
+    "active_before": [
+      "ongoing-fake-agent"
+    ],
+    "registered_configs": 3,
+    "registered_names": 3,
+    "module_id": 281473239164032,
+    "active_after": [
+      "ongoing-fake-agent"
+    ],
+    "source_sha256": {
+      "scripts/benchmark_interleaving.py": "ee2c6336b209dc4676975b1e108ef338b07f9248be739806a658abaaef6a18e5",
+      "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+      "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9"
+    },
+    "identity": "2991722",
+    "job": "job",
+    "finished_at": 1789345436.758813
+  },
+  "source_sha256": {
+    "scripts/benchmark_interleaving.py": "ee2c6336b209dc4676975b1e108ef338b07f9248be739806a658abaaef6a18e5",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "scripts/hotpatch-benchmark-interleaving.py": "aa11ed46caf2d334da04744679d3779d22dcd69a19abd2c272b69f9d7c352f47"
+  },
+  "transient_read_regression_passed": true,
+  "unit_test_output": "test_crash_before_trial_creation_returns_slot_and_preserves_history (test_benchmark_interleaving.InterleavingTests.test_crash_before_trial_creation_returns_slot_and_preserves_history) ... ok\ntest_cross_process_round_barrier_is_atomic (test_benchmark_interleaving.InterleavingTests.test_cross_process_round_barrier_is_atomic) ... ok\ntest_historical_repeats_wait_for_all_cells_to_catch_up (test_benchmark_interleaving.InterleavingTests.test_historical_repeats_wait_for_all_cells_to_catch_up) ... ok\ntest_managed_rounds_can_fill_global_slots_across_uneven_campaigns (test_benchmark_interleaving.InterleavingTests.test_managed_rounds_can_fill_global_slots_across_uneven_campaigns) ... ok\ntest_pending_head_and_idempotent_reservation (test_benchmark_interleaving.InterleavingTests.test_pending_head_and_idempotent_reservation) ... ok\ntest_repair_does_not_advance_round_and_limits_still_apply (test_benchmark_interleaving.InterleavingTests.test_repair_does_not_advance_round_and_limits_still_apply) ... ok\ntest_resume_reorders_and_exposes_cells_outside_semaphore_window (test_benchmark_interleaving.InterleavingTests.test_resume_reorders_and_exposes_cells_outside_semaphore_window) ... ok\ntest_transient_state_read_never_cancels_waiting_trials (test_benchmark_interleaving.InterleavingTests.test_transient_state_read_never_cancels_waiting_trials) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.088s\n\nOK\n",
+  "verified_at": 1789345626.8311074
+}

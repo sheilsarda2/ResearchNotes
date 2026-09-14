@@ -1,0 +1,74 @@
+{
+  "kind": "admission_state_read_cancelled_siblings",
+  "created_at": 1789345626.904639,
+  "campaign": "candidates-diskcache-v2-efforts-20-20260913T234023Z",
+  "runner_log": "jobs/interleaving-live-20260914/incidents/candidates-diskcache-v2-efforts-20-20260913T234023Z/runner.log",
+  "runner_log_sha256": "8b54eba3bec3dc2db104a7b5ed0c89af79f02b7da00fdf32b1ac2a6a7f09c899",
+  "trials": {
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__DFPYk39": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "d002144c920bedd68328b8f6d640bad1747448f42a8f8c5025531f8419c63964",
+        "config.json": "02aebf4ff210bf7b96d6b1c9f63ac1ec4bf9a4f5a75043ad423018a8ef381546",
+        "benchmark-evidence.json": "a2fbdbe9757c93d3becaab1f317ca9f0a061efc45651c8619c4f7a99cf077971"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__Wn8Em9F": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "3e5b959786d1e47f4aeb53932f1309ce69573920dc57fc84ee1c1efceffe87ba",
+        "config.json": "a6c32eae60dfd2c2bbd511ca7e7f6ce42c75cce98e52dfd119f43fccc31bb8f2",
+        "benchmark-evidence.json": "9567f4276225096d6a1ce078c261be5c92e66b0fe4f40d308f4c23dfdd4d4750"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__yLT4ask": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "99b711351c7cee0ce3fa50419dda1d6782b9615503808a18d0a4fd0f4f5bbcd3",
+        "config.json": "d88cf81ee9fbbccb7f99b63e0d10ecd8e4f1392fbf6011b03c6577dcd6f90bd5",
+        "benchmark-evidence.json": "1ca74873d29c35314979439c841c10d9de050eab8c103e9529af321e5f1a604d",
+        "benchmark-deadline.json": "862466a65a92be4844a22b23510ba141d5c1f429f682d17282878095e83b6067"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__pptYT5i": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "2469907e4785b6a4e4a827a67bd409fd283ba07d71a8c28a5a6f2727b76f976e",
+        "config.json": "c176a86baf445a4dce6586cf3b3afd1fece0bc6d270c879ab2c8941a2c404a3f",
+        "benchmark-evidence.json": "616021f226c353d27ba2bf1094c8add59f2ad4a85b995867fed2b7d0771298b3",
+        "benchmark-deadline.json": "729e5538bfdecd031659f7366a5d0ce184dee6d48a5603924bc5ad420e33bc3e"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__doiTsSs": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "b35e42871f8bf3de4c39da0de7d3b6c98d0a8c42b5505a970bef29ecacc5718a",
+        "config.json": "22b289498d68bfea64607d68def8261c5a5419e98c5f73822ed75efe99130689",
+        "benchmark-evidence.json": "858cea9c549ead72ee9457375850c058eb4b2b839189361d7afdcc7b9dd617f6"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__RHtfjzm": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "e5b4a5c08f142208fb0a8b9fbd35e3ffa201e7e582749995d864d2936a80fd20",
+        "config.json": "7e6271ebf3ff3bbfae226da4e31009ba3395572fa0c66ebbb4a735413492ff86",
+        "benchmark-evidence.json": "769df12034bf877e90b56e7318b91612204983d6f6179d13ca90a6d32b53083c"
+      }
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__zpBNxJS": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "b8f47afe69ae48d260f243b24cf8acf59d204efd6af821c36ad4d6eb2cfd9e4a",
+        "config.json": "f4590f666a8d4d9be7d38775fa48a2f04abd3f3624318f9fa2c95818cd462717",
+        "benchmark-evidence.json": "4c625628049705f36fe64d8540409f50eaa04424a61f429172d20f39d84d10ac",
+        "benchmark-deadline.json": "e80597841b52d8deb12e85e96c69c5257450345b63516b632789d842530d1464"
+      }
+    }
+  },
+  "resolution": {
+    "proof": "research/benchmark-incidents/interleaving-state-read-20260914/proof.json",
+    "proof_sha256": "81f55656e193cdf6dffdaa38a164ce6b643ce2fcc44388d690d17cb4f242e1b3"
+  },
+  "cause": "New lock-free admission cache raised FileNotFoundError and Harbor TaskGroup cancelled its siblings. Reader now retains its cache or waits through transient read failures.",
+  "classifier_loaded_at": 1789345693.8210797
+}

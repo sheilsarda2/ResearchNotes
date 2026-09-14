@@ -1,0 +1,33 @@
+{
+  "kind": "admission_state_read_cancelled_siblings",
+  "created_at": 1789345881.0404036,
+  "campaign": "candidates-burn-reader-v3-efforts-20-20260913T232621Z",
+  "runner_log": "jobs/interleaving-live-20260914/incidents/candidates-burn-reader-v3-efforts-20-20260913T232621Z/runner.log",
+  "runner_log_sha256": "b4e97c8a8d116dc1d05a4cb280c5420dbaace44772d2e1c0d7045f95fd84e09e",
+  "trials": {
+    "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__9WPpN5o": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "5e230e6b1d749a65d21cb2e386240cb98cd24c134c9c7dcfd53952b77e731608",
+        "config.json": "6fcdc3cf946c0122eb4c06d7356623617ca93faf88b39492c2c6e0ac8e61a32e",
+        "benchmark-evidence.json": "82dc792becbc305e11feb83bace40803174982d52cd965c550c69e22dcb2fde8",
+        "benchmark-deadline.json": "3ae8c994ff47044ca862ba4574f6f2d1e80591a275ea14bdb894c7af0e06c93e"
+      }
+    },
+    "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__ZiKugWf": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "70436cc70c8ce694298c0531605546171b0c732a182f78c31c54b8d424087546",
+        "config.json": "a217d868815615c137b564292db32a1633c48f502712780ef1bf4e2b2e6d0415",
+        "benchmark-evidence.json": "45bbd164f96228796516dd155a1a1778cf179cdd0aceea799e92af1633eae78d",
+        "benchmark-deadline.json": "738d476627a053f47f170842d57cde340222e56e235c116009bbe5c7606f4060"
+      }
+    }
+  },
+  "resolution": {
+    "proof": "research/benchmark-incidents/interleaving-state-read-20260914/proof.json",
+    "proof_sha256": "81f55656e193cdf6dffdaa38a164ce6b643ce2fcc44388d690d17cb4f242e1b3"
+  },
+  "cause": "Reader failure began before the in-place read-retry update; TaskGroup cancellation was already in progress. Separate Burn v3 task-validation hold remains in force.",
+  "classifier_loaded_at": 1789346020.8149755
+}

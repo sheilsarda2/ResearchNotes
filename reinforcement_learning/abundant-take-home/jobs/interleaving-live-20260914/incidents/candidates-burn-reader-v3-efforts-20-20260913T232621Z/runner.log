@@ -1,0 +1,190 @@
+⠹   4/180 Mean: 0.000 ╸                                        0:40:44 0:01:19
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbo │
+│ r/cli/jobs.py:1458 in start                                                  │
+│                                                                              │
+│   1455 │   # `_run_job` itself prints the summary + invokes the upload       │
+│        finalize                                                              │
+│   1456 │   # (when --upload is set) so everything stays on one event loop.   │
+│        See                                                                   │
+│   1457 │   # the long comment in `HarborHubUploadPlugin.on_job_end` for why  │
+│        this matters.                                                         │
+│ ❱ 1458 │   job, job_result = run_async(_run_job())                           │
+│   1459 │                                                                     │
+│   1460 │   if export_traces:                                                 │
+│   1461 │   │   from harbor.utils.traces_utils import export_traces as        │
+│        _export_traces                                                        │
+│                                                                              │
+│ /home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbo │
+│ r/cli/utils.py:24 in run_async                                               │
+│                                                                              │
+│    21 │   """                                                                │
+│    22 │   if sys.platform == "win32":                                        │
+│    23 │   │   return asyncio.run(coro,                                       │
+│       loop_factory=asyncio.ProactorEventLoop)                                │
+│ ❱  24 │   return asyncio.run(coro)                                           │
+│    25                                                                        │
+│    26                                                                        │
+│    27 def parse_kwargs(kwargs_list: list[str] | None) -> dict[str, Any]:     │
+│                                                                              │
+│ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/pyt │
+│ hon3.14/asyncio/runners.py:205 in run                                        │
+│                                                                              │
+│   202 │   │   │   "asyncio.run() cannot be called from a running event       │
+│       loop")                                                                 │
+│   203 │                                                                      │
+│   204 │   with Runner(debug=debug, loop_factory=loop_factory) as runner:     │
+│ ❱ 205 │   │   return runner.run(main)                                        │
+│   206                                                                        │
+│   207                                                                        │
+│   208 def _cancel_all_tasks(loop):                                           │
+│                                                                              │
+│ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/pyt │
+│ hon3.14/asyncio/runners.py:128 in run                                        │
+│                                                                              │
+│   125 │   │                                                                  │
+│   126 │   │   self._interrupt_count = 0                                      │
+│   127 │   │   try:                                                           │
+│ ❱ 128 │   │   │   return self._loop.run_until_complete(task)                 │
+│   129 │   │   except exceptions.CancelledError:                              │
+│   130 │   │   │   if self._interrupt_count > 0:                              │
+│   131 │   │   │   │   uncancel = getattr(task, "uncancel", None)             │
+│                                                                              │
+│ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/pyt │
+│ hon3.14/asyncio/base_events.py:720 in run_until_complete                     │
+│                                                                              │
+│    717 │   │   if not future.done():                                         │
+│    718 │   │   │   raise RuntimeError('Event loop stopped before Future      │
+│        completed.')                                                          │
+│    719 │   │                                                                 │
+│ ❱  720 │   │   return future.result()                                        │
+│    721 │                                                                     │
+│    722 │   def stop(self):                                                   │
+│    723 │   │   """Stop running the event loop.                               │
+│                                                                              │
+│ /home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbo │
+│ r/cli/jobs.py:1411 in _run_job                                               │
+│                                                                              │
+│   1408 │   │   │   )                                                         │
+│   1409 │   │   │   await hub_plugin.on_job_start(job)                        │
+│   1410 │   │                                                                 │
+│ ❱ 1411 │   │   job_result = await job.run()                                  │
+│   1412 │   │                                                                 │
+│   1413 │   │   # Print the run summary BEFORE plugin and Harbor Hub finalize │
+│        so users                                                              │
+│   1414 │   │   # see results even if downstream operations fail.             │
+│                                                                              │
+│ /home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbo │
+│ r/job.py:734 in run                                                          │
+│                                                                              │
+│   731 │   │   │   │   │   │   completed=n_existing,                          │
+│   732 │   │   │   │   │   )                                                  │
+│   733 │   │   │   │   │                                                      │
+│ ❱ 734 │   │   │   │   │   trial_results = await self._run_trials_with_queue( │
+│   735 │   │   │   │   │   │   loading_progress, progress_task                │
+│   736 │   │   │   │   │   )                                                  │
+│   737 │   │   │   else:                                                      │
+│                                                                              │
+│ /home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbo │
+│ r/job.py:897 in _run_trials_with_queue                                       │
+│                                                                              │
+│   894 │   │                                                                  │
+│   895 │   │   coros =                                                        │
+│       self._trial_queue.submit_batch(self._remaining_trial_configs)          │
+│   896 │   │                                                                  │
+│ ❱ 897 │   │   async with asyncio.TaskGroup() as tg:                          │
+│   898 │   │   │   tasks = [tg.create_task(coro) for coro in coros]           │
+│   899 │   │                                                                  │
+│   900 │   │   return [t.result() for t in tasks]                             │
+│                                                                              │
+│ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/pyt │
+│ hon3.14/asyncio/taskgroups.py:72 in __aexit__                                │
+│                                                                              │
+│    69 │   async def __aexit__(self, et, exc, tb):                            │
+│    70 │   │   tb = None                                                      │
+│    71 │   │   try:                                                           │
+│ ❱  72 │   │   │   return await self._aexit(et, exc)                          │
+│    73 │   │   finally:                                                       │
+│    74 │   │   │   # Exceptions are heavy objects that can have object        │
+│    75 │   │   │   # cycles (bad for GC); let's not keep a reference to       │
+│                                                                              │
+│ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/pyt │
+│ hon3.14/asyncio/taskgroups.py:174 in _aexit                                  │
+│                                                                              │
+│   171 │   │   │   │   self._parent_task.uncancel()                           │
+│   172 │   │   │   │   self._parent_task.cancel()                             │
+│   173 │   │   │   try:                                                       │
+│ ❱ 174 │   │   │   │   raise BaseExceptionGroup(                              │
+│   175 │   │   │   │   │   'unhandled errors in a TaskGroup',                 │
+│   176 │   │   │   │   │   self._errors,                                      │
+│   177 │   │   │   │   ) from None                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+
+╭────────────────────────────── Sub-exception #1 ──────────────────────────────╮
+│ ╭─────────────────── Traceback (most recent call last) ────────────────────╮ │
+│ │ /workspaces/sheil_research/reinforcement_learning/abundant-take-home/scr │ │
+│ │ ipts/harbor-resource-runner.py:147 in admitted_trial                     │ │
+│ │                                                                          │ │
+│ │   144 │   install_task_selection(admission.path)                         │ │
+│ │   145 │   install_trial_subnets(admission.path)                          │ │
+│ │   146 │                                                                  │ │
+│ │ ❱ 147 │   async def admitted_trial(queue, config):                       │ │
+│ │   148 │   │   async with queue._semaphore:                               │ │
+│ │   149 │   │   │   await admission.acquire(config.trial_name,             │ │
+│ │       config.task.path.name)                                             │ │
+│ │   150 │   │   │   try:                                                   │ │
+│ │                                                                          │ │
+│ │ /workspaces/sheil_research/reinforcement_learning/abundant-take-home/scr │ │
+│ │ ipts/benchmark_interleaving.py:168 in priority_acquire                   │ │
+│ │                                                                          │ │
+│ │   165                                                                    │ │
+│ │   166 def install(admission_class, shared=None):                         │ │
+│ │   167 │   """Install on startup, or on live workers at a Python          │ │
+│ │       main-thread safepoint."""                                          │ │
+│ │ ❱ 168 │   from harbor.job import Job                                     │ │
+│ │   169 │   if not getattr(admission_class,                                │ │
+│ │       '_benchmark_persistent_interleaving', False):                      │ │
+│ │   170 │   │   original_acquire = admission_class.acquire                 │ │
+│ │   171                                                                    │ │
+│ │                                                                          │ │
+│ │ /workspaces/sheil_research/reinforcement_learning/abundant-take-home/scr │ │
+│ │ ipts/benchmark_interleaving.py:110 in cached_state                       │ │
+│ │                                                                          │ │
+│ │   107                                                                    │ │
+│ │   108 def cached_state(shared):                                          │ │
+│ │   109 │   key, now = str(shared.state_path), time.monotonic()            │ │
+│ │ ❱ 110 │   previous = _cache.get(key)                                     │ │
+│ │   111 │   if previous is None or now - previous[0] > 0.5:                │ │
+│ │   112 │   │   try:                                                       │ │
+│ │   113 │   │   │   value = json.loads(shared.state_path.read_text())      │ │
+│ │                                                                          │ │
+│ │ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib │ │
+│ │ /python3.14/pathlib/__init__.py:787 in read_text                         │ │
+│ │                                                                          │ │
+│ │    784 │   │   # Call io.text_encoding() here to ensure any warning is   │ │
+│ │        raised at an                                                      │ │
+│ │    785 │   │   # appropriate stack level.                                │ │
+│ │    786 │   │   encoding = io.text_encoding(encoding)                     │ │
+│ │ ❱  787 │   │   with self.open(mode='r', encoding=encoding,               │ │
+│ │        errors=errors, newline=newline) as f:                             │ │
+│ │    788 │   │   │   return f.read()                                       │ │
+│ │    789 │                                                                 │ │
+│ │    790 │   def write_bytes(self, data):                                  │ │
+│ │                                                                          │ │
+│ │ /home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib │ │
+│ │ /python3.14/pathlib/__init__.py:771 in open                              │ │
+│ │                                                                          │ │
+│ │    768 │   │   """                                                       │ │
+│ │    769 │   │   if "b" not in mode:                                       │ │
+│ │    770 │   │   │   encoding = io.text_encoding(encoding)                 │ │
+│ │ ❱  771 │   │   return io.open(self, mode, buffering, encoding, errors,   │ │
+│ │        newline)                                                          │ │
+│ │    772 │                                                                 │ │
+│ │    773 │   def read_bytes(self):                                         │ │
+│ │    774 │   │   """                                                       │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│ FileNotFoundError: [Errno 2] No such file or directory:                      │
+│ '/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/c │
+│ andidate-campaigns-shared.control.state.json'                                │
+╰──────────────────────────────────────────────────────────────────────────────╯

@@ -1,0 +1,127 @@
+{
+  "passed": true,
+  "model_calls": 0,
+  "assertions": {
+    "same_pid": true,
+    "ongoing_task_kept_running": true,
+    "unseen_cells_admitted": true,
+    "ahead_cell_waits": true,
+    "worker_alive": true
+  },
+  "final_state": {
+    "participants": {
+      "43073:3100388": {
+        "pid": 43073,
+        "identity": "3100388",
+        "control": "/tmp/tmpw22toxtd/local.json",
+        "trials": {
+          "behind-next": {
+            "started_at": 1789346522.5688198,
+            "startup_reserve_mb": 768
+          },
+          "third-next": {
+            "started_at": 1789346522.5689678,
+            "startup_reserve_mb": 768
+          }
+        }
+      }
+    },
+    "interleaving": {
+      "campaigns": [
+        "job"
+      ],
+      "cells": {
+        "[\"ahead\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        },
+        "[\"behind\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        },
+        "[\"third\",\"m\",\"high\"]": {
+          "job": "job",
+          "target": 20
+        }
+      },
+      "counts": {
+        "[\"ahead\",\"m\",\"high\"]": 2,
+        "[\"behind\",\"m\",\"high\"]": 1,
+        "[\"third\",\"m\",\"high\"]": 1
+      },
+      "receipts": {
+        "behind-next": {
+          "cell": "[\"behind\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1789346522.5688198,
+          "source": "atomic_admission"
+        },
+        "third-next": {
+          "cell": "[\"third\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1789346522.5689678,
+          "source": "atomic_admission"
+        }
+      }
+    },
+    "updated_at": 1789346522.5691195,
+    "active_trials": 2,
+    "external_trials": 0,
+    "peak_active_trials": 2,
+    "available_mb": 30000,
+    "memory_pressure_pct": 0,
+    "last_wait_reason": "interleaving: waiting for remaining cells in round",
+    "last_start": 1789346522.5689678
+  },
+  "before": {
+    "pid": 43073,
+    "ticks": 1,
+    "active": [
+      "ongoing-fake-agent"
+    ],
+    "registered": 0,
+    "module_id": 281473788093408,
+    "method": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_shared_admission.py"
+  },
+  "after": {
+    "pid": 43073,
+    "ticks": 5,
+    "active": [
+      "behind-next",
+      "ongoing-fake-agent",
+      "third-next"
+    ],
+    "registered": 3,
+    "module_id": 281473788093408,
+    "method": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/scripts/benchmark_shared_admission.py"
+  },
+  "activation": {
+    "pid": 43073,
+    "started_at": 1789346522.4490502,
+    "passed": true,
+    "active_before": [
+      "ongoing-fake-agent"
+    ],
+    "registered_configs": 3,
+    "registered_names": 3,
+    "module_id": 281473788093408,
+    "active_after": [
+      "ongoing-fake-agent"
+    ],
+    "source_sha256": {
+      "scripts/benchmark_interleaving.py": "d53926c45426d56a09fd27348747876c355ab3428ff7aad3852bb2b7a32078e5",
+      "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+      "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9"
+    },
+    "identity": "3100388",
+    "job": "job",
+    "finished_at": 1789346522.4582157
+  },
+  "source_sha256": {
+    "scripts/benchmark_interleaving.py": "d53926c45426d56a09fd27348747876c355ab3428ff7aad3852bb2b7a32078e5",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "scripts/hotpatch-benchmark-interleaving.py": "aa11ed46caf2d334da04744679d3779d22dcd69a19abd2c272b69f9d7c352f47"
+  }
+}

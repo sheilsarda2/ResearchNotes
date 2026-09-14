@@ -84,6 +84,8 @@ def contained_failure(trial_dir, result):
 
 
 def classify_incident(trial_dir, result):
+    if scheduling := classify_scheduling_incident(trial_dir, result):
+        return scheduling
     if intervention := interventions.classify_intervention(trial_dir, result, root=ROOT):
         return intervention
     error = (result.get('exception_info') or {}).get('exception_type')
@@ -123,4 +125,50 @@ def classify_incident(trial_dir, result):
         return {'code': 'guard_failure_cancelled_sibling_trials',
                 'incident': str(path.relative_to(ROOT)), 'incident_sha256': hash_file(path),
                 'resolved': resolved, 'trigger_trial': incident['trigger_trial']}
+    return None
+
+
+def classify_scheduling_incident(trial_dir, result):
+    """Accept only exact, audited sibling cancellations from an admission crash."""
+    if ((result.get('exception_info') or {}).get('exception_type') != 'CancelledError'
+            or not result.get('finished_at')
+            or (result.get('verifier_result') or {}).get('rewards')):
+        return None
+    trial_dir = Path(trial_dir).resolve()
+    relative = str(trial_dir.relative_to(ROOT))
+    for path in sorted((ROOT / 'research/benchmark-incidents').glob('*/incident.json')):
+        incident = json.loads(path.read_text())
+        assert isinstance(incident, dict) and isinstance(incident.get('trials', {}), dict), 'Invalid incident registry entry'
+        if incident.get('kind') != 'admission_state_read_cancelled_siblings':
+            continue
+        entry = incident.get('trials', {}).get(relative)
+        if entry is None:
+            continue
+        assert entry['exception_type'] == 'CancelledError'
+        required = {'result.json', 'config.json', 'benchmark-evidence.json'}
+        if result.get('agent_execution'):
+            required.add('benchmark-deadline.json')
+        else:
+            assert result.get('verifier') is None, 'Verifier ran without agent execution evidence'
+        assert set(entry['files']) == required
+        for name, expected in entry['files'].items():
+            assert hash_file(trial_dir / name, root=trial_dir) == expected, 'Audited scheduling evidence changed'
+        if 'benchmark-deadline.json' in required:
+            deadline = json.loads((trial_dir / 'benchmark-deadline.json').read_text())
+            assert deadline['quiescent'] is True and not deadline.get('cleanup_error')
+        log = (ROOT / incident['runner_log']).resolve()
+        assert log.is_relative_to(ROOT / 'jobs')
+        assert hash_file(log) == incident['runner_log_sha256']
+        text = log.read_text()
+        assert 'cached_state' in text and 'FileNotFoundError' in text
+        assert 'candidate-campaigns-shared.control.state.json' in text.replace('\n', '').replace('│', '').replace(' ', '')
+        resolution = incident['resolution']
+        proof_path = (ROOT / resolution['proof']).resolve()
+        assert proof_path.is_relative_to(ROOT / 'research')
+        assert hash_file(proof_path) == resolution['proof_sha256']
+        proof = json.loads(proof_path.read_text())
+        assert proof['passed'] is True and proof['model_calls'] == 0
+        assert proof['transient_read_regression_passed'] is True
+        return {'code': incident['kind'], 'resolved': True,
+                'incident': str(path.relative_to(ROOT)), 'incident_sha256': hash_file(path)}
     return None

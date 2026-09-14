@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "at": "2026-09-14T00:43:44.542584+00:00",
+  "passed": true,
+  "audit_model_calls": 0,
+  "raw_trial_unchanged": true,
+  "full_regrade_performed": false,
+  "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7",
+  "model": "anthropic/claude-sonnet-5",
+  "effort": "max",
+  "reward": 1,
+  "exception": null,
+  "started_at": "2026-09-13T22:57:11.910540Z",
+  "finished_at": "2026-09-14T00:27:20.750476Z",
+  "snapshots": {
+    "pre_verifier": {
+      "matches": true,
+      "expected_sha256": "87ecafe3d8865690b3a9bd3c7bea4fbf881a00e7127b0713145a47b9d9bf7669",
+      "observed_sha256": "87ecafe3d8865690b3a9bd3c7bea4fbf881a00e7127b0713145a47b9d9bf7669",
+      "changed_paths": []
+    },
+    "post_result": {
+      "matches": true,
+      "expected_sha256": "daedfb44df9a108a3a2a350444f57acfcaf5b5921a5314834eae05dd119c9491",
+      "observed_sha256": "daedfb44df9a108a3a2a350444f57acfcaf5b5921a5314834eae05dd119c9491",
+      "changed_paths": []
+    }
+  },
+  "evidence_recomputed_identically": true,
+  "snapshot_file_counts": {
+    "pre_verifier": 400,
+    "post_result": 414
+  },
+  "trajectory": {
+    "native_turns": 446,
+    "atif_agent_steps": 446,
+    "tool_calls": 446,
+    "tool_returns": 446,
+    "tool_ids_names_arguments_match": true,
+    "pairwise_timestamps_match_within_1_microsecond": true,
+    "timestamps_monotonic": true,
+    "all_activity_inside_agent_phase_and_before_deadline": true,
+    "usage_censored": false,
+    "cost_usd": 48.944258899999994
+  },
+  "cleanup": {
+    "quiescent": true,
+    "execution_count": 2,
+    "cleanup_error": null,
+    "finished_at": "2026-09-14T00:21:52.908067+00:00",
+    "verifier_started_at": "2026-09-14T00:22:22.711944Z",
+    "seconds_before_verifier": 29.803876876831055
+  },
+  "verifier": {
+    "all_six_groups_passed": true,
+    "native_counts": {
+      "onnx_ir": {
+        "passed": 553,
+        "failed": 0,
+        "ignored": 0,
+        "summary_blocks": 9
+      },
+      "onnx_tests": {
+        "passed": 601,
+        "failed": 0,
+        "ignored": 0,
+        "summary_blocks": 4
+      },
+      "official": {
+        "passed": 860,
+        "failed": 0,
+        "ignored": 0,
+        "summary_blocks": 4
+      }
+    },
+    "differential_passed": 24,
+    "differential_total": 24,
+    "hidden_runtime_weight_tests_passed": 4,
+    "drift_tests_passed": 4,
+    "promoted_rows_passed": 11,
+    "rejects_passed": 3,
+    "accept_probe_passed": true
+  },
+  "task_identity": {
+    "path": "candidates_v2/rs-burn-onnx-rnn-runtime-weights",
+    "whole_task_digest": "7a36689eb396fd1c55ce52291bc34cecf82113977e7fab4e3a0c818a2511bd74",
+    "harbor_checksum": "3a22d00d6ec4f5c8b865c11b53eab1f1d7fd616f121445017183c8e182dbffed",
+    "lock_packager_digest": "356a2f52615dc966eed2e89f6f9cb68c5c9e489a3fe9c8b2c30f7bb049d9193d",
+    "lock_packager_file_count": 12,
+    "matching_locked_sonnet_max_configs": 20,
+    "frozen_selection_plan_task_agree": true,
+    "oracle_nop_evidence_rehashed": true,
+    "validation_basis": "saved_controls_with_metadata_updates",
+    "historical_validation_checksum": "4fc5ec3eda91d690bda181449bb2cca4649bafee790df093c182d10a7ed2e194",
+    "budgets": {
+      "agent_sec": 21600,
+      "verifier_sec": 3600,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "storage_mb": 30720
+    }
+  },
+  "runtime_activation": {
+    "original_python_preflight_passed": true,
+    "python": "3.12.11",
+    "tool_runtime_startup_sidecar_present": false,
+    "late_ack_path": "jobs/interleaving-live-20260914/workers/98349-2185934.ack.json",
+    "late_ack_sha256": "d9f8ca51999cec6f30694414533a460c80db89f894ad6d0d497fdd472fbb9590",
+    "ack_started_at": "2026-09-14T00:20:49.098497+00:00",
+    "ack_finished_at": "2026-09-14T00:20:52.577464+00:00",
+    "assistant_turns_after_ack": 5,
+    "interpretation": "Agent started before live patch. Late ACK installed runtime for future agents; this result does not establish that this existing agent ran patched Mini tool runtime."
+  },
+  "bound_artifact_sha256": {
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/result.json": "2e0dc0b0a1d7652137d8262510241b73d417dd46af1660b3858e987273dd0022",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/config.json": "9beaabafc4d7e0c4d43741c21bb9af206f5302f17c073e9f854c3b9bebf2ce31",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/benchmark-evidence.json": "3a946c076fad641515569c42561ee1f7e25bb32238e63cfda7ceb1d276716330",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/benchmark-snapshot.json": "e6d31e3388378cb56a4b0074b95c53bcf520e25cc2b4d8dff2003607b82a097a",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/benchmark-deadline.json": "e55af85b00732ec70742e14bcff0f253735003c9dddb09b63d573965f922fcc4",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/agent/mini-swe-agent.trajectory.json": "a1dbc43870f00a2c72908b1f84d82aba08230ebb80d375d266258e558e1d2ce8",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/agent/trajectory.json": "fe3e6a344b8b1f19c8864f631b6dbdbd7c0253946658c8d1593d004f60d482fe",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__ekkDDw7/verifier/score.json": "400c0c290734293c21a270054421d46e07554bb0005f3a21920efb8489472134",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z.tasks.json": "396f83c701fba8db2019e069b5ee7df8280cf0e368dea483eaf535fb61d4f73a",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z.plan.json": "5040e0acf550737455d54ff1017952f7404e2ec11ac64adcc69f06989a757ab8",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/lock.json": "563ae03edf3a5b984774083df56934cfdf672460913615795b5043be159d4d04"
+  },
+  "verifier_file_sha256": {
+    "anticheat.txt": "b106132f550d0c02116addbdd01edb4d5ebb42d86cbe706225efcd314343027b",
+    "build_onnx2burn.txt": "81b058a6b93ed4a4d88e9d0210ebbd03a705d32ca12537a8a68f3a23932976de",
+    "build_tests.txt": "411d4bc15224c0434cc9e803cff2b4b05da323d6dce4f68275743d942471a1fb",
+    "differential_manifest.json": "6b7b3998ef2a07b2501dfd3e3ad6a43e72603b633fca5da6093be4438428cac9",
+    "official.txt": "65ace824b3a39d69ec44b4ad1c405750fdea41d757af5fcd341d2c7bbda3c32e",
+    "official_drift_retry.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "onnx_ir.txt": "bb102895008cf3b2b4d7d6c566f868dbcee5554f2a1935f85a6d6b463976c777",
+    "onnx_tests.txt": "355c3f3fabb64e3d031024c2ea16052c00314fc5e4fee0ef5beb15eda09e0910",
+    "rejects.txt": "5f1faca9b76daecabd439050fd4dfcf50822226f2119bfefc865add696c5c42d",
+    "reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "score.json": "400c0c290734293c21a270054421d46e07554bb0005f3a21920efb8489472134",
+    "test-stdout.txt": "8d17ecdaa08d9e59076f38e4087c56139dddd01eeb8242b5014ba0223ad0de8b",
+    "timeline.txt": "48d18e826cca8a5bdb858f65e877a4fa503e5caff77bf713ae2a4c0bb70ef143"
+  }
+}

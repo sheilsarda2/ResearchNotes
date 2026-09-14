@@ -1,0 +1,51 @@
+{
+  "kind": "admission_state_read_cancelled_siblings",
+  "created_at": 1789345626.8572574,
+  "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+  "runner_log": "jobs/interleaving-live-20260914/incidents/candidates-zenoh-v3-efforts-20-20260913T221317Z/runner.log",
+  "runner_log_sha256": "2060af6afd3513baa63f03aa908d19df0549de6d9d669c31a8e1a3990f06b468",
+  "trials": {
+    "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__wvpWBVr": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "53c54f62f6fffc6ae45f111e976179d6e2c6433778aba397e71452003a50c7c7",
+        "config.json": "4c8f3a72a6026b00cf8b367e904c5a4336ff0e783dedb970216bfef0c0308d70",
+        "benchmark-evidence.json": "225c9a39f73ac2495fae287f0116863d709cae4e7d2f0fb5474cef691b3675be",
+        "benchmark-deadline.json": "1b818bba944c159bc4a0e193e1afb4752f2f3128d4ab3971490a0c48803c7f2e"
+      }
+    },
+    "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__9qhcchV": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "dbce4a5fc186702a6fd7f60c3d52283f130da58ffa217f87edb8538fa02acf28",
+        "config.json": "7f895a1d8e02f56dc1e31ae210d6fe51944d3683c577d8114b1b60e1f70ee6b4",
+        "benchmark-evidence.json": "e5e25c64a94d39f4cc0884695784e866120bb6df51e72f5a28e27d88b6aa4a73",
+        "benchmark-deadline.json": "d1aff5569c1daf35d35d8cff11e9a74cad45f82a45906c2a9d393426dde981db"
+      }
+    },
+    "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__uRvM2t2": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "f0a2c95a5082fb489ec046705d70e2b4ec2193baf6043c1e9344510913dc45ae",
+        "config.json": "29bf4f8e6f8d15aa69e33be0a6d4adea0b01be5b49ddc5550dcb6eed2fc070f5",
+        "benchmark-evidence.json": "33ce82160b9edaf071fec7e155b72f714cad43be532c065d1412989377d166f3",
+        "benchmark-deadline.json": "5883fd66082b2f3899a33f4113675986363fe5ba8b5f63e609186c886a090bfc"
+      }
+    },
+    "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__TZFLPZk": {
+      "exception_type": "CancelledError",
+      "files": {
+        "result.json": "c4bec9d00ae24efada730a619d15fd77d0bb9888c2d5f03a3a1184c0e8de2c54",
+        "config.json": "f85da6c440af88668ebe1d4062fa60abac0ffd0509906d6d3041e2c9623f429e",
+        "benchmark-evidence.json": "ac251ef4ea45de6157833357b9d2ae578f7a822f6bcb1b7795063787ebf01e6c",
+        "benchmark-deadline.json": "8a9cd5c63a6becf7135e8bb5b5d10fd6e618ce7296533bbcd0ba8fe2612596a4"
+      }
+    }
+  },
+  "resolution": {
+    "proof": "research/benchmark-incidents/interleaving-state-read-20260914/proof.json",
+    "proof_sha256": "81f55656e193cdf6dffdaa38a164ce6b643ce2fcc44388d690d17cb4f242e1b3"
+  },
+  "cause": "New lock-free admission cache raised FileNotFoundError and Harbor TaskGroup cancelled its siblings. Reader now retains its cache or waits through transient read failures.",
+  "classifier_loaded_at": 1789345693.8183537
+}
