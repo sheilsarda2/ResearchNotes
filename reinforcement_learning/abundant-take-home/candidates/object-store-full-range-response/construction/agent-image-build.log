@@ -1,0 +1,57 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 907B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/9] FROM docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#4 resolve docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 405.83kB done
+#5 DONE 0.0s
+
+#6 [3/9] RUN rustup component add rustfmt --toolchain 1.98.1
+#6 CACHED
+
+#7 [6/9] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+#7 CACHED
+
+#8 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends python3 ca-certificates     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [5/9] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#9 CACHED
+
+#10 [4/9] WORKDIR /workspace/repo
+#10 CACHED
+
+#11 [7/9] COPY image-source/Cargo.lock /workspace/repo/Cargo.lock
+#11 CACHED
+
+#12 [8/9] RUN cargo test --locked --features http --lib --test get_range_file --no-run
+#12 CACHED
+
+#13 [9/9] RUN git init -q && git config user.email task@example.invalid && git config user.name Task     && git add . && git add -f Cargo.lock && git commit -qm "Pinned object_store baseline"
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:6a9eb86281b768d9023759007dde956f07b6bad0b9e32bad956675605ffdbb64 0.0s done
+#14 exporting config sha256:02979393cb5048286fd565d84c833b4b24c20f54bb20e3f151da5c18e393ed4c done
+#14 exporting attestation manifest sha256:0efbf01e1d484296bce8ca87a0c3bb70f304d48399e26eef4358d7b4809c527f 0.0s done
+#14 exporting manifest list sha256:c6c104956b1e13eff8877a9dc09fbeaf5fb9e6500f136cad5ba976d02b2ab501
+#14 exporting manifest list sha256:c6c104956b1e13eff8877a9dc09fbeaf5fb9e6500f136cad5ba976d02b2ab501 0.0s done
+#14 naming to docker.io/library/abundant-object-store-full-range-agent:v1 done
+#14 unpacking to docker.io/library/abundant-object-store-full-range-agent:v1 done
+#14 DONE 0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/wvmutkdghyjpp0tzc43pta0uh

@@ -1,0 +1,86 @@
+{
+  "upstream": {
+    "repository": "https://github.com/apache/arrow-rs-object-store",
+    "commit": "279572ea60f3a7a6e5237e066a6f4a35eee611e0",
+    "package_version": "0.14.2",
+    "license": "Apache-2.0 OR MIT",
+    "source_archive_sha256": "0ded386ef70518db87644c77084b37380f7a6765203febf182f4c598db255ea1",
+    "archive_method": "Clean tracked source imported from exact-SHA GitHub archive; git archive of local pristine snapshot without .git history",
+    "checked_at": "2026-09-13T10:14:26Z",
+    "commit_date": "2026-09-11T15:29:42Z"
+  },
+  "sources": [
+    {
+      "url": "https://github.com/apache/arrow-rs-object-store/issues/806",
+      "purpose": "Primary report and API reproduction",
+      "checked_at": "2026-09-13"
+    },
+    {
+      "url": "https://github.com/pola-rs/polars/issues/28400",
+      "purpose": "Exact demand: small Parquet reads fail against miniserve, large files pass",
+      "checked_at": "2026-09-13"
+    },
+    {
+      "url": "https://github.com/apache/arrow-rs-object-store/pull/609",
+      "purpose": "Related EOF/range retry work, not an initial full200 fix; actual diff inspected",
+      "checked_at": "2026-09-13"
+    },
+    {
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html#name-range",
+      "purpose": "HTTP Range response semantics",
+      "checked_at": "2026-09-13"
+    }
+  ],
+  "public_solution_overlap": {
+    "finding": "No exact publicly available fix found in issue comments/timeline, all21openPRs, exact806 and range200 searches. Related609 does not fix current initial full200 rejection. Bounded search does not exclude private/unreferenced work.",
+    "evidence_directory": "research/rust-cpp-10-to-5/rust-other/sources"
+  },
+  "original_contribution": [
+    "Implementation-independent compatibility contract",
+    "Protected real-HTTP integration tests with response metadata and acknowledged partial-body retry fixtures",
+    "Reference HTTP adapter repair",
+    "Separate offline Harbor verifier and src-only artifact boundary"
+  ],
+  "runtime": {
+    "image": "rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa",
+    "toolchain": "1.98.1",
+    "cargo_lock_sha256": "ea4a13b30b0d38aae3b46ed884b483730c711fea31dc10f72c0709ee822c147d",
+    "upstream_rust_toolchain": "1.97.0",
+    "override": "RUSTUP_TOOLCHAIN=1.98.1; supplied source toolchain file unchanged",
+    "source_msrv": "1.85"
+  },
+  "horizon_hypothesis": "Natural scope may be small-to-medium. HTTP metadata and retry regressions make verification meaningful; no >75-step or model-headroom claim.",
+  "model_trials": {
+    "run": false,
+    "headroom": "unmeasured"
+  },
+  "validation": {
+    "status": "direct_isolated_verifier_complete",
+    "architecture": "linux/arm64",
+    "baseline": {
+      "reward": 0,
+      "diagnostics": "construction/baseline-verifier/diagnostics.json",
+      "independent_passed": 5,
+      "independent_failed": 6,
+      "protected_upstream_passed": 3
+    },
+    "reference": {
+      "reward": 1,
+      "diagnostics": "construction/oracle-verifier/diagnostics.json",
+      "independent_passed": 11,
+      "protected_upstream_passed": 3
+    },
+    "additional_upstream": {
+      "unprivileged_passed": 126,
+      "failed": 0,
+      "upstream_ignored": 1,
+      "log": "construction/upstream-unprivileged-suite.log",
+      "note": "A source-parent fsync permission test fails as container root; exact same binary passes unprivileged. Root-run initial results retained."
+    },
+    "images": {
+      "abundant-object-store-full-range-agent:v1": "sha256:c6c104956b1e13eff8877a9dc09fbeaf5fb9e6500f136cad5ba976d02b2ab501",
+      "abundant-object-store-full-range-verifier:v1": "sha256:279f535e48abdba7dca93fa8f97fe7d607a49823f0710a036831f507ac403242"
+    },
+    "harbor_oracle_nop": "pending root run after frozen package"
+  }
+}

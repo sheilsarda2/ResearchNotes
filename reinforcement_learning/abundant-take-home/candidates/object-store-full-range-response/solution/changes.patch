@@ -1,0 +1,63 @@
+diff --git a/src/http/client.rs b/src/http/client.rs
+index 580b725..4879b4c 100644
+--- a/src/http/client.rs
++++ b/src/http/client.rs
+@@ -28,7 +28,7 @@ use bytes::Buf;
+ use chrono::{DateTime, Utc};
+ use http::header::{
+     CACHE_CONTROL, CONTENT_DISPOSITION, CONTENT_ENCODING, CONTENT_LANGUAGE, CONTENT_LENGTH,
+-    CONTENT_TYPE,
++    CONTENT_RANGE, CONTENT_TYPE,
+ };
+ use http::{Method, StatusCode};
+ use percent_encoding::percent_decode_str;
+@@ -378,10 +378,10 @@ impl GetClient for Client {
+             true => Method::HEAD,
+             false => Method::GET,
+         };
+-        let has_range = options.range.is_some();
++        let requested_range = options.range.clone();
+         let builder = self.client.request(method, url);
+ 
+-        let res = builder
++        let mut res = builder
+             .with_get_options(options)
+             .retryable_request()
+             .send(ctx)
+@@ -401,9 +401,33 @@ impl GetClient for Client {
+                 .into(),
+             })?;
+ 
+-        // We expect a 206 Partial Content response if a range was requested
+-        // a 200 OK response would indicate the server did not fulfill the request
+-        if has_range && res.status() != StatusCode::PARTIAL_CONTENT {
++        // A server may answer a whole-object range with 200. In that case
++        // Content-Length describes the full representation, and Content-Range
++        // has no meaning. Normalize it for the shared range/stream handling.
++        if res.status() == StatusCode::OK {
++            if let Some(requested) = &requested_range {
++                let size = res
++                    .headers()
++                    .get(CONTENT_LENGTH)
++                    .and_then(|value| value.to_str().ok())
++                    .and_then(|value| value.parse::<u64>().ok());
++                if let Some(size) = size.filter(|size| {
++                    *size > 0
++                        && requested
++                            .as_range(*size)
++                            .is_ok_and(|range| range == (0..*size))
++                }) {
++                    *res.status_mut() = StatusCode::PARTIAL_CONTENT;
++                    res.headers_mut().insert(
++                        CONTENT_RANGE,
++                        format!("bytes 0-{}/{size}", size - 1).parse().unwrap(),
++                    );
++                }
++            }
++        }
++
++        // Preserve rejection when a server ignored a true subrange.
++        if requested_range.is_some() && res.status() != StatusCode::PARTIAL_CONTENT {
+             return Err(crate::Error::NotSupported {
+                 source: Box::new(Error::RangeNotSupported {
+                     href: path.to_string(),

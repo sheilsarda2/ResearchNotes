@@ -1,0 +1,39 @@
+
+running 3 tests
+test test_get_opts_over_range ... ok
+test test_get_range ... ok
+test test_get_range_opts_with_etag ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 11 tests
+test accepted_full_200_can_resume_with_partial_206_without_duplication ... ok
+test bounded_whole_representation_and_clamped_end ... ok
+test full_response_with_truncated_body_does_not_succeed ... ok
+test genuine_partial_content_preserves_range_and_total_size ... ok
+test ignored_true_subranges_remain_errors ... ok
+test malformed_or_mismatched_partial_content_remains_error ... ok
+test normal_get_and_head_are_unchanged ... ok
+test offset_and_suffix_covering_whole_representation ... ok
+test retry_before_any_data_can_receive_whole_200 ... ok
+test retry_cannot_accept_ignored_subrange_or_changed_object ... ok
+test stray_content_range_on_200_has_no_authority ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.56s
+
+   Compiling http v1.5.0
+   Compiling http-body v1.1.0
+   Compiling h2 v0.4.19
+   Compiling http-body-util v0.1.5
+   Compiling tower-http v0.6.11
+   Compiling hyper v1.11.1
+   Compiling hyper-util v0.1.20
+   Compiling hyper-rustls v0.27.9
+   Compiling reqwest v0.13.5
+   Compiling object_store v0.14.2 (/workspace/repo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 24.89s
+     Running tests/get_range_file.rs (/opt/object-store-target/debug/deps/get_range_file-dfd9fbf54b1d420c)
+     Running tests/harbor_full_range_response.rs (/opt/object-store-target/debug/deps/harbor_full_range_response-0e76f5df4c428b55)
+
+{"command": ["cargo", "test", "--offline", "--locked", "--features", "http", "--test", "harbor_full_range_response", "--test", "get_range_file", "--", "--test-threads=1"], "exit_code": 0, "clean_exit_code": 0, "seconds": 26.563223595003365, "expected_summaries": [[3, 0, 0, 0, 0], [11, 0, 0, 0, 0]], "observed_summaries": [[3, 0, 0, 0, 0], [11, 0, 0, 0, 0]], "reward": 1}
