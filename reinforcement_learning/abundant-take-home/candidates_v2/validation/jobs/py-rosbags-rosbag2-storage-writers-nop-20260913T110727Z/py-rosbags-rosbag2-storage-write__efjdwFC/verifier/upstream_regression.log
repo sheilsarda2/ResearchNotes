@@ -1,0 +1,57 @@
+.................EE..EE................................................. [ 53%]
+..............................................................           [100%]
+==================================== ERRORS ====================================
+______________________ ERROR at setup of test_anyreader2 _______________________
+tests/rosbags/highlevel/test_anyreader.py:93: in bags2
+    with Writer2(paths[0], version=Writer2.VERSION_LATEST) as writer:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError
+________________ ERROR at setup of test_anyreader2_autoregister ________________
+tests/rosbags/highlevel/test_anyreader.py:93: in bags2
+    with Writer2(paths[0], version=Writer2.VERSION_LATEST) as writer:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError
+___________ ERROR at setup of test_anyreader_uses_default_typestore ____________
+tests/rosbags/highlevel/test_anyreader.py:93: in bags2
+    with Writer2(paths[0], version=Writer2.VERSION_LATEST) as writer:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError
+_________ ERROR at setup of test_anyreader_raises_on_missing_typestore _________
+tests/rosbags/highlevel/test_anyreader.py:93: in bags2
+    with Writer2(paths[0], version=Writer2.VERSION_LATEST) as writer:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError
+=========================== short test summary info ============================
+ERROR tests/rosbags/highlevel/test_anyreader.py::test_anyreader2 - NotImpleme...
+ERROR tests/rosbags/highlevel/test_anyreader.py::test_anyreader2_autoregister
+ERROR tests/rosbags/highlevel/test_anyreader.py::test_anyreader_uses_default_typestore
+ERROR tests/rosbags/highlevel/test_anyreader.py::test_anyreader_raises_on_missing_typestore
+130 passed, 6 deselected, 4 errors in 0.81s

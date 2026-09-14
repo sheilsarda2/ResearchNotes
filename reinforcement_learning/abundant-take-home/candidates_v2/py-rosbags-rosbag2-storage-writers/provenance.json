@@ -1,0 +1,215 @@
+{
+  "task_id": "py-rosbags-rosbag2-storage-writers",
+  "language": "python",
+  "form": "B",
+  "upstream": {
+    "repo": "https://gitlab.com/ternaris/rosbags",
+    "base_commit": "47be3eed131d179e423559a517637db80ec6bb96",
+    "base_commit_date": "2026-08-18T15:22:56+02:00",
+    "base_version": "0.11.5",
+    "license": "Apache-2.0",
+    "archive": "environment/upstream.tar.gz = base tree with Sqlite3Writer and McapWriter replaced by NotImplementedError stubs and the direct writer tests (tests/rosbags/rosbag2/test_writer.py, test_roundtrip.py, test_write_* in test_storage_mcap.py) removed; sha256 305c9fb700976a7b9e2f682857d570330a4422b3f212aee0736a74459e3b6bad",
+    "clone_cache": "research/cache/v2/ternaris__rosbags"
+  },
+  "feature": {
+    "kind": "excision",
+    "ref": "rosbag2 storage writer backends: src/rosbags/rosbag2/storage_mcap.py::McapWriter (chunking, message index, chunk index, statistics, metadata record + index, summary offsets, footer; zstd storage compression) and src/rosbags/rosbag2/storage_sqlite3.py::Sqlite3Writer (rosbag2_storage_sqlite3 schema v4)",
+    "merged_at": "2025-03-11 (MCAP writer, rosbags 0.10.9, issue #97); sqlite3 writer predates 2022; statistics record 0.10.11 (2025-08); QoS metadata fix 0.11.2 (2026-05-11)",
+    "gold_patch": {
+      "files": 2,
+      "additions": 352,
+      "deletions": 31
+    },
+    "mining_note": "GitLab MR API lists a single merged MR for the project; upstream lands direct pushes. git log since 2026-01-01: only non-storage or sub-feature-scale changes (lyrical typestore +1011 generated lines; pathlib readers +179/-23; idl annotations +159/-35; QoS fix +50/-10), so Form A was not available and Form B was used per ASSIGNMENTS.md."
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "mcap-python 1.4.0 (SeekingReader/NonSeekingReader with CRC validation, raw record walker), foxglove mcap CLI v0.3.0 (`mcap doctor`, `mcap info`), stdlib sqlite3 PRAGMA table_info parity with a ROS 2 rolling recorded schema-v4 .db3, rosbag2 fixture bags (ros2/rosbag2 08780f9e test resources: cdr_test, talker, wbag, convert_a, bag_with_topics_and_service_events_and_action; mcap + sqlite3) round-tripped through the writers with message-set and deserialized-field equality; plus the pristine upstream test-suite (146 tests) and rosbags' own readers"
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "The excised code is public on GitLab/PyPI since 2025 (MCAP writer) and earlier (sqlite3 writer). Hidden tests check observable format behaviour against independent implementations rather than implementation details, but memorization of the upstream implementation would solve the task."
+  },
+  "horizon": {
+    "proxy": "2 files, 352 restored lines, 2 storage formats (MCAP record framing/chunking/indexing/summary/footer + sqlite3 schema), 34 numbered requirements interacting with an existing front-end and two existing readers; verifier uses 3 independent implementations",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://gitlab.com/ternaris/rosbags/issues/97 (MCAP writer / conversion to rosbag2 MCAP storage)",
+      "https://gitlab.com/ternaris/rosbags/issues/120 (write MCAP statistics record)",
+      "https://gitlab.com/ternaris/rosbags/issues/135 (QoS profile metadata in MCAP writer)",
+      "https://gitlab.com/ternaris/rosbags/-/blob/master/CHANGES.rst (0.10.9, 0.10.11, 0.11.2)",
+      "https://github.com/ros2/rosbag2/blob/08780f9e28ca429e1f25f671f52e02a57574626c/rosbag2_storage_mcap/src/mcap_storage.cpp",
+      "https://github.com/ros2/rosbag2/blob/08780f9e28ca429e1f25f671f52e02a57574626c/rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp",
+      "https://mcap.dev/spec"
+    ]
+  },
+  "verifier_groups": {
+    "upstream_feature": {
+      "tests": 12,
+      "source": "pristine tests removed from the agent tree: test_writer.py (2), test_roundtrip.py (4), test_storage_mcap.py::test_write_* (6)"
+    },
+    "upstream_regression": {
+      "tests": 134,
+      "source": "remaining pristine upstream tests; 4 error on the no-op (test_anyreader bags2 fixture writes a bag)"
+    },
+    "hidden_mcap_differential": {
+      "tests": 47,
+      "source": "tests/hidden/test_mcap_storage_writer.py"
+    },
+    "hidden_sqlite3_differential": {
+      "tests": 22,
+      "source": "tests/hidden/test_sqlite3_storage_writer.py"
+    },
+    "fixture_read_regression": {
+      "tests": 8,
+      "source": "tests/hidden/test_rosbag2_fixtures_read.py; passes on the no-op"
+    },
+    "anticheat": "grep of transferred src/rosbags for _pytest, pytest, atexit, /logs, reward.txt/score.json, subprocess, import mcap, mcap doctor; forbidden files conftest.py/test_*.py/*.pth; only .py/.pyi/py.typed files",
+    "build": "compileall of src/rosbags and import of both storage modules resolving to the overlaid tree"
+  },
+  "derivability": [
+    {
+      "assertion": "test_storage_file_layout (mcap/sqlite3): file named <dir>/<dir>.mcap|.db3, only storage file + metadata.yaml present, storage_identifier and relative_file_paths",
+      "instruction_ref": "R1, R32"
+    },
+    {
+      "assertion": "test_header_record: profile ros2, library rosbags-<version>",
+      "instruction_ref": "R17"
+    },
+    {
+      "assertion": "test_data_section_shape: only Chunk/MessageIndex/Metadata/DataEnd outside chunks, one Metadata, message indexes follow chunk, DataEnd last, CRC zero-or-correct",
+      "instruction_ref": "R21, R22, R24"
+    },
+    {
+      "assertion": "test_footer_and_summary_offsets: footer offsets, summary grouped in order schema/channel/chunkindex/metadataindex/statistics, one summary offset per group with exact start/length, summary CRC zero-or-correct",
+      "instruction_ref": "R25, R28, R29"
+    },
+    {
+      "assertion": "test_schema_records: ids from 1 in add_msgtype order, name/encoding/data, dedup of shared msgtype, summary copies equal data-section copies",
+      "instruction_ref": "R2, R7, R18, R25"
+    },
+    {
+      "assertion": "test_channel_records: id, schema_id by msgtype, topic, message_encoding, metadata {offered_qos_profiles: verbatim string}, schema precedes channel",
+      "instruction_ref": "R3, R19, R25"
+    },
+    {
+      "assertion": "test_message_records_in_write_order: channel_id, log_time==publish_time==timestamp, sequence 0, data bytes",
+      "instruction_ref": "R4, R20"
+    },
+    {
+      "assertion": "test_chunk_records_and_chunk_indexes: compression per mode, sizes, start/end times, chunk_start_offset/chunk_length, message_index_offsets/length cover the following message index records",
+      "instruction_ref": "R22, R23, R27"
+    },
+    {
+      "assertion": "test_message_index_records: one per channel with messages, ordered by first message, entries point at message records in the uncompressed buffer, every message indexed once",
+      "instruction_ref": "R22"
+    },
+    {
+      "assertion": "test_statistics_record: counts, attachment 0, metadata 1, start/end, channel_message_counts incl. zero channels, channels before statistics",
+      "instruction_ref": "R25, R26"
+    },
+    {
+      "assertion": "test_metadata_record_and_index: one Metadata 'rosbag2' {serialized_metadata: yaml == metadata.yaml info}, Metadata Index offset/length/name",
+      "instruction_ref": "R5, R24, R25"
+    },
+    {
+      "assertion": "test_mcap_python_seeking_reader / streaming_reader_validates_crcs: mcap-python reads messages (time order, topic filter, time window), CRCs validate",
+      "instruction_ref": "R31"
+    },
+    {
+      "assertion": "test_rosbags_reader_roundtrip (mcap): Reader(dir), Reader(file), McapReader.chunks and statistics, connection ext/msgdef",
+      "instruction_ref": "R31, R32"
+    },
+    {
+      "assertion": "test_writer_compression_modes (file/message) for both plugins",
+      "instruction_ref": "R6, R32"
+    },
+    {
+      "assertion": "test_chunking_threshold: chunk partition computed from record sizes and the >1 MiB rule; per-chunk channel sets, time ranges, compression ratio",
+      "instruction_ref": "R21, R22, R23, R27"
+    },
+    {
+      "assertion": "test_empty_bag: no chunks, Metadata + DataEnd, summary = MetadataIndex + Statistics, zero counts, sentinel times, readable",
+      "instruction_ref": "R8, R24, R25, R26, R30"
+    },
+    {
+      "assertion": "test_schema_only_chunk_direct_storage_api: direct McapWriter use, chunk with schema+channel only, no message index, empty message_index_offsets, sentinel times, channel_message_counts {1: 0}, QoS string verbatim",
+      "instruction_ref": "R3, R8, R22, R23, R26, R30"
+    },
+    {
+      "assertion": "test_fixture_rewritten_as_mcap_matches_mcap_fixture, test_rosbag2_recorded_mcap_fixture_roundtrip: message sets, topic->schema map, deserialized fields equal to rosbag2 fixtures",
+      "instruction_ref": "R34"
+    },
+    {
+      "assertion": "test_convert_cli_writes_mcap / writes_sqlite3",
+      "instruction_ref": "R33"
+    },
+    {
+      "assertion": "test_mcap_cli_doctor_accepts_file (7 files incl. empty, schema-only, multichunk, fixture rewrites): mcap doctor exit 0, mcap info profile ros2",
+      "instruction_ref": "R31, R17"
+    },
+    {
+      "assertion": "test_schema_matches_rosbag2_recorded_bag: table_info of 5 tables equals ROS 2 rolling recorded v4 bag, index timestamp_idx ASC, no other user tables",
+      "instruction_ref": "R9"
+    },
+    {
+      "assertion": "test_schema_table_row: (4, 'rosbags')",
+      "instruction_ref": "R10"
+    },
+    {
+      "assertion": "test_metadata_table_row: one row id 1, metadata_version == version, YAML equals metadata.yaml info",
+      "instruction_ref": "R5, R14"
+    },
+    {
+      "assertion": "test_topics_rows / test_message_definitions_rows / test_messages_rows",
+      "instruction_ref": "R11, R12, R13"
+    },
+    {
+      "assertion": "test_storage_compression_rejected: WriterError 'storage-side compression' from Sqlite3Writer.__init__ and via Writer.open, no file created",
+      "instruction_ref": "R6"
+    },
+    {
+      "assertion": "test_rosbags_reader_roundtrip (sqlite3): Reader, Sqlite3Reader.schema == 4, msgtypes, connections",
+      "instruction_ref": "R15"
+    },
+    {
+      "assertion": "test_mcap_fixture_rewritten_as_sqlite3_matches_sqlite3_fixture: rows equal rosbag2 sqlite3 fixture rows, topics equal",
+      "instruction_ref": "R34"
+    },
+    {
+      "assertion": "upstream test_writer.py / test_roundtrip.py / test_write_*: metadata.yaml, compression modes, chunk counts for 1 MiB messages, McapWriter direct API with close(0, 'metadata')",
+      "instruction_ref": "R8, R21, R32; grading section lists these restored tests"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "host": "not built yet (phase rule: no Docker builds); authored on macOS arm64, Docker Desktop 8.3 GB",
+    "oracle_wall_seconds": 91,
+    "env_setup_seconds": 34,
+    "verifier_seconds": 52,
+    "nop_wall_seconds": 16
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "py-rosbags-rosbag2-storage-writers-oracle-20260913T110727Z",
+      "nop": "py-rosbags-rosbag2-storage-writers-nop-20260913T110727Z"
+    },
+    "local_dry_run": "tests/test.sh executed on the host with env overrides (venv python 3.12.13, mcap 1.4.0, mcap CLI v0.3.0 macos-arm64): oracle tree passes all 5 groups with exact counts 12/134/47/22/8; no-op tree passes only fixture_read_regression (8/8) and upstream_regression 130/134",
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

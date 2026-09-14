@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="12" time="0.154" timestamp="2026-09-13T11:09:09.391996+00:00" hostname="2f189cc0a81d"><testcase classname="tests.rosbags.rosbag2.test_writer" name="test_writer_writes_storage_and_metadata" time="0.002"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_writer.py:28: in test_writer_writes_storage_and_metadata
+    with Writer(path, version=Writer.VERSION_LATEST) as bag:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_writer" name="test_failure_cases" time="0.001"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_writer.py:127: in test_failure_cases
+    bag.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_roundtrip" name="test_roundtrip[1]" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_roundtrip.py:34: in test_roundtrip
+    with wbag:
+         ^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_roundtrip" name="test_roundtrip[2]" time="0.001"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_roundtrip.py:34: in test_roundtrip
+    with wbag:
+         ^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_roundtrip" name="test_roundtrip[3]" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_roundtrip.py:34: in test_roundtrip
+    with wbag:
+         ^^^^
+src/rosbags/rosbag2/writer.py:386: in __enter__
+    self.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_roundtrip" name="test_roundtrip[4]" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_roundtrip.py:31: in test_roundtrip
+    wbag.open()
+src/rosbags/rosbag2/writer.py:172: in open
+    self.storage = self.STORAGE_PLUGINS[self.storage_plugin](self.path, self.compression_mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_sqlite3.py:397: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_empty" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:513: in test_write_empty
+    mcap = McapWriter(bag, CompressionMode.NONE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_schema" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:527: in test_write_schema
+    mcap = McapWriter(bag, CompressionMode.NONE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_channel" time="0.001"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:554: in test_write_channel
+    mcap = McapWriter(bag, CompressionMode.NONE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_message" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:587: in test_write_message
+    mcap = McapWriter(bag, CompressionMode.NONE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_multichunk[none]" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:622: in test_write_multichunk
+    mcap = McapWriter(bag, CompressionMode[compression.upper()])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase><testcase classname="tests.rosbags.rosbag2.test_storage_mcap" name="test_write_multichunk[storage]" time="0.000"><failure message="NotImplementedError">tests/rosbags/rosbag2/test_storage_mcap.py:622: in test_write_multichunk
+    mcap = McapWriter(bag, CompressionMode[compression.upper()])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/rosbags/rosbag2/storage_mcap.py:614: in __init__
+    raise NotImplementedError
+E   NotImplementedError</failure></testcase></testsuite></testsuites>

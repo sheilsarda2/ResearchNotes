@@ -1,0 +1,72 @@
+{
+    "schema_version": 1,
+    "created_at": "2026-09-13T11:07:28.480090Z",
+    "harbor": {
+        "version": "0.15.0",
+        "is_editable": false
+    },
+    "invocation": [
+        "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/bin/harbor",
+        "run",
+        "-p",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/py-rosbags-rosbag2-storage-writers",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs",
+        "--job-name",
+        "py-rosbags-rosbag2-storage-writers-oracle-20260913T110727Z"
+    ],
+    "n_concurrent_trials": 1,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "AgentTimeoutError",
+            "VerifierOutputParseError",
+            "RewardFileNotFoundError",
+            "RewardFileEmptyError",
+            "VerifierTimeoutError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "task": {
+                "name": "py-rosbags-rosbag2-storage-writers",
+                "type": "local",
+                "digest": "sha256:72b472c8de70cc1aa47b1564398d724516224d65e8380d7edcb1b276393705f2",
+                "path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/py-rosbags-rosbag2-storage-writers"
+            },
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "oracle",
+                "skills": [],
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {},
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "env": {},
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {},
+                "disable": false
+            }
+        }
+    ]
+}
