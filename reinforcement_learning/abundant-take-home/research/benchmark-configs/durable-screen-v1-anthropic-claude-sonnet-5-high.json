@@ -1,0 +1,48 @@
+{
+  "job_name": "durable-screen-v1-anthropic-claude-sonnet-5-high",
+  "jobs_dir": "jobs",
+  "n_attempts": 3,
+  "n_concurrent_trials": 2,
+  "agents": [
+    {
+      "name": "mini-swe-agent",
+      "model_name": "anthropic/claude-sonnet-5",
+      "kwargs": {
+        "reasoning_effort": "high",
+        "version": "2.4.6"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "path": "candidates/huey-sqlite-leases"
+    },
+    {
+      "path": "candidates/huey-sqlite-outbox"
+    },
+    {
+      "path": "candidates/huey-deadletter-redrive"
+    },
+    {
+      "path": "candidates/sqlite-utils-resumable-import"
+    },
+    {
+      "path": "candidates/sqlite-utils-relational-merge"
+    },
+    {
+      "path": "candidates/sqlite-utils-schema-plan"
+    },
+    {
+      "path": "candidates/luigi-generation-target"
+    },
+    {
+      "path": "candidates/luigi-checkpoint-task"
+    },
+    {
+      "path": "candidates/diskcache-online-reshard"
+    },
+    {
+      "path": "candidates/diskcache-snapshot-restore"
+    }
+  ]
+}

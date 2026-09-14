@@ -1,0 +1,11 @@
+job_name: opus-5-max
+n_concurrent_trials: 1
+n_attempts: 3
+agents:
+  - name: mini-swe-agent
+    model_name: anthropic/claude-opus-5
+    kwargs:
+      reasoning_effort: max
+      version: 2.4.6
+tasks:
+  - path: restaurant-weekly-cost-control-audit

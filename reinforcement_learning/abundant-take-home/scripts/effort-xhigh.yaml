@@ -1,0 +1,14 @@
+job_name: effort-xhigh
+n_concurrent_trials: 1
+n_attempts: 1
+agents:
+  - name: mini-swe-agent
+    model_name: anthropic/claude-fable-5-1
+    kwargs:
+      reasoning_effort: xhigh
+  - name: mini-swe-agent
+    model_name: anthropic/claude-opus-5
+    kwargs:
+      reasoning_effort: xhigh
+tasks:
+  - path: restaurant-weekly-cost-control-audit

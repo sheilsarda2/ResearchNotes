@@ -1,0 +1,11 @@
+job_name: sonnet-5-high
+n_concurrent_trials: 1
+n_attempts: 3
+agents:
+  - name: mini-swe-agent
+    model_name: anthropic/claude-sonnet-5
+    kwargs:
+      reasoning_effort: high
+      version: 2.4.6
+tasks:
+  - path: restaurant-weekly-cost-control-audit

@@ -1,0 +1,11 @@
+job_name: fable-5-1-medium
+n_concurrent_trials: 1
+n_attempts: 3
+agents:
+  - name: mini-swe-agent
+    model_name: anthropic/claude-fable-5-1
+    kwargs:
+      reasoning_effort: medium
+      version: 2.4.6
+tasks:
+  - path: restaurant-weekly-cost-control-audit
