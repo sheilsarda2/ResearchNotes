@@ -1,0 +1,322 @@
+"""Read-only gates for an additive, single-use Zenoh control recovery."""
+import hashlib
+import importlib.util
+import json
+from datetime import datetime
+from pathlib import Path
+import re
+import sys
+
+sys.dont_write_bytecode = True
+HERE = Path(__file__).resolve().parent
+BASE = HERE.parent
+ROOT = BASE.parents[1]
+TASK_CHECKSUM = '67f1fdca75fd66f4cbdd6e4729a582c9fbbdac428a0299eefc74104dffa59fab'
+TASK_MANIFEST_SHA = 'b31cdea49802b2b2c24da18ae1b032671f9fbc8f406764534352d425ef160e3c'
+TASK = BASE / 'rs-zenoh-timestamp-instrumentation-v4-validation'
+REVIEW_OUTPUT = BASE / 'reviews-final-001'
+AUDIT = BASE / 'completed-review-audits' / (TASK.name + '.json')
+DIAGNOSTICS = BASE / 'harness/diagnostics-final'
+PAIRED = BASE / 'paired-regrades/run-001'
+OUTPUT = BASE / 'continuation-confirmed-001'
+OBSERVER = BASE / 'timing-regression-diagnosis-001/read_only_observer.py'
+SOURCE_NAMES = (
+    'controls-confirmed-001-tooling/recovery_common.py',
+    'controls-confirmed-001-tooling/continue_confirmed_validation.py',
+    'controls-confirmed-001-tooling/run_confirmed_quality_review.py',
+    'controls-confirmed-001-tooling/test_recovery.py',
+    'run_final_quality_review.py', 'execute_quality_check.py', 'audit_final_quality_review.py',
+    'continue_validation.py', 'validate_controls_immutable.py', 'run_followup_diagnostics.py',
+    'harness/focused_validation_v2.py', 'harness/case_inside_v2.py',
+    'paired-regrades/run_paired_regrades.py', 'paired-regrades/case_inside.py',
+    'timing-regression-diagnosis-001/read_only_observer.py',
+    'timing-regression-diagnosis-001/validate_existing_nop.py',
+    'task-manifest.json', 'revision.json', 'paired-inputs/manifest.json',
+    'mutants/manifest.json', 'saved-source-audit/full-source-preflight.json')
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def path(value):
+    candidate = Path(value)
+    if not candidate.is_absolute():
+        candidate = ROOT / candidate
+    require(candidate.is_relative_to(ROOT) and '..' not in candidate.parts
+            and candidate.resolve() == candidate, 'Unsafe or symlinked evidence path')
+    return candidate
+
+
+def digest(value):
+    return hashlib.sha256(path(value).read_bytes()).hexdigest()
+
+
+def read(value):
+    return json.loads(path(value).read_bytes())
+
+
+def reference(value):
+    target = path(value)
+    return dict(path=str(target.relative_to(ROOT)), sha256=digest(target))
+
+
+def bound(reference):
+    require(digest(reference['path']) == reference['sha256'], 'Bound evidence hash drift: ' + reference['path'])
+    return read(reference['path'])
+
+
+def module(name, source):
+    spec = importlib.util.spec_from_file_location(name, path(source))
+    result = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(result)
+    return result
+
+
+def source_paths():
+    return [BASE / name for name in SOURCE_NAMES] + [ROOT / 'scripts/package-takehome-evidence.py']
+
+
+def frozen_sources():
+    manifest = read(HERE / 'source-manifest.json')
+    require(manifest['kind'] == 'confirmed_controls_recovery_tooling' and manifest['launches'] == 0,
+            'Unexpected recovery source manifest')
+    actual = {str(p.relative_to(ROOT)): digest(p) for p in source_paths()}
+    require(actual == manifest['source_sha256'], 'Recovery/frozen helper source drift')
+    return reference(HERE / 'source-manifest.json')
+
+
+def fresh_outputs(*, include_coordinator=True):
+    targets = [REVIEW_OUTPUT, AUDIT, DIAGNOSTICS, PAIRED]
+    if include_coordinator:
+        targets.append(OUTPUT)
+    require(not any(p.exists() for p in targets), 'An existing review/audit/diagnostic/regrade stage cannot be retried')
+    # Canonical output is an atomic once-only marker; alternate names never authorize a second paid review.
+    for directory in BASE.glob('reviews-*'):
+        require(not any(directory.glob('jobs/' + TASK.name + '-quality-*')), 'A prior final-task quality job already exists')
+        for config in directory.glob('jobs/*/*/config.json'):
+            raw = read(config)
+            if TASK.name in str(raw.get('task', {}).get('path', '')) or any(TASK.name in part for part in config.parts):
+                raise ValueError('A prior final-task quality attempt already exists')
+
+
+def validate_comparison(comparison, superseded_result):
+    result = bound(comparison['result'])
+    inputs = bound(comparison['inputs'])
+    decision = bound(comparison['decision'])
+    require(result['complete'] is True and result['model_calls'] == 0 and result['finished_at']
+            and result['container_absent'] is True and result['claim_absent'] is True
+            and result['inputs_unchanged'] is True and result['cleanup_errors'] == [],
+            'Timing comparison execution or cleanup is incomplete')
+    root = path(comparison['result']['path']).parent
+    require(path(comparison['inputs']['path']) == root / 'inputs.json'
+            and inputs['kind'] == 'fixed_unchanged_timing_comparison'
+            and inputs['task_checksum'] == TASK_CHECKSUM and inputs['task_manifest_sha256'] == TASK_MANIFEST_SHA
+            and inputs['model_calls'] == 0 and inputs['full_regrade'] is False
+            and inputs['variant_order'] == ['untouched_gold', 'corrected_reference'] and inputs['repeats'] == 3
+            and dict(path=inputs['failed_oracle_result'], sha256=inputs['failed_oracle_result_sha256']) == superseded_result,
+            'Timing comparison used other inputs or omitted the original oracle')
+    raw = read(root / 'case/comparison.json')
+    rows = raw['cases']
+    require(raw['complete'] is True and raw['fixed_repeats_per_source'] == 3
+            and raw['model_calls'] == 0 and raw['full_regrade'] is False and raw['reward'] is None
+            and raw['tests_unchanged'] is True and rows == result['test_outcomes']
+            and len(rows) == 6 and {(r['variant'], r['repeat']) for r in rows}
+            == {(variant, repeat) for variant in inputs['variant_order'] for repeat in (1, 2, 3)},
+            'Require six distinct completed timing comparison cases')
+    for row in rows:
+        require(Path(row['log']).name == row['log'], 'Unsafe timing comparison log path')
+        log = root / 'case' / row['log']
+        require(digest(log) == row['log_sha256'], 'Timing comparison raw log drift')
+        content = log.read_text()
+        passed = 'test scouting_delay_regression ... ok' in content
+        failed = 'test scouting_delay_regression ... FAILED' in content
+        require('running 1 test' in content and 'error[E' not in content and passed != failed
+                and type(row['test_passed']) is bool and row['test_passed'] == passed
+                and row['returncode'] == (0 if passed else 101)
+                and (passed or 'expected <400ms' in content), 'Timing comparison raw verdict differs')
+    for variant, key in [('untouched_gold', 'gold_source_files'), ('corrected_reference', 'corrected_source_files')]:
+        require(inputs[key] and all(read(root / 'case' / (variant + '-source-' + phase + '.json')) == inputs[key]
+                                   for phase in ('before', 'after')), 'Timing comparison source bytes changed')
+    require(any(r['test_passed'] for r in rows if r['variant'] == 'corrected_reference'),
+            'No corrected-source pass supports the single confirmation')
+    require(decision['kind'] == 'reviewed_timing_comparison_decision' and decision['task_checksum'] == TASK_CHECKSUM
+            and decision['single_full_oracle_confirmation_authorized'] is True and decision['model_calls'] == 0
+            and decision['raw_original_oracle_preserved'] is True and decision['interpretation']
+            and decision['comparison_result'] == comparison['result'] and decision['comparison_inputs'] == comparison['inputs'],
+            'Single-oracle confirmation lacks a bound reviewed comparison decision')
+
+
+def preserved_failure(agent, superseded, original_ref, original):
+    raw = bound(superseded['result'])
+    score = bound(superseded['score'])
+    row = original['controls'][agent]
+    original_job = path(original_ref['summary']['path']).parent / 'jobs' / row['job']
+    result_path = path(superseded['result']['path'])
+    require(row['passed'] is False and result_path.is_relative_to(original_job) and result_path.name == 'result.json'
+            and path(superseded['score']['path']) == result_path.parent / 'verifier/score.json',
+            'Superseded raw outcome is not the original failed ' + agent)
+    require(raw['task_checksum'] == TASK_CHECKSUM and raw['config']['agent']['name'] == agent
+            and raw['finished_at'] and raw['exception_info'] is None
+            and raw['verifier_result']['rewards']['reward'] == score['reward'] == superseded['reward'] == 0
+            and superseded['exception'] is None, 'Original reward-zero result was relabelled: ' + agent)
+    require(superseded['observation_errors'] == row['observation_errors']
+            and superseded['observation_errors'] and superseded['reason'],
+            'Original observation error was omitted: ' + agent)
+
+
+def independent_nop(certificate, identity, original_ref, original, superseded):
+    source_ref = {key: original_ref[key] for key in ('summary', 'run_identity')}
+    require(certificate['kind'] == 'independent_original_nop_validation'
+            and certificate['execution_kind'] == 'independent_revalidation_of_existing_normal_nop'
+            and certificate['new_control_runs'] == 0
+            and identity['kind'] == 'independent_original_nop_revalidation'
+            and identity['new_control_runs'] == identity['model_calls'] == 0
+            and certificate['source_run'] == identity['source_run'] == source_ref
+            and certificate['original_nop_record'] == original['controls']['nop']
+            and certificate['original_observation_errors'] == original['controls']['nop']['observation_errors'],
+            'Independent nop validation must preserve its failed original record and execution identity')
+    nop = certificate['controls']['nop']
+    require(dict(path=nop['result'], sha256=nop['result_sha256']) == superseded['result'],
+            'Independent nop validation cannot substitute another raw execution')
+    old_folder = path(original_ref['summary']['path']).parent
+    before = certificate['original_run_file_sha256_before']
+    require(before == certificate['original_run_file_sha256_after'] and before,
+            'Independent nop validation changed original run evidence')
+    old_items = sorted(old_folder.rglob('*'))
+    require(not any(item.is_symlink() for item in old_items), 'Original run evidence contains a symlink')
+    actual = {str(item.relative_to(old_folder)): digest(item) for item in old_items if item.is_file()}
+    require(actual == before, 'Original run evidence changed after independent nop validation')
+    lifecycle = nop['admission_lifecycle']
+    observations_path = path(lifecycle['path'])
+    require(observations_path == old_folder / 'nop-admission-observations.jsonl'
+            and digest(observations_path) == lifecycle['sha256'], 'Independent nop admission log differs')
+    observations = [json.loads(line) for line in observations_path.read_text().splitlines()]
+    claims = [sum(len(p['trials']) for p in row['own_participants'].values()) for row in observations]
+    require(len(observations) == lifecycle['sample_count'] and max(claims) == lifecycle['peak_own_claims'] == 1
+            and claims[-1] == lifecycle['final_own_claims'] == 0
+            and lifecycle['passed'] is lifecycle['shared_cap_respected'] is True
+            and all(row['total_claims'] <= row['shared_max_active'] == 14 for row in observations),
+            'Independent nop admission lifecycle cannot be established from raw samples')
+    terminal_ref = certificate['terminal_absence']
+    require(path(terminal_ref['path']) == BASE / 'nop-independent-validation-001/terminal-absence.json',
+            'Independent nop requires its own terminal absence proof')
+    terminal = bound(terminal_ref)
+    sample = bound(terminal['shared_observation'])
+    historical = terminal['historical_runner']
+    expected_key = str(historical['pid']) + ':' + historical['start_ticks']
+    seen_keys = {key for row in observations for key in row['own_participants']}
+    raw = bound(superseded['result'])
+    require(terminal['kind'] == 'fresh_locked_terminal_absence' and sample == terminal['terminal_sample']
+            and sample['terminal_sample'] is True and sample['own_participants'] == {}
+            and sample['runner_pid'] == historical['pid']
+            and historical['participant_key'] == expected_key and seen_keys == {expected_key}
+            and sample['total_claims'] <= sample['shared_max_active'] == 14
+            and terminal['original_runner_absent'] is True
+            and terminal['observed_runner_start_ticks'] != historical['start_ticks']
+            and terminal['matching_containers'] == [] and terminal['container_absent'] is True
+            and terminal['claim_absent'] is True
+            and terminal['trial_name_match'] == Path(nop['result']).parent.name.lower()
+            and datetime.fromisoformat(raw['finished_at'].replace('Z', '+00:00'))
+                <= datetime.fromisoformat(sample['at'].replace('Z', '+00:00'))
+                <= datetime.fromisoformat(certificate['finished_at'].replace('Z', '+00:00')),
+            'Independent nop lacks bound fresh runner/container/claim absence')
+
+
+def combined_controls(controls_path, controls_sha256):
+    controls_path = path(controls_path)
+    require(controls_path == BASE / 'controls-confirmed-001/summary.json', 'Use the explicit additive combined-control proof')
+    ref = dict(path=str(controls_path.relative_to(ROOT)), sha256=controls_sha256)
+    controls = bound(ref)
+    task_ref = reference(BASE / 'task-manifest.json')
+    require(task_ref['sha256'] == TASK_MANIFEST_SHA, 'Final task manifest changed')
+    task = bound(task_ref)
+    require(task['harbor_task_checksum'] == TASK_CHECKSUM and task['task'] == str(TASK.relative_to(ROOT)), 'Final task identity changed')
+    task_files = {}
+    for item in sorted(TASK.rglob('*')):
+        require(not item.is_symlink(), 'Final task contains a symlink')
+        if item.is_file():
+            task_files[str(item.relative_to(TASK))] = digest(item)
+    require(task_files == task['task_file_sha256'], 'Final task bytes changed')
+    verifier = module('confirmed_controls_packager_validator', ROOT / 'scripts/package-takehome-evidence.py')
+    verifier.verify_revision_controls(ref, task, task_ref, set())
+    runs = controls['source_runs']
+    kinds = {r['kind'] for r in runs}
+    require(len(runs) == len(kinds) and kinds in (
+            {'original_controls', 'oracle_confirmation'},
+            {'original_controls', 'oracle_confirmation', 'nop_confirmation'},
+            {'original_controls', 'oracle_confirmation', 'independent_nop_validation'}),
+            'Both distinct original and confirmation control runs are required; optional nop confirmation must be distinct')
+    sources = {}
+    for row in runs:
+        folder = BASE / {'original_controls': 'harbor-controls-final',
+                         'oracle_confirmation': 'harbor-oracle-confirmation-001',
+                         'nop_confirmation': 'harbor-nop-confirmation-001',
+                         'independent_nop_validation': 'nop-independent-validation-001'}[row['kind']]
+        require(path(row['summary']['path']) == folder / 'summary.json'
+                and path(row['run_identity']['path']) == folder / 'run-identity.json',
+                'Source run must use its original evidence directory')
+        run = bound(row['summary'])
+        identity = bound(row['run_identity'])
+        require(run['finished_at'] and run['model_calls'] == 0 and run['inputs_unchanged'] is True
+                and run['tooling_unchanged'] is True, 'Source control run is not terminal and unchanged')
+        require(row['run_identity'] == dict(path=run['run_identity'], sha256=run['run_identity_sha256']),
+                'Source control identity reference differs')
+        require(identity['task'] == task['task'] and identity['task_checksum'] == TASK_CHECKSUM
+                and identity['inputs']['task_file_sha256'] == task['task_file_sha256']
+                and identity['inputs']['task_manifest_sha256'] == TASK_MANIFEST_SHA, 'Source run used another task')
+        sources[row['kind']] = (row, run)
+    original_ref, original = sources['original_controls']
+    confirmation_ref, confirmation = sources['oracle_confirmation']
+    require(original['passed'] is False and original['controls']['oracle']['passed'] is False,
+            'Original failed oracle must remain failed')
+    require(confirmation['passed'] is True and confirmation['controls']['oracle']['passed'] is True,
+            'Replacement oracle control did not pass')
+    selected_nop = original['controls']['nop']
+    if selected_nop['passed'] is False:
+        nop_kind = 'independent_nop_validation' if 'independent_nop_validation' in sources else 'nop_confirmation'
+        require(nop_kind in sources and 'superseded_nop' in controls,
+                'Failed original nop requires a separate validated normal nop and preserved failure evidence')
+        nop_confirmation = sources[nop_kind][1]
+        require(nop_confirmation['passed'] is True and nop_confirmation['controls']['nop']['passed'] is True,
+                'Replacement nop control did not pass')
+        selected_nop = nop_confirmation['controls']['nop']
+        preserved_failure('nop', controls['superseded_nop'], original_ref, original)
+        if nop_kind == 'independent_nop_validation':
+            independent_nop(nop_confirmation, bound(sources[nop_kind][0]['run_identity']),
+                            original_ref, original, controls['superseded_nop'])
+    else:
+        require(selected_nop['passed'] is True and len(sources) == 2 and 'superseded_nop' not in controls,
+                'A passed original nop does not authorize another nop selection')
+    require(controls['controls']['oracle'] == confirmation['controls']['oracle']
+            and controls['controls']['nop'] == selected_nop, 'Combined control rows must be exact source-run records')
+    superseded = controls['superseded_oracle']
+    preserved_failure('oracle', superseded, original_ref, original)
+    prior = controls['prior_continuation']
+    prior_summary = bound(prior['summary'])
+    require(path(prior['summary']['path']) == BASE / 'continuation-001/summary.json'
+            and prior_summary['finished_at'] == prior['finished_at'] and prior['finished_at']
+            and prior_summary['passed'] is prior['passed'] is False
+            and prior_summary['stages'] == prior['stages'] == {}, 'Prior continuation must terminate before launching any stage')
+    require(all(digest(name) == expected for name, expected in prior_summary['source_sha256'].items()),
+            'A frozen prior continuation helper changed')
+    comparison = controls['timing_comparison']
+    validate_comparison(comparison, superseded['result'])
+    oracle = controls['controls']['oracle']
+    image = bound(oracle['verifier_image_proof'])
+    require(image['passed'] is True and image['kind'] == 'normal_harbor_oracle_verifier_image'
+            and image['oracle_result_path'] == oracle['result'] and image['oracle_result_sha256'] == oracle['result_sha256']
+            and image['final_task_checksum'] == TASK_CHECKSUM, 'Use the replacement oracle own verifier-image proof')
+    inspection = bound(dict(path=image['raw_docker_inspection_path'], sha256=image['raw_docker_inspection_sha256']))
+    require(inspection['Image'] == image['verifier_image_id'] and inspection['HostConfig'] == image['observed_host_config']
+            and inspection['Config.Labels']['com.docker.compose.project']
+            == Path(oracle['result']).parent.name.lower() + '__verifier__trial', 'Replacement oracle image inspection differs')
+    host = image['observed_host_config']
+    require(host['NanoCpus'] == 4000000000 and host['Memory'] == 8192 * 1024 * 1024
+            and host['NetworkMode'] == 'none' and type(host['MemorySwap']) is int
+            and host['StorageOpt'] in (None, {})
+            and re.fullmatch(r'sha256:[0-9a-f]{64}', image['verifier_image_id']),
+            'Replacement oracle resources changed or image identity is incomplete')
+    return dict(controls_reference=ref, task=task, task_manifest=task_ref,
+                image_proof=oracle['verifier_image_proof'], verifier_image_id=image['verifier_image_id'])

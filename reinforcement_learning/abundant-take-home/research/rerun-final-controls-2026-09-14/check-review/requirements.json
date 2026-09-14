@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "harbor_version": "0.15.0",
+  "model_calls": 0,
+  "source_files": {
+    "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/analyze/checker.py": {
+      "copy": "research/rerun-final-controls-2026-09-14/check-review/checker.py",
+      "sha256": "9fb77ddc2d3ee6992e1ea657b1fcdfdd2c7e3cefaf2051c2e366a2c7d3557b36"
+    },
+    "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/cli/analyze.py": {
+      "copy": "research/rerun-final-controls-2026-09-14/check-review/cli_analyze.py",
+      "sha256": "103cb539cdbf12ab70eca856caa8d1c3a81a4ca0b62b424bf1e6ce93e368a363"
+    },
+    "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/analyze/check_task_template/task.toml": {
+      "copy": "research/rerun-final-controls-2026-09-14/check-review/template-task.toml",
+      "sha256": "a4cdcbe776e1f49817be0de409bb33ac0c79ef20923db302e239bb38ea1c39d2"
+    },
+    "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/analyze/check_task_template/tests/test.sh": {
+      "copy": "research/rerun-final-controls-2026-09-14/check-review/template-tests-test.sh",
+      "sha256": "2e5886c5dbaa49459ec18623270e4478d187ec49fddc67ff496923175a1bd52f"
+    },
+    "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/analyze/check_task_template/tests/validate.py": {
+      "copy": "research/rerun-final-controls-2026-09-14/check-review/template-tests-validate.py",
+      "sha256": "272a33e5e8c3b7d710fb169d88e8f873ba2f6ffb5328c1e8794fb8a1c2034925"
+    }
+  },
+  "supported_agent": "mini-swe-agent",
+  "model": "anthropic/claude-sonnet-5",
+  "agent_kwargs": {
+    "version": "2.4.6",
+    "reasoning_effort": "high"
+  },
+  "public_route_agent_env": {
+    "ANTHROPIC_BASE_URL": "https://take-home-automation.vercel.app",
+    "ANTHROPIC_API_BASE": "https://take-home-automation.vercel.app"
+  },
+  "credential_transport": "Mini resolves ANTHROPIC_API_KEY from existing host process environment, then supplies it to agent exec. Do not put secret values in --ae or JobConfig. Public route values must be --ae because generated review wrapper does not inherit reviewed task.toml environment.",
+  "command_argv": [
+    "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+    "-B",
+    "scripts/harbor-resource-runner.py",
+    "check",
+    "TASK_DIRECTORY",
+    "--agent",
+    "mini-swe-agent",
+    "--model",
+    "anthropic/claude-sonnet-5",
+    "--ak",
+    "version=2.4.6",
+    "--ak",
+    "reasoning_effort=high",
+    "--ae",
+    "ANTHROPIC_BASE_URL=https://take-home-automation.vercel.app",
+    "--ae",
+    "ANTHROPIC_API_BASE=https://take-home-automation.vercel.app",
+    "--n-concurrent",
+    "1",
+    "--n-attempts",
+    "1",
+    "--jobs-dir",
+    "SEPARATE_QUALITY_REVIEW_JOBS",
+    "--job-name",
+    "UNIQUE_QUALITY_REVIEW_JOB"
+  ],
+  "required_launch_context": {
+    "cwd": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home",
+    "HARBOR_ADMISSION_CONTROL": "NEW_LOCAL_CAP1_CONTROL_WITH_EXISTING_SHARED_POOL"
+  },
+  "review_semantics": [
+    "harbor check creates ephemeral wrapper task per reviewed task and copies original task into environment/task; original files are not mounted writable or edited.",
+    "Wrapper agent timeout is1800sec and verifier120sec; these are quality-review budgets, not changes to the benchmark task budgets.",
+    "run_checks calls normal Job.create and Job.run, so process-local TrialQueue resource admission/deadline/Mini hooks apply when invoked via harbor-resource-runner.py.",
+    "Unmanaged check-task cells acquire normal shared slots and preserve the117-cell benchmark plan.",
+    "CLI --config base agents and environment are replaced by explicit CLI parameters; provide route values via --ae, not baseconfig agents.",
+    "Review reward1 means valid check-result.json schema, not that every rubric criterion passed; inspect check_report.json outcomes.",
+    "Ephemeral wrappers are deleted after run. Capture each original checksum/tree and generated wrapper inputs separately for proof if exact review provenance is needed.",
+    "Do not reuse execute_captured_runner.py from oracle/nop evidence unchanged: its model_calls:0 metadata is specific to zero-model controls. Create a separate review runner/proof."
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "kind": "bounded_missing_cell_activity_audit",
+  "checked_at": "2026-09-14T07:55:00.949452+00:00",
+  "read_only": true,
+  "model_calls": 0,
+  "runtime_mutations": 0,
+  "coverage": {
+    "counted_trials": 131,
+    "covered": 97,
+    "missing_cells": [
+      "[\"luigi-generation-target\",\"anthropic/claude-fable-5-1\",\"max\"]",
+      "[\"diskcache-online-reshard-v2\",\"anthropic/claude-fable-5-1\",\"max\"]"
+    ],
+    "ready": false,
+    "required": 99
+  },
+  "alerts": [],
+  "previous_attempts_terminal": [
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__UKzJrhh",
+      "finished_at": "2026-09-14T07:21:16.303076Z",
+      "status": "infrastructure",
+      "raw_reward": 0.0,
+      "counted_reward": null,
+      "exception": "NonZeroAgentExitCodeError",
+      "result_sha256": "c0d7bc0ea8b2389bbcb945dc9194c41ab0303d9da34f50b29b48433c3d89fcba",
+      "classified_summary_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.summary.json",
+      "classified_summary_sha256": "9f2c25ca034b7e0182d51fb91c35bb82b25524178b2c626a94ca3f8832f72e32"
+    },
+    {
+      "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__NEdBWiL",
+      "finished_at": "2026-09-14T07:46:55.929211Z",
+      "status": "infrastructure",
+      "raw_reward": 0.0,
+      "counted_reward": null,
+      "exception": "NonZeroAgentExitCodeError",
+      "result_sha256": "1e1c052ce56807584b93199950ab88664bf0ef40801ff82d2400fc968baff8fd",
+      "classified_summary_path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.summary.json",
+      "classified_summary_sha256": "da93065bcb32d1cb1a56d1afa24437bc95f76cbdd23c1c9a60147217d7324d10"
+    }
+  ],
+  "current_attempts": [
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__3DJVSDM",
+      "container": "e35b4c00c680",
+      "identity_check": {
+        "observed_at": "2026-09-14T07:55:00.614439+00:00",
+        "processes": [
+          {
+            "pid": 1774,
+            "start_ticks": "5512538",
+            "process_state": "S",
+            "deadline_epoch": 1789377842.4019213,
+            "deadline_utc": "2026-09-14T09:24:02.401921+00:00"
+          },
+          {
+            "pid": 1783,
+            "start_ticks": "5512545",
+            "process_state": "S"
+          }
+        ]
+      },
+      "assistant_turns": 16,
+      "native_exit_status": "",
+      "retry_text_mentions": 6,
+      "bad_gateway_text_mentions": 18,
+      "text_mentions_are_not_request_counts": true,
+      "trajectory_sha256": "f13593a4799de239709b6f201aad09b9197b0be4e77badbd0c865edeb7cb6c66",
+      "log_sha256": "f47f19e47d057e931dfff82fa84b0548f558ab603927db42be1e1f0fdfe01c2b",
+      "trajectory_modified_at": "2026-09-14T07:40:01.022318+00:00",
+      "log_modified_at": "2026-09-14T07:54:40.134701+00:00"
+    },
+    {
+      "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__kU5Ebri",
+      "container": "825ffd43f4cc",
+      "identity_check": {
+        "observed_at": "2026-09-14T07:55:00.884665+00:00",
+        "processes": [
+          {
+            "pid": 1784,
+            "start_ticks": "5672270",
+            "process_state": "S",
+            "deadline_epoch": 1789379440.756115,
+            "deadline_utc": "2026-09-14T09:50:40.756115+00:00"
+          },
+          {
+            "pid": 1793,
+            "start_ticks": "5672273",
+            "process_state": "S"
+          }
+        ]
+      },
+      "assistant_turns": 21,
+      "native_exit_status": "",
+      "retry_text_mentions": 0,
+      "bad_gateway_text_mentions": 0,
+      "text_mentions_are_not_request_counts": true,
+      "trajectory_sha256": "034d71edde9e30ffa4d1bf741bb8e73c45315223a447ee02c124890ea8f1ce8c",
+      "log_sha256": "32ef5522d52834ca98ddaba51968f0cf34f6c31ec797f17690545a609de04cdd",
+      "trajectory_modified_at": "2026-09-14T07:52:17.652903+00:00",
+      "log_modified_at": "2026-09-14T07:52:17.653350+00:00"
+    }
+  ],
+  "eta_note": "Prior UKzJrhh/NEdBWiL deadlines are obsolete. These are current attempt deadlines, not an ETA for99; further classified infrastructure failures/refills can extend coverage indefinitely."
+}

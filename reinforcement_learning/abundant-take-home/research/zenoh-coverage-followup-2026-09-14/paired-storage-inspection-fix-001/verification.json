@@ -1,0 +1,87 @@
+{
+  "assertions": {
+    "actual_cli_reproduces_original_missing_key_failure": true,
+    "all_36_supplied_files_unchanged": true,
+    "all_9_exact_input_file_gates_pass": true,
+    "exact_one_line_optional_field_fix": true,
+    "existing_13_file_score_source_cleanup_gates_pass_against_v2": true,
+    "fresh_run002_absent": true,
+    "missing_null_empty_and_present_values_exercised": true,
+    "no_verifier_was_started_by_failed_run001": true,
+    "prior_004_and_run001_preserved": true,
+    "prior_exact_process_claim_container_absence_confirmed": true,
+    "real_cli_test_requests_only_to_private_loopback_fixture": true,
+    "required_fields_and_exact_image_resources_unchanged": true,
+    "unexpected_nonempty_quota_rejected": true
+  },
+  "at": "2026-09-14T09:59:55.339993+00:00",
+  "containers_started": 0,
+  "evidence": {
+    "actual-preflight.json": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/actual-preflight.json",
+      "sha256": "57f05b0001a0e3210aecaa55590bf58964e8f93599e3c3e7bb94809bbf1e758d"
+    },
+    "actual-preflight.stderr": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/actual-preflight.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "diagnosis.json": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/diagnosis.json",
+      "sha256": "4dc82d9e9ee54b4b90a91ebea6566c8c9bc955292f5dc0d35cfa9a9abf58ec94"
+    },
+    "harbor-docker-version.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/harbor-docker-version.txt",
+      "sha256": "003698d4d4bc3695eeacc2475927b04088c772766c71d6082fb9dd5e1331d202"
+    },
+    "harbor-file-gates.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/harbor-file-gates.txt",
+      "sha256": "59fede59b0fd891bb6da3b032edf9882e89b2448ff5341e0bc6d6a8b27e5e52b"
+    },
+    "harbor-tests.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/harbor-tests.txt",
+      "sha256": "e68e8a851220f0a9e2a2c3144650d1d407f84ad64773f4e4cfca42c1231e4051"
+    },
+    "host-docker-version.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/host-docker-version.txt",
+      "sha256": "0df16010a5733c132c2c6cbab6fa7312eb44d1fa0fc1a4dd4a551bdeb9cf0157"
+    },
+    "host-file-gates.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/host-file-gates.txt",
+      "sha256": "b212e307c798a637aa4faa71043a01ebc1c5dcf76f373aba45bf5b169ba4de2a"
+    },
+    "host-tests.txt": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/host-tests.txt",
+      "sha256": "e5e8140586b4a900c9c5204cc095564e9daca1d56efe0dc487505c1c9716ce97"
+    },
+    "implementation.diff": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/implementation.diff",
+      "sha256": "3f7ecf2d745676710feebd6be624689dfc23eb491370dd93f495627cb97534bb"
+    }
+  },
+  "kind": "paired_optional_storage_inspection_repair_verification",
+  "limitations": [
+    "The CLI fixture is a formatting and limit-predicate regression, not a new full verifier run.",
+    "Declared storage remains30720MB; absent/null StorageOpt remains observed as no explicit Docker quota.",
+    "No controls, quality reviews, focused diagnostics, scheduler settings, tasks or raw scores are rerun or changed by this proof."
+  ],
+  "model_calls": 0,
+  "new_control_runs": 0,
+  "new_verifier_runs": 0,
+  "passed": true,
+  "schema_version": 1,
+  "shared_claims_acquired": 0,
+  "source_sha256": {
+    "research/zenoh-coverage-followup-2026-09-14/paired-regrades/case_inside.py": "48de793761a8713de04e4342bf65d03f3c0bd5852ed4c4a79831314da9f4209b",
+    "research/zenoh-coverage-followup-2026-09-14/paired-regrades/run_paired_regrades.py": "69e49925cde82410aed8dedd1e226be1217f91b61cdde33b006d82f526647057",
+    "research/zenoh-coverage-followup-2026-09-14/paired-regrades/run_paired_regrades_v2.py": "35e9594e274e7ca6ee1aa5f6a995b80fce104708ff5d380d4a7ad72b30cd78ce",
+    "research/zenoh-coverage-followup-2026-09-14/paired-regrades/test_file_gates_v2.py": "9f3549b4cdafbd51186c2e73825bad70b8cfa54d8c7356dab81d056f500e5bc6",
+    "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/capture_failure.py": "2d93c13303ecc5cbabca42e996c2e851b6ad5eedb19e2ad890aeb3cf02619fce",
+    "research/zenoh-coverage-followup-2026-09-14/paired-storage-inspection-fix-001/test_storage_inspection.py": "f1823e7acdd5090dc119c99d55f64618ce383b89d836fc2d9d4acd1b49034bf5"
+  },
+  "test_counts": {
+    "harbor_existing_gates": 13,
+    "harbor_optional_field": 10,
+    "host_existing_gates": 13,
+    "host_optional_field": 10
+  }
+}

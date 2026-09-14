@@ -1,0 +1,563 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-09-14T05:02:44.072464+00:00",
+  "scope": "Independent audit of three already-completed model trials; no replay or model call.",
+  "records": [
+    {
+      "label": "zenoh-v3-sonnet-max",
+      "trial_path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG",
+      "task_path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3",
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "finished_at": "2026-09-14T04:49:45.535059Z",
+      "reward": 1,
+      "exception": null,
+      "groups": {
+        "anti_cheat": {
+          "group": "anti_cheat",
+          "pass": true,
+          "files": 204,
+          "counts": {
+            "process::Command": 0,
+            "Command::new(": 0,
+            "/logs": 0,
+            "/tests/": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "ts_peer": 0,
+            "py_peer": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "include_bytes!": 0,
+            "/workspace/build": 0,
+            "#[ignore": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_str!": 1,
+            "std::env": 0
+          },
+          "pristine_counts": {
+            "process::Command": 0,
+            "Command::new(": 0,
+            "/logs": 0,
+            "/tests/": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "ts_peer": 0,
+            "py_peer": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "include_bytes!": 0,
+            "/workspace/build": 0,
+            "#[ignore": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_str!": 1,
+            "std::env": 0
+          },
+          "problems": []
+        },
+        "build_a": {
+          "group": "build_a",
+          "pass": true,
+          "seconds": 65
+        },
+        "build_b": {
+          "group": "build_b",
+          "pass": true
+        },
+        "lib_test_names": {
+          "group": "lib_test_names",
+          "pass": true
+        },
+        "hidden_pr_tests": {
+          "group": "hidden_pr_tests",
+          "pass": true,
+          "exit_code": 0
+        },
+        "interop_gold": {
+          "group": "interop_gold",
+          "pass": true,
+          "exit_code": 0
+        },
+        "parity_python": {
+          "group": "parity_python",
+          "pass": true,
+          "exit_code": 0
+        },
+        "zenoh_ext": {
+          "group": "zenoh_ext",
+          "pass": true,
+          "exit_code": 0
+        },
+        "upstream_regressions": {
+          "group": "upstream_regressions",
+          "pass": true,
+          "exit_code": 0
+        }
+      },
+      "verifier_test_summaries": {
+        "interop_gold.summary": {
+          "binaries": {
+            "ts_interop": {
+              "passed": 6,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            }
+          },
+          "failed_tests": [],
+          "excluded_tests": [],
+          "exit_code": 0,
+          "problems": [],
+          "ok": true
+        },
+        "zenoh_ext.summary": {
+          "binaries": {
+            "advanced": {
+              "passed": 11,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "ts_advanced": {
+              "passed": 2,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            }
+          },
+          "failed_tests": [],
+          "excluded_tests": [
+            "test_advanced_late_joiner"
+          ],
+          "exit_code": 0,
+          "problems": [],
+          "ok": true
+        },
+        "upstream_regressions.summary": {
+          "binaries": {
+            "zenoh": {
+              "passed": 109,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "adminspace": {
+              "passed": 5,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "attachments": {
+              "passed": 2,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "matching": {
+              "passed": 24,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "qos": {
+              "passed": 0,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "queryable": {
+              "passed": 1,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "routing": {
+              "passed": 6,
+              "failed": 0,
+              "ignored": 2,
+              "status": "ok"
+            },
+            "session": {
+              "passed": 8,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "source_info": {
+              "passed": 4,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "unicity": {
+              "passed": 2,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "zenoh_codec": {
+              "passed": 0,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            },
+            "codec": {
+              "passed": 53,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            }
+          },
+          "failed_tests": [],
+          "excluded_tests": [
+            "test_adminspace_read",
+            "qos_pubsub",
+            "qos_pubsub_overwrite_config",
+            "test_accept_replies",
+            "test_queryable_different_sessions",
+            "gossip",
+            "three_node_combination",
+            "zenoh_session_multicast"
+          ],
+          "exit_code": 0,
+          "problems": [],
+          "ok": true
+        },
+        "parity_python.summary": {
+          "binaries": {
+            "ts_interop": {
+              "passed": 4,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            }
+          },
+          "failed_tests": [],
+          "excluded_tests": [],
+          "exit_code": 0,
+          "problems": [],
+          "ok": true
+        },
+        "hidden_pr_tests.summary": {
+          "binaries": {
+            "timestamp_instrumentation": {
+              "passed": 47,
+              "failed": 0,
+              "ignored": 0,
+              "status": "ok"
+            }
+          },
+          "failed_tests": [],
+          "excluded_tests": [],
+          "exit_code": 0,
+          "problems": [],
+          "ok": true
+        }
+      },
+      "steps": {
+        "atif_agent_steps": 626,
+        "atif_steps_with_timestamp": 626,
+        "atif_tool_calls": 626,
+        "native_assistant_turns": 626,
+        "native_tool_calls": 626,
+        "native_tool_returns": 626,
+        "native_turns_with_timestamp": 626,
+        "turn_counts_match": true
+      },
+      "phase_minutes": {
+        "agent_execution": 124.58,
+        "verifier": 17.06
+      },
+      "cost_usd": 66.42302050000009,
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false,
+      "native_exit_status": "Submitted",
+      "runtime_preflight_passed": true,
+      "tool_runtime_preflight_passed": true,
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T02:27:46.481372Z",
+        "all_executions_quiescent": true,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T04:32:21.659049Z",
+        "closed_at": "2026-09-14T04:32:21.653230Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "execution_count": 3,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+      },
+      "functional_failures": [],
+      "assessment": "Normal verified pass; no functional failures or new spec mismatch observed in the scored evidence.",
+      "source_sha256": {
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/config.json": "88fbadbdaedb95cc0d01b4bb811fc05491dba8b27216233bb9eff57a2e41255d",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/result.json": "0033ab0093b784d675cba94cbcd0e472d07a84ebe5a9d35e80fe9d5736fc9423",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/score.json": "a212f3e8f109ade9e8449a3f371c4a758cab9c8d1f9df06ca0375a6a0425b4ac",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-evidence.json": "402f8e07cd379580fe19ebdeff38a75569c193c3248801734e524836aeea13d8",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-snapshot.json": "c596e7d5571452450030221cb72d9160f20973379b7b4ea386d736e96dc04d50",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-deadline.json": "79359f7fe8d385f95b7214e00638795f1f919e3092fcf71eb86c0313e0f193dc",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/benchmark-agent-input.json": "6c85bb996dc4ea1eb4d8b9d880c2ef70d0988660fff99e4dcf54b51b0a29c01d",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/mini-swe-agent.trajectory.json": "0191557b8b62ef4332ee3b0da5970ab96a0794cc65810ca3ad4b306c72ad9a28",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/trajectory.json": "f7906aba9eb8f42114dda3982f1acda0534d75283c5ad1df69a870286911b46e",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/interop_gold.summary": "68c7c2d4dcb4a79f58614abe03ab6fae9003d060303fa3deff260412ffa94379",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/zenoh_ext.summary": "e2de06b110662396f42eb3c6369f8c55daeb7424604ace7171a127d74b775805",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/upstream_regressions.summary": "84ad3ffa126fb25fb7f739939eea4330afa997a06910846195343392aa326bdd",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/parity_python.summary": "c6e9c5169315c49b1df7d8698c0006d3938fab3767fa8bac9fc1c87fb6c8201a",
+        "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/hidden_pr_tests.summary": "990dbd62cf355ad57c31947821c5a9dccb9a154ce625460a8c4cf9ed421f92ce"
+      }
+    },
+    {
+      "label": "burn-v4-fable-max",
+      "trial_path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw",
+      "task_path": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "finished_at": "2026-09-14T04:33:07.793394Z",
+      "reward": 1,
+      "exception": null,
+      "groups": {
+        "build": {
+          "ok": true,
+          "seconds": 77
+        },
+        "anticheat": {
+          "ok": true,
+          "hits_file": null
+        },
+        "pytorch_unit": {
+          "ok": true,
+          "passed": 108,
+          "failed": 0,
+          "ignored": 0,
+          "expected": 108
+        },
+        "safetensors_unit": {
+          "ok": true,
+          "passed": 52,
+          "failed": 0,
+          "expected": 52
+        },
+        "integration": {
+          "ok": true,
+          "passed": 20,
+          "failed": 0,
+          "expected": 20
+        },
+        "pytorch_tests_crate": {
+          "ok": true,
+          "passed": 37,
+          "failed": 0,
+          "expected": 37
+        },
+        "fixture_matrix": {
+          "ok": true,
+          "passed": 62,
+          "failed": 0,
+          "expected": 62,
+          "manifest_ok": true,
+          "tensor_rows": 428
+        },
+        "reject_cases": {
+          "ok": true,
+          "passed": 32,
+          "failed": 0,
+          "expected": 32
+        }
+      },
+      "verifier_test_summaries": {},
+      "steps": {
+        "atif_agent_steps": 158,
+        "atif_steps_with_timestamp": 158,
+        "atif_tool_calls": 158,
+        "native_assistant_turns": 158,
+        "native_tool_calls": 158,
+        "native_tool_returns": 158,
+        "native_turns_with_timestamp": 158,
+        "turn_counts_match": true
+      },
+      "phase_minutes": {
+        "agent_execution": 71.02,
+        "verifier": 1.63
+      },
+      "cost_usd": 28.787072499999997,
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false,
+      "native_exit_status": "Submitted",
+      "runtime_preflight_passed": true,
+      "tool_runtime_preflight_passed": true,
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T03:20:09.141355Z",
+        "all_executions_quiescent": true,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T04:31:10.487969Z",
+        "closed_at": "2026-09-14T04:31:10.478191Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "execution_count": 3,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+      },
+      "functional_failures": [],
+      "assessment": "Normal verified pass; no functional failures or new spec mismatch observed in the scored evidence.",
+      "source_sha256": {
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/config.json": "987ce5d8ce242939e8e682715553f118e4fd0b649f90ea5d187d3eac754fbec5",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/result.json": "1e22a0d1db0a87f24fafefdb6c9c075e211e9642d4aed1f9b8d59963f38729f9",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/score.json": "b65c7ef7d147a07645ed4ed6f123665e434b63cb7357e3514d672d01a25145ab",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-evidence.json": "b004718e952046c25aa6c0a091354ca55f0d41c21281fd32ee8c6ebbac426474",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-snapshot.json": "ccecd8ef302fbfc6b99f695eac114d28bb34a13e5e2cc49156eda9d9696b80bf",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-deadline.json": "110088d345e37172b4585f3b5d577f7a024f784fdf3e2ce573834944f8c49bf2",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/benchmark-agent-input.json": "a5b6b6e9f3a556057ab695bcad329d5aee3cbeba5e2e916b6f6bafdd22774beb",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/mini-swe-agent.trajectory.json": "e83fe202498285b7ae130b2944a52527e5c08aed911fa0e14c5731d2893e9327",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/trajectory.json": "dc54edf08ee43fcc01d73cce0ee89236a5e57e73874aca221faf6fad21dbd5ba"
+      }
+    },
+    {
+      "label": "burn-v4-opus-max",
+      "trial_path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS",
+      "task_path": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "finished_at": "2026-09-14T04:35:41.263215Z",
+      "reward": 1,
+      "exception": null,
+      "groups": {
+        "build": {
+          "ok": true,
+          "seconds": 64
+        },
+        "anticheat": {
+          "ok": true,
+          "hits_file": null
+        },
+        "pytorch_unit": {
+          "ok": true,
+          "passed": 108,
+          "failed": 0,
+          "ignored": 0,
+          "expected": 108
+        },
+        "safetensors_unit": {
+          "ok": true,
+          "passed": 52,
+          "failed": 0,
+          "expected": 52
+        },
+        "integration": {
+          "ok": true,
+          "passed": 20,
+          "failed": 0,
+          "expected": 20
+        },
+        "pytorch_tests_crate": {
+          "ok": true,
+          "passed": 37,
+          "failed": 0,
+          "expected": 37
+        },
+        "fixture_matrix": {
+          "ok": true,
+          "passed": 62,
+          "failed": 0,
+          "expected": 62,
+          "manifest_ok": true,
+          "tensor_rows": 428
+        },
+        "reject_cases": {
+          "ok": true,
+          "passed": 32,
+          "failed": 0,
+          "expected": 32
+        }
+      },
+      "verifier_test_summaries": {},
+      "steps": {
+        "atif_agent_steps": 158,
+        "atif_steps_with_timestamp": 158,
+        "atif_tool_calls": 169,
+        "native_assistant_turns": 158,
+        "native_tool_calls": 169,
+        "native_tool_returns": 169,
+        "native_turns_with_timestamp": 158,
+        "turn_counts_match": true
+      },
+      "phase_minutes": {
+        "agent_execution": 73.71,
+        "verifier": 1.4
+      },
+      "cost_usd": 31.287184250000006,
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false,
+      "native_exit_status": "Submitted",
+      "runtime_preflight_passed": true,
+      "tool_runtime_preflight_passed": true,
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T03:20:16.379654Z",
+        "all_executions_quiescent": true,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T04:33:59.175444Z",
+        "closed_at": "2026-09-14T04:33:59.169337Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "execution_count": 3,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+      },
+      "functional_failures": [],
+      "assessment": "Normal verified pass; no functional failures or new spec mismatch observed in the scored evidence.",
+      "source_sha256": {
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/config.json": "3bbbd50a9df4a64d1d5be6874bbdf589d4f8afef0e254fbd0e99c9ae894610d4",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/result.json": "c3242753086fa1397de97c571a136c581efd4b993f0f622d7e87a55feaca7c29",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/verifier/score.json": "5321f5f33f82edb8253cf60395687bee8f4d16427f4e42f9d09a8e5fb96ae10b",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/benchmark-evidence.json": "b42290fddc63e2019327a760131f9a5cbf6676de820b0fb5531ce129b210d205",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/benchmark-snapshot.json": "b45bca319009f5c0bacb30a60b1c32ea89c12a997b858d785c74847aa6016f8f",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/benchmark-deadline.json": "0f25b03fcf53f5acdc88ec9b150c14b493fc108276f249b69951d10eba1ef858",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/agent/benchmark-agent-input.json": "a5b6b6e9f3a556057ab695bcad329d5aee3cbeba5e2e916b6f6bafdd22774beb",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/agent/mini-swe-agent.trajectory.json": "52a035f4fd97b8b26d945a59830e78ef19042acca5719f3b09e1bbe6fe62e50b",
+        "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/agent/trajectory.json": "40065f5d1c811da3ae18ae7e19ebf0b77cd2b9a92fe2c6fc0467d4bc16e89868"
+      }
+    }
+  ],
+  "raw_files_unchanged": true,
+  "no_runtime_or_task_changes": true
+}

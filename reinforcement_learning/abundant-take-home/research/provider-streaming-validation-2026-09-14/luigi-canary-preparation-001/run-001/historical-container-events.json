@@ -1,0 +1,83 @@
+{
+  "at": "2026-09-14T09:35:54.024570+00:00",
+  "command": [
+    "docker",
+    "exec",
+    "keen_black",
+    "docker",
+    "events",
+    "--since",
+    "2026-09-14T09:34:20Z",
+    "--until",
+    "2026-09-14T09:35:10Z",
+    "--filter",
+    "type=container",
+    "--filter",
+    "event=create",
+    "--filter",
+    "event=start",
+    "--filter",
+    "event=die",
+    "--filter",
+    "event=destroy",
+    "--format",
+    "{{json .}}"
+  ],
+  "filtered_events": [
+    {
+      "id": "e81891b7141c8471355604a879f693d8204f4dd33d08aceea3b5f18c3867ad4a",
+      "action": "die",
+      "time_nano": 1789378475833663460,
+      "name": "luigi-generation-target__rigdbsv-main-1",
+      "project": "luigi-generation-target__rigdbsv",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv-main"
+    },
+    {
+      "id": "e81891b7141c8471355604a879f693d8204f4dd33d08aceea3b5f18c3867ad4a",
+      "action": "destroy",
+      "time_nano": 1789378478087453544,
+      "name": "luigi-generation-target__rigdbsv-main-1",
+      "project": "luigi-generation-target__rigdbsv",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv-main"
+    },
+    {
+      "id": "46b420320b68c7249bfe2e8d30451ec63b903821db24b5ccb20e1fd8aff94f95",
+      "action": "create",
+      "time_nano": 1789378481065250337,
+      "name": "luigi-generation-target__rigdbsv__verifier__trial-main-1",
+      "project": "luigi-generation-target__rigdbsv__verifier__trial",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv__verifier__trial-main"
+    },
+    {
+      "id": "46b420320b68c7249bfe2e8d30451ec63b903821db24b5ccb20e1fd8aff94f95",
+      "action": "start",
+      "time_nano": 1789378481163567754,
+      "name": "luigi-generation-target__rigdbsv__verifier__trial-main-1",
+      "project": "luigi-generation-target__rigdbsv__verifier__trial",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv__verifier__trial-main"
+    },
+    {
+      "id": "46b420320b68c7249bfe2e8d30451ec63b903821db24b5ccb20e1fd8aff94f95",
+      "action": "die",
+      "time_nano": 1789378493829740802,
+      "name": "luigi-generation-target__rigdbsv__verifier__trial-main-1",
+      "project": "luigi-generation-target__rigdbsv__verifier__trial",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv__verifier__trial-main"
+    },
+    {
+      "id": "46b420320b68c7249bfe2e8d30451ec63b903821db24b5ccb20e1fd8aff94f95",
+      "action": "destroy",
+      "time_nano": 1789378494058501093,
+      "name": "luigi-generation-target__rigdbsv__verifier__trial-main-1",
+      "project": "luigi-generation-target__rigdbsv__verifier__trial",
+      "service": "main",
+      "image": "luigi-generation-target__rigdbsv__verifier__trial-main"
+    }
+  ],
+  "read_only": true
+}

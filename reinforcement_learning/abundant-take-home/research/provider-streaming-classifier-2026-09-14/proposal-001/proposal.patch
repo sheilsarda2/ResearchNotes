@@ -1,0 +1,21 @@
+--- a/scripts/run-candidate-screen.py
++++ b/scripts/run-candidate-screen.py
+@@ -197,7 +197,17 @@
+         gateway = re.search(r'BadGatewayError|RateLimitError|APIConnectionError|APITimeoutError|'
+                             r'ServiceUnavailableError|InternalServerError|502 Bad Gateway|503 Service Unavailable',
+                             exception.get('exception_message', ''))
+-        if before_agent or error in common.INFRA_ERRORS or gateway or exit_status in common.INFRA_ERRORS:
++        # Mini preserves the concrete LiteLLM subclass name in terminal metadata.
++        # Bind this uncommon exclusion to frozen inputs before skipping grading.
++        terminal_stream_failure = (error == 'NonZeroAgentExitCodeError' and
++                                   exit_status == 'MidStreamFallbackError')
++        if terminal_stream_failure:
++            assert record.get('guarded_evidence') is True, 'Stream failure requires guarded evidence'
++            saved = read_json(path.parent / 'benchmark-evidence.json')
++            assert compare_snapshot(path.parent, saved['input_snapshot'])['matches'], \
++                'Stream failure evidence changed since finalization'
++        if (before_agent or error in common.INFRA_ERRORS or gateway or
++                exit_status in common.INFRA_ERRORS or terminal_stream_failure):
+             record['status'] = 'infrastructure'
+             record['infrastructure_detail'] = exit_status or error
+             return record

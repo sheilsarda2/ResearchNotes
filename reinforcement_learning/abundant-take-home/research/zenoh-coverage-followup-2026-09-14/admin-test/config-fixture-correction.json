@@ -1,0 +1,24 @@
+{
+  "kind": "authored test fixture compile correction",
+  "reference_changed": false,
+  "assertions_changed": false,
+  "reason": "Existing Config.connect.endpoints expects Vec<EndPoints>, while locators.to_endpoint returns EndPoint. Compiler suggests the existing public Single variant.",
+  "failed_compile": "harness/gold-smoke-002/case/cargo.stdout.log",
+  "failed_compile_sha256": "6862241dbabb0ef471b8d89c6c19e2cdec51fe34ebd31e9f49b926a2c6810d08",
+  "files": [
+    {
+      "file": "admin-test/timestamp_adminspace.rs",
+      "before_sha256": "9da8fafdf6cab8dc08fd4021cdd20b71001ff33de739235c28127b914dbbd676",
+      "after_sha256": "28de8d59c611cb3a7f1a665cdfe6f6569a35ead6fe95f388060cd131af7d1743",
+      "old": "client_config.connect.endpoints.set(vec![endpoint]).unwrap();",
+      "new": "client_config.connect.endpoints.set(vec![zenoh::config::EndPoints::Single(endpoint)]).unwrap();"
+    },
+    {
+      "file": "admin-test/timestamp_adminspace_reply_stack.rs",
+      "before_sha256": "a0a76b434dae9f5e19d95b9b4b358090661284bef4fff2ce22227e4be70ef2de",
+      "after_sha256": "3d70c2e5f45169a43d709862063c2b5aedb9e467eb49659b04089aad363831a9",
+      "old": "client_config.connect.endpoints.set(vec![endpoint]).unwrap();",
+      "new": "client_config.connect.endpoints.set(vec![zenoh::config::EndPoints::Single(endpoint)]).unwrap();"
+    }
+  ]
+}

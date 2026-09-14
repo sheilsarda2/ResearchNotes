@@ -1,0 +1,17 @@
+2026-09-14T08:38:42.416558+00:00 Starting omit-zero-config-rejection
+Traceback (most recent call last):
+  File "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py", line 174, in <module>
+    main()
+    ~~~~^^
+  File "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py", line 125, in main
+    result = read(result_path)
+  File "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py", line 24, in read
+    return json.loads(Path(path).read_text())
+                      ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vscode/.local/share/uv/python/cpython-3.14.7-linux-aarch64-gnu/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final/omit-zero-config-rejection/result.json'

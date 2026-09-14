@@ -1,0 +1,539 @@
+{
+  "burn_selection_assessment": {
+    "after_99_audit": [
+      "Recompute success-only medians after the remaining ONNX cells and current scope complete.",
+      "Audit all available ONNX failure source changes against the stated regression contract; distinguish snapshot-format preservation from numerical or runtime failures.",
+      "Compare independent failure mechanisms, successful solution depth, and exact control/quality results across ONNX and reader before final selection.",
+      "Use repeated fixed-cell trials for reliability; do not treat nine snapshot assertions as nine independent functional failure modes or infer effort causality from one medium/max contrast."
+    ],
+    "documented_contracts": [
+      {
+        "bytes": 11262,
+        "excerpts": [
+          {
+            "end_line": 122,
+            "start_line": 117,
+            "text": "existing `crates/onnx-tests/tests/{gru,lstm,rnn}/mod.rs` tests do. All existing tests in\n`crates/onnx-tests`, `crates/onnx-ir/tests` and `crates/onnx-official-tests` must keep\npassing. Generated code must compile on the default `flex` (CPU) backend; keep the snapshot\ntests inside `crates/burn-onnx/src` and the unit tests inside `crates/onnx-ir/src` green and\nadd tests as the repository's conventions ask, though the verifier does not run those\nin-source tests."
+          },
+          {
+            "end_line": 131,
+            "start_line": 126,
+            "text": "The verifier runs in a separate offline container with a pristine copy of this repository\nplus hidden material. Only `crates/onnx-ir/src` and `crates/burn-onnx/src` are collected from\nyour container (nothing else you edit is transferred, including `Cargo.toml`, `Cargo.lock`,\n`build.rs` files, tests, fixtures and `expectations.toml`, so no new dependencies are\npossible). It restores every other file from its pristine tree, overlays your two source\ndirectories, and runs, offline:"
+          },
+          {
+            "end_line": 148,
+            "start_line": 146,
+            "text": "3. `crates/onnx-ir/tests` integration suites (`basic`, `custom_ops`, `edge_cases`,\n   `external_data`, `infrastructure`, `noop_elimination`, `opset_compliance`,\n   `simplification`): exact count 553 passing."
+          }
+        ],
+        "path": "candidates_v2/rs-burn-onnx-rnn-runtime-weights/instruction.md",
+        "sha256": "cf4be2a9c4fbcefb2579577bcf3068a339066e4fb41b64d6c21f52be8b6ecf5c"
+      },
+      {
+        "bytes": 24372,
+        "excerpts": [
+          {
+            "end_line": 19,
+            "start_line": 19,
+            "text": "- The verifier replaces `crates/burn-store/src/pytorch/tests/` and `crates/burn-store/src/safetensors/tests/` wholesale with its own copies (the upstream test suites for this change) before building. Unit tests you keep inline elsewhere in the crate (`#[cfg(test)] mod tests` in `pickle_reader.rs`, say) may use exactly one item from that directory, `crate::pytorch::tests::reader::test_data_path(filename: &str) -> PathBuf`, which resolves into `src/pytorch/tests/reader/test_data/`; nothing else there is stable. `src/pytorch/mod.rs` must keep declaring `#[cfg(test)] mod tests;` (or `pub mod tests;`) and `src/safetensors/mod.rs` likewise, so the restored directories compile in."
+          },
+          {
+            "end_line": 140,
+            "start_line": 138,
+            "text": "5. Anti-cheat: your sources must not reference `/logs`, `/tests/`, `/opt/`, `manifest.tsv`, `BURN_PT_`, `fixture_matrix`, spawn processes (`Command::new`), embed files (`include_bytes!`/`include_str!`) or branch on `cfg!(test)`.\n\nThe reward is 1 only if every group passes; `score.json` records each group separately."
+          }
+        ],
+        "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+        "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270"
+      }
+    ],
+    "onnx_evidence": "7 of 9 first-result cells are covered, with 6 full passes. The sole first-result failure is a 217-turn Sonnet/medium run. All 9 failing tests are opset snapshots whose displayed difference is the added runtime_weights: false field. Numerical/runtime test groups pass. This is an explicit existing-regression requirement, not a claim that snapshot tests are invalid.",
+    "onnx_failed_trial": {
+      "assistant_steps": 217,
+      "checks_passed": 5,
+      "checks_total": 6,
+      "effort": "medium",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "reward": 0,
+      "task_checksum": "3a22d00d6ec4f5c8b865c11b53eab1f1d7fd616f121445017183c8e182dbffed",
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs"
+    },
+    "onnx_raw_sources": [
+      {
+        "bytes": 3868,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/result.json",
+        "sha256": "94cdd3651c9af04f2fdab524714a7eccb28b37514c9ddeaf9ad72f5078a9a67c"
+      },
+      {
+        "bytes": 93688,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/benchmark-evidence.json",
+        "sha256": "4fe4b31c804643ea75fb3e10701e18a964c3c919772af77292b67b0363ff0e69"
+      },
+      {
+        "bytes": 3118,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/verifier/score.json",
+        "sha256": "0c317543c6a6845130a56faf556738ec0581b6b1ec31129f24f94f5f36e435cf"
+      },
+      {
+        "bytes": 48687,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/verifier/onnx_ir.txt",
+        "sha256": "b1b964545f741d631bcbb40efa52c413221f75fcc266da96602f35a2cae3ed17"
+      },
+      {
+        "bytes": 82866,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/verifier/onnx_tests.txt",
+        "sha256": "c7be1da7247d029af2b728be2addcbee3420b9d38637421b6aa97e3f164edcf0"
+      },
+      {
+        "bytes": 167514,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/verifier/official.txt",
+        "sha256": "ff20f81ac0dda17c74a941c429ac221bdfe1e2b48f0ed48f9ae2cb359180e5e5"
+      },
+      {
+        "bytes": 11134,
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-burn-onnx-rnn-runtime-weights__FT2MwFs/verifier/rejects.txt",
+        "sha256": "8f1f1b01c5ce72b57a70c04fd6ac3729612224c9b6ccbfeabc3825b8e8c2ebed"
+      }
+    ],
+    "onnx_score_observations": {
+      "build_passed": true,
+      "failed_groups": [
+        "onnx_ir"
+      ],
+      "failed_tests": [
+        "opset_compliance::opset_01::gru",
+        "opset_compliance::opset_01::lstm",
+        "opset_compliance::opset_03::gru",
+        "opset_compliance::opset_07::gru",
+        "opset_compliance::opset_07::lstm",
+        "opset_compliance::opset_14::gru",
+        "opset_compliance::opset_14::lstm",
+        "opset_compliance::opset_22::gru",
+        "opset_compliance::opset_22::lstm"
+      ],
+      "official_differential": {
+        "failed": [],
+        "passed": 24,
+        "total": 24
+      },
+      "official_tests_passed": 860,
+      "only_displayed_snapshot_delta": [
+        "+        runtime_weights: false,"
+      ],
+      "onnx_tests_passed": 601,
+      "rejections_passed": true
+    },
+    "reader_evidence": "All 9 cells have a first result: 7 full passes; Sonnet/medium 42-turn failure includes FRAME/TAR/storage-bound functionality; Sonnet/high 251-turn failure passes functional groups but retains a prohibited fixture-path literal in baseline-derived inline tests; Sonnet/max 323-turn success passes all 8 groups. The source-constraint outcome is not evidence of cheating or functional failure.",
+    "verdict": "Retain reader provisionally; revisit ONNX after 99-cell coverage. The higher ONNX success median alone does not establish stronger functional failure headroom."
+  },
+  "case_facts": [
+    {
+      "assistant_steps": 138,
+      "checks_passed": 1,
+      "checks_total": 3,
+      "effort": "medium",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3819,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/result.json",
+          "sha256": "6df98e03b5bd603b8b3fc5522ef46993126078c908361c5ce6c63b40d9d9a9c4"
+        },
+        {
+          "bytes": 25484,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/benchmark-evidence.json",
+          "sha256": "6126f5db28db24a253af0d5d28dd258838bf7b9c314673a8288c83af7fec8570"
+        },
+        {
+          "bytes": 2590,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/score.json",
+          "sha256": "15351f8aebbbf79f19133f2aa672707e8adae4a2388dab9322edaad629b4258a"
+        }
+      ],
+      "reward": 0,
+      "task": "rs-rerun-chunk-optimizer",
+      "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5"
+    },
+    {
+      "assistant_steps": 383,
+      "checks_passed": 3,
+      "checks_total": 3,
+      "effort": "max",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3819,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/result.json",
+          "sha256": "e9ca8a47b1b261339d843f9f8be2fdf87b75dbb87420e4fe566ff18f389d70ff"
+        },
+        {
+          "bytes": 25901,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/benchmark-evidence.json",
+          "sha256": "6ae743c3db26c200295c3504d6d7ec75c2426699c79e7b47fc716774cb2af188"
+        },
+        {
+          "bytes": 2584,
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/score.json",
+          "sha256": "df3eede2865ae94ddbed4d7d2e65caf0dd5b64ce104e7249a8bde1f0e71592bf"
+        }
+      ],
+      "reward": 1,
+      "task": "rs-rerun-chunk-optimizer",
+      "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK"
+    },
+    {
+      "assistant_steps": 377,
+      "checks_passed": 1,
+      "checks_total": 9,
+      "effort": "medium",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3910,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/result.json",
+          "sha256": "98f0091609e52d0fb94a1333ed213608a7e40a41fef70b150ca206cf5e39ee8c"
+        },
+        {
+          "bytes": 55883,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/benchmark-evidence.json",
+          "sha256": "1d588b70c2e93fe201d32280e30fea294858a1f97908317ee895c52be99abd80"
+        },
+        {
+          "bytes": 2086,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/verifier/score.json",
+          "sha256": "605dbbd86676998a990fae3266c4b9b698a701038f431f7757667f54f8616642"
+        }
+      ],
+      "reward": 0,
+      "task": "rs-zenoh-timestamp-instrumentation-v3",
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv"
+    },
+    {
+      "assistant_steps": 626,
+      "checks_passed": 9,
+      "checks_total": 9,
+      "effort": "max",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3908,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/result.json",
+          "sha256": "0033ab0093b784d675cba94cbcd0e472d07a84ebe5a9d35e80fe9d5736fc9423"
+        },
+        {
+          "bytes": 59588,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-evidence.json",
+          "sha256": "402f8e07cd379580fe19ebdeff38a75569c193c3248801734e524836aeea13d8"
+        },
+        {
+          "bytes": 1848,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/score.json",
+          "sha256": "a212f3e8f109ade9e8449a3f371c4a758cab9c8d1f9df06ca0375a6a0425b4ac"
+        }
+      ],
+      "reward": 1,
+      "task": "rs-zenoh-timestamp-instrumentation-v3",
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG"
+    },
+    {
+      "assistant_steps": 42,
+      "checks_passed": 4,
+      "checks_total": 8,
+      "effort": "medium",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3898,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/result.json",
+          "sha256": "2cc5121ced2803f2a73050e747df2e9e0f0bcaa70b61d458cb16e500125a5dff"
+        },
+        {
+          "bytes": 36291,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/benchmark-evidence.json",
+          "sha256": "265b1dbdfe96621875dfb7e1f87feb9603e509a13e15a421419af83c8a43f87a"
+        },
+        {
+          "bytes": 13314,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/score.json",
+          "sha256": "f834573b2a7c99259cd61370d9ca9e93d23ee1a872750ad7cf41994cd099e353"
+        }
+      ],
+      "reward": 0,
+      "task": "rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E"
+    },
+    {
+      "assistant_steps": 251,
+      "checks_passed": 7,
+      "checks_total": 8,
+      "effort": "high",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3899,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/result.json",
+          "sha256": "b50f94717d1cb7f663bfa2da6b9e660128912bad9275115260416720469e6098"
+        },
+        {
+          "bytes": 36136,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/benchmark-evidence.json",
+          "sha256": "78853b65c891d5ccfaeab7a2421ea8354c87b4f1654a4634bdd2ce169420a867"
+        },
+        {
+          "bytes": 2092,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/score.json",
+          "sha256": "462ea0b48da3310213fd8195c79a2e08f6a3038a22ea2b4edfd8e221048770ee"
+        }
+      ],
+      "reward": 0,
+      "task": "rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk"
+    },
+    {
+      "assistant_steps": 323,
+      "checks_passed": 8,
+      "checks_total": 8,
+      "effort": "max",
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "raw_sources": [
+        {
+          "bytes": 3900,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/result.json",
+          "sha256": "f73389176872fe64897e29a9425263cb48b20a2dad92e2ad814cfb731bcccdbd"
+        },
+        {
+          "bytes": 37554,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/benchmark-evidence.json",
+          "sha256": "45363326aefc817e1bec305ab7017045094280c6bc655e5ff89254a616fe01d4"
+        },
+        {
+          "bytes": 2073,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/score.json",
+          "sha256": "23236f8db76374377c6b3f08d21e7a5bc9466796b95a9137bc78f3b3ac9e262c"
+        }
+      ],
+      "reward": 1,
+      "task": "rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF"
+    },
+    {
+      "assistant_steps": 158,
+      "checks_passed": 8,
+      "checks_total": 8,
+      "effort": "max",
+      "first_counted_result": true,
+      "model": "fable-5-1",
+      "raw_sources": [
+        {
+          "bytes": 3900,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/result.json",
+          "sha256": "1e22a0d1db0a87f24fafefdb6c9c075e211e9642d4aed1f9b8d59963f38729f9"
+        },
+        {
+          "bytes": 37003,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-evidence.json",
+          "sha256": "b004718e952046c25aa6c0a091354ca55f0d41c21281fd32ee8c6ebbac426474"
+        },
+        {
+          "bytes": 2073,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/score.json",
+          "sha256": "b65c7ef7d147a07645ed4ed6f123665e434b63cb7357e3514d672d01a25145ab"
+        }
+      ],
+      "reward": 1,
+      "task": "rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw"
+    },
+    {
+      "assistant_steps": 158,
+      "checks_passed": 8,
+      "checks_total": 8,
+      "effort": "max",
+      "first_counted_result": true,
+      "model": "opus-5",
+      "raw_sources": [
+        {
+          "bytes": 3894,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/result.json",
+          "sha256": "c3242753086fa1397de97c571a136c581efd4b993f0f622d7e87a55feaca7c29"
+        },
+        {
+          "bytes": 36398,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/benchmark-evidence.json",
+          "sha256": "b42290fddc63e2019327a760131f9a5cbf6676de820b0fb5531ce129b210d205"
+        },
+        {
+          "bytes": 2073,
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS/verifier/score.json",
+          "sha256": "5321f5f33f82edb8253cf60395687bee8f4d16427f4e42f9d09a8e5fb96ae10b"
+        }
+      ],
+      "reward": 1,
+      "task": "rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__roFDdeS"
+    }
+  ],
+  "coverage": {
+    "covered": 82,
+    "required": 99
+  },
+  "created_at": "2026-09-14T05:26:48.799119+00:00",
+  "factual_check_verdict": {
+    "case_trials_all_first_counted": true,
+    "limits": "Reviewed local deck source and specified frozen evidence. Root separately rendered/visually reviewed slides. This review does not independently audit external papers or establish causal effects of effort.",
+    "no_repeated_trial_or_model_ranking_overstatement_found": true,
+    "same_model_contrasts_verified": true,
+    "substantive_deck_issues_found": [],
+    "success_medians_recomputed": true
+  },
+  "frozen_generated_at": "2026-09-14T05:20:22.287091+00:00",
+  "frozen_results": {
+    "bytes": 956890,
+    "path": "research/takehome-presentation-2026-09-14/data/results.json",
+    "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+  },
+  "preservation": {
+    "all_unchanged": true,
+    "frozen_results_unchanged": true,
+    "original_commit": "c1ae968",
+    "supplied_files_checked": 36
+  },
+  "review_kind": "bounded independent source-content review; no renders, replays, model calls, rescoring, or collector refresh",
+  "reviewed_sources": [
+    {
+      "bytes": 21083,
+      "path": "research/takehome-presentation-2026-09-14/.build/build-deck.mjs",
+      "sha256": "5362c2384c6354940d965cf3cb0f0298cfabb89325ed324867aa986d74bdd1fe"
+    },
+    {
+      "bytes": 148309,
+      "path": "research/takehome-presentation-2026-09-14/evidence/shortlist-cases.json",
+      "sha256": "7761e3013341ea107b98c9c19e1267aa2cfd3a83e9f0379fe49ca48c17e83d35"
+    },
+    {
+      "bytes": 9232,
+      "path": "research/takehome-presentation-2026-09-14/evidence/shortlist-controls-final.json",
+      "sha256": "4d7cda1e96bfe6943d291fb73d826bd5ff62c98a04dcb3128164e65196db6afe"
+    },
+    {
+      "bytes": 17514,
+      "path": "research/takehome-presentation-2026-09-14/evidence/burn-v4-sonnet-max.json",
+      "sha256": "83402a68c67f6b34c56ec4e131338f713959b8db68de49ab41010ee602e15dcf"
+    }
+  ],
+  "schema_version": 1,
+  "successful_first_trial_distribution": {
+    "count": 67,
+    "max": 626,
+    "median": 134,
+    "min": 20,
+    "over_75": 57
+  },
+  "task_success_medians": {
+    "cpp-foxglove-sdk-parameter-handler": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 364,
+      "median_successful_assistant_steps": 148.5,
+      "min_successful_assistant_steps": 79,
+      "successful_first_counted": 8,
+      "successful_over_75_steps": 8
+    },
+    "cpp-rosbag2-mixed-serialization-playback": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 381,
+      "median_successful_assistant_steps": 154,
+      "min_successful_assistant_steps": 112,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 7
+    },
+    "cpp-zenoh-cpp-connectivity-api": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 331,
+      "median_successful_assistant_steps": 97,
+      "min_successful_assistant_steps": 62,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 6
+    },
+    "diskcache-online-reshard-v2": {
+      "first_counted": 3,
+      "max_successful_assistant_steps": 70,
+      "median_successful_assistant_steps": 70,
+      "min_successful_assistant_steps": 70,
+      "successful_first_counted": 1,
+      "successful_over_75_steps": 0
+    },
+    "luigi-generation-target": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 110,
+      "median_successful_assistant_steps": 52.0,
+      "min_successful_assistant_steps": 41,
+      "successful_first_counted": 4,
+      "successful_over_75_steps": 1
+    },
+    "py-rosbags-rosbag2-storage-writers": {
+      "first_counted": 7,
+      "max_successful_assistant_steps": 173,
+      "median_successful_assistant_steps": 44,
+      "min_successful_assistant_steps": 20,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 3
+    },
+    "py-zarr-python-cast-value-scale-offset": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 335,
+      "median_successful_assistant_steps": 100.5,
+      "min_successful_assistant_steps": 88,
+      "successful_first_counted": 6,
+      "successful_over_75_steps": 6
+    },
+    "rs-burn-onnx-rnn-runtime-weights": {
+      "first_counted": 7,
+      "max_successful_assistant_steps": 446,
+      "median_successful_assistant_steps": 225.0,
+      "min_successful_assistant_steps": 134,
+      "successful_first_counted": 6,
+      "successful_over_75_steps": 6
+    },
+    "rs-burn-store-pytorch-reader-v4": {
+      "first_counted": 9,
+      "max_successful_assistant_steps": 323,
+      "median_successful_assistant_steps": 144,
+      "min_successful_assistant_steps": 76,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 7
+    },
+    "rs-rerun-chunk-optimizer": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 383,
+      "median_successful_assistant_steps": 115,
+      "min_successful_assistant_steps": 72,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 6
+    },
+    "rs-zenoh-timestamp-instrumentation-v3": {
+      "first_counted": 8,
+      "max_successful_assistant_steps": 626,
+      "median_successful_assistant_steps": 216,
+      "min_successful_assistant_steps": 166,
+      "successful_first_counted": 7,
+      "successful_over_75_steps": 7
+    }
+  }
+}

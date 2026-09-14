@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "snapshot_sha256": "155b03c7ec8c75266ed6de7b7e9a9a747d16e5e422a4bb04492fc60d9ec59594",
+  "model_calls": 0,
+  "live_mutations": false,
+  "source_refs": [
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.resources.jsonl",
+      "sha256_at_read": "67e8351f2fde0c0239d1b8b7f5b90953fceb2c608b44fe1f2ce3b049b957be8f",
+      "bytes_at_read": 4918785
+    },
+    {
+      "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.resources.jsonl",
+      "sha256_at_read": "c09dd1b6a2eccb8bb6bb4a79c6e29660358e004f371e089a866dc74d5e312e42",
+      "bytes_at_read": 1267938
+    },
+    {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.resources.jsonl",
+      "sha256_at_read": "cd45b4b01e2db498d7b51ad04ecb46fca97cc2f6f9380ef555a75b02b2ebfa30",
+      "bytes_at_read": 420874
+    },
+    {
+      "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.resources.jsonl",
+      "sha256_at_read": "5a18ce780134cc1169aa50d96f25dafa6161922809df38ab7c94363590f50924",
+      "bytes_at_read": 797534
+    },
+    {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/control.resources.jsonl",
+      "sha256_at_read": "8e0a974fa32b0113aca39eb6385149046a4faa81006df2b55b35eb55030a39df",
+      "bytes_at_read": 8440
+    }
+  ],
+  "claim_changes": [
+    {
+      "at": "2026-09-14T09:01:15.305601+00:00",
+      "control": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.json",
+      "added": [
+        "diskcache-online-reshard-v2__vVkmKEf"
+      ],
+      "removed": [],
+      "raw_line": "{\"updated_at\": \"2026-09-14T09:01:15.305601+00:00\", \"active_trials\": 1, \"peak_active_trials\": 6, \"available_mb\": 23594, \"memory_pressure_pct\": 0.01, \"admission_wait_reason\": null, \"trial_names\": [\"diskcache-online-reshard-v2__vVkmKEf\"]}",
+      "raw_line_sha256": "2f3f95dbb8b317232b950ab2dd729efb60349707e7a55e2ea2e0da17368c176e"
+    },
+    {
+      "at": "2026-09-14T09:04:15.604076+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [],
+      "removed": [
+        "py-zarr-python-cast-value-scale__PzBP4Gb"
+      ],
+      "raw_line": "{\"updated_at\": \"2026-09-14T09:04:15.604076+00:00\", \"active_trials\": 7, \"peak_active_trials\": 12, \"available_mb\": 23354, \"memory_pressure_pct\": 0.03, \"admission_wait_reason\": null, \"trial_names\": [\"cpp-zenoh-cpp-connectivity-api__pmRF3yV\", \"luigi-generation-target__Fw2kLRo\", \"rs-burn-onnx-rnn-runtime-weights__NBRREKp\", \"py-zarr-python-cast-value-scale__H82mSLv\", \"cpp-zenoh-cpp-connectivity-api__yRWyvZ5\", \"rs-rerun-chunk-optimizer__YSPYcnB\", \"cpp-rosbag2-mixed-serialization__vjtWWQG\"]}",
+      "raw_line_sha256": "d6ddc8e9796a8dcc91337045cd77fcb60de4832d29061b33174ff8cb8e7b291e"
+    },
+    {
+      "at": "2026-09-14T09:04:15.611815+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [
+        "luigi-generation-target__tGmBVNw"
+      ],
+      "removed": [],
+      "raw_line": "{\"updated_at\": \"2026-09-14T09:04:15.611815+00:00\", \"active_trials\": 8, \"peak_active_trials\": 12, \"available_mb\": 23353, \"memory_pressure_pct\": 0.03, \"admission_wait_reason\": null, \"trial_names\": [\"cpp-zenoh-cpp-connectivity-api__pmRF3yV\", \"luigi-generation-target__Fw2kLRo\", \"rs-burn-onnx-rnn-runtime-weights__NBRREKp\", \"py-zarr-python-cast-value-scale__H82mSLv\", \"cpp-zenoh-cpp-connectivity-api__yRWyvZ5\", \"rs-rerun-chunk-optimizer__YSPYcnB\", \"cpp-rosbag2-mixed-serialization__vjtWWQG\", \"luigi-generation-target__tGmBVNw\"]}",
+      "raw_line_sha256": "08e2a92c31351a3bd74395706c3d77af8912303e343e6192efb6402003a321f2"
+    }
+  ],
+  "admissions": [
+    {
+      "trial": "diskcache-online-reshard-v2__vVkmKEf",
+      "at": "2026-09-14T09:01:15.303860+00:00",
+      "prior_release": null,
+      "seconds_since_release_status": null,
+      "prior_direct_diagnostic_release": {
+        "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/retain-unknown-point-as-receive/result.json",
+        "sha256": "95261f0f6c9b31105cebda6fee91fda4f0548fa3a75c21d591a231eb47a4f477",
+        "event": {
+          "at": "2026-09-14T09:01:14.631042+00:00",
+          "event": "released",
+          "own_claim_count": 0,
+          "shared_claim_count": 13,
+          "shared_max_active": 14
+        }
+      },
+      "seconds_since_direct_diagnostic_release": 0.6728179454803467
+    },
+    {
+      "trial": "luigi-generation-target__tGmBVNw",
+      "at": "2026-09-14T09:04:15.609664+00:00",
+      "prior_release": {
+        "at": "2026-09-14T09:04:15.604076+00:00",
+        "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "added": [],
+        "removed": [
+          "py-zarr-python-cast-value-scale__PzBP4Gb"
+        ],
+        "raw_line": "{\"updated_at\": \"2026-09-14T09:04:15.604076+00:00\", \"active_trials\": 7, \"peak_active_trials\": 12, \"available_mb\": 23354, \"memory_pressure_pct\": 0.03, \"admission_wait_reason\": null, \"trial_names\": [\"cpp-zenoh-cpp-connectivity-api__pmRF3yV\", \"luigi-generation-target__Fw2kLRo\", \"rs-burn-onnx-rnn-runtime-weights__NBRREKp\", \"py-zarr-python-cast-value-scale__H82mSLv\", \"cpp-zenoh-cpp-connectivity-api__yRWyvZ5\", \"rs-rerun-chunk-optimizer__YSPYcnB\", \"cpp-rosbag2-mixed-serialization__vjtWWQG\"]}",
+        "raw_line_sha256": "d6ddc8e9796a8dcc91337045cd77fcb60de4832d29061b33174ff8cb8e7b291e"
+      },
+      "seconds_since_release_status": 0.0055882930755615234
+    }
+  ],
+  "conclusion": "Healthy unmanaged waiter below fair ceiling; two competing sweep starts since case creation, followed by over six minutes with no recorded sweep start. Mixed brief admission races and occupancy; no registration or memory fault demonstrated.",
+  "limits": "Release status follows actual release; timings approximate. These histories do not capture every shared-lock attempt, and this is not proof of indefinite starvation."
+}

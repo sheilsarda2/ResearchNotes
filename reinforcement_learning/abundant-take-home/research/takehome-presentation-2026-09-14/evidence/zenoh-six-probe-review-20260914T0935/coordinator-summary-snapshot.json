@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "model_calls": 0,
+  "counted_sweep_trials": 0,
+  "full_regrades": false,
+  "started_at": "2026-09-14T08:50:19.551608+00:00",
+  "controls_summary": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+  "controls_summary_sha256": "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac",
+  "mutant_manifest_sha256": "f04f050ae703ec904183317c89699ecf5cbb6d1884d4e88ee36c19516f32de37",
+  "saved_source_preflight_sha256": "5cb9a20f8ce173ef24aaf40e2140cb7c69d9e2590230b072815df0a26acbb995",
+  "coordinator_sha256": "a468ff78c6c8b98e8442ed8387833b983b00b08399e603cd9ac982ce424beae8",
+  "harness_sha256": "2450c39d54f5b0612d2b6c12ab174055725d9e25196898f6fa01aee5135bd4b2",
+  "cases": [
+    {
+      "name": "omit-zero-config-rejection",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/omit-zero-config-rejection/result.json",
+      "result_sha256": "0053f95dcfe1028dd30ae4a28781aa135fba7678077f3d579212b4371e7d4319",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "ok",
+        "adminspace_reply_preserves_received_query_stack": "ok",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "ok",
+        "decoder_rejects_zero_configuration": "FAILED",
+        "receive_appends_at_254_and_drops_further_records_at_255": "ok",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "ok"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "decoder_rejects_zero_configuration",
+      "omission_detected": true,
+      "changed_source_files": [
+        "commons/zenoh-codec/src/network/timestamp_stack.rs"
+      ],
+      "patch_sha256": "2608a27c26318fb04fa85437c49c6c3e68d18ca00ae1b1b40925922611275427",
+      "expected_assertion_signatures": [
+        "Push: zero configuration"
+      ],
+      "other_tests_passed": true
+    },
+    {
+      "name": "omit-count-rejection",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/omit-count-rejection/result.json",
+      "result_sha256": "0b66bce1bea44c1965944cf9bf61060407e78f6f72a30fc755b0185e3935e7cb",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "ok",
+        "adminspace_reply_preserves_received_query_stack": "ok",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "FAILED",
+        "decoder_rejects_zero_configuration": "ok",
+        "receive_appends_at_254_and_drops_further_records_at_255": "ok",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "ok"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "decoder_rejects_record_count_above_255",
+      "omission_detected": true,
+      "changed_source_files": [
+        "commons/zenoh-codec/src/network/timestamp_stack.rs"
+      ],
+      "patch_sha256": "a5614c80c4a70772aab8e5f615ec3c4d315a29cb29c03b042da5ebddbdda2049",
+      "expected_assertion_signatures": [
+        "Push: count 256"
+      ],
+      "other_tests_passed": true
+    },
+    {
+      "name": "omit-append-cap",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/omit-append-cap/result.json",
+      "result_sha256": "464320130b57c70a040abe7878c3196c8e6a0eb8b1aa5c2f8dfe5434a033af6f",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "ok",
+        "adminspace_reply_preserves_received_query_stack": "ok",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "ok",
+        "decoder_rejects_zero_configuration": "ok",
+        "receive_appends_at_254_and_drops_further_records_at_255": "FAILED",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "ok"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "receive_appends_at_254_and_drops_further_records_at_255",
+      "omission_detected": true,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ],
+      "patch_sha256": "c6b2958553835add50e6b6aef0d66ec79d63930dc6c4760f18997cb0463dd24e",
+      "expected_assertion_signatures": [
+        "incoming count 255",
+        "left: 256",
+        "right: 255"
+      ],
+      "other_tests_passed": true
+    },
+    {
+      "name": "retain-unknown-point-as-receive",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/retain-unknown-point-as-receive/result.json",
+      "result_sha256": "95261f0f6c9b31105cebda6fee91fda4f0548fa3a75c21d591a231eb47a4f477",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "ok",
+        "adminspace_reply_preserves_received_query_stack": "ok",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "ok",
+        "decoder_rejects_zero_configuration": "ok",
+        "receive_appends_at_254_and_drops_further_records_at_255": "ok",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "FAILED"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication",
+      "omission_detected": true,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ],
+      "patch_sha256": "eda07603b501860ebc0aa76fead6147d4b3141fa9c3258e22e5a6926df8f219a",
+      "expected_assertion_signatures": [
+        "skip both bad records and append one Receive",
+        "left: 4",
+        "right: 3"
+      ],
+      "other_tests_passed": true
+    },
+    {
+      "name": "retain-undecodable-uhlc-as-custom",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/retain-undecodable-uhlc-as-custom/result.json",
+      "result_sha256": "edb06da47078ecafc95d02df99314ccf7487a41be63e46c6ed4e8202cd23c7a4",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "ok",
+        "adminspace_reply_preserves_received_query_stack": "ok",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "ok",
+        "decoder_rejects_zero_configuration": "ok",
+        "receive_appends_at_254_and_drops_further_records_at_255": "ok",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "FAILED"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication",
+      "omission_detected": true,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ],
+      "patch_sha256": "9f3b4fb06b804a8ee7f443e3f36d6ef5821d011ad070b32601404bed0c81f15b",
+      "expected_assertion_signatures": [
+        "skip both bad records and append one Receive",
+        "left: 4",
+        "right: 3"
+      ],
+      "other_tests_passed": true
+    },
+    {
+      "name": "omit-admin-receive",
+      "kind": "single_omission_probe",
+      "result": "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002/omit-admin-receive/result.json",
+      "result_sha256": "6e8a727a767b3dfb776a9df579b4f6afad476e04027f053b544b4c73b5e29137",
+      "case_exit_code": 101,
+      "tests": {
+        "adminspace_query_invokes_receive_timestamp_callback": "FAILED",
+        "adminspace_reply_preserves_received_query_stack": "FAILED",
+        "decoder_accepts_valid_boundary_counts_without_changing_payload": "ok",
+        "decoder_rejects_record_count_above_255": "ok",
+        "decoder_rejects_zero_configuration": "ok",
+        "receive_appends_at_254_and_drops_further_records_at_255": "ok",
+        "unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication": "ok"
+      },
+      "all_tests_passed": false,
+      "model_calls": 0,
+      "counted_sweep_trial": false,
+      "reward": null,
+      "expected_failed_test": "adminspace_query_invokes_receive_timestamp_callback",
+      "omission_detected": true,
+      "changed_source_files": [
+        "zenoh/src/net/runtime/adminspace.rs"
+      ],
+      "patch_sha256": "2d3af5ab937da848df1b93e205f768a60e7deb5773b6098e33cac4c2aa1fc426",
+      "expected_assertion_signatures": [
+        "Receive-only admin delivery must invoke the router timestamp callback exactly once",
+        "reply must preserve admin Receive and append the querying client's Receive exactly once",
+        "left: 0",
+        "right: 1",
+        "left: 1",
+        "right: 2"
+      ],
+      "other_tests_passed": true
+    }
+  ],
+  "passed": false
+}

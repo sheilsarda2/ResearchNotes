@@ -1,0 +1,237 @@
+{
+  "classification": {
+    "agent_exit_abnormal": true,
+    "assistant_steps": 17,
+    "benchmark_evidence": {
+      "budget": {
+        "deadline_at": "2026-09-14T10:40:06.679328Z",
+        "deadline_source": "orchestrator",
+        "last_assistant_seconds_after_deadline": null,
+        "native_after_deadline": {
+          "assistant_turns": 0,
+          "cost_usd": null,
+          "turns_with_cost": 0,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": null,
+            "cache_read_input_tokens": null,
+            "completion_tokens": null,
+            "prompt_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "native_at_or_before_deadline": {
+          "assistant_turns": 17,
+          "cost_usd": 0.75210325,
+          "turns_with_cost": 17,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 17,
+            "cache_read_input_tokens": 17,
+            "completion_tokens": 17,
+            "prompt_tokens": 17,
+            "total_tokens": 17
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 42673,
+            "cache_read_input_tokens": 394323,
+            "completion_tokens": 2395,
+            "prompt_tokens": 437032,
+            "total_tokens": 439427
+          }
+        },
+        "native_tool_returns_after_deadline": 0,
+        "native_tool_returns_without_timestamp": 0,
+        "native_unclassified": {
+          "assistant_turns": 0,
+          "cost_usd": null,
+          "turns_with_cost": 0,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": null,
+            "cache_read_input_tokens": null,
+            "completion_tokens": null,
+            "prompt_tokens": null,
+            "total_tokens": null
+          }
+        },
+        "post_deadline_activity": false
+      },
+      "completeness": {
+        "atif": "present",
+        "config": "present",
+        "execution_and_verifier_timing": true,
+        "native": "present",
+        "pre_verifier_inputs_unchanged": true,
+        "pre_verifier_snapshot_present": true,
+        "result": "present",
+        "result_cost": true,
+        "result_usage": true
+      },
+      "counts": {
+        "atif_agent_steps": 17,
+        "atif_steps_with_timestamp": 17,
+        "atif_tool_calls": 17,
+        "native_assistant_turns": 17,
+        "native_tool_calls": 17,
+        "native_tool_returns": 17,
+        "native_turns_with_timestamp": 17,
+        "turn_counts_match": true
+      },
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T08:40:06.679328Z",
+        "all_executions_quiescent": true,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T09:34:22.506334Z",
+        "closed_at": "2026-09-14T09:34:22.495824Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "execution_count": 4,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+      },
+      "request": {
+        "configured_effort": "max",
+        "configured_model": "anthropic/claude-fable-5-1",
+        "effort_matches": true,
+        "max_tokens": 64000,
+        "recorded_effort": "max",
+        "thinking_type": "adaptive"
+      },
+      "response_models": {
+        "atif": [
+          "anthropic/claude-fable-5-1"
+        ],
+        "atif_reasoning_efforts": [
+          "max"
+        ],
+        "native": [
+          "claude-fable-5-1"
+        ]
+      },
+      "timing": {
+        "agent_execution": {
+          "complete": true,
+          "finished_at": "2026-09-14T09:34:22.302654Z",
+          "seconds": 3255.623862,
+          "started_at": "2026-09-14T08:40:06.678792Z"
+        },
+        "agent_setup": {
+          "complete": true,
+          "finished_at": "2026-09-14T08:40:06.492705Z",
+          "seconds": 47.543237,
+          "started_at": "2026-09-14T08:39:18.949468Z"
+        },
+        "environment_setup": {
+          "complete": true,
+          "finished_at": "2026-09-14T08:39:18.949335Z",
+          "seconds": 2.411657,
+          "started_at": "2026-09-14T08:39:16.537678Z"
+        },
+        "trial": {
+          "complete": true,
+          "finished_at": "2026-09-14T09:34:55.493503Z",
+          "seconds": 3338.990815,
+          "started_at": "2026-09-14T08:39:16.502688Z"
+        },
+        "verifier": {
+          "complete": true,
+          "finished_at": "2026-09-14T09:34:55.236804Z",
+          "seconds": 16.126921,
+          "started_at": "2026-09-14T09:34:39.109883Z"
+        }
+      },
+      "usage": {
+        "atif_final": {
+          "total_cached_tokens": 394323,
+          "total_completion_tokens": 2395,
+          "total_cost_usd": 0.75210325,
+          "total_prompt_tokens": 437032
+        },
+        "native_final": {
+          "api_calls": 18,
+          "instance_cost": 0.75210325
+        },
+        "native_responses": {
+          "assistant_turns": 17,
+          "cost_usd": 0.75210325,
+          "turns_with_cost": 17,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 17,
+            "cache_read_input_tokens": 17,
+            "completion_tokens": 17,
+            "prompt_tokens": 17,
+            "total_tokens": 17
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 42673,
+            "cache_read_input_tokens": 394323,
+            "completion_tokens": 2395,
+            "prompt_tokens": 437032,
+            "total_tokens": 439427
+          }
+        },
+        "provider_charge_may_be_missing": true,
+        "result": {
+          "cost_usd": 0.75210325,
+          "n_cache_tokens": 394323,
+          "n_input_tokens": 437032,
+          "n_output_tokens": 2395
+        },
+        "usage_censored": true
+      }
+    },
+    "benchmark_evidence_sha256": "061e1c379c4437f7a41db540099fd9c799e506634dd1fe0e6d73ddbe4a0c5ee7",
+    "check_unit": "individual_checks",
+    "checks_passed": 9,
+    "checks_total": 57,
+    "cost_usd": 0.75210325,
+    "effort": "max",
+    "exception": "NonZeroAgentExitCodeError",
+    "finished_at": "2026-09-14T09:34:55.493503Z",
+    "guarded_evidence": true,
+    "model": "fable-5-1",
+    "native_assistant_turns": 17,
+    "native_tool_calls": 17,
+    "observed_model_names": [
+      "anthropic/claude-fable-5-1"
+    ],
+    "outcome_basis": "completed_verifier_after_agent_exit",
+    "provider_charge_may_be_missing": true,
+    "raw_reward": 0.0,
+    "recorded_effort": "max",
+    "response_model_aliases": [
+      "claude-fable-5-1"
+    ],
+    "result_sha256": "4dc9ea334e1357c966f72c9dc54b41aba400ec20043542c4cbd45a72db65ea85",
+    "reward": 0,
+    "status": "scored",
+    "task": "luigi-generation-target",
+    "tool_calls": 17,
+    "trial": "jobs/streaming-canary-luigi-fable-max-20260914-001/luigi-generation-target__RigDBsV",
+    "usage_censored": true
+  },
+  "function": "run-candidate-screen.py:inspect",
+  "kind": "read_only_normal_classifier_observation",
+  "record_writes_to_campaign_or_jobs": 0,
+  "schema_version": 1,
+  "source_sha256": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1"
+}

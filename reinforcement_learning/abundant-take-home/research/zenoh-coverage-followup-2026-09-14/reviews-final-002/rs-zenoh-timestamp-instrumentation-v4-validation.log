@@ -1,0 +1,209 @@
+
+🔎 Checking task quality...
+  1/1 Mean: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:34:52 0:00:00     Task Quality Checks: rs-zenoh-timestamp-instrumentation-v4-validation      
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Check                        ┃ Outcome ┃ Explanation                         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Behavior In Task Description │ pass    │ instruction.md's Behavioral         │
+│                              │         │ contract (points 1-8), Public API   │
+│                              │         │ and Wire format sections spell out, │
+│                              │         │ in detail, every behavior the       │
+│                              │         │ hidden tests check: builder         │
+│                              │         │ semantics, ordering per topology,   │
+│                              │         │ locality rules, UHLC vs             │
+│                              │         │ custom-callback timestamps and node │
+│                              │         │ zid, the 255-record cap, decoder    │
+│                              │         │ rejection of                        │
+│                              │         │ zero-configuration/oversized        │
+│                              │         │ counts, forward-compatible skipping │
+│                              │         │ of malformed records, and that      │
+│                              │         │ routers/admin-space add             │
+│                              │         │ Route/Receive records like any      │
+│                              │         │ node. The newer                     │
+│                              │         │ timestamp_robustness.rs and         │
+│                              │         │ timestamp_adminspace*.rs hidden     │
+│                              │         │ tests map directly onto contract    │
+│                              │         │ items 6 and 7 (and the general      │
+│                              │         │ reply rule in item 3 for the admin  │
+│                              │         │ reply-stack case), so an agent      │
+│                              │         │ reading instruction.md has what it  │
+│                              │         │ needs to satisfy them even though   │
+│                              │         │ the 'Verification' bullet list      │
+│                              │         │ itself was not edited to name these │
+│                              │         │ two extra suites/counts explicitly  │
+│                              │         │ (a minor omission, but the          │
+│                              │         │ governing behavior is not left      │
+│                              │         │ unspecified).                       │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Behavior In Tests            │ pass    │ Every behavioral-contract bullet    │
+│                              │         │ has a corresponding hidden test:    │
+│                              │         │ the upstream 47-test integration    │
+│                              │         │ suite for                           │
+│                              │         │ builders/ordering/locality/callbac… │
+│                              │         │ timestamp_robustness.rs for the     │
+│                              │         │ 255-record cap and                  │
+│                              │         │ decoder-rejection/skip rules of     │
+│                              │         │ contract 6, timestamp_adminspace.rs │
+│                              │         │ and                                 │
+│                              │         │ timestamp_adminspace_reply_stack.rs │
+│                              │         │ for contract 7 (and the admin case  │
+│                              │         │ of contract 3), ts_advanced.rs for  │
+│                              │         │ the zenoh-ext requirement, and      │
+│                              │         │ ts_interop.rs for wire-level        │
+│                              │         │ byte-for-byte interop with the gold │
+│                              │         │ Rust peer and zenoh-python.         │
+│                              │         │ Pristine regression suites and      │
+│                              │         │ exact in-crate test-name checks     │
+│                              │         │ cover the 'everything else          │
+│                              │         │ unchanged' requirement (contract    │
+│                              │         │ 8).                                 │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Informative Test Structure   │ pass    │ test.sh has a substantial header    │
+│                              │         │ comment describing every group,     │
+│                              │         │ execution/retry policy and the      │
+│                              │         │ network-limitation exclusions, and  │
+│                              │         │ uses a clearly named run_group      │
+│                              │         │ helper with per-group logs;         │
+│                              │         │ score.py separates anti-cheat       │
+│                              │         │ scanning, list-diffing and          │
+│                              │         │ cargo-log parsing into named        │
+│                              │         │ subcommands with docstrings; hidden │
+│                              │         │ .rs test files carry doc comments   │
+│                              │         │ naming which contract/behavior each │
+│                              │         │ test targets and use clear helper   │
+│                              │         │ names (e.g. assert_custom_receive,  │
+│                              │         │ decoder_rejects_record_count_above… │
+│                              │         │ One small blemish: the              │
+│                              │         │ REQUIRED_GROUPS list added by the   │
+│                              │         │ follow-up (robustness_tests,        │
+│                              │         │ admin_timestamp_tests) is not       │
+│                              │         │ reflected in the top-of-file        │
+│                              │         │ 'Groups' summary comment, but this  │
+│                              │         │ does not materially hurt            │
+│                              │         │ readability.                        │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Anti Cheating Measures       │ pass    │ The agent image only ships          │
+│                              │         │ upstream.tar.gz (no tests/ or       │
+│                              │         │ solution/), hidden tests and        │
+│                              │         │ reference peers (ts_peer,           │
+│                              │         │ zenoh-python) exist only in the     │
+│                              │         │ separate verifier image, and        │
+│                              │         │ score.py's anti_cheat scan bans     │
+│                              │         │ process spawning, path/reward/score │
+│                              │         │ literals, and references to the     │
+│                              │         │ verifier's internal peers/paths in  │
+│                              │         │ the collected sources, counting     │
+│                              │         │ (and rejecting growth of) patterns  │
+│                              │         │ like env::var/# that could          │
+│                              │         │ otherwise be abused to special-case │
+│                              │         │ the test environment. Cargo         │
+│                              │         │ manifests/lockfiles/tests are       │
+│                              │         │ always restored from the pristine   │
+│                              │         │ tree before build, preventing the   │
+│                              │         │ agent from tampering with them.     │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Structured Data Schema       │ pass    │ The task's structured artifact is   │
+│                              │         │ the wire-format extension, and      │
+│                              │         │ instruction.md documents it         │
+│                              │         │ precisely and normatively           │
+│                              │         │ (extension id 0x7, conf_flags bit   │
+│                              │         │ layout, zint count, per-record      │
+│                              │         │ flags byte layout including the     │
+│                              │         │ custom-format bit, and the zbuf     │
+│                              │         │ timestamp encoding), which is       │
+│                              │         │ exactly what the                    │
+│                              │         │ differential-interop and robustness │
+│                              │         │ tests check byte-for-byte.          │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Pinned Dependencies          │ pass    │ Both Dockerfiles pin the base image │
+│                              │         │ by digest                           │
+│                              │         │ (rust:1.97.1-bookworm@sha256:...),  │
+│                              │         │ Cargo dependencies are fixed via    │
+│                              │         │ the untouched Cargo.lock plus       │
+│                              │         │ --offline/--locked, and the         │
+│                              │         │ verifier image pins the             │
+│                              │         │ zenoh-python revision               │
+│                              │         │ (ZENOH_PYTHON_REV=f4bbce9d...) and  │
+│                              │         │ the maturin build tool version      │
+│                              │         │ (MATURIN_VERSION=1.15.0). No        │
+│                              │         │ unpinned network-fetched dependency │
+│                              │         │ is used to build the graded         │
+│                              │         │ artifacts.                          │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Typos                        │ pass    │ No misspellings or path/name typos  │
+│                              │         │ were found in instruction.md,       │
+│                              │         │ task.toml, provenance.json, the     │
+│                              │         │ Dockerfiles, test.sh, score.py or   │
+│                              │         │ the hidden test files;              │
+│                              │         │ cross-checked count constants in    │
+│                              │         │ test.sh (HIDDEN_PR_COUNT=47,        │
+│                              │         │ timestamp_robustness=5,             │
+│                              │         │ timestamp_adminspace=1,             │
+│                              │         │ timestamp_adminspace_reply_stack=1, │
+│                              │         │ INTEROP_COUNT=6, PARITY_COUNT=4,    │
+│                              │         │ TS_ADVANCED_COUNT=2) all match the  │
+│                              │         │ actual number of test functions in  │
+│                              │         │ the corresponding hidden test       │
+│                              │         │ files.                              │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Tests Or Solution In Image   │ pass    │ environment/Dockerfile only COPYs   │
+│                              │         │ upstream.tar.gz and builds/warms    │
+│                              │         │ the crate from it; it never         │
+│                              │         │ references tests/ or solution/. The │
+│                              │         │ tests/ and solution/ directories    │
+│                              │         │ are only consumed by                │
+│                              │         │ tests/Dockerfile (verifier image)   │
+│                              │         │ and by the reviewer/authoring       │
+│                              │         │ process, never baked into the       │
+│                              │         │ agent's runtime image.              │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Test Deps In Image           │ pass    │ The agent's environment/Dockerfile  │
+│                              │         │ installs only build tooling needed  │
+│                              │         │ to compile/test the crate itself    │
+│                              │         │ (pkg-config, cmake, python3, jq,    │
+│                              │         │ rsync, less). Verifier-only         │
+│                              │         │ dependencies -- python3-venv/pip,   │
+│                              │         │ maturin, the zenoh-python build     │
+│                              │         │ toolchain and the gold/ts_peer      │
+│                              │         │ reference binaries -- are installed │
+│                              │         │ exclusively in tests/Dockerfile,    │
+│                              │         │ isolated from the agent image.      │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ Hardcoded Solution           │ pass    │ solve.sh applies                    │
+│                              │         │ solution/changes.patch (a genuine   │
+│                              │         │ 35-file, ~1600-line source diff     │
+│                              │         │ spanning zenoh-protocol,            │
+│                              │         │ zenoh-codec, zenoh and zenoh-ext,   │
+│                              │         │ mirroring the real upstream PR)     │
+│                              │         │ plus a follow-up                    │
+│                              │         │ admin-reply-stack.patch fixing a    │
+│                              │         │ real omission (adminspace hardcoded │
+│                              │         │ query_ts_stack: None), then does a  │
+│                              │         │ sanity cargo build. This            │
+│                              │         │ demonstrates the actual multi-crate │
+│                              │         │ code changes required, not a        │
+│                              │         │ printed/echoed final answer.        │
+├──────────────────────────────┼─────────┼─────────────────────────────────────┤
+│ File Reference Mentioned     │ pass    │ instruction.md's 'What is           │
+│                              │         │ collected' section explicitly names │
+│                              │         │ the four src/ directories the agent │
+│                              │         │ must edit                           │
+│                              │         │ (commons/zenoh-protocol/src,        │
+│                              │         │ commons/zenoh-codec/src, zenoh/src, │
+│                              │         │ zenoh-ext/src), matching exactly    │
+│                              │         │ the artifact paths declared in      │
+│                              │         │ task.toml, so the agent knows       │
+│                              │         │ precisely which files/paths are     │
+│                              │         │ graded.                             │
+└──────────────────────────────┴─────────┴─────────────────────────────────────┘
+Agent cost: $0.7710
+
+Report: 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/ze
+noh-coverage-followup-2026-09-14/reviews-final-002/jobs/rs-zenoh-timestamp-instr
+umentation-v4-validation-quality-20260914T080340Z/check_report.json
+Inspect results by running `harbor view 
+/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/ze
+noh-coverage-followup-2026-09-14/reviews-final-002/jobs`
+In the viewer, open a trial's Artifacts tab to read its check-result.json, and 
+use ← / → to switch between tasks.

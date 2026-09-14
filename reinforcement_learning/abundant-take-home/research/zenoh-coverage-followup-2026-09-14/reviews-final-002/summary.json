@@ -1,0 +1,157 @@
+{
+  "automatic_retries": 0,
+  "controls_summary": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+    "sha256": "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac"
+  },
+  "finished_at": "2026-09-14T08:38:38.403150+00:00",
+  "inputs_unchanged": true,
+  "model_calls": true,
+  "passed": true,
+  "recovery_tooling": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/source-manifest.json",
+    "sha256": "54bc401f348a4ef0e80ef3fa7b76d859d84771b495b4c1fa729b15e6fde0bde1"
+  },
+  "reviews": {
+    "rs-zenoh-timestamp-instrumentation-v4-validation": {
+      "admission_observations_sha256": "42aec9eda0337e42ece51695116fbcc4a14da0d938515570520dd3096564016a",
+      "agent_usage": {
+        "cost_usd": 0.7710019,
+        "metadata": null,
+        "n_cache_tokens": 1832877,
+        "n_input_tokens": 1919954,
+        "n_output_tokens": 18677,
+        "rollout_details": null
+      },
+      "attempts": 1,
+      "check_report": "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/jobs/rs-zenoh-timestamp-instrumentation-v4-validation-quality-20260914T080340Z/check_report.json",
+      "check_report_sha256": "4c4c2104d3e0ce738434e8ac27a265f6702d409f9e7453c9010b455743c7559a",
+      "checks": {
+        "anti_cheating_measures": {
+          "explanation": "The agent image only ships upstream.tar.gz (no tests/ or solution/), hidden tests and reference peers (ts_peer, zenoh-python) exist only in the separate verifier image, and score.py's anti_cheat scan bans process spawning, path/reward/score literals, and references to the verifier's internal peers/paths in the collected sources, counting (and rejecting growth of) patterns like env::var/#[ignore] that could otherwise be abused to special-case the test environment. Cargo manifests/lockfiles/tests are always restored from the pristine tree before build, preventing the agent from tampering with them.",
+          "outcome": "pass"
+        },
+        "behavior_in_task_description": {
+          "explanation": "instruction.md's Behavioral contract (points 1-8), Public API and Wire format sections spell out, in detail, every behavior the hidden tests check: builder semantics, ordering per topology, locality rules, UHLC vs custom-callback timestamps and node zid, the 255-record cap, decoder rejection of zero-configuration/oversized counts, forward-compatible skipping of malformed records, and that routers/admin-space add Route/Receive records like any node. The newer timestamp_robustness.rs and timestamp_adminspace*.rs hidden tests map directly onto contract items 6 and 7 (and the general reply rule in item 3 for the admin reply-stack case), so an agent reading instruction.md has what it needs to satisfy them even though the 'Verification' bullet list itself was not edited to name these two extra suites/counts explicitly (a minor omission, but the governing behavior is not left unspecified).",
+          "outcome": "pass"
+        },
+        "behavior_in_tests": {
+          "explanation": "Every behavioral-contract bullet has a corresponding hidden test: the upstream 47-test integration suite for builders/ordering/locality/callbacks/querier, timestamp_robustness.rs for the 255-record cap and decoder-rejection/skip rules of contract 6, timestamp_adminspace.rs and timestamp_adminspace_reply_stack.rs for contract 7 (and the admin case of contract 3), ts_advanced.rs for the zenoh-ext requirement, and ts_interop.rs for wire-level byte-for-byte interop with the gold Rust peer and zenoh-python. Pristine regression suites and exact in-crate test-name checks cover the 'everything else unchanged' requirement (contract 8).",
+          "outcome": "pass"
+        },
+        "file_reference_mentioned": {
+          "explanation": "instruction.md's 'What is collected' section explicitly names the four src/ directories the agent must edit (commons/zenoh-protocol/src, commons/zenoh-codec/src, zenoh/src, zenoh-ext/src), matching exactly the artifact paths declared in task.toml, so the agent knows precisely which files/paths are graded.",
+          "outcome": "pass"
+        },
+        "hardcoded_solution": {
+          "explanation": "solve.sh applies solution/changes.patch (a genuine 35-file, ~1600-line source diff spanning zenoh-protocol, zenoh-codec, zenoh and zenoh-ext, mirroring the real upstream PR) plus a follow-up admin-reply-stack.patch fixing a real omission (adminspace hardcoded query_ts_stack: None), then does a sanity cargo build. This demonstrates the actual multi-crate code changes required, not a printed/echoed final answer.",
+          "outcome": "pass"
+        },
+        "informative_test_structure": {
+          "explanation": "test.sh has a substantial header comment describing every group, execution/retry policy and the network-limitation exclusions, and uses a clearly named run_group helper with per-group logs; score.py separates anti-cheat scanning, list-diffing and cargo-log parsing into named subcommands with docstrings; hidden .rs test files carry doc comments naming which contract/behavior each test targets and use clear helper names (e.g. assert_custom_receive, decoder_rejects_record_count_above_255). One small blemish: the REQUIRED_GROUPS list added by the follow-up (robustness_tests, admin_timestamp_tests) is not reflected in the top-of-file 'Groups' summary comment, but this does not materially hurt readability.",
+          "outcome": "pass"
+        },
+        "pinned_dependencies": {
+          "explanation": "Both Dockerfiles pin the base image by digest (rust:1.97.1-bookworm@sha256:...), Cargo dependencies are fixed via the untouched Cargo.lock plus --offline/--locked, and the verifier image pins the zenoh-python revision (ZENOH_PYTHON_REV=f4bbce9d...) and the maturin build tool version (MATURIN_VERSION=1.15.0). No unpinned network-fetched dependency is used to build the graded artifacts.",
+          "outcome": "pass"
+        },
+        "structured_data_schema": {
+          "explanation": "The task's structured artifact is the wire-format extension, and instruction.md documents it precisely and normatively (extension id 0x7, conf_flags bit layout, zint count, per-record flags byte layout including the custom-format bit, and the zbuf timestamp encoding), which is exactly what the differential-interop and robustness tests check byte-for-byte.",
+          "outcome": "pass"
+        },
+        "test_deps_in_image": {
+          "explanation": "The agent's environment/Dockerfile installs only build tooling needed to compile/test the crate itself (pkg-config, cmake, python3, jq, rsync, less). Verifier-only dependencies -- python3-venv/pip, maturin, the zenoh-python build toolchain and the gold/ts_peer reference binaries -- are installed exclusively in tests/Dockerfile, isolated from the agent image.",
+          "outcome": "pass"
+        },
+        "tests_or_solution_in_image": {
+          "explanation": "environment/Dockerfile only COPYs upstream.tar.gz and builds/warms the crate from it; it never references tests/ or solution/. The tests/ and solution/ directories are only consumed by tests/Dockerfile (verifier image) and by the reviewer/authoring process, never baked into the agent's runtime image.",
+          "outcome": "pass"
+        },
+        "typos": {
+          "explanation": "No misspellings or path/name typos were found in instruction.md, task.toml, provenance.json, the Dockerfiles, test.sh, score.py or the hidden test files; cross-checked count constants in test.sh (HIDDEN_PR_COUNT=47, timestamp_robustness=5, timestamp_adminspace=1, timestamp_adminspace_reply_stack=1, INTEROP_COUNT=6, PARITY_COUNT=4, TS_ADVANCED_COUNT=2) all match the actual number of test functions in the corresponding hidden test files.",
+          "outcome": "pass"
+        }
+      },
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "-B",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/execute_quality_retry.py",
+        "--proof-dir",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/reviews-final-002/rs-zenoh-timestamp-instrumentation-v4-validation-proof",
+        "--",
+        "check",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+        "--agent",
+        "mini-swe-agent",
+        "--model",
+        "anthropic/claude-sonnet-5",
+        "--ak",
+        "version=2.4.6",
+        "--ak",
+        "reasoning_effort=high",
+        "--ae",
+        "ANTHROPIC_BASE_URL=https://take-home-automation.vercel.app",
+        "--ae",
+        "ANTHROPIC_API_BASE=https://take-home-automation.vercel.app",
+        "--n-concurrent",
+        "1",
+        "--n-attempts",
+        "1",
+        "--jobs-dir",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/reviews-final-002/jobs",
+        "--job-name",
+        "rs-zenoh-timestamp-instrumentation-v4-validation-quality-20260914T080340Z"
+      ],
+      "counts": {
+        "atif_agent_steps": 36,
+        "native_assistant_turns": 36
+      },
+      "criteria_fail": [],
+      "effort": "high",
+      "exit_code": 0,
+      "final_own_claims": 0,
+      "finished_at": "2026-09-14T08:38:38.403134+00:00",
+      "model": "anthropic/claude-sonnet-5",
+      "model_calls": true,
+      "observation": {
+        "errors": [],
+        "exit_code": 0,
+        "terminal_sample_at": "2026-09-14T08:38:36.692976+00:00",
+        "terminal_sample_valid": true
+      },
+      "observation_errors": [],
+      "original_task_checksum": "67f1fdca75fd66f4cbdd6e4729a582c9fbbdac428a0299eefc74104dffa59fab",
+      "passed": true,
+      "peak_own_claims": 1,
+      "pid": 83205,
+      "result": "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/jobs/rs-zenoh-timestamp-instrumentation-v4-validation-quality-20260914T080340Z/check-rs-zenoh-timestamp-instrum__8ygcvjc/result.json",
+      "result_sha256": "439eef3517944ddea269fc057cf280c2ee7a61e9c310bc4a0a6c9dc54fce17db",
+      "runtime_proof_sha256": "22a5816e057d9feb818b36b381a30019dcba477b1630094fd0d83d757ed345bc",
+      "shared_cap_respected": true,
+      "started_at": "2026-09-14T08:03:39.907499+00:00",
+      "task": "research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+      "trial_file_sha256": {
+        "agent/benchmark-agent-input.json": "119d500cac02c17ce29e0cf2864f5675ffbbe71aae3671136289ff9f914062f9",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "agent/mini-swe-agent.trajectory.json": "d3fcfeffe10d28f449f634d185d1c1f348fd75cd08b07f7c42913f18e00a1bfa",
+        "agent/mini-swe-agent.txt": "8083e81c9cc31bca840a08e030bf377b36c0daa943cca96930a8d6ade8ea2fbe",
+        "agent/trajectory.json": "2c2c79ee65f28db76575a63d89865f92db4534e87334b7d108858e39b7a5f6e3",
+        "artifacts/check-result.json": "9f0e8be2e804749bbb70e57179fc932812be09ce52925093de13cce54d677c5b",
+        "artifacts/manifest.json": "d2f0b6d0ad05349b927d9c8237c9c921a1a30468c2289f2f112d919655ce03a4",
+        "benchmark-deadline.json": "e85fce0f15f4d74bd50c9f1c61855608b42b053ed4bbabd9f228cfab03c8cb42",
+        "benchmark-evidence.json": "041dac8200f98f3feed3c34c58ca1771483d2980966f18491b6fe1581dca065d",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "e1552d1d93251fb17cc7a2f5845361a92eefaa310c4678ae4fe4384a844c54b3",
+        "config.json": "cd0b5fd3aaadc3697a27017ea2b0025772ef9fcae0400104873d14920a5709ee",
+        "result.json": "439eef3517944ddea269fc057cf280c2ee7a61e9c310bc4a0a6c9dc54fce17db",
+        "trial.log": "b3f5a24d5b0d8502eb82bb6d83d62a7b464934b49e5567d192912222df54e8e6",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/test-stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "wrapper_checksum": "23ba245084f0297bf79fd872479351003fa438668d3cc9d36f5e768d76f06208"
+    }
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-14T08:03:39.906833+00:00"
+}

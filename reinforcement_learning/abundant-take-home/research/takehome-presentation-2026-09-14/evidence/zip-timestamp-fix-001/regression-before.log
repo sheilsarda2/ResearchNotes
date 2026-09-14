@@ -1,0 +1,93 @@
+test_empty_directory_headers_clamp_without_changing_directory_mtime (__main__.ZipTimestampTests) ... ERROR
+test_epoch_mtime_only_clamps_zip_header (__main__.ZipTimestampTests) ... ERROR
+test_normal_mtime_uses_normal_dos_rounding (__main__.ZipTimestampTests) ... ok
+test_post_2107_mtime_only_clamps_zip_header (__main__.ZipTimestampTests) ... ERROR
+test_pre_1980_mtime_only_clamps_zip_header (__main__.ZipTimestampTests) ... ERROR
+
+======================================================================
+ERROR: test_empty_directory_headers_clamp_without_changing_directory_mtime (__main__.ZipTimestampTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/package-takehome-evidence.py", line 1014, in zip_verified
+    z.write(p, name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1758, in write
+    self.fp.write(zinfo.FileHeader(False))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 447, in FileHeader
+    header = struct.pack(structFileHeader, stringFileHeader,
+struct.error: ushort format requires 0 <= number <= (32767 * 2 + 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 88, in test_empty_directory_headers_clamp_without_changing_directory_mtime
+    p.zip_verified(pack, self.root / 'directories.zip')
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/package-takehome-evidence.py", line 1018, in zip_verified
+    z.write(p, name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1300, in __exit__
+    self.close()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1825, in close
+    self._write_end_record()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1872, in _write_end_record
+    centdir = struct.pack(structCentralDir,
+struct.error: ushort format requires 0 <= number <= (32767 * 2 + 1)
+
+======================================================================
+ERROR: test_epoch_mtime_only_clamps_zip_header (__main__.ZipTimestampTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 61, in test_epoch_mtime_only_clamps_zip_header
+    self.file_round_trip(0, (1980, 1, 1, 0, 0, 0))
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 48, in file_round_trip
+    result = p.zip_verified(self.root / 'pack', self.root / 'pack.zip')
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/package-takehome-evidence.py", line 1018, in zip_verified
+    z.write(p, name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1727, in write
+    zinfo = ZipInfo.from_file(filename, arcname,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 517, in from_file
+    zinfo = cls(arcname, date_time)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 361, in __init__
+    raise ValueError('ZIP does not support timestamps before 1980')
+ValueError: ZIP does not support timestamps before 1980
+
+======================================================================
+ERROR: test_post_2107_mtime_only_clamps_zip_header (__main__.ZipTimestampTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 69, in test_post_2107_mtime_only_clamps_zip_header
+    self.file_round_trip(stamp, (2107, 12, 31, 23, 59, 58))
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 48, in file_round_trip
+    result = p.zip_verified(self.root / 'pack', self.root / 'pack.zip')
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/package-takehome-evidence.py", line 1018, in zip_verified
+    z.write(p, name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1761, in write
+    with open(filename, "rb") as src, self.open(zinfo, 'w') as dest:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1505, in open
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1600, in _open_to_write
+    self.fp.write(zinfo.FileHeader(zip64))
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 447, in FileHeader
+    header = struct.pack(structFileHeader, stringFileHeader,
+struct.error: ushort format requires 0 <= number <= (32767 * 2 + 1)
+
+======================================================================
+ERROR: test_pre_1980_mtime_only_clamps_zip_header (__main__.ZipTimestampTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 65, in test_pre_1980_mtime_only_clamps_zip_header
+    self.file_round_trip(stamp, (1980, 1, 1, 0, 0, 0))
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/takehome-presentation-2026-09-14/packaging/test_zip_timestamps.py", line 48, in file_round_trip
+    result = p.zip_verified(self.root / 'pack', self.root / 'pack.zip')
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/scripts/package-takehome-evidence.py", line 1018, in zip_verified
+    z.write(p, name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 1727, in write
+    zinfo = ZipInfo.from_file(filename, arcname,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 517, in from_file
+    zinfo = cls(arcname, date_time)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/zipfile.py", line 361, in __init__
+    raise ValueError('ZIP does not support timestamps before 1980')
+ValueError: ZIP does not support timestamps before 1980
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.018s
+
+FAILED (errors=4)

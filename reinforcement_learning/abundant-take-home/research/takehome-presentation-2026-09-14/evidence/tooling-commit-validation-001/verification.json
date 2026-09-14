@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-09-14T09:00:58.360936+00:00",
+  "source_sha256": {
+    "scripts/collect-takehome-evidence.py": "c843870bbf9ddba0bbdff834f51a4a3239a5cd65312413d08456c8c2729a0201",
+    "scripts/watch-takehome-readiness.py": "8ae35dcb572065df589cfe2a7ab54e1c7448e012eb9a85c8f54aec9a5cb544e8",
+    "scripts/package-takehome-evidence.py": "fe215f108a43fdd9ded27224d826b282aac226a93e843295862313f2800e3015",
+    "scripts/tests/test_takehome_readiness.py": "04cee59eec3dc8bb504c2b8e70498d9ff9264cb76a26bdcb4a57526912672daa",
+    "research/takehome-presentation-2026-09-14/coverage-scope.json": "4154e6eec13c8a7454edd0f2f6090859be5e913b6065dc7cb6c4df763e5ad0bd",
+    "research/takehome-presentation-2026-09-14/packaging/test_packager.py": "3365d4f7d3ff2fee5d54f06ca71666b9677d0971ef2ee17d1c26d6191c94978a",
+    "research/takehome-presentation-2026-09-14/packaging/test_data_snapshot_selection.py": "f37f236a332cf867c71c5d69b22d7a747e0ca193873f2b6a708bcebe2f17dad5",
+    "research/takehome-presentation-2026-09-14/packaging/test_final_revision_mapping.py": "fe4664cc9f1550c5defb0b91a36a55fefbfa026c362117ba59281d6d4a0b3c8d"
+  },
+  "readiness_tests": {
+    "command": [
+      "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/tests",
+      "-p",
+      "test_takehome_readiness.py",
+      "-v"
+    ],
+    "returncode": 0,
+    "passed": 15,
+    "stdout": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/tooling-commit-validation-001/readiness-tests.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/tooling-commit-validation-001/readiness-tests.stderr.txt",
+      "sha256": "a1638f972e82a8116360816f5dd3ad0394a1253b63b4f97aed22257c1dcb3f4e"
+    }
+  },
+  "packager_validation": {
+    "path": "research/takehome-presentation-2026-09-14/packaging/final-revision-adapter-002/verification.json",
+    "sha256": "0bff82ce8e2abba30b51e3b345ed47da83b3c5a343f741c0525be2551e5e4a5e",
+    "tests_previously_passed": 54,
+    "all_four_current_source_hashes_match": true
+  },
+  "source_bytes_unchanged": true,
+  "model_calls": 0,
+  "runtime_changes": 0,
+  "scope": "Eight completed tooling/scope/test files only; no live artifacts, tasks or other scheduler edits"
+}

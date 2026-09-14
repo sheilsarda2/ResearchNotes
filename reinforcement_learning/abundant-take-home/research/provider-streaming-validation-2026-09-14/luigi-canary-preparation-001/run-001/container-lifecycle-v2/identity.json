@@ -1,0 +1,29 @@
+{
+  "pid": 11597,
+  "identity": "6218084",
+  "at": "2026-09-14T09:21:39.492291+00:00",
+  "read_only": true,
+  "source_sha256": "81ad3fd948b0934e49f4da40b6916b4f66060f5d39b0f1ff04089300760ccd82",
+  "command": [
+    "docker",
+    "events",
+    "--filter",
+    "type=container",
+    "--filter",
+    "label=com.docker.compose.project=luigi-generation-target__rigdbsv",
+    "--format",
+    "{{json .}}",
+    "--filter",
+    "event=create",
+    "--filter",
+    "event=start",
+    "--filter",
+    "event=die",
+    "--filter",
+    "event=destroy",
+    "--filter",
+    "event=oom"
+  ],
+  "model_calls": 0,
+  "workload_signals": 0
+}

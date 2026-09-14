@@ -1,0 +1,348 @@
+{
+  "checked_at": "2026-09-14T09:15:40.852832+00:00",
+  "event": "transient_coverage_publisher_unhealthy_report",
+  "model_calls": 0,
+  "runtime_mutations": 0,
+  "history": {
+    "path": "research/takehome-presentation-2026-09-14/monitor-history.jsonl",
+    "observed_prefix_bytes": 52278,
+    "observed_prefix_sha256": "fbc62c948df4ed2fbde74c61363bf76a43748f624a1b3d3f445abb4bb1f30872"
+  },
+  "observations": [
+    {
+      "alerts": [
+        "coverage_publisher_unhealthy_or_stale"
+      ],
+      "campaigns": {
+        "candidates-all14-efforts-20-20260913T183301Z": {
+          "active_trials": 8,
+          "automatic_recovery": true,
+          "summary_age_sec": 8.78,
+          "supervisors": [
+            {
+              "expected_identity": "2748497",
+              "observed_identity": "2748497",
+              "pid": 12518,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355546",
+            "pid": 97135,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.74,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-all14-efforts-20-20260913T183301Z": {
+              "claims": 8,
+              "expected_identity": "2185934",
+              "observed_identity": "2185934",
+              "pid": 98349,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-burn-reader-v4-efforts-20-20260914T011100Z": {
+          "active_trials": 2,
+          "automatic_recovery": true,
+          "summary_age_sec": 7.97,
+          "supervisors": [
+            {
+              "expected_identity": "3276964",
+              "observed_identity": "3276964",
+              "pid": 12975,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355557",
+            "pid": 97155,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.74,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-burn-reader-v4-efforts-20-20260914T011100Z": {
+              "claims": 2,
+              "expected_identity": "3279013",
+              "observed_identity": "3279013",
+              "pid": 15071,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-diskcache-v2-efforts-20-20260913T234023Z": {
+          "active_trials": 1,
+          "automatic_recovery": true,
+          "summary_age_sec": 9.82,
+          "supervisors": [
+            {
+              "expected_identity": "2749265",
+              "observed_identity": "2749265",
+              "pid": 14777,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355562",
+            "pid": 97166,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.74,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-diskcache-v2-efforts-20-20260913T234023Z": {
+              "claims": 1,
+              "expected_identity": "3061375",
+              "observed_identity": "3061375",
+              "pid": 31290,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+          "active_trials": 2,
+          "automatic_recovery": true,
+          "summary_age_sec": 0.82,
+          "supervisors": [
+            {
+              "expected_identity": "2427348",
+              "observed_identity": "2427348",
+              "pid": 72358,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355551",
+            "pid": 97140,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.75,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+              "claims": 2,
+              "expected_identity": "3020185",
+              "observed_identity": "3020185",
+              "pid": 18216,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        }
+      },
+      "coverage": {
+        "counted_trials": 148,
+        "covered": 97,
+        "missing_cells": [
+          "[\"luigi-generation-target\",\"anthropic/claude-fable-5-1\",\"max\"]",
+          "[\"diskcache-online-reshard-v2\",\"anthropic/claude-fable-5-1\",\"max\"]"
+        ],
+        "ready": false,
+        "required": 99
+      },
+      "coverage_publisher": {
+        "age_sec": 0.71,
+        "expected_identity": null,
+        "healthy": false,
+        "observed_identity": "4412871",
+        "pid": 44320,
+        "valid": true
+      },
+      "event": "attention",
+      "identity": "4754898",
+      "interval_seconds": 30,
+      "pid": 12113,
+      "read_only": true,
+      "readiness_basis": "Classified campaign summaries for frozen 99 cells; final collector audit remains separate.",
+      "scope_sha256": "4154e6eec13c8a7454edd0f2f6090859be5e913b6065dc7cb6c4df763e5ad0bd",
+      "status": "attention",
+      "summary_sha256": {
+        "candidates-all14-efforts-20-20260913T183301Z": "012436c1cc3383a9050cb7ced22c738d4799fffe4977062eda55b8a88d38c3ea",
+        "candidates-burn-reader-v4-efforts-20-20260914T011100Z": "07853e2b6aa484aad1dc3103f8a5e52972db3dd6d2400b9191f2d7b8a2a1545d",
+        "candidates-diskcache-v2-efforts-20-20260913T234023Z": "de3083ce39160e2af67bc1fcbe7e07a7d0078a40fd9b87f9bb8be79372e2ca76",
+        "candidates-zenoh-v3-efforts-20-20260913T221317Z": "df6c829ba4a0e1e2a036701cf423ac4d93fdfa8d7158c2cbb7d7eff0fb775795"
+      },
+      "updated_at": "2026-09-14T09:14:18.345095+00:00",
+      "watcher_sha256": "8ae35dcb572065df589cfe2a7ab54e1c7448e012eb9a85c8f54aec9a5cb544e8"
+    },
+    {
+      "alerts": [],
+      "campaigns": {
+        "candidates-all14-efforts-20-20260913T183301Z": {
+          "active_trials": 8,
+          "automatic_recovery": true,
+          "summary_age_sec": 8.22,
+          "supervisors": [
+            {
+              "expected_identity": "2748497",
+              "observed_identity": "2748497",
+              "pid": 12518,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355546",
+            "pid": 97135,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.21,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-all14-efforts-20-20260913T183301Z": {
+              "claims": 8,
+              "expected_identity": "2185934",
+              "observed_identity": "2185934",
+              "pid": 98349,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-burn-reader-v4-efforts-20-20260914T011100Z": {
+          "active_trials": 2,
+          "automatic_recovery": true,
+          "summary_age_sec": 7.68,
+          "supervisors": [
+            {
+              "expected_identity": "3276964",
+              "observed_identity": "3276964",
+              "pid": 12975,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355557",
+            "pid": 97155,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.25,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-burn-reader-v4-efforts-20-20260914T011100Z": {
+              "claims": 2,
+              "expected_identity": "3279013",
+              "observed_identity": "3279013",
+              "pid": 15071,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-diskcache-v2-efforts-20-20260913T234023Z": {
+          "active_trials": 1,
+          "automatic_recovery": true,
+          "summary_age_sec": 9.62,
+          "supervisors": [
+            {
+              "expected_identity": "2749265",
+              "observed_identity": "2749265",
+              "pid": 14777,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355562",
+            "pid": 97166,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.23,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-diskcache-v2-efforts-20-20260913T234023Z": {
+              "claims": 1,
+              "expected_identity": "3061375",
+              "observed_identity": "3061375",
+              "pid": 31290,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        },
+        "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+          "active_trials": 2,
+          "automatic_recovery": true,
+          "summary_age_sec": 0.7,
+          "supervisors": [
+            {
+              "expected_identity": "2427348",
+              "observed_identity": "2427348",
+              "pid": 72358,
+              "valid": true
+            }
+          ],
+          "watchdog": {
+            "expected_identity": null,
+            "observed_identity": "4355551",
+            "pid": 97140,
+            "valid": true
+          },
+          "watchdog_age_sec": 23.24,
+          "watchdog_status": "running",
+          "workers": {
+            "candidates-zenoh-v3-efforts-20-20260913T221317Z": {
+              "claims": 2,
+              "expected_identity": "3020185",
+              "observed_identity": "3020185",
+              "pid": 18216,
+              "shared_state_matches": true,
+              "valid": true
+            }
+          }
+        }
+      },
+      "coverage": {
+        "counted_trials": 148,
+        "covered": 97,
+        "missing_cells": [
+          "[\"luigi-generation-target\",\"anthropic/claude-fable-5-1\",\"max\"]",
+          "[\"diskcache-online-reshard-v2\",\"anthropic/claude-fable-5-1\",\"max\"]"
+        ],
+        "ready": false,
+        "required": 99
+      },
+      "coverage_publisher": {
+        "age_sec": 0.52,
+        "expected_identity": null,
+        "healthy": true,
+        "observed_identity": "4412871",
+        "pid": 44320,
+        "valid": true
+      },
+      "event": "recovered",
+      "identity": "4754898",
+      "interval_seconds": 30,
+      "pid": 12113,
+      "read_only": true,
+      "readiness_basis": "Classified campaign summaries for frozen 99 cells; final collector audit remains separate.",
+      "scope_sha256": "4154e6eec13c8a7454edd0f2f6090859be5e913b6065dc7cb6c4df763e5ad0bd",
+      "status": "healthy",
+      "summary_sha256": {
+        "candidates-all14-efforts-20-20260913T183301Z": "3dd6af4f426fbf29db16d5f53706b76d3044aa6232199b87ef51340b481f3649",
+        "candidates-burn-reader-v4-efforts-20-20260914T011100Z": "6a42254550f595fec22f1d571b15de37178b983a0bc2361172dba78a5829e6ee",
+        "candidates-diskcache-v2-efforts-20-20260913T234023Z": "02443a54c637d99d78910f3043c6be749ad8476212b1155b833d0d41804b8614",
+        "candidates-zenoh-v3-efforts-20-20260913T221317Z": "abc3885861f35a62a06320295800d2f21b036b95e7ac41a39dae888ecc0c1d3b"
+      },
+      "updated_at": "2026-09-14T09:14:48.347090+00:00",
+      "watcher_sha256": "8ae35dcb572065df589cfe2a7ab54e1c7448e012eb9a85c8f54aec9a5cb544e8"
+    }
+  ],
+  "current_publisher": {
+    "pid": 44320,
+    "identity": "4412871",
+    "state": "S"
+  },
+  "assessment": "Publisher remained live with the same identity; an unhealthy status was observed once and a healthy status was observed30seconds later. Its overwritten error_type/detail was not captured, so the precise refresh exception is unproven. No restart was performed.",
+  "terminated_readiness_wait_session": 56919
+}

@@ -1,0 +1,824 @@
+{
+  "streamed": {
+    "requests": [
+      {
+        "model": "claude-fable-5-1",
+        "messages": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "text",
+                "text": "Synthetic multiple block fixture."
+              }
+            ]
+          }
+        ],
+        "max_tokens": 64000,
+        "tools": [
+          {
+            "name": "bash",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The bash command to execute"
+                }
+              },
+              "required": [
+                "command"
+              ]
+            },
+            "type": "custom",
+            "description": "Execute a bash command"
+          }
+        ],
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "max"
+        },
+        "stream": true
+      }
+    ],
+    "response": {
+      "content": "Alpha Beta.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"command\": \"printf fixture\"}",
+            "name": "bash"
+          },
+          "id": "toolu_fixture",
+          "type": "function"
+        }
+      ],
+      "function_call": null,
+      "provider_specific_fields": {
+        "thinking_blocks": [
+          {
+            "type": "thinking",
+            "thinking": "Second thought.",
+            "signature": "sigB"
+          }
+        ]
+      },
+      "thinking_blocks": [
+        {
+          "type": "thinking",
+          "thinking": "First thought.",
+          "signature": "sigA"
+        },
+        {
+          "type": "redacted_thinking",
+          "data": "fixture-redacted"
+        },
+        {
+          "type": "thinking",
+          "thinking": "Second thought.",
+          "signature": "sigB"
+        }
+      ],
+      "reasoning_content": "First thought.Second thought.",
+      "extra": {
+        "actions": [
+          {
+            "command": "printf fixture",
+            "tool_call_id": "toolu_fixture"
+          }
+        ],
+        "response": {
+          "id": "chatcmpl-5942b48e-f24e-4a40-986b-a7a3a8cd1189",
+          "created": 1789371026,
+          "model": "claude-fable-5-1",
+          "object": "chat.completion",
+          "system_fingerprint": null,
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "content": "Alpha Beta.",
+                "role": "assistant",
+                "tool_calls": [
+                  {
+                    "function": {
+                      "arguments": "{\"command\": \"printf fixture\"}",
+                      "name": "bash"
+                    },
+                    "id": "toolu_fixture",
+                    "type": "function"
+                  }
+                ],
+                "function_call": null,
+                "provider_specific_fields": {
+                  "thinking_blocks": [
+                    {
+                      "type": "thinking",
+                      "thinking": "Second thought.",
+                      "signature": "sigB"
+                    }
+                  ]
+                },
+                "thinking_blocks": [
+                  {
+                    "type": "thinking",
+                    "thinking": "First thought.",
+                    "signature": "sigA"
+                  },
+                  {
+                    "type": "redacted_thinking",
+                    "data": "fixture-redacted"
+                  },
+                  {
+                    "type": "thinking",
+                    "thinking": "Second thought.",
+                    "signature": "sigB"
+                  }
+                ],
+                "reasoning_content": "First thought.Second thought."
+              }
+            }
+          ],
+          "usage": {
+            "completion_tokens": 25,
+            "prompt_tokens": 150,
+            "total_tokens": 175,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": null,
+              "audio_tokens": null,
+              "reasoning_tokens": 5,
+              "rejected_prediction_tokens": null,
+              "text_tokens": 20,
+              "image_tokens": null,
+              "video_tokens": null
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": 20,
+              "cached_tokens": 30,
+              "text_tokens": 0,
+              "image_tokens": null,
+              "video_tokens": null,
+              "cache_creation_tokens": 20
+            },
+            "cache_creation_input_tokens": 20,
+            "cache_read_input_tokens": 30
+          }
+        },
+        "cost": 0.000178,
+        "timestamp": 1789371026.7790415
+      }
+    }
+  },
+  "nonstream": {
+    "requests": [
+      {
+        "model": "claude-fable-5-1",
+        "messages": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "text",
+                "text": "Synthetic multiple block fixture."
+              }
+            ]
+          }
+        ],
+        "max_tokens": 64000,
+        "tools": [
+          {
+            "name": "bash",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The bash command to execute"
+                }
+              },
+              "required": [
+                "command"
+              ]
+            },
+            "type": "custom",
+            "description": "Execute a bash command"
+          }
+        ],
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "max"
+        }
+      }
+    ],
+    "response": {
+      "content": "Alpha Beta.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "index": 5,
+          "function": {
+            "arguments": "{\"command\": \"printf fixture\"}",
+            "name": "bash"
+          },
+          "id": "toolu_fixture",
+          "type": "function"
+        }
+      ],
+      "function_call": null,
+      "reasoning_content": "First thought.Second thought.",
+      "thinking_blocks": [
+        {
+          "type": "thinking",
+          "thinking": "First thought.",
+          "signature": "sigA"
+        },
+        {
+          "type": "redacted_thinking",
+          "data": "fixture-redacted"
+        },
+        {
+          "type": "thinking",
+          "thinking": "Second thought.",
+          "signature": "sigB"
+        }
+      ],
+      "provider_specific_fields": {
+        "citations": null,
+        "thinking_blocks": [
+          {
+            "type": "thinking",
+            "thinking": "First thought.",
+            "signature": "sigA"
+          },
+          {
+            "type": "redacted_thinking",
+            "data": "fixture-redacted"
+          },
+          {
+            "type": "thinking",
+            "thinking": "Second thought.",
+            "signature": "sigB"
+          }
+        ]
+      },
+      "extra": {
+        "actions": [
+          {
+            "command": "printf fixture",
+            "tool_call_id": "toolu_fixture"
+          }
+        ],
+        "response": {
+          "id": "chatcmpl-7126b605-8f09-4c96-af50-5f769b4dcff3",
+          "created": 1789371026,
+          "model": "claude-fable-5-1",
+          "object": "chat.completion",
+          "system_fingerprint": null,
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "content": "Alpha Beta.",
+                "role": "assistant",
+                "tool_calls": [
+                  {
+                    "index": 5,
+                    "function": {
+                      "arguments": "{\"command\": \"printf fixture\"}",
+                      "name": "bash"
+                    },
+                    "id": "toolu_fixture",
+                    "type": "function"
+                  }
+                ],
+                "function_call": null,
+                "reasoning_content": "First thought.Second thought.",
+                "thinking_blocks": [
+                  {
+                    "type": "thinking",
+                    "thinking": "First thought.",
+                    "signature": "sigA"
+                  },
+                  {
+                    "type": "redacted_thinking",
+                    "data": "fixture-redacted"
+                  },
+                  {
+                    "type": "thinking",
+                    "thinking": "Second thought.",
+                    "signature": "sigB"
+                  }
+                ],
+                "provider_specific_fields": {
+                  "citations": null,
+                  "thinking_blocks": [
+                    {
+                      "type": "thinking",
+                      "thinking": "First thought.",
+                      "signature": "sigA"
+                    },
+                    {
+                      "type": "redacted_thinking",
+                      "data": "fixture-redacted"
+                    },
+                    {
+                      "type": "thinking",
+                      "thinking": "Second thought.",
+                      "signature": "sigB"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "usage": {
+            "completion_tokens": 25,
+            "prompt_tokens": 150,
+            "total_tokens": 175,
+            "completion_tokens_details": {
+              "reasoning_tokens": 5,
+              "text_tokens": 20
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": 20,
+              "cached_tokens": 30,
+              "text_tokens": 100,
+              "image_tokens": null,
+              "video_tokens": null,
+              "cache_creation_tokens": 20
+            },
+            "cache_creation_input_tokens": 20,
+            "cache_read_input_tokens": 30,
+            "iterations": null,
+            "inference_geo": null,
+            "speed": null,
+            "service_tier": null
+          }
+        },
+        "cost": 0.000178,
+        "timestamp": 1789371026.7892113
+      }
+    }
+  },
+  "streamed_next": {
+    "requests": [
+      {
+        "model": "claude-fable-5-1",
+        "messages": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "text",
+                "text": "Synthetic multiple block fixture."
+              }
+            ]
+          },
+          {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "thinking",
+                "thinking": "First thought.",
+                "signature": "sigA"
+              },
+              {
+                "type": "redacted_thinking",
+                "data": "fixture-redacted"
+              },
+              {
+                "type": "thinking",
+                "thinking": "Second thought.",
+                "signature": "sigB"
+              },
+              {
+                "type": "text",
+                "text": "Alpha Beta."
+              },
+              {
+                "type": "tool_use",
+                "id": "toolu_fixture",
+                "name": "bash",
+                "input": {
+                  "command": "printf fixture"
+                }
+              }
+            ]
+          },
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "tool_result",
+                "tool_use_id": "toolu_fixture",
+                "content": "Synthetic result, no execution."
+              }
+            ]
+          }
+        ],
+        "max_tokens": 64000,
+        "tools": [
+          {
+            "name": "bash",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The bash command to execute"
+                }
+              },
+              "required": [
+                "command"
+              ]
+            },
+            "type": "custom",
+            "description": "Execute a bash command"
+          }
+        ],
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "max"
+        },
+        "stream": true
+      }
+    ],
+    "response": {
+      "content": "Alpha Beta.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "function": {
+            "arguments": "{\"command\": \"printf fixture\"}",
+            "name": "bash"
+          },
+          "id": "toolu_fixture",
+          "type": "function"
+        }
+      ],
+      "function_call": null,
+      "provider_specific_fields": {
+        "thinking_blocks": [
+          {
+            "type": "thinking",
+            "thinking": "Second thought.",
+            "signature": "sigB"
+          }
+        ]
+      },
+      "thinking_blocks": [
+        {
+          "type": "thinking",
+          "thinking": "First thought.",
+          "signature": "sigA"
+        },
+        {
+          "type": "redacted_thinking",
+          "data": "fixture-redacted"
+        },
+        {
+          "type": "thinking",
+          "thinking": "Second thought.",
+          "signature": "sigB"
+        }
+      ],
+      "reasoning_content": "First thought.Second thought.",
+      "extra": {
+        "actions": [
+          {
+            "command": "printf fixture",
+            "tool_call_id": "toolu_fixture"
+          }
+        ],
+        "response": {
+          "id": "chatcmpl-fea50251-483f-497c-83ba-48bfc0b142d0",
+          "created": 1789371026,
+          "model": "claude-fable-5-1",
+          "object": "chat.completion",
+          "system_fingerprint": null,
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "content": "Alpha Beta.",
+                "role": "assistant",
+                "tool_calls": [
+                  {
+                    "function": {
+                      "arguments": "{\"command\": \"printf fixture\"}",
+                      "name": "bash"
+                    },
+                    "id": "toolu_fixture",
+                    "type": "function"
+                  }
+                ],
+                "function_call": null,
+                "provider_specific_fields": {
+                  "thinking_blocks": [
+                    {
+                      "type": "thinking",
+                      "thinking": "Second thought.",
+                      "signature": "sigB"
+                    }
+                  ]
+                },
+                "thinking_blocks": [
+                  {
+                    "type": "thinking",
+                    "thinking": "First thought.",
+                    "signature": "sigA"
+                  },
+                  {
+                    "type": "redacted_thinking",
+                    "data": "fixture-redacted"
+                  },
+                  {
+                    "type": "thinking",
+                    "thinking": "Second thought.",
+                    "signature": "sigB"
+                  }
+                ],
+                "reasoning_content": "First thought.Second thought."
+              }
+            }
+          ],
+          "usage": {
+            "completion_tokens": 25,
+            "prompt_tokens": 150,
+            "total_tokens": 175,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": null,
+              "audio_tokens": null,
+              "reasoning_tokens": 5,
+              "rejected_prediction_tokens": null,
+              "text_tokens": 20,
+              "image_tokens": null,
+              "video_tokens": null
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": 20,
+              "cached_tokens": 30,
+              "text_tokens": 0,
+              "image_tokens": null,
+              "video_tokens": null,
+              "cache_creation_tokens": 20
+            },
+            "cache_creation_input_tokens": 20,
+            "cache_read_input_tokens": 30
+          }
+        },
+        "cost": 0.000178,
+        "timestamp": 1789371026.8250751
+      }
+    }
+  },
+  "nonstream_next": {
+    "requests": [
+      {
+        "model": "claude-fable-5-1",
+        "messages": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "text",
+                "text": "Synthetic multiple block fixture."
+              }
+            ]
+          },
+          {
+            "role": "assistant",
+            "content": [
+              {
+                "type": "thinking",
+                "thinking": "First thought.",
+                "signature": "sigA"
+              },
+              {
+                "type": "redacted_thinking",
+                "data": "fixture-redacted"
+              },
+              {
+                "type": "thinking",
+                "thinking": "Second thought.",
+                "signature": "sigB"
+              },
+              {
+                "type": "text",
+                "text": "Alpha Beta."
+              },
+              {
+                "type": "tool_use",
+                "id": "toolu_fixture",
+                "name": "bash",
+                "input": {
+                  "command": "printf fixture"
+                }
+              }
+            ]
+          },
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "tool_result",
+                "tool_use_id": "toolu_fixture",
+                "content": "Synthetic result, no execution."
+              }
+            ]
+          }
+        ],
+        "max_tokens": 64000,
+        "tools": [
+          {
+            "name": "bash",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": "string",
+                  "description": "The bash command to execute"
+                }
+              },
+              "required": [
+                "command"
+              ]
+            },
+            "type": "custom",
+            "description": "Execute a bash command"
+          }
+        ],
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "max"
+        }
+      }
+    ],
+    "response": {
+      "content": "Alpha Beta.",
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "index": 5,
+          "function": {
+            "arguments": "{\"command\": \"printf fixture\"}",
+            "name": "bash"
+          },
+          "id": "toolu_fixture",
+          "type": "function"
+        }
+      ],
+      "function_call": null,
+      "reasoning_content": "First thought.Second thought.",
+      "thinking_blocks": [
+        {
+          "type": "thinking",
+          "thinking": "First thought.",
+          "signature": "sigA"
+        },
+        {
+          "type": "redacted_thinking",
+          "data": "fixture-redacted"
+        },
+        {
+          "type": "thinking",
+          "thinking": "Second thought.",
+          "signature": "sigB"
+        }
+      ],
+      "provider_specific_fields": {
+        "citations": null,
+        "thinking_blocks": [
+          {
+            "type": "thinking",
+            "thinking": "First thought.",
+            "signature": "sigA"
+          },
+          {
+            "type": "redacted_thinking",
+            "data": "fixture-redacted"
+          },
+          {
+            "type": "thinking",
+            "thinking": "Second thought.",
+            "signature": "sigB"
+          }
+        ]
+      },
+      "extra": {
+        "actions": [
+          {
+            "command": "printf fixture",
+            "tool_call_id": "toolu_fixture"
+          }
+        ],
+        "response": {
+          "id": "chatcmpl-eb858536-d541-437e-8a6c-b7db03cbc526",
+          "created": 1789371026,
+          "model": "claude-fable-5-1",
+          "object": "chat.completion",
+          "system_fingerprint": null,
+          "choices": [
+            {
+              "finish_reason": "tool_calls",
+              "index": 0,
+              "message": {
+                "content": "Alpha Beta.",
+                "role": "assistant",
+                "tool_calls": [
+                  {
+                    "index": 5,
+                    "function": {
+                      "arguments": "{\"command\": \"printf fixture\"}",
+                      "name": "bash"
+                    },
+                    "id": "toolu_fixture",
+                    "type": "function"
+                  }
+                ],
+                "function_call": null,
+                "reasoning_content": "First thought.Second thought.",
+                "thinking_blocks": [
+                  {
+                    "type": "thinking",
+                    "thinking": "First thought.",
+                    "signature": "sigA"
+                  },
+                  {
+                    "type": "redacted_thinking",
+                    "data": "fixture-redacted"
+                  },
+                  {
+                    "type": "thinking",
+                    "thinking": "Second thought.",
+                    "signature": "sigB"
+                  }
+                ],
+                "provider_specific_fields": {
+                  "citations": null,
+                  "thinking_blocks": [
+                    {
+                      "type": "thinking",
+                      "thinking": "First thought.",
+                      "signature": "sigA"
+                    },
+                    {
+                      "type": "redacted_thinking",
+                      "data": "fixture-redacted"
+                    },
+                    {
+                      "type": "thinking",
+                      "thinking": "Second thought.",
+                      "signature": "sigB"
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "usage": {
+            "completion_tokens": 25,
+            "prompt_tokens": 150,
+            "total_tokens": 175,
+            "completion_tokens_details": {
+              "reasoning_tokens": 5,
+              "text_tokens": 20
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cache_write_tokens": 20,
+              "cached_tokens": 30,
+              "text_tokens": 100,
+              "image_tokens": null,
+              "video_tokens": null,
+              "cache_creation_tokens": 20
+            },
+            "cache_creation_input_tokens": 20,
+            "cache_read_input_tokens": 30,
+            "iterations": null,
+            "inference_geo": null,
+            "speed": null,
+            "service_tier": null
+          }
+        },
+        "cost": 0.000178,
+        "timestamp": 1789371026.834301
+      }
+    }
+  }
+}

@@ -1,0 +1,3033 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-09-14T05:01:39.201514+00:00",
+  "repository_root": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home",
+  "scope": "All SQLite schema-plan model result.json files directly under jobs/<campaign>/<trial> available at audit time; counted denominator follows the two recorded campaign summaries. Control runs and rewritten/replayed scores are not included.",
+  "counts": {
+    "raw_terminal_trials": 36,
+    "classified_summary_trials": 35,
+    "counted_trials": 30,
+    "normal_scored": 29,
+    "agent_timeouts_counted": 1,
+    "infrastructure_classified": 5,
+    "additional_cancelled_raw_not_in_stopped_summary": 1,
+    "passes": 0,
+    "pilot_counted": 21,
+    "current_counted": 9,
+    "unique_model_effort_cells": 9,
+    "repeated_counted_observations_beyond_one_per_cell": 21,
+    "nul_failures": 30,
+    "nul_only_failures": 3,
+    "other_failed_assertions_present": 27
+  },
+  "task_checksums": {
+    "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672": 30
+  },
+  "cell_counts": [
+    {
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "high",
+      "count": 4
+    },
+    {
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "count": 1
+    },
+    {
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "medium",
+      "count": 4
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "effort": "high",
+      "count": 4
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "count": 3
+    },
+    {
+      "model": "anthropic/claude-opus-5",
+      "effort": "medium",
+      "count": 3
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "count": 3
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "count": 3
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "count": 5
+    }
+  ],
+  "nul_contract": {
+    "assessment": "valid_requirement_and_valid_failure",
+    "instruction_path": "candidates/sqlite-utils-schema-plan/instruction.md",
+    "instruction_line": 11,
+    "reason": "All strings are literal default values; no NUL exclusion is specified. SQLite supports embedded NUL in TEXT and a constant expression can construct the value without embedding a raw NUL byte in SQL source.",
+    "sql_example": "CREATE TABLE t(v DEFAULT(CAST(X'610062' AS TEXT))); INSERT INTO t DEFAULT VALUES; SELECT hex(v), typeof(v) FROM t;",
+    "expected_hex": "610062",
+    "expected_type": "text",
+    "session_reproduction": {
+      "reported_by": "root agent",
+      "sqlite_version": "3.53.1",
+      "safe_default_round_tripped": "a\u0000b",
+      "raw_nul_in_sql_error": "ProgrammingError",
+      "artifact_path": "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.json",
+      "source_path": "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.py",
+      "source_sha256": {
+        "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.json": "d0b4ca6ef86f68b4fd02b5a810a64392fccd8476cb02e48d80feae2d31cecdb0",
+        "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.py": "d07ba044fb27cc187a06e3252842d9c01d641b739c1ded3b0d2fa212746d99f7"
+      },
+      "observed": {
+        "sqlite_version": "3.53.1",
+        "encoded_default_roundtrips": true,
+        "value_repr": "'a\\x00b'",
+        "raw_NUL_in_SQL_error": {
+          "type": "ProgrammingError",
+          "message": "the query contains a null character"
+        }
+      }
+    },
+    "supersedes": "Earlier working interpretation that this NUL test was a benchmark/spec mismatch was incorrect. Reference implementation choices do not define the public contract.",
+    "official_sources": [
+      {
+        "url": "https://www.sqlite.org/nulinstr.html",
+        "support": "SQLite permits embedded NUL in stored strings; display/quote/length behavior can obscure their contents."
+      },
+      {
+        "url": "https://www.sqlite.org/lang_createtable.html",
+        "support": "The DEFAULT clause permits a constant expression enclosed in parentheses."
+      }
+    ]
+  },
+  "nul_only_trial_paths": [
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m"
+  ],
+  "failure_frequency": {
+    "test_default_values_are_literals[a\\x00b]": 30,
+    "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]": 14,
+    "test_plan_validation_is_atomic[bad18]": 9,
+    "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]": 9,
+    "test_deterministic_late_authorization_failure_rolls_back": 8,
+    "test_mapping_api_and_dry_run_error_settings": 8,
+    "test_cycle_composite_fk_and_actions_preserved": 6,
+    "test_composed_graph_preserves_real_behavior": 6,
+    "test_default_values_are_literals[2.5]": 6,
+    "test_plan_validation_is_atomic[bad23]": 6,
+    "test_default_values_are_literals[12]": 5,
+    "test_default_values_are_literals[True]": 5,
+    "test_default_values_are_literals[False]": 5,
+    "test_original_defaults_collations_and_constraint_policies": 5,
+    "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]": 5,
+    "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]": 5,
+    "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]": 5,
+    "test_unique_index_failure_after_copy_rolls_back_everything": 5,
+    "test_not_null_default_does_not_fill_null": 5,
+    "test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]": 4,
+    "test_plan_validation_is_atomic[bad9]": 4,
+    "test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2]": 3,
+    "test_connection_settings_restored[False-1-0-1]": 3,
+    "test_connection_settings_restored[False-0-1-1]": 3,
+    "test_explicit_conversion[INTEGER-9223372036854775807-9223372036854775807]": 2,
+    "test_plan_validation_is_atomic[bad6]": 2,
+    "test_default_values_are_literals[NULL]": 2,
+    "test_default_values_are_literals[TRUE]": 2,
+    "test_default_values_are_literals[CURRENT_TIMESTAMP]": 2,
+    "test_default_values_are_literals['quoted']": 2,
+    "test_default_values_are_literals[foo(bar)]": 2,
+    "test_plan_validation_is_atomic[bad20]": 2,
+    "test_plan_validation_is_atomic[bad21]": 2,
+    "test_connection_settings_restored[True-1-0-1]": 2,
+    "test_connection_settings_restored[True-0-1-1]": 2,
+    "test_conversion_failure_rolls_back_prior_table[INTEGER-1e99]": 1,
+    "test_conversion_failure_rolls_back_prior_table[INTEGER-9223372036854775808]": 1,
+    "test_plan_validation_is_atomic[bad10]": 1,
+    "test_explicit_conversion[INTEGER-3.0-3]": 1,
+    "test_explicit_conversion[REAL- .125e+2 -12.5]": 1,
+    "test_explicit_conversion[REAL-2-2.0]": 1,
+    "test_explicit_conversion[REAL-2.75-2.75]": 1,
+    "test_conversion_failure_rolls_back_prior_table[INTEGER-inf]": 1,
+    "test_conversion_failure_rolls_back_prior_table[INTEGER-1.25]": 1,
+    "test_conversion_failure_rolls_back_prior_table[REAL-1e999]": 1,
+    "test_plan_validation_is_atomic[bad15]": 1,
+    "test_cli_json_preview_execute_and_error": 1,
+    "test_caller_transaction_never_committed_or_rolled_back[False]": 1,
+    "test_caller_transaction_never_committed_or_rolled_back[True]": 1
+  },
+  "ambiguous_extra_assertions": [
+    {
+      "id": "unicode_decimal_digits",
+      "failed_test": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+      "observed_failure_count": 14,
+      "trial_paths": [
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4"
+      ],
+      "assessment": "separate_contract_question_not_adjudicated",
+      "note": "The text requires decimal numeric strings but gives an ASCII qualifier only for identifier matching. The test requires rejection of fullwidth digits. This separate assertion needs contract interpretation; the reference parser is not itself the specification."
+    },
+    {
+      "id": "numeric_digit_separators",
+      "failed_test": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+      "observed_failure_count": 9,
+      "trial_paths": [
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4"
+      ],
+      "assessment": "separate_contract_question_not_adjudicated",
+      "note": "The test requires rejection of a digit separator accepted by some Python numeric parsers. Whether decimal numeric strings exclude separators should be assessed from the contract, not inferred from the reference implementation."
+    },
+    {
+      "id": "dropped_column_in_order",
+      "failed_test": "test_plan_validation_is_atomic[bad18]",
+      "observed_failure_count": 9,
+      "trial_paths": [
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3"
+      ],
+      "assessment": "separate_contract_question_not_adjudicated",
+      "note": "The test rejects drop=[v] with column_order=[v]. The instruction says to put surviving named columns first while also rejecting conflicting drops and changes. This is a separate ambiguity; no assertion is reclassified here."
+    }
+  ],
+  "clear_other_failure_example": {
+    "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw",
+    "test": "test_plan_validation_is_atomic[bad9]",
+    "observed": "types={v: []} leaks TypeError: unhashable type: list",
+    "contract": "instruction.md lines15 and32 require rejection of invalid option types through TransformError"
+  },
+  "summary_captures": [
+    {
+      "path": "jobs/candidates-top5-efforts-3-20260913T161409Z.summary.json",
+      "sha256": "5d244737583c1180f611c8d7ab1d30a2fbd72e985bf09a8d39b0b33301ea9bdc",
+      "updated_at": "2026-09-13T19:44:48.776836+00:00",
+      "mutable_live_summary": true,
+      "sqlite_trial_records": [
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:15:21.356549Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:59:01.571187Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 327,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:39:13.483387Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 314,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:13:35.688269Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 310,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:47:54.982762Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__Cy2tXru",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "max",
+          "status": "infrastructure",
+          "finished_at": "2026-09-13T16:14:47.425673Z",
+          "exception": "RuntimeError",
+          "raw_reward": null,
+          "reward": null,
+          "checks_passed": null,
+          "checks_total": null
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:33:05.750538Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 327,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:48:35.010690Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 331,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:59:48.548333Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:28:58.837651Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 320,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:42:23.907021Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 331,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-13T19:00:21.181354Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:37:07.033276Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:20:34.494757Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:39:14.092094Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 327,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__dCdvDEG",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "max",
+          "status": "infrastructure",
+          "finished_at": "2026-09-13T16:15:19.409930Z",
+          "exception": "RuntimeError",
+          "raw_reward": null,
+          "reward": null,
+          "checks_passed": null,
+          "checks_total": null
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "max",
+          "status": "infrastructure",
+          "finished_at": "2026-09-13T18:13:20.153955Z",
+          "exception": "NonZeroAgentExitCodeError",
+          "raw_reward": 0.0,
+          "reward": null,
+          "checks_passed": null,
+          "checks_total": null
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:46:27.402583Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 316,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:50:20.996953Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:34:05.410686Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:44:23.972748Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__pC33He7",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "medium",
+          "status": "infrastructure",
+          "finished_at": "2026-09-13T16:15:13.904891Z",
+          "exception": "RuntimeError",
+          "raw_reward": null,
+          "reward": null,
+          "checks_passed": null,
+          "checks_total": null
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T16:54:15.168448Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 313,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:40:15.634316Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 327,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T17:16:12.335918Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        }
+      ]
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z.summary.json",
+      "sha256": "2a8d03bd7023885db7b9e01c19afb07f6d6a9037c9b145dfc2b6b7edc59e79db",
+      "updated_at": "2026-09-14T05:01:35.389937+00:00",
+      "mutable_live_summary": true,
+      "sqlite_trial_records": [
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-14T04:28:40.369414Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:55:57.879953Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 312,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "high",
+          "status": "infrastructure",
+          "finished_at": "2026-09-13T21:54:45.449906Z",
+          "exception": "CancelledError",
+          "raw_reward": null,
+          "reward": null,
+          "checks_passed": null,
+          "checks_total": null
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "max",
+          "status": "scored",
+          "finished_at": "2026-09-14T01:59:40.565758Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T18:58:19.797751Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "max",
+          "status": "timeout",
+          "finished_at": "2026-09-14T03:29:32.654950Z",
+          "exception": "AgentTimeoutError",
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit",
+          "task": "sqlite-utils-schema-plan",
+          "model": "fable-5-1",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-14T04:28:18.673667Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 331,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn",
+          "task": "sqlite-utils-schema-plan",
+          "model": "sonnet-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T20:38:03.269070Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 302,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "high",
+          "status": "scored",
+          "finished_at": "2026-09-13T22:35:16.781691Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 330,
+          "checks_total": 332
+        },
+        {
+          "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq",
+          "task": "sqlite-utils-schema-plan",
+          "model": "opus-5",
+          "effort": "medium",
+          "status": "scored",
+          "finished_at": "2026-09-13T19:04:09.140291Z",
+          "exception": null,
+          "raw_reward": 0.0,
+          "reward": 0,
+          "checks_passed": 329,
+          "checks_total": 332
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "candidates/sqlite-utils-schema-plan/instruction.md": "1cfa3e08c059d8e927291d3fa4ee8e8e50aede1c07ff2d6514a4f1b5c84d98cd",
+    "candidates/sqlite-utils-schema-plan/tests/test_schema_plan.py": "8672ffa7b22d104754c349f866ec4e058517f47a4108151fbb54a78d3c4fa1ab",
+    "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.json": "d0b4ca6ef86f68b4fd02b5a810a64392fccd8476cb02e48d80feae2d31cecdb0",
+    "research/sqlite-nul-validity-audit-2026-09-14/sqlite-default-proof.py": "d07ba044fb27cc187a06e3252842d9c01d641b739c1ded3b0d2fa212746d99f7"
+  },
+  "counted_trials": [
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-14T04:28:40.369414Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9/config.json": "847b8f9dfc094b3561a7a1431176f7537701361457a0d5d539a9474c70d2eb6f",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9/result.json": "d4215f96b51833aabaa945b7d8a57f7ffd3149d40a7f7447d4622c0928b122a8",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9/verifier/results.xml": "6a8297f2bfac7a7b23bfded5d6478d1283f4a6c2b9ebde7d2bbdca526e9b6024",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9/benchmark-evidence.json": "471114dab3867f15095d95466e7827ef8e696967772c57bf45773dd3d0527fa7",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__4WMjmT9/benchmark-snapshot.json": "5f15a88638fdd7a74e360b1f8764b628a4d3b84bd5e8b007d0b37e301ea52807"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Applying this plan would break foreign keys: foreign key mismatch - \"b\" referencing \"a\""
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the new version of table 't': the query contains a null character - CREATE TABLE \"t\"(id INTEGER PRIMARY KEY,v DEFAULT 'a#x00b')"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:55:57.879953Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o/config.json": "871ec024c7a4ad08bc702be517768d9d2877d142c77082bec6d1eb44cbb2d8b5",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o/result.json": "1d54d817afb3fa9602b31df968a973892d8e46d72034c6041cf4a99e80c1bda7",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o/verifier/results.xml": "6d8a7eeeaabc36812e10b7b013edddfcd9f3cc483fe158f84f15eb46a6c47d1b",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o/benchmark-evidence.json": "2e7776d1c43584b1c1a0eba26285ce6cdfde9fbc26637fca8a49b014ae22e095",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Agz7U6o/benchmark-snapshot.json": "430d1aa05d1308c8635e4064d225cf77d44f7e8ad9708871ebeaa7ef556a8691"
+      },
+      "checks_passed": 312,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 'DEFERRABLE INITIALLY DEFERRED' in 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT'\n +  where 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT' = <Table child (child_id, owner, weight)>.schema"
+          ]
+        },
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Applying this plan would leave invalid foreign keys"
+          ]
+        },
+        {
+          "name": "test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(1, 'named', 'x')] == [(61, 'named', 'x')]\n  \n  At index 0 diff: (1, 'named', 'x') != (61, 'named', 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(4, 4, 'x')] == [(91, 4, 'x')]\n  \n  At index 0 diff: (4, 4, 'x') != (91, 4, 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[INTEGER-9223372036854775807-9223372036854775807]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Integer value '9223372036854775807' overflows 64-bit range"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('12',)] == [(12,)]\n  \n  At index 0 diff: ('12',) != (12,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2.5',)] == [(2.5,)]\n  \n  At index 0 diff: ('2.5',) != (2.5,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [(1,)]\n  \n  At index 0 diff: ('1',) != (1,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('0',)] == [(0,)]\n  \n  At index 0 diff: ('0',) != (0,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_original_defaults_collations_and_constraint_policies",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [(5, \"X'ff'\", None, 1)] == [(5, b'\\xff', None, 1)]\n  \n  At index 0 diff: (5, \"X'ff'\", None, 1) != (5, b'\\xff', None, 1)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad9]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "TypeError: unhashable type: 'list'"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z_new_ca64fcfcc014.v"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z_new_1e0eff1e5045.v"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: CHECK constraint failed: typeof(v)='text'"
+          ]
+        },
+        {
+          "name": "test_unique_index_failure_after_copy_rolls_back_everything",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z.v"
+          ]
+        },
+        {
+          "name": "test_not_null_default_does_not_fill_null",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: NOT NULL constraint failed: t_new_b35dc20ec7d5.v"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-14T01:59:40.565758Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr/config.json": "db85c655d11d4f338bbd009a24e98247d62f05a2f027f8afaeee437aa0291d96",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr/result.json": "871dc72db4fef5eb3c3d7baf375aa7f889174d77a690a37d01aa917e26b6c7f4",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr/verifier/results.xml": "96fcbaa235e87f7e86e7c12fc02c44fd4e9e9569a6d8375534160fff2bad3d36",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr/benchmark-evidence.json": "db8972a8d521e8f4fce8eaaf500cde76f10bc552bb04e20ce8ffc7b28f6b6326",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__GnfPeSr/benchmark-snapshot.json": "a542bc01bdc4edffd55ad0dd9719f70ab061efb1efd300018cb5d87663fcd5b2"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not rebuild table 't': the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad6]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:58:19.797751Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF/config.json": "0e536cb369b1ff41632e19c7f96edb39f1f45eb5077f50cc5938df43c848b7e1",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF/result.json": "bb6f085fee501274d2151776f4361126c2586fdbc10c86953420247e6e5166c5",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF/verifier/results.xml": "f7c198ab42b2b89d4b15ac6e895f71f99bea56b6149a2850babbad857e9bce58",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF/benchmark-evidence.json": "db697190d8cb409e7db261ee22ff03f29c55c9ce71400c40fb9309e472f216b8",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__HKCVfRF/benchmark-snapshot.json": "603251792d3e24ee219d57194242f2776578010198f308ec00911d1b6c6c2d5d"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the new schema for table 't': the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "classified_status": "timeout",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": "AgentTimeoutError",
+      "finished_at": "2026-09-14T03:29:32.654950Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw/config.json": "ae17c421dbb8f62e3ceadd3edb8532da6b2d1b45a8d45fb03d55e524e8340819",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw/result.json": "3e7d57bad2e911081493ee98f61b6d737d35232d77cb05aa07099dfa3aee078a",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw/verifier/results.xml": "f713c9c818c24156bcc7c57b75d10d0903e94c737d8a5e0fa7e33fe9b6a1863d",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw/benchmark-evidence.json": "d42d41e1d8c43b1a780e5812c9c05f1e423f95328fa15eeb7964726f6663fae3",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Lrq7CLw/benchmark-snapshot.json": "0042ac5c9d8a64a76ff3d05ed6ee01844c489a551f5b650b582dcae3b72d5eaf"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Invalid plan: default for column 'v' in table 't' cannot contain a NUL character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad9]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "TypeError: unhashable type: 'list'"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-14T04:28:18.673667Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit/config.json": "e1a52aa64e76f3779380de2d1079f0dc6619aa12699fed4134c24ff3bc0263c0",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit/result.json": "96d3d06b1c0ace6cd17d6a6c956b09b8dbe381b1d83dbc7b2d5a34375b459602",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit/verifier/results.xml": "94e7a49711966ac18fa22b1a189ada2f1c00f262fc6ed77b2c4aee4887f0cdc5",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit/benchmark-evidence.json": "00e767c0e3e738a58b66f0ae24f41fb20188164f547c707f188ca32a6c7905dc",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__Z8wJqit/benchmark-snapshot.json": "16fa5608313936d78bd5ccac4c291658190708151e1e7e001ac1a6b850a91646"
+      },
+      "checks_passed": 331,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Default for column 'v' of table 't' may not contain NUL characters"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": true
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T20:38:03.269070Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn/config.json": "314ac561cac0a4312814c7156119d1e6e954e0f7e451ad5a5b2fe275f0461e76",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn/result.json": "05791f758e2277e9181f830d0b3268a90231ec43d510e6735c467d1931af68b2",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn/verifier/results.xml": "77ef22538542cbbb59cf346ecf914c6e7da8dd4178156c5e57d8134bc2ca9ce4",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn/benchmark-evidence.json": "61ce4e8f8f63209acdd8ebfed815a91639fbc4e8c54526e7d8d9363b5af05bc6",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__qQJLZNn/benchmark-snapshot.json": "89fe40b6c13fd0c9fea20b5a0a57a8687caf1322fb5036a59f43b867ff3d5798"
+      },
+      "checks_passed": 302,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 'DEFERRABLE INITIALLY DEFERRED' in 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT'\n +  where 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT' = <Table child (child_id, owner, weight)>.schema"
+          ]
+        },
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: transform_schema() would leave invalid foreign keys in place: [('b', 3, 'a', 0)]"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[INTEGER-9223372036854775807-9223372036854775807]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "OverflowError: Python int too large to convert to SQLite INTEGER"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1e99]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "OverflowError: Python int too large to convert to SQLite INTEGER"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-9223372036854775808]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "OverflowError: Python int too large to convert to SQLite INTEGER"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[NULL]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(None,)] == [('NULL',)]\n  \n  At index 0 diff: (None,) != ('NULL',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[TRUE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [('TRUE',)]\n  \n  At index 0 diff: ('1',) != ('TRUE',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[CURRENT_TIMESTAMP]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2026-09-13 20:37:50',)] == [('CURRENT_TIMESTAMP',)]\n  \n  At index 0 diff: ('2026-09-13 20:37:50',) != ('CURRENT_TIMESTAMP',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals['quoted']",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [('quoted',)] == [(\"'quoted'\",)]\n  \n  At index 0 diff: ('quoted',) != (\"'quoted'\",)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[foo(bar)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.OperationalError: default value of column [v] is not constant"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('12',)] == [(12,)]\n  \n  At index 0 diff: ('12',) != (12,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2.5',)] == [(2.5,)]\n  \n  At index 0 diff: ('2.5',) != (2.5,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [(1,)]\n  \n  At index 0 diff: ('1',) != (1,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('0',)] == [(0,)]\n  \n  At index 0 diff: ('0',) != (0,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_original_defaults_collations_and_constraint_policies",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [(5, \"X'ff'\", None, 1)] == [(5, b'\\xff', None, 1)]\n  \n  At index 0 diff: (5, \"X'ff'\", None, 1) != (5, b'\\xff', None, 1)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad9]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "TypeError: unhashable type: 'list'"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad20]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad21]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: CHECK constraint failed: typeof(v)='text'"
+          ]
+        },
+        {
+          "name": "test_not_null_default_does_not_fill_null",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: NOT NULL constraint failed: t_new_9edec75f4f27.v"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-1-0-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-0-1-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[True-1-0-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[True-0-1-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: plan must be a non-empty dict"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T22:35:16.781691Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky/config.json": "e47520806b372be50f176a92463a468bf47e3569c5bae0ebe19f21b91750eeec",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky/result.json": "9cae70524c8ac5c5be12fda38576ae71582b36174b2ee0737b878dd3ddfeee3b",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky/verifier/results.xml": "3573ed7f7dc0959d12a4e68da1a89a1872c485e031f3ea6e5c11d261b064c766",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky/benchmark-evidence.json": "55a0a91c24aeccf0d2196cb68cd9525b06ad35d6daa2ab956d0e3d53cf9e8f0a",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__vKTXxky/benchmark-snapshot.json": "dbe4710dfc980c062b654012f8a16adb6200efa1c8025eaa91a1357fcf5a796e"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not rebuild table 't': the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T19:04:09.140291Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq/config.json": "837554321043964ddbbdb69103cc1fdf3c29a55f5658eacfdf9b1199d091a96c",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq/result.json": "9ade824b4ac516b9e89f18e97ad835177b8924c5f9d42c33a7902e7a63cf3af4",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq/verifier/results.xml": "b17eeb41b6a83a4487f9bc80213b46430a813f1a601c3ef9f884f1a02e074689",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq/benchmark-evidence.json": "56e1a41ad49fabb0b83c7f00e3b6bf5d4f655f05b9f82a43ef46432673141e11",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__zS3GVbq/benchmark-snapshot.json": "fe2b07c5f7d3b48d13b17e0852faf596924c5b24ff93ecbc22cffcc020d9c875"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not rebuild table 't': the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: plan must be a dictionary of table names to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:15:21.356549Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L/config.json": "b47633476bcb691343a47d97d0da27beb1e2fb96bc3e95bbff1187350f06462d",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L/result.json": "6d140e0b95ff67dd5249841a4d22505cfdfa4660d750f70da1a10237c71bc70a",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__3UTqu3L/verifier/results.xml": "13de98651902115c7e77d5d0156feb777c2451b9a504e534e52247fff8c6e3c3"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Table 't': default for column 'v' must not contain NUL characters"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad10]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:59:01.571187Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM/config.json": "bacd21fd88d291df2a33bbcac7db078e4be3118a30dc17b9a295a89f012c25db",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM/result.json": "090c11c49c925f6655036261fa7c14cafb06f1cbc0a35cb71552ce70f325efa6",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__6UzM8bM/verifier/results.xml": "c58229575ffe9d04dbfe82ab89a5dda9976ef103723560b8dbe2554b2836340e"
+      },
+      "checks_passed": 327,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(1, 4, 'x')] == [(91, 4, 'x')]\n  \n  At index 0 diff: (1, 4, 'x') != (91, 4, 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the new schema for table 't': the query contains a null character - SQL was: CREATE TABLE \"_sqlite_utils_transform_schema_t\"(\n  id INTEGER PRIMARY KEY,\n  v DEFAULT 'a#x00b'\n)"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Plan must be a non-empty dictionary of table names to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:39:13.483387Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT/config.json": "159954635f7c7429cd2485da09a144052f4d14a36ad23dc0ada014e303f06ff3",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT/result.json": "72c7577fd5872138b77562e0329c56196e6ceacdceb201405fc15877bdc70529",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__7jp8jqT/verifier/results.xml": "3109f6cb9f2aab381f43e42a23187f5c562faf9414c6940a0e395078b87624a7"
+      },
+      "checks_passed": 314,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[INTEGER-3.0-3]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[REAL- .125e+2 -12.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[REAL-2-2.0]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_explicit_conversion[REAL-2.75-2.75]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-inf]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1.25]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-1e999]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad15]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "NameError: name 'math' is not defined. Did you forget to import 'math'"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: CHECK constraint failed: typeof(v)='text'"
+          ]
+        },
+        {
+          "name": "test_unique_index_failure_after_copy_rolls_back_everything",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z.v"
+          ]
+        },
+        {
+          "name": "test_not_null_default_does_not_fill_null",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: NOT NULL constraint failed: __sqlite_utils_ts_new_0f4b122769f045a3bd293ac9bb1040f6__.v"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: plan must be a non-empty mapping of table names to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:13:35.688269Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG/config.json": "5b48a5e8ba4c89211111a02061ad24499da7c27a5eb58ef1ceb8eee8b2377f3d",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG/result.json": "510661f89607bd839cc57ae82810e35bdbea7798bc82c09e9f7c57b7662dd816",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__B8MBWKG/verifier/results.xml": "19bbbf24142ad4e737292f401e7d0fc22025832c590379785f4cca9a610de1c4"
+      },
+      "checks_passed": 310,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 'DEFERRABLE INITIALLY DEFERRED' in 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT'\n +  where 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT' = <Table child (child_id, owner, weight)>.schema"
+          ]
+        },
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Resulting schema has invalid foreign keys: [('b', 3, 'a', 0)]"
+          ]
+        },
+        {
+          "name": "test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(1, 'named', 'x')] == [(61, 'named', 'x')]\n  \n  At index 0 diff: (1, 'named', 'x') != (61, 'named', 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(4, 4, 'x')] == [(91, 4, 'x')]\n  \n  At index 0 diff: (4, 4, 'x') != (91, 4, 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[NULL]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(None,)] == [('NULL',)]\n  \n  At index 0 diff: (None,) != ('NULL',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[TRUE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [('TRUE',)]\n  \n  At index 0 diff: ('1',) != ('TRUE',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[CURRENT_TIMESTAMP]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2026-09-13 18:13:22',)] == [('CURRENT_TIMESTAMP',)]\n  \n  At index 0 diff: ('2026-09-13 18:13:22',) != ('CURRENT_TIMESTAMP',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals['quoted']",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [('quoted',)] == [(\"'quoted'\",)]\n  \n  At index 0 diff: ('quoted',) != (\"'quoted'\",)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[foo(bar)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: default value of column [v] is not constant"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('12',)] == [(12,)]\n  \n  At index 0 diff: ('12',) != (12,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2.5',)] == [(2.5,)]\n  \n  At index 0 diff: ('2.5',) != (2.5,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [(1,)]\n  \n  At index 0 diff: ('1',) != (1,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('0',)] == [(0,)]\n  \n  At index 0 diff: ('0',) != (0,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_original_defaults_collations_and_constraint_policies",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [(5, \"X'ff'\", None, 1)] == [(5, b'\\xff', None, 1)]\n  \n  At index 0 diff: (5, \"X'ff'\", None, 1) != (5, b'\\xff', None, 1)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad20]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:47:54.982762Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq/config.json": "4c1af520988c667bbf412ec1c1c976270dc283638a6159d1f304be1b83b86beb",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq/result.json": "95786638bb7135ce9ac95b4d6ab7a35b5dbc68ee5d6e1ab37a207ae0b544a048",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__BBTkBmq/verifier/results.xml": "3459c4bdfcfc1d199adc83175d4065f81a85fa49f0a204ca727b99a3e910ccea"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad6]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:33:05.750538Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa/config.json": "81632e7c335c975db66570a3ffa3b2c0166450ba39d25c06496a22b5061f7c77",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa/result.json": "98df16bef6cf0afb21a0dc0a946a424dbecae232b26a509c8abf377ac9b2f7cd",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__HpWrCHa/verifier/results.xml": "21d2bfea7e3e88d1563cea698f10c6678bdbd98d91a920cb1e3b17ef4c5a5eb5"
+      },
+      "checks_passed": 327,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: t: could not create the new table: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad9]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "TypeError: unhashable type: 'list'"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Plan must be a dictionary of table names to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:48:35.010690Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn/config.json": "54f849f99124031d788eb4e8ce6e932bf4f5bcf24bd604e5b624ac95d348eda4",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn/result.json": "7604a353b077df485079a5ab2d93dad4d743da0ef35e76acd589df1d2f05f37a",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__MMRrfUn/verifier/results.xml": "42a62027502b2209fe29b7186728b68518d1c31cd85670ac7b61dd63a894795c"
+      },
+      "checks_passed": 331,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the new version of table 't': the query contains a null character"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": true
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:59:48.548333Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po/config.json": "b2a91f9ba01e7c8f30f1f14da659454c2a5dc37f2f1cbe9aeb2a6d1e5298a05b",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po/result.json": "4126be73deb13d28eb8b8e3da2d8b2c79552c79c6014a6861bc7fff667f889d4",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__QUt56Po/verifier/results.xml": "55adeab1d98d59c18cb6231e9a90dc7013bf15530e9071065e378097ae23bed2"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:28:58.837651Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo/config.json": "ca5cf7cdd1615239d39a6578529513b4269ff5a4da8cd0908dc0a89991e4a288",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo/result.json": "1f10ed33677d44e144a7facfa88817039acca6ab1dcfa6efea0596098fb58fd6",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__RmKLZTo/verifier/results.xml": "75ed96d9b42b2ff2ab9cc00723c442104dae84bd63430d72bb05593b0ef48efb"
+      },
+      "checks_passed": 320,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(1, 'named', 'x')] == [(61, 'named', 'x')]\n  \n  At index 0 diff: (1, 'named', 'x') != (61, 'named', 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.ProgrammingError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: CHECK constraint failed: typeof(v)='text'"
+          ]
+        },
+        {
+          "name": "test_unique_index_failure_after_copy_rolls_back_everything",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z.v"
+          ]
+        },
+        {
+          "name": "test_not_null_default_does_not_fill_null",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: NOT NULL constraint failed: t__sqlite_utils_rebuild_053f40ff1a43896b__.v"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: plan must be a non-empty mapping of table name to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:42:23.907021Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m/config.json": "7475592291cc85143979af4bbcfebbff31aadb9d99a3886fc5639eed1dced865",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m/result.json": "561d9a3741f513adada995b10510e964efec4955e15301268ed3dd4315fec6ea",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__THvQb5m/verifier/results.xml": "c57c8ac1f10b747008b659b33c740ceba8eb394676c412966b3ea786755625f0"
+      },
+      "checks_passed": 331,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the rebuilt table 't': the query contains a null character"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": true
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T19:00:21.181354Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr/config.json": "09d1308ca1a81b506fa102a14bf2de0b4c82470ea187135f8f52651a550b1ba7",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr/result.json": "49be3e122d729a4ce2190b80f1d1c813af9e5723d5bb6a2216bf948353bae67f",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UfhePQr/verifier/results.xml": "7278c7e3971cba32e298dd53c7bc8866a007c4a2a8d3cf7832bdce3c11e5483e"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not build a replacement for table \"t\": the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:37:07.033276Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH/config.json": "9e43532a8c9f5de5e6185b7c3a2dbeaafa84b501d2357eee70a09dbcd74271f3",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH/result.json": "1617bd21951968dda84b65f2251a32369b156c41db92cf6479507b07a92324bb",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__UuUiyGH/verifier/results.xml": "33c56038c398a88daac014e41b8f20c97b1e5ee5dbf97ec6565de8648fa4021c"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.ProgrammingError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:20:34.494757Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY/config.json": "b4da6c1971ef8c3a50c0556e7aceee5bb02614a9e6d79a2c2547b775398688ba",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY/result.json": "47b7724d6f7ee561db855848e2529140b32cdfa35872a3cd5e8c28b30b402aaf",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cR4H2wY/verifier/results.xml": "cf03cbd144e618eae0bd51df2138daeed1fc26d9f1e0a55746384cdcfd48058b"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Plan must be a non-empty dictionary of table names to operations"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:39:14.092094Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot/config.json": "4678db2ad0336a8e0756489a90d541e1068c7be172c94fed2133042e80067d1c",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot/result.json": "8f2f41885dc9cf3d1ce4c0bac085ae29ffd70591d7db85e820ea0defb09da51d",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__cXmunot/verifier/results.xml": "a357a52d0eea4dee6ce49b197917fc0afcfd1d71955a650a78a79a86a48494ad"
+      },
+      "checks_passed": 327,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [(1, 'named', 'x')] == [(61, 'named', 'x')]\n  \n  At index 0 diff: (1, 'named', 'x') != (61, 'named', 'x')\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_unique_index_failure_after_copy_rolls_back_everything",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z.v"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:46:27.402583Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff/config.json": "12f761ba3d3fa8e856b7a92b212cd30f0587683d0e4f5193aa5ce432cf1d8370",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff/result.json": "448303b88401a0a91d7ec357259ed94ae68a731d2b80f15b5251a472b0deef05",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__giNbZff/verifier/results.xml": "f51f7db472d9c8c53d252c41c0fc5dac2a02fee0c4479b05b07b13310d30b4f8"
+      },
+      "checks_passed": 316,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 'DEFERRABLE INITIALLY DEFERRED' in 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT'\n +  where 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT' = <Table child (child_id, owner, weight)>.schema"
+          ]
+        },
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Resulting schema would have invalid foreign keys: [('b', 3, 'a', 0)]"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('12',)] == [(12,)]\n  \n  At index 0 diff: ('12',) != (12,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2.5',)] == [(2.5,)]\n  \n  At index 0 diff: ('2.5',) != (2.5,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [(1,)]\n  \n  At index 0 diff: ('1',) != (1,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('0',)] == [(0,)]\n  \n  At index 0 diff: ('0',) != (0,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_original_defaults_collations_and_constraint_policies",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert [(5, \"X'ff'\", None, 1)] == [(5, b'\\xff', None, 1)]\n  \n  At index 0 diff: (5, \"X'ff'\", None, 1) != (5, b'\\xff', None, 1)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-1-0-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-0-1-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[True-1-0-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[True-0-1-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:50:20.996953Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3/config.json": "0ed91a86b99164b25ceb9b015f4339fb43cc23294ce9b256e033cd3f640a1803",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3/result.json": "af44e94dddda0eb631f1c56792cd3ae84686d2af3c32bcf5c71dda1246f20142",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__hbdCJb3/verifier/results.xml": "3e1660e98ccddb0001a10e85d79efdaaa60f4466eabf89d32994c8375c323923"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad18]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:34:05.410686Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup/config.json": "025e4e6a3aa4fc0eeee5b5a3dab19ad1e3989310248ae2f37b4cfb29f69d4bda",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup/result.json": "b10b228c0d877dadb82f7a6cadb7db5805873aad4c389958e97232d29b0fa4f5",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__jnvRdup/verifier/results.xml": "6e9d252a72a0600891e2bfe98e4b110b2f726874217463f7328def8b9fbcdc6a"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Cannot rebuild table 't': the query contains a null character"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:44:23.972748Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq/config.json": "6a90167b52bd97da77296299c35174c467f0b89dc31d3783c79b4a4d9281968f",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq/result.json": "773ac220372cca998a904a143b5cd6b33d065bfed31315ca4875c7a27865d667",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__kYLbeZq/verifier/results.xml": "fa0fd53bb1ca9adfb2616e57690671ff4c0c5b7933e46e447ff7567929c89809"
+      },
+      "checks_passed": 330,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Cannot create the new version of table t: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_original_defaults_collations_and_constraint_policies",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not parse the schema for table t: Unexpected \"'ff'\" in column definition \"x BLOB DEFAULT X'ff'\""
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T16:54:15.168448Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL/config.json": "296254d96f9e075e1414df06aaed6e4f60e5cfe1762a44b07ecc4d23f681b433",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL/result.json": "12235dc462fb3dfc0e21ef305e1e6c20968ecbf7392270096e3ee1cb5ffe92fe",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__qGyM9TL/verifier/results.xml": "a89ae56c7e17e25268c5dc262dae713bc702567ea32aefe6eab65b8ba4afc048"
+      },
+      "checks_passed": 313,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_composed_graph_preserves_real_behavior",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 'DEFERRABLE INITIALLY DEFERRED' in 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT'\n +  where 'CREATE TABLE \"child\" (\\n   \"child_id\" INTEGER PRIMARY KEY,\\n   \"owner\" INTEGER REFERENCES \"parent\"(\"parent_key\") ON UPDATE CASCADE ON DELETE CASCADE,\\n   \"weight\" INTEGER DEFAULT \\'1\\'\\n) STRICT' = <Table child (child_id, owner, weight)>.schema"
+          ]
+        },
+        {
+          "name": "test_cycle_composite_fk_and_actions_preserved",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Transformation would leave invalid foreign keys in place"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.ProgrammingError: the query contains a null character"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('12',)] == [(12,)]\n  \n  At index 0 diff: ('12',) != (12,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[2.5]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('2.5',)] == [(2.5,)]\n  \n  At index 0 diff: ('2.5',) != (2.5,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('1',)] == [(1,)]\n  \n  At index 0 diff: ('1',) != (1,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('0',)] == [(0,)]\n  \n  At index 0 diff: ('0',) != (0,)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad21]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_plan_validation_is_atomic[bad23]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: CHECK constraint failed: typeof(v)='text'"
+          ]
+        },
+        {
+          "name": "test_unique_index_failure_after_copy_rolls_back_everything",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: UNIQUE constraint failed: z.v"
+          ]
+        },
+        {
+          "name": "test_not_null_default_does_not_fill_null",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.IntegrityError: NOT NULL constraint failed: t_new_14bdb399949745c2.v"
+          ]
+        },
+        {
+          "name": "test_deterministic_late_authorization_failure_rolls_back",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite3.DatabaseError: not authorized"
+          ]
+        },
+        {
+          "name": "test_cli_json_preview_execute_and_error",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert (1 != 0 and 'Error:' in '')\n +  where 1 = <Result OperationalError('no such column: \"\"old\"\"')>.exit_code\n +  and   '' = <Result OperationalError('no such column: \"\"old\"\"')>.output"
+          ]
+        },
+        {
+          "name": "test_mapping_api_and_dry_run_error_settings",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: plan must be a non-empty dict"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T18:40:15.634316Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW/config.json": "e9960bc883fffcddebdc4c56ae78296b48a98f01d76d45080939298de4d24ed3",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW/result.json": "e7e41dd44e590aff2f5ac4b390af3a859f49de6989a932c52caffb8c82dd15fc",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__rQzMKXW/verifier/results.xml": "dcbf69347ba72284253dc8b65722b6938d06e4a73ba44c32f7c5d0d2f29d7496"
+      },
+      "checks_passed": 327,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "AssertionError: assert [('a',)] == [('a\\x00b',)]\n  \n  At index 0 diff: ('a',) != ('a\\x00b',)\n  Use -v to get more diff"
+          ]
+        },
+        {
+          "name": "test_caller_transaction_never_committed_or_rolled_back[False]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransactionError: transform_schema() cannot be called while a transaction is open"
+          ]
+        },
+        {
+          "name": "test_caller_transaction_never_committed_or_rolled_back[True]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransactionError: transform_schema() cannot be called while a transaction is open"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-1-0-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        },
+        {
+          "name": "test_connection_settings_restored[False-0-1-1]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "assert 0 == 1"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "high",
+      "classified_status": "scored",
+      "counted": true,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": null,
+      "finished_at": "2026-09-13T17:16:12.335918Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4/config.json": "6723fdb013a2539d6e1620d240ebc4d1aaee6b59fdf9e5535718ab3312f3b11f",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4/result.json": "42e37387ba8a9da578881141400d212f44d2befa51468d4e6e573001ffc08f27",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__ziw5ih4/verifier/results.xml": "f6a30bf1805b90356caddcf0b6114e7b01b5470d5eb70e6105d3ecae2c49cd58"
+      },
+      "checks_passed": 329,
+      "checks_total": 332,
+      "failed_tests": [
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_conversion_failure_rolls_back_prior_table[REAL-\\uff11\\uff12]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "Failed: DID NOT RAISE TransformError"
+          ]
+        },
+        {
+          "name": "test_default_values_are_literals[a\\x00b]",
+          "classname": "test_schema_plan",
+          "error_messages": [
+            "sqlite_utils.db.TransformError: Could not create the new version of table 't': the query contains a null character\nCREATE TABLE \"t\"(\n   id INTEGER PRIMARY KEY,\n   v DEFAULT 'a#x00b'\n)"
+          ]
+        }
+      ],
+      "nul_failed": true,
+      "nul_only_failure": false
+    }
+  ],
+  "excluded_trials": [
+    {
+      "trial_path": "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx",
+      "campaign": "candidates-all14-efforts-20-20260913T183301Z",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "classified_status": "infrastructure",
+      "counted": false,
+      "raw_reward": null,
+      "raw_exception": "CancelledError",
+      "finished_at": "2026-09-13T21:54:45.449906Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx/config.json": "1267601b214834010c463ba5122f3239ca72ce0bdecd761d3c5581b6a93f24fd",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx/result.json": "6fbda38dff6589879685546a0cd26a7a709c60545d844bf31b745483123914b6",
+        "jobs/candidates-all14-efforts-20-20260913T183301Z/sqlite-utils-schema-plan__FFQFQcx/benchmark-evidence.json": "923369d1df6bc92f4f13e3640ade86ed614d204ad7b3b6f877bfce1125ae7039"
+      }
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__CgbwwuK",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__CgbwwuK",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "classified_status": "not_in_summary",
+      "counted": false,
+      "raw_reward": null,
+      "raw_exception": "CancelledError",
+      "finished_at": "2026-09-13T19:42:25.886415Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__CgbwwuK/config.json": "c1339db84f3b98974f27bf7dd2cfbe3bd68934e5472e58543af79b2c4f80b00b",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__CgbwwuK/result.json": "dfe304d09add15b52d7018152d56937f3e2dabd796700323ca64a4317e98c965"
+      }
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__Cy2tXru",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__Cy2tXru",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "classified_status": "infrastructure",
+      "counted": false,
+      "raw_reward": null,
+      "raw_exception": "RuntimeError",
+      "finished_at": "2026-09-13T16:14:47.425673Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__Cy2tXru/config.json": "6b32ed30ce29edc88cd4cc127c9ab00c85201ecc52627c309671b58b066e93ac",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__Cy2tXru/result.json": "a2fe5c7120391965dbc3a5b6b4070a7430c12b9d92846392698b1c15aef92614"
+      }
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__dCdvDEG",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__dCdvDEG",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "max",
+      "classified_status": "infrastructure",
+      "counted": false,
+      "raw_reward": null,
+      "raw_exception": "RuntimeError",
+      "finished_at": "2026-09-13T16:15:19.409930Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__dCdvDEG/config.json": "3cac7c1538d336bfa71f59a38f7d01269be2f75197d3ef9a142e5ff0cc059054",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__dCdvDEG/result.json": "4768e7aa6d4c33c12b7caa9868e6a4b8a250347af2b9cea9af3e60ededa6133e"
+      }
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "classified_status": "infrastructure",
+      "counted": false,
+      "raw_reward": {
+        "reward": 0.0
+      },
+      "raw_exception": "NonZeroAgentExitCodeError",
+      "finished_at": "2026-09-13T18:13:20.153955Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv/config.json": "ef11000bc26bb9a9889c73537e7ac2499ba2eea2c9feee712a45372f73ae594a",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv/result.json": "d0d7b1b4290dbf8110f30c381850367b7d4f26b4602574687e17f92905c751a4",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__g8PJffv/verifier/results.xml": "103e7710fdc8fc3b630b0c890d5207d9d8f120533a583a16c3a256a703dfecb5"
+      }
+    },
+    {
+      "trial_path": "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__pC33He7",
+      "absolute_trial_path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__pC33He7",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+      "model": "anthropic/claude-opus-5",
+      "effort": "medium",
+      "classified_status": "infrastructure",
+      "counted": false,
+      "raw_reward": null,
+      "raw_exception": "RuntimeError",
+      "finished_at": "2026-09-13T16:15:13.904891Z",
+      "task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "source_sha256": {
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__pC33He7/config.json": "bc0fcf11f8ecf9d57b13ca1756cde7e707b0a5aae9c9678d0a80861494653036",
+        "jobs/candidates-top5-efforts-3-20260913T161409Z/sqlite-utils-schema-plan__pC33He7/result.json": "a89fb04443f5dfb717cc9f3d2b4f6a55c048c2d6718cf9d21d39df2430d08fe8"
+      }
+    }
+  ],
+  "preservation": {
+    "raw_trial_inputs_unchanged": true,
+    "supplied_commit": "c1ae968",
+    "supplied_files_checked": 36,
+    "supplied_file_mismatches": []
+  },
+  "no_model_calls": true,
+  "no_replays": true,
+  "no_task_runtime_control_changes": true
+}

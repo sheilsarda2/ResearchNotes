@@ -1,0 +1,20 @@
+diff --git a/zenoh/src/api/timestamp_stack.rs b/zenoh/src/api/timestamp_stack.rs
+--- a/zenoh/src/api/timestamp_stack.rs
++++ b/zenoh/src/api/timestamp_stack.rs
+@@ -464,15 +464,7 @@
+             // Skip unknown/malformed measurement configs
+             let point: InterceptionPoint = match record.flags.try_into() {
+                 Ok(p) => p,
+-                Err(_) => {
+-                    // FIXME: find a way to hold unknown interception points
+-                    //        (required for forward-compatibility)
+-                    tracing::warn!(
+-                        "Skipping instrumentation measurement with unknown or malformed instrumentation flags '{:b}'",
+-                        record.flags
+-                    );
+-                    continue;
+-                }
++                Err(_) => InterceptionPoint::Receive,
+             };
+             let is_custom = (record.flags & interception_point::IS_CUSTOM_TS) != 0;
+             let timestamp = match is_custom {

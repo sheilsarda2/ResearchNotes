@@ -1,0 +1,80 @@
+{
+  "at": "2026-09-14T09:39:18.370716+00:00",
+  "kind": "root_six_omission_probe_review",
+  "passed": true,
+  "review": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/zenoh-six-probe-review-20260914T0935/review.json",
+    "sha256": "b53e19fd3cbf9eff62b78f87e265d49249f1d9b003822757c8d467e20074babb"
+  },
+  "bound_refs_verified": 39,
+  "raw_files_verified": 1440,
+  "tests_executed": 42,
+  "intended_assertion_failures": 7,
+  "other_passes": 35,
+  "cases": [
+    {
+      "case": "omit-zero-config-rejection",
+      "raw_files": 240,
+      "passed_tests": 6,
+      "expected_failed_tests": 1,
+      "changed_source_files": [
+        "commons/zenoh-codec/src/network/timestamp_stack.rs"
+      ]
+    },
+    {
+      "case": "omit-count-rejection",
+      "raw_files": 240,
+      "passed_tests": 6,
+      "expected_failed_tests": 1,
+      "changed_source_files": [
+        "commons/zenoh-codec/src/network/timestamp_stack.rs"
+      ]
+    },
+    {
+      "case": "omit-append-cap",
+      "raw_files": 240,
+      "passed_tests": 6,
+      "expected_failed_tests": 1,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ]
+    },
+    {
+      "case": "retain-unknown-point-as-receive",
+      "raw_files": 240,
+      "passed_tests": 6,
+      "expected_failed_tests": 1,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ]
+    },
+    {
+      "case": "retain-undecodable-uhlc-as-custom",
+      "raw_files": 240,
+      "passed_tests": 6,
+      "expected_failed_tests": 1,
+      "changed_source_files": [
+        "zenoh/src/api/timestamp_stack.rs"
+      ]
+    },
+    {
+      "case": "omit-admin-receive",
+      "raw_files": 240,
+      "passed_tests": 5,
+      "expected_failed_tests": 2,
+      "changed_source_files": [
+        "zenoh/src/net/runtime/adminspace.rs"
+      ]
+    }
+  ],
+  "terminal_absence": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/zenoh-six-probe-review-20260914T0935/terminal-absence.json",
+    "sha256": "4c6761ea7ca65a7a46beace67c9ff745936ea9119d7aa0b4a3986b53f468b519"
+  },
+  "focused_image": "sha256:95afa96eacc4d6fe4cb2340f19492770c4f0508dca6600a6004c545921843d6f",
+  "full_verifier_image": "sha256:ea253d1b37eb4b2d21aa0d15326aacb1e83601a329e7d2ed965b871a33929370",
+  "meaning": "Six exact source omissions detected by final test bytes on corrected oracle source in cached focused environment. Full saved-source regrades are still required; no model reward or sweep result is created.",
+  "model_calls": 0,
+  "runtime_mutations": 0,
+  "full_regrades_verified": 0
+}

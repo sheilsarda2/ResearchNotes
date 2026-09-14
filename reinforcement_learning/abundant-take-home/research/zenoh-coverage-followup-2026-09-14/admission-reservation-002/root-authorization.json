@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "at": "2026-09-14T09:21:34.995241+00:00",
+  "root_review_passed": true,
+  "preparation_proof": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/admission-reservation-002/preparation-proof.json",
+    "sha256": "f6beda2e55b9ea41cd4bde7ff56d047f0b42a29631880e0a8617b03df5f248f9"
+  },
+  "bound_references_verified": 9,
+  "manifests_verified": {
+    "reservation002": 3,
+    "prior001": 20,
+    "frozen003": 30,
+    "frozen004": 12
+  },
+  "unchanged_restoration_functions": [
+    "atomic",
+    "shared_lock",
+    "health_reason",
+    "campaign_health",
+    "merged_restore",
+    "reservation_lock",
+    "restore_attempt",
+    "restore"
+  ],
+  "fixture_tests": {
+    "host": 41,
+    "harbor": 41,
+    "logs_verified": true,
+    "rerun": false
+  },
+  "original_files_match_c1ae968": 36,
+  "fresh_check_only": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/admission-reservation-002/root-check-only.stdout.json",
+    "sha256": "c19ba670a39deef24f5ce70f7b8648880c59131fb967dc96cdc6316d26c07516",
+    "action": "noop",
+    "reason": "already_admitted"
+  },
+  "authorization": "One --apply invocation; exact fifth diagnostic only; runtime checks must still pass. No replacement case, retry or additional hold authorized.",
+  "hold_seconds": 110,
+  "maximum_with_cleanup_seconds": 120,
+  "trial_signals_authorized": 0,
+  "plan_changes_authorized": 0,
+  "shared_state_writes_authorized": 0,
+  "control_change_scope": "paused and owned pause_reason on the four existing local campaign controls, followed by merge restoration",
+  "review_note": "Target matching, parent start identities, no-op gates, locked last check, exact passive canary participant, bounded guardian, restoration retries and concurrent-write limitations reviewed."
+}

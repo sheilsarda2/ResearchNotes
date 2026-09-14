@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-14T08:44:21.921474+00:00",
+  "kind": "root_neutral_cwd_harness_review",
+  "verification_path": "research/zenoh-coverage-followup-2026-09-14/diagnostic-path-preflight-fix-001/verification.json",
+  "verification_sha256": "f6b1e2158e612cc2acf565131ac381c4d1e9566168f7f0180a0f8bf0730a9e90",
+  "source_sha256": {
+    "research/zenoh-coverage-followup-2026-09-14/harness/focused_validation_v3.py": "2450c39d54f5b0612d2b6c12ab174055725d9e25196898f6fa01aee5135bd4b2",
+    "research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics_v2.py": "a468ff78c6c8b98e8442ed8387833b983b00b08399e603cd9ac982ce424beae8",
+    "research/zenoh-coverage-followup-2026-09-14/diagnostic-path-preflight-fix-001/test_patch_inspection.py": "1881e192a7aed4ce4df8f8859f808f0657a1f53d2d2289a42444fbc9b5c691e0"
+  },
+  "actual_preflight_sha256": "55c7dc148350d033348960c2dbb7735bb6bea3b173bd837fc86c7e02a40caf8e",
+  "regressions_passed_per_environment": 9,
+  "actual_no_admission_preflights_passed": 8,
+  "model_calls": 0,
+  "new_claims": 0,
+  "tests_and_task_bytes_changed": false,
+  "reviewed_behavior": "Only Git patch inspection moves to a private temporary cwd with inherited GIT_ context removed; absolute/traversal/non-source paths still rejected. Coordinator changes only the harness filename. Real tests reproduce old empty numstat from repo subdirectory and prove inspection does not apply a patch.",
+  "decision": "Narrow harness correction passed root review. Wait for the new zero-model004 continuation gate review before execution; retain all6mutants+2saved diagnostics and9full paired regrades."
+}

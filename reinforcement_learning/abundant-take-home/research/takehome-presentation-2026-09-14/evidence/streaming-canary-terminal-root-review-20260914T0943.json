@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-14T09:42:27.489325+00:00",
+  "kind": "root_terminal_canary_review",
+  "review_passed": true,
+  "transport_success": false,
+  "cohort_eligible": false,
+  "adopted": false,
+  "counted_sweep_trials": 0,
+  "certificate": {
+    "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/terminal-proof.json",
+    "sha256": "d2553ed1f2013028911a0606db49db645bdb83b4434e466958f488b25ef9e3ab"
+  },
+  "artifact_manifest": {
+    "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/terminal-artifact-manifest.json",
+    "sha256": "88aa63fd3842e7039a60b27328b9f5df452d36b7ce805cfe0e36236b68d4aef2"
+  },
+  "raw_job_files_verified": 196,
+  "support_files_verified": 76,
+  "captured_sources_verified": 27,
+  "bound_evidence_references_verified": 16,
+  "observed_http_requests": 27,
+  "complete_responses_and_turns": 17,
+  "failed_attempts_for_next_turn": 10,
+  "retries_after_first_failed_attempt": 9,
+  "cutoff_seconds": {
+    "min": 290.3468117713928,
+    "max": 290.62429451942444,
+    "median": 290.4759989976883
+  },
+  "retry_delay_seconds_observed": [
+    4.0289833545684814,
+    4.0084004402160645,
+    4.010296821594238,
+    8.00296926498413,
+    16.005390405654907,
+    32.01241683959961,
+    59.97595286369324,
+    60.006643295288086,
+    60.01202464103699
+  ],
+  "raw_exception": "NonZeroAgentExitCodeError",
+  "native_exit": "MidStreamFallbackError",
+  "raw_verifier_reward": 0,
+  "independent_classification": "transport_failure",
+  "ordinary_classifier_gap": "Current inspect returns scored0 for this wrapped terminal incomplete-stream error; result remains outside all sweep plans. Offline-only correction proposal is separate.",
+  "recorded_successful_response_cost_usd": 0.75210325,
+  "incomplete_response_charges": "unknown",
+  "cleanup_proof": {
+    "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/run-001/terminal-cleanup.json",
+    "sha256": "f5895111c3126f3d8eb282103ea2de14bcf94517e9dc3df366f6e63e31450a5d"
+  },
+  "limitations": [
+    "Individual SSE event timing and real nonempty signed-thinking behavior remain unobserved.",
+    "Actual verifier HostConfig was not captured; declared limits and historical lifecycle are preserved without asserting observed resource settings.",
+    "TERMINAL.md uses ten retries loosely; exact event count is ten failed attempts including the first, with nine retry delays."
+  ],
+  "model_calls": 0,
+  "runtime_mutations": 0
+}

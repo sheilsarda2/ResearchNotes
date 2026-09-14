@@ -1,0 +1,57 @@
+{
+  "created_at": "2026-09-14T01:11:11.095042+00:00",
+  "tasks": [
+    {
+      "id": "rs-burn-store-pytorch-reader-v4",
+      "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "revision_of": "rs-burn-store-pytorch-reader",
+      "validated_task_sha256": "0f7372d7168f9d8eb07c6f6a19a8f13f5038004448b8528b6fba2f37745189ac",
+      "validated_harbor_task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "validation_basis": "standard_harbor_oracle_nop_and_exact_fixture_manifests",
+      "validation_evidence": {
+        "oracle": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-oracle-20260914T003148Z/rs-burn-store-pytorch-reader-v4__NZZnrjW/result.json",
+        "nop": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-nop-20260914T003148Z/rs-burn-store-pytorch-reader-v4__VkZg3xR/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "62401955772b5bfca598e9292d70feb917961381a1d695abbd53500108dd9e4a",
+        "nop": "cc2def2cc5f768e8e13c5013ca0db2dfee5bffdbb2b731c01f515ac70a4b094d"
+      },
+      "oracle_verified": true,
+      "nop_verified": true,
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "build",
+        "anticheat",
+        "pytorch_unit",
+        "safetensors_unit",
+        "integration",
+        "pytorch_tests_crate",
+        "fixture_matrix",
+        "reject_cases"
+      ]
+    }
+  ],
+  "models": [
+    "fable-5-1",
+    "opus-5",
+    "sonnet-5"
+  ],
+  "efforts": [
+    "medium",
+    "high",
+    "max"
+  ],
+  "attempts": 20,
+  "workers": 12,
+  "target": 180,
+  "after_summary": null,
+  "harbor_version": "0.15.0",
+  "agent_version": "2.4.6",
+  "jobs": [
+    {
+      "name": "candidates-burn-reader-v4-efforts-20-20260914T011100Z",
+      "config": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.config.json",
+      "sha256": "e6121b6546b20b1bc9f4863bc55ca9905b58bb7d69f3aaffda62eeab70048191"
+    }
+  ]
+}

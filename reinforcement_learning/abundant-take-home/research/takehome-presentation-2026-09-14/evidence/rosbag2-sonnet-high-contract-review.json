@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-14T06:23:14.626956+00:00",
+  "kind": "read-only contract and saved-source review",
+  "reviewer": "independent zenoh_replay_harness_review agent; root verified source identities",
+  "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm",
+  "original_reward": 0,
+  "assistant_steps": 251,
+  "verdict": "ambiguous writer-side extension; not an unambiguous reader contract violation",
+  "evidence": [
+    "Instruction line46 C1 starts with messages returned by Reader::read_next, then states that a converted message reports its converter output format. The latter permits a broader reading, but does not clearly state a writer boundary.",
+    "Instruction line29 describes serialization_format as informational when writing; create_topic TopicMetadata defines the stored topic format.",
+    "Saved SequentialReader lines249\u2013252 tags converter output with the requested output format, satisfying reader delivery.",
+    "Saved Converter::convert constructs and serializes its output without tagging. Writer get_writeable_message returns that output, so the added test sees an empty string. Writer create_topic/update_metadata still use the converter output format.",
+    "The upstream serialization test checked payload; hidden_tests.patch adds the writer mock-storage message tag assertion at test line224. The preserve-existing-tests clause alone does not independently justify this new assertion.",
+    "All47 CLI playback and79 differential checks pass; the only failing assertion is the writer mock message serialization_format empty versus cdr."
+  ],
+  "recommendation": "Preserve historical reward. Do not use this sole assertion as established functional headroom. Test the public reader conversion boundary for the current contract; any new explicit writer tagging requirement belongs in a separately documented future stimulus revision.",
+  "sources": [
+    {
+      "path": "candidates_v2/cpp-rosbag2-mixed-serialization-playback/instruction.md",
+      "bytes": 12318,
+      "sha256": "1bf70285c40dbd505511e422157c72c8d6c3bb13a8840339d254327136e0bb6e"
+    },
+    {
+      "path": "candidates_v2/cpp-rosbag2-mixed-serialization-playback/tests/hidden_tests.patch",
+      "bytes": 33480,
+      "sha256": "5f67c984988f43e81e680a33a2a4a7ff84e7aaaf53a87c72973d5d77ef6714af"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/result.json",
+      "bytes": 3886,
+      "sha256": "0fc93137e51a5c652b0af3e7c260f73c6cdc5f278b12ab4faa98a9ae496b71cb"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/verifier/score.json",
+      "bytes": 18112,
+      "sha256": "c4a8a6b26ee15597f152ee046193d7b21a09b6cc392a18e5419a270f9c9391e2"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/verifier/gtest/rosbag2_cpp/test_serialization_converter.log",
+      "bytes": 2147,
+      "sha256": "078dacef19f35643dcabbeb02f51f9b95f3f14cc75653c720eb45560157e30fd"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/artifacts/submission/rosbag2_cpp/src/rosbag2_cpp/converter.cpp",
+      "bytes": 4593,
+      "sha256": "2a91913b7c6f42aa087844f75f35ab73da1901b8f5d6f4d4fa66c6de4cebabb5"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/artifacts/submission/rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp",
+      "bytes": 15487,
+      "sha256": "9d6dfeace72a919f0084b104a8ab4bef31970360dac5d02501d2fe7bb620a9b8"
+    },
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-rosbag2-mixed-serialization__8tAPNNm/artifacts/submission/rosbag2_cpp/src/rosbag2_cpp/writers/sequential_writer.cpp",
+      "bytes": 34369,
+      "sha256": "85bb092789d824f6246b0b35aab111b4dcc1afbc5797e569918f7ab02c007f66"
+    }
+  ],
+  "no_task_or_runtime_edits": true,
+  "replays": 0,
+  "model_calls": 0
+}

@@ -1,0 +1,14 @@
+diff --git a/zenoh/src/net/runtime/adminspace.rs b/zenoh/src/net/runtime/adminspace.rs
+--- a/zenoh/src/net/runtime/adminspace.rs
++++ b/zenoh/src/net/runtime/adminspace.rs
+@@ -543,7 +543,9 @@
+                             DynamicRuntime::from(self.context.runtime.clone()).downgrade(),
+                         ),
+                         #[cfg(feature = "unstable")]
+-                        query_ts_stack: None,
++                        query_ts_stack: msg.ext_ts_stack.as_ref().and_then(|ts| {
++                            crate::api::timestamp_stack::TimestampStack::try_from(&ts.ts_stack).ok()
++                        }),
+                     }),
+                     eid: self.queryable_id,
+                     value: mem::take(&mut query.ext_body)

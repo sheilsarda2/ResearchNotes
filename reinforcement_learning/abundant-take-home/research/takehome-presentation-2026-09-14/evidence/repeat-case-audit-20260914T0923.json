@@ -1,0 +1,1759 @@
+{
+  "cases": [
+    {
+      "cohort": "Additional ordinary terminal repeat; excluded from first-result27 and frozen99 first-result cohorts.",
+      "contract_findings": [
+        {
+          "assessment": "Valid observed submission robustness defect; no test/spec mismatch found for this failure.",
+          "declared_limits": "Per-case6GiB address-space limit and180-second timeout; crash/abort fails, explicitly stated in the instruction.",
+          "failure_log": {
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/reject_r_memo_bomb.pkl.log",
+            "sha256": "ad6a7c3ad2972270abd40b62fb952b19290cd654ee412be9a72136f1cced48bb"
+          },
+          "fixture": {
+            "lines": [
+              934,
+              939
+            ],
+            "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/fixtures/gen_fixtures.py",
+            "sha256": "66c8ddbf53f780d476ecd2b6c84a97a19a90b6588ef11cd24a24a002958b5710"
+          },
+          "fixture_description": "125-byte protocol2 pickle: integer1, then60 DUP/TUPLE2 pairs, then STOP. Each pair doubles the owned tree.",
+          "inference_limit": "No allocation backtrace or replay; exact allocation site not proved. The recorded abort itself directly violates R12.",
+          "instruction": {
+            "lines": [
+              122,
+              137
+            ],
+            "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+            "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270"
+          },
+          "raw_failure": "FAIL REJECT r_memo_bomb.pkl phase=open: process exit 134 (crash, abort or timeout)",
+          "requirement": "R12: memo/DUP doubling bombs must return Err, never abort or cause unbounded memory growth",
+          "runner": {
+            "lines": [
+              172,
+              185
+            ],
+            "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/test.sh",
+            "sha256": "a75fad3a807345083f1756bcf69e61134b03eaf7362dfaace0c0b0a1e5fd6723"
+          },
+          "saved_source": {
+            "lines": [
+              35,
+              42,
+              277,
+              326
+            ],
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/artifacts/submission/burn-store/src/pytorch/pickle_reader.rs",
+            "sha256": "77417a67910c0bff5c771852acd9b364aaf106c4c66d816b33ff51794d834ecf"
+          },
+          "source_observation": "The submission allows256Mi cost units measured as node count plus payload bytes, charges DUP before cloning, and clones compound entries again in combine without charging that budget. Cost units are not heap bytes. This is consistent with address-space exhaustion before clean rejection."
+        }
+      ],
+      "directly_counted": {
+        "all_timestamp_pairs_match": true,
+        "atif_agent_steps": 191,
+        "atif_tool_calls": 191,
+        "max_timestamp_delta_seconds": 4.76837158203125e-07,
+        "native_api_calls": 191,
+        "native_assistant_turns": 191,
+        "native_tool_calls": 191,
+        "native_tool_returns": 191,
+        "tool_call_ids_match": true
+      },
+      "effort": "high",
+      "exception": null,
+      "failed_groups": [
+        "reject_cases"
+      ],
+      "failed_tests": [
+        "FAIL REJECT r_memo_bomb.pkl phase=open: process exit 134 (crash, abort or timeout)"
+      ],
+      "finished_at": "2026-09-14T08:59:41.961232Z",
+      "first_result_basis": {
+        "cell": "[\"rs-burn-store-pytorch-reader-v4\",\"anthropic/claude-sonnet-5\",\"high\"]",
+        "earlier_finished_at": "2026-09-14T04:10:43.708505Z",
+        "earlier_reward": 0,
+        "earlier_trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk",
+        "snapshot": {
+          "path": "research/takehome-presentation-2026-09-14/data/results.json",
+          "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+        }
+      },
+      "full_raw_tree_sha256": {
+        "agent/benchmark-agent-input.json": "a5b6b6e9f3a556057ab695bcad329d5aee3cbeba5e2e916b6f6bafdd22774beb",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "agent/mini-swe-agent.trajectory.json": "97fba98d74500eb69029f75dc86bf76ef9a8453c0daee8624f21065ef2e7e72d",
+        "agent/mini-swe-agent.txt": "47387fcdf26e131fbe94cc3b9fd00fefa398eea9fa4a1892c0fb42253a36b095",
+        "agent/trajectory.json": "7ed3ffd64f2530311126ea4456db7d1e4419bdea50aaf990b0bf5caab1a3bf52",
+        "artifacts/manifest.json": "73805ee4b4b1d8c98ab854041990f6982128204727e92c0b4cd0b3140b56849d",
+        "artifacts/submission/burn-store/src/adapter.rs": "177110a246b99d211f98ffd05fd31ade7f3b3040102daeec3ec51eedac729210",
+        "artifacts/submission/burn-store/src/applier.rs": "6290d5aaffd277e4fa46b67b6581de38dfedc9bd0ce8e24570a219ad42ad466a",
+        "artifacts/submission/burn-store/src/apply_result.rs": "b79dc89ad4aebb6033738e2aa4a0cc200758d71731a2875228d0d27384e73a40",
+        "artifacts/submission/burn-store/src/bridge.rs": "7da704a65039990133b66c5f5a547253d9f4dcd486d408c65e8d9b09b5e1d13d",
+        "artifacts/submission/burn-store/src/burnpack.rs": "7eec5484948639dcdff85d74d6dd8e0e8fe411cc1b86ed69885b4d1460dfe062",
+        "artifacts/submission/burn-store/src/collector.rs": "fc006af203099f31fffc733a410c8d18a85677fb2771b9f270436d5b52888072",
+        "artifacts/submission/burn-store/src/filter.rs": "8d6de1ee2ed7371b25abfca26e0a280a87b382f1f4c8f8e6b0c4846a40cdf3ab",
+        "artifacts/submission/burn-store/src/keyremapper.rs": "625857fc4a643aa7d046c1f4118be4de48e5320e1eccad348856c56c27203a92",
+        "artifacts/submission/burn-store/src/lib.rs": "1ac559e1daf077c534a53ed71b099b0ddfcce3e21525a9a460e9c17ae47379ab",
+        "artifacts/submission/burn-store/src/nested/adapter.rs": "cb7ae24dada78419807d22425e768a830ff70de64231f463cd35d44b18f656f4",
+        "artifacts/submission/burn-store/src/nested/data.rs": "7c742a6bed2aeaf1d2d04926f7ce35ac4fdfcad27e5b2df6e722005d25856058",
+        "artifacts/submission/burn-store/src/nested/de.rs": "93b68ca347c4bdb0a59921461225e411a8c97b8a1038e9be0b0d085d42835690",
+        "artifacts/submission/burn-store/src/nested/error.rs": "aa8038ae56724364fcefda648ae1588bd091e1dfb985f13fbd7b5ec04bb14667",
+        "artifacts/submission/burn-store/src/nested/mod.rs": "21270216a32cb7050358037ced3f374c95aff2c526234cdbe103d1fbfd49f367",
+        "artifacts/submission/burn-store/src/pytorch/lazy_data.rs": "edab84c1c1413868feaf02afcffb5346e8f7090380e5dc76859efc16b6406074",
+        "artifacts/submission/burn-store/src/pytorch/mod.rs": "307d32d77ec1b9272646380b1f981cb3bf038e6b24e5820400dd20a1717d37b5",
+        "artifacts/submission/burn-store/src/pytorch/pickle_reader.rs": "77417a67910c0bff5c771852acd9b364aaf106c4c66d816b33ff51794d834ecf",
+        "artifacts/submission/burn-store/src/pytorch/reader.rs": "0027544a758101ea31fcedb71abbeadca5465f7bfe16389fefcbb3a9646016d4",
+        "artifacts/submission/burn-store/src/pytorch/store.rs": "8f93a804ae1c0a399a7b51936bb3b27778ec52b216d4e3f623936933634c7b86",
+        "artifacts/submission/burn-store/src/pytorch/tests/mod.rs": "c3570e48ce652e38a7540546efb257d7bc47b59a0515d720b351a6be183ea981",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/create_legacy_with_offsets.py": "3d5a09813387d178c0bbacd1e921625dfae7e5e506678a85dbbb9c0ab682290e",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/create_tar_format.py": "00429927e239f34bb30e16a17b9d51e3b1d2963b6cef28a9877e733133dc31a4",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/mod.rs": "1ba06e3acc6e144a867e671d64c8dac4976db5916f4adf9b0f45e46d142ea5b8",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/simple_legacy.py": "40abd75e4867982b3e1836c6af6bfc2f7ef1a564300ec0d0c161ab5e5ddb34ad",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data.py": "86b045b0eb9e4f10c9d7150aceb3eb4eccfb55b42148030bf67c0a1c09b202ca",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/bfloat16.pt": "bb740da09dca595df13213a674572a4259e7172bd6821955f823dd449f8dd86e",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/bool.pt": "7cc27260f4bae4926eac7b5310d56c7e7ea91ccb80af89d50453f519ce8c41bb",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/broken.pt": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/buffers.pt": "ab7bfefd956c69969a94f62bd1a8d423970b04bddb596dd31c46504d18418207",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/checkpoint.pt": "ac70e215ba8538d7c70d9663631c60e46b067b589b0defdb8f0a4295d074ffb2",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/complex_structure.pt": "87f208358b02df4a556468904e83e80c9ac5aae3389771a4ec9af83c73f7d7ac",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/empty.pt": "c894a539083a29647b04eec9ca1ea1c97cddad5b02838e59d49bc708e83086e7",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/extreme_values.pt": "b59a61b612a6444c9742169583fb56be4585130ad1f3ee5f02c5303dc8be61dc",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/float16.pt": "6a1fa609f693a96853be13313db804b9cf6afad37bb04134748283118f832f81",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/float32.pt": "d48ca05a695423e1cef19c206449fe4605b8610318eece1aa47c309d516cbf8b",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/float64.pt": "cbcd4f7a5d31a076d7a06a6855c064daefa61e8075af7f01ffee97605487b545",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/int16.pt": "031fc8810fbc1fa4b3a5d0d88f45ceb546c1db979438db3105e57942056ccb0a",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/int32.pt": "1860cc433fa67d814bfb510ca82d4136103c8632f03ca20ec0d091c8a5043cb4",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/int64.pt": "18dded836913650864042b6fcd049eace4ebc83183c790296333e0025c64c99d",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/int8.pt": "48fe28964ca00742e162c3aa58204e1a83f2d214ab016036685073fbef398a0c",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/large_shape.pt": "c603592a9f585582ef1dcddd24595c38f09061ce5e3f7eb2a5a75ca818ca483f",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/legacy_shared_storage.pt": "f210c09e8d526a6b475eac60625f1fd14ee953a77f0d8951df97d7f7ba39e484",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/legacy_uncloned_views.pt": "7739ca7a2425bbf84e754895a04ac384e08528864c7a621c3a7fe81d893392a1",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/legacy_with_offsets.pt": "67314581e0aba19ab6abb7659fb2d2ed1d106e7e463493ea114b5ac6ba9ba8a2",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/mixed_types.pt": "5a2225a466d3854ca96d4f2460dc649c6d2a2c7c2decf3e92ab68e725b36aa54",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/nested_dict.pt": "235241ef10678132a352073beb4ec4ff8591633bf86dcf417eb24eb6e38b678a",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/non_contiguous.pt": "69d402b2a53985fe21e41c1c9647513999cdeb938de84c2354c636f349ccacb2",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/parameter.pt": "b033ccbe75ecf4c811c967d264bc2c52f2db8c6ae4e0b5c47252d4d19ae2970a",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/scalar.pt": "a0269810704aec115dd2735692455cf760e42c65bffe595a7d8ce81a858a9646",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/simple_legacy.pt": "b5b51dbba122a4c82f5b975df0a3c4ff502aacefb092597efe2a9912bade0e7d",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/special_values.pt": "f9b563ed6dbea2717dd311ad505211a9ca2cbf329b3843706e4aeb270dd2c599",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/state_dict.pt": "c85f9ade82b1514c34afdea797f04074c91b1de0dc4f9ea6470cfcc1b3b0cec1",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_2d_tensor.tar": "30ec6e547321ee5cf146ed312d8b9dbe92b0737bb7d8fbafd6cd83b4dbe795de",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_float32.tar": "b4482f538fbc9dc7a3b1a2e0725ce0c7136c1591b2cd26c9d1a2c89031cc2399",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_float64.tar": "60d6e65eacacfa58d97bb3f559c238f20629d1d33311815682ffc6678b1ea2f0",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_int64.tar": "3438a43a1781372e51f84dde06155512a65f9b5916d06123f8476b945d259bde",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_multi_dtype.tar": "91eb1599afe9df7ba74cb7d5796e5531b86e49af54b37ff9d3aa0d11dcb40680",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tar_weight_bias.tar": "4bd84d2e536271b06f7a085af46568db8f476541cd1376df3f6f7a9fda40ae82",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tensor_2d.pt": "3437a1d7b6e85e56747645f5081473365e5fceda0d9c1c4ce0dc8b2cabf19cd7",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tensor_3d.pt": "3f3475d46c0924d48eefb3dbf7cb9ab50b1e48ca8f71ee07f5feccc124e585eb",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/tensor_4d.pt": "0ee3041cd96050dc52e4ebbf757b5594a02716aaa1a48e01b8d6ed623840a153",
+        "artifacts/submission/burn-store/src/pytorch/tests/reader/test_data/uint8.pt": "1af5b1598775e585e9d5b881529ae9daffb3391686e018a9b3e7550f18977423",
+        "artifacts/submission/burn-store/src/pytorch/tests/store/mod.rs": "bcb9d55f052aa32d3b3bef89a88e9cb172c64f52aaf912dad3fe9882ef161a0b",
+        "artifacts/submission/burn-store/src/pytorch/tests/store/test_data/generate_enum_test.py": "132f5d4b3de82510db861e448a74df8577451df56bc67e8bf7b008415034ab7a",
+        "artifacts/submission/burn-store/src/pytorch/tests/store/test_data/model_without_enum_variants.pt": "ca6cc0ff5cabb80e3206a33e4975b5fe9f8ba53286073889405d9c90b181b804",
+        "artifacts/submission/burn-store/src/safetensors/mod.rs": "8b528dce011f779b3c42a25bb5018bd32f58069fb48b960067aeb8a0bebb3106",
+        "artifacts/submission/burn-store/src/safetensors/store.rs": "1c3d27df8f8ee71f8cf3da6c32334ce72f911de03e3c4e9f60e1e2f6243f6ee2",
+        "artifacts/submission/burn-store/src/safetensors/tests/adapter.rs": "d8c19e719f81553a7a96122cd00fbf9df1b450cdf1125cb498b28d35c8178e63",
+        "artifacts/submission/burn-store/src/safetensors/tests/direct_access.rs": "545064cb611cc582f128c9afbdcd8e7eed6cd9d8a877f98c92c23189f624bbc5",
+        "artifacts/submission/burn-store/src/safetensors/tests/error_handling.rs": "ae4526e63859076b8afb95ca0ff78ff25ac595a8a07007f22a60a99b98e50b82",
+        "artifacts/submission/burn-store/src/safetensors/tests/file_io.rs": "d418e5cf554e2548147321e86c2bb5b923891783ce34eb4c7d99fdfb118d5f7f",
+        "artifacts/submission/burn-store/src/safetensors/tests/filtering.rs": "14064166013ffd8aad69a2781eebd51a3d400e335ec995d7f0d619c1aae11e9d",
+        "artifacts/submission/burn-store/src/safetensors/tests/integration.rs": "8d2756a574e655245a1534e766f1f47c33c7c75409656965519ec632b804f153",
+        "artifacts/submission/burn-store/src/safetensors/tests/metadata.rs": "54a7ac0462d23e2b711be1608e8464ba7e2d9b5e0bcb976383266976ca444c0d",
+        "artifacts/submission/burn-store/src/safetensors/tests/mixed_datatypes.rs": "d7bdef361fa2a22d9493df9965724be1e7098d03b5715682746192bc15787ab5",
+        "artifacts/submission/burn-store/src/safetensors/tests/mod.rs": "e9ecb25bc7dd1d41bc58dac76ab05989e91b81a00db922a44d1b6527e6a7b6e1",
+        "artifacts/submission/burn-store/src/safetensors/tests/multi_layer_verify.rs": "bc9a2b74a9c5040f151323c009fa14946c05a088e2b0a303512c26f5dae3eca1",
+        "artifacts/submission/burn-store/src/safetensors/tests/pytorch_import.rs": "14c4c7ed146e65202789f87620415c48ef42cc95ca3097530e9923ef7812a7f0",
+        "artifacts/submission/burn-store/src/safetensors/tests/round_trip.rs": "45560cbafc6be358757926620bb7873ebe7693ac5225a22d70761f08aa27b765",
+        "artifacts/submission/burn-store/src/traits.rs": "c5d456d81bc8a84f50d44b06a4f0896c10efa72c37536e392348e6f18f40ca83",
+        "benchmark-deadline.json": "cffddd55dc0503425b349a1c7d8997af5c766a859aa9660c638047251faa3ce1",
+        "benchmark-evidence.json": "2e78569bf87b483c60f6056cf13766b538db71d6956d3518ab47d10d85949d85",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "7f63a9c40188c46f7e01e38aab609e3545e413e5d766abd4cdf616968adb8e39",
+        "config.json": "3db8407fc8b3efc3ca8c582a54eb36ad6554b89bf1b3e363c311f6f473f44076",
+        "result.json": "4ea80ac617b71edf17ae3c8176b8519b17d26856ba3d24af379337088d5b4aa7",
+        "trial.log": "c3e67e7033eb22af6a421b2fe61fe88eae70e75f90b48e9c75951e1a1e1357f7",
+        "verifier/build.log": "efcbee147133fbbdf277f5ac8a8ad5f124d20fcb53d6fd0eeb8543a6a3e6c2fb",
+        "verifier/fixture_matrix.txt": "44644d76a97f9aed5a531aa46dcb73bd7947d340dbf444c618f74db808170c16",
+        "verifier/groups.env": "863e3ccfa3f3d3dd4ccde4ef012634bb2aeccd53b05595fb84dc362d71cd589c",
+        "verifier/integration.log": "9775efa26b538114727cf05a01ca5f56581a59dea439a8010599b8d393de856a",
+        "verifier/matrix.log": "3395d25b4813b045cae9045ff78473007b8814229191a6068b448bc1626b72c5",
+        "verifier/pytorch_tests_crate.log": "acac3ceacbb7eacc898d6139611e4f345b486050fb661fc81b3ad4361c00961a",
+        "verifier/pytorch_unit.log": "cc066095b78809119b460cc5e555f56bbea089db04f97183947e42de78b058cf",
+        "verifier/reject_cases.txt": "8b13ab3e54acc6a4b4db15e6b6f2b8cfd38607eb9d65cd2ee367cb8e2ae31dd7",
+        "verifier/reject_r_bad_opcode.pkl.log": "01dc8d3160858b1d60362e43ed1bd4bf344045d1510c8ba458ba70433db265bd",
+        "verifier/reject_r_big_endian_marker.pt.log": "73057484365e685af598f340e12aeb67034d86792151d42cd9322b381f5dc485",
+        "verifier/reject_r_broadcast_bomb.pt.log": "17b93d37623f6a26d8d2d337d5a921c1098d6b1157754d4b7844b6f62e6f1896",
+        "verifier/reject_r_byteorder_unknown.pt.log": "cad6e904869ce79c64d9596feaee079c5fc8368afaacb8dfd428d50c9d4d50bb",
+        "verifier/reject_r_deep_nesting.pkl.log": "d4a82c3ed5e58ffd98c8751b8f83a2200fd8b9174523967699b8fc81d2c9c1ab",
+        "verifier/reject_r_dtype_mismatch_v3.pt.log": "3a0dad1f2e0e8e87e6eea8c336977341ff2875a476f65dcadcbf0cbd3672e14a",
+        "verifier/reject_r_empty_file.pt.log": "3f782264f71488ce13cae51e1a45da56640e6cbce4ff7b100c24f2caaf3bfa43",
+        "verifier/reject_r_ext_opcode.pkl.log": "a5641614e42d90de89a2c20ba8d1f2655ce22b23157c1c4bcfad8887a8352ea3",
+        "verifier/reject_r_full_model.pt.log": "c1dbd41b773e36c6d91bfcc83592704fedae0c11b6030501f13ba5aed4d37119",
+        "verifier/reject_r_legacy_big_endian.pt.log": "1bf7cec445c0e4193a043840eb1879c49ae5fbd142743b1f56cd08b25f6e0a76",
+        "verifier/reject_r_legacy_no_endian_flag.pt.log": "801026889388cb09dd4d93f04737a5bcd4d658345373d316eb3ca263c470b548",
+        "verifier/reject_r_legacy_truncated.pt.log": "d4149da33267208b33426958489dcf4393e55dd38a8ec73d65b0e006e73c1390",
+        "verifier/reject_r_memo_bomb.pkl.log": "ad6a7c3ad2972270abd40b62fb952b19290cd654ee412be9a72136f1cced48bb",
+        "verifier/reject_r_memo_copies.pkl.log": "080ba92647d1074b5306a5b383740d0b3e3a7cf04cf10a59dc6cb7e57fc89b31",
+        "verifier/reject_r_no_data_pkl.pt.log": "3504e8f40087bbd825845a7a433a29b9da79f668d25d4712e30d7375526cbfdd",
+        "verifier/reject_r_offset_past_storage.pt.log": "9202a317c1cfee2bb3859c54f5cd65f4f70aa183efe30223a1d813ddd778ea12",
+        "verifier/reject_r_plain_pickle_with_storage.pkl.log": "2904013b859b1128425eacbf0f5c8dbac49c8f7c06fdcbb21eab9cbb58b00b55",
+        "verifier/reject_r_protocol_6.pkl.log": "b0ff9f0f18f147a3caf676cc92636f3d5354d8395d217c400b182459969b1d4d",
+        "verifier/reject_r_quantized.pt.log": "b60e51b40c437863cc3c5d9d56f0c7a88ad74a5ad5d1f06ddab2553ae61b5ca5",
+        "verifier/reject_r_sparse_coo.pt.log": "74cc75fba5dff5463fa34fc9a7677988bbb7ea47e1a54afee1af990bd7066100",
+        "verifier/reject_r_stack_underflow.pkl.log": "ab47f2a34871c4565a38e2dafb90b5a7c470d7ce716a4823504e41db7e0528e4",
+        "verifier/reject_r_storage_missing.pt.log": "65639c9860728312d48002a464c084752ebbef11036a3bb30cef44f72b6d9c4a",
+        "verifier/reject_r_storage_short.pt.log": "267bb9e34a0431dadc5d471fce70e98ce95084a063878b000c9de72601bdce17",
+        "verifier/reject_r_stride_overflow.pt.log": "0ed99279e1652d4c450e0c5f0160c4c74d44738ffb0a76d6d0605d207f7d1ea1",
+        "verifier/reject_r_tar_absurd_count.tar.log": "2b0090489adc1b4096ea8d6fc28659bc97435d0d770ce45edcffcfc7a4b44b62",
+        "verifier/reject_r_tar_missing_entries.tar.log": "e420fd1a2c6f450519e8cf65ec19eda41b84f9f83c403b7dd9cbaaa1aa8a8932",
+        "verifier/reject_r_tar_truncated_storages.tar.log": "84f7e82252e33de73d4f3ceeb6163916229251fff634a67d19cc54461513c26c",
+        "verifier/reject_r_tensor_in_unknown_object.pt.log": "f093829f3ea7c162ea24109617771bb3825736f367bbed7208145123cfefeaa5",
+        "verifier/reject_r_truncated_pickle.pt.log": "da6e041cfe9cb2054c1a8fba8a25382369ced3311f8cbed4028598ecab93fbe5",
+        "verifier/reject_r_zip_crc_mismatch.pt.log": "0fe5d51c33c23300cf8ef167d6e1a819a13a65cfceb281b6d25ab9ab056cd92a",
+        "verifier/reject_r_zip_signature_only.pt.log": "8d23d9312d25bcee7042c1108333a1d4b67bc46c457a409679932a4261501d09",
+        "verifier/reject_r_zip_truncated_file.pt.log": "813bd80cf580af4ed5b6d9b232420adf3b1c65cbf8b82a0b81574b5a34a3ca38",
+        "verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "verifier/safetensors_unit.log": "11e5af0cade63f03de42c5ee898ffc509771b187c2f1a3d06b7e257d9fd22a46",
+        "verifier/score.json": "0f13563527820de80298a301fef5e89a27e64b758045a950604d3925399abd9b",
+        "verifier/submission_diff.txt": "9052bb652e834429a5c92f0d0d83f00ac162de9afd868e8a4756209d856c5fcb",
+        "verifier/submission_files.txt": "96021a3aa69da89bba0a2acb65a8c23a7395f402cdd99c5fc79ad6ef61b590cf",
+        "verifier/test-stdout.txt": "bc55f0249df465c74d7fad18765520e5fb09ebe93257580e144276ad75209f62"
+      },
+      "full_raw_tree_unchanged": true,
+      "group_results": {
+        "anticheat": {
+          "hits_file": null,
+          "ok": true
+        },
+        "build": {
+          "ok": true,
+          "seconds": 69
+        },
+        "fixture_matrix": {
+          "expected": 62,
+          "failed": 0,
+          "manifest_ok": true,
+          "ok": true,
+          "passed": 62,
+          "tensor_rows": 428
+        },
+        "integration": {
+          "expected": 20,
+          "failed": 0,
+          "ok": true,
+          "passed": 20
+        },
+        "pytorch_tests_crate": {
+          "expected": 37,
+          "failed": 0,
+          "ok": true,
+          "passed": 37
+        },
+        "pytorch_unit": {
+          "expected": 108,
+          "failed": 0,
+          "ignored": 0,
+          "ok": true,
+          "passed": 108
+        },
+        "reject_cases": {
+          "expected": 32,
+          "failed": 1,
+          "ok": false,
+          "passed": 31
+        },
+        "safetensors_unit": {
+          "expected": 52,
+          "failed": 0,
+          "ok": true,
+          "passed": 52
+        }
+      },
+      "instruction": {
+        "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+        "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270"
+      },
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T08:03:14.014346Z",
+        "all_executions_quiescent": true,
+        "cleanup_before_verifier_seconds": 16.037495613098145,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T08:57:21.037193Z",
+        "closed_at": "2026-09-14T08:57:21.028685Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "declared_timeout_seconds": 21600.0,
+        "execution_count": 3,
+        "post_deadline_activity": false,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+        "verifier_started_at": "2026-09-14T08:57:37.074689Z"
+      },
+      "model": "anthropic/claude-sonnet-5",
+      "native_exit_status": "Submitted",
+      "raw_status": "scored",
+      "references": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/agent/mini-swe-agent.trajectory.json",
+          "sha256": "97fba98d74500eb69029f75dc86bf76ef9a8453c0daee8624f21065ef2e7e72d"
+        },
+        "agent/trajectory.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/agent/trajectory.json",
+          "sha256": "7ed3ffd64f2530311126ea4456db7d1e4419bdea50aaf990b0bf5caab1a3bf52"
+        },
+        "benchmark-deadline.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/benchmark-deadline.json",
+          "sha256": "cffddd55dc0503425b349a1c7d8997af5c766a859aa9660c638047251faa3ce1"
+        },
+        "benchmark-evidence.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/benchmark-evidence.json",
+          "sha256": "2e78569bf87b483c60f6056cf13766b538db71d6956d3518ab47d10d85949d85"
+        },
+        "benchmark-snapshot.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/benchmark-snapshot.json",
+          "sha256": "7f63a9c40188c46f7e01e38aab609e3545e413e5d766abd4cdf616968adb8e39"
+        },
+        "config.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/config.json",
+          "sha256": "3db8407fc8b3efc3ca8c582a54eb36ad6554b89bf1b3e363c311f6f473f44076"
+        },
+        "result.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/result.json",
+          "sha256": "4ea80ac617b71edf17ae3c8176b8519b17d26856ba3d24af379337088d5b4aa7"
+        },
+        "verifier/fixture_matrix.txt": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/fixture_matrix.txt",
+          "sha256": "44644d76a97f9aed5a531aa46dcb73bd7947d340dbf444c618f74db808170c16"
+        },
+        "verifier/reject_cases.txt": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/reject_cases.txt",
+          "sha256": "8b13ab3e54acc6a4b4db15e6b6f2b8cfd38607eb9d65cd2ee367cb8e2ae31dd7"
+        },
+        "verifier/reject_r_memo_bomb.pkl.log": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/reject_r_memo_bomb.pkl.log",
+          "sha256": "ad6a7c3ad2972270abd40b62fb952b19290cd654ee412be9a72136f1cced48bb"
+        },
+        "verifier/reward.txt": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/reward.txt",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        "verifier/score.json": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/score.json",
+          "sha256": "0f13563527820de80298a301fef5e89a27e64b758045a950604d3925399abd9b"
+        }
+      },
+      "reward": 0.0,
+      "snapshot_comparison": {
+        "floating_point_differences": [
+          {
+            "absolute_delta": 1.7763568394002505e-15,
+            "path": "usage/native_responses/cost_usd",
+            "recomputed": 13.653015799999999,
+            "saved": 13.6530158
+          },
+          {
+            "absolute_delta": 1.7763568394002505e-15,
+            "path": "budget/native_at_or_before_deadline/cost_usd",
+            "recomputed": 13.653015799999999,
+            "saved": 13.6530158
+          }
+        ],
+        "post_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "61daefd9177b7c3e406307e8a062bdab7c3edbb095b9928ffd90e6e31d8dad7a",
+          "matches": true,
+          "observed_sha256": "61daefd9177b7c3e406307e8a062bdab7c3edbb095b9928ffd90e6e31d8dad7a"
+        },
+        "pre_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "c796b4bf56e52bef45e2da2cc904cf38472334c088599051d76f5016a9efeabd",
+          "matches": true,
+          "observed_sha256": "c796b4bf56e52bef45e2da2cc904cf38472334c088599051d76f5016a9efeabd"
+        },
+        "saved_evidence_recomputed_matches_except_float_roundoff": true
+      },
+      "started_at": "2026-09-14T08:02:40.803233Z",
+      "task": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "test_logs": [
+        {
+          "failed": 0,
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/pytorch_unit.log",
+            "sha256": "cc066095b78809119b460cc5e555f56bbea089db04f97183947e42de78b058cf"
+          },
+          "name": "pytorch_unit",
+          "passed": 108
+        },
+        {
+          "failed": 0,
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/safetensors_unit.log",
+            "sha256": "11e5af0cade63f03de42c5ee898ffc509771b187c2f1a3d06b7e257d9fd22a46"
+          },
+          "name": "safetensors_unit",
+          "passed": 52
+        },
+        {
+          "failed": 0,
+          "libtest_summaries": 5,
+          "log": {
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/integration.log",
+            "sha256": "9775efa26b538114727cf05a01ca5f56581a59dea439a8010599b8d393de856a"
+          },
+          "name": "integration",
+          "passed": 20
+        },
+        {
+          "failed": 0,
+          "libtest_summaries": 2,
+          "log": {
+            "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/verifier/pytorch_tests_crate.log",
+            "sha256": "acac3ceacbb7eacc898d6139611e4f345b486050fb661fc81b3ad4361c00961a"
+          },
+          "name": "pytorch_tests_crate",
+          "passed": 37
+        }
+      ],
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje",
+      "usage": {
+        "atif_final": {
+          "total_cached_tokens": 50700659,
+          "total_completion_tokens": 247329,
+          "total_cost_usd": 13.653015799999999,
+          "total_prompt_tokens": 51116573
+        },
+        "native_final": {
+          "api_calls": 191,
+          "instance_cost": 13.653015799999999
+        },
+        "native_responses": {
+          "assistant_turns": 191,
+          "cost_usd": 13.6530158,
+          "turns_with_cost": 191,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 191,
+            "cache_read_input_tokens": 191,
+            "completion_tokens": 191,
+            "prompt_tokens": 191,
+            "total_tokens": 191
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 415532,
+            "cache_read_input_tokens": 50700659,
+            "completion_tokens": 247329,
+            "prompt_tokens": 51116573,
+            "total_tokens": 51363902
+          }
+        },
+        "provider_charge_may_be_missing": false,
+        "result": {
+          "cost_usd": 13.653015799999999,
+          "n_cache_tokens": 50700659,
+          "n_input_tokens": 51116573,
+          "n_output_tokens": 247329
+        },
+        "usage_censored": false
+      },
+      "verified_test_meaning": "217 Rust tests,62 fixture cases covering428tensor rows, and31/32 malformed-file rejections pass; only the DUP/TUPLE2 bomb aborts."
+    },
+    {
+      "cohort": "Additional ordinary terminal repeat; excluded from first-result27 and frozen99 first-result cohorts.",
+      "contract_findings": [],
+      "directly_counted": {
+        "all_timestamp_pairs_match": true,
+        "atif_agent_steps": 235,
+        "atif_tool_calls": 241,
+        "max_timestamp_delta_seconds": 4.76837158203125e-07,
+        "native_api_calls": 235,
+        "native_assistant_turns": 235,
+        "native_tool_calls": 241,
+        "native_tool_returns": 241,
+        "tool_call_ids_match": true
+      },
+      "effort": "max",
+      "exception": null,
+      "failed_groups": [],
+      "failed_tests": [],
+      "finished_at": "2026-09-14T09:21:02.968881Z",
+      "first_result_basis": {
+        "cell": "[\"rs-zenoh-timestamp-instrumentation-v3\",\"anthropic/claude-opus-5\",\"max\"]",
+        "earlier_finished_at": "2026-09-14T02:50:31.337395Z",
+        "earlier_reward": 1,
+        "earlier_trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YDTpWKS",
+        "snapshot": {
+          "path": "research/takehome-presentation-2026-09-14/data/results.json",
+          "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+        }
+      },
+      "full_raw_tree_sha256": {
+        "agent/benchmark-agent-input.json": "6c85bb996dc4ea1eb4d8b9d880c2ef70d0988660fff99e4dcf54b51b0a29c01d",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "agent/mini-swe-agent.trajectory.json": "0526b17780bb8eee5b80d9f932e2af2a97ec0db461a60de8a7a41c856f79be5b",
+        "agent/mini-swe-agent.txt": "d7642111231e35d84dcdcf2f4fe0ecd8311acad952d1675836ee70c710428e9f",
+        "agent/trajectory.json": "9fe7ee29d0cb0217a055cec92a0c803db6fa8fadac85a6b0d94457a0fafed23a",
+        "artifacts/manifest.json": "beca30d5263daaa19a32ca07c0ddd0f443edf75a0df7e6861ce4a6532a2efe80",
+        "artifacts/submission/commons/zenoh-codec/src/common/extension.rs": "dd13a5bbf25de5565ab0ad502175ade94f69fc731edafb687c6404a9b5b4b985",
+        "artifacts/submission/commons/zenoh-codec/src/common/mod.rs": "117c6c68f309d874761832224ec13d0ca41b588ed5245d12c61c7c4c480fd089",
+        "artifacts/submission/commons/zenoh-codec/src/core/encoding.rs": "e6cadcb4ee0e12d6a23eb267c4f3ed255c68b59203c3c0714478d390bf111560",
+        "artifacts/submission/commons/zenoh-codec/src/core/locator.rs": "851f3cf6f200f8608d4815c0ecc46329d35718d44178434315131b85573faf89",
+        "artifacts/submission/commons/zenoh-codec/src/core/mod.rs": "57b3ad7557168c6c83d102af59e5651f4700cfea30f08028612772075d1b5e35",
+        "artifacts/submission/commons/zenoh-codec/src/core/shm.rs": "52513efc41977776dbe8ba636af6b11f14a4bba7a32286acd0579a6f7f394b09",
+        "artifacts/submission/commons/zenoh-codec/src/core/timestamp.rs": "7815b3925e23736182609de0b51781fd7c5f00c4dcf6ceabbf8523f2289f3509",
+        "artifacts/submission/commons/zenoh-codec/src/core/wire_expr.rs": "bd5c333bc4534c1389f94834c17cdb33a8f04e8082d688b4ebc3e9bce42a74ef",
+        "artifacts/submission/commons/zenoh-codec/src/core/zbuf.rs": "6579b277377485aa7e19cbf1ebd7e9f7ccad374cdca07b9f7b9cb6272c4d8c75",
+        "artifacts/submission/commons/zenoh-codec/src/core/zenohid.rs": "af316a99d0bd361c9f7eadb295ab4cd9e35efa93ea32b020a490fd297a0f51d8",
+        "artifacts/submission/commons/zenoh-codec/src/core/zint.rs": "c10d080bba58f7a67e721b430f09c2eda704898197fd2fc9fdd50ab610c977a2",
+        "artifacts/submission/commons/zenoh-codec/src/core/zslice.rs": "31b0bd9edac85e87bea2147efd55b6653692fd02797efdf4cfda58ecabc4851c",
+        "artifacts/submission/commons/zenoh-codec/src/lib.rs": "e677c801e9821d8d3f45c86758e94f93fcce321158d1a5a1bd4cb5b7263fc611",
+        "artifacts/submission/commons/zenoh-codec/src/network/declare.rs": "39552eccd291057baa894b24507acfba01b69e2310b2108799ab82f861d459ae",
+        "artifacts/submission/commons/zenoh-codec/src/network/interest.rs": "e1cd1532c081dd0d358c834de51caaa15222643f647ce276c7dd14c21e8cb2ae",
+        "artifacts/submission/commons/zenoh-codec/src/network/mod.rs": "acd72e60788875f34aff0659b13bcf46efc59cadf4a684c292c093e27dd92c0a",
+        "artifacts/submission/commons/zenoh-codec/src/network/oam.rs": "9ec185f288ff688c1c5ef75f7a03fba02c7c1fb53e4331fe18b276fde134c3bc",
+        "artifacts/submission/commons/zenoh-codec/src/network/push.rs": "487c6969a980cfda90dcac46380f4e77d853622d2ec31233f3c2766b839bf289",
+        "artifacts/submission/commons/zenoh-codec/src/network/request.rs": "0588076abd369cdedff641cce37d7cb42240fe6c91801524700d832938ca62d6",
+        "artifacts/submission/commons/zenoh-codec/src/network/response.rs": "7f7af9f8fc0fd310c38cbe2525be42f79e7b97ad1d4a58e6f8df5807ccacf7ab",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/hello.rs": "a4345e4b3309372cb66420cb61b4118fdca1c795238d3eef17bb6c9c3161f6dc",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/mod.rs": "7e18a07ee9c59500e1c0ad908667e7aa551760c193bef8cbe4ae20b71d668e21",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/scout.rs": "4fa5ed18e889d6c1948ba49c88c4d96764fb460b4355d948fed4b99196d45417",
+        "artifacts/submission/commons/zenoh-codec/src/transport/batch.rs": "ca431fd65ab32794edfc1ea7ed06c1ff00f6fc6e2db52507ea7349c15b06c826",
+        "artifacts/submission/commons/zenoh-codec/src/transport/close.rs": "1ea33bf13cfca748734bbaa5408760f68be78d4cdff1344d47e9eebc66f935fe",
+        "artifacts/submission/commons/zenoh-codec/src/transport/fragment.rs": "0ec5532eedaffba3f3f44f424cc6163223103d3745edbf1c70aaf71a5ddba23c",
+        "artifacts/submission/commons/zenoh-codec/src/transport/frame.rs": "cdd0baafbee38accfbc27d52cd251031e3d61fd20ac296fc11c5dfa22323dc23",
+        "artifacts/submission/commons/zenoh-codec/src/transport/init.rs": "d20635a396dd7339212cc0ec358567d76cb0c4fe8cec274e794265b2fc4c8d43",
+        "artifacts/submission/commons/zenoh-codec/src/transport/join.rs": "6c8fe85d9a106af28ef7ad6de22b5c738130a07b6de2e4f0d96bad772c07413e",
+        "artifacts/submission/commons/zenoh-codec/src/transport/keepalive.rs": "53636936da4c6a4febdbe8d71ba054f7f614ad9fa873d2c5755d8810917fcd68",
+        "artifacts/submission/commons/zenoh-codec/src/transport/mod.rs": "d681ac6fc1bdfbcb838c9ebe1eb1dfce9646e2d2785b5654797b19abd28ecb11",
+        "artifacts/submission/commons/zenoh-codec/src/transport/oam.rs": "27773c14d2ef4424e6d27748af1406b8580d418d79ba44165de0e951b64686f8",
+        "artifacts/submission/commons/zenoh-codec/src/transport/open.rs": "0d0ddcf4b7a17b68eb60e8579df1ec5d8917aafd90f268ef6a2ef4c4463a89bb",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/del.rs": "883db07d8f025c0be56a8d3d04125811371ba59095e7226c1222a723e38bfe10",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/err.rs": "d3a5a8d88197efa786b78cf5f27251e13fc5fdaab6451d83fac88b114ef9e8f3",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/mod.rs": "021918f53d606cb0543820464338f6d83b7e5add2d64f93a17fa4cdd9978ecc9",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/put.rs": "ca13742f80e4d3dcd606e8762e6a6e98e556ce14b08f481066fb9f952f3cdad5",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/query.rs": "c21ce9ce94db5f33e0907b258c15d6ee1f0e755b4b46d8a54b555c78588ed8c3",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/reply.rs": "713c2757a533c6c6bbcdd1b4b67de1dfd43ba5d62e4d9deb62d6bfca3216f512",
+        "artifacts/submission/commons/zenoh-protocol/src/common/extension.rs": "fae9f35e375c6939f2faee26b6e9eb86cc773d9e7dd798be31084ee9b27aeea7",
+        "artifacts/submission/commons/zenoh-protocol/src/common/mod.rs": "00c3f1afc741c813654816f16831a9c90ebe5cdcecebbefce1f2cf4f32a747c0",
+        "artifacts/submission/commons/zenoh-protocol/src/core/cowstr.rs": "804685bebf7cbf0925430791e44dfed874d4626661406b983e66dc0123eb5905",
+        "artifacts/submission/commons/zenoh-protocol/src/core/encoding.rs": "a941510d568bfd5f594ed91773cad49ddc47956716ec6f232c8ed743c6aaf7c6",
+        "artifacts/submission/commons/zenoh-protocol/src/core/endpoint.rs": "e17fc79530fa652dfbc403b4564c12b256dc4eec960e551e7e2b33bcd65eb944",
+        "artifacts/submission/commons/zenoh-protocol/src/core/locator.rs": "cab676ab3faa5a842833ce39d3f71d09e5ac2de9d5f8a09848c4d0115b4195f2",
+        "artifacts/submission/commons/zenoh-protocol/src/core/mod.rs": "8aff52b842a1c1dec59483ea712c30789139f0d59ac2b9ef66b9a9ff69701355",
+        "artifacts/submission/commons/zenoh-protocol/src/core/parameters.rs": "674bc620bf159fd7e3e5c79b7a9b8388e4850bfc0bd7343f2e3a102ef3f341e6",
+        "artifacts/submission/commons/zenoh-protocol/src/core/region.rs": "27e592daf0fe2933c66d57cdf3043c3105843fbe49512b678494f3062319fc41",
+        "artifacts/submission/commons/zenoh-protocol/src/core/resolution.rs": "627523341d7ec99f72f9c82eda2451c9f3c230790925e5e8cf6ef2e002c9eff7",
+        "artifacts/submission/commons/zenoh-protocol/src/core/whatami.rs": "b5cee169d659c507c5bcafa04f9cc26c2a30c3ae3133720b32c0cc196a8fa801",
+        "artifacts/submission/commons/zenoh-protocol/src/core/wire_expr.rs": "5177ad061243b68373b1a318ff3854a3d62ba15aa7dafd9760160ed6e7bc9f83",
+        "artifacts/submission/commons/zenoh-protocol/src/lib.rs": "5ff6a8bf0d0fbb9a9122f3652d1d2340ca69a2a1f717db3cc553194e095cd32d",
+        "artifacts/submission/commons/zenoh-protocol/src/network/declare.rs": "0637f10a55fb0cdbe14f5166a306e80c374f61b545ec9603b51f470e0166fbc7",
+        "artifacts/submission/commons/zenoh-protocol/src/network/interest.rs": "a3618a4882cff790b6469abbfc3b37741a93899d3d47ff6155d0cd62b608f550",
+        "artifacts/submission/commons/zenoh-protocol/src/network/mod.rs": "e0da02d63385c465bf905bb0bf58fb94629021b5b6f5385a9e7da2f497d63fc3",
+        "artifacts/submission/commons/zenoh-protocol/src/network/oam.rs": "c02a1439adbb1d6601ba8bafdcd1de083d030c2c940fba316d6cb764d9b95fcc",
+        "artifacts/submission/commons/zenoh-protocol/src/network/push.rs": "e48a1a58b9e70188bca6d234e574538944968867eb51222f775f1ab4ad25fec6",
+        "artifacts/submission/commons/zenoh-protocol/src/network/request.rs": "cb8955256456e1f83241338e5d5f45b4c60d43368e0acc763d23f967b3b27e60",
+        "artifacts/submission/commons/zenoh-protocol/src/network/response.rs": "b939a7a47b53dbc79b114da23685a3cabe2163f004ece404d5fd5d02b34b55b4",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/hello.rs": "2edb235284b57e203ddf6af5bbe69c9592f1f73f8e870d281589d694d3a1fbbe",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/mod.rs": "0399ea23e2816669ea46b71bf7a349fd0fc9e22e89d1687531e3c5a4272f97aa",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/scout.rs": "bfcb063c1f5477d4aa5f4cec97d9c2aad3a50b5da00199f3e077b65926ecf817",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/close.rs": "560298ceb5b850794d87933de06babf1c1eee83b5478effac00139d4a28a9248",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/fragment.rs": "1bbac1b333f945f3dbc292482d2b18f75eef4b47b2a0e28b713c5c4c0c5fb967",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/frame.rs": "48d28cd3d6727cba30f74aca6b8d561d81ee55c949dea81ed2ab136b0224585e",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/init.rs": "7d976518e34a214b0f0f023293f66eb5f624d87a57aaa9a0db093f82e4194a02",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/join.rs": "6509288b245a00059544300e50e2090afac76e6a00003c23992c2e751dde1ade",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/keepalive.rs": "97094687be054a790c176053ec8b61452e6caff3a12f41d89bffd125d1bcce52",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/mod.rs": "822c48536872f65ae67c72724e109201b0d65a324acc79c423a044799e1c2276",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/oam.rs": "0954fb5ac8be74fa5c61ec258d6e06622a1ace019f14db0fa9cc1d3df4225521",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/open.rs": "64ac556ddaef49c81c7fd87c8909d56721ee3c102a60067d31635ad5e7765f4f",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/del.rs": "bd1c7e54e32c2f2622e11272233310a9160b895c67deb5b13c59d633ba891a4f",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/err.rs": "71423a00cbba155db95737f74b6c536acb61fc40a73a18d6737f9f8e222de055",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/mod.rs": "268c76b787ee17236ed0c20015a88eeb1ec05a888b125a757f4feef2f8710c50",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/put.rs": "1b490697635604efd3cc5e991f9c67afdfe2f800bb4c0649425089d185ba345b",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/query.rs": "ee8f9cbf0df3a9d2f09b6e1a1b4957ba65c73f6a81a6db5fbf89a4d40ca91c12",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/reply.rs": "2ea47a5e26ff1ce3a5b7ebb1a20a6cad5597d6aba98f3c00afcd65cdf9cdb99f",
+        "artifacts/submission/zenoh-ext/src/advanced_cache.rs": "b97f04b2bb24ca102c04a1a84437d3c8863c7a3fbce6564a83b2c2c078d0d52b",
+        "artifacts/submission/zenoh-ext/src/advanced_publisher.rs": "29d5bde905a2734a8664b47cff1133c9f2a534096a818069c8230f51d71a2b64",
+        "artifacts/submission/zenoh-ext/src/advanced_subscriber.rs": "58bfefe6eaa7047b9c703422ab9f25dc993710383b2f72fbb1425da54a33480d",
+        "artifacts/submission/zenoh-ext/src/group.rs": "a382225009a4bb7a0cc254bc8f7ed0a66feb25e86eb8b48c56e3868a75ae2844",
+        "artifacts/submission/zenoh-ext/src/lib.rs": "a07eb6f14829090d4dab0295f7d4ee5facaac8087bfbf1af51414ca941d9e3c1",
+        "artifacts/submission/zenoh-ext/src/publication_cache.rs": "94d766461cba18d88acf3a1afd831eeeac42b72ff052bb29720382abdfa44894",
+        "artifacts/submission/zenoh-ext/src/publisher_ext.rs": "c31ef6b2a5a0b25d872fcd042b358dc2b8ddec78eb8ba9f734990951fa2dba18",
+        "artifacts/submission/zenoh-ext/src/querying_subscriber.rs": "5fed40dae4e243e7f9372fc7b6279ca7f93868bb78b04d58f7818d81725cc942",
+        "artifacts/submission/zenoh-ext/src/serialization.rs": "d9abcc20c73336567dee8b30c5ed88d5a3a9c986326c725b447f005b42524419",
+        "artifacts/submission/zenoh-ext/src/session_ext.rs": "40f89b6f521268750ddf3c83916b27d92fc60d0ae4d5e79770e243ec9d5641a7",
+        "artifacts/submission/zenoh-ext/src/subscriber_ext.rs": "f842ce82c05410166213d211e414509bdb6e0c8d22aea3fb31ac707326fe890f",
+        "artifacts/submission/zenoh-ext/src/utils.rs": "f43339d2b165c1865fe102f7dc3470d3b11e5cfda194468e08797eaa557547f0",
+        "artifacts/submission/zenoh/src/api/admin.rs": "72c574062c82cf3f87324a49057009e014dea56f72cd76d92b636e9eb75f9aa9",
+        "artifacts/submission/zenoh/src/api/builders/close.rs": "b4c6b75056d83b9fe53aabe47926130f6895c2ae5ea31cf2172edb427f34aea6",
+        "artifacts/submission/zenoh/src/api/builders/info.rs": "6a0451c860e73e8a181c5441f92986a25903a7e1edbc86d2aae6d0408b3f84e8",
+        "artifacts/submission/zenoh/src/api/builders/info_links.rs": "03a4d2858d888cff8effad4f82e37234447a6aca71442533875f3f2518891dec",
+        "artifacts/submission/zenoh/src/api/builders/info_transport.rs": "6f6b8606aa88a3315d5a10e49ccc52a14e51ba92c9d73e8e86dde4e793d3ec37",
+        "artifacts/submission/zenoh/src/api/builders/liveliness.rs": "a523e75a886b485c277b2ff1ce7547cde73dca8c464d8e7ae1074099aa101906",
+        "artifacts/submission/zenoh/src/api/builders/matching_listener.rs": "2167c988abcdce2a177833450b6ef6ff994b3bc67798318c2df97c572580fe09",
+        "artifacts/submission/zenoh/src/api/builders/mod.rs": "cd0d1135e8df0e66682f9e676b98f6a47f39da3f39a2841c40692d109e6a8954",
+        "artifacts/submission/zenoh/src/api/builders/publisher.rs": "b2ed0048715f142bfa47fc64082059db182a0a74fa2631f13acbe8ad485a4194",
+        "artifacts/submission/zenoh/src/api/builders/querier.rs": "4ddba98ed3224dc1d95e17c374a40f2c30446b9f31f67d2e57c4f087d4d7c89e",
+        "artifacts/submission/zenoh/src/api/builders/query.rs": "403ca90b93f9c4b7c60dfce5d2e21c24797fadbb96f17b702b828690ea741a21",
+        "artifacts/submission/zenoh/src/api/builders/queryable.rs": "e7832cfab3160206824f648e6d13c0867c61809bbe2b4a68365768b26a358897",
+        "artifacts/submission/zenoh/src/api/builders/reply.rs": "4168316fd2af9c2856a09ece224f014b5f068a88ef387cb951da206e170d79b2",
+        "artifacts/submission/zenoh/src/api/builders/sample.rs": "08504e9b78c656ac33889d000e4c628c6c63e9872f9ed3a90af5ddeb5c0784a5",
+        "artifacts/submission/zenoh/src/api/builders/scouting.rs": "b492b02b49980dff47a90e68af1069796c8d9e40b039c1c2f1056cde8313f7b4",
+        "artifacts/submission/zenoh/src/api/builders/session.rs": "5ced9cc22b6f3a0e6fe73627117bc5608b0d1973bf0d7b060157701ab9e24b80",
+        "artifacts/submission/zenoh/src/api/builders/subscriber.rs": "168df1cd1e02a4368d3114d55697eac3d945e5a7b5e406ab656eacf7a159efb2",
+        "artifacts/submission/zenoh/src/api/bytes.rs": "5e9c0512b97b5e3efc6a8c8aaf5aae53c48fdf95f55395221a505214ee71f817",
+        "artifacts/submission/zenoh/src/api/cancellation.rs": "9c33ca46dc1d5015160f679d1067f9e44729a4f5de17a290ad4aa0fb82e1070b",
+        "artifacts/submission/zenoh/src/api/config.rs": "1282137940272fdb0d84494d5cac90a2e7927ee3312ab29d8fca4a191debedf1",
+        "artifacts/submission/zenoh/src/api/connectivity.rs": "532fd857817d5cddb383759eec657ae5b5105da72b3fcb623804bca9f241e078",
+        "artifacts/submission/zenoh/src/api/encoding.rs": "62d0dcc0cf59387da04059e469cfc305023ace86bbf808811525f1c3db7651c9",
+        "artifacts/submission/zenoh/src/api/handlers/callback.rs": "75f648139e1858c44b1c67c6fa000da9e29609c2480e1e8d0a0efdb2882c44a3",
+        "artifacts/submission/zenoh/src/api/handlers/fifo.rs": "86444a4eae818ee89e2d0ff2fa43541c503584474e0ccc2078bf665457e86ae6",
+        "artifacts/submission/zenoh/src/api/handlers/mod.rs": "4d7d1f790260072308bf93403a2d640c121d8db5dafb6b8178dd4b07e09218da",
+        "artifacts/submission/zenoh/src/api/handlers/ring.rs": "5e72ae634215e4cc8c892037565ee770f0a3b1a106c88ba0c2bb0f7030b1ac61",
+        "artifacts/submission/zenoh/src/api/info.rs": "fb416cfa193fd94116b217f47159a7b1f4aa25c33f961e896ecf9aea700b8a4e",
+        "artifacts/submission/zenoh/src/api/key_expr.rs": "e5ea480747baaed8e3ceab0ddb439e4bd824dd2e6e7cff3a65c1b7a082d84f22",
+        "artifacts/submission/zenoh/src/api/liveliness.rs": "48cb2299925e8b5b9895863545948b33dd5c0a7766fba2c83f6a7dcd4433aaac",
+        "artifacts/submission/zenoh/src/api/loader.rs": "4b62093caa9a4ca2bdf72bf46350877f5acf9dd9b872889b786de3ce7ae1561a",
+        "artifacts/submission/zenoh/src/api/matching.rs": "285702eef527e3e29e8dabf63f06c8e4c27853b3a05319bf8291cbb2c01a9204",
+        "artifacts/submission/zenoh/src/api/mod.rs": "4c6f23d3bf11acaf8e6bd434f2d06228c169a0f2a69b91bd507c7df53bb4c2b6",
+        "artifacts/submission/zenoh/src/api/plugins.rs": "f63ed56962007b737a770bbd5d2bce62e265f1c3ead3f531bf28f9d8a42f5722",
+        "artifacts/submission/zenoh/src/api/publisher.rs": "50e47e3a6cab441b6ada9e85e9237ae22dde8403f618efe7a4d20ac4410802dc",
+        "artifacts/submission/zenoh/src/api/querier.rs": "68788347be7f87e37e171485d36d105bc0ac7a5720889624952514f0fc36ece6",
+        "artifacts/submission/zenoh/src/api/query.rs": "f49187aee347bf973df024eeef9c622324727d6d3e9fe106a0bb8fc8fd3cae8f",
+        "artifacts/submission/zenoh/src/api/queryable.rs": "dc4cc91d62e2115ff3bc912b19c26b1e7973e5f122430d06432f29dafca2b2fc",
+        "artifacts/submission/zenoh/src/api/sample.rs": "e102fe879999ea0c60eee081613b48e566420fc600e129284fbe6734fac3a568",
+        "artifacts/submission/zenoh/src/api/scouting.rs": "cb5cdd07fd56ed7cc8e1d240f1ad8f3a25f4729e0baceb4389c9b6baefe71c01",
+        "artifacts/submission/zenoh/src/api/selector.rs": "9ab68e3b30900beb72f409cb6f502e6b648c874fdb3a772c4ef8f2776656226c",
+        "artifacts/submission/zenoh/src/api/session.rs": "4ce0fb7d27ae6298071fa1c006c6170e858563b281b6e9b2b070a76b6d23d248",
+        "artifacts/submission/zenoh/src/api/subscriber.rs": "d6312f0a5673171d1786c702f56f7fad548035b5697219e83a94ace5a3a3f80d",
+        "artifacts/submission/zenoh/src/api/timestamp_stack.rs": "8cca80cab3f6170884f570373a4dbb48f0d388440047572f1e4bffff3a27050a",
+        "artifacts/submission/zenoh/src/lib.rs": "d8ea6315b056debc340bc724037441fbba0278c83251a931ad98b499bbd27df3",
+        "artifacts/submission/zenoh/src/net/codec/linkstate.rs": "eb55688406a0aaff9e44ab0cebb15500937dcef90400287dff6a8e35f167da03",
+        "artifacts/submission/zenoh/src/net/codec/mod.rs": "2de8f3a400dbbe4fa17f5c77c806df2abab127eeedc705113f65f205e96dedd8",
+        "artifacts/submission/zenoh/src/net/common.rs": "2d11bd02379d7b2bb31a8203b49f6c598eb563abb305fcc2f83bbc880c9d330e",
+        "artifacts/submission/zenoh/src/net/mod.rs": "360ae68a90092ee2fdc12095c4abfaecff6048d7e65a48d8ed7d01570de76711",
+        "artifacts/submission/zenoh/src/net/primitives/demux.rs": "5c1160c5b433ba9682f897a2081c8472484a93cb2e99cbaa05b6547c95c98d2a",
+        "artifacts/submission/zenoh/src/net/primitives/mod.rs": "2568e72a95a5e3cf65f73425edf9885f84d1fc02f5b307a994f8e9e160f3f4e9",
+        "artifacts/submission/zenoh/src/net/primitives/mux.rs": "5cbf9a064e232089c6dc002ee2555da9de546f7a579b025071df11aff642875b",
+        "artifacts/submission/zenoh/src/net/protocol/gossip.rs": "62af50656dad814472f458980326fd9275caca94b20558056b914b295f590b26",
+        "artifacts/submission/zenoh/src/net/protocol/linkstate.rs": "65ffa1de78c262f1230e15117d17e2157e2b8b6bbf98df266f6c188ae63d2871",
+        "artifacts/submission/zenoh/src/net/protocol/mod.rs": "5e08525d3530ff2849bd0ee754beef2f2bfafcd6febd310246f0b68577baffee",
+        "artifacts/submission/zenoh/src/net/protocol/network.rs": "4015ce71a3cff873f4226a25f9c4324a16e2b5e152a0de9e0c0a98b45b24ddbd",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/face.rs": "e500971b5be7039d11512f77b5e6ae216e44898b2dc06090faa5232eb455aa61",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/interests.rs": "c5a80724cf9abd693119b4a523d8fecada083138afcfd513b6d0f9842558ca05",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/local_resources.rs": "8afc19d0ba83a74f2b653e67812cc8d1a00d0757d2df750e8d000cdfbafb392c",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/mod.rs": "ce15b1b4084a5f1dc3ffb3d3606c5a3182b0981f6c8e54a3d1c0dc250469a99d",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/pubsub.rs": "f08f182549596fd87d3b45b2e6dc88d42bc64399aa33cb2a129b93e7c869c64d",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/queries.rs": "2025e379b4d6740ee8c85f12c403fbeb0c0aff95e6c96de07a823ee8a3d7edf9",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/region.rs": "86ef356dbb5a3a4af2ee75c2d792bc2639cb40f107eba6d2db08fa0e0b00a931",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/resource.rs": "1f4722ebf2eec57616d24c0127af7daeaf491a104684c0ac805709aa9315ded2",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/stats.rs": "8f4267dd106621438d14ef0848eaea7861fb4884ea8ab2c9ff8602290734ec18",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/tables.rs": "5f968e3f737be8878e295bf0c142bdb2f66d8e18eec0b8715c482f17e9331798",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/token.rs": "f67abc6954f3a1ba0a794f28e92d18493700c079a1f9e0f566877edfc4cb2302",
+        "artifacts/submission/zenoh/src/net/routing/gateway.rs": "c2228191ec4d567670c42221fd7d48c8566a514a6b9b00b1af2b42fd7923dd4b",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/interests.rs": "71ae4f7fbafac5faadd312a3cc062190a6b8b38f0ed7a5907cf0fc9891ff7399",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/mod.rs": "0927a420c144ee36f4076438440b5d83ef07aa4ebcfa29757d497e5c3c2423df",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/pubsub.rs": "76d104ea9aa35fd68bbcf429041f14efa9fc735e2a82d1fc1391c25a15a6d669",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/queries.rs": "9c26e8c6e6da341226e56855010dfce8b8423a1681d247e767c904cb82fb8060",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/token.rs": "247a618d24a25b2d31be1bb67d84d1ee923bb2454d121d38ab97315dc571d326",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/interests.rs": "5d5afdf38ba0cd09b7fc834fd03fc129f5f51c9b7fa768e35358959064b376ff",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/mod.rs": "0f150d7fff610c2442a1502c90fbbbd5815958414995493ec145596f72ae2371",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/pubsub.rs": "ec807cfcd2db73264233c213d147aa5e68856a3877d428e21b99be58fe8bbbaa",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/queries.rs": "4c7f1a83c295b2301c87c7817e5daae49c63c927682a6d1a54617e97b9a446e4",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/token.rs": "bba2364f1e9eb072b62c6f7ff68fe7f0ad47ec9f06067257c8ed8d29d254e11c",
+        "artifacts/submission/zenoh/src/net/routing/hat/mod.rs": "e1b42df5d632c6159a2d1e57e5596b88d50b19fcf14cf22ae51fd3e0df024caf",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/interests.rs": "9fcd376e9f7df3c6c388b8db458e3196de90f91d2fc60a507269870acc693142",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/mod.rs": "f96548afaad33d8c8905259b039a812617dd1fd3d291ad23ca4165976414a44e",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/pubsub.rs": "573d2ae196b3eababa5d08ea4511399bf8c0d97333e6dedfb385c72a42f29f32",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/queries.rs": "8f68d7a7901bb4d3292aaf5802e4c5d351f1a0cd8ad9c328d595f1229b0436e1",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/token.rs": "7756389dd8020ee10816588eefc929fe17720edc4313e500c5a3422c458dfa10",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/interests.rs": "fd57f123e65c490188150520d107ab23260fff2d753e62330581884da4404423",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/mod.rs": "ecd968edaad529f81ac50c608c5c7119415dd00be134ab3a4a7e886d3a2f6145",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/pubsub.rs": "d23c1ef26045d08edd061d1693aa2c156a3400df6e1a7aa0e2242e0682d7b122",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/queries.rs": "8a61dd752ac3a727f5ebb2983e01e2e36589f27c3c5518a75aa374b07a573e04",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/token.rs": "6ad31f61198b59251ebd29b96555143e5d82869bc5357753e444b36fe3cf1a0c",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/access_control.rs": "2cc017ea6e71d5fa2ccc589640185360f8f3ee64b473ff043979f23355218644",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/authorization.rs": "282e997948db57c626f565de65685019296d7e37989941cfee7fda9b9581b364",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/downsampling.rs": "5f777cdbed1b71de4b813688334e8123048a3a191ac648088f262a3731f6e598",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/low_pass.rs": "a3533ee60fe9fc0146ea60df97c44e8ab363fabe33b3f933196da251cd4d45bc",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/mod.rs": "4e6ff8cf531b05a186ce02e4dee1f2b815b90c054ce7c5cb7849913f03023072",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/qos_overwrite.rs": "754132d0e2500e74f1987c30b3b191dbae0694dd9ee4e9effdbe584c194b0dae",
+        "artifacts/submission/zenoh/src/net/routing/mod.rs": "4784871766a7e47a3387ed0ef24ebda79594f481e105177c18e5fac041f8a579",
+        "artifacts/submission/zenoh/src/net/routing/namespace.rs": "bd9eeb5bf0f8e29c3752ce807ebeedda1905f955e84cafc5301f2d50dd37280f",
+        "artifacts/submission/zenoh/src/net/runtime/adminspace.rs": "5c654bb7c1fc70a5e626e5b859827645f9fb8656ed9e0be68881d6f12cbff886",
+        "artifacts/submission/zenoh/src/net/runtime/mod.rs": "29d6fe6b06716b859d33c12d4d68fe348f212f51ee0a6aa172c2a82694ba2460",
+        "artifacts/submission/zenoh/src/net/runtime/orchestrator.rs": "f129bd5b509b9073c21d135ca2b7732353cdd9067cb44cea1baa803ca26b3b7b",
+        "artifacts/submission/zenoh/src/net/runtime/region.rs": "cb2ed70e7a437e59b833ce9003e4ce3066b07adc00259d9d146c4425dc67ffe3",
+        "artifacts/submission/zenoh/src/net/tests/mod.rs": "0465fe7e3a9adc8e8259da05d56293d3833e8015912ee6153a28f9c6564cd5c5",
+        "artifacts/submission/zenoh/src/net/tests/regions/adminspace.rs": "018a3f94372fd29cb7f25d61bfc970c48eee1b6749c9b5597ac1b8aa9d07c5b9",
+        "artifacts/submission/zenoh/src/net/tests/regions/declare.rs": "ad1d8b44118cd24c1f3888898f845eec9c652e9b8e88a41e2f3a292f537660c8",
+        "artifacts/submission/zenoh/src/net/tests/regions/forwarding.rs": "09a0d541ec30bffaa386bef88c155a565863a6c91e755212b87d42c6eb35ab4e",
+        "artifacts/submission/zenoh/src/net/tests/regions/interest.rs": "bbdcb6a1d1d79d3056d52228736295522ca04c204e7b883087bcdd07af8c0573",
+        "artifacts/submission/zenoh/src/net/tests/regions/mod.rs": "0f14fe91d1482eaddd8a89c5d23356d1c18d9fcca2f1cb8c24aa029379d8d68a",
+        "artifacts/submission/zenoh/src/net/tests/regions/oam.rs": "10d77b77a574339b1e523498335ecfb35bbc96baf90564b37e33655a4f33781b",
+        "artifacts/submission/zenoh/src/net/tests/runtime.rs": "39af8b8045d7877e125909a6b46c993600a2dcf9a8954bb44d864959d83df658",
+        "artifacts/submission/zenoh/src/net/tests/tables.rs": "eb97118291551c55c6b2ef868c251d903d9dcabd751092ad99e98941d74a5d32",
+        "artifacts/submission/zenoh/src/prelude.rs": "631f88395a7f9819a508cd0dd3487faa3999ac9d3c0fd675522a94e64e9dc27b",
+        "artifacts/submission/zenoh/src/tests/interceptor_cache.rs": "936872bd9c638eb55c9daa7b1f080eb84843c3e5775a2ebbddfab5b8259cc81f",
+        "artifacts/submission/zenoh/src/tests/link_weights.rs": "5ba8c3cb6d0c65668dfdb9647cae1bf3ca05c63ed425c9e4fec38305b6b3ca28",
+        "artifacts/submission/zenoh/src/tests/mod.rs": "0b23917e79d54c6cc3e06ba5ac61331a317aa89136f53c9e874f2146135a8f55",
+        "artifacts/submission/zenoh/src/tests/query_reply.rs": "151275453d8025268bdacfe6a30f35d45e7bdc18906b3ca721b5e5f311186806",
+        "artifacts/submission/zenoh/src/tests/session.rs": "07dfebef2db63e089765ca8f4b2431f369c6d703e9e3927f3929cc67e6d387d4",
+        "benchmark-deadline.json": "9633ae579d30b0adaf1e002ef9d0adcffbc415e523a014bc280eea5cd17a1c38",
+        "benchmark-evidence.json": "541db44defa1ae7bb79693fdcb3bfd8967b888bfd12e308f7cdac618bce20394",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "d6f2d61a6890242978581d13d3bebff46e7996c0527ac3c770ed87c730609715",
+        "config.json": "26e637b376344bfcb51a271e96ec7d12fd33991d848af39b18ea36f69a5be089",
+        "result.json": "668a21cf52710fc01c594ecff65d2d4859b8a66d25b7f89b2bb9f257dad9ea9a",
+        "trial.log": "9276c8b7a827941e6bf349764e48f818d283e5d1b4bff443186f8d3150e688b7",
+        "verifier/anticheat.json": "0fe3dd931a99b3187895d97a8c64131dec44abd331cf7854de94530221775f88",
+        "verifier/build_a.log": "797badd35ce92c9bca1b16ed627f96204c268738d50b565a3d0df057f96ba206",
+        "verifier/build_b.log": "a6e7b55f86af14b23d7be1397d1a141b6c00ec0fe9c1737e5911de79b31b2d73",
+        "verifier/hidden_pr_tests.json": "df668529c4c5331536f4c8bc418d5f75916aef7e6f2def88dea5d2169669bd51",
+        "verifier/hidden_pr_tests.log": "fcd352c2fcd4b2bcc509e37591b9f6c6c8edb4da516f90449edba3cb990ab2f5",
+        "verifier/hidden_pr_tests.summary": "990dbd62cf355ad57c31947821c5a9dccb9a154ce625460a8c4cf9ed421f92ce",
+        "verifier/interop_gold.json": "47e4c9d46ac711a6a3504e3b3d1dfa1d19e2a437703b3e321f7a6a3a26db54ed",
+        "verifier/interop_gold.log": "27e820058ab078d99ab6276e07ff59c4dfe9b902d720f67ac04e3168657e032b",
+        "verifier/interop_gold.summary": "68c7c2d4dcb4a79f58614abe03ab6fae9003d060303fa3deff260412ffa94379",
+        "verifier/lib_actual.list": "1612968512f2687291d8c66352a2943da8eed526c92eff651e57416f306d484d",
+        "verifier/lib_expected.list": "3c85c8246a23df47c28b079bcced19f0ab307ea49b6cbbd12a84b8fddcea7cf7",
+        "verifier/lib_test_names.json": "cf8effccff514faa471c1d59303e35c519fa98d194ed75892cd5f327b6af8074",
+        "verifier/parity_python.json": "e2764a9d9eeb9b7cb1bd8feb231fcd921680fc35a1fb414d0660bc123b7ecf80",
+        "verifier/parity_python.log": "ddb0a9838b4dd7912af5c8d453df49b69af62c3367e8e85291100c91d2418f65",
+        "verifier/parity_python.summary": "c6e9c5169315c49b1df7d8698c0006d3938fab3767fa8bac9fc1c87fb6c8201a",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/score.json": "acd8bad9b20e7b0bca94f68352047e692abf8f0ecfed2df899ebb07ce36bf39d",
+        "verifier/score_parts.jsonl": "f0bbe0268bc9b94abb1ba7b76747da1bf30735f0e711d6c7edf9a966175af071",
+        "verifier/test-stdout.txt": "ee723fd68ca681d7a9e719e072544a4ceb3075bbe55d5541ea2d4d41546d1271",
+        "verifier/upstream_regressions.json": "ab7f8831743aae8d4d2c7e2ae31a9e3cf96dcfdadfeb03590e7229dcb8ebe6b2",
+        "verifier/upstream_regressions.log": "11c7609cae2b9a7544c2a3e6f549350e72769f705e802986ad96bd31cf2f59e0",
+        "verifier/upstream_regressions.summary": "0083169c51d1f5bac025ab8a8818951823b5aa7722aae5989cffce70aa3bb6f7",
+        "verifier/zenoh_ext.json": "9f0cf56ccd344e010e35402acd4eee7f03256a2dd5da2ec858a94555bfb0f94e",
+        "verifier/zenoh_ext.log": "5817c5fab3971a1cd087366c7721cfa2e9d802d0be50f81c0402512f2c11ed86",
+        "verifier/zenoh_ext.summary": "e2de06b110662396f42eb3c6369f8c55daeb7424604ace7171a127d74b775805"
+      },
+      "full_raw_tree_unchanged": true,
+      "group_results": {
+        "anti_cheat": {
+          "counts": {
+            "#[ignore": 0,
+            "/logs": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "/tests/": 0,
+            "/workspace/build": 0,
+            "Command::new(": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_bytes!": 0,
+            "include_str!": 1,
+            "process::Command": 0,
+            "py_peer": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "std::env": 0,
+            "ts_peer": 0
+          },
+          "files": 204,
+          "group": "anti_cheat",
+          "pass": true,
+          "pristine_counts": {
+            "#[ignore": 0,
+            "/logs": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "/tests/": 0,
+            "/workspace/build": 0,
+            "Command::new(": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_bytes!": 0,
+            "include_str!": 1,
+            "process::Command": 0,
+            "py_peer": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "std::env": 0,
+            "ts_peer": 0
+          },
+          "problems": []
+        },
+        "build_a": {
+          "group": "build_a",
+          "pass": true,
+          "seconds": 59
+        },
+        "build_b": {
+          "group": "build_b",
+          "pass": true
+        },
+        "hidden_pr_tests": {
+          "exit_code": 0,
+          "group": "hidden_pr_tests",
+          "pass": true
+        },
+        "interop_gold": {
+          "exit_code": 0,
+          "group": "interop_gold",
+          "pass": true
+        },
+        "lib_test_names": {
+          "group": "lib_test_names",
+          "pass": true
+        },
+        "parity_python": {
+          "exit_code": 0,
+          "group": "parity_python",
+          "pass": true
+        },
+        "upstream_regressions": {
+          "exit_code": 0,
+          "group": "upstream_regressions",
+          "pass": true
+        },
+        "zenoh_ext": {
+          "exit_code": 0,
+          "group": "zenoh_ext",
+          "pass": true
+        }
+      },
+      "instruction": {
+        "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+        "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+      },
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T07:41:14.467548Z",
+        "all_executions_quiescent": true,
+        "cleanup_before_verifier_seconds": 19.68238878250122,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T09:03:35.940491Z",
+        "closed_at": "2026-09-14T09:03:35.932367Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "declared_timeout_seconds": 21600.0,
+        "execution_count": 3,
+        "post_deadline_activity": false,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+        "verifier_started_at": "2026-09-14T09:03:55.622880Z"
+      },
+      "model": "anthropic/claude-opus-5",
+      "native_exit_status": "Submitted",
+      "raw_status": "scored",
+      "references": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/agent/mini-swe-agent.trajectory.json",
+          "sha256": "0526b17780bb8eee5b80d9f932e2af2a97ec0db461a60de8a7a41c856f79be5b"
+        },
+        "agent/trajectory.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/agent/trajectory.json",
+          "sha256": "9fe7ee29d0cb0217a055cec92a0c803db6fa8fadac85a6b0d94457a0fafed23a"
+        },
+        "benchmark-deadline.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/benchmark-deadline.json",
+          "sha256": "9633ae579d30b0adaf1e002ef9d0adcffbc415e523a014bc280eea5cd17a1c38"
+        },
+        "benchmark-evidence.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/benchmark-evidence.json",
+          "sha256": "541db44defa1ae7bb79693fdcb3bfd8967b888bfd12e308f7cdac618bce20394"
+        },
+        "benchmark-snapshot.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/benchmark-snapshot.json",
+          "sha256": "d6f2d61a6890242978581d13d3bebff46e7996c0527ac3c770ed87c730609715"
+        },
+        "config.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/config.json",
+          "sha256": "26e637b376344bfcb51a271e96ec7d12fd33991d848af39b18ea36f69a5be089"
+        },
+        "result.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/result.json",
+          "sha256": "668a21cf52710fc01c594ecff65d2d4859b8a66d25b7f89b2bb9f257dad9ea9a"
+        },
+        "verifier/reward.txt": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "verifier/score.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/score.json",
+          "sha256": "acd8bad9b20e7b0bca94f68352047e692abf8f0ecfed2df899ebb07ce36bf39d"
+        }
+      },
+      "reward": 1.0,
+      "snapshot_comparison": {
+        "floating_point_differences": [
+          {
+            "absolute_delta": 2.842170943040401e-14,
+            "path": "usage/native_responses/cost_usd",
+            "recomputed": 44.78927424999997,
+            "saved": 44.78927425
+          },
+          {
+            "absolute_delta": 2.842170943040401e-14,
+            "path": "budget/native_at_or_before_deadline/cost_usd",
+            "recomputed": 44.78927424999997,
+            "saved": 44.78927425
+          }
+        ],
+        "post_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "b2b3022444dfb0ffa16cf21d8fdc915cbf2c0ee696761c770ec42d96be018e46",
+          "matches": true,
+          "observed_sha256": "b2b3022444dfb0ffa16cf21d8fdc915cbf2c0ee696761c770ec42d96be018e46"
+        },
+        "pre_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "ffa884e613115bb73a1e3f2dac621d1178738ed78f94dade17353df5f88765f8",
+          "matches": true,
+          "observed_sha256": "ffa884e613115bb73a1e3f2dac621d1178738ed78f94dade17353df5f88765f8"
+        },
+        "saved_evidence_recomputed_matches_except_float_roundoff": true
+      },
+      "started_at": "2026-09-14T07:40:50.020823Z",
+      "task": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3",
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "test_logs": [
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 47
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/hidden_pr_tests.log",
+            "sha256": "fcd352c2fcd4b2bcc509e37591b9f6c6c8edb4da516f90449edba3cb990ab2f5"
+          },
+          "name": "hidden_pr_tests",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/hidden_pr_tests.summary",
+            "sha256": "990dbd62cf355ad57c31947821c5a9dccb9a154ce625460a8c4cf9ed421f92ce"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 6
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/interop_gold.log",
+            "sha256": "27e820058ab078d99ab6276e07ff59c4dfe9b902d720f67ac04e3168657e032b"
+          },
+          "name": "interop_gold",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/interop_gold.summary",
+            "sha256": "68c7c2d4dcb4a79f58614abe03ab6fae9003d060303fa3deff260412ffa94379"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 4
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/parity_python.log",
+            "sha256": "ddb0a9838b4dd7912af5c8d453df49b69af62c3367e8e85291100c91d2418f65"
+          },
+          "name": "parity_python",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/parity_python.summary",
+            "sha256": "c6e9c5169315c49b1df7d8698c0006d3938fab3767fa8bac9fc1c87fb6c8201a"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 2,
+            "passed": 206
+          },
+          "excluded_tests": [
+            "test_adminspace_read",
+            "qos_pubsub",
+            "qos_pubsub_overwrite_config",
+            "test_accept_replies",
+            "test_queryable_different_sessions",
+            "gossip",
+            "three_node_combination",
+            "zenoh_session_multicast"
+          ],
+          "libtest_summaries": 12,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/upstream_regressions.log",
+            "sha256": "11c7609cae2b9a7544c2a3e6f549350e72769f705e802986ad96bd31cf2f59e0"
+          },
+          "name": "upstream_regressions",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/upstream_regressions.summary",
+            "sha256": "0083169c51d1f5bac025ab8a8818951823b5aa7722aae5989cffce70aa3bb6f7"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 13
+          },
+          "excluded_tests": [
+            "test_advanced_late_joiner"
+          ],
+          "libtest_summaries": 2,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/zenoh_ext.log",
+            "sha256": "5817c5fab3971a1cd087366c7721cfa2e9d802d0be50f81c0402512f2c11ed86"
+          },
+          "name": "zenoh_ext",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/verifier/zenoh_ext.summary",
+            "sha256": "e2de06b110662396f42eb3c6369f8c55daeb7424604ace7171a127d74b775805"
+          }
+        }
+      ],
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw",
+      "usage": {
+        "atif_final": {
+          "total_cached_tokens": 73744186,
+          "total_completion_tokens": 191251,
+          "total_cost_usd": 44.78927424999997,
+          "total_prompt_tokens": 74246025
+        },
+        "native_final": {
+          "api_calls": 235,
+          "instance_cost": 44.78927424999997
+        },
+        "native_responses": {
+          "assistant_turns": 235,
+          "cost_usd": 44.78927425,
+          "turns_with_cost": 235,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 235,
+            "cache_read_input_tokens": 235,
+            "completion_tokens": 235,
+            "prompt_tokens": 235,
+            "total_tokens": 235
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 501369,
+            "cache_read_input_tokens": 73744186,
+            "completion_tokens": 191251,
+            "prompt_tokens": 74246025,
+            "total_tokens": 74437276
+          }
+        },
+        "provider_charge_may_be_missing": false,
+        "result": {
+          "cost_usd": 44.78927424999997,
+          "n_cache_tokens": 73744186,
+          "n_input_tokens": 74246025,
+          "n_output_tokens": 191251
+        },
+        "usage_censored": false
+      },
+      "verified_test_meaning": "All9 existing v3 groups pass:47hidden,6goldinterop,4Pythonparity,13extension,206upstream tests. Preserve recorded exclusions and2ignored routing tests. This is not evidence of corrected v4 added coverage."
+    },
+    {
+      "cohort": "Additional ordinary terminal repeat; excluded from first-result27 and frozen99 first-result cohorts.",
+      "contract_findings": [],
+      "directly_counted": {
+        "all_timestamp_pairs_match": true,
+        "atif_agent_steps": 258,
+        "atif_tool_calls": 258,
+        "max_timestamp_delta_seconds": 4.76837158203125e-07,
+        "native_api_calls": 258,
+        "native_assistant_turns": 258,
+        "native_tool_calls": 258,
+        "native_tool_returns": 258,
+        "tool_call_ids_match": true
+      },
+      "effort": "max",
+      "exception": null,
+      "failed_groups": [],
+      "failed_tests": [],
+      "finished_at": "2026-09-14T08:59:42.011556Z",
+      "first_result_basis": {
+        "cell": "[\"rs-zenoh-timestamp-instrumentation-v3\",\"anthropic/claude-fable-5-1\",\"max\"]",
+        "earlier_finished_at": "2026-09-14T02:27:25.648221Z",
+        "earlier_reward": 1,
+        "earlier_trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA",
+        "snapshot": {
+          "path": "research/takehome-presentation-2026-09-14/data/results.json",
+          "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+        }
+      },
+      "full_raw_tree_sha256": {
+        "agent/benchmark-agent-input.json": "6c85bb996dc4ea1eb4d8b9d880c2ef70d0988660fff99e4dcf54b51b0a29c01d",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+        "agent/mini-swe-agent.trajectory.json": "96630d542f7a8b878f49fc305bb97e418df73ec1a5f7cb9f0f5724daa91a3a2f",
+        "agent/mini-swe-agent.txt": "2f5e09edce3c8e2fd8903744bb4563fb96166f4e6a47e778fc2f5f6856ea8d65",
+        "agent/trajectory.json": "7d108636ec0b9f1dc3696d47b6ba0c7186a64a8be2398f4b5061f1d091a5483f",
+        "artifacts/manifest.json": "beca30d5263daaa19a32ca07c0ddd0f443edf75a0df7e6861ce4a6532a2efe80",
+        "artifacts/submission/commons/zenoh-codec/src/common/extension.rs": "dd13a5bbf25de5565ab0ad502175ade94f69fc731edafb687c6404a9b5b4b985",
+        "artifacts/submission/commons/zenoh-codec/src/common/mod.rs": "117c6c68f309d874761832224ec13d0ca41b588ed5245d12c61c7c4c480fd089",
+        "artifacts/submission/commons/zenoh-codec/src/core/encoding.rs": "e6cadcb4ee0e12d6a23eb267c4f3ed255c68b59203c3c0714478d390bf111560",
+        "artifacts/submission/commons/zenoh-codec/src/core/locator.rs": "851f3cf6f200f8608d4815c0ecc46329d35718d44178434315131b85573faf89",
+        "artifacts/submission/commons/zenoh-codec/src/core/mod.rs": "57b3ad7557168c6c83d102af59e5651f4700cfea30f08028612772075d1b5e35",
+        "artifacts/submission/commons/zenoh-codec/src/core/shm.rs": "52513efc41977776dbe8ba636af6b11f14a4bba7a32286acd0579a6f7f394b09",
+        "artifacts/submission/commons/zenoh-codec/src/core/timestamp.rs": "7815b3925e23736182609de0b51781fd7c5f00c4dcf6ceabbf8523f2289f3509",
+        "artifacts/submission/commons/zenoh-codec/src/core/wire_expr.rs": "bd5c333bc4534c1389f94834c17cdb33a8f04e8082d688b4ebc3e9bce42a74ef",
+        "artifacts/submission/commons/zenoh-codec/src/core/zbuf.rs": "6579b277377485aa7e19cbf1ebd7e9f7ccad374cdca07b9f7b9cb6272c4d8c75",
+        "artifacts/submission/commons/zenoh-codec/src/core/zenohid.rs": "af316a99d0bd361c9f7eadb295ab4cd9e35efa93ea32b020a490fd297a0f51d8",
+        "artifacts/submission/commons/zenoh-codec/src/core/zint.rs": "c10d080bba58f7a67e721b430f09c2eda704898197fd2fc9fdd50ab610c977a2",
+        "artifacts/submission/commons/zenoh-codec/src/core/zslice.rs": "31b0bd9edac85e87bea2147efd55b6653692fd02797efdf4cfda58ecabc4851c",
+        "artifacts/submission/commons/zenoh-codec/src/lib.rs": "e677c801e9821d8d3f45c86758e94f93fcce321158d1a5a1bd4cb5b7263fc611",
+        "artifacts/submission/commons/zenoh-codec/src/network/declare.rs": "39552eccd291057baa894b24507acfba01b69e2310b2108799ab82f861d459ae",
+        "artifacts/submission/commons/zenoh-codec/src/network/interest.rs": "e1cd1532c081dd0d358c834de51caaa15222643f647ce276c7dd14c21e8cb2ae",
+        "artifacts/submission/commons/zenoh-codec/src/network/mod.rs": "ff40662e364bf9ddeea4fa0247a090214286e2aed35985257ac900439232b919",
+        "artifacts/submission/commons/zenoh-codec/src/network/oam.rs": "9ec185f288ff688c1c5ef75f7a03fba02c7c1fb53e4331fe18b276fde134c3bc",
+        "artifacts/submission/commons/zenoh-codec/src/network/push.rs": "28aca6d18e0656181884f4fd3712f035dca60c31796dd1bfc50317915402d001",
+        "artifacts/submission/commons/zenoh-codec/src/network/request.rs": "f02a904af4a2c81446ed77b895aef4d6bfe7411a352907cb6e51de347951658e",
+        "artifacts/submission/commons/zenoh-codec/src/network/response.rs": "83835920ef6f0336856ec8b9cbd2b8f2481ecd4aaee5a41700b698c39df65013",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/hello.rs": "a4345e4b3309372cb66420cb61b4118fdca1c795238d3eef17bb6c9c3161f6dc",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/mod.rs": "7e18a07ee9c59500e1c0ad908667e7aa551760c193bef8cbe4ae20b71d668e21",
+        "artifacts/submission/commons/zenoh-codec/src/scouting/scout.rs": "4fa5ed18e889d6c1948ba49c88c4d96764fb460b4355d948fed4b99196d45417",
+        "artifacts/submission/commons/zenoh-codec/src/transport/batch.rs": "ca431fd65ab32794edfc1ea7ed06c1ff00f6fc6e2db52507ea7349c15b06c826",
+        "artifacts/submission/commons/zenoh-codec/src/transport/close.rs": "1ea33bf13cfca748734bbaa5408760f68be78d4cdff1344d47e9eebc66f935fe",
+        "artifacts/submission/commons/zenoh-codec/src/transport/fragment.rs": "0ec5532eedaffba3f3f44f424cc6163223103d3745edbf1c70aaf71a5ddba23c",
+        "artifacts/submission/commons/zenoh-codec/src/transport/frame.rs": "cdd0baafbee38accfbc27d52cd251031e3d61fd20ac296fc11c5dfa22323dc23",
+        "artifacts/submission/commons/zenoh-codec/src/transport/init.rs": "d20635a396dd7339212cc0ec358567d76cb0c4fe8cec274e794265b2fc4c8d43",
+        "artifacts/submission/commons/zenoh-codec/src/transport/join.rs": "6c8fe85d9a106af28ef7ad6de22b5c738130a07b6de2e4f0d96bad772c07413e",
+        "artifacts/submission/commons/zenoh-codec/src/transport/keepalive.rs": "53636936da4c6a4febdbe8d71ba054f7f614ad9fa873d2c5755d8810917fcd68",
+        "artifacts/submission/commons/zenoh-codec/src/transport/mod.rs": "d681ac6fc1bdfbcb838c9ebe1eb1dfce9646e2d2785b5654797b19abd28ecb11",
+        "artifacts/submission/commons/zenoh-codec/src/transport/oam.rs": "27773c14d2ef4424e6d27748af1406b8580d418d79ba44165de0e951b64686f8",
+        "artifacts/submission/commons/zenoh-codec/src/transport/open.rs": "0d0ddcf4b7a17b68eb60e8579df1ec5d8917aafd90f268ef6a2ef4c4463a89bb",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/del.rs": "883db07d8f025c0be56a8d3d04125811371ba59095e7226c1222a723e38bfe10",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/err.rs": "d3a5a8d88197efa786b78cf5f27251e13fc5fdaab6451d83fac88b114ef9e8f3",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/mod.rs": "021918f53d606cb0543820464338f6d83b7e5add2d64f93a17fa4cdd9978ecc9",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/put.rs": "ca13742f80e4d3dcd606e8762e6a6e98e556ce14b08f481066fb9f952f3cdad5",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/query.rs": "c21ce9ce94db5f33e0907b258c15d6ee1f0e755b4b46d8a54b555c78588ed8c3",
+        "artifacts/submission/commons/zenoh-codec/src/zenoh/reply.rs": "713c2757a533c6c6bbcdd1b4b67de1dfd43ba5d62e4d9deb62d6bfca3216f512",
+        "artifacts/submission/commons/zenoh-protocol/src/common/extension.rs": "fae9f35e375c6939f2faee26b6e9eb86cc773d9e7dd798be31084ee9b27aeea7",
+        "artifacts/submission/commons/zenoh-protocol/src/common/mod.rs": "00c3f1afc741c813654816f16831a9c90ebe5cdcecebbefce1f2cf4f32a747c0",
+        "artifacts/submission/commons/zenoh-protocol/src/core/cowstr.rs": "804685bebf7cbf0925430791e44dfed874d4626661406b983e66dc0123eb5905",
+        "artifacts/submission/commons/zenoh-protocol/src/core/encoding.rs": "a941510d568bfd5f594ed91773cad49ddc47956716ec6f232c8ed743c6aaf7c6",
+        "artifacts/submission/commons/zenoh-protocol/src/core/endpoint.rs": "e17fc79530fa652dfbc403b4564c12b256dc4eec960e551e7e2b33bcd65eb944",
+        "artifacts/submission/commons/zenoh-protocol/src/core/locator.rs": "cab676ab3faa5a842833ce39d3f71d09e5ac2de9d5f8a09848c4d0115b4195f2",
+        "artifacts/submission/commons/zenoh-protocol/src/core/mod.rs": "a2b84de7886ff017456fb62e3dfba43d9a002b98ef1af67c484783eacf718794",
+        "artifacts/submission/commons/zenoh-protocol/src/core/parameters.rs": "674bc620bf159fd7e3e5c79b7a9b8388e4850bfc0bd7343f2e3a102ef3f341e6",
+        "artifacts/submission/commons/zenoh-protocol/src/core/region.rs": "27e592daf0fe2933c66d57cdf3043c3105843fbe49512b678494f3062319fc41",
+        "artifacts/submission/commons/zenoh-protocol/src/core/resolution.rs": "627523341d7ec99f72f9c82eda2451c9f3c230790925e5e8cf6ef2e002c9eff7",
+        "artifacts/submission/commons/zenoh-protocol/src/core/timestamp_stack.rs": "878852ac511b08105685a51c0937268e8ed05cbc42d1de1a1c0f0169d8d78cdc",
+        "artifacts/submission/commons/zenoh-protocol/src/core/whatami.rs": "b5cee169d659c507c5bcafa04f9cc26c2a30c3ae3133720b32c0cc196a8fa801",
+        "artifacts/submission/commons/zenoh-protocol/src/core/wire_expr.rs": "5177ad061243b68373b1a318ff3854a3d62ba15aa7dafd9760160ed6e7bc9f83",
+        "artifacts/submission/commons/zenoh-protocol/src/lib.rs": "5ff6a8bf0d0fbb9a9122f3652d1d2340ca69a2a1f717db3cc553194e095cd32d",
+        "artifacts/submission/commons/zenoh-protocol/src/network/declare.rs": "0637f10a55fb0cdbe14f5166a306e80c374f61b545ec9603b51f470e0166fbc7",
+        "artifacts/submission/commons/zenoh-protocol/src/network/interest.rs": "a3618a4882cff790b6469abbfc3b37741a93899d3d47ff6155d0cd62b608f550",
+        "artifacts/submission/commons/zenoh-protocol/src/network/mod.rs": "39d3ad47e6905d183a3ce731d2366d7cc29cf1933b2db2a633dedd4e43107ad0",
+        "artifacts/submission/commons/zenoh-protocol/src/network/oam.rs": "c02a1439adbb1d6601ba8bafdcd1de083d030c2c940fba316d6cb764d9b95fcc",
+        "artifacts/submission/commons/zenoh-protocol/src/network/push.rs": "b7446879a1e6604d4c86057b59ddade93054662f4e6bb306adcb92fb43887569",
+        "artifacts/submission/commons/zenoh-protocol/src/network/request.rs": "a72d4c58f2fedf037403e69390da4b8085ecb7526f078658cc02c3a4dd6b12d1",
+        "artifacts/submission/commons/zenoh-protocol/src/network/response.rs": "5a2e6afcae7b7800bd358cb941045ed2e05f71c7e62f21da432a180217daea2c",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/hello.rs": "2edb235284b57e203ddf6af5bbe69c9592f1f73f8e870d281589d694d3a1fbbe",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/mod.rs": "0399ea23e2816669ea46b71bf7a349fd0fc9e22e89d1687531e3c5a4272f97aa",
+        "artifacts/submission/commons/zenoh-protocol/src/scouting/scout.rs": "bfcb063c1f5477d4aa5f4cec97d9c2aad3a50b5da00199f3e077b65926ecf817",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/close.rs": "560298ceb5b850794d87933de06babf1c1eee83b5478effac00139d4a28a9248",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/fragment.rs": "1bbac1b333f945f3dbc292482d2b18f75eef4b47b2a0e28b713c5c4c0c5fb967",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/frame.rs": "48d28cd3d6727cba30f74aca6b8d561d81ee55c949dea81ed2ab136b0224585e",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/init.rs": "7d976518e34a214b0f0f023293f66eb5f624d87a57aaa9a0db093f82e4194a02",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/join.rs": "6509288b245a00059544300e50e2090afac76e6a00003c23992c2e751dde1ade",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/keepalive.rs": "97094687be054a790c176053ec8b61452e6caff3a12f41d89bffd125d1bcce52",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/mod.rs": "822c48536872f65ae67c72724e109201b0d65a324acc79c423a044799e1c2276",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/oam.rs": "0954fb5ac8be74fa5c61ec258d6e06622a1ace019f14db0fa9cc1d3df4225521",
+        "artifacts/submission/commons/zenoh-protocol/src/transport/open.rs": "64ac556ddaef49c81c7fd87c8909d56721ee3c102a60067d31635ad5e7765f4f",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/del.rs": "bd1c7e54e32c2f2622e11272233310a9160b895c67deb5b13c59d633ba891a4f",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/err.rs": "71423a00cbba155db95737f74b6c536acb61fc40a73a18d6737f9f8e222de055",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/mod.rs": "268c76b787ee17236ed0c20015a88eeb1ec05a888b125a757f4feef2f8710c50",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/put.rs": "1b490697635604efd3cc5e991f9c67afdfe2f800bb4c0649425089d185ba345b",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/query.rs": "ee8f9cbf0df3a9d2f09b6e1a1b4957ba65c73f6a81a6db5fbf89a4d40ca91c12",
+        "artifacts/submission/commons/zenoh-protocol/src/zenoh/reply.rs": "2ea47a5e26ff1ce3a5b7ebb1a20a6cad5597d6aba98f3c00afcd65cdf9cdb99f",
+        "artifacts/submission/zenoh-ext/src/advanced_cache.rs": "b97f04b2bb24ca102c04a1a84437d3c8863c7a3fbce6564a83b2c2c078d0d52b",
+        "artifacts/submission/zenoh-ext/src/advanced_publisher.rs": "6837c7faee6144e8c93d87354fd0add83b8e545821a862d8f8f375542807cd65",
+        "artifacts/submission/zenoh-ext/src/advanced_subscriber.rs": "58bfefe6eaa7047b9c703422ab9f25dc993710383b2f72fbb1425da54a33480d",
+        "artifacts/submission/zenoh-ext/src/group.rs": "a382225009a4bb7a0cc254bc8f7ed0a66feb25e86eb8b48c56e3868a75ae2844",
+        "artifacts/submission/zenoh-ext/src/lib.rs": "a07eb6f14829090d4dab0295f7d4ee5facaac8087bfbf1af51414ca941d9e3c1",
+        "artifacts/submission/zenoh-ext/src/publication_cache.rs": "94d766461cba18d88acf3a1afd831eeeac42b72ff052bb29720382abdfa44894",
+        "artifacts/submission/zenoh-ext/src/publisher_ext.rs": "c31ef6b2a5a0b25d872fcd042b358dc2b8ddec78eb8ba9f734990951fa2dba18",
+        "artifacts/submission/zenoh-ext/src/querying_subscriber.rs": "5fed40dae4e243e7f9372fc7b6279ca7f93868bb78b04d58f7818d81725cc942",
+        "artifacts/submission/zenoh-ext/src/serialization.rs": "d9abcc20c73336567dee8b30c5ed88d5a3a9c986326c725b447f005b42524419",
+        "artifacts/submission/zenoh-ext/src/session_ext.rs": "40f89b6f521268750ddf3c83916b27d92fc60d0ae4d5e79770e243ec9d5641a7",
+        "artifacts/submission/zenoh-ext/src/subscriber_ext.rs": "f842ce82c05410166213d211e414509bdb6e0c8d22aea3fb31ac707326fe890f",
+        "artifacts/submission/zenoh-ext/src/utils.rs": "f43339d2b165c1865fe102f7dc3470d3b11e5cfda194468e08797eaa557547f0",
+        "artifacts/submission/zenoh/src/api/admin.rs": "72c574062c82cf3f87324a49057009e014dea56f72cd76d92b636e9eb75f9aa9",
+        "artifacts/submission/zenoh/src/api/builders/close.rs": "b4c6b75056d83b9fe53aabe47926130f6895c2ae5ea31cf2172edb427f34aea6",
+        "artifacts/submission/zenoh/src/api/builders/info.rs": "6a0451c860e73e8a181c5441f92986a25903a7e1edbc86d2aae6d0408b3f84e8",
+        "artifacts/submission/zenoh/src/api/builders/info_links.rs": "03a4d2858d888cff8effad4f82e37234447a6aca71442533875f3f2518891dec",
+        "artifacts/submission/zenoh/src/api/builders/info_transport.rs": "6f6b8606aa88a3315d5a10e49ccc52a14e51ba92c9d73e8e86dde4e793d3ec37",
+        "artifacts/submission/zenoh/src/api/builders/liveliness.rs": "a523e75a886b485c277b2ff1ce7547cde73dca8c464d8e7ae1074099aa101906",
+        "artifacts/submission/zenoh/src/api/builders/matching_listener.rs": "2167c988abcdce2a177833450b6ef6ff994b3bc67798318c2df97c572580fe09",
+        "artifacts/submission/zenoh/src/api/builders/mod.rs": "cd0d1135e8df0e66682f9e676b98f6a47f39da3f39a2841c40692d109e6a8954",
+        "artifacts/submission/zenoh/src/api/builders/publisher.rs": "78a162d0cd87f988470f9b3e1d87fe89d51967fa0abe056cb49f1b9b7d5acb99",
+        "artifacts/submission/zenoh/src/api/builders/querier.rs": "abf09b254bf809817dbc3538980a88976c7c2f0deb3b32a2880457275ae6f0e4",
+        "artifacts/submission/zenoh/src/api/builders/query.rs": "cc187d89fcc4c177bad4a6871736d2dc48d093c1e6cf92f2bfae1f38cd3cf5d8",
+        "artifacts/submission/zenoh/src/api/builders/queryable.rs": "e7832cfab3160206824f648e6d13c0867c61809bbe2b4a68365768b26a358897",
+        "artifacts/submission/zenoh/src/api/builders/reply.rs": "0f8e62be09577445148b516354dfde988d9670e4071c2a23bcf2ba32d87687df",
+        "artifacts/submission/zenoh/src/api/builders/sample.rs": "935c39e4d874a4aaef60bc8b0aaa65bf762491199a0a9bbfda73f67e9b915910",
+        "artifacts/submission/zenoh/src/api/builders/scouting.rs": "b492b02b49980dff47a90e68af1069796c8d9e40b039c1c2f1056cde8313f7b4",
+        "artifacts/submission/zenoh/src/api/builders/session.rs": "648fbd2856020016ede377a5def42dbc82782cc93e773958ff5b25eb0489d820",
+        "artifacts/submission/zenoh/src/api/builders/subscriber.rs": "168df1cd1e02a4368d3114d55697eac3d945e5a7b5e406ab656eacf7a159efb2",
+        "artifacts/submission/zenoh/src/api/bytes.rs": "5e9c0512b97b5e3efc6a8c8aaf5aae53c48fdf95f55395221a505214ee71f817",
+        "artifacts/submission/zenoh/src/api/cancellation.rs": "9c33ca46dc1d5015160f679d1067f9e44729a4f5de17a290ad4aa0fb82e1070b",
+        "artifacts/submission/zenoh/src/api/config.rs": "1282137940272fdb0d84494d5cac90a2e7927ee3312ab29d8fca4a191debedf1",
+        "artifacts/submission/zenoh/src/api/connectivity.rs": "532fd857817d5cddb383759eec657ae5b5105da72b3fcb623804bca9f241e078",
+        "artifacts/submission/zenoh/src/api/encoding.rs": "62d0dcc0cf59387da04059e469cfc305023ace86bbf808811525f1c3db7651c9",
+        "artifacts/submission/zenoh/src/api/handlers/callback.rs": "75f648139e1858c44b1c67c6fa000da9e29609c2480e1e8d0a0efdb2882c44a3",
+        "artifacts/submission/zenoh/src/api/handlers/fifo.rs": "86444a4eae818ee89e2d0ff2fa43541c503584474e0ccc2078bf665457e86ae6",
+        "artifacts/submission/zenoh/src/api/handlers/mod.rs": "4d7d1f790260072308bf93403a2d640c121d8db5dafb6b8178dd4b07e09218da",
+        "artifacts/submission/zenoh/src/api/handlers/ring.rs": "5e72ae634215e4cc8c892037565ee770f0a3b1a106c88ba0c2bb0f7030b1ac61",
+        "artifacts/submission/zenoh/src/api/info.rs": "fb416cfa193fd94116b217f47159a7b1f4aa25c33f961e896ecf9aea700b8a4e",
+        "artifacts/submission/zenoh/src/api/key_expr.rs": "e5ea480747baaed8e3ceab0ddb439e4bd824dd2e6e7cff3a65c1b7a082d84f22",
+        "artifacts/submission/zenoh/src/api/liveliness.rs": "48cb2299925e8b5b9895863545948b33dd5c0a7766fba2c83f6a7dcd4433aaac",
+        "artifacts/submission/zenoh/src/api/loader.rs": "4b62093caa9a4ca2bdf72bf46350877f5acf9dd9b872889b786de3ce7ae1561a",
+        "artifacts/submission/zenoh/src/api/matching.rs": "285702eef527e3e29e8dabf63f06c8e4c27853b3a05319bf8291cbb2c01a9204",
+        "artifacts/submission/zenoh/src/api/mod.rs": "4c6f23d3bf11acaf8e6bd434f2d06228c169a0f2a69b91bd507c7df53bb4c2b6",
+        "artifacts/submission/zenoh/src/api/plugins.rs": "f63ed56962007b737a770bbd5d2bce62e265f1c3ead3f531bf28f9d8a42f5722",
+        "artifacts/submission/zenoh/src/api/publisher.rs": "577e2267cf7cd6af24c9a63efb1629ebf8859992621ce9bccf905c86a5db658f",
+        "artifacts/submission/zenoh/src/api/querier.rs": "68788347be7f87e37e171485d36d105bc0ac7a5720889624952514f0fc36ece6",
+        "artifacts/submission/zenoh/src/api/query.rs": "a1a6cfc40320c33aedd13c2b13fd4c26547b3a17831e5aa3afc591cd4d6cb083",
+        "artifacts/submission/zenoh/src/api/queryable.rs": "66ae10246d4624c1b6b58cfb7d0bb637d8b1555407b7ec2d3ad98836fa41c86b",
+        "artifacts/submission/zenoh/src/api/sample.rs": "5ad6f990a40d51a239c88dfb94964dd491e737ac5cd8a5bf7589fa0de22ae173",
+        "artifacts/submission/zenoh/src/api/scouting.rs": "cb5cdd07fd56ed7cc8e1d240f1ad8f3a25f4729e0baceb4389c9b6baefe71c01",
+        "artifacts/submission/zenoh/src/api/selector.rs": "9ab68e3b30900beb72f409cb6f502e6b648c874fdb3a772c4ef8f2776656226c",
+        "artifacts/submission/zenoh/src/api/session.rs": "d1789c3e7c81b65df6c8aa576de830094f0e00073e243e04a3afa82182634dd1",
+        "artifacts/submission/zenoh/src/api/subscriber.rs": "d6312f0a5673171d1786c702f56f7fad548035b5697219e83a94ace5a3a3f80d",
+        "artifacts/submission/zenoh/src/api/timestamp_stack.rs": "cf31d2c64cffb8d7a14f89ffdb4f8d89725da2727ee0ff4cf05a3aab4532c912",
+        "artifacts/submission/zenoh/src/lib.rs": "6b26d7b11da3e91df2a4feddaddf4fc71ca62cbaa52c6bd227a60fc318be0e13",
+        "artifacts/submission/zenoh/src/net/codec/linkstate.rs": "eb55688406a0aaff9e44ab0cebb15500937dcef90400287dff6a8e35f167da03",
+        "artifacts/submission/zenoh/src/net/codec/mod.rs": "2de8f3a400dbbe4fa17f5c77c806df2abab127eeedc705113f65f205e96dedd8",
+        "artifacts/submission/zenoh/src/net/common.rs": "2d11bd02379d7b2bb31a8203b49f6c598eb563abb305fcc2f83bbc880c9d330e",
+        "artifacts/submission/zenoh/src/net/mod.rs": "360ae68a90092ee2fdc12095c4abfaecff6048d7e65a48d8ed7d01570de76711",
+        "artifacts/submission/zenoh/src/net/primitives/demux.rs": "5c1160c5b433ba9682f897a2081c8472484a93cb2e99cbaa05b6547c95c98d2a",
+        "artifacts/submission/zenoh/src/net/primitives/mod.rs": "2568e72a95a5e3cf65f73425edf9885f84d1fc02f5b307a994f8e9e160f3f4e9",
+        "artifacts/submission/zenoh/src/net/primitives/mux.rs": "5cbf9a064e232089c6dc002ee2555da9de546f7a579b025071df11aff642875b",
+        "artifacts/submission/zenoh/src/net/protocol/gossip.rs": "62af50656dad814472f458980326fd9275caca94b20558056b914b295f590b26",
+        "artifacts/submission/zenoh/src/net/protocol/linkstate.rs": "65ffa1de78c262f1230e15117d17e2157e2b8b6bbf98df266f6c188ae63d2871",
+        "artifacts/submission/zenoh/src/net/protocol/mod.rs": "5e08525d3530ff2849bd0ee754beef2f2bfafcd6febd310246f0b68577baffee",
+        "artifacts/submission/zenoh/src/net/protocol/network.rs": "4015ce71a3cff873f4226a25f9c4324a16e2b5e152a0de9e0c0a98b45b24ddbd",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/face.rs": "e500971b5be7039d11512f77b5e6ae216e44898b2dc06090faa5232eb455aa61",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/interests.rs": "c5a80724cf9abd693119b4a523d8fecada083138afcfd513b6d0f9842558ca05",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/local_resources.rs": "8afc19d0ba83a74f2b653e67812cc8d1a00d0757d2df750e8d000cdfbafb392c",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/mod.rs": "ce15b1b4084a5f1dc3ffb3d3606c5a3182b0981f6c8e54a3d1c0dc250469a99d",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/pubsub.rs": "9697b549991bc30d0e675cf74bae42d4463cd802700d0ddc287870ee24bbd16c",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/queries.rs": "4b1cb83f7fac627b67aa3a9b3365a1f6c34a5eff2188d06365fdbf649d2157ab",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/region.rs": "86ef356dbb5a3a4af2ee75c2d792bc2639cb40f107eba6d2db08fa0e0b00a931",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/resource.rs": "1f4722ebf2eec57616d24c0127af7daeaf491a104684c0ac805709aa9315ded2",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/stats.rs": "8f4267dd106621438d14ef0848eaea7861fb4884ea8ab2c9ff8602290734ec18",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/tables.rs": "2408b9daee75fc50aa5f09475ba06e14cc3015326b3f9b02ec39bf8bb88fdb26",
+        "artifacts/submission/zenoh/src/net/routing/dispatcher/token.rs": "f67abc6954f3a1ba0a794f28e92d18493700c079a1f9e0f566877edfc4cb2302",
+        "artifacts/submission/zenoh/src/net/routing/gateway.rs": "da51009b74a4715d219746d306bcf9420e6192737dd402a15076cb8894fdb04a",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/interests.rs": "71ae4f7fbafac5faadd312a3cc062190a6b8b38f0ed7a5907cf0fc9891ff7399",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/mod.rs": "0927a420c144ee36f4076438440b5d83ef07aa4ebcfa29757d497e5c3c2423df",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/pubsub.rs": "76d104ea9aa35fd68bbcf429041f14efa9fc735e2a82d1fc1391c25a15a6d669",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/queries.rs": "9c26e8c6e6da341226e56855010dfce8b8423a1681d247e767c904cb82fb8060",
+        "artifacts/submission/zenoh/src/net/routing/hat/broker/token.rs": "247a618d24a25b2d31be1bb67d84d1ee923bb2454d121d38ab97315dc571d326",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/interests.rs": "5d5afdf38ba0cd09b7fc834fd03fc129f5f51c9b7fa768e35358959064b376ff",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/mod.rs": "0f150d7fff610c2442a1502c90fbbbd5815958414995493ec145596f72ae2371",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/pubsub.rs": "ec807cfcd2db73264233c213d147aa5e68856a3877d428e21b99be58fe8bbbaa",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/queries.rs": "4c7f1a83c295b2301c87c7817e5daae49c63c927682a6d1a54617e97b9a446e4",
+        "artifacts/submission/zenoh/src/net/routing/hat/client/token.rs": "bba2364f1e9eb072b62c6f7ff68fe7f0ad47ec9f06067257c8ed8d29d254e11c",
+        "artifacts/submission/zenoh/src/net/routing/hat/mod.rs": "e1b42df5d632c6159a2d1e57e5596b88d50b19fcf14cf22ae51fd3e0df024caf",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/interests.rs": "9fcd376e9f7df3c6c388b8db458e3196de90f91d2fc60a507269870acc693142",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/mod.rs": "f96548afaad33d8c8905259b039a812617dd1fd3d291ad23ca4165976414a44e",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/pubsub.rs": "573d2ae196b3eababa5d08ea4511399bf8c0d97333e6dedfb385c72a42f29f32",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/queries.rs": "8f68d7a7901bb4d3292aaf5802e4c5d351f1a0cd8ad9c328d595f1229b0436e1",
+        "artifacts/submission/zenoh/src/net/routing/hat/peer/token.rs": "7756389dd8020ee10816588eefc929fe17720edc4313e500c5a3422c458dfa10",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/interests.rs": "fd57f123e65c490188150520d107ab23260fff2d753e62330581884da4404423",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/mod.rs": "ecd968edaad529f81ac50c608c5c7119415dd00be134ab3a4a7e886d3a2f6145",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/pubsub.rs": "d23c1ef26045d08edd061d1693aa2c156a3400df6e1a7aa0e2242e0682d7b122",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/queries.rs": "8a61dd752ac3a727f5ebb2983e01e2e36589f27c3c5518a75aa374b07a573e04",
+        "artifacts/submission/zenoh/src/net/routing/hat/router/token.rs": "6ad31f61198b59251ebd29b96555143e5d82869bc5357753e444b36fe3cf1a0c",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/access_control.rs": "2cc017ea6e71d5fa2ccc589640185360f8f3ee64b473ff043979f23355218644",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/authorization.rs": "282e997948db57c626f565de65685019296d7e37989941cfee7fda9b9581b364",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/downsampling.rs": "5f777cdbed1b71de4b813688334e8123048a3a191ac648088f262a3731f6e598",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/low_pass.rs": "a3533ee60fe9fc0146ea60df97c44e8ab363fabe33b3f933196da251cd4d45bc",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/mod.rs": "4e6ff8cf531b05a186ce02e4dee1f2b815b90c054ce7c5cb7849913f03023072",
+        "artifacts/submission/zenoh/src/net/routing/interceptor/qos_overwrite.rs": "754132d0e2500e74f1987c30b3b191dbae0694dd9ee4e9effdbe584c194b0dae",
+        "artifacts/submission/zenoh/src/net/routing/mod.rs": "4784871766a7e47a3387ed0ef24ebda79594f481e105177c18e5fac041f8a579",
+        "artifacts/submission/zenoh/src/net/routing/namespace.rs": "bd9eeb5bf0f8e29c3752ce807ebeedda1905f955e84cafc5301f2d50dd37280f",
+        "artifacts/submission/zenoh/src/net/runtime/adminspace.rs": "03dada916176f02d3146bf01b9485ae081292799228154182be09aa5a45e7758",
+        "artifacts/submission/zenoh/src/net/runtime/mod.rs": "687ee9aa1785b91f21a064cc1fbb6bdfe745907f488d758fb6cb832cce1e888c",
+        "artifacts/submission/zenoh/src/net/runtime/orchestrator.rs": "f129bd5b509b9073c21d135ca2b7732353cdd9067cb44cea1baa803ca26b3b7b",
+        "artifacts/submission/zenoh/src/net/runtime/region.rs": "cb2ed70e7a437e59b833ce9003e4ce3066b07adc00259d9d146c4425dc67ffe3",
+        "artifacts/submission/zenoh/src/net/tests/mod.rs": "0465fe7e3a9adc8e8259da05d56293d3833e8015912ee6153a28f9c6564cd5c5",
+        "artifacts/submission/zenoh/src/net/tests/regions/adminspace.rs": "018a3f94372fd29cb7f25d61bfc970c48eee1b6749c9b5597ac1b8aa9d07c5b9",
+        "artifacts/submission/zenoh/src/net/tests/regions/declare.rs": "ad1d8b44118cd24c1f3888898f845eec9c652e9b8e88a41e2f3a292f537660c8",
+        "artifacts/submission/zenoh/src/net/tests/regions/forwarding.rs": "09a0d541ec30bffaa386bef88c155a565863a6c91e755212b87d42c6eb35ab4e",
+        "artifacts/submission/zenoh/src/net/tests/regions/interest.rs": "bbdcb6a1d1d79d3056d52228736295522ca04c204e7b883087bcdd07af8c0573",
+        "artifacts/submission/zenoh/src/net/tests/regions/mod.rs": "0f14fe91d1482eaddd8a89c5d23356d1c18d9fcca2f1cb8c24aa029379d8d68a",
+        "artifacts/submission/zenoh/src/net/tests/regions/oam.rs": "10d77b77a574339b1e523498335ecfb35bbc96baf90564b37e33655a4f33781b",
+        "artifacts/submission/zenoh/src/net/tests/runtime.rs": "39af8b8045d7877e125909a6b46c993600a2dcf9a8954bb44d864959d83df658",
+        "artifacts/submission/zenoh/src/net/tests/tables.rs": "eb97118291551c55c6b2ef868c251d903d9dcabd751092ad99e98941d74a5d32",
+        "artifacts/submission/zenoh/src/prelude.rs": "631f88395a7f9819a508cd0dd3487faa3999ac9d3c0fd675522a94e64e9dc27b",
+        "artifacts/submission/zenoh/src/tests/interceptor_cache.rs": "936872bd9c638eb55c9daa7b1f080eb84843c3e5775a2ebbddfab5b8259cc81f",
+        "artifacts/submission/zenoh/src/tests/link_weights.rs": "5ba8c3cb6d0c65668dfdb9647cae1bf3ca05c63ed425c9e4fec38305b6b3ca28",
+        "artifacts/submission/zenoh/src/tests/mod.rs": "0b23917e79d54c6cc3e06ba5ac61331a317aa89136f53c9e874f2146135a8f55",
+        "artifacts/submission/zenoh/src/tests/query_reply.rs": "9c620a821846a044679b6c66c29067250e841ec78f23293fa5433896a44a24fc",
+        "artifacts/submission/zenoh/src/tests/session.rs": "07dfebef2db63e089765ca8f4b2431f369c6d703e9e3927f3929cc67e6d387d4",
+        "benchmark-deadline.json": "1e3d7226bb60e7e304ec045f045504a44b41e95dbe56d36da801c8a5e179fcd3",
+        "benchmark-evidence.json": "cba250818d132b93cf2fe278d9c4403742dcc26169db6cb8c48c4daef11adc28",
+        "benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+        "benchmark-snapshot.json": "be68fdcf90e3c95b1e7a7af979fea70533057fa94a0eaed73a6fa390ddcc9e41",
+        "config.json": "305362a5495173c2fb565900d3ed499f8d50ac8b9b872b75b167a65aa5247398",
+        "result.json": "b350e2042910d48b081c089683cb8973d639d1c009ca207853f084fad77de0e6",
+        "trial.log": "ed89da10bf76cbba8dda3847783821984bfe9e9bb5b016b37638bc93c0b1fb8b",
+        "verifier/anticheat.json": "909d18919bf828f2eacb826524c10bd14aa1a2b11ff6c67c9f1ccc475da1df2f",
+        "verifier/build_a.log": "58128fcd12b2ad6b77f6b5a1b504bd37b1d43edb5f97c25deb468a29d6e4eae4",
+        "verifier/build_b.log": "919de1df616a81fa2f7edfc0c8d60f736cacfcaac41ed825cecfbb5eae652ab5",
+        "verifier/hidden_pr_tests.json": "df668529c4c5331536f4c8bc418d5f75916aef7e6f2def88dea5d2169669bd51",
+        "verifier/hidden_pr_tests.log": "1d3fe8e81b05f1e8094c18ce8665471e53cb4707fb05d14b3ce5e6d27145416a",
+        "verifier/hidden_pr_tests.summary": "990dbd62cf355ad57c31947821c5a9dccb9a154ce625460a8c4cf9ed421f92ce",
+        "verifier/interop_gold.json": "47e4c9d46ac711a6a3504e3b3d1dfa1d19e2a437703b3e321f7a6a3a26db54ed",
+        "verifier/interop_gold.log": "a9098e3adb4eb5b057eab6465965f1bb44b1efe9ad04a122a27c12d29a4aa5e2",
+        "verifier/interop_gold.summary": "68c7c2d4dcb4a79f58614abe03ab6fae9003d060303fa3deff260412ffa94379",
+        "verifier/lib_actual.list": "ed0240c1c9b7bb110a48d307b1aa96e527387a81b7ed7c28cdf4b4cd855d94a1",
+        "verifier/lib_expected.list": "3c85c8246a23df47c28b079bcced19f0ab307ea49b6cbbd12a84b8fddcea7cf7",
+        "verifier/lib_test_names.json": "cf8effccff514faa471c1d59303e35c519fa98d194ed75892cd5f327b6af8074",
+        "verifier/parity_python.json": "e2764a9d9eeb9b7cb1bd8feb231fcd921680fc35a1fb414d0660bc123b7ecf80",
+        "verifier/parity_python.log": "c03c70f882d22c4da33ae74a2e3342bf7421cb23f469904f80f5d91595ecb8ae",
+        "verifier/parity_python.summary": "c6e9c5169315c49b1df7d8698c0006d3938fab3767fa8bac9fc1c87fb6c8201a",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/score.json": "704cbbb30d95d049a8bd9c2f378b8e08b16aea4bfb028e144697d30038b9390b",
+        "verifier/score_parts.jsonl": "d093364c05ee8bfb197ebb4532b2117b5f05d0ae371f40f45dd0c8dab3272419",
+        "verifier/test-stdout.txt": "4450731652c61160c7d1964257c991bc48d451eb32e90c6621b01eb31d4a5e5c",
+        "verifier/upstream_regressions.json": "ab7f8831743aae8d4d2c7e2ae31a9e3cf96dcfdadfeb03590e7229dcb8ebe6b2",
+        "verifier/upstream_regressions.log": "89ab9b58df943cbe84461508f0c00ff96957813a730e0d1f1bb0eb7459423388",
+        "verifier/upstream_regressions.summary": "0083169c51d1f5bac025ab8a8818951823b5aa7722aae5989cffce70aa3bb6f7",
+        "verifier/zenoh_ext.json": "9f0cf56ccd344e010e35402acd4eee7f03256a2dd5da2ec858a94555bfb0f94e",
+        "verifier/zenoh_ext.log": "9621dee3f9317dc69228d19697b7e0107642ea475bbf11d70082dd1c4bf5205f",
+        "verifier/zenoh_ext.summary": "e2de06b110662396f42eb3c6369f8c55daeb7424604ace7171a127d74b775805"
+      },
+      "full_raw_tree_unchanged": true,
+      "group_results": {
+        "anti_cheat": {
+          "counts": {
+            "#[ignore": 0,
+            "/logs": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "/tests/": 0,
+            "/workspace/build": 0,
+            "Command::new(": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_bytes!": 0,
+            "include_str!": 1,
+            "process::Command": 0,
+            "py_peer": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "std::env": 0,
+            "ts_peer": 0
+          },
+          "files": 205,
+          "group": "anti_cheat",
+          "pass": true,
+          "pristine_counts": {
+            "#[ignore": 0,
+            "/logs": 0,
+            "/opt/gold": 0,
+            "/opt/pristine": 0,
+            "/tests/": 0,
+            "/workspace/build": 0,
+            "Command::new(": 0,
+            "TS_PEER": 0,
+            "TS_PY_PEER": 0,
+            "atexit": 3,
+            "env::var": 1,
+            "include_bytes!": 0,
+            "include_str!": 1,
+            "process::Command": 0,
+            "py_peer": 0,
+            "reward.txt": 0,
+            "score.json": 0,
+            "std::env": 0,
+            "ts_peer": 0
+          },
+          "problems": []
+        },
+        "build_a": {
+          "group": "build_a",
+          "pass": true,
+          "seconds": 101
+        },
+        "build_b": {
+          "group": "build_b",
+          "pass": true
+        },
+        "hidden_pr_tests": {
+          "exit_code": 0,
+          "group": "hidden_pr_tests",
+          "pass": true
+        },
+        "interop_gold": {
+          "exit_code": 0,
+          "group": "interop_gold",
+          "pass": true
+        },
+        "lib_test_names": {
+          "group": "lib_test_names",
+          "pass": true
+        },
+        "parity_python": {
+          "exit_code": 0,
+          "group": "parity_python",
+          "pass": true
+        },
+        "upstream_regressions": {
+          "exit_code": 0,
+          "group": "upstream_regressions",
+          "pass": true
+        },
+        "zenoh_ext": {
+          "exit_code": 0,
+          "group": "zenoh_ext",
+          "pass": true
+        }
+      },
+      "instruction": {
+        "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+        "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+      },
+      "lifecycle": {
+        "agent_phase_started": true,
+        "agent_run_started_at": "2026-09-14T07:26:40.073246Z",
+        "all_executions_quiescent": true,
+        "cleanup_before_verifier_seconds": 16.763702154159546,
+        "cleanup_error": null,
+        "cleanup_finished_at": "2026-09-14T08:41:09.128984Z",
+        "closed_at": "2026-09-14T08:41:09.121710Z",
+        "deadline_record_present": true,
+        "deadline_record_state": "present",
+        "declared_timeout_seconds": 21600.0,
+        "execution_count": 3,
+        "post_deadline_activity": false,
+        "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+        "quiescent": true,
+        "runtime_helper_sha256": null,
+        "runtime_present": true,
+        "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+        "runtime_state": "present",
+        "runtime_version": 1,
+        "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+        "verifier_started_at": "2026-09-14T08:41:25.892686Z"
+      },
+      "model": "anthropic/claude-fable-5-1",
+      "native_exit_status": "Submitted",
+      "raw_status": "scored",
+      "references": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/agent/mini-swe-agent.trajectory.json",
+          "sha256": "96630d542f7a8b878f49fc305bb97e418df73ec1a5f7cb9f0f5724daa91a3a2f"
+        },
+        "agent/trajectory.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/agent/trajectory.json",
+          "sha256": "7d108636ec0b9f1dc3696d47b6ba0c7186a64a8be2398f4b5061f1d091a5483f"
+        },
+        "benchmark-deadline.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/benchmark-deadline.json",
+          "sha256": "1e3d7226bb60e7e304ec045f045504a44b41e95dbe56d36da801c8a5e179fcd3"
+        },
+        "benchmark-evidence.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/benchmark-evidence.json",
+          "sha256": "cba250818d132b93cf2fe278d9c4403742dcc26169db6cb8c48c4daef11adc28"
+        },
+        "benchmark-snapshot.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/benchmark-snapshot.json",
+          "sha256": "be68fdcf90e3c95b1e7a7af979fea70533057fa94a0eaed73a6fa390ddcc9e41"
+        },
+        "config.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/config.json",
+          "sha256": "305362a5495173c2fb565900d3ed499f8d50ac8b9b872b75b167a65aa5247398"
+        },
+        "result.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/result.json",
+          "sha256": "b350e2042910d48b081c089683cb8973d639d1c009ca207853f084fad77de0e6"
+        },
+        "verifier/reward.txt": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/reward.txt",
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "verifier/score.json": {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/score.json",
+          "sha256": "704cbbb30d95d049a8bd9c2f378b8e08b16aea4bfb028e144697d30038b9390b"
+        }
+      },
+      "reward": 1.0,
+      "snapshot_comparison": {
+        "floating_point_differences": [
+          {
+            "absolute_delta": 7.105427357601002e-15,
+            "path": "usage/native_responses/cost_usd",
+            "recomputed": 37.84848875000001,
+            "saved": 37.84848875
+          },
+          {
+            "absolute_delta": 7.105427357601002e-15,
+            "path": "budget/native_at_or_before_deadline/cost_usd",
+            "recomputed": 37.84848875000001,
+            "saved": 37.84848875
+          }
+        ],
+        "post_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "5663d3ecce99426c0775aa644d7d1a373fd684050162bf11c680295fb270417f",
+          "matches": true,
+          "observed_sha256": "5663d3ecce99426c0775aa644d7d1a373fd684050162bf11c680295fb270417f"
+        },
+        "pre_verifier": {
+          "changed_paths": [],
+          "expected_sha256": "6d58423687e68f0c1cc2992fe99bc90012c3047b49ca54896927700fab7e39a2",
+          "matches": true,
+          "observed_sha256": "6d58423687e68f0c1cc2992fe99bc90012c3047b49ca54896927700fab7e39a2"
+        },
+        "saved_evidence_recomputed_matches_except_float_roundoff": true
+      },
+      "started_at": "2026-09-14T07:26:02.758817Z",
+      "task": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3",
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "test_logs": [
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 47
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/hidden_pr_tests.log",
+            "sha256": "1d3fe8e81b05f1e8094c18ce8665471e53cb4707fb05d14b3ce5e6d27145416a"
+          },
+          "name": "hidden_pr_tests",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/hidden_pr_tests.summary",
+            "sha256": "990dbd62cf355ad57c31947821c5a9dccb9a154ce625460a8c4cf9ed421f92ce"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 6
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/interop_gold.log",
+            "sha256": "a9098e3adb4eb5b057eab6465965f1bb44b1efe9ad04a122a27c12d29a4aa5e2"
+          },
+          "name": "interop_gold",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/interop_gold.summary",
+            "sha256": "68c7c2d4dcb4a79f58614abe03ab6fae9003d060303fa3deff260412ffa94379"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 4
+          },
+          "excluded_tests": [],
+          "libtest_summaries": 1,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/parity_python.log",
+            "sha256": "c03c70f882d22c4da33ae74a2e3342bf7421cb23f469904f80f5d91595ecb8ae"
+          },
+          "name": "parity_python",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/parity_python.summary",
+            "sha256": "c6e9c5169315c49b1df7d8698c0006d3938fab3767fa8bac9fc1c87fb6c8201a"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 2,
+            "passed": 206
+          },
+          "excluded_tests": [
+            "test_adminspace_read",
+            "qos_pubsub",
+            "qos_pubsub_overwrite_config",
+            "test_accept_replies",
+            "test_queryable_different_sessions",
+            "gossip",
+            "three_node_combination",
+            "zenoh_session_multicast"
+          ],
+          "libtest_summaries": 12,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/upstream_regressions.log",
+            "sha256": "89ab9b58df943cbe84461508f0c00ff96957813a730e0d1f1bb0eb7459423388"
+          },
+          "name": "upstream_regressions",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/upstream_regressions.summary",
+            "sha256": "0083169c51d1f5bac025ab8a8818951823b5aa7722aae5989cffce70aa3bb6f7"
+          }
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "ignored": 0,
+            "passed": 13
+          },
+          "excluded_tests": [
+            "test_advanced_late_joiner"
+          ],
+          "libtest_summaries": 2,
+          "log": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/zenoh_ext.log",
+            "sha256": "9621dee3f9317dc69228d19697b7e0107642ea475bbf11d70082dd1c4bf5205f"
+          },
+          "name": "zenoh_ext",
+          "summary": {
+            "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/verifier/zenoh_ext.summary",
+            "sha256": "e2de06b110662396f42eb3c6369f8c55daeb7424604ace7171a127d74b775805"
+          }
+        }
+      ],
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj",
+      "usage": {
+        "atif_final": {
+          "total_cached_tokens": 84535685,
+          "total_completion_tokens": 196789,
+          "total_cost_usd": 37.84848875000001,
+          "total_prompt_tokens": 85085798
+        },
+        "native_final": {
+          "api_calls": 258,
+          "instance_cost": 37.84848875000001
+        },
+        "native_responses": {
+          "assistant_turns": 258,
+          "cost_usd": 37.84848875,
+          "turns_with_cost": 258,
+          "turns_with_usage": {
+            "cache_creation_input_tokens": 258,
+            "cache_read_input_tokens": 258,
+            "completion_tokens": 258,
+            "prompt_tokens": 258,
+            "total_tokens": 258
+          },
+          "usage_totals": {
+            "cache_creation_input_tokens": 549595,
+            "cache_read_input_tokens": 84535685,
+            "completion_tokens": 196789,
+            "prompt_tokens": 85085798,
+            "total_tokens": 85282587
+          }
+        },
+        "provider_charge_may_be_missing": false,
+        "result": {
+          "cost_usd": 37.84848875000001,
+          "n_cache_tokens": 84535685,
+          "n_input_tokens": 85085798,
+          "n_output_tokens": 196789
+        },
+        "usage_censored": false
+      },
+      "verified_test_meaning": "All9 existing v3 groups pass:47hidden,6goldinterop,4Pythonparity,13extension,206upstream tests. Preserve recorded exclusions and2ignored routing tests. This is not evidence of corrected v4 added coverage."
+    }
+  ],
+  "checked_at": "2026-09-14T09:26:19.762259+00:00",
+  "cohort_selection_unchanged": true,
+  "evidence_reader": {
+    "path": "scripts/benchmark_evidence.py",
+    "sha256": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5"
+  },
+  "kind": "bounded_terminal_shortlist_repeat_audit",
+  "model_calls": 0,
+  "prior_audit_preserved": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/repeat-case-audit-20260914T0856.json",
+    "sha256": "92d0ab2f3d6e92219e97ca9bf61fcba244c1dfad05ebcedd380c253a70a2a5db"
+  },
+  "raw_outcomes_unchanged": true,
+  "replays": 0,
+  "scan": {
+    "all_task_terminal_results_in_window": [
+      {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__pmRF3yV/result.json",
+        "sha256": "6cdd1569de7ea1e2b28ed40ef9d79fdb9e57b92701b5f78a46505aa00bcc16f4"
+      },
+      {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__yRWyvZ5/result.json",
+        "sha256": "9bac4436d6d4501829eee6a0042f93e0601b2ff2ed069a64a49625d02767192e"
+      },
+      {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/py-zarr-python-cast-value-scale__PzBP4Gb/result.json",
+        "sha256": "dd33f5bedc0264e36c1fc875783cfc44d4b88cb02c6708a52c317662b6b5b168"
+      },
+      {
+        "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__UDNoWje/result.json",
+        "sha256": "4ea80ac617b71edf17ae3c8176b8519b17d26856ba3d24af379337088d5b4aa7"
+      },
+      {
+        "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__kU5Ebri/result.json",
+        "sha256": "b4c2c11d966a63ae977702312b862ec12e6abb89b1107486f971bf2594a8039a"
+      },
+      {
+        "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__sxCCbQw/result.json",
+        "sha256": "668a21cf52710fc01c594ecff65d2d4859b8a66d25b7f89b2bb9f257dad9ea9a"
+      },
+      {
+        "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__zZ7Mkyj/result.json",
+        "sha256": "b350e2042910d48b081c089683cb8973d639d1c009ca207853f084fad77de0e6"
+      }
+    ],
+    "candidate_trial_results_read": 353,
+    "per_task": {
+      "research/task-revisions/rs-burn-store-pytorch-reader-v4": 1,
+      "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3": 2
+    },
+    "selected_by_exact_task_path": true,
+    "shortlist_terminals_selected": 3
+  },
+  "schema_version": 1,
+  "scope_limit": "Saved-artifact audit only; no regrade, runtime/container inspection, trial classification or effort-causality claim. Later completions require another audit.",
+  "scope_tasks": [
+    "candidates_v2/rs-rerun-chunk-optimizer",
+    "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+    "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3"
+  ],
+  "supplied_original_files_unchanged": 36,
+  "task_control_source_edits": false,
+  "window": {
+    "end_inclusive": "2026-09-14T09:22:52.095165+00:00",
+    "start_exclusive": "2026-09-14T08:56:00+00:00"
+  }
+}

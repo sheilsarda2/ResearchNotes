@@ -1,0 +1,388 @@
+{
+  "created_at": "2026-09-14T05:44:40.771257+00:00",
+  "frozen_results": {
+    "bytes": 956890,
+    "path": "research/takehome-presentation-2026-09-14/data/results.json",
+    "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+  },
+  "instruction": {
+    "bytes": 12190,
+    "lines": [
+      120,
+      125
+    ],
+    "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+    "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b"
+  },
+  "limitations": [
+    "No executed test, compiler check, crafted-wire replay or mutation result is claimed.",
+    "Inspection does not establish behavior for every malformed input or every admin-space delivery path.",
+    "The existing quality-review coverage gap remains; source implementation of a requirement does not prove the grader tests it.",
+    "Current v3 rewards, first-counted selection, model/effort cells and original supplied materials are not modified."
+  ],
+  "model_calls": 0,
+  "schema_version": 1,
+  "scope": "Bounded source inspection of two saved successful Zenoh v3 submissions for contract6 and admin Receive part of contract7. No tests, replay, model calls, edits to submissions/task/grader, or rescoring.",
+  "source_snapshot_files_verified": 16,
+  "test_fairness": "Both raw protocol representation and helper placement vary. Assert malformed-record skipping on documented public observations and preservation of the message, not on an undocumented internal raw record list. Sonnet defers filtering to public conversion; Fable filters during codec decoding. Test count rejection through documented wire encoding.",
+  "tests_run": 0,
+  "trials": [
+    {
+      "assistant_steps": 626,
+      "checks_passed": 9,
+      "checks_total": 9,
+      "effort": "max",
+      "findings": [
+        {
+          "assessment": "present in inspected code",
+          "behavior": "255 record append cap",
+          "lines": [
+            49,
+            335,
+            344,
+            352
+          ],
+          "reason": "MAX_RECORDS=255; append_record returns before generating/appending when existing length >=255.",
+          "source": "zenoh/src/api/timestamp_stack.rs"
+        },
+        {
+          "assessment": "present in inspected code",
+          "behavior": "reject zero configuration",
+          "lines": [
+            390,
+            393
+          ],
+          "reason": "Timestamp stack decoder returns DidntRead when conf==0.",
+          "source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "additional_lines": [
+            244,
+            256
+          ],
+          "additional_source": "commons/zenoh-codec/src/core/zint.rs",
+          "assessment": "present in inspected code",
+          "behavior": "reject wire record count >255",
+          "lines": [
+            395,
+            396
+          ],
+          "reason": "Decoder uses Zenoh080Bounded<u8>; bounded generic reader decodes u64 then returns DidntRead if bits exceed u8::MAX. Vec capacity min(256) is not the actual bound.",
+          "source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "additional_lines": [
+            398,
+            405
+          ],
+          "additional_source": "commons/zenoh-codec/src/network/mod.rs",
+          "assessment": "present at public conversion, not at raw protocol decoding",
+          "behavior": "skip unknown point and undecodable UHLC without dropping message",
+          "lines": [
+            300,
+            303,
+            358,
+            378
+          ],
+          "reason": "Raw decoder preserves each flags/ZBuf pair; public from_wire uses filter_map and fallible point/UHLC decoding, preserving the other records and stack. The incomplete input cases still require dynamic end-to-end validation.",
+          "source": "zenoh/src/api/timestamp_stack.rs"
+        },
+        {
+          "assessment": "present in inspected query-delivery path",
+          "behavior": "admin Receive",
+          "lines": [
+            478,
+            481,
+            515,
+            534
+          ],
+          "reason": "After permission/key checks, append_record adds Receive to incoming ext_ts_stack, then from_wire_opt supplies the QueryInner timestamp_stack.",
+          "source": "zenoh/src/net/runtime/adminspace.rs"
+        },
+        {
+          "assessment": "test source exists; not independent verification",
+          "behavior": "agent-authored boundary checks",
+          "lines": [
+            474,
+            484,
+            519,
+            546
+          ],
+          "reason": "Includes append_record_caps_at_255 and unknown_point_and_bad_uhlc_are_skipped. This audit did not run or independently validate them.",
+          "source": "zenoh/src/api/timestamp_stack.rs"
+        }
+      ],
+      "first_counted_result": true,
+      "model": "sonnet-5",
+      "pre_verifier_snapshot_check": {
+        "changed_paths": [],
+        "expected_sha256": "0f092044b524f74324fe6cfeb4b6237346d539655f7db7300b3c7c491fbbbfae",
+        "matches": true,
+        "observed_sha256": "0f092044b524f74324fe6cfeb4b6237346d539655f7db7300b3c7c491fbbbfae"
+      },
+      "raw_provenance": [
+        {
+          "bytes": 3908,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/result.json",
+          "sha256": "0033ab0093b784d675cba94cbcd0e472d07a84ebe5a9d35e80fe9d5736fc9423"
+        },
+        {
+          "bytes": 59588,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-evidence.json",
+          "sha256": "402f8e07cd379580fe19ebdeff38a75569c193c3248801734e524836aeea13d8"
+        },
+        {
+          "bytes": 46025,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-snapshot.json",
+          "sha256": "c596e7d5571452450030221cb72d9160f20973379b7b4ea386d736e96dc04d50"
+        },
+        {
+          "bytes": 909,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/manifest.json",
+          "sha256": "beca30d5263daaa19a32ca07c0ddd0f443edf75a0df7e6861ce4a6532a2efe80"
+        },
+        {
+          "bytes": 1848,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/score.json",
+          "sha256": "a212f3e8f109ade9e8449a3f371c4a758cab9c8d1f9df06ca0375a6a0425b4ac"
+        }
+      ],
+      "reward": 1,
+      "source_files": [
+        {
+          "bytes": 16459,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-codec/src/core/zint.rs",
+          "sha256": "c10d080bba58f7a67e721b430f09c2eda704898197fd2fc9fdd50ab610c977a2",
+          "submission_relative_path": "commons/zenoh-codec/src/core/zint.rs"
+        },
+        {
+          "bytes": 12337,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-codec/src/network/mod.rs",
+          "sha256": "02763d0ee76d5ce4f2f7d5ee1b3e52552b31887e45181845429904df542bdf2c",
+          "submission_relative_path": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "bytes": 5134,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-codec/src/network/push.rs",
+          "sha256": "28aca6d18e0656181884f4fd3712f035dca60c31796dd1bfc50317915402d001",
+          "submission_relative_path": "commons/zenoh-codec/src/network/push.rs"
+        },
+        {
+          "bytes": 8110,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-codec/src/network/request.rs",
+          "sha256": "f02a904af4a2c81446ed77b895aef4d6bfe7411a352907cb6e51de347951658e",
+          "submission_relative_path": "commons/zenoh-codec/src/network/request.rs"
+        },
+        {
+          "bytes": 8085,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-codec/src/network/response.rs",
+          "sha256": "83835920ef6f0336856ec8b9cbd2b8f2481ecd4aaee5a41700b698c39df65013",
+          "submission_relative_path": "commons/zenoh-codec/src/network/response.rs"
+        },
+        {
+          "bytes": 25046,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/commons/zenoh-protocol/src/network/mod.rs",
+          "sha256": "f0a3a72bb5d060622a68aca842b5076857af69831133c26d467db0bd8090d2d1",
+          "submission_relative_path": "commons/zenoh-protocol/src/network/mod.rs"
+        },
+        {
+          "bytes": 19957,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/zenoh/src/api/timestamp_stack.rs",
+          "sha256": "fd3abb649c3cce628b7463cd0b16581d25c99f89868ccd78e0aa62114f5d0380",
+          "submission_relative_path": "zenoh/src/api/timestamp_stack.rs"
+        },
+        {
+          "bytes": 39734,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/artifacts/submission/zenoh/src/net/runtime/adminspace.rs",
+          "sha256": "ac1f2c774c3a5f89396e7d1018b297f36a043bfdcbc74eaf9a8bf4e3918fca29",
+          "submission_relative_path": "zenoh/src/net/runtime/adminspace.rs"
+        }
+      ],
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG"
+    },
+    {
+      "assistant_steps": 216,
+      "checks_passed": 9,
+      "checks_total": 9,
+      "effort": "max",
+      "findings": [
+        {
+          "additional_lines": [
+            166,
+            195
+          ],
+          "additional_source": "zenoh/src/api/timestamp_stack.rs",
+          "assessment": "present in inspected code",
+          "behavior": "255 record append and writer cap",
+          "lines": [
+            961,
+            995,
+            1008
+          ],
+          "reason": "MAX_RECORDS=u8::MAX; protocol push rejects full stacks; raw and API recorders check cap. Codec count/iteration also truncate to255.",
+          "source": "commons/zenoh-protocol/src/network/mod.rs",
+          "writer_lines": [
+            367,
+            373,
+            397,
+            400
+          ],
+          "writer_source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "additional_lines": [
+            789,
+            805
+          ],
+          "additional_source": "commons/zenoh-protocol/src/network/mod.rs",
+          "assessment": "present in inspected code",
+          "behavior": "reject zero configuration",
+          "lines": [
+            440,
+            444
+          ],
+          "reason": "from_flags preserves supplied flags; is_empty is flags==0; decoder returns DidntRead for empty configuration.",
+          "source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "assessment": "present in inspected code",
+          "behavior": "reject wire record count >255",
+          "lines": [
+            447,
+            450
+          ],
+          "reason": "Reads count then explicitly returns DidntRead if >TIMESTAMP_STACK_MAX_RECORDS before allocating records.",
+          "source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "assessment": "present inside protocol decoder",
+          "behavior": "skip unknown point and undecodable UHLC without dropping message",
+          "lines": [
+            452,
+            471
+          ],
+          "reason": "Consumes each record byte buffer, continues after invalid TryFrom point or invalid UHLC decode, retains remaining valid records. Custom payload bypasses UHLC parsing.",
+          "source": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "assessment": "present in inspected query-delivery path",
+          "behavior": "admin Receive",
+          "lines": [
+            480,
+            483,
+            517,
+            535
+          ],
+          "reason": "Takes ext_ts_stack into TimestampStack, calls record_stack with Receive before Query construction, passes same recorder into reply primitives.",
+          "source": "zenoh/src/net/runtime/adminspace.rs"
+        }
+      ],
+      "first_counted_result": true,
+      "model": "fable-5-1",
+      "pre_verifier_snapshot_check": {
+        "changed_paths": [],
+        "expected_sha256": "e9e77d7babb8a8b8bcf67715e19f86ce685c70ecbf12b017af765faaa9fec686",
+        "matches": true,
+        "observed_sha256": "e9e77d7babb8a8b8bcf67715e19f86ce685c70ecbf12b017af765faaa9fec686"
+      },
+      "raw_provenance": [
+        {
+          "bytes": 3909,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/result.json",
+          "sha256": "0ed0e307063d8a5b0c5bab301bf3d104b4b4d65574599c780d9e71c5dcc9f98f"
+        },
+        {
+          "bytes": 59584,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/benchmark-evidence.json",
+          "sha256": "b7af4c2bc4814abdd23a9c0e89eeb819021eec796f9bec2a5432c94e6452648f"
+        },
+        {
+          "bytes": 46023,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/benchmark-snapshot.json",
+          "sha256": "7299f71961b4d55ca121aeb079b7d231c91458c45e0f02d11fbc3e9c6bb6d9a1"
+        },
+        {
+          "bytes": 909,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/manifest.json",
+          "sha256": "beca30d5263daaa19a32ca07c0ddd0f443edf75a0df7e6861ce4a6532a2efe80"
+        },
+        {
+          "bytes": 1848,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/verifier/score.json",
+          "sha256": "945705e5452a709f7ce10de9bc2ffbbbf9ebc5770b1be3b8467f2855a4cd6aac"
+        }
+      ],
+      "reward": 1,
+      "source_files": [
+        {
+          "bytes": 16459,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-codec/src/core/zint.rs",
+          "sha256": "c10d080bba58f7a67e721b430f09c2eda704898197fd2fc9fdd50ab610c977a2",
+          "submission_relative_path": "commons/zenoh-codec/src/core/zint.rs"
+        },
+        {
+          "bytes": 15383,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-codec/src/network/mod.rs",
+          "sha256": "e75f349de637ea3168c60c062568cf43c5c429d9b6d8381218649f97e9dea0b5",
+          "submission_relative_path": "commons/zenoh-codec/src/network/mod.rs"
+        },
+        {
+          "bytes": 5134,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-codec/src/network/push.rs",
+          "sha256": "28aca6d18e0656181884f4fd3712f035dca60c31796dd1bfc50317915402d001",
+          "submission_relative_path": "commons/zenoh-codec/src/network/push.rs"
+        },
+        {
+          "bytes": 8110,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-codec/src/network/request.rs",
+          "sha256": "f02a904af4a2c81446ed77b895aef4d6bfe7411a352907cb6e51de347951658e",
+          "submission_relative_path": "commons/zenoh-codec/src/network/request.rs"
+        },
+        {
+          "bytes": 8085,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-codec/src/network/response.rs",
+          "sha256": "83835920ef6f0336856ec8b9cbd2b8f2481ecd4aaee5a41700b698c39df65013",
+          "submission_relative_path": "commons/zenoh-codec/src/network/response.rs"
+        },
+        {
+          "bytes": 34472,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/commons/zenoh-protocol/src/network/mod.rs",
+          "sha256": "ce60b235904d772d292f452820c136e0ec2915e1dca286e3f591ca871b3cf228",
+          "submission_relative_path": "commons/zenoh-protocol/src/network/mod.rs"
+        },
+        {
+          "bytes": 6946,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/zenoh/src/api/timestamp_stack.rs",
+          "sha256": "8965922e07fce75ff953fd23bb2839af78d54f2631b85cb3a11aa4b4cfab6597",
+          "submission_relative_path": "zenoh/src/api/timestamp_stack.rs"
+        },
+        {
+          "bytes": 39555,
+          "matches_frozen_input_snapshot": true,
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA/artifacts/submission/zenoh/src/net/runtime/adminspace.rs",
+          "sha256": "01f66903ff2e2c2ff419f505e35eb16c5612e1f5731b985d9fe7dfe42dc31394",
+          "submission_relative_path": "zenoh/src/net/runtime/adminspace.rs"
+        }
+      ],
+      "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "trial": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__QYtUfZA"
+    }
+  ],
+  "verdict": "No straightforward omission of the flagged behaviors found in either inspected source. Both appear to implement cap, invalid config/count rejection, malformed record skipping and admin Receive. This is source evidence, not verifier proof or a full correctness audit."
+}

@@ -1,0 +1,233 @@
+{
+  "admission_key": "79312:6054776",
+  "artifact_sha256": {
+    "cargo.stdout.log": "3f1db6cb947b4c125b21c232e82ca1303fcede5e3e4bccb6c2ef8380e025120f",
+    "case.json": "5c1460fc16df8df325bc2a90ca8974258fe9f8b46b14cdf55704d4fd7b9013fd",
+    "effective-source-manifest.json": "09eec24e6f41a69ea9fab5d851019f0585940c3b444b548f2a0a287c4bc44012",
+    "gold-source-manifest.json": "2c11a747fa81db58b300da1c495921c189ad371d202e1d0718ca0f0e46a0788e",
+    "patch-apply.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "patch-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "pristine-source-manifest.json": "245365326b11c3b7159b6453d061d65a6570c4ef1b943368307107d4f5dad6df",
+    "selected-source-manifest.json": "0df75bca724e7411550b82c4a3e48219bf413a1b39638c6539a206cf088abac0"
+  },
+  "case_exit_code": 101,
+  "case_outcome": {
+    "cargo_finished_at": "2026-09-14T08:56:00.801806+00:00",
+    "cargo_started_at": "2026-09-14T08:55:17.167633+00:00",
+    "command": [
+      "cargo",
+      "test",
+      "--offline",
+      "-p",
+      "zenoh",
+      "--features",
+      "zenoh/test,zenoh/unstable,zenoh/internal",
+      "--no-fail-fast",
+      "--test",
+      "timestamp_adminspace",
+      "--test",
+      "timestamp_adminspace_reply_stack",
+      "--test",
+      "timestamp_robustness",
+      "--",
+      "--test-threads=1",
+      "--nocapture"
+    ],
+    "exit_code": 101,
+    "finished_at": "2026-09-14T08:56:00.814501+00:00",
+    "full_regrade": false,
+    "kind": "focused_no_model_diagnostic",
+    "source_unchanged": true,
+    "started_at": "2026-09-14T08:55:17.046236+00:00",
+    "tests_unchanged": true
+  },
+  "claim_absent": true,
+  "container_absent": true,
+  "container_limits": {
+    "cpus": 4000000000,
+    "image": "sha256:95afa96eacc4d6fe4cb2340f19492770c4f0508dca6600a6004c545921843d6f",
+    "memory": 8589934592,
+    "network": "none",
+    "running": true,
+    "swap": 8589934592
+  },
+  "finished_at": "2026-09-14T08:56:02.343337+00:00",
+  "full_regrade": false,
+  "image": "sha256:95afa96eacc4d6fe4cb2340f19492770c4f0508dca6600a6004c545921843d6f",
+  "inputs_sha256": "bacec434e1b768b3e1bbf80218fbe00d64155d355a0a343e89da391c79981cc4",
+  "inputs_unchanged": true,
+  "kind": "focused_no_model_diagnostic",
+  "lifecycle": [
+    {
+      "at": "2026-09-14T08:54:27.428341+00:00",
+      "event": "registered"
+    },
+    {
+      "at": "2026-09-14T08:54:27.588928+00:00",
+      "event": "waiting",
+      "reason": "shared concurrency"
+    },
+    {
+      "at": "2026-09-14T08:54:57.879700+00:00",
+      "event": "waiting",
+      "reason": "shared concurrency"
+    },
+    {
+      "admitted_at": "2026-09-14T08:55:15.957813+00:00",
+      "at": "2026-09-14T08:55:15.957877+00:00",
+      "event": "claimed",
+      "own_claim_count": 1,
+      "shared_claim_count": 14,
+      "shared_max_active": 14
+    },
+    {
+      "at": "2026-09-14T08:55:16.185694+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "image-identity",
+      "log": "01-image-identity.log",
+      "sha256": "aebab9f4ae1d9ea669f4d70145904be728fadd705352f5be1f3a1ec3642883f3"
+    },
+    {
+      "at": "2026-09-14T08:55:16.309988+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "create",
+      "log": "02-create.log",
+      "sha256": "02f95668699b4a00a429ffb6334165f619de826ac2370a06abf66265a63c5ee5"
+    },
+    {
+      "at": "2026-09-14T08:55:16.483743+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "start",
+      "log": "03-start.log",
+      "sha256": "60a1c70edbf6fa237e8fcc7671a6bda822e4fe64c39d204ca78e9ddd3f038698"
+    },
+    {
+      "at": "2026-09-14T08:55:16.505124+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "limits",
+      "log": "04-limits.log",
+      "sha256": "9d9420c084af014c87ca5471931c9ef06af393d4c3cdbfa36b937785aa833258"
+    },
+    {
+      "at": "2026-09-14T08:55:16.541779+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-driver",
+      "log": "05-copy-driver.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.564371+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-request",
+      "log": "06-copy-request.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.601940+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "mkdir-tests",
+      "log": "07-mkdir-tests.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.622621+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-timestamp_robustness",
+      "log": "08-copy-timestamp_robustness.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.660574+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-timestamp_adminspace",
+      "log": "09-copy-timestamp_adminspace.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.681606+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-timestamp_adminspace_reply_stack",
+      "log": "10-copy-timestamp_adminspace_reply_stack.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.719692+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-patch",
+      "log": "11-copy-patch.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:55:16.943811+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "copy-saved",
+      "log": "12-copy-saved.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:56:00.885917+00:00",
+      "event": "command",
+      "exit_code": 101,
+      "label": "case",
+      "log": "13-case.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:56:00.959771+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "collect-output",
+      "log": "14-collect-output.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:56:02.155461+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "remove",
+      "log": "15-remove.log",
+      "sha256": "60a1c70edbf6fa237e8fcc7671a6bda822e4fe64c39d204ca78e9ddd3f038698"
+    },
+    {
+      "at": "2026-09-14T08:56:02.195508+00:00",
+      "event": "command",
+      "exit_code": 0,
+      "label": "absence",
+      "log": "16-absence.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T08:56:02.207111+00:00",
+      "event": "released",
+      "own_claim_count": 0,
+      "shared_claim_count": 13,
+      "shared_max_active": 14
+    }
+  ],
+  "limits": {
+    "case_timeout_seconds": 3600,
+    "cpus": 4,
+    "local_max_active": 1,
+    "memory_bytes": 8589934592,
+    "network": "none",
+    "shared_max_active": 14
+  },
+  "model_calls": 0,
+  "name": "zenoh-focused-c848374015bb495e",
+  "reward": null,
+  "started_at": "2026-09-14T08:54:27.424174+00:00",
+  "status": "complete",
+  "unmanaged_after": true
+}

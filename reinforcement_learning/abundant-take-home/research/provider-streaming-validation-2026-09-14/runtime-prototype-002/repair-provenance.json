@@ -1,0 +1,46 @@
+{
+  "changes": [
+    "Write and pass mini.yaml with unchanged JSON payload",
+    "Stop remaining fixtures when startup produced no request",
+    "Require full case count and avoid indexing absent results"
+  ],
+  "container_launches_for_this_repair": 0,
+  "created_at": "2026-09-14T08:11:53.430939+00:00",
+  "demonstrated_failure": "Actual Mini get_config_path normalizes the supplied mini.json path to mini.yaml; no synthetic request reached the fixture.",
+  "diff": {
+    "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-002/fixture-only-diff.patch",
+    "sha256": "5d918133af083350137fbb6a4f7ce5d03828e4961d7a5295680690542837d6e9"
+  },
+  "evidence": {
+    "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-001/attempt-002/output/cases/baseline/cli.stdout.log",
+    "sha256": "f2297a31bab2e19bfe074358d77cbebac309586379cb5ed85a59a2aae09dc8b7"
+  },
+  "kind": "offline_fixture_filename_repair",
+  "model_calls": 0,
+  "new_source_manifest": {
+    "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-002/source-manifest.json",
+    "sha256": "7e9b5917534c9c9c761b9f4d7a730fef8079ec8641a59be7f492a5eceb323def"
+  },
+  "original_attempts": [
+    {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-001/attempt-001/result.json",
+      "sha256": "e0434aa229e9e712e7b808b03d6024937115a57530e65d6e572346f8505a8893"
+    },
+    {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-001/attempt-002/result.json",
+      "sha256": "bb773ebfc7cdf187e38ae4b48fb8133f395633c47ced022baea194f980344d70"
+    }
+  ],
+  "original_source_manifest": {
+    "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-001/source-manifest.json",
+    "sha256": "c01481c57f881ab355696dda6985113690a4af3edccb7e3c72593ba5cc6cccc2"
+  },
+  "production_sources_unchanged": [
+    "checked_streaming_model.py",
+    "streaming_bootstrap.py",
+    "streaming_runtime.py",
+    "run_offline.py",
+    "prepare_inside.py"
+  ],
+  "schema_version": 1
+}

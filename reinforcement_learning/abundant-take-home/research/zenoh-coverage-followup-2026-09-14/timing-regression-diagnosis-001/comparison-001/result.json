@@ -1,0 +1,287 @@
+{
+  "started_at": "2026-09-14T07:14:23.414095+00:00",
+  "status": "workload_finished",
+  "model_calls": 0,
+  "container": "zenoh-routing-comparison-3a7ff07594df",
+  "admission_key": "66315:5381899",
+  "lifecycle": [
+    {
+      "at": "2026-09-14T07:14:23.414145+00:00",
+      "event": "registered"
+    },
+    {
+      "at": "2026-09-14T07:20:45.269463+00:00",
+      "event": "claimed",
+      "shared_claims": 14,
+      "own_claims": 1
+    },
+    {
+      "at": "2026-09-14T07:20:45.676927+00:00",
+      "event": "create",
+      "returncode": 0,
+      "log": "create.log",
+      "sha256": "0e09ebc24c26b42e58f828fe69e66d27cfc001c088eaf590f855d4205b089c3f"
+    },
+    {
+      "at": "2026-09-14T07:20:46.003189+00:00",
+      "event": "start",
+      "returncode": 0,
+      "log": "start.log",
+      "sha256": "e65221b75496f6e52166e4421d5dc9ca26434e5e96834a0daf7d842eba013e75"
+    },
+    {
+      "at": "2026-09-14T07:20:46.044149+00:00",
+      "event": "inspect",
+      "returncode": 0,
+      "log": "inspect.log",
+      "sha256": "b3276925c7435d42d614b0e37085b62c0b222d9e548c3f84b1f20979a97cc0b9"
+    },
+    {
+      "at": "2026-09-14T07:20:46.320652+00:00",
+      "event": "copy-source",
+      "returncode": 0,
+      "log": "copy-source.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T07:20:46.393410+00:00",
+      "event": "copy-driver",
+      "returncode": 0,
+      "log": "copy-driver.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T07:20:46.431651+00:00",
+      "event": "copy-inputs",
+      "returncode": 0,
+      "log": "copy-inputs.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T07:22:37.754284+00:00",
+      "event": "driver-finished",
+      "returncode": 0
+    },
+    {
+      "at": "2026-09-14T07:22:40.758792+00:00",
+      "event": "stop",
+      "returncode": 0,
+      "log": "stop.log",
+      "sha256": "e65221b75496f6e52166e4421d5dc9ca26434e5e96834a0daf7d842eba013e75"
+    },
+    {
+      "at": "2026-09-14T07:22:40.797908+00:00",
+      "event": "stopped",
+      "returncode": 0,
+      "log": "stopped.log",
+      "sha256": "2ed27c1421e6928dbe13dbfdb5c59e1045b30341fe7ebe05700006bc5ac572c0"
+    },
+    {
+      "at": "2026-09-14T07:22:40.868430+00:00",
+      "event": "collect",
+      "returncode": 0,
+      "log": "collect.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T07:22:42.063597+00:00",
+      "event": "remove",
+      "returncode": 0,
+      "log": "remove.log",
+      "sha256": "e65221b75496f6e52166e4421d5dc9ca26434e5e96834a0daf7d842eba013e75"
+    },
+    {
+      "at": "2026-09-14T07:22:42.102800+00:00",
+      "event": "absence",
+      "returncode": 0,
+      "log": "absence.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "at": "2026-09-14T07:22:42.113514+00:00",
+      "event": "released"
+    }
+  ],
+  "complete": true,
+  "container_absent": true,
+  "claim_absent": true,
+  "cleanup_errors": [],
+  "inputs_unchanged": true,
+  "test_outcomes": [
+    {
+      "variant": "untouched_gold",
+      "repeat": 1,
+      "started_at": "2026-09-14T07:21:28.235332+00:00",
+      "wall_seconds": 3.0304539169956115,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 0,
+      "test_passed": true,
+      "reported_open_ms": null,
+      "passing_open_ms_upper_bound": 400,
+      "log": "untouched_gold-1.log",
+      "log_sha256": "531e702f53a28b3343cf4ff168a4df1976524a310feac45be0f5c7db3438a68b"
+    },
+    {
+      "variant": "untouched_gold",
+      "repeat": 2,
+      "started_at": "2026-09-14T07:21:31.270806+00:00",
+      "wall_seconds": 3.792040376996738,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 101,
+      "test_passed": false,
+      "reported_open_ms": 502.682,
+      "passing_open_ms_upper_bound": null,
+      "log": "untouched_gold-2.log",
+      "log_sha256": "77b0a1e13a755c540f4c5b9c288a6a5a04ada6454df14d518afb19e933c313d0"
+    },
+    {
+      "variant": "untouched_gold",
+      "repeat": 3,
+      "started_at": "2026-09-14T07:21:35.064906+00:00",
+      "wall_seconds": 3.031105125999602,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 0,
+      "test_passed": true,
+      "reported_open_ms": null,
+      "passing_open_ms_upper_bound": 400,
+      "log": "untouched_gold-3.log",
+      "log_sha256": "4a4b5a4d7d78c2e4e4c1eb32e7e53db0adaa3aae2ae3078451f6b704c864c4e5"
+    },
+    {
+      "variant": "corrected_reference",
+      "repeat": 1,
+      "started_at": "2026-09-14T07:22:28.830192+00:00",
+      "wall_seconds": 2.7781375420017866,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 0,
+      "test_passed": true,
+      "reported_open_ms": null,
+      "passing_open_ms_upper_bound": 400,
+      "log": "corrected_reference-1.log",
+      "log_sha256": "774644f4f06543ae6a356e19d6c7725b8577a3ef9a3dd3f8b9fd5df2fc21f896"
+    },
+    {
+      "variant": "corrected_reference",
+      "repeat": 2,
+      "started_at": "2026-09-14T07:22:31.611192+00:00",
+      "wall_seconds": 2.6876741270025377,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 0,
+      "test_passed": true,
+      "reported_open_ms": null,
+      "passing_open_ms_upper_bound": 400,
+      "log": "corrected_reference-2.log",
+      "log_sha256": "f5635175205b9a05cacfc55fa76b10655351f813ef345e06d9e230a7326488c9"
+    },
+    {
+      "variant": "corrected_reference",
+      "repeat": 3,
+      "started_at": "2026-09-14T07:22:34.299151+00:00",
+      "wall_seconds": 2.750558126004762,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "zenoh",
+        "-p",
+        "zenoh-codec",
+        "--features",
+        "zenoh/test,zenoh/unstable,zenoh/internal",
+        "--test",
+        "routing",
+        "scouting_delay_regression",
+        "--",
+        "--exact",
+        "--test-threads=1"
+      ],
+      "returncode": 0,
+      "test_passed": true,
+      "reported_open_ms": null,
+      "passing_open_ms_upper_bound": 400,
+      "log": "corrected_reference-3.log",
+      "log_sha256": "6c1de89bc0d9e8dff8051ef41720906beea4408581bd17a721c0e962efab680b"
+    }
+  ],
+  "finished_at": "2026-09-14T07:22:42.252406+00:00"
+}

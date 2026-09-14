@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-14T09:21:55.456283+00:00",
+  "canary_restart": false,
+  "kind": "read_only_observer_filter_correction",
+  "new_filters": [
+    "create",
+    "start",
+    "die",
+    "destroy",
+    "oom"
+  ],
+  "new_source_sha256": "81ad3fd948b0934e49f4da40b6916b4f66060f5d39b0f1ff04089300760ccd82",
+  "original_observer_exit_code": 130,
+  "original_observer_identity": "6208919",
+  "original_observer_pid": 5652,
+  "original_result_sha256": "56a5f8800b9525bdbe401a6db944fdfa310e7d91a178b8b2d63db5f267741bb5",
+  "original_source_sha256": "8db7fbd85c428fd0ed1c280ea45d961785bd88334506eb648a54e146f83955fd",
+  "provider_requests": 0,
+  "reason": "Restrict Docker listener to create/start/die/destroy/oom; Docker exec event Action fields may contain command text. Original listener captured zero events before stopping; no values were exposed.",
+  "runtime_sources_changed": false,
+  "schema_version": 1,
+  "trial_signals": 0,
+  "v2_identity": {
+    "at": "2026-09-14T09:21:39.492291+00:00",
+    "command": [
+      "docker",
+      "events",
+      "--filter",
+      "type=container",
+      "--filter",
+      "label=com.docker.compose.project=luigi-generation-target__rigdbsv",
+      "--format",
+      "{{json .}}",
+      "--filter",
+      "event=create",
+      "--filter",
+      "event=start",
+      "--filter",
+      "event=die",
+      "--filter",
+      "event=destroy",
+      "--filter",
+      "event=oom"
+    ],
+    "identity": "6218084",
+    "model_calls": 0,
+    "pid": 11597,
+    "read_only": true,
+    "source_sha256": "81ad3fd948b0934e49f4da40b6916b4f66060f5d39b0f1ff04089300760ccd82",
+    "workload_signals": 0
+  }
+}

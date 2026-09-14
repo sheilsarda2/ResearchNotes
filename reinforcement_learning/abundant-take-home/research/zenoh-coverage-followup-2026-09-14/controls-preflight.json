@@ -1,0 +1,102 @@
+{
+  "check_only": true,
+  "passed": true,
+  "model_calls": 0,
+  "docker_runs": 0,
+  "task": "research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+  "task_files": 24,
+  "expected_verifier_groups": [
+    "anti_cheat",
+    "build_a",
+    "build_b",
+    "lib_test_names",
+    "hidden_pr_tests",
+    "robustness_tests",
+    "admin_timestamp_tests",
+    "interop_gold",
+    "parity_python",
+    "zenoh_ext",
+    "upstream_regressions"
+  ],
+  "admission": {
+    "max_active": 1,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+  },
+  "original_budgets": {
+    "agent": {
+      "timeout_sec": 21600.0
+    },
+    "verifier": {
+      "timeout_sec": 3600.0,
+      "environment": {
+        "network_mode": "no-network",
+        "build_timeout_sec": 3600,
+        "cpus": 4,
+        "memory_mb": 8192,
+        "storage_mb": 30720
+      }
+    },
+    "environment": {
+      "build_timeout_sec": 3600.0,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "storage_mb": 30720,
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://take-home-automation.vercel.app",
+        "ANTHROPIC_API_BASE": "https://take-home-automation.vercel.app"
+      }
+    }
+  },
+  "captured_execution_tree": "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/files",
+  "capture_manifest_sha256": "eea36c9e6aaa1fdee9cd2a53519ebefa29bb8bd664ef6e9f4c0f68d99f194079",
+  "live_source_differences": {},
+  "commands": [
+    [
+      "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/execute_captured_runner.py",
+      "--proof",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-validation-20260914T063027Z/oracle-runner-source-proof.json",
+      "--",
+      "run",
+      "-p",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+      "-a",
+      "oracle",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-validation-20260914T063027Z/jobs",
+      "--job-name",
+      "rs-zenoh-timestamp-instrumentation-v4-validation-oracle-20260914T063027Z"
+    ],
+    [
+      "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/execute_captured_runner.py",
+      "--proof",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-validation-20260914T063027Z/nop-runner-source-proof.json",
+      "--",
+      "run",
+      "-p",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+      "-a",
+      "nop",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-validation-20260914T063027Z/jobs",
+      "--job-name",
+      "rs-zenoh-timestamp-instrumentation-v4-validation-nop-20260914T063027Z"
+    ]
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-09-14T08:27:16.060594+00:00",
+  "certificate_path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/preliminary-transport-certificate.json",
+  "certificate_sha256": "ae7f684d70a3993279df9663b0402266c6b0eaf7e6a9adc23d3c46b9bd821315",
+  "preparation_proof_path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/preparation-proof.json",
+  "preparation_proof_sha256": "107f21c67e45429a816106397e224d58c0516ba417168c6abe7469e10c4d44a5",
+  "reviewer": "root",
+  "reviewed_source_paths": [
+    "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/launch_canary.py",
+    "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/job.config.json",
+    "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/control.json",
+    "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/captured/manifest.json"
+  ],
+  "checks": {
+    "all_27_captured_source_hashes_match": true,
+    "all_bound_input_hashes_match": true,
+    "original_reference_hashes_match_at_review": true,
+    "selected_task_and_agent_equal_original": true,
+    "original_retry_settings_preserved": true,
+    "remaining_config_differences": [
+      "job_name",
+      "n_attempts",
+      "n_concurrent_trials",
+      "agents_filter",
+      "tasks_filter"
+    ],
+    "actual_installed_harbor_check_only_passed": true,
+    "exact_original_task_checksum": "38e96eee424a85cde604fcd77cf11adfd6d541302f53e1c065990a9967c86170"
+  },
+  "decision": "Prepared canary passes root review. One standalone attempt may be launched after Zenoh reviewer002 acquires its slot and the temporary admission hold, if applied, is restored. Launch remains a separate explicit operation.",
+  "max_new_attempts": 1,
+  "inflight_trials_to_change": 0,
+  "model_requests_made_by_this_review": 0,
+  "runtime_rollout_authorized": false,
+  "campaign_adoption": "Requires independent terminal review against predeclared reward-independent eligibility; no automatic adoption."
+}

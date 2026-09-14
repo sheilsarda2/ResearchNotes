@@ -1,0 +1,68 @@
+{
+  "automatic_retries": 0,
+  "controls_summary": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+    "sha256": "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac"
+  },
+  "finished_at": "2026-09-14T07:51:34.280505+00:00",
+  "model_calls": true,
+  "passed": false,
+  "recovery_tooling": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/source-manifest.json",
+    "sha256": "d87d49b87b6781810805a81014a3421e707a3b859dbe2b2fb16dcb6e1cec25c2"
+  },
+  "reviews": {
+    "rs-zenoh-timestamp-instrumentation-v4-validation": {
+      "attempts": 1,
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "-B",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/execute_quality_check.py",
+        "--proof-dir",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/reviews-final-001/rs-zenoh-timestamp-instrumentation-v4-validation-proof",
+        "--",
+        "check",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+        "--agent",
+        "mini-swe-agent",
+        "--model",
+        "anthropic/claude-sonnet-5",
+        "--ak",
+        "version=2.4.6",
+        "--ak",
+        "reasoning_effort=high",
+        "--ae",
+        "ANTHROPIC_BASE_URL=https://take-home-automation.vercel.app",
+        "--ae",
+        "ANTHROPIC_API_BASE=https://take-home-automation.vercel.app",
+        "--n-concurrent",
+        "1",
+        "--n-attempts",
+        "1",
+        "--jobs-dir",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/reviews-final-001/jobs",
+        "--job-name",
+        "rs-zenoh-timestamp-instrumentation-v4-validation-quality-20260914T074259Z"
+      ],
+      "effort": "high",
+      "error": "Review execution/terminal observation failed",
+      "error_type": "AssertionError",
+      "exit_code": 1,
+      "finished_at": "2026-09-14T07:51:34.280098+00:00",
+      "model": "anthropic/claude-sonnet-5",
+      "observation": {
+        "errors": [],
+        "exit_code": 1,
+        "terminal_sample_at": "2026-09-14T07:51:34.269785+00:00",
+        "terminal_sample_valid": true
+      },
+      "observation_errors": [],
+      "passed": false,
+      "pid": 47431,
+      "started_at": "2026-09-14T07:42:59.548143+00:00",
+      "task": "research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation"
+    }
+  },
+  "schema_version": 1,
+  "started_at": "2026-09-14T07:42:59.547370+00:00"
+}

@@ -1,0 +1,41 @@
+--- research/provider-streaming-validation-2026-09-14/runtime-prototype-001/offline_lifecycle.py	2026-09-14 01:00:52
++++ research/provider-streaming-validation-2026-09-14/runtime-prototype-002/offline_lifecycle.py	2026-09-14 01:11:02
+@@ -185,7 +185,7 @@
+     config = dict(agent=dict(step_limit=2, cost_limit=10), model=dict(litellm_model_registry=str(registry),
+                   model_kwargs=dict(api_base=api_base, thinking={'type': 'adaptive'}, output_config={'effort': 'max'},
+                                     max_tokens=64000, num_retries=0, drop_params=True)))
+-    dump(folder / 'mini.json', config)
++    dump(folder / 'mini.yaml', config)
+     cancelled = mode.startswith('cancel_') or mode == 'retry_backoff'
+     guard = ROOT / 'scripts/benchmark_process_guard.py'
+     phase = folder / 'guard'
+@@ -194,7 +194,7 @@
+     marker.unlink(missing_ok=True)
+     stream_events = Path('/logs/agent/benchmark-streaming-events.jsonl')
+     stream_events.unlink(missing_ok=True)
+-    spec = dict(output=str(folder), mini_config=str(folder / 'mini.json'), instruction=INSTRUCTION,
++    spec = dict(output=str(folder), mini_config=str(folder / 'mini.yaml'), instruction=INSTRUCTION,
+                 api_base=api_base, streaming=mode != 'baseline', fixture_retry_attempts=10 if mode in ('retry_backoff', 'http502_retry') else 1)
+     dump(folder / 'case-input.json', spec)
+     started = time.time()
+@@ -338,8 +338,10 @@
+         value = case(args.output, args.mini_python, mode, registry)
+         results.append(value)
+         print(json.dumps(dict(case=mode, passed=value['passed'], error=value.get('validation_error'), elapsed=value['elapsed_seconds'])), flush=True)
++        if not value['passed'] and not value.get('synthetic_requests'):
++            break  # Preserve startup failure; do not repeat it across later fixtures.
+     comparison = False
+-    if results[0]['passed'] and results[1]['passed']:
++    if len(results) >= 2 and results[0]['passed'] and results[1]['passed']:
+         baseline = json.loads((args.output / 'baseline/server-events.json').read_text())
+         streamed = json.loads((args.output / 'complete/server-events.json').read_text())
+         a = [r['body']['messages'] for r in baseline if r['event'] == 'request']
+@@ -351,7 +353,7 @@
+                    fixture_only_overrides=['loopback route and synthetic credential/tariff', 'step_limit2',
+                                            '15/60-second guard deadline', 'one retry attempt except default10 backoff/HTTP502 cases; inherited4-second backoff unchanged',
+                                            'LiteLLM num_retries0', 'Harbor Docker exec replaced by local transport double', 'uv tool-dir fixture'],
+-                   passed=all(row['passed'] for row in results) and comparison)
++                   passed=len(results) == len(modes) and all(row['passed'] for row in results) and comparison)
+     dump(args.output / 'summary.json', summary)
+     raise SystemExit(0 if summary['passed'] else 1)
+ 

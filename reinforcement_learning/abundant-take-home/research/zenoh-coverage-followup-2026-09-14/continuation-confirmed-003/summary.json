@@ -1,0 +1,75 @@
+{
+  "automatic_retries": 0,
+  "controls_summary": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+    "sha256": "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac"
+  },
+  "error": "focused-diagnostics failed; no later stage or retry is authorized",
+  "error_type": "ValueError",
+  "finished_at": "2026-09-14T08:38:42.559613+00:00",
+  "local_max_active_overall": 1,
+  "one_authorized_quality_review": true,
+  "passed": false,
+  "pid": 82357,
+  "quality_gate": {
+    "audit": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/completed-review-audits-002/rs-zenoh-timestamp-instrumentation-v4-validation.json",
+      "sha256": "77e53523e12d62d8eacc1037979208e7dfed61506ceee916e39f08b6e1e1181c"
+    },
+    "summary": {
+      "path": "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/summary.json",
+      "sha256": "86fbf131221b3780b0a521507c8f51044d5da7ec5600205ae64dcc4d3e23ba42"
+    }
+  },
+  "recovery_tooling": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/source-manifest.json",
+    "sha256": "54bc401f348a4ef0e80ef3fa7b76d859d84771b495b4c1fa729b15e6fde0bde1"
+  },
+  "schema_version": 1,
+  "solver_model_calls": 0,
+  "stages": {
+    "focused-diagnostics": {
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "-B",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py",
+        "--controls-summary",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+        "--output",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final"
+      ],
+      "exit_code": 1,
+      "finished_at": "2026-09-14T08:38:42.558463+00:00",
+      "pid": 97594,
+      "started_at": "2026-09-14T08:38:41.791661+00:00"
+    },
+    "quality-evidence-audit": {
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "-B",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/audit_final_quality_review.py"
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-09-14T08:38:40.315339+00:00",
+      "pid": 97445,
+      "started_at": "2026-09-14T08:38:40.175508+00:00"
+    },
+    "quality-review": {
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "-B",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/run_confirmed_quality_review.py",
+        "--controls-summary",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+        "--controls-sha256",
+        "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac",
+        "--run"
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-09-14T08:38:38.481456+00:00",
+      "pid": 83090,
+      "started_at": "2026-09-14T08:03:38.359982+00:00"
+    }
+  },
+  "started_at": "2026-09-14T08:03:37.052742+00:00"
+}

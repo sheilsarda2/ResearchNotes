@@ -1,0 +1,7 @@
+# Fifth-probe admission check
+
+Read-only observation at 2026-09-14 09:10:45 UTC: continuation 60710/start6029740, coordinator 61545/start6030050, and the waiting malformed-UHLC harness 17396/start6095623 were all live with the expected parent chain. The shared pool held 14 claims: main 8, Zenoh 2, Diskcache 1, Burn 2, and the separate canary 1. The diagnostic held 0; its unmanaged fair ceiling was 2, so allocation was not its blocker. Available memory was 22,841 MB and PSI 0.12%; its latest recorded reason was `shared concurrency`.
+
+Since the case was created at 09:01:15, Diskcache took an opening 0.673 seconds after the preceding diagnostic released it. At 09:04:15, main started Luigi about 5.6 milliseconds after logging a Zarr release. No later sweep start was recorded through the snapshot, so the following 6.5 minutes were occupancy rather than continuing refill events. This is a functioning waiter encountering fast admission races and then long occupancy; it does not prove indefinite starvation.
+
+`snapshot.json` SHA-256 `155b03c7ec8c75266ed6de7b7e9a9a747d16e5e422a4bb04492fc60d9ec59594` retains the locked shared snapshot, memory values, current case record, and identities. `admission-history.json` SHA-256 `ed4753660929a9be074ff37d6d306a88a9816240f30cdc70009630d64bdce5e0` binds selected raw status rows and the prior diagnostic's exact release record. Release status follows the actual release and histories do not record every lock attempt. No source, control, scheduler, task, or live process was changed.

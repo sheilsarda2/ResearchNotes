@@ -1,0 +1,147 @@
+BENCHMARK_STREAMING_RUNTIME={"complete_response": true, "installed": true, "litellm_version": "1.100.1", "manifest_sha256": "3baa468f48db2bbeb320f88897294b36844f2560d5e78ea1a184dc352d7e925e", "mini_version": "2.4.6", "model_class": "checked_streaming_model.CheckedStreamingModel", "package_identity_sha256": "cc5096e0732ae9574919f06fb77962a4ffa2b116db04e5cfa7941a24d5d8697a", "python": "3.12.11", "scope": "new_agent_process_only", "stream": true}
+BENCHMARK_MINI_TOOL_RUNTIME={"bootstrap_sha256": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d", "executable": "/opt/mini-swe-agent/bin/python", "helper_sha256": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816", "installed": true, "package": "mini-swe-agent", "package_version": "2.4.6", "post_kill_drain_timeout_sec": 1.0, "python": "3.12.11", "replacement": "benchmark_mini_tool_cleanup.bounded_run", "schema_version": 1, "target": "minisweagent.environments.local._run", "upstream_function_sha256": "47f7f72e224b860180c0b6ff6ddb205fe52fe5e66f07145ce3d95c7375df8e6b"}
+Warning: Input is not a terminal (fd=0).
+Building agent config from specs: ['mini', 
+'/output/cases/http502_retry/mini.yaml', 
+'/tmp/benchmark-agent-input-5e62fc73c49447079390c7e7d6edb77a/task.yaml']
+
+System:
+You are a helpful assistant that can interact with a computer.
+
+User:
+Please solve this issue: Synthetic task 🦀 'quote'
+No real model or benchmark task.
+
+You can execute bash commands and edit files to implement the necessary changes.
+
+## Recommended Workflow
+
+This workflow should be done step-by-step so that you can iterate on your 
+changes and any possible problems.
+
+1. Analyze the codebase by finding and reading relevant files
+2. Create a script to reproduce the issue
+3. Edit the source code to resolve the issue
+4. Verify your fix works by running your script again
+5. Test edge cases to ensure your fix is robust
+6. Submit your changes and finish your work by issuing the following command: 
+`echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`.
+   Do not combine it with any other command. <important>After this command, you 
+cannot continue working on this task.</important>
+
+## Command Execution Rules
+
+You are operating in an environment where
+
+1. You issue at least one command
+2. The system executes the command(s) in a subshell
+3. You see the result(s)
+4. You write your next command(s)
+
+Each response should include:
+
+1. **Reasoning text** where you explain your analysis and plan
+2. At least one tool call with your command
+
+**CRITICAL REQUIREMENTS:**
+
+- Your response SHOULD include reasoning text explaining what you're doing
+- Your response MUST include AT LEAST ONE bash tool call
+- Directory or environment variable changes are not persistent. Every action is 
+executed in a new subshell.
+- However, you can prefix any action with `MY_ENV_VAR=MY_VALUE cd 
+/path/to/working/dir && ...` or write/load environment variables from files
+- Submit your changes and finish your work by issuing the following command: 
+`echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`.
+  Do not combine it with any other command. <important>After this command, you 
+cannot continue working on this task.</important>
+
+Example of a CORRECT response:
+<example_response>
+I need to understand the structure of the repository first. Let me check what 
+files are in the current directory to get a better understanding of the 
+codebase.
+
+[Makes bash tool call with {"command": "ls -la"} as arguments]
+</example_response>
+
+<system_information>
+Linux 6.12.76-linuxkit #1 SMP Fri May 29 10:00:01 UTC 2026 aarch64
+</system_information>
+
+## Useful command examples
+
+### Create a new file:
+
+```bash
+cat <<'EOF' > newfile.py
+import numpy as np
+hello = "world"
+print(hello)
+EOF
+```
+
+### Edit files with sed:```bash
+# Replace all occurrences
+sed -i 's/old_string/new_string/g' filename.py
+
+# Replace only first occurrence
+sed -i 's/old_string/new_string/' filename.py
+
+# Replace first occurrence on line 1
+sed -i '1s/old_string/new_string/' filename.py
+
+# Replace all occurrences in lines 1-10
+sed -i '1,10s/old_string/new_string/g' filename.py
+```
+
+### View file content:
+
+```bash
+# View specific lines with numbers
+nl -ba filename.py | sed -n '10,20p'
+```
+
+### Any other command you want to run
+
+```bash
+anything
+```
+────────────────────────────────────────────────────────────────────────────────
+
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+Retrying <unknown> in 4 seconds as it raised BadGatewayError: litellm.BadGatewayError: AnthropicException BadGatewayError - b'{"type": "error", "error": {"type": "api_error", "message": "Synthetic HTTP502"}}'.
+
+mini-swe-agent (step 1, $0.00):
+Alpha Beta.
+
+```
+printf fixture; printf x >> /tmp/prototype-tool-markers
+```
+
+Tool:
+<returncode>
+0
+<output>
+fixture
+────────────────────────────────────────────────────────────────────────────────
+
+mini-swe-agent (step 2, $0.00):
+Alpha Beta.
+
+```
+printf fixture; printf x >> /tmp/prototype-tool-markers
+```
+
+Tool:
+<returncode>
+0
+<output>
+fixture
+────────────────────────────────────────────────────────────────────────────────
+
+Exit:
+LimitsExceeded
+Saved trajectory to '/output/cases/http502_retry/trajectory.json'

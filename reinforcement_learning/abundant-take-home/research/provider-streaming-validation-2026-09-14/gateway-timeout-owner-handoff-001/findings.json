@@ -1,0 +1,222 @@
+{
+  "captured_client_source": {
+    "actual_live_effective_timeout_observed": false,
+    "archive": {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-environment-001/fixture/site-packages.tar",
+      "sha256": "b8845fe8524130c21de8d16ef2911e941ab905611839bf27e57d1d5dd67588d8"
+    },
+    "completion_http_fallback_seconds": 600.0,
+    "default_request_timeout_seconds": 6000.0,
+    "h2_dependency_present": false,
+    "httpx_default_http2": false,
+    "meaning": "Captured source defaults are longer than the observed failure. The startup model_kwargs contain no explicit request-timeout override. No active process environment was inspected, so defaults are not asserted to be the effective live timeout.",
+    "members": {
+      "site-packages/httpx/_client.py": {
+        "line_ranges": [
+          [
+            650,
+            650
+          ],
+          [
+            678,
+            684
+          ]
+        ],
+        "sha256": "c43f941baefe58c91e96d00039e1868fe719d91453026d7db1647194563bff8d"
+      },
+      "site-packages/litellm/constants.py": {
+        "line_ranges": [
+          [
+            444,
+            452
+          ]
+        ],
+        "sha256": "e6239a2f89fe46a319cf05b434111341b97bbeb426f7d028f518314fda7740ce"
+      },
+      "site-packages/litellm/llms/custom_httpx/http_handler.py": {
+        "line_ranges": [
+          [
+            134,
+            146
+          ],
+          [
+            1199,
+            1236
+          ],
+          [
+            1502,
+            1514
+          ]
+        ],
+        "sha256": "842ba3e75790037cc437186b7674708a76cfa7821205eaa8ae8181a68bbe41bb"
+      }
+    }
+  },
+  "conclusions": [
+    "No demonstrated client-side fix or alternate supported route preserves the current task/model/effort/max_tokens through this failure.",
+    "The roughly 290.5-second EOF does not distinguish absolute function lifetime, upstream timeout, idle timeout, buffering, or another remote/network close. Long-run wire/SSE last-byte telemetry and deployment logs are missing.",
+    "Increasing a local read timeout cannot make a remotely ended response continue. Streaming is already enabled and has not yet demonstrated relief for long requests.",
+    "Owner-side maxDuration/upstream timeout adjustment or an owner-supported equivalent long-running route could preserve the benchmark request; neither is an available proven local setting."
+  ],
+  "created_at": "2026-09-14T09:06:34.689993+00:00",
+  "external_messages_sent": 0,
+  "http2_untested": {
+    "established_fix": false,
+    "reason": "Captured HTTPX defaults HTTP/1.1 and h2 is absent. A future HTTP/2 experiment needs dependency/transport changes and separate validation. PING can address some idle-connection paths, but cannot extend a function/upstream absolute deadline or restore an ended stream."
+  },
+  "inputs": {
+    "canary_job_config": {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/job.config.json",
+      "sha256": "0d51aceaf3f84c49c4f87542debcd3a149d0143e08436f6d63a4a70a157930f7"
+    },
+    "canary_long_request_event_snapshot": {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/run-001/long-request-failure-001.events.jsonl",
+      "sha256": "b6cc6fed16ceac890f513686c5642cdfcda9e1ab31a2e56b4d4f84d7508bd20d"
+    },
+    "canary_long_request_failure": {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/run-001/long-request-failure-001.json",
+      "sha256": "aa3cc23b4f9480b6e11053e6be63c18d17077dfae2526f102af28d1aa4aaf3ae"
+    },
+    "canary_model_adapter": {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-prototype-002/checked_streaming_model.py",
+      "sha256": "e6761e2ceb5dd5b4fef0d48fedcc58380115701eae23d920c113be9bf23a55b1"
+    },
+    "canary_startup_proof": {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/run-001/startup-proof.json",
+      "sha256": "4626070a22187e0fab14dc2f1025836a3c7ca3ba73cb29e1c31e66da0be7d819"
+    },
+    "canary_transport_certificate": {
+      "path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/preliminary-transport-certificate.json",
+      "sha256": "ae7f684d70a3993279df9663b0402266c6b0eaf7e6a9adc23d3c46b9bd821315"
+    },
+    "dependency_file_manifest": {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-environment-001/fixture/file-manifest.json",
+      "sha256": "9f3a0043f54da967690f0fafa34c3d8ac5615e495cd14f921872b7149eb9781b"
+    },
+    "mini_model_source": {
+      "path": "research/provider-streaming-validation-2026-09-14/source-snapshot/minisweagent/models/litellm_model.py",
+      "sha256": "6df4483bcdc9620b2f9d7f8bb1027a7fb9729b739976cbcf1a9d18fb58c48227"
+    },
+    "runtime_environment_identity": {
+      "path": "research/provider-streaming-validation-2026-09-14/runtime-environment-001/environment-proof.json",
+      "sha256": "3a3d5a28a5c950e1315a62c3aa1f1e46ea9c8e380db04c15c5057409c68a8f2b"
+    },
+    "short_route_events": {
+      "path": "research/provider-streaming-validation-2026-09-14/real-route-probe-001/attempt-001/events.jsonl",
+      "sha256": "7d5b1bc34c46c0e600bb84455cb913b3dc38d306aa7b804b669c2e2109ece80c"
+    },
+    "short_route_result": {
+      "path": "research/provider-streaming-validation-2026-09-14/real-route-probe-001/attempt-001/result.json",
+      "sha256": "5b239cc201ec6da5bcc5456aebadc67ce5fd2deba603be58991315ce7ee09664"
+    },
+    "supplied_container_gateway": {
+      "path": ".devcontainer/devcontainer.json",
+      "sha256": "e7016eedfa2783b443adacbab20b8e448163080e756619e81dd5ad4a386b567d"
+    },
+    "supplied_setup": {
+      "path": "README.md",
+      "sha256": "faa3c5465cf24a1ad8ecd376b3044f7e41b611328981fc7b002b7e3c7b9bf459"
+    },
+    "supplied_task_gateway": {
+      "path": "restaurant-weekly-cost-control-audit/task.toml",
+      "sha256": "b0db83001f414a74c4cade5ad2bc8c3c99b64ef5f811678a74496b8d67eb8170"
+    }
+  },
+  "kind": "read_only_gateway_timeout_owner_handoff",
+  "model_calls": 0,
+  "new_gateway_requests": 0,
+  "new_model_probes": 0,
+  "observed": {
+    "effort": "max",
+    "exception": "IncompleteAnthropicStream via LiteLLM MidStreamFallbackError/APIConnectionError",
+    "failed_request_event_types": [
+      "query_entered",
+      "http_response_opened",
+      "query_resources_closed"
+    ],
+    "failed_request_number": 18,
+    "failed_request_timestamps_utc": {
+      "http_response_opened": "2026-09-14T08:41:50.641990+00:00",
+      "query_entered": "2026-09-14T08:41:48.069808+00:00",
+      "query_resources_closed": "2026-09-14T08:46:38.579392+00:00"
+    },
+    "instrumented_event_types": [
+      "complete_response_returned",
+      "http_response_opened",
+      "query_entered",
+      "query_resources_closed"
+    ],
+    "long_request_duration_seconds": 290.509583234787,
+    "long_request_observed_at": "2026-09-14T08:48:02.887435+00:00",
+    "max_tokens": 64000,
+    "model": "anthropic/claude-fable-5-1",
+    "normal_retry_delay_seconds": 4.0289833545684814,
+    "returned_partial_action": false,
+    "route": "https://take-home-automation.vercel.app/v1/messages",
+    "short_probe_completed_requests": 2,
+    "short_probe_ping_elapsed_seconds": [
+      5.396022,
+      8.656339
+    ],
+    "short_probe_total_seconds": 8.943,
+    "thinking": "adaptive",
+    "timestamp_provenance": "UTC conversion of query number 18 epochs in the bound long-request-failure-001.json. long_request_observed_at is the later audit observation time, not the request time. instrumented_event_types describes the full saved event snapshot, including completed earlier queries; failed_request_event_types describes only request 18.",
+    "trial": "jobs/streaming-canary-luigi-fable-max-20260914-001/luigi-generation-target__RigDBsV"
+  },
+  "owner_checks": [
+    "Correlate the saved trial/request timestamps with function/CDN/upstream logs and identify which layer closes the response.",
+    "Inspect deployed runtime, plan, Fluid setting, per-route maxDuration, and upstream request/read/abort timeout.",
+    "If idle or buffering is responsible, verify timely end-to-end SSE flush/heartbeat forwarding; if absolute duration is responsible, use an eligible longer-duration runtime or supported route.",
+    "Provide a supported route/setting preserving the exact model, max effort, adaptive thinking, 64000 max_tokens and original task budgets; do not substitute a cheaper request configuration."
+  ],
+  "preservation": {
+    "original_commit": "c1ae968",
+    "supplied_files_unchanged": 36
+  },
+  "primary_documentation": [
+    {
+      "deployment_applicability": "Unknown: runtime, plan, Fluid setting, maxDuration, upstream fetch deadline and proxy buffering are not available in saved evidence.",
+      "findings": [
+        "Function duration includes time waiting for streamed responses; exceeding it terminates the invocation.",
+        "Fluid default is 300 seconds; Pro/Enterprise generally available maximum is 800 seconds; supported runtimes can opt into 1800 seconds beta per function, subject to documented exclusions.",
+        "Settings belong in deployment function code/vercel.json or owner dashboard; client request parameters do not set deployment maxDuration.",
+        "For eligible long handlers, HTTP/2 has connection-level PING support; HTTP/1.1 idle connections may need streamed progress/heartbeat data."
+      ],
+      "page_updated": "2026-08-24",
+      "url": "https://vercel.com/docs/functions/configuring-functions/duration"
+    },
+    {
+      "findings": [
+        "Confirms owner-configured extended durations for supported Fluid Node.js/Python deployments."
+      ],
+      "published": "2026-06-15",
+      "url": "https://vercel.com/changelog/vercel-functions-can-now-run-up-to-30-minutes"
+    },
+    {
+      "deployment_applicability": "The take-home gateway has not been established to use Edge.",
+      "findings": [
+        "Edge documentation describes initial response within 25 seconds and streaming up to 300 seconds."
+      ],
+      "url": "https://vercel.com/docs/functions/runtimes/edge"
+    },
+    {
+      "findings": [
+        "SSE streams may contain ping and error events.",
+        "Tool-use and extended-thinking blocks cannot be partially recovered; a partial tool must not be executed."
+      ],
+      "url": "https://platform.claude.com/docs/en/build-with-claude/streaming"
+    }
+  ],
+  "runtime_source_edits": 0,
+  "schema_version": 1,
+  "scope_limit": "Saved evidence and primary-documentation review only. No credential read/output, deployment edits, new inference/network probes, or external messages. Documentation possibilities are not claims about this deployment.",
+  "supported_local_control": {
+    "deployment_control_found": false,
+    "limit": "No deployment project/source/configuration or supported alternate endpoint was identified in the supplied setup. This is not a global account-access audit.",
+    "root_vercel_json_exists": false,
+    "root_vercel_project_file_exists": false,
+    "routing_requirements": "README.md:55,75-76 and restaurant task.toml:22-31 require the same supplied gateway route.",
+    "supplied_token_scope": "README.md:5 says the token works only against Abundant's API gateway."
+  },
+  "task_or_budget_changes": 0
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-14T06:30:33.519946+00:00",
+  "passed": false,
+  "model_calls": 0,
+  "run_identity": "research/zenoh-coverage-followup-2026-09-14/harbor-controls-final/run-identity.json",
+  "run_identity_sha256": "48d48eead772879a108f6add40b11889ca6cbf34fe084aa1f498969f77ef9ed7",
+  "controls": {
+    "oracle": {
+      "job": "rs-zenoh-timestamp-instrumentation-v4-validation-oracle-20260914T063033Z",
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/execute_captured_runner.py",
+        "--proof",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-controls-final/oracle-runner-source-proof.json",
+        "--",
+        "run",
+        "-p",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-controls-final/jobs",
+        "--job-name",
+        "rs-zenoh-timestamp-instrumentation-v4-validation-oracle-20260914T063033Z"
+      ],
+      "passed": false,
+      "model_calls": 0,
+      "observation_errors": [
+        {
+          "error_type": "FileNotFoundError",
+          "error": "[Errno 2] No such file or directory: '/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.state.json'"
+        }
+      ],
+      "exit_code": 0,
+      "error_type": "AssertionError",
+      "error": "Admission observation failed; child was reaped before continuing",
+      "wall_seconds": 1372.1
+    },
+    "nop": {
+      "job": "rs-zenoh-timestamp-instrumentation-v4-validation-nop-20260914T063033Z",
+      "command": [
+        "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/execute_captured_runner.py",
+        "--proof",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-controls-final/nop-runner-source-proof.json",
+        "--",
+        "run",
+        "-p",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+        "-a",
+        "nop",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/harbor-controls-final/jobs",
+        "--job-name",
+        "rs-zenoh-timestamp-instrumentation-v4-validation-nop-20260914T063033Z"
+      ],
+      "passed": false,
+      "model_calls": 0,
+      "observation_errors": [
+        {
+          "error_type": "FileNotFoundError",
+          "error": "[Errno 2] No such file or directory: '/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.state.json'"
+        }
+      ],
+      "exit_code": 0,
+      "error_type": "AssertionError",
+      "error": "Admission observation failed; child was reaped before continuing",
+      "wall_seconds": 1254.11
+    }
+  },
+  "inputs_unchanged": true,
+  "tooling_unchanged": true,
+  "live_source_differences_at_finish": {},
+  "finished_at": "2026-09-14T07:14:19.812496+00:00"
+}

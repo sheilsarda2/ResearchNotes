@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "kind": "bounded_missing_cell_activity_audit",
+  "checked_at": "2026-09-14T07:04:14.400288+00:00",
+  "read_only": true,
+  "model_calls": 0,
+  "runtime_mutations": 0,
+  "coverage_observer": {
+    "updated_at": "2026-09-14T07:03:47.882301+00:00",
+    "coverage": {
+      "counted_trials": 118,
+      "covered": 97,
+      "missing_cells": [
+        "[\"luigi-generation-target\",\"anthropic/claude-fable-5-1\",\"max\"]",
+        "[\"diskcache-online-reshard-v2\",\"anthropic/claude-fable-5-1\",\"max\"]"
+      ],
+      "ready": false,
+      "required": 99
+    },
+    "alerts": []
+  },
+  "live_claim_and_container_check": {
+    "at": "2026-09-14T07:04:14.374612+00:00",
+    "claims": [
+      {
+        "key": "98349:2185934",
+        "pid": 98349,
+        "expected_identity": "2185934",
+        "actual_identity": "2185934",
+        "process_state": "S",
+        "identity_matches": true,
+        "trials": [
+          "luigi-generation-target__UKzJrhh"
+        ]
+      },
+      {
+        "key": "31290:3061375",
+        "pid": 31290,
+        "expected_identity": "3061375",
+        "actual_identity": "3061375",
+        "process_state": "S",
+        "identity_matches": true,
+        "trials": [
+          "diskcache-online-reshard-v2__NEdBWiL"
+        ]
+      }
+    ],
+    "containers": [
+      {
+        "id": "2eebe36da859",
+        "name": "diskcache-online-reshard-v2__nedbwil-main-1",
+        "status": "Up 10 minutes"
+      },
+      {
+        "id": "a04eaf736d30",
+        "name": "luigi-generation-target__ukzjrhh-main-1",
+        "status": "Up 38 minutes"
+      }
+    ],
+    "state_sha256": "717c7dba6f581222dfcd97001b54bbb135d97f47b0b9fee16a5a13dbee8da8c0",
+    "shared_max_active": 14,
+    "total_claims": 14,
+    "read_recovered_gaps": 0
+  },
+  "trials": [
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__UKzJrhh",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "assistant_turns": 17,
+      "last_assistant_at": "2026-09-14T06:28:08.727454+00:00",
+      "trajectory_modified_at": "2026-09-14T06:28:08.736697+00:00",
+      "last_message_role": "tool",
+      "native_exit_status": "",
+      "provider_activity": {
+        "retrying_mentions": 7,
+        "bad_gateway_mentions": 21,
+        "log_modified_at": "2026-09-14T07:03:10.142605+00:00",
+        "note": "Text mentions are not counts of distinct provider requests."
+      },
+      "artifacts": {
+        "config.json": "1fec373b0616ceef3dd3c0bf82b31d28db92489fd56a984f77fe06a9da8e559c",
+        "agent/mini-swe-agent.trajectory.json": "45aa825156b4d39943d4f53d24cafdc86678715767415de4f27c1da2ddd72210",
+        "agent/mini-swe-agent.txt": "fe7e7d694eeba8b8c5f273cd9e562766ff5f878718b0250c25175e8c48d65e1c",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334"
+      },
+      "benchmark-agent-runtime.json": {
+        "preflight_passed": true
+      },
+      "benchmark-agent-tool-runtime.json": {
+        "preflight_passed": true
+      },
+      "phase": "agent_provider_retry_wait",
+      "container_process_observed_at": "2026-09-14T07:02:52.750977+00:00",
+      "guard_process_state": "S",
+      "agent_process_state": "S",
+      "agent_descendant_tool_processes": 0,
+      "guard_identity_matches_saved_guard_state": true,
+      "guard_pid": 1769,
+      "guard_identity": "5169335",
+      "agent_pid": 1778,
+      "agent_identity": "5169339",
+      "deadline_epoch": 1789374411.2800765,
+      "agent_deadline": "2026-09-14T08:26:51.280077+00:00",
+      "budget_seconds": 7200,
+      "verifier_budget_seconds": 900
+    },
+    {
+      "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__pnV8fNg",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "max",
+      "assistant_turns": 39,
+      "last_assistant_at": "2026-09-14T06:42:20.138582+00:00",
+      "trajectory_modified_at": "2026-09-14T06:42:20.257203+00:00",
+      "last_message_role": "tool",
+      "native_exit_status": "",
+      "provider_activity": {
+        "retrying_mentions": 21,
+        "bad_gateway_mentions": 63,
+        "log_modified_at": "2026-09-14T07:01:54.513670+00:00",
+        "note": "Text mentions are not counts of distinct provider requests."
+      },
+      "artifacts": {
+        "config.json": "fd023864c164291147841cca532be0647eba222295af5581e1223d91392c9d3b",
+        "agent/mini-swe-agent.trajectory.json": "cf5e5c68fa515d1128307367e1942338d34093095a5ac1282a98de570aea915e",
+        "agent/mini-swe-agent.txt": "fd2230c2c61462d2793d15acb86051dc95658107b6431bb3975bd54fd5cc19e5",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334"
+      },
+      "benchmark-agent-runtime.json": {
+        "preflight_passed": true
+      },
+      "benchmark-agent-tool-runtime.json": {
+        "preflight_passed": true
+      },
+      "phase": "terminal",
+      "finished_at": "2026-09-14T07:02:55.362562Z",
+      "exception_type": "AgentTimeoutError",
+      "reward": {
+        "reward": 0.0
+      },
+      "agent_deadline": "2026-09-14T07:02:19.788581+00:00",
+      "quiescent": true,
+      "cleanup_error": null,
+      "cleanup_finished_at": "2026-09-14T07:02:20.443513+00:00",
+      "verifier": {
+        "started_at": "2026-09-14T07:02:37.056635Z",
+        "finished_at": "2026-09-14T07:02:55.327261Z"
+      },
+      "result_sha256": "a9ddcebba56e19ff8316ea9c9dbc16bd9e2de16b6507715ef1340dfc4766569d",
+      "deadline_sha256": "7801e6abe99aebd40c2502a2d02f27b5bc64df10fb86e311a49432f783ff91f0"
+    },
+    {
+      "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__NEdBWiL",
+      "model": "anthropic/claude-fable-5-1",
+      "effort": "max",
+      "assistant_turns": 22,
+      "last_assistant_at": "2026-09-14T06:56:00.939044+00:00",
+      "trajectory_modified_at": "2026-09-14T06:56:00.963279+00:00",
+      "last_message_role": "tool",
+      "native_exit_status": "",
+      "provider_activity": {
+        "retrying_mentions": 1,
+        "bad_gateway_mentions": 3,
+        "log_modified_at": "2026-09-14T07:00:51.405874+00:00",
+        "note": "Text mentions are not counts of distinct provider requests."
+      },
+      "artifacts": {
+        "config.json": "7107ca2fb97e1d4d257d4d35d22e34b885e3790aa01130c56dbf21c3e3f99db1",
+        "agent/mini-swe-agent.trajectory.json": "2828263065fab4b1d1ff47c4224842679120f348ab7b855f2db736bfb6568362",
+        "agent/mini-swe-agent.txt": "b2bac67a4e4680079f20afeb4a53003e502043c8ff371152de92652a04509c00",
+        "agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+        "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334"
+      },
+      "benchmark-agent-runtime.json": {
+        "preflight_passed": true
+      },
+      "benchmark-agent-tool-runtime.json": {
+        "preflight_passed": true
+      },
+      "phase": "agent_provider_retry_wait",
+      "container_process_observed_at": "2026-09-14T07:02:52.750977+00:00",
+      "guard_process_state": "S",
+      "agent_process_state": "S",
+      "agent_descendant_tool_processes": 0,
+      "guard_identity_matches_saved_guard_state": true,
+      "guard_pid": 1785,
+      "guard_identity": "5333858",
+      "agent_pid": 1793,
+      "agent_identity": "5333865",
+      "deadline_epoch": 1789376055.9468482,
+      "agent_deadline": "2026-09-14T08:54:15.946848+00:00",
+      "budget_seconds": 7200,
+      "verifier_budget_seconds": 900
+    }
+  ],
+  "excluded_diskcache_predecessor": {
+    "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__KaDUVRo",
+    "finished_at": "2026-09-14T06:49:35.432481Z",
+    "exception_type": "NonZeroAgentExitCodeError",
+    "campaign_status": "infrastructure",
+    "counted_reward": null,
+    "raw_reward": 0.0,
+    "result_sha256": "834bfc9e592290d0b0ea37bc8b37e8f4bd1a475e2f3f3cb87c64803f8fb3653e",
+    "replacement_trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__NEdBWiL",
+    "obsolete_agent_deadline_not_used": "2026-09-14T07:54:25.698966+00:00"
+  },
+  "sonnet_new_counted_result": {
+    "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__pnV8fNg",
+    "status": "timeout",
+    "reward": 0,
+    "raw_reward": 0.0,
+    "finished_at": "2026-09-14T07:02:55.362562Z"
+  },
+  "campaign_summary_sha256": "42a997706cdae833b59d47d88c38c5e870edbfc09f3e5c3bf35a3afa54541fc0",
+  "assessment": {
+    "remaining_cells": 2,
+    "intervention_justified": false,
+    "basis": "Both current Fable retries have live matching guard/agent identities and no child tools; logs continue provider retry activity. Sonnet timed out at its actual deadline, quiesced, and completed verification; this is terminal progression, not an observer failure.",
+    "latest_current_agent_deadline": "2026-09-14T08:54:15.946848+00:00",
+    "conditional_latest_with_verifier_budget": "2026-09-14T09:09:15.946848+00:00",
+    "eta_limits": "About09:09UTC plus verifier setup/cleanup/summary lag only if these current attempts produce counted outcomes. Further infrastructure retries can extend it; no guaranteed or near-term99 ETA."
+  },
+  "preserved_canonical82_sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+}

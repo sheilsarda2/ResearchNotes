@@ -1,0 +1,237 @@
+{
+  "actual_agent_limits": {
+    "cost_limit": 0.0,
+    "step_limit": 0,
+    "wall_time_limit_seconds": 0
+  },
+  "actual_model_settings": {
+    "cost_tracking": "ignore_errors",
+    "format_error_template": "{% if finish_reason is defined and (finish_reason == \"length\" or (finish_reason == \"tool_calls\" and not has_tool_calls)) -%}\nYour previous response reached the output token limit (finish_reason={{ finish_reason }}) before you produced a tool call, so it was cut off. Respond more concisely and finish with exactly one bash tool call. If you need to think more, do so briefly.\n{%- else -%}\nTool call error:\n\n<error>\n{{error}}\n</error>\n\nHere is general guidance on how to submit correct toolcalls:\n\nEvery response needs to use the 'bash' tool at least once to execute commands.\n\nCall the bash tool with your command as the argument:\n- Tool: bash\n- Arguments: {\"command\": \"your_command_here\"}\n\nIf you want to end the task, please issue the following command: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`\nwithout any other command.\n{%- endif %}\n",
+    "litellm_model_registry": null,
+    "model_kwargs": {
+      "complete_response": true,
+      "drop_params": true,
+      "max_tokens": 64000,
+      "output_config": {
+        "effort": "max"
+      },
+      "stream": true,
+      "thinking": {
+        "type": "adaptive"
+      }
+    },
+    "model_name": "anthropic/claude-fable-5-1",
+    "multimodal_regex": "",
+    "observation_template": "{%- if output.output | length < 10000 -%}\n{\n  \"returncode\": {{ output.returncode }},\n  \"output\": {{ output.output | tojson }}\n  {%- if output.exception_info %}, \"exception_info\": {{ output.exception_info | tojson }}{% endif %}\n}\n{%- else -%}\n{\n  \"returncode\": {{ output.returncode }},\n  \"output_head\": {{ output.output[:5000] | tojson }},\n  \"output_tail\": {{ output.output[-5000:] | tojson }},\n  \"elided_chars\": {{ output.output | length - 10000 }},\n  \"warning\": \"Output too long.\"\n  {%- if output.exception_info %}, \"exception_info\": {{ output.exception_info | tojson }}{% endif %}\n}\n{%- endif -%}\n",
+    "set_cache_control": "default_end"
+  },
+  "agent_container": "e81891b7141c8471355604a879f693d8204f4dd33d08aceea3b5f18c3867ad4a",
+  "all_observed_response_closures_successful": true,
+  "at": "2026-09-14T08:42:07.118153+00:00",
+  "certificate_sha256": "ae7f684d70a3993279df9663b0402266c6b0eaf7e6a9adc23d3c46b9bd821315",
+  "completed_assistant_turns_at_observation": 17,
+  "cost_scope": "Unchanged Mini registry estimate; actual provider invoice not established",
+  "counted_sweep_trials": 0,
+  "current_eligibility": "pending terminal evidence and independent review",
+  "current_trajectory_sha256_at_observation": "c69b6b5fbdccb489a4fd47f0b73be6529d95d572d931a113df8e1a4a9070b7af",
+  "effective_configuration_equal_except_model_type_and_two_stream_flags": true,
+  "first_user_sha256": "62dcff460eb3aa325aa7211acb8e692884ed45ae527c5508a35b2cd1766325e4",
+  "guard_observation": {
+    "agent_budget_seconds": 7200,
+    "container_pid": 1787,
+    "deadline_epoch": 1789382406.6793282,
+    "deadline_utc": "2026-09-14T10:40:06.679328+00:00",
+    "start_identity": "5969114"
+  },
+  "kind": "standalone_streaming_canary_startup_proof",
+  "model_stats_at_observation": {
+    "api_calls": 17,
+    "instance_cost": 0.75210325
+  },
+  "model_types": {
+    "new": "checked_streaming_model.CheckedStreamingModel",
+    "old": "minisweagent.models.litellm_model.LitellmModel"
+  },
+  "old_trajectory_reference": {
+    "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__UKzJrhh/agent/mini-swe-agent.trajectory.json",
+    "sha256_at_observation": "e184135832c67f99f13b4dee4b455deff669f110f919414c61c5940405d5d4c0"
+  },
+  "runner_identity": "5940603",
+  "runner_pid": 76965,
+  "schema_version": 1,
+  "sidecar_sha256": {
+    "benchmark-agent-input.json": "5c3a7d1bffaa9e334f593cf442657408e859914a51f98dcb25266200f33aba0a",
+    "benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+    "benchmark-agent-streaming-runtime.json": "72e91ee563835089b7a2e89e8a524384b69c96abebe78f2fce558411388acf32",
+    "benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334"
+  },
+  "sidecars": {
+    "benchmark-agent-input.json": {
+      "config_sha256": "4d4840e769c020f4a7cf0502d6d4be7cb0c9a23eb7ff775f3632277e6b0bc092",
+      "delivery": "final_run_task_config",
+      "schema_version": 1,
+      "task_sha256": "5ab4ed2b26a4708a6e23c4e80219f5ee9451b5f1fb8ea9ffc9a0f4144bf9ac6f",
+      "task_utf8_bytes": 7668
+    },
+    "benchmark-agent-runtime.json": {
+      "executable": "/root/.local/share/uv/tools/mini-swe-agent/bin/python",
+      "litellm_import_ok": true,
+      "packages": {
+        "anthropic": null,
+        "litellm": "1.100.1",
+        "mini-swe-agent": "2.4.6",
+        "openai": "2.54.0",
+        "pydantic": "2.13.5"
+      },
+      "preflight_passed": true,
+      "python": "3.12.11",
+      "requested_python": "3.12.11",
+      "runtime_patch_sha256": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+      "schema_version": 1
+    },
+    "benchmark-agent-streaming-runtime.json": {
+      "complete_response": true,
+      "installed": true,
+      "litellm_version": "1.100.1",
+      "manifest_sha256": "3baa468f48db2bbeb320f88897294b36844f2560d5e78ea1a184dc352d7e925e",
+      "mini_version": "2.4.6",
+      "model_class": "checked_streaming_model.CheckedStreamingModel",
+      "package_identity_sha256": "cc5096e0732ae9574919f06fb77962a4ffa2b116db04e5cfa7941a24d5d8697a",
+      "payload_sha256": {
+        "checked_anthropic_iterator.py": "6c93ed05674718d901a45d6ccf796f7cf1fa481155ccd457b387037cd97657f0",
+        "checked_streaming_model.py": "e6761e2ceb5dd5b4fef0d48fedcc58380115701eae23d920c113be9bf23a55b1",
+        "package-identity.json": "cc5096e0732ae9574919f06fb77962a4ffa2b116db04e5cfa7941a24d5d8697a",
+        "streaming-manifest.json": "3baa468f48db2bbeb320f88897294b36844f2560d5e78ea1a184dc352d7e925e",
+        "streaming_bootstrap.py": "ee279c38094d77455b304481c4cf109ea9fc424b0d21c2c80f3719da0d94fc4c"
+      },
+      "preflight_passed": true,
+      "python": "3.12.11",
+      "schema_version": 1,
+      "scope": "new_agent_process_only",
+      "stream": true,
+      "wrapper_sha256": "1dba5fb4622aade5839e45c8a968be9755f265b479da5f817e744fceac62b87f"
+    },
+    "benchmark-agent-tool-runtime.json": {
+      "bootstrap_sha256": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+      "executable": "/root/.local/share/uv/tools/mini-swe-agent/bin/python",
+      "helper_sha256": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+      "installed": true,
+      "package": "mini-swe-agent",
+      "package_version": "2.4.6",
+      "phase": "tool_runtime_preflight_before_mini_cli",
+      "post_kill_drain_timeout_sec": 1.0,
+      "preflight_passed": true,
+      "python": "3.12.11",
+      "replacement": "benchmark_mini_tool_cleanup.bounded_run",
+      "runtime_wrapper_sha256": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+      "schema_version": 1,
+      "scope": "agent_process_only",
+      "target": "minisweagent.environments.local._run",
+      "upstream_function_sha256": "47f7f72e224b860180c0b6ff6ddb205fe52fe5e66f07145ce3d95c7375df8e6b"
+    }
+  },
+  "signed_block_lengths_only": [
+    {
+      "signature_utf8_bytes": 760,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 872,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 880,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 992,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 992,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 928,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 948,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1048,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1032,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 940,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1060,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 940,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1000,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1064,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1112,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 940,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 1764,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 940,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    },
+    {
+      "signature_utf8_bytes": 960,
+      "thinking_utf8_bytes": 0,
+      "type": "thinking"
+    }
+  ],
+  "stream_event_counts": {
+    "complete_response_returned": 17,
+    "http_response_opened": 18,
+    "query_entered": 18,
+    "query_resources_closed": 17
+  },
+  "trial_path": "jobs/streaming-canary-luigi-fable-max-20260914-001/luigi-generation-target__RigDBsV"
+}

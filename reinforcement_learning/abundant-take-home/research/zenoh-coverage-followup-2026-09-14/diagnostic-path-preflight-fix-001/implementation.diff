@@ -1,0 +1,59 @@
+--- research/zenoh-coverage-followup-2026-09-14/harness/focused_validation_v2.py
++++ research/zenoh-coverage-followup-2026-09-14/harness/focused_validation_v3.py
+@@ -19,6 +19,7 @@
+ import signal
+ import subprocess
+ import sys
++import tempfile
+ import time
+ import uuid
+ 
+@@ -68,6 +69,23 @@
+     tmp = path.with_name(path.name + '.tmp')
+     tmp.write_text(json.dumps(value, indent=2, sort_keys=True) + '\n')
+     tmp.replace(path)
++
++
++def patch_paths(patch):
++    """Inspect every path, independent of a containing repository's cwd filter."""
++    # git apply silently omits paths outside a repository subdirectory. Inspect
++    # in a private directory outside the worktree, without inherited Git context.
++    git_env = {key: value for key, value in os.environ.items()
++               if not key.startswith('GIT_')}
++    with tempfile.TemporaryDirectory(prefix='zenoh-patch-inspection-') as directory:
++        completed = subprocess.run(['git', 'apply', '--numstat', '-z', str(Path(patch).resolve())],
++                                   cwd=directory, env=git_env, text=True, capture_output=True,
++                                   check=True, timeout=20)
++    paths = [row.split('\t', 2)[2] for row in completed.stdout.split('\0') if row]
++    require(paths and all(not Path(p).is_absolute() and '..' not in Path(p).parts and
++                          any(p.startswith(d + '/') for d in SRC_DIRS) for p in paths),
++            'Patch may change only the four collected src directories')
++    return paths
+ 
+ 
+ def capture(args):
+@@ -94,12 +112,7 @@
+     if args.patch:
+         require(args.patch.resolve().is_relative_to(ROOT), 'Patch must be within this workspace')
+         patch_hash = digest(args.patch)
+-        completed = subprocess.run(['git', 'apply', '--numstat', '-z', str(args.patch.resolve())],
+-                                   text=True, capture_output=True, check=True, timeout=20)
+-        paths = [row.split('\t', 2)[2] for row in completed.stdout.split('\0') if row]
+-        require(paths and all(not Path(p).is_absolute() and '..' not in Path(p).parts and
+-                             any(p.startswith(d + '/') for d in SRC_DIRS) for p in paths),
+-                'Patch may change only the four collected src directories')
++        paths = patch_paths(args.patch)
+     return dict(schema_version=2, image=args.image, source=args.source, saved_sources=saved,
+                 cached_source_task=str(CACHED_TASK.relative_to(ROOT)),
+                 cached_47_test_file_is_not_executed=True,
+--- research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py
++++ research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics_v2.py
+@@ -17,7 +17,7 @@
+ 
+ BASE = Path(__file__).resolve().parent
+ ROOT = BASE.parents[1]
+-HARNESS = BASE / 'harness/focused_validation_v2.py'
++HARNESS = BASE / 'harness/focused_validation_v3.py'
+ 
+ 
+ def read(path):

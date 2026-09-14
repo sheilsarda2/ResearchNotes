@@ -1,0 +1,230 @@
+{
+  "agent_exit_abnormal": true,
+  "assistant_steps": 24,
+  "benchmark_evidence": {
+    "budget": {
+      "deadline_at": "2026-09-14T13:54:58.975979Z",
+      "deadline_source": "orchestrator",
+      "last_assistant_seconds_after_deadline": null,
+      "native_after_deadline": {
+        "assistant_turns": 0,
+        "cost_usd": null,
+        "turns_with_cost": 0,
+        "turns_with_usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_totals": {
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "completion_tokens": null,
+          "prompt_tokens": null,
+          "total_tokens": null
+        }
+      },
+      "native_at_or_before_deadline": {
+        "assistant_turns": 24,
+        "cost_usd": 2.15401775,
+        "turns_with_cost": 24,
+        "turns_with_usage": {
+          "cache_creation_input_tokens": 24,
+          "cache_read_input_tokens": 24,
+          "completion_tokens": 24,
+          "prompt_tokens": 24,
+          "total_tokens": 24
+        },
+        "usage_totals": {
+          "cache_creation_input_tokens": 146100,
+          "cache_read_input_tokens": 831071,
+          "completion_tokens": 2390,
+          "prompt_tokens": 977221,
+          "total_tokens": 979611
+        }
+      },
+      "native_tool_returns_after_deadline": 0,
+      "native_tool_returns_without_timestamp": 0,
+      "native_unclassified": {
+        "assistant_turns": 0,
+        "cost_usd": null,
+        "turns_with_cost": 0,
+        "turns_with_usage": {
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "total_tokens": 0
+        },
+        "usage_totals": {
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "completion_tokens": null,
+          "prompt_tokens": null,
+          "total_tokens": null
+        }
+      },
+      "post_deadline_activity": false
+    },
+    "completeness": {
+      "atif": "present",
+      "config": "present",
+      "execution_and_verifier_timing": true,
+      "native": "present",
+      "pre_verifier_inputs_unchanged": true,
+      "pre_verifier_snapshot_present": true,
+      "result": "present",
+      "result_cost": true,
+      "result_usage": true
+    },
+    "counts": {
+      "atif_agent_steps": 24,
+      "atif_steps_with_timestamp": 24,
+      "atif_tool_calls": 24,
+      "native_assistant_turns": 24,
+      "native_tool_calls": 24,
+      "native_tool_returns": 24,
+      "native_turns_with_timestamp": 24,
+      "turn_counts_match": true
+    },
+    "lifecycle": {
+      "agent_phase_started": true,
+      "agent_run_started_at": "2026-09-14T11:54:58.975979Z",
+      "all_executions_quiescent": true,
+      "cleanup_error": null,
+      "cleanup_finished_at": "2026-09-14T13:15:48.670594Z",
+      "closed_at": "2026-09-14T13:15:48.647278Z",
+      "deadline_record_present": true,
+      "deadline_record_state": "present",
+      "execution_count": 3,
+      "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+      "quiescent": true,
+      "runtime_helper_sha256": null,
+      "runtime_present": true,
+      "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+      "runtime_state": "present",
+      "runtime_version": 1,
+      "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+    },
+    "request": {
+      "configured_effort": "max",
+      "configured_model": "anthropic/claude-fable-5-1",
+      "effort_matches": true,
+      "max_tokens": 64000,
+      "recorded_effort": "max",
+      "thinking_type": "adaptive"
+    },
+    "response_models": {
+      "atif": [
+        "anthropic/claude-fable-5-1"
+      ],
+      "atif_reasoning_efforts": [
+        "max"
+      ],
+      "native": [
+        "claude-fable-5-1"
+      ]
+    },
+    "timing": {
+      "agent_execution": {
+        "complete": true,
+        "finished_at": "2026-09-14T13:15:48.211632Z",
+        "seconds": 4849.236592,
+        "started_at": "2026-09-14T11:54:58.975040Z"
+      },
+      "agent_setup": {
+        "complete": true,
+        "finished_at": "2026-09-14T11:54:58.697598Z",
+        "seconds": 35.966898,
+        "started_at": "2026-09-14T11:54:22.730700Z"
+      },
+      "environment_setup": {
+        "complete": true,
+        "finished_at": "2026-09-14T11:54:22.730680Z",
+        "seconds": 1.315735,
+        "started_at": "2026-09-14T11:54:21.414945Z"
+      },
+      "trial": {
+        "complete": true,
+        "finished_at": "2026-09-14T13:17:15.225532Z",
+        "seconds": 4973.847325,
+        "started_at": "2026-09-14T11:54:21.378207Z"
+      },
+      "verifier": {
+        "complete": true,
+        "finished_at": "2026-09-14T13:17:15.150681Z",
+        "seconds": 35.037834,
+        "started_at": "2026-09-14T13:16:40.112847Z"
+      }
+    },
+    "usage": {
+      "atif_final": {
+        "total_cached_tokens": 831071,
+        "total_completion_tokens": 2390,
+        "total_cost_usd": 2.15401775,
+        "total_prompt_tokens": 977221
+      },
+      "native_final": {
+        "api_calls": 25,
+        "instance_cost": 2.15401775
+      },
+      "native_responses": {
+        "assistant_turns": 24,
+        "cost_usd": 2.15401775,
+        "turns_with_cost": 24,
+        "turns_with_usage": {
+          "cache_creation_input_tokens": 24,
+          "cache_read_input_tokens": 24,
+          "completion_tokens": 24,
+          "prompt_tokens": 24,
+          "total_tokens": 24
+        },
+        "usage_totals": {
+          "cache_creation_input_tokens": 146100,
+          "cache_read_input_tokens": 831071,
+          "completion_tokens": 2390,
+          "prompt_tokens": 977221,
+          "total_tokens": 979611
+        }
+      },
+      "provider_charge_may_be_missing": true,
+      "result": {
+        "cost_usd": 2.15401775,
+        "n_cache_tokens": 831071,
+        "n_input_tokens": 977221,
+        "n_output_tokens": 2390
+      },
+      "usage_censored": true
+    }
+  },
+  "benchmark_evidence_sha256": "1cb567247e6edd8c448107d3eda25440bae989b9babf966bd010d98085f66ca2",
+  "check_unit": "individual_checks",
+  "checks_passed": 11,
+  "checks_total": 45,
+  "cost_usd": 2.15401775,
+  "effort": "max",
+  "exception": "NonZeroAgentExitCodeError",
+  "finished_at": "2026-09-14T13:17:15.225532Z",
+  "guarded_evidence": true,
+  "model": "fable-5-1",
+  "native_assistant_turns": 24,
+  "native_tool_calls": 24,
+  "observed_model_names": [
+    "anthropic/claude-fable-5-1"
+  ],
+  "outcome_basis": "completed_verifier_after_agent_exit",
+  "provider_charge_may_be_missing": true,
+  "raw_reward": 0.0,
+  "recorded_effort": "max",
+  "response_model_aliases": [
+    "claude-fable-5-1"
+  ],
+  "result_sha256": "a0093e5ffe333c00a76e11c8ca191f518ead1230b13413df64078b8b1577e0da",
+  "reward": 0,
+  "status": "scored",
+  "task": "diskcache-online-reshard-v2",
+  "tool_calls": 24,
+  "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__uuqa2f6",
+  "usage_censored": true
+}

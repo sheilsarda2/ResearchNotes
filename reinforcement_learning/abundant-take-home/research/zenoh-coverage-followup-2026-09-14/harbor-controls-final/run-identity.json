@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-14T06:30:33.514560+00:00",
+  "harbor_version": "0.15.0",
+  "task": "research/zenoh-coverage-followup-2026-09-14/rs-zenoh-timestamp-instrumentation-v4-validation",
+  "task_checksum": "67f1fdca75fd66f4cbdd6e4729a582c9fbbdac428a0299eefc74104dffa59fab",
+  "inputs": {
+    "task_file_sha256": {
+      "STATUS.md": "e395a23f37c22cf5b225438cb237abc34bb71f63d6149442334c25632a5b3a6b",
+      "environment/Dockerfile": "46a66c0f688df2c0ece0eea5736759ee2b80be83697b0f360a750d10ea14e1aa",
+      "environment/upstream.tar.gz": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+      "instruction.md": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b",
+      "provenance.json": "c632c04a5d82175afaf461ee86cb42c6c4f17186940e14eb5015f1c54720b8ca",
+      "solution/admin-reply-stack.patch": "697f7c9f47b52542c94c7857143eb7e423adb65d4a060fb6540cee4c35ca0495",
+      "solution/changes.patch": "6e7b6e78d8c194ed9ece8a87a715878e1fb466e8823eb9f0a723e2280e49af0d",
+      "solution/solve.sh": "7b8fb8585979e229360e27b069985a5effb729fcc980928eaa24f3bb850f4c5f",
+      "task.toml": "cabf63e79fb10644d52eec42a0678f6d15c25f7a030f67f8c82e88d1985c5cc2",
+      "tests/Dockerfile": "799185b373a0ae7713a482055deae78f3a21239f0e29253b1ba0a67a2165e159",
+      "tests/hidden/zenoh/tests/timestamp_adminspace.rs": "28de8d59c611cb3a7f1a665cdfe6f6569a35ead6fe95f388060cd131af7d1743",
+      "tests/hidden/zenoh/tests/timestamp_adminspace_reply_stack.rs": "3d70c2e5f45169a43d709862063c2b5aedb9e467eb49659b04089aad363831a9",
+      "tests/hidden/zenoh/tests/timestamp_instrumentation.rs": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487",
+      "tests/hidden/zenoh/tests/timestamp_robustness.rs": "3bea1e646e23cf5135461abc1105837cce15713f9c3aab0f293bc05673a69ede",
+      "tests/hidden/zenoh/tests/ts_interop.rs": "b90fe6c36b798cf9c08b9b801e6cb5b4655cd9a88309896b5e45ea3928023b6b",
+      "tests/hidden/zenoh-ext/tests/ts_advanced.rs": "65f514d9ce7869db4bd24264c334f202e950ab48b719910d24fd785836a3dd61",
+      "tests/image-source/gold.patch": "0b54739d6bd3a421a10fdbccaedcc22e560143048c5e673a17f05aa7308da7d9",
+      "tests/image-source/patch_zenoh_python.py": "19ef60debd34f93b3e1c60c20f7347b0dee5309ebfd2441073675aa5f6a6a016",
+      "tests/image-source/upstream.tar.gz": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+      "tests/py_peer.py": "d7d2e193d7dab090ef491e63e5b5833f1b799c42f18da1f15895971905996ce5",
+      "tests/score.py": "748f4c97a9b13c6c9f97aa31e24e024eae4462306cb5e279ba980f3c06ffa4eb",
+      "tests/test.sh": "b5dd8a5d276ea021419643c8593c209582c449c1bc3c72fdc7f053c7d109fec9",
+      "tests/ts_peer/Cargo.toml": "47b2a0b20f01a2e1df672a8886dd5084974a0c3c3cf39e906d7b24f49534c114",
+      "tests/ts_peer/src/main.rs": "8bf34134041e0f9618f8713d00ea0023fd1a9459f607fd07dfd4863f46c7a6b0"
+    },
+    "task_manifest_sha256": "b31cdea49802b2b2c24da18ae1b032671f9fbc8f406764534352d425ef160e3c"
+  },
+  "tooling_sha256": {
+    "scripts/benchmark_agent_runtime.py": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+    "scripts/benchmark_coverage_priority.py": "fbc8f266dc2a0b46456ed37944eaa155002b677fc2af7bf6b81b6a6ed2286a02",
+    "scripts/benchmark_deadline.py": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+    "scripts/benchmark_evidence.py": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5",
+    "scripts/benchmark_incidents.py": "d14116a2533cacc46d42d563a1bb2c26e0b0fb8e7dd0f7267c528e548a0d270d",
+    "scripts/benchmark_interleaving.py": "8f22613c808398b69f1e40e0c69c8d7567de3c17874b03db5c7fd80f6e976827",
+    "scripts/benchmark_job_scheduling.py": "6316c96998ca9882b5560cc89f28250e9f78ef3cb22ff2a3db2658bcd92b69c8",
+    "scripts/benchmark_lock_cache.py": "1974b784a261b70e5fa0af7d5ab5a443e3b60ac11c4d5d053ea1116ee41db6aa",
+    "scripts/benchmark_mini_tool_bootstrap.py": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+    "scripts/benchmark_mini_tool_cleanup.py": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+    "scripts/benchmark_mini_tool_runtime.py": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "scripts/benchmark_process_guard.py": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "scripts/benchmark_startup_failures.py": "e80ba331939942377526e080bd0f0bbe6386272765815a2039971c0ae5175da6",
+    "scripts/benchmark_task_selection.py": "c8f847a796f5320ff408287d4aa8e9d10daaef61e2224eb910ededea7645db35",
+    "scripts/benchmark_trial_containment.py": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+    "scripts/benchmark_trial_intervention.py": "41953a8133969efffbe0c1bbcaaa16ea5755f3faee105f74fc37b6c5977c4753",
+    "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+    "scripts/candidate-bench.py": "0fc6bbf2f4ddeabb4083a057c6ab28efdd4eb73e0aa58a4debae590bccea0fca",
+    "research/zenoh-coverage-followup-2026-09-14/validate_controls_immutable.py": "6eedc7e3f00184e482b5d2a5b8f21c6de2423554e42f937c66c4a8e3bbbffe80",
+    "research/zenoh-coverage-followup-2026-09-14/execute_captured_runner.py": "f9209395ecce2b6b34d000ca7c9670cd0a8cdde5c94d0b303c87828d3e5145eb",
+    "research/zenoh-coverage-followup-2026-09-14/capture_immutable_tooling.py": "6f735974706d588ccdd0be29abdf21db594cc97111b04287e2c8491b7510e9aa",
+    "research/zenoh-coverage-followup-2026-09-14/pin_control_verifier_image.py": "fc94097bd15ada6dd05c2707f7b8f7c441122297eda682cf83ebec52196baafe",
+    "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/manifest.json": "eea36c9e6aaa1fdee9cd2a53519ebefa29bb8bd664ef6e9f4c0f68d99f194079",
+    "research/zenoh-coverage-followup-2026-09-14/immutable-execution-context.json": "bb7f8c5eb001906aeab9e40bfa80e14265d647f25f4fef6594e4fbca7358e575"
+  },
+  "original_budgets": {
+    "agent": {
+      "timeout_sec": 21600.0
+    },
+    "verifier": {
+      "timeout_sec": 3600.0,
+      "environment": {
+        "network_mode": "no-network",
+        "build_timeout_sec": 3600,
+        "cpus": 4,
+        "memory_mb": 8192,
+        "storage_mb": 30720
+      }
+    },
+    "environment": {
+      "build_timeout_sec": 3600.0,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "storage_mb": 30720,
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://take-home-automation.vercel.app",
+        "ANTHROPIC_API_BASE": "https://take-home-automation.vercel.app"
+      }
+    }
+  },
+  "control_sha256": "7d33866a1e7bd120cabc62b06df3278b1596e6699c0d18caa868ca233fb561aa",
+  "model_calls": 0,
+  "execution_source_tree": "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/files",
+  "live_source_differences_at_start": {}
+}

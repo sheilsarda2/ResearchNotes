@@ -1,0 +1,808 @@
+{
+  "at": "2026-09-14T11:47:50.071300+00:00",
+  "classification": {
+    "captured_source": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/run-candidate-screen.py",
+      "sha256": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1"
+    },
+    "captured_summary": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/captured-main-summary.json",
+      "sha256": "4aec0edbf18f947712d8fb42486b5b7ad5918ce91d1337a1befd76f933664fb4"
+    },
+    "earliest_counted_trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5",
+    "frozen_counted_statuses": [
+      "scored",
+      "timeout",
+      "verifier_timeout"
+    ],
+    "frozen_preexisting_policy": {
+      "path": "research/takehome-presentation-2026-09-14/data/results.json",
+      "sha256": "9dabba6f5ff251f8a79b06bc875be76c51a5bdf0481d5be058bba03941390d7a"
+    },
+    "frozen_timeouts_are_failures": true,
+    "original_source": {
+      "lines": [
+        195,
+        203,
+        248,
+        250
+      ],
+      "path": "scripts/run-candidate-screen.py",
+      "sha256": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1"
+    },
+    "original_summary_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.summary.json",
+    "other_captured_summary_rows_are_context_only": true,
+    "same_cell_terminal_rows": [
+      {
+        "exception": "NonZeroAgentExitCodeError",
+        "finished_at": "2026-09-14T02:11:02.653300Z",
+        "reward": null,
+        "status": "infrastructure",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__844YtMQ"
+      },
+      {
+        "exception": "NonZeroAgentExitCodeError",
+        "finished_at": "2026-09-14T06:21:39.329722Z",
+        "reward": null,
+        "status": "infrastructure",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__Thoi7JJ"
+      },
+      {
+        "exception": "NonZeroAgentExitCodeError",
+        "finished_at": "2026-09-14T07:21:16.303076Z",
+        "reward": null,
+        "status": "infrastructure",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__UKzJrhh"
+      },
+      {
+        "exception": "NonZeroAgentExitCodeError",
+        "finished_at": "2026-09-14T08:33:08.648673Z",
+        "reward": null,
+        "status": "infrastructure",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__3DJVSDM"
+      },
+      {
+        "exception": "NonZeroAgentExitCodeError",
+        "finished_at": "2026-09-14T09:35:55.618451Z",
+        "reward": null,
+        "status": "infrastructure",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__Fw2kLRo"
+      },
+      {
+        "exception": "AgentTimeoutError",
+        "finished_at": "2026-09-14T11:43:35.408460Z",
+        "reward": 0,
+        "status": "timeout",
+        "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5"
+      }
+    ],
+    "selected_record": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/selected-trial-record.json",
+      "sha256": "408cad8a14afdebe7521c5af0997d2a6fb0018e4c4318ca18be95e1d8db33aae"
+    },
+    "selected_record_canonicalization": "json.dumps(row,sort_keys=True).encode() with default separators/ensure_ascii and no newline",
+    "source_rule": "AgentTimeoutError bypasses the non-timeout gateway/infrastructure branch; guarded evidence must pass, then status timeout retains the verifier reward.",
+    "summary_updated_at": "2026-09-14T11:47:45.251610+00:00"
+  },
+  "complete_raw_root": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/complete-raw-root.json",
+    "sha256": "3564315892bfef0c7aaa700eda73eb24973d679d83e8a8bb5ce6365b76aea16e"
+  },
+  "configured_model": "anthropic/claude-fable-5-1",
+  "counts": {
+    "atif_agent_steps": 20,
+    "atif_tool_calls": 20,
+    "max_native_atif_timestamp_delta_seconds": 4.76837158203125e-07,
+    "native_assistant_turns": 20,
+    "native_tool_calls": 20,
+    "native_tool_returns": 20,
+    "saved_counter_is_not_final_in_memory_or_http_request_count": true,
+    "saved_native_api_calls": 20,
+    "tool_ids_match": true
+  },
+  "effort": "max",
+  "evidence_integrity": {
+    "all_existing_evidence_fields_recomputed_match_except_float_roundoff": true,
+    "current_reader_additive_fields": [
+      "/lifecycle/process_guard_sha256",
+      "/lifecycle/trial_containment_sha256",
+      "/lifecycle/runtime_sha256"
+    ],
+    "float_roundoff": [],
+    "guarded_evidence_attach_result": true,
+    "post_verifier": {
+      "changed_paths": [],
+      "expected_sha256": "037bafc5d9baf36ed8225e07c9984f5ef38ec47ee669d0982d91f0e5d83d1ed4",
+      "matches": true,
+      "observed_sha256": "037bafc5d9baf36ed8225e07c9984f5ef38ec47ee669d0982d91f0e5d83d1ed4"
+    },
+    "pre_verifier": {
+      "changed_paths": [],
+      "expected_sha256": "3b77b3355b353d9290b9612e82eb41ce9c6be93f5ae8e9f566f64c589e4d9cbb",
+      "matches": true,
+      "observed_sha256": "3b77b3355b353d9290b9612e82eb41ce9c6be93f5ae8e9f566f64c589e4d9cbb"
+    },
+    "raw_file_count": 190,
+    "raw_files_stable_before_after": true
+  },
+  "interpretation": {
+    "capability_limit": "Repeated gateway failures and very long gaps between completed responses materially confound capability or task-headroom conclusions. This is an operational budget failure with an unimplemented feature, not clean evidence that the model could not solve the task under healthy service.",
+    "cost_limit": "$2.05614325 is recorded completed-response cost. Timeout usage is censored and incomplete-request charges are unknown; no total-billed-cost claim.",
+    "counting_validity": "The7200-second agent budget expired and the unchanged frozen policy counts agent timeouts as failures. This is the earliest counted terminal in this cell; earlier gateway outcomes remain excluded.",
+    "provider_cause_limit": "22logged BadGateway retry warnings and the final retry sequence after the last tool support provider disruption. No per-request timing or final completed provider exception establishes all elapsed wait time, an absolute/idle timeout, or actual total HTTP attempts.",
+    "task_requirement": "Instruction line1 explicitly requires luigi.LocalGenerationTarget. All172 delivered package files exactly equal pristine; the API is absent. Verifier48feature cases fail in setup, rather than48 independent behavioral assertions."
+  },
+  "kind": "independent_read_only_first_counted_timeout_audit",
+  "mini_version": "2.4.6",
+  "model_calls": 0,
+  "outcome": {
+    "counted_reward": 0,
+    "counted_status": "timeout",
+    "exception": "AgentTimeoutError",
+    "finished_at": "2026-09-14T11:43:35.408460Z",
+    "native_exit_status": "",
+    "native_last_role": "tool",
+    "raw_reward": 0.0,
+    "submitted_normally": false
+  },
+  "packaging_performed": false,
+  "provider_retry_observations": {
+    "consecutive_warning_groups": [
+      8,
+      9,
+      5
+    ],
+    "last_warning_line": 3800,
+    "no_native_terminal_provider_exception": true,
+    "stdout": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/agent/mini-swe-agent.txt",
+      "sha256": "6fd1638571e9990b372a19496be992b0660f8fe35126d30274ac8d83c3cd4e5f"
+    },
+    "warning_count": 22,
+    "warnings": [
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3248,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3253,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3258,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 8,
+        "error_type": "BadGatewayError",
+        "line": 3263,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 16,
+        "error_type": "BadGatewayError",
+        "line": 3268,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 32,
+        "error_type": "BadGatewayError",
+        "line": 3273,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 60,
+        "error_type": "BadGatewayError",
+        "line": 3278,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 60,
+        "error_type": "BadGatewayError",
+        "line": 3283,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3629,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3634,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3639,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 8,
+        "error_type": "BadGatewayError",
+        "line": 3644,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 16,
+        "error_type": "BadGatewayError",
+        "line": 3649,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 32,
+        "error_type": "BadGatewayError",
+        "line": 3654,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 60,
+        "error_type": "BadGatewayError",
+        "line": 3659,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 60,
+        "error_type": "BadGatewayError",
+        "line": 3664,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 60,
+        "error_type": "BadGatewayError",
+        "line": 3669,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3780,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3785,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 4,
+        "error_type": "BadGatewayError",
+        "line": 3790,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 8,
+        "error_type": "BadGatewayError",
+        "line": 3795,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      },
+      {
+        "backoff_seconds": 16,
+        "error_type": "BadGatewayError",
+        "line": 3800,
+        "provider_error_type": "api_error",
+        "provider_message": "upstream request failed"
+      }
+    ]
+  },
+  "raw_references": {
+    "agent/mini-swe-agent.trajectory.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/agent/mini-swe-agent.trajectory.json",
+      "sha256": "6cbfbcc2a9625baeab799db2de7e619ec585879edc7b510c22ad4dd8901501a7"
+    },
+    "agent/mini-swe-agent.txt": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/agent/mini-swe-agent.txt",
+      "sha256": "6fd1638571e9990b372a19496be992b0660f8fe35126d30274ac8d83c3cd4e5f"
+    },
+    "agent/trajectory.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/agent/trajectory.json",
+      "sha256": "4fc9a3db778c8937836e1a6e47b32a2ff0cad99761d4a4154bec93585983f6de"
+    },
+    "benchmark-deadline.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/benchmark-deadline.json",
+      "sha256": "2963671d602a5e5159f64cf60edda746e9e27baa96d776e66c2f3a763beb66f0"
+    },
+    "benchmark-evidence.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/benchmark-evidence.json",
+      "sha256": "83e077233d35e19ec84ad3f88e1242e9912ee8883a244fd6ac9e3889f6916d85"
+    },
+    "benchmark-runtime.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/benchmark-runtime.json",
+      "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+    },
+    "benchmark-snapshot.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/benchmark-snapshot.json",
+      "sha256": "a43c6e70871b6e805ecba3023bda7254e97ee72e0dd68e75166039dcbd1ddbc8"
+    },
+    "config.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/config.json",
+      "sha256": "a226988dfb35a1684d275b660a9ae468e30f6501e07e8133e2a1099317018815"
+    },
+    "result.json": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/result.json",
+      "sha256": "09c887a8486433bd67d8f798e90c05e42e2be12930fda4b6438ce26558660e43"
+    },
+    "verifier/results.xml": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/verifier/results.xml",
+      "sha256": "13417729501c40af382fb99c474cbb9f60180cd63f0b470442746e3676b1aed9"
+    },
+    "verifier/reward.txt": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/verifier/reward.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "verifier/test-stdout.txt": {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5/verifier/test-stdout.txt",
+      "sha256": "2cc57f2fc23d30f5e917da2e982eae4c8631437dd598e78b1038264f1e3b02c5"
+    }
+  },
+  "raw_scoring_or_classification_edits": false,
+  "replays": 0,
+  "request": {
+    "configured_effort": "max",
+    "configured_model": "anthropic/claude-fable-5-1",
+    "effort_matches": true,
+    "max_tokens": 64000,
+    "recorded_effort": "max",
+    "thinking_type": "adaptive"
+  },
+  "saved_source": {
+    "added": [],
+    "archive": {
+      "path": "candidates/luigi-generation-target/environment/upstream.tar.gz",
+      "sha256": "01870f93d481d0126ec57ef5b04a31f64abc70c5b6603ac40778e73837d68758"
+    },
+    "changed": [],
+    "exact_package_equality": true,
+    "pristine_files": 172,
+    "pristine_member_sha256": {
+      "luigi/__init__.py": "bc14248e5ba3bcb46c1d685474270316d367b94a944e63289dc60611df856085",
+      "luigi/__main__.py": "839de5b21d2a805a767d5ec7c044be76716045531da480c1ad7f1d2c59f81e8f",
+      "luigi/__version__.py": "3d3a61a3c5f60732ed6b0cd3196ced7644c63917d9f62f2abf289bac4f2fed35",
+      "luigi/batch_notifier.py": "46355ea50d39376cebe792d63783d5d470f65d06d06fab8ec63ab7bc88bb55e2",
+      "luigi/cmdline.py": "a242f5ec63160e74d1b695560b0a2d0a05c1c3c26a22c2c3c7b39903226deee9",
+      "luigi/cmdline_parser.py": "d00814ffdab85406ff38ab1e8b9e5d64b72098c6ee962c824d29c06c113be758",
+      "luigi/configuration/__init__.py": "c7da16107729ed72ceb35930c16a00df5a7d296824ef4a25c4d567771c36d7e5",
+      "luigi/configuration/base_parser.py": "932808bbff4249ff84c5da4f96d74f514bec10dc6ac0c4f7bf833d49ce111827",
+      "luigi/configuration/cfg_parser.py": "140a612a03c55f0ce4b826913f241d2019d0a5a92563487268606a6b88fef02f",
+      "luigi/configuration/core.py": "d52ac6dda2cf7f6b9762cef2bae6fdc8174bbc90298dd7a0ca6881d2761da4ac",
+      "luigi/configuration/toml_parser.py": "f087cf621c847900f27de37bc3eed37325744e76a2c660cc015d1a1bd814b463",
+      "luigi/contrib/__init__.py": "ce230c3bd6a6746cc1f587b972c15fb6822c533bb1eec0a33496c7effb70b3e9",
+      "luigi/contrib/azureblob.py": "eec6a7241292506c609c062c4755c16056466e1c58bcfa6a12ca2ae82660829f",
+      "luigi/contrib/batch.py": "efaad67087d733cbe68da49fb87d8a28367b3e4f99d01cd9fad6e2891095789c",
+      "luigi/contrib/beam_dataflow.py": "9d5291e05b5d06b00dfca47ebd06c21f3f6bd0a2e719df4c7f20bbfd31f3b905",
+      "luigi/contrib/bigquery.py": "7b76877689720044788adef5bba3821c44d8d79271d402367a71ced890d50b11",
+      "luigi/contrib/bigquery_avro.py": "7cfe454b8d029d23d9f0629e348003b23b3b90e1b46bd56ce90749c8022df855",
+      "luigi/contrib/datadog_metric.py": "51e860729c4aec69422c8f29b59c35d431ecf27eb654d05f947f677ff93d8944",
+      "luigi/contrib/dataproc.py": "ab254d8218b93a88faa709e1c8968883c2aa9bb98c01864a11a1e09f35d7bc10",
+      "luigi/contrib/docker_runner.py": "f5733e9b48b25b703d45dd23dd08ab0899da0b0c82df045f685c14a7a12dcc10",
+      "luigi/contrib/dropbox.py": "0451af673d4583c8e24faecdf181eb9448d36a5ad833f22b8ad6a4aee47ce380",
+      "luigi/contrib/ecs.py": "0a39682177cfae65032284a5b04b06c3b605d854439e626886ba02439ce0c793",
+      "luigi/contrib/esindex.py": "992fddc3516ceddcc15a7743ff8754a4c3354fb24808c286e45d3704cf21bb49",
+      "luigi/contrib/external_daily_snapshot.py": "3ef82ee73a5bfe5d1e92e23c9fc60c5088d4ac0c4a0eeb4653f7f6aef15a4370",
+      "luigi/contrib/external_program.py": "7131f31576674b7386b9c1bead0614775aff130b3629bf0af74455e3047679c4",
+      "luigi/contrib/ftp.py": "e87ab21a165d9bb94d0bdfdf1d056df12d0e183dc9607c56dda00a691eede6d4",
+      "luigi/contrib/gcp.py": "4d9885050b382cfe484eb405223c8fedc9c85e0ffe08eeea5f62613547767cf0",
+      "luigi/contrib/gcs.py": "bd5fd9912f13bad25d0b98813569b29768a92878a176847419adfeb3d64fd19f",
+      "luigi/contrib/hadoop.py": "3bbaaf32f957c92e10a0e597432c93cc06cc90b56eab5e13f1528b00a3e4ff45",
+      "luigi/contrib/hadoop_jar.py": "5a38cda20823da5715cc7f2e9439c2db7411daa2941a95fd8e983a0776e24b45",
+      "luigi/contrib/hdfs/__init__.py": "9abcc4f65ea2fc30eb48cdcbfae33f94a618196ed43f7d41116cc92d043159ee",
+      "luigi/contrib/hdfs/abstract_client.py": "edbd2c03fe7166794a6a9ce59845f4e402344dfbbd0399a55b5979ccccfa4b18",
+      "luigi/contrib/hdfs/clients.py": "3ef31e55d5f539ebd0ccb0a5640e4f708d9dfe56e405d9717a1b4374e75a45c5",
+      "luigi/contrib/hdfs/config.py": "d46fbe6e09264ac1bf2d1caf204beea2174c53d2cdb399852eea90e8bf2be9ec",
+      "luigi/contrib/hdfs/error.py": "ce38db2dee52281cacf504721c6849e9c623449425ace459912f367ea753dc11",
+      "luigi/contrib/hdfs/format.py": "32449f66c9df9c27f380f4d30721ae694dbdf59febe85ee4538d9bed8caeae11",
+      "luigi/contrib/hdfs/hadoopcli_clients.py": "fdc01ae4b304e5693195b9921ccb4cbccf6924be6a99e742aac9e1862932110e",
+      "luigi/contrib/hdfs/target.py": "a4dd12f4b624f7e2b57d91727a36b83343a1d78e6adc0b5d6c2e73f4465b2bd8",
+      "luigi/contrib/hdfs/webhdfs_client.py": "102507ddc23dfd0c861f85de6c1d0daa9d80b32559a5be5cad4e8786e9224848",
+      "luigi/contrib/hive.py": "c0a130b7473ad05d671304b4e6a347a76bfdfa040ea479825a087ad465e98be1",
+      "luigi/contrib/kubernetes.py": "7788d456a85fbd9fde7a852b3e895199a97fe3b6928ea04b1342529ef001cd8a",
+      "luigi/contrib/lsf.py": "146c005fe96bd49219cf556d190e6c267e5e6c5539a7ce4e6c4730fa120a333a",
+      "luigi/contrib/lsf_runner.py": "0fbdbd1199577fc5e5e2b69fee62f71cd7b61fa5a7d0c1aacbda60fcd3b8e43a",
+      "luigi/contrib/mongodb.py": "6e50b37b47a90de4c33125293558eaf7b5f80acb5a28118ef2125e954669223a",
+      "luigi/contrib/mrrunner.py": "7534e4370c3720e953b29c2a949447413ee7f97e72e8e76e8b8585a14159e12e",
+      "luigi/contrib/mssqldb.py": "6f7d6e107d401a4e348e5c20f28d20b9318de45ba740003cce9c722b50041eef",
+      "luigi/contrib/mysqldb.py": "ae81a42da3582c27ffe02ca03d67326b9134c83baefd11d8d488a1922fe9a212",
+      "luigi/contrib/opener.py": "d5249956ebc2a4ecf05d363ac978d2aa5e2edb0725c51f010189b080ae3d0cc6",
+      "luigi/contrib/pai.py": "3d3f4c6b5051346807defb5fdf709efde570dce82e408cfc1a4323326695ced0",
+      "luigi/contrib/pig.py": "14c877da19cb745964748ca14e1f1d83d058a3641d537f5871d033847f821434",
+      "luigi/contrib/postgres.py": "7de932d436263f0cbbbb12672b1b8a299912f42b7320c96bf8f15d31285469cd",
+      "luigi/contrib/presto.py": "a2300096be14c465b31c4897788ac392f056a38b803c550c74ffaa7a4cf8c10d",
+      "luigi/contrib/prometheus_metric.py": "aef01a7e66d17bb1b8e493eb2b1dee355b2fb672ec1924c84d9c6540023ee495",
+      "luigi/contrib/pyspark_runner.py": "03dc6734d671ae365f1de49df01bba0940e8b933bce90cacb9f8e3c01426c7b2",
+      "luigi/contrib/rdbms.py": "b5c47dba350b122a5e3efccb753a5e16148f1301e34dd68a9d7582272f2ba567",
+      "luigi/contrib/redis_store.py": "4b2bee59f672bb069d4d7b5d95f11d261d1221258e3fcc0211aea92db2cd96ae",
+      "luigi/contrib/redshift.py": "ac7f2caa53f148d919615871c28555221edd7a6f5b20c574a9bf1cbc9af22715",
+      "luigi/contrib/s3.py": "f4b69909f40f13891f93969a481c817a7e08c738b8de012f76cfccdb16972443",
+      "luigi/contrib/salesforce.py": "af68a0ee0c7fb34f6da77d3b0b1d7a52eacb65d8aaa451597a5aeffbf6524cc6",
+      "luigi/contrib/scalding.py": "34f440178103d0cf180b6a9117830ce449c40ddaabb74a02b29745eba062cd60",
+      "luigi/contrib/sge.py": "ca108846d3dde7d9ebd7f9050c7de12189be8acbdede90b3b0ff8fd912ed52d9",
+      "luigi/contrib/sge_runner.py": "0d09d9041caeae09c038c212a8ace74b9bb487f31a92c15012cd35ee4325aa56",
+      "luigi/contrib/simulate.py": "dd6595f29b0e3ecaee3bd4f30eaae6139071e79563f1ccc48c23c593fa1d1390",
+      "luigi/contrib/spark.py": "c9806bc2dd215076e16ede897a2c6404bc2a4747a01d2089cdc2008d67c65e00",
+      "luigi/contrib/sparkey.py": "58a0143b24df0a781a0fd41b7c72bde0dbd335a5edec3008582fba091ae92387",
+      "luigi/contrib/sqla.py": "594a70daee5edd2645eabdc51ed2cc676e4403c5d6f563fb5153b57b422a0d97",
+      "luigi/contrib/ssh.py": "6231fb235b1f2581e1eea4b9b0e18a3ee77396ec456f0d963780d14da90a4099",
+      "luigi/contrib/target.py": "82aeff055f15c72fceb66087f5b0d8c72ace389461e22e6a7eae7d2e3c3a93de",
+      "luigi/contrib/webhdfs.py": "f0782c3aadc3e453da0e40ceaf67ffad6eac71f79dab4677e3a39e7306b2ce32",
+      "luigi/date_interval.py": "9b345bfcf1f40d6fe388f6a9ffdc5f059be939e20073000af7992fa98d1debcd",
+      "luigi/db_task_history.py": "cb74a9c6da9104d0052194ad997518ee32678bfe9b8baf65090f2c8e67d59718",
+      "luigi/event.py": "e709cc00d1cb16f9855cc4f1aeae0c1abe71ccdf412992d4d881a0e3bdbb7271",
+      "luigi/execution_summary.py": "b705383e2e16d7160d29db0f1ee7b32807ea913c2a0caba53e3edeb6d74974af",
+      "luigi/format.py": "5534f62691b4e214beb82621a15005fc3c0fec7bbec208911f4b1b22b4123c43",
+      "luigi/freezing.py": "4d8daf1ef372b0d857ecf7d0be69acc89584a0d71af4472644a8fe975ff3588c",
+      "luigi/interface.py": "895ed6d53f65510b271570b778b885e47a53b5c9da7f2bb96409a2937ebbf3a6",
+      "luigi/local_target.py": "0a9a40ab14b847f1ad73cda49bfff7f41ad0107ab702ec1d07afebbf401fdfbf",
+      "luigi/lock.py": "056ad719a8f69b9d1e8ac0ecb2f057c1aa4b47cee92f53048c860c5d87b400c5",
+      "luigi/metrics.py": "839fb824cfd20101ad7ff9c7d0e3f8c572022df51a1360a68df39071e90c7bb0",
+      "luigi/mock.py": "1009a54c748b752c70d40f91073ef61253df442ad7cf8f285d70b5d0ba1886f4",
+      "luigi/mypy.py": "3e6db5fa5825b321036ca1af902a3d0e0af54fe837233b083355f60d04e41cea",
+      "luigi/notifications.py": "d5028007c902d4d226c4beac27854249e70dbb1a1a22ed0018f122afe36f79aa",
+      "luigi/parameter.py": "8435fe94b3cda8df719761d09c025238e788a4dce24f47058b7e564a721f9e2c",
+      "luigi/process.py": "322c8cb48abeb9c182e99e4cc69fe173ef6eaba676e6639c141ffc4025b0ce95",
+      "luigi/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "luigi/retcodes.py": "8dae3e3af5d55cf50a238079b6b5ad164cfcc16b77e3740665f813f8a0081737",
+      "luigi/rpc.py": "fb34252e8f00b6bfd39d6db7cc84e4c428bbc900377aecb9de4eef0f0f8b8e25",
+      "luigi/safe_extractor.py": "3d8f5905321ca8e1b579cde0d7dd8bef317f93a5ff25c85e679d16a1083cc694",
+      "luigi/scheduler.py": "f64d2b98b46a0783eda682222f0ddb2716b663743e8929a47a2babe6c50cde7f",
+      "luigi/server.py": "c488d713f2c91a4550a61402282a3f822309b1b33666ecf77a38ffababa3c481",
+      "luigi/setup_logging.py": "ff508f43d0054e5ccfc99cf4c4668d3b3be55d29857cf7f651665b8bfe9a99c7",
+      "luigi/static/visualiser/css/font-awesome.min.css": "541ac58217a8ade1a5e292a65a0661dc9db7a49ae13654943817a4fbc6761afd",
+      "luigi/static/visualiser/css/luigi.css": "5f3ffe01d7fa720f151c77fcb091921999f7283d972631744edc65e56c8db82c",
+      "luigi/static/visualiser/css/tipsy.css": "fe4c35ec8f320d7b249dd606d8f7153d823755845697cb42c66ca45e64fa2621",
+      "luigi/static/visualiser/fonts/FontAwesome.otf": "bdc5d0b9f397be83e886c74b0141d1954aa4384b359dce49829994c4a2e1f7bf",
+      "luigi/static/visualiser/fonts/fontawesome-webfont.eot": "cbb644d0ee730ea57dd5fbae35ef5ba4a41d57a254a6b1215de5c9ff8a321c2d",
+      "luigi/static/visualiser/fonts/fontawesome-webfont.svg": "bfdef833219a6edffd9c3cbc28db72739d22bb4d20cc2e2f8d56a7a4d408a206",
+      "luigi/static/visualiser/fonts/fontawesome-webfont.ttf": "9e540a087924a6e64790149d735cac022640e4fa6bff6bd65f5e9f41529bf0b3",
+      "luigi/static/visualiser/fonts/fontawesome-webfont.woff": "e3870de89716b72cb61a4bba0e17c75783b361cdaba35ea96961c3070bd8ca18",
+      "luigi/static/visualiser/fonts/fontawesome-webfont.woff2": "aadc3580d2b64ff5a7e6f1425587db4e8b033efcbf8f5c332ca52a5ed580c87c",
+      "luigi/static/visualiser/fonts/glyphicons-halflings-regular.eot": "f495f34e4f177cf0115af995bbbfeb3fcabc88502876e76fc51a4ab439bc8431",
+      "luigi/static/visualiser/fonts/glyphicons-halflings-regular.svg": "d168d50a88c730b4e6830dc0da2a2b51dae4658a77d9619943c27b8ecfc19d1a",
+      "luigi/static/visualiser/fonts/glyphicons-halflings-regular.ttf": "bd18efd3efd70fec8ad09611a20cdbf99440b2c1d40085c29be036f891d65358",
+      "luigi/static/visualiser/fonts/glyphicons-halflings-regular.woff": "fc969dc1c6ff531abcf368089dcbaf5775133b0626ff56b52301a059fc0f9e1e",
+      "luigi/static/visualiser/index.html": "5b6da57ee287324101317f40c691c940b0380c57b7e62bc9c289f5baba4b87bb",
+      "luigi/static/visualiser/js/graph.js": "4fe0cae78749dbdd5e52ef2e45512fa53fc91cbe485c18692f6296fed7bbf0ca",
+      "luigi/static/visualiser/js/luigi.js": "d476e83e0238816a3fdb6039ae6dce68c61975d38761fb7eb56bf0f071be7116",
+      "luigi/static/visualiser/js/test/graph_test.js": "4269b669efdbff508a09fc724fdea32857eaff691553da0207bea22ac9e586fe",
+      "luigi/static/visualiser/js/tipsy.js": "0bc34c3972bc204fb9a095430362bb7c432d9d89dcf73cac9d32630da9c43a3e",
+      "luigi/static/visualiser/js/util.js": "388c52daef963623c37522066c55f5dab7e7f53ee2947db64a4a70fe3065e4e4",
+      "luigi/static/visualiser/js/visualiserApp.js": "9635d6f85fd35adf28c27608c187349b6a00e384b8030160731f5d0b12ddd1b4",
+      "luigi/static/visualiser/lib/AdminLTE/css/AdminLTE.min.css": "a0bf04506fbc94e19c0bbb8c434d44bb12da8a423b52a95186f0795825cf685f",
+      "luigi/static/visualiser/lib/AdminLTE/css/skin-green-light.min.css": "be0b0172e80eb3696e5eea7a0a01354f73d0aaf38c939a2e12ea383a9d96ea0a",
+      "luigi/static/visualiser/lib/AdminLTE/css/skin-green.min.css": "6523374d7f670cd0fb716ac7b35fdd80885ab78667462c0bbbf4bb784092f4e7",
+      "luigi/static/visualiser/lib/AdminLTE/js/app.min.js": "5e1321bdefe0e7d328bc2ee280b26766d0eb38d331da55a95df1b22ee0ba3a9d",
+      "luigi/static/visualiser/lib/URI/1.18.2/URI.js": "999e267de4b60217902eccc6ef189f29c7ac751f3e70644e2f567389db9f616c",
+      "luigi/static/visualiser/lib/bootstrap-toggle/css/bootstrap-toggle.min.css": "ac3597e97ae646db56c9505e3e19aba479e767510f98ce96411425ea1d21ec9f",
+      "luigi/static/visualiser/lib/bootstrap-toggle/js/bootstrap-toggle.min.js": "799360060bad2c8e3bacace97d48e2fdd0fdb7a2d1b36808dd8a9729da033a6a",
+      "luigi/static/visualiser/lib/bootstrap3/css/bootstrap-theme.min.css": "58632f8eb448cfe2279a2784cb19bdc7304fcb385354c80bc082fa2f4ef4dcd3",
+      "luigi/static/visualiser/lib/bootstrap3/css/bootstrap.min.css": "bbd6b99bf2ccacc721b9fd4c14963698a28e799ccae6881c414f548c5142df95",
+      "luigi/static/visualiser/lib/bootstrap3/js/bootstrap.min.js": "d5fd173d00d9733900834e0e1083de86b532e048b15c0420ba5c2db0623644b8",
+      "luigi/static/visualiser/lib/d3/d3.min.js": "a643b74067e8e03f8fc5eec9494c79b87aa6e33ccd953902b31d23e0463c69f6",
+      "luigi/static/visualiser/lib/d3/dagre-d3.min.js": "5f8ce66b619c030541dc7918a916cb9798a117866755cf7913364bb10e9900a1",
+      "luigi/static/visualiser/lib/datatables/css/jquery.dataTables.min.css": "7d199656791275bdc6a0730af2bab68550f9a50d3157c208d63aa96c611a5212",
+      "luigi/static/visualiser/lib/datatables/images/Sorting icons.psd": "d3b4f6d2ee33519a88877cceac2ff21625d217c355c4882ef23abbbbef15e1a1",
+      "luigi/static/visualiser/lib/datatables/images/favicon.ico": "6e1bbb9a62636471771c683fc0589a487f74296503c9e4b6d2d92e7fda3faff6",
+      "luigi/static/visualiser/lib/datatables/images/sort_asc.png": "595704c3f3cf4cb65c7d9c8508a99e7480e150095473faed31a07c21b13389b8",
+      "luigi/static/visualiser/lib/datatables/images/sort_asc_disabled.png": "a65b8f4f84d6427a81c360282fc5394d51bf99dada5f159e6aa0fce3c396825c",
+      "luigi/static/visualiser/lib/datatables/images/sort_both.png": "3e016c23ae51417382b640ae2d19eb48047532c37ad53894bd185586559ccffb",
+      "luigi/static/visualiser/lib/datatables/images/sort_desc.png": "d08ed0e21f187dd309030d465224da8085119a15a17d616ba0e477bb50c6f10d",
+      "luigi/static/visualiser/lib/datatables/images/sort_desc_disabled.png": "6c0f0c1b21ef6807057afc8ddc1a925d1dbd21cb11e9270ec84ff4ac40d9a3fa",
+      "luigi/static/visualiser/lib/datatables/js/jquery.dataTables.min.js": "24e2e63ae38455b51670ce7bbe6cb4178f16ff64bb502241dd44a6eff4eed745",
+      "luigi/static/visualiser/lib/jquery-1.10.0.min.js": "dbe2f39d679680bec02757226881b9ac53fb18a7a6cf397e2bbe6d4724c1c8e1",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/animated-overlay.gif": "c7bcc76fb23c0430b36ec448eb79f8bc34129dae95da10f3c14ed0eacdf2f1b9",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_flat_0_aaaaaa_40x100.png": "f0b37afbd3f3e459c1b9bf007124847d58fcbeaecd49d8c4583982d2ee051940",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_flat_75_ffffff_40x100.png": "99d4a56f81830169a00ff072dd1d80835ae14f4e9914794a33e964ce1ed002b4",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_glass_55_fbf9ee_1x400.png": "aa0b9f2a55cedd6ada665afe13b726673471dd4e6aef6369a742becd26b5727a",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_glass_65_ffffff_1x400.png": "dc2730499dc8a96805ec6a3c77cd552bcc1a7c322149f1bf0edab8e2ca211c10",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_glass_75_dadada_1x400.png": "9a5991c8cdd171b734baac7d81d42e18db68ec4c2356e4f0f96942e63a5c1a80",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_glass_75_e6e6e6_1x400.png": "1c7b0426a82acefa19486f1c33dfd5f6e1cd773e8355dd0beb8fb1f56fe84ff4",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_glass_95_fef1ec_1x400.png": "afbda639c90c480961721d0e0662176ef6102bb9d4211f2a273dd216f988e1e4",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-bg_highlight-soft_75_cccccc_1x100.png": "0b8c3f1f204e007eef3c8b106824d30a172308684413d7f6db7913ba09a40836",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-icons_222222_256x240.png": "bf20beab65b0e7bbdf010506d41e5ba2c894edde78eef5a84203d6c14f033576",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-icons_2e83ff_256x240.png": "62bbe56e557d687f09a7a2c83c77e0301c3775df74a657a3ff8d61a92b2dc710",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-icons_454545_256x240.png": "b6e598295de05ac6a8d92551fbc3fcbd4827ba8929ad630a9930771b409441d5",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-icons_888888_256x240.png": "1ae8074693c5097b7d4ceb21bc1e9172f5ee77ccede42cf06d76fa1138f246c2",
+      "luigi/static/visualiser/lib/jquery-ui/css/images/ui-icons_cd0a0a_256x240.png": "814d639e249e5e026aa3936f5df879204e32e33458b740b7aafc26726db3bdfa",
+      "luigi/static/visualiser/lib/jquery-ui/css/jquery-ui-1.10.3.custom.min.css": "bdef65be057cab6242c236f8ba35a023c6ca12c99b0b31b09dc0b3d019996d2d",
+      "luigi/static/visualiser/lib/jquery-ui/js/jquery-ui-1.10.3.custom.min.js": "2b6608414a70082f34e6f0ceeede3ec93488fde60593bca83dfbf174900b8c5a",
+      "luigi/static/visualiser/lib/jquery.slimscroll.min.js": "c8222670bdb728dda1d4d6faa2f4110d4d663617f376c176e7ba73d6ed933c65",
+      "luigi/static/visualiser/lib/mustache.js": "800d90609e6de4618ce194ef85bcf65e2eaaef5fd371d32e972a72b7a2e47cee",
+      "luigi/static/visualiser/mockdata/dep_graph": "3eefb0a9b1e5ce3c8e54fd847118a443538e25f81425203620133b7e99262d32",
+      "luigi/static/visualiser/mockdata/fetch_error": "fc906c5c6ded55df8d710986ba558785fee5eb29dc6b973a81bc3ee5f6ca1ccb",
+      "luigi/static/visualiser/mockdata/task_list": "3eefb0a9b1e5ce3c8e54fd847118a443538e25f81425203620133b7e99262d32",
+      "luigi/static/visualiser/test.html": "bb833642d03dfcbd72c0d26649ced6129baf1bee3775b912a795db145d4ad307",
+      "luigi/target.py": "9700aa6f11613d745cabef3acd2a1102295d8599de295dccac11d4237413cec2",
+      "luigi/task.py": "d2ac305b7c5bb0765e6c6ad9b141736101a64cddf2557eacc57ae87c01fcb0f6",
+      "luigi/task_history.py": "d35988d74e92450fe0ae582905b7cf64f4757c24b791f1136bea68c817923cf3",
+      "luigi/task_register.py": "46f1f9cb4a3c208e43a3572f2ba0ae9a1f0a1466373a36c10786244cf0817974",
+      "luigi/task_status.py": "5ee4748ec5cb2ae5a5dc660cfb2f8f784f7d0803f4754ffa7b02a03b354e84c4",
+      "luigi/templates/history.html": "3e378453048d5ff4a879f4d27f0d6370169866fb0fe2e9bf2f0a9657ba85b4cd",
+      "luigi/templates/layout.html": "ec28e1c14bb86a0fa9092ff0168babec8474fde0f6f095258db490a8bdf2cd9a",
+      "luigi/templates/menu.html": "a0786a8770becb71ca3d14e4b72084cfae54bfd2fc5a3964fa4f7c2f90199f7d",
+      "luigi/templates/recent.html": "123b89192dcf16331093ab4ade3413c91f0095359bb3216fafe340ab3aa1ce57",
+      "luigi/templates/show.html": "e1a16090fb7cd1bd2c9b2aad572fede060149a57c140fb16198115da2781f41e",
+      "luigi/tools/__init__.py": "b9ca15f4532fba29492019149f4a80be033317ac73074cac7bc5c7e8b991c72f",
+      "luigi/tools/deps.py": "80bf88a7b0009eed52e8f2c148b8f4ed58b2feb2291ced852265eca5dac0de84",
+      "luigi/tools/deps_tree.py": "ad7a820058f962b5eb36b1c07a5b56c2c317c631a7b2bf51a113d2d8d1dd3fab",
+      "luigi/tools/luigi_grep.py": "b3cdefa3c1cd0788fce5afeefab7da4f78d4039544ffdd7b896cd7f536fab3a1",
+      "luigi/tools/range.py": "f8d7a5ec16c8dc66c2058fe880fdccbff329864640f6a560793f7742bf4cabef",
+      "luigi/util.py": "811326ffd406c006cc76e6efec2e4fa9ea7492e96b013ee582dffcefcd9a9b87",
+      "luigi/worker.py": "7ea60cdb13bf1275244faadebf4345047e3d1e2a29af8fde783da03e646436c4"
+    },
+    "removed": [],
+    "submitted_files": 172
+  },
+  "schema_version": 1,
+  "scope_limit": "Static saved-artifact and source audit only. No live process inspection or rerun. The raw root is additional supporting evidence for a first-counted non-shortlist cell, not one of the13 counted-repeat roots or the Diskcache infrastructure root.",
+  "source_captures": {
+    "benchmark_evidence.py": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/benchmark_evidence.py",
+      "sha256": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5"
+    },
+    "campaign-task-manifest.json": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/campaign-task-manifest.json",
+      "sha256": "396f83c701fba8db2019e069b5ee7df8280cf0e368dea483eaf535fb61d4f73a"
+    },
+    "captured-main-summary.json": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/captured-main-summary.json",
+      "sha256": "4aec0edbf18f947712d8fb42486b5b7ad5918ce91d1337a1befd76f933664fb4"
+    },
+    "run-candidate-screen.py": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/run-candidate-screen.py",
+      "sha256": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1"
+    },
+    "selected-trial-record.json": {
+      "path": "research/takehome-presentation-2026-09-14/evidence/luigi-fable-max-first-timeout-review-20260914T1145/selected-trial-record.json",
+      "sha256": "408cad8a14afdebe7521c5af0997d2a6fb0018e4c4318ca18be95e1d8db33aae"
+    }
+  },
+  "supplied_original_files": {
+    "commit": "c1ae968",
+    "count": 36,
+    "sha256": {
+      ".devcontainer/devcontainer-lock.json": "41b8de31d8c52979a6a6624e594fdab2e57512383c7f690bc91f92078af653c2",
+      ".devcontainer/devcontainer.json": "e7016eedfa2783b443adacbab20b8e448163080e756619e81dd5ad4a386b567d",
+      ".devcontainer/post-attach.sh": "0f1f173f1839caafa642e11ad292940cae90360c86d844b930a5a5a1f9155f75",
+      ".devcontainer/post-create.sh": "bc3d475146acfe9e1af5783b5262ebf7db6b3db69ee336cfbec6e20bca57d76a",
+      ".env.example": "15883d1f05d77b9af909c6aa6f0adedfc40483db913dfb625783d331061a9615",
+      ".gitignore": "f090f1024aafee67ec4891decbabd4846583d413a67ef5036f3b41c2ad5275a3",
+      "Abundant Take Home.pdf": "6f4889105ffd6690ab80f774d37c50e6bf71f4339b38a7c35125e395361b4831",
+      "README.md": "faa3c5465cf24a1ad8ecd376b3044f7e41b611328981fc7b002b7e3c7b9bf459",
+      "restaurant-weekly-cost-control-audit/environment/Dockerfile": "3eee060b91206734a3596cf26ecd9e9022f9a100e8112c848b6adf21f1ef835d",
+      "restaurant-weekly-cost-control-audit/environment/data/build_inputs.py": "b2129a42300091d5890efc41f11300bb8c009f1123978cf2cb362065864442ac",
+      "restaurant-weekly-cost-control-audit/environment/data/historical.csv": "650daf03ac77e8373a1be2dac66308c422d422f81d6d083dfc16a2e92e171c84",
+      "restaurant-weekly-cost-control-audit/environment/data/inventory_close.csv": "5564a3bd4b4e2497761975847f8ec4a5d67ca84a206a847f0a2a1af5768ad75d",
+      "restaurant-weekly-cost-control-audit/environment/data/inventory_open.csv": "a4b211200514bc65dcacf9c53a44c8dfead1f4bd89a5ad7001dedc109c550866",
+      "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_beverage.pdf": "c9ebbbee3a121e4fd63ef01854939fa0430d47ad74d03ff658a21d4f348c7682",
+      "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_local.pdf": "e0b08eb219eefeabfafd91b2fc057ca77cf9b3807d0ddbc526879c6094461591",
+      "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_sysco.pdf": "698d6ffa5fd36634ea2199976ca923d26821b91b8e4c75789871fc289eafe794",
+      "restaurant-weekly-cost-control-audit/environment/data/pos_sales.csv": "30893d5477b6df24eb7a64813be90a41e7771bfbcd153e539ebf9fdf6c413ec0",
+      "restaurant-weekly-cost-control-audit/environment/data/recipes.json": "1d2c67422aab97b59972b04c7b6ad7c76db72d1f75a6521a51bb049b89021f4f",
+      "restaurant-weekly-cost-control-audit/environment/skills/business-kpi-formulas/SKILL.md": "b335a5dedfe89336a01999fa8fd887a7cb9d06cedafaf3b128cabbbdace76666",
+      "restaurant-weekly-cost-control-audit/environment/skills/business-kpi-formulas/references/formulas.md": "9fd697da0539aec3ee8c19fef534b0c755c7a8ab4c9dca6bc15692d8cbb8b157",
+      "restaurant-weekly-cost-control-audit/environment/skills/csv-tools/SKILL.md": "f6eba8f04b281b7b75c9eef0ea76cf486795e13807b0c440c21ee28d8af1f996",
+      "restaurant-weekly-cost-control-audit/environment/skills/docx/SKILL.md": "e5409b9eb8cd57309b45a54d1092af694fce75380ab9c5e895af57f855cd7d01",
+      "restaurant-weekly-cost-control-audit/environment/skills/fuzzy-match/SKILL.md": "aa497e7ceb4d4f72044c2d06bfacff3e1c47634149a44ab6caa620810f2cbd5f",
+      "restaurant-weekly-cost-control-audit/environment/skills/git/SKILL.md": "80bdb4e46fd4d06f80a0264576920a4f7b94e4f8de78d105451e48013a300341",
+      "restaurant-weekly-cost-control-audit/environment/skills/pdf/SKILL.md": "215e54fc98df10317a02486ce4964b8bfe0fe6e6b45f807a89aac76fa5c31358",
+      "restaurant-weekly-cost-control-audit/environment/skills/pdf/scripts/extract_invoice_rows.py": "27947c6460be1b763b621cd1a78c38607a790341d7e848f4e5de2cc7db0ce5a1",
+      "restaurant-weekly-cost-control-audit/environment/skills/sql-window/SKILL.md": "eb8beabb0d39ecd1a31c18600a82eef4ab9c8e6a5f36c33d4aa8447c7547e1c8",
+      "restaurant-weekly-cost-control-audit/environment/skills/web-search/SKILL.md": "427fa68477f379f890df25cedcbe012fb62fc74332474693b7669b1dc3bd14d5",
+      "restaurant-weekly-cost-control-audit/environment/skills/xlsx/SKILL.md": "d1440118746fb11686b9ff4c654381e0f627dc5543bacf98ce5f9d607dcea1f7",
+      "restaurant-weekly-cost-control-audit/environment/skills/xlsx/scripts/write_table.py": "448b257b03d1a3c334efb594fdb6d9169d4ce0767b51d75e20c4dcbbf121855e",
+      "restaurant-weekly-cost-control-audit/instruction.md": "f7ae9e2e320848390d5361ca7e4ac9af80f29094538ac529efa2b2971e7407e5",
+      "restaurant-weekly-cost-control-audit/solution/solve.sh": "edbcbc79cc3ccf15434662cad51b60ba0f9429b696a206de75fc513e39a0b7d8",
+      "restaurant-weekly-cost-control-audit/task.toml": "b0db83001f414a74c4cade5ad2bc8c3c99b64ef5f811678a74496b8d67eb8170",
+      "restaurant-weekly-cost-control-audit/tests/test.sh": "62e91dfbd5a1ac382fba41f229e4166431f484cdbe8ad6d5cbde309321c2e6e7",
+      "restaurant-weekly-cost-control-audit/tests/test_outputs.py": "5a311b20eb3399bac687a4a4945879898d5d295626816d18ef4474361811897e",
+      "scripts/doctor.sh": "75bff689313abc2b5039a184912914a05b2abd4aafa81b8d0473568764d7673d"
+    },
+    "unchanged": true
+  },
+  "task": "candidates/luigi-generation-target",
+  "task_checksum": "38e96eee424a85cde604fcd77cf11adfd6d541302f53e1c065990a9967c86170",
+  "task_digest_matches_campaign_manifest": true,
+  "task_file_sha256": {
+    "construction/docker-baseline/results.xml": "9707080fb62c7aa7194b6c7cf5e60cbb3411d5ee55462d4e21e6329d734a2beb",
+    "construction/docker-baseline/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "construction/docker-baseline/stdout.txt": "f3aad2fd3f4c0500a65e9ba0e976a57b01869d88f409a4a55c94a432c77a9911",
+    "construction/docker-oracle/results.xml": "9d178db2914fd82642b255f39717fe8a439c5bc4bbc3c0a23246911e031bfff2",
+    "construction/docker-oracle/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "construction/docker-oracle/stdout.txt": "e9eb45f68ce3adba4314d5b82f4752afd87fb8dec34aef988fbc58f5df20ef4f",
+    "construction/local-oracle.xml": "aff757c0b22e09bf478b077eb41b76b52f20a15dce950289534ac8009784c02d",
+    "construction/measurement-audit/baseline/output.log": "a591fd327a2ba58bbcbd9bf184fffea7022a26b625ff02c1fe85c07faaba8cec",
+    "construction/measurement-audit/baseline/results.xml": "8d49a4d6a19aa4ebcc3fa111c1e98bc84d8abf05c2cf78c650742a2045f98c75",
+    "construction/measurement-audit/baseline/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "construction/measurement-audit/mutant-swallow-permission/generation_target.py": "3d7e0be84e48fcf2803e24ea187628a8bdbca925360cc31baf8e806ac6c7acdd",
+    "construction/measurement-audit/mutant-swallow-permission/output.log": "f8db50afb5f28c442ef824bb186ec8d88c4f21862e25b51674617bf45f871ac8",
+    "construction/measurement-audit/mutant-swallow-permission/results.xml": "d5e07155bf82475c4f5c29309df9dd7829de2d7f6cac9ea36dee564c40a5c4d0",
+    "construction/measurement-audit/open-alias/generation_target.py": "0c5823dbca5a1ca2a18bb818d2f58893246acac48acbde9850bd69499fe6f33e",
+    "construction/measurement-audit/open-alias/output.log": "83435c02bd8dde098ad89ef88898319075cf2a8667abce888029c28e566924d0",
+    "construction/measurement-audit/open-alias/results.xml": "48cd31f129273e124251a8cc92456156dfe3431c111c8463d3d287dcb49a26b4",
+    "construction/measurement-audit/open-alias/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "construction/measurement-audit/oracle/output.log": "1c527719dde2d9b2f8daba9060640a30ebf2b1cc89e691be6a91ef6acd2f0af8",
+    "construction/measurement-audit/oracle/results.xml": "437f1168680034d85f4f29400bc36b9bd52eec8f09a891c3ec50f9a5f8c3f2f9",
+    "construction/measurement-audit/oracle/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "construction/measurement-audit/pathlib-reader/generation_target.py": "b5c6d3c72e3d5af66518d26a5cc227f6c0a3d3ab971438576f92d926bb701651",
+    "construction/measurement-audit/pathlib-reader/output.log": "1d5167c58350b07e873a1399d14010e478c5dc13ba4a58e49373c4abd5ea60cb",
+    "construction/measurement-audit/pathlib-reader/results.xml": "80b5c723e53fb81f56967a708d41c2653a5c90240ef8fa7f0f3a76d59e0de5c6",
+    "construction/measurement-audit/pathlib-reader/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "construction/measurement-audit/report.md": "3bbd303bf94fa35596811b74efe2926e62d1a49ebd799a8a5625fd09fdc5abea",
+    "construction/measurement-audit/results.json": "362b281ce9669e80f15be0d68ed5fb3bab5f9f11c3af8f00b1076930050bff37",
+    "construction/mutant-cas_removed.txt": "e570903a551136c31b26a5a2e0893009c90cf589992b60a39e5e83e6be2b1248",
+    "construction/mutant-cas_removed.xml": "dc9ef80d5c1a6144dda738c9c278468ae4cc74aed50d4a2dd7aba7f4735dfd19",
+    "construction/mutant-reader_pins_removed.txt": "f6603028928b933307bdc30a1a4c925e13b4a2aacdf157e699a61c826fdfbbed",
+    "construction/mutant-reader_pins_removed.xml": "6258e2b42ca9c731a7a5a629f74d50944f829fb1324eed96c4e0fb27e281ce8a",
+    "construction/mutant-size_only_integrity.txt": "60274316d362fce833259e1b3b61b5e71d92298717db4c02d63c0ebce0560f26",
+    "construction/mutant-size_only_integrity.xml": "f3553d274a32747b5eaa7da23cad1e49e1142fed157cfc1a6595559a2e25a900",
+    "construction/mutants.json": "2a896e67ef831fd9dfdb4abd53b7a2d70f1198e8b912194e59b52e4d23e064e2",
+    "construction/validation.md": "5fac4d1834c9f4e98f59161bd0c2b5775207c7812f67cba39422c8ad654c011e",
+    "environment/Dockerfile": "566f037d70251cc5b67bbcfee378d5ad078fda7d3b6acf86a5048479ea13e01c",
+    "environment/requirements.txt": "3045d59a26011b603a6cb0e24eb9bd6ce8c1dab4d56fb1a4bae875d998198e6d",
+    "environment/upstream.tar.gz": "01870f93d481d0126ec57ef5b04a31f64abc70c5b6603ac40778e73837d68758",
+    "instruction.md": "5ab4ed2b26a4708a6e23c4e80219f5ee9451b5f1fb8ea9ffc9a0f4144bf9ac6f",
+    "provenance.json": "1a760bea4bd5e443a2a20b79a22f4adec6d44615faacaf6274a4623911a45234",
+    "solution/changes.patch": "3d3384b439ac9b8d53b80d2ccc269f7a090b1caff0dae283ba873b80278652ab",
+    "solution/solve.sh": "4deac760f46b2c785ae244a805f14223fea43326554be4693e7bfcce5b95377e",
+    "task.toml": "fe69d8b2bd96c800b6c23a2c1b52cc2ad441caf4d363e0b39c70e93a32c3f5b2",
+    "tests/Dockerfile": "e8857f9f70c3b81fa78f5596f567d0f16cdecd458d30d80e54d402143eab9a41",
+    "tests/__pycache__/test_generation_target.cpython-312-pytest-8.4.1.pyc": "8d8df4a63455e39578daf89985cbabbe82163d4952d8b313d703e9fba4105fd2",
+    "tests/__pycache__/test_generation_target.cpython-312.pyc": "03e99bc370cd39b5b62826c930fb57d8009d8ce9cd6c8b31095401cf85f4ce46",
+    "tests/image-source/requirements.txt": "3045d59a26011b603a6cb0e24eb9bd6ce8c1dab4d56fb1a4bae875d998198e6d",
+    "tests/image-source/upstream.tar.gz": "01870f93d481d0126ec57ef5b04a31f64abc70c5b6603ac40778e73837d68758",
+    "tests/test.sh": "8458ef2846c60aa5e09316f75e06f9f177fe5f320bfef56ae41c638b9a4a4173",
+    "tests/test_generation_target.py": "3bdb67dfdc3536dd381697a9040d36284e5bbc500d1ab8e0985716057bbaa6e4"
+  },
+  "task_runtime_control_edits": false,
+  "timing": {
+    "agent_finished_at": "2026-09-14T11:43:06.373660Z",
+    "agent_started_at": "2026-09-14T09:43:06.247508Z",
+    "all_executions_quiescent": true,
+    "cleanup_before_verifier_seconds": 15.523173570632935,
+    "cleanup_error": null,
+    "cleanup_finished_at": "2026-09-14T11:43:06.550481+00:00",
+    "deadline_execution": [
+      {
+        "deadline_epoch": 1789386186.2479155,
+        "descendants_killed": 3,
+        "identity": "6346825",
+        "pid": 1775,
+        "quiescent": true,
+        "quiescent_at_epoch": 1789386186.378128,
+        "reason": "deadline",
+        "return_code": 124,
+        "started_at_epoch": 1789378986.8747609,
+        "stop_requested_at_epoch": 1789386186.367297
+      }
+    ],
+    "declared_timeout_seconds": 7200,
+    "guard_deadline_at": "2026-09-14T11:43:06.247916+00:00",
+    "guard_started_at": "2026-09-14T09:43:06.247916+00:00",
+    "last_saved_tool_at": "2026-09-14T11:14:13.144958+00:00",
+    "last_saved_tool_to_deadline_seconds": 1733.102957725525,
+    "long_gaps_between_completed_responses": [
+      {
+        "after_assistant_turn": 15,
+        "before_assistant_turn": 16,
+        "earlier_response_at": "2026-09-14T09:44:14.595743+00:00",
+        "later_response_at": "2026-09-14T10:26:12.975824+00:00",
+        "seconds_between_saved_responses": 2518.380080461502
+      },
+      {
+        "after_assistant_turn": 17,
+        "before_assistant_turn": 18,
+        "earlier_response_at": "2026-09-14T10:26:16.489716+00:00",
+        "later_response_at": "2026-09-14T11:14:04.202711+00:00",
+        "seconds_between_saved_responses": 2867.712994813919
+      }
+    ],
+    "post_deadline_activity": false,
+    "verifier_finished_at": "2026-09-14T11:43:35.314314Z",
+    "verifier_started_at": "2026-09-14T11:43:22.073655Z"
+  },
+  "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__6ooqjT5",
+  "usage": {
+    "atif_final": {
+      "total_cached_tokens": 475993,
+      "total_completion_tokens": 2692,
+      "total_cost_usd": 2.0561432500000003,
+      "total_prompt_tokens": 620205
+    },
+    "native_final": {
+      "api_calls": 20,
+      "instance_cost": 2.0561432500000003
+    },
+    "native_responses": {
+      "assistant_turns": 20,
+      "cost_usd": 2.0561432500000003,
+      "turns_with_cost": 20,
+      "turns_with_usage": {
+        "cache_creation_input_tokens": 20,
+        "cache_read_input_tokens": 20,
+        "completion_tokens": 20,
+        "prompt_tokens": 20,
+        "total_tokens": 20
+      },
+      "usage_totals": {
+        "cache_creation_input_tokens": 144170,
+        "cache_read_input_tokens": 475993,
+        "completion_tokens": 2692,
+        "prompt_tokens": 620205,
+        "total_tokens": 622897
+      }
+    },
+    "provider_charge_may_be_missing": true,
+    "result": {
+      "cost_usd": 2.0561432500000003,
+      "n_cache_tokens": 475993,
+      "n_input_tokens": 620205,
+      "n_output_tokens": 2692
+    },
+    "usage_censored": true
+  },
+  "verifier": {
+    "fixture_source": {
+      "lines": [
+        21,
+        24
+      ],
+      "path": "candidates/luigi-generation-target/tests/test_generation_target.py",
+      "sha256": "3bdb67dfdc3536dd381697a9040d36284e5bbc500d1ab8e0985716057bbaa6e4"
+    },
+    "instruction": {
+      "lines": [
+        1,
+        3,
+        20
+      ],
+      "path": "candidates/luigi-generation-target/instruction.md",
+      "sha256": "5ab4ed2b26a4708a6e23c4e80219f5ee9451b5f1fb8ea9ffc9a0f4144bf9ac6f"
+    },
+    "ordinary_failure_elements": 0,
+    "passed": 9,
+    "passed_tests": [
+      "test_abstract_subclass",
+      "test_cannot_instantiate",
+      "test_instantiate_subclass",
+      "test_exists",
+      "test_copy",
+      "test_move",
+      "test_gzip_with_module",
+      "test_bzip2",
+      "test_open_modes"
+    ],
+    "setup_errors": 48,
+    "shared_setup_error": "failed on setup with \"AssertionError: Implement LocalGenerationTarget\nassert False\n +  where False = hasattr(luigi, 'LocalGenerationTarget')\"",
+    "xml_testcases": 57
+  }
+}

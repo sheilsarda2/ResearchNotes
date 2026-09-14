@@ -1,0 +1,233 @@
+//
+// Copyright (c) 2024 ZettaScale Technology
+//
+// This program and the accompanying materials are made available under the
+// terms of the Eclipse Public License 2.0 which is available at
+// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
+// which is available at https://www.apache.org/licenses/LICENSE-2.0.
+//
+// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
+//
+// Contributors:
+//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
+//
+
+#[cfg(any(feature = "shared-memory", feature = "unstable"))]
+use std::sync::Arc;
+use std::{
+    fmt,
+    future::{IntoFuture, Ready},
+};
+
+use zenoh_core::{Resolvable, Wait};
+#[cfg(feature = "internal")]
+use zenoh_keyexpr::OwnedKeyExpr;
+use zenoh_result::ZResult;
+#[cfg(feature = "shared-memory")]
+use zenoh_shm::api::client_storage::ShmClientStorage;
+
+use crate::api::session::Session;
+#[cfg(feature = "unstable")]
+use crate::api::timestamp_stack::TimestampContext;
+#[cfg(feature = "internal")]
+use crate::net::runtime::DynamicRuntime;
+
+/// A builder returned by [`crate::open`] used to open a zenoh [`Session`].
+///
+/// # Examples
+/// ```
+/// # #[tokio::main]
+/// # async fn main() {
+///
+/// let session = zenoh::open(zenoh::Config::default()).await.unwrap();
+/// # }
+/// ```
+#[must_use = "Resolvables do nothing unless you resolve them using `.await` or `zenoh::Wait::wait`"]
+pub struct OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    config: TryIntoConfig,
+    #[cfg(feature = "unstable")]
+    ts_callback: Option<Arc<dyn Fn(TimestampContext) -> Vec<u8> + Send + Sync>>,
+    #[cfg(feature = "shared-memory")]
+    shm_clients: Option<Arc<ShmClientStorage>>,
+}
+
+impl<TryIntoConfig> fmt::Debug for OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut debug = f.debug_struct("OpenBuilder");
+        debug.field("config", &"..");
+        #[cfg(feature = "unstable")]
+        debug.field("ts_callback", &self.ts_callback.as_ref().map(|_| ".."));
+        #[cfg(feature = "shared-memory")]
+        debug.field("shm_clients", &self.shm_clients.as_ref().map(|_| ".."));
+        debug.finish()
+    }
+}
+
+impl<TryIntoConfig> OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    pub(crate) fn new(config: TryIntoConfig) -> Self {
+        Self {
+            config,
+            #[cfg(feature = "unstable")]
+            ts_callback: None,
+            #[cfg(feature = "shared-memory")]
+            shm_clients: None,
+        }
+    }
+}
+
+#[cfg(feature = "unstable")]
+impl<TryIntoConfig> OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    /// Sets a callback invoked by this session's node to produce the bytes of every timestamp
+    /// stack record it produces (at any interception point), instead of a UHLC timestamp.
+    pub fn with_timestamp_callback<F>(mut self, callback: F) -> Self
+    where
+        F: Fn(TimestampContext) -> Vec<u8> + Send + Sync + 'static,
+    {
+        self.ts_callback = Some(Arc::new(callback));
+        self
+    }
+}
+
+#[cfg(feature = "shared-memory")]
+impl<TryIntoConfig> OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    pub fn with_shm_clients(mut self, shm_clients: Arc<ShmClientStorage>) -> Self {
+        self.shm_clients = Some(shm_clients);
+        self
+    }
+}
+
+impl<TryIntoConfig> Resolvable for OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    type To = ZResult<Session>;
+}
+
+impl<TryIntoConfig> Wait for OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    fn wait(self) -> <Self as Resolvable>::To {
+        let config: crate::config::Config = self
+            .config
+            .try_into()
+            .map_err(|e| zerror!("Invalid Zenoh configuration {:?}", &e))?;
+        Session::new(
+            config,
+            #[cfg(feature = "shared-memory")]
+            self.shm_clients,
+            #[cfg(feature = "unstable")]
+            self.ts_callback,
+        )
+        .wait()
+    }
+}
+
+impl<TryIntoConfig> IntoFuture for OpenBuilder<TryIntoConfig>
+where
+    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
+{
+    type Output = <Self as Resolvable>::To;
+    type IntoFuture = Ready<<Self as Resolvable>::To>;
+
+    fn into_future(self) -> Self::IntoFuture {
+        std::future::ready(self.wait())
+    }
+}
+
+/// Initialize a Session with an existing Runtime.
+/// This operation is used by the plugins to share the same Runtime as the router.
+#[zenoh_macros::internal]
+pub fn init(runtime: DynamicRuntime) -> InitBuilder {
+    InitBuilder {
+        runtime,
+        aggregated_subscribers: vec![],
+        aggregated_publishers: vec![],
+    }
+}
+
+/// A builder returned by [`init`] and used to initialize a Session with an existing Runtime.
+#[must_use = "Resolvables do nothing unless you resolve them using `.await` or `zenoh::Wait::wait`"]
+#[doc(hidden)]
+#[zenoh_macros::internal]
+pub struct InitBuilder {
+    runtime: DynamicRuntime,
+    aggregated_subscribers: Vec<OwnedKeyExpr>,
+    aggregated_publishers: Vec<OwnedKeyExpr>,
+}
+
+#[zenoh_macros::internal]
+impl fmt::Debug for InitBuilder {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("InitBuilder")
+            .field("runtime", &"..")
+            .field("aggregated_subscribers", &self.aggregated_subscribers)
+            .field("aggregated_publishers", &self.aggregated_publishers)
+            .finish()
+    }
+}
+
+#[zenoh_macros::internal]
+impl InitBuilder {
+    #[inline]
+    pub fn aggregated_subscribers(mut self, exprs: Vec<OwnedKeyExpr>) -> Self {
+        self.aggregated_subscribers = exprs;
+        self
+    }
+
+    #[inline]
+    pub fn aggregated_publishers(mut self, exprs: Vec<OwnedKeyExpr>) -> Self {
+        self.aggregated_publishers = exprs;
+        self
+    }
+}
+
+#[zenoh_macros::internal]
+impl Resolvable for InitBuilder {
+    type To = ZResult<Session>;
+}
+
+#[zenoh_macros::internal]
+impl Wait for InitBuilder {
+    fn wait(self) -> <Self as Resolvable>::To {
+        Ok(Session::init(
+            self.runtime.into(),
+            self.aggregated_subscribers,
+            self.aggregated_publishers,
+        )
+        .wait())
+    }
+}
+
+#[zenoh_macros::internal]
+impl IntoFuture for InitBuilder {
+    type Output = <Self as Resolvable>::To;
+    type IntoFuture = Ready<<Self as Resolvable>::To>;
+
+    fn into_future(self) -> Self::IntoFuture {
+        std::future::ready(self.wait())
+    }
+}

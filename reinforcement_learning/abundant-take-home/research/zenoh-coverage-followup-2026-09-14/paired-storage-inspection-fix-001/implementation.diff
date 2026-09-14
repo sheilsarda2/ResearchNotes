@@ -1,0 +1,11 @@
+--- research/zenoh-coverage-followup-2026-09-14/paired-regrades/run_paired_regrades.py
++++ research/zenoh-coverage-followup-2026-09-14/paired-regrades/run_paired_regrades_v2.py
+@@ -339,7 +339,7 @@
+         setup('create', ['docker', 'create', '--name', name, '--cpus', '4', '--memory', '8192m',
+                         *swap_args, '--network', 'none', '--entrypoint', 'sleep', args.verifier_image_id, 'infinity'])
+         setup('start', ['docker', 'start', name])
+-        template = '{"image":{{json .Image}},"memory":{{.HostConfig.Memory}},"swap":{{.HostConfig.MemorySwap}},"cpus":{{.HostConfig.NanoCpus}},"network":{{json .HostConfig.NetworkMode}},"storage_opt":{{json .HostConfig.StorageOpt}},"running":{{.State.Running}}}'
++        template = '{"image":{{json .Image}},"memory":{{.HostConfig.Memory}},"swap":{{.HostConfig.MemorySwap}},"cpus":{{.HostConfig.NanoCpus}},"network":{{json .HostConfig.NetworkMode}},"storage_opt":{{json (index .HostConfig "StorageOpt")}},"running":{{.State.Running}}}'
+         _, inspection = setup('inspect-limits', ['docker', 'inspect', '--format', template, name])
+         observed = json.loads(inspection.read_text())
+         require(observed['image'] == args.verifier_image_id and observed['running']

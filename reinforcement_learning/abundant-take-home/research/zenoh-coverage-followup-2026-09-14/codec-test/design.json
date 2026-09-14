@@ -1,0 +1,25 @@
+{
+  "status": "authored_unexecuted",
+  "test_source": "research/zenoh-coverage-followup-2026-09-14/codec-test/timestamp_robustness.rs",
+  "test_sha256": "3bea1e646e23cf5135461abc1105837cce15713f9c3aab0f293bc05673a69ede",
+  "contract": "instruction.md behavior 6 and Wire format",
+  "test_count": 5,
+  "imports_of_new_protocol_types": false,
+  "cases": {
+    "valid_boundary_counts": "Push/Request/Response: complete bodies of 0,1,254,255 custom Receive records, preserved network envelope and payload",
+    "zero_configuration": "Push/Request/Response: conf=0 with 0 or 1 complete records must reject",
+    "count_above_limit": "Push/Request/Response: 256 and 257 complete records must reject; no short-read confound",
+    "malformed_records": "public subscriber gets original payload and valid records around unknown flags0x83 and empty UHLC flags0x04, plus its one enabled Receive",
+    "max_boundary": "public subscriber gets254 incoming custom Receive records +one local record; at255 incoming records it gets255, with no assertion on callback firing atcap"
+  },
+  "fairness": [
+    "Existing protocol and transport APIs from pristine source only; public documented zenoh::timestamp_stack accessors.",
+    "Wire extension body is constructed literally from stated id7 ZBuf layout; no solution-specific raw vector/type/module assumed.",
+    "Both raw-codec filtering and conversion-to-public-API filtering are accepted.",
+    "No sleeping handshake assumptions: subscriber declared before opening raw Client transport; actual delivery bounded by15seconds/wholeasyncscenario60seconds."
+  ],
+  "validation": "Pending cached-image zero-model execution under shared global14/local1,4CPU8192MB3600sec; not part of currentv3scores.",
+  "limitations": [
+    "Cap probe independently covers Receive application delivery; it does not exhaust distinct Send/Route cap branches."
+  ]
+}

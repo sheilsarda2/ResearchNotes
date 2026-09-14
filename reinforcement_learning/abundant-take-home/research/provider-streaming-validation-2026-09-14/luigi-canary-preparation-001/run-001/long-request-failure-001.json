@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-14T08:48:02.887435+00:00",
+  "completed_responses_before_failure": 17,
+  "conclusion": "This long streaming request failed at290.510s; it does not establish gateway relief. Fail-closed aggregation and normal4s retry observed.",
+  "duration_seconds": 290.509583234787,
+  "event_snapshot_path": "research/provider-streaming-validation-2026-09-14/luigi-canary-preparation-001/run-001/long-request-failure-001.events.jsonl",
+  "event_snapshot_sha256": "b6cc6fed16ceac890f513686c5642cdfcda9e1ab31a2e56b4d4f84d7508bd20d",
+  "exception": "IncompleteAnthropicStream via LiteLLM MidStreamFallbackError/APIConnectionError",
+  "kind": "canary_incomplete_stream_failure_observation",
+  "live_attempt_action": "Continue original authorized attempt under unchanged budget; no second canary, rollout or adoption",
+  "native_log": {
+    "path": "jobs/streaming-canary-luigi-fable-max-20260914-001/luigi-generation-target__RigDBsV/agent/mini-swe-agent.txt",
+    "prefix_bytes": 106057,
+    "prefix_sha256": "188572b16c1fb66255abc83508a75e0b386be44ce43b768863038af55d25e0e9"
+  },
+  "provider_charge": "Not established from this incomplete response",
+  "query": {
+    "all_closed": true,
+    "cleanup_error_types": [],
+    "closed_at_epoch": 1789375598.5793917,
+    "complete": false,
+    "entered_at_epoch": 1789375308.0698085,
+    "http_opened_at_epoch": 1789375310.64199,
+    "number": 18
+  },
+  "query_number": 18,
+  "retry_delay_seconds": 4.0289833545684814,
+  "retry_query": {
+    "complete": false,
+    "entered_at_epoch": 1789375602.608375,
+    "http_opened_at_epoch": 1789375605.2451844,
+    "number": 19
+  },
+  "returned_partial_action": false,
+  "sanitized_error_line": "Retrying <unknown> in 4 seconds as it raised MidStreamFallbackError: litellm.MidStreamFallbackError: litellm.APIConnectionError: SSE ended before complete message and final provider usage",
+  "schema_version": 1,
+  "trial_path": "jobs/streaming-canary-luigi-fable-max-20260914-001/luigi-generation-target__RigDBsV"
+}

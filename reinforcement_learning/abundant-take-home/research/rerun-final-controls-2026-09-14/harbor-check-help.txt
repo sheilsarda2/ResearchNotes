@@ -1,0 +1,65 @@
+                                                                                
+ Usage: python -m harbor.cli.main check [OPTIONS] {path}                        
+                                                                                
+ Check task quality against a rubric.                                           
+                                                                                
+╭─ Arguments ──────────────────────────────────────────────────────────────────╮
+│ *    path      <path>  Path to a task directory or a directory of task       │
+│                        directories                                           │
+│                        [required]                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --rubric                -r      <path>                 Rubric file           │
+│                                                        (TOML/YAML/JSON).     │
+│                                                        Uses built-in default │
+│                                                        if not specified.     │
+│ --prompt                -p      <path>                 Prompt file for the   │
+│                                                        evaluator agent. Uses │
+│                                                        built-in default if   │
+│                                                        not specified.        │
+│ --agent                 -a      <str>                  Agent to use          │
+│                                                        [default:             │
+│                                                        claude-code]          │
+│ --model                 -m      <str>                  Model to use          │
+│                                                        [default:             │
+│                                                        claude-sonnet-4-6]    │
+│ --ak,--agent-kwarg              <str>                  Agent kwarg key=value │
+│                                                        (repeatable)          │
+│ --ae,--agent-env                <str>                  Env var KEY=VALUE for │
+│                                                        the agent             │
+│                                                        (repeatable)          │
+│ --env                   -e      <docker|daytona|e2b|m  Environment type to   │
+│                                 odal|runloop|langsmit  run the check in      │
+│                                 h|gke|openshift|novit  (e.g. docker,         │
+│                                 a|apple-container|sin  daytona).             │
+│                                 gularity|islo|tensorl  [default: docker]     │
+│                                 ake|cwsandbox|wandb|u                        │
+│                                 se-computer|blaxel>                          │
+│ --ek,--environment-kw…          <str>                  Environment kwarg     │
+│                                                        key=value             │
+│                                                        (repeatable)          │
+│ --n-concurrent          -n      <int>                  Max concurrent task   │
+│                                                        checks                │
+│                                                        [default: 4]          │
+│ --n-attempts            -k      <int>                  Attempts per task     │
+│                                                        [default: 1]          │
+│ --include-task-name     -i      <str>                  Only check tasks      │
+│                                                        matching glob         │
+│                                                        (repeatable)          │
+│ --exclude-task-name     -x      <str>                  Skip tasks matching   │
+│                                                        glob (repeatable)     │
+│ --n-tasks               -l      <int>                  Max tasks to check    │
+│ --job-name                      <str>                  Job name (default:    │
+│                                                        timestamp)            │
+│ --jobs-dir              -o      <path>                 Directory to store    │
+│                                                        job results (default: │
+│                                                        jobs)                 │
+│ --config                -c      <path>                 Base JobConfig        │
+│                                                        (YAML/JSON) for       │
+│                                                        advanced settings     │
+│ --quiet                 -q                             Suppress trial        │
+│                                                        progress              │
+│ --help                  -h                             Show this message and │
+│                                                        exit.                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

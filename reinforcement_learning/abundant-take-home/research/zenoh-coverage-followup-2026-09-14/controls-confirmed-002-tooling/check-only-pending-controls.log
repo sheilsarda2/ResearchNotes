@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/continue_confirmed_validation.py", line 159, in <module>
+    main()
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/continue_confirmed_validation.py", line 147, in main
+    gate = common.combined_controls(args.controls_summary, args.controls_sha256)
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/recovery_common.py", line 306, in combined_controls
+    controls = bound(ref)
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/recovery_common.py", line 68, in bound
+    require(digest(reference['path']) == reference['sha256'], 'Bound evidence hash drift: ' + reference['path'])
+  File "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/recovery_common.py", line 55, in digest
+    return hashlib.sha256(path(value).read_bytes()).hexdigest()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1249, in read_bytes
+    with self.open(mode='rb') as f:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json'

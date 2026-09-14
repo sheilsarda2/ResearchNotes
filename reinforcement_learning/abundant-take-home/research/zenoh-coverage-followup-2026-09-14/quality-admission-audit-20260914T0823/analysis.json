@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "kind": "read_only_quality_admission_diagnosis",
+  "observed_at": "2026-09-14T08:22:30.031339+00:00",
+  "model_calls": 0,
+  "live_mutations": false,
+  "shared_snapshot": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/quality-admission-audit-20260914T0823/shared-snapshot.json",
+    "sha256": "f27d7befa9b7577cfec3f0a44d646575211a39d6ff969ec143e947b5267645d5",
+    "bytes": 211217
+  },
+  "interval_start": "2026-09-14T08:03:43.212105+00:00",
+  "interval_end": "2026-09-14T08:22:29.002702+00:00",
+  "participant_count": 5,
+  "global_cap": 14,
+  "fair_limit_unmanaged": 2,
+  "reviewer_local_cap": 1,
+  "reviewer_own_claims": 0,
+  "reviewer_pending_demand": 1,
+  "explicit_demand_accounting_exists": false,
+  "registered_controls": [
+    {
+      "participant": "98349:2185934",
+      "control": {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "sha256": "77839384e4a6c2709b503d7cb7d9095cd2dc3d080d357cfeaf4b1f288344fcc5",
+        "bytes": 1247
+      },
+      "own_claims": 6,
+      "local_max_active": 12,
+      "paused": false,
+      "known_reviewer": false
+    },
+    {
+      "participant": "18216:3020185",
+      "control": {
+        "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+        "sha256": "f89de323142114b1c44af52cfa0a2cb0dd7d57f8d7f7dec7b92dc73bfa8f82a4",
+        "bytes": 438
+      },
+      "own_claims": 3,
+      "local_max_active": 12,
+      "paused": false,
+      "known_reviewer": false
+    },
+    {
+      "participant": "31290:3061375",
+      "control": {
+        "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.json",
+        "sha256": "f89de323142114b1c44af52cfa0a2cb0dd7d57f8d7f7dec7b92dc73bfa8f82a4",
+        "bytes": 438
+      },
+      "own_claims": 1,
+      "local_max_active": 12,
+      "paused": false,
+      "known_reviewer": false
+    },
+    {
+      "participant": "15071:3279013",
+      "control": {
+        "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.json",
+        "sha256": "f89de323142114b1c44af52cfa0a2cb0dd7d57f8d7f7dec7b92dc73bfa8f82a4",
+        "bytes": 438
+      },
+      "own_claims": 4,
+      "local_max_active": 12,
+      "paused": false,
+      "known_reviewer": false
+    },
+    {
+      "participant": "83205:5750249",
+      "control": {
+        "path": "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/control.json",
+        "sha256": "7d33866a1e7bd120cabc62b06df3278b1596e6699c0d18caa868ca233fb561aa",
+        "bytes": 413
+      },
+      "own_claims": 0,
+      "local_max_active": 1,
+      "paused": false,
+      "known_reviewer": true
+    }
+  ],
+  "resource_reason_sample_counts": {
+    "shared concurrency": 64,
+    "memory pressure": 44,
+    "memory pressure cooldown": 79,
+    "shared staggered startup": 1
+  },
+  "shared_claim_count_sample_counts": {
+    "14": 738,
+    "13": 243,
+    "12": 138
+  },
+  "other_admissions": [
+    {
+      "trial": "cpp-rosbag2-mixed-serialization__QDvNHN6",
+      "at": "2026-09-14T08:04:39.631598+00:00",
+      "receipt": {
+        "cell": "[\"cpp-rosbag2-mixed-serialization-playback\",\"anthropic/claude-sonnet-5\",\"high\"]",
+        "job": "candidates-all14-efforts-20-20260913T183301Z",
+        "iteration": 2,
+        "started_at": 1789373079.6315978,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:04:39.623673+00:00",
+        "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "added": [],
+        "removed": [
+          "cpp-zenoh-cpp-connectivity-api__RCzzxaw"
+        ],
+        "active": 4
+      },
+      "seconds_since_latest_release_status": 0.007925033569335938,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:04:37.418794+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 22299,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:04:43.444100+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 23034,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      }
+    },
+    {
+      "trial": "rs-burn-store-pytorch-reader-v4__RBjsods",
+      "at": "2026-09-14T08:12:32.429162+00:00",
+      "receipt": {
+        "cell": "[\"rs-burn-store-pytorch-reader-v4\",\"anthropic/claude-fable-5-1\",\"max\"]",
+        "job": "candidates-burn-reader-v4-efforts-20-20260914T011100Z",
+        "iteration": 2,
+        "started_at": 1789373552.4291618,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:09:23.347600+00:00",
+        "control": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.json",
+        "added": [],
+        "removed": [
+          "rs-burn-store-pytorch-reader-v4__EsSiypB"
+        ],
+        "active": 2
+      },
+      "seconds_since_latest_release_status": 189.08156204223633,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:12:26.926253+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 22284,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "memory pressure cooldown",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:12:32.941089+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 23449,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      }
+    },
+    {
+      "trial": "rs-burn-store-pytorch-reader-v4__kYchPug",
+      "at": "2026-09-14T08:14:42.805163+00:00",
+      "receipt": {
+        "cell": "[\"rs-burn-store-pytorch-reader-v4\",\"anthropic/claude-sonnet-5\",\"max\"]",
+        "job": "candidates-burn-reader-v4-efforts-20-20260914T011100Z",
+        "iteration": 2,
+        "started_at": 1789373682.8051627,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:14:21.522413+00:00",
+        "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "added": [],
+        "removed": [
+          "cpp-rosbag2-mixed-serialization__RMkcAfK"
+        ],
+        "active": 4
+      },
+      "seconds_since_latest_release_status": 21.282749891281128,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:14:39.296567+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 24164,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "memory pressure cooldown",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:14:45.313885+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 24212,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared staggered startup",
+        "trial_names": []
+      }
+    },
+    {
+      "trial": "cpp-zenoh-cpp-connectivity-api__pmRF3yV",
+      "at": "2026-09-14T08:14:47.806203+00:00",
+      "receipt": {
+        "cell": "[\"cpp-zenoh-cpp-connectivity-api\",\"anthropic/claude-fable-5-1\",\"max\"]",
+        "job": "candidates-all14-efforts-20-20260913T183301Z",
+        "iteration": 2,
+        "started_at": 1789373687.8062027,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:14:21.522413+00:00",
+        "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "added": [],
+        "removed": [
+          "cpp-rosbag2-mixed-serialization__RMkcAfK"
+        ],
+        "active": 4
+      },
+      "seconds_since_latest_release_status": 26.28378987312317,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:14:45.313885+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 24212,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared staggered startup",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:14:51.336114+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 24238,
+        "memory_pressure_pct": 0.0,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      }
+    },
+    {
+      "trial": "cpp-foxglove-sdk-parameter-handl__3LvTxsB",
+      "at": "2026-09-14T08:19:27.617706+00:00",
+      "receipt": {
+        "cell": "[\"cpp-foxglove-sdk-parameter-handler\",\"anthropic/claude-sonnet-5\",\"medium\"]",
+        "job": "candidates-all14-efforts-20-20260913T183301Z",
+        "iteration": 2,
+        "started_at": 1789373967.6177063,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:19:27.541625+00:00",
+        "control": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+        "added": [],
+        "removed": [
+          "rs-zenoh-timestamp-instrumentati__whipeAa"
+        ],
+        "active": 3
+      },
+      "seconds_since_latest_release_status": 0.0760810375213623,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:19:22.271016+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 22351,
+        "memory_pressure_pct": 0.05,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:19:28.297161+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 21259,
+        "memory_pressure_pct": 0.15,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      }
+    },
+    {
+      "trial": "rs-rerun-chunk-optimizer__pUANYZX",
+      "at": "2026-09-14T08:20:17.696056+00:00",
+      "receipt": {
+        "cell": "[\"rs-rerun-chunk-optimizer\",\"anthropic/claude-opus-5\",\"medium\"]",
+        "job": "candidates-all14-efforts-20-20260913T183301Z",
+        "iteration": 2,
+        "started_at": 1789374017.6960561,
+        "source": "atomic_admission"
+      },
+      "latest_prior_release_status": {
+        "at": "2026-09-14T08:20:17.646026+00:00",
+        "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+        "added": [],
+        "removed": [
+          "rs-burn-onnx-rnn-runtime-weights__QVHesz9"
+        ],
+        "active": 5
+      },
+      "seconds_since_latest_release_status": 0.05002999305725098,
+      "reviewer_status_before": {
+        "updated_at": "2026-09-14T08:20:16.528625+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 22015,
+        "memory_pressure_pct": 0.16,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      },
+      "reviewer_status_after": {
+        "updated_at": "2026-09-14T08:20:22.555860+00:00",
+        "active_trials": 0,
+        "peak_active_trials": 0,
+        "available_mb": 23466,
+        "memory_pressure_pct": 0.09,
+        "admission_wait_reason": "shared concurrency",
+        "trial_names": []
+      }
+    }
+  ],
+  "resource_claim_changes": [
+    {
+      "at": "2026-09-14T08:04:39.623673+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [],
+      "removed": [
+        "cpp-zenoh-cpp-connectivity-api__RCzzxaw"
+      ],
+      "active": 4
+    },
+    {
+      "at": "2026-09-14T08:04:39.634058+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [
+        "cpp-rosbag2-mixed-serialization__QDvNHN6"
+      ],
+      "removed": [],
+      "active": 5
+    },
+    {
+      "at": "2026-09-14T08:07:06.470028+00:00",
+      "control": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+      "added": [],
+      "removed": [
+        "rs-zenoh-timestamp-instrumentati__x9rzDeo"
+      ],
+      "active": 4
+    },
+    {
+      "at": "2026-09-14T08:09:23.347600+00:00",
+      "control": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.json",
+      "added": [],
+      "removed": [
+        "rs-burn-store-pytorch-reader-v4__EsSiypB"
+      ],
+      "active": 2
+    },
+    {
+      "at": "2026-09-14T08:12:32.431126+00:00",
+      "control": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.json",
+      "added": [
+        "rs-burn-store-pytorch-reader-v4__RBjsods"
+      ],
+      "removed": [],
+      "active": 3
+    },
+    {
+      "at": "2026-09-14T08:14:21.522413+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [],
+      "removed": [
+        "cpp-rosbag2-mixed-serialization__RMkcAfK"
+      ],
+      "active": 4
+    },
+    {
+      "at": "2026-09-14T08:14:42.807411+00:00",
+      "control": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.json",
+      "added": [
+        "rs-burn-store-pytorch-reader-v4__kYchPug"
+      ],
+      "removed": [],
+      "active": 4
+    },
+    {
+      "at": "2026-09-14T08:14:47.807625+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [
+        "cpp-zenoh-cpp-connectivity-api__pmRF3yV"
+      ],
+      "removed": [],
+      "active": 5
+    },
+    {
+      "at": "2026-09-14T08:19:27.541625+00:00",
+      "control": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+      "added": [],
+      "removed": [
+        "rs-zenoh-timestamp-instrumentati__whipeAa"
+      ],
+      "active": 3
+    },
+    {
+      "at": "2026-09-14T08:19:27.622891+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [
+        "cpp-foxglove-sdk-parameter-handl__3LvTxsB"
+      ],
+      "removed": [],
+      "active": 6
+    },
+    {
+      "at": "2026-09-14T08:20:17.646026+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [],
+      "removed": [
+        "rs-burn-onnx-rnn-runtime-weights__QVHesz9"
+      ],
+      "active": 5
+    },
+    {
+      "at": "2026-09-14T08:20:17.698032+00:00",
+      "control": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "added": [
+        "rs-rerun-chunk-optimizer__pUANYZX"
+      ],
+      "removed": [],
+      "active": 6
+    }
+  ],
+  "inputs": {
+    "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/control.resources.jsonl": {
+      "sha256_at_read": "de68a4e6d0b17700166fa071d05a7413d92aaf0121864bda2fe99fad6a012b83",
+      "bytes_at_read": 43109,
+      "live_append_only_source": true
+    },
+    "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/rs-zenoh-timestamp-instrumentation-v4-validation-admission.jsonl": {
+      "sha256_at_read": "ae6b3fd1e9a9ae8773081bcce5e1caed5f38b16f7536c0b2748dabd2dca0a187",
+      "bytes_at_read": 734473,
+      "live_append_only_source": true
+    },
+    "jobs/candidates-all14-efforts-20-20260913T183301Z.control.resources.jsonl": {
+      "sha256_at_read": "631b82f331e8de14f89fd3fb32e72696dab262ba5d9472b55677e012f42db1c8",
+      "bytes_at_read": 4654431,
+      "live_append_only_source": true
+    },
+    "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.resources.jsonl": {
+      "sha256_at_read": "cd28b748202f90e8a1cbcc40fead4439034f3f77676e693a799ed4fa0e4daa32",
+      "bytes_at_read": 1267652,
+      "live_append_only_source": true
+    },
+    "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.resources.jsonl": {
+      "sha256_at_read": "4009277d24a6f31b42ee7b7778b78f6e2616460a3b63c209deabeedb43079405",
+      "bytes_at_read": 418733,
+      "live_append_only_source": true
+    },
+    "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z.control.resources.jsonl": {
+      "sha256_at_read": "be80f5c706c95e155ba9e1c158d66940624c3b9b862115fc83fc8dc9bc1dfe7c",
+      "bytes_at_read": 796924,
+      "live_append_only_source": true
+    }
+  },
+  "raw_history_excerpts": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/quality-admission-audit-20260914T0823/raw-history-excerpts.json",
+    "sha256": "0c22d84418e0fd9e1b04c9f0cd0e9426ca5a345fa7caf220752808d04564686d",
+    "bytes": 1124634
+  },
+  "source_refs": [
+    {
+      "path": "scripts/benchmark_shared_admission.py",
+      "sha256": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+      "bytes": 5184
+    },
+    {
+      "path": "scripts/harbor-resource-runner.py",
+      "sha256": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+      "bytes": 7540
+    },
+    {
+      "path": "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/files/scripts/benchmark_shared_admission.py",
+      "sha256": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+      "bytes": 5184
+    },
+    {
+      "path": "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/files/scripts/harbor-resource-runner.py",
+      "sha256": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+      "bytes": 7540
+    }
+  ],
+  "conclusions": [
+    "Reviewer is below both fair and local ceilings; fair allocation is not its blocker.",
+    "Managed sweep tasks bypass the fair ceiling; there is no FIFO, aging or reservation for the waiting reviewer.",
+    "Six other sweep starts occurred while the reviewer waited; this is not a period with no released openings.",
+    "Several openings were refilled within roughly 8, 76 and 50 milliseconds of another worker logging release, much shorter than the reviewer two-second retry interval.",
+    "Other openings coincided with reviewer memory-pressure or cooldown holds; one documented remaining opening reached shared staggered startup then was claimed by a sweep worker.",
+    "Fresh identity and heartbeat observations show a functioning queue. Repeated capacity losses create starvation risk; these observations do not prove indefinite starvation."
+  ],
+  "limitations": [
+    "Resource status writes are throttled to roughly five seconds; they do not record every two-second attempt.",
+    "Release status is written immediately after shared release, so measured intervals are approximate, not exact lock acquisition durations.",
+    "Admission observer samples roughly once per second and can miss sub-second vacancies.",
+    "Current participant demand is inferred only for the single reviewer; the scheduler fair formula counts registered participants and does not store demand."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "reviewed_timing_comparison_decision",
+  "created_at": "2026-09-14T07:23:22.835347+00:00",
+  "single_full_oracle_confirmation_authorized": true,
+  "task_checksum": "67f1fdca75fd66f4cbdd6e4729a582c9fbbdac428a0299eefc74104dffa59fab",
+  "model_calls": 0,
+  "raw_original_oracle_preserved": true,
+  "comparison_result": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/comparison-001/result.json",
+    "sha256": "5bd901add3abf4aacefd93d7fcc5b97729b19c4015a59a7d861c87906ee6582a"
+  },
+  "comparison_inputs": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/comparison-001/inputs.json",
+    "sha256": "b645aedcf7505d34a67fbddefa661ae510147376aeaa1292e74189a86f8f27f5"
+  },
+  "observed_outcomes": {
+    "untouched_gold": [
+      "pass",
+      "fail:502.682ms",
+      "pass"
+    ],
+    "corrected_reference": [
+      "pass",
+      "pass",
+      "pass"
+    ]
+  },
+  "interpretation": "The fixed three-per-source comparison reproduces the unchanged timing failure on untouched gold and observes three corrected-reference passes under the same declared resources. This supports a single unchanged-task full oracle confirmation rather than treating the admin reply field as a deterministic timing regression. It does not prove load caused the failure or estimate its frequency; source order was fixed and only six observations were taken. The original oracle zero and both failed timing attempts remain immutable. Thresholds, retries, resources and task bytes are unchanged. No automatic second confirmation or quality retry is authorized."
+}

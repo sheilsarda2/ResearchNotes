@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-09-14T05:11:15.023836+00:00",
+  "harbor_version": "0.15.0",
+  "task": "candidates_v2/rs-rerun-chunk-optimizer",
+  "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+  "inputs": {
+    "task_file_sha256": {
+      "STATUS.md": "038eb8009a420aa86b27dfbb512f7ce5f00c63a9c18b399108acf177c616e3de",
+      "environment/Dockerfile": "6bd977038a17a99c07a6eeb4033d9df26502f2a2f1f16c53dd1b2d32007f7347",
+      "environment/upstream.tar.gz": "68a9a6667321426a580cfa92c24f8a888b64061ae9419cecee07cca42ec5c9d4",
+      "instruction.md": "639972e3545e9bf54171f598aad90cab4747c87af3c5cd36097140d0ee5e83b7",
+      "provenance.json": "2ea60c2f00bba1d73bd2572ed17038f1fea88d5d44ce9f1d98cc7b5d5daced29",
+      "solution/changes.patch": "a39916c2a08bb192505285d5bc9bc12aa6f1f3f7b4e1e205048220b8af6f6923",
+      "solution/solve.sh": "17cb2bad6a4c1498d146a898818e09655074e89c867109a26eb0b24900a05217",
+      "task.toml": "c9b051184e03bc9eefd0e4518bda9f2260c36a8c29aed77c07048d0268ea37c3",
+      "tests/Dockerfile": "dd3014e0f994cd459b63e7db8a1085ddb1b5a5f4141860a4e2ac1b30b37b5f62",
+      "tests/hidden/footers_and_manifests.rs": "7c1a6755185400f75c3b30302c3c4aed3fc481e78cfd1b188b0e562b1e82ed6a",
+      "tests/hidden/optimize.rs": "d960099d8bca493348416b6c9e3fa32dd771d584f3794f5c8aaa71d9ea1a01be",
+      "tests/hidden/optimizer_contract.rs": "c8879c919781c6a96f734dc7770bfa06d5bceb1340d20b8613713eb2f30ed837",
+      "tests/image-source/upstream.tar.gz": "68a9a6667321426a580cfa92c24f8a888b64061ae9419cecee07cca42ec5c9d4",
+      "tests/test.sh": "0b1adba7ab8d19955aaa94caa6f0af4b718012095150e3a02a4e8f241d2fe0f6"
+    },
+    "task_manifest_sha256": "7435d57317a0aabdc17507ae90e284640ab131911ecae95c95ce467d5e8750f0"
+  },
+  "tooling_sha256": {
+    "scripts/benchmark_agent_runtime.py": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+    "scripts/benchmark_coverage_priority.py": "fbc8f266dc2a0b46456ed37944eaa155002b677fc2af7bf6b81b6a6ed2286a02",
+    "scripts/benchmark_deadline.py": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+    "scripts/benchmark_evidence.py": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5",
+    "scripts/benchmark_incidents.py": "d14116a2533cacc46d42d563a1bb2c26e0b0fb8e7dd0f7267c528e548a0d270d",
+    "scripts/benchmark_interleaving.py": "8f22613c808398b69f1e40e0c69c8d7567de3c17874b03db5c7fd80f6e976827",
+    "scripts/benchmark_job_scheduling.py": "6316c96998ca9882b5560cc89f28250e9f78ef3cb22ff2a3db2658bcd92b69c8",
+    "scripts/benchmark_lock_cache.py": "1974b784a261b70e5fa0af7d5ab5a443e3b60ac11c4d5d053ea1116ee41db6aa",
+    "scripts/benchmark_mini_tool_bootstrap.py": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+    "scripts/benchmark_mini_tool_cleanup.py": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+    "scripts/benchmark_mini_tool_runtime.py": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "scripts/benchmark_process_guard.py": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "scripts/benchmark_startup_failures.py": "e80ba331939942377526e080bd0f0bbe6386272765815a2039971c0ae5175da6",
+    "scripts/benchmark_task_selection.py": "c8f847a796f5320ff408287d4aa8e9d10daaef61e2224eb910ededea7645db35",
+    "scripts/benchmark_trial_containment.py": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+    "scripts/benchmark_trial_intervention.py": "41953a8133969efffbe0c1bbcaaa16ea5755f3faee105f74fc37b6c5977c4753",
+    "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+    "scripts/candidate-bench.py": "0fc6bbf2f4ddeabb4083a057c6ab28efdd4eb73e0aa58a4debae590bccea0fca",
+    "research/rerun-final-controls-2026-09-14/validate_controls_immutable.py": "af04a7d2b7a50e50b3cf40659dc9b650a0174140994632f8ad437160ce7602d8",
+    "research/rerun-final-controls-2026-09-14/execute_captured_runner.py": "f9209395ecce2b6b34d000ca7c9670cd0a8cdde5c94d0b303c87828d3e5145eb",
+    "research/rerun-final-controls-2026-09-14/capture_immutable_tooling.py": "6f735974706d588ccdd0be29abdf21db594cc97111b04287e2c8491b7510e9aa",
+    "research/rerun-final-controls-2026-09-14/immutable-tooling-v1/manifest.json": "6887d2f007a9cfb399d9173e797cce88bd343c9f0ad27b53f32f603ab7da319d",
+    "research/rerun-final-controls-2026-09-14/immutable-execution-context.json": "3cd2fae8d241bc9e61c28df42140ce10ba005701a2864a8451595438de1cbc76"
+  },
+  "original_budgets": {
+    "agent": {
+      "timeout_sec": 21600.0
+    },
+    "verifier": {
+      "timeout_sec": 3600.0,
+      "environment": {
+        "network_mode": "no-network",
+        "build_timeout_sec": 3600,
+        "cpus": 4,
+        "memory_mb": 8192,
+        "storage_mb": 30720
+      }
+    },
+    "environment": {
+      "build_timeout_sec": 3600.0,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "storage_mb": 30720,
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://take-home-automation.vercel.app",
+        "ANTHROPIC_API_BASE": "https://take-home-automation.vercel.app"
+      }
+    }
+  },
+  "control_sha256": "7d33866a1e7bd120cabc62b06df3278b1596e6699c0d18caa868ca233fb561aa",
+  "model_calls": 0,
+  "execution_source_tree": "research/rerun-final-controls-2026-09-14/immutable-tooling-v1/files",
+  "live_source_differences_at_start": {}
+}

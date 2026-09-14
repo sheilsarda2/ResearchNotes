@@ -1,0 +1,221 @@
+{
+  "task_id": "rs-zenoh-timestamp-instrumentation",
+  "language": "rust",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/eclipse-zenoh/zenoh",
+    "base_commit": "a62451c0231faa3c7ecbd44499613c27706b117a",
+    "base_commit_date": "2026-07-21T01:06:49Z",
+    "license": "EPL-2.0 OR Apache-2.0",
+    "crate_version": "1.9.0",
+    "toolchain": "1.97.1 (rust-toolchain.toml)"
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/eclipse-zenoh/zenoh/pull/2620",
+    "title": "Add timestamp instrumentation for latency measurement",
+    "merged_at": "2026-07-21T12:56:26Z",
+    "merge_commit": "89ab32cb5303af32ca96c7218f6b0e2637946aad",
+    "author": "oteffahi",
+    "sister_pr": "https://github.com/eclipse-zenoh/zenoh-python/pull/739 (merged 2026-07-21T13:34:52Z, f4bbce9d; its Cargo.lock pins zenoh git rev 89ab32cb)",
+    "gold_patch": {
+      "files": 35,
+      "additions": 1588,
+      "deletions": 30,
+      "note": "non-test diff; full PR is 36 files +3202/-30 of which zenoh/tests/timestamp_instrumentation.rs (+1614) is hidden",
+      "crates": [
+        "commons/zenoh-protocol",
+        "commons/zenoh-codec",
+        "zenoh",
+        "zenoh-ext"
+      ],
+      "sha256": "6e7b6e78d8c194ed9ece8a87a715878e1fb466e8823eb9f0a723e2280e49af0d"
+    }
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "gold-built reference peer (tests/ts_peer, public API only) and zenoh-python f4bbce9 compiled against the gold tree; plus the PR's own integration test (47), an authored zenoh-ext test (2), pristine suites with exact counts",
+    "groups": [
+      "anti_cheat",
+      "build_a",
+      "build_b",
+      "lib_test_names",
+      "hidden_pr_tests",
+      "interop_gold",
+      "parity_python",
+      "zenoh_ext",
+      "upstream_regressions"
+    ],
+    "hidden_tests": {
+      "zenoh/tests/timestamp_instrumentation.rs": 47,
+      "zenoh/tests/ts_interop.rs": {
+        "interop_": 6,
+        "pyparity_": 4
+      },
+      "zenoh-ext/tests/ts_advanced.rs": 2
+    }
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "merged 2026-07-21; sister zenoh-python PR same day; no linked issue; design discussion only in PR review (Copilot + OlivierHecart nits on naming and stack cap)"
+  },
+  "horizon": {
+    "proxy": "35 files, +1588/-30 across 4 crates and 3 layers (protocol structs + codec, session send/receive paths, routing dispatcher for push/request/response, runtime HLC/callback plumbing, admin space, 6 builders, zenoh-ext forwarding); wire format must match an external implementation byte for byte",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/eclipse-zenoh/zenoh/pull/2620",
+      "https://github.com/eclipse-zenoh/zenoh-python/pull/739",
+      "https://github.com/eclipse-zenoh/zenoh-python/pull/736"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "builder_no_points_active: build() with no point enabled returns Err",
+      "instruction_ref": "instruction.md Public API: 'build(self) -> ZResult<TimestampInstrumentation> which fails when no point is enabled'"
+    },
+    {
+      "assertion": "builder_send_only/route_only/receive_only/all_points/set_unset: is_instrumented mirrors set_*, including unsetting",
+      "instruction_ref": "instruction.md Public API: 'by-value chainable set_send/set_route/set_receive (setting a point twice or unsetting it again must work)'; 'is_instrumented'"
+    },
+    {
+      "assertion": "interception_point_try_from_valid/invalid: TryFrom<u8> accepts 1,2,4 (bit 7 ignored) and rejects 0xFF",
+      "instruction_ref": "instruction.md Public API: 'impl TryFrom<u8> accepts the wire values below (bit 7 ... ignored) and returns zenoh_result::Error for anything else'"
+    },
+    {
+      "assertion": "records_non_empty_timestamp_bytes: same-session records are UHLC",
+      "instruction_ref": "instruction.md Behavioral contract 5: 'By default a record holds a UHLC timestamp'"
+    },
+    {
+      "assertion": "records_order_matters / instrumentation_config_preserved: traversal order; configuration preserved end to end",
+      "instruction_ref": "instruction.md Behavioral contract 3 'Records are appended in traversal order'; Public API 'instrumentation() (the configuration the sender used, preserved end to end)'"
+    },
+    {
+      "assertion": "pubsub_same_session_{send_only,receive_only,send_receive}: same session yields S, E, or S E",
+      "instruction_ref": "instruction.md Behavioral contract 3: 'same session S E' with 'A record is appended only if its point is enabled'"
+    },
+    {
+      "assertion": "pubsub_same_session_no_instrumentation / pubsub_*_no_instrumentation / queryreply_*_no_instrumentation: timestamp_stack() is None",
+      "instruction_ref": "instruction.md Behavioral contract 1: 'No configuration, no stack ... receivers see None. Replies to an uninstrumented query carry nothing.'"
+    },
+    {
+      "assertion": "pubsub_local_and_remote_no_duplicate_receive / pubsub_local_only_destination / pubsub_remote_only_destination: exactly one Receive for local and for remote subscribers under each Locality",
+      "instruction_ref": "instruction.md Behavioral contract 4: 'Local delivery records exactly one Receive ... Locality::SessionLocal, Locality::Remote and Locality::Any'"
+    },
+    {
+      "assertion": "pubsub_p2p_{send_only,receive_only,send_receive,route_only}: peer-to-peer gives S / E / S E / R R",
+      "instruction_ref": "instruction.md Behavioral contract 2 'a peer-to-peer hop adds two Route records' and 3 'peer<->peer publication S R R E (Route only: R R; Send+Receive: S E)'"
+    },
+    {
+      "assertion": "pubsub_routed_* (7 combinations): client->router->client gives the subset of S R R R E selected by the configuration",
+      "instruction_ref": "instruction.md Behavioral contract 2 'a client->router->client path adds three' and 3 'client->router->client publication S R R R E (Route only: R R R)'"
+    },
+    {
+      "assertion": "delete_p2p_send_receive / delete_routed_send_route_receive: deletes carry stacks like puts",
+      "instruction_ref": "instruction.md Behavioral contract 3: 'a delete behaves like a put'"
+    },
+    {
+      "assertion": "queryreply_p2p_query_{send_only,send_receive}, queryreply_local_and_remote_*: query stack S E; reply stack S E S E; local and remote queryables each see one Receive",
+      "instruction_ref": "instruction.md Behavioral contract 3 'A query received by a queryable carries ... S E peer-to-peer ... reply ... S E S E' and 4 'a queryable local to the querier ... local plus remote queryables answering the same query (ConsolidationMode::None)'"
+    },
+    {
+      "assertion": "queryreply_routed_query_send_route_receive / route_only: query 5 records, reply 10 (or 3 and 6 with Route only)",
+      "instruction_ref": "instruction.md Behavioral contract 3: 'S R R R E routed ... ten records S R R R E S R R R E routed, R R R R R R routed with Route only'"
+    },
+    {
+      "assertion": "queryreply_reply_err_send_receive: ReplyError::timestamp_stack() has S E S E",
+      "instruction_ref": "instruction.md Behavioral contract 3 'reply_err replies carry the stack on ReplyError'; Public API 'ReplyError::timestamp_stack'"
+    },
+    {
+      "assertion": "custom_callback_pub_sub: with_timestamp_callback makes records custom with the callback bytes",
+      "instruction_ref": "instruction.md Public API 'OpenBuilder::with_timestamp_callback'; Behavioral contract 5 'every record that node produces ... holds the callback's bytes instead, is_custom() is true'"
+    },
+    {
+      "assertion": "custom_callback_query_reply: each node's records use its own callback (query S by session1, E by session2; reply S by session2, E by session1)",
+      "instruction_ref": "instruction.md Behavioral contract 5: 'Callbacks of different nodes never mix'"
+    },
+    {
+      "assertion": "custom_callback_context: callback invoked once per record with the node's zid and whatami (Peer)",
+      "instruction_ref": "instruction.md Behavioral contract 5 'the callback receives the node's zid and whatami'; Public API TimestampContext fields"
+    },
+    {
+      "assertion": "querier_get_send_receive / querier_get_routed_send_route_receive: Querier::get builder accepts timestamp_instrumentation",
+      "instruction_ref": "instruction.md Public API builder entry points: 'Querier::get (QuerierGetBuilder)'"
+    },
+    {
+      "assertion": "interop_*/pyparity_*: reference peers decode the submission's extension (id 0x7, layout) and vice versa; unknown-to-them nothing when uninstrumented",
+      "instruction_ref": "instruction.md Wire format section; Verification 'differential interop'; contract 1"
+    },
+    {
+      "assertion": "interop_*/pyparity_*: UHLC record ids equal the recording node's zid, including router and routing-layer records",
+      "instruction_ref": "instruction.md Behavioral contract 5 'its id is the node's ZenohId ... whether or not the node has timestamping enabled'; contract 7 routers add Route records"
+    },
+    {
+      "assertion": "interop_agent_sub_decodes_*: custom records from a remote callback arrive as Custom(bytes) while local records stay UHLC",
+      "instruction_ref": "instruction.md Behavioral contract 5 'a node without a callback keeps producing UHLC records even when the message already carries custom ones'; Wire format 'for custom records the callback's bytes verbatim'"
+    },
+    {
+      "assertion": "interop_*: DELETE with instrumentation carries a stack; DELETE without carries none",
+      "instruction_ref": "instruction.md Behavioral contract 3 'a delete behaves like a put'; contract 1"
+    },
+    {
+      "assertion": "ts_advanced: AdvancedPublisher put with instrumentation yields S E on a local subscriber; without it None",
+      "instruction_ref": "instruction.md Public API 'zenoh_ext::AdvancedPublisher::put / delete (AdvancedPublicationBuilder), forwarding to the inner publication'; contracts 1 and 3"
+    },
+    {
+      "assertion": "lib_test_names / anti_cheat: pristine in-crate tests still exist; no banned patterns in collected src",
+      "instruction_ref": "instruction.md 'What is collected' section"
+    },
+    {
+      "assertion": "upstream_regressions: selected pristine suites, codec roundtrips and in-crate tests pass with exact counts",
+      "instruction_ref": "instruction.md Behavioral contract 8 'Everything else is unchanged'; Building and testing"
+    }
+  ],
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+    "clean_git_archive": true,
+    "verifier_copy": "tests/image-source/upstream.tar.gz",
+    "gold_patch_for_verifier": {
+      "path": "tests/image-source/gold.patch",
+      "sha256": "0b54739d6bd3a421a10fdbccaedcc22e560143048c5e673a17f05aa7308da7d9",
+      "includes_hidden_test": true
+    }
+  },
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": 0.3,
+    "verifier_minutes": 16.6,
+    "host": "Docker Desktop 29.5.3, aarch64 (Apple Silicon), ~8.3 GB VM; 4 vCPU/8 GB per container; another heavy image build shared the host",
+    "estimates": {
+      "agent_image_gb": 10,
+      "verifier_image_gb": 13,
+      "agent_build_minutes": 25,
+      "verifier_build_minutes": 50,
+      "verifier_run_minutes": 20
+    },
+    "oracle_wall_seconds": 1042,
+    "env_setup_seconds": 19,
+    "verifier_seconds": 994,
+    "nop_wall_seconds": 75
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "rs-zenoh-timestamp-instrumentation-oracle-20260913T164927Z",
+      "nop": "rs-zenoh-timestamp-instrumentation-nop-20260913T170741Z"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

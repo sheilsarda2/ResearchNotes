@@ -1,0 +1,21 @@
+{
+  "agent": {
+    "cost_limit": 10,
+    "step_limit": 2
+  },
+  "model": {
+    "litellm_model_registry": "/output/cases/synthetic-price-registry.json",
+    "model_kwargs": {
+      "api_base": "http://127.0.0.1:39809",
+      "drop_params": true,
+      "max_tokens": 64000,
+      "num_retries": 0,
+      "output_config": {
+        "effort": "max"
+      },
+      "thinking": {
+        "type": "adaptive"
+      }
+    }
+  }
+}

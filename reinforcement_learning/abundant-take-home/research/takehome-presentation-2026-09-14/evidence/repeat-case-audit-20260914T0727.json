@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-14T07:28:01.486816+00:00",
+  "kind": "bounded_repeat_failure_contract_review",
+  "raw_outcomes_unchanged": true,
+  "model_calls": 0,
+  "replays": 0,
+  "scope_limit": "Saved instruction/test/log comparison; no submission replay, no causal attribution to effort and no per-cell pass-rate claim.",
+  "cases": [
+    {
+      "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5",
+      "result": {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5/result.json",
+        "sha256": "997496126a0d268233b4806f95d221c38e38ba7f2a854e684157d52ee896305f"
+      },
+      "score": {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5/verifier/score.json",
+        "sha256": "15351f8aebbbf79f19133f2aa672707e8adae4a2388dab9322edaad629b4258a"
+      },
+      "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "high",
+      "finished_at": "2026-09-14T07:06:57.925414Z",
+      "reward": 0,
+      "exception": null,
+      "cohort": "additional counted repeat; excluded from the first-result27 and frozen99 first-result tables",
+      "assistant_turns": 287,
+      "instruction": {
+        "path": "candidates_v2/rs-rerun-chunk-optimizer/instruction.md",
+        "sha256": "639972e3545e9bf54171f598aad90cab4747c87af3c5cd36097140d0ee5e83b7"
+      },
+      "logs": [
+        {
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5/verifier/test_optimize.log",
+          "sha256": "23dc503e309fea3f1d6c736d80f027197c01ad8a19e641ca117c3e03d2a4e286"
+        },
+        {
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5/verifier/test_optimizer_contract.log",
+          "sha256": "0483d6161dfab64958ab364b1d433165c539a838a3a579724cc58fbc6fa27054"
+        }
+      ],
+      "tests": [
+        {
+          "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimize.rs",
+          "sha256": "d960099d8bca493348416b6c9e3fa32dd771d584f3794f5c8aaa71d9ea1a01be"
+        },
+        {
+          "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimizer_contract.rs",
+          "sha256": "c8879c919781c6a96f734dc7770bfa06d5bceb1340d20b8613713eb2f30ed837"
+        }
+      ],
+      "findings": [
+        {
+          "test": "band_chunk_emits_alone",
+          "observed": "2 outputs rather than3",
+          "contract": "R4.2 band chunk emits alone; R4.3 fit test and run order; R4.5 identity"
+        },
+        {
+          "test": "end_to_end",
+          "observed": "6 rows rather than4 in a mergeable output",
+          "contract": "R4.3 accumulated measured bytes plus next measured input must fit the target"
+        },
+        {
+          "test": "own_chunk_identity",
+          "observed": "2 outputs rather than4",
+          "contract": "R4.3 fit test; R4.5 unchanged single input slices retain identity"
+        },
+        {
+          "test": "chunks_that_do_not_fit_together_emit_alone_in_order",
+          "observed": "2 outputs rather than4 at target equal to one input measured size",
+          "contract": "R4.3 explicit fit predicate, R4.5 identity"
+        },
+        {
+          "test": "oversized_chunk_splits_into_fresh_pieces",
+          "observed": "A second optimization pass increased the chunk count",
+          "contract": "R4.6 explicitly prohibits increasing the count on a second pass"
+        }
+      ],
+      "interpretation": "Valid packing/identity/idempotence contract failures. All10 upstream regression groups pass. These failed count/layout assertions do not by themselves establish data loss.",
+      "trajectory": {
+        "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__QxzRuH5/agent/trajectory.json",
+        "sha256": "9369b42881c678280f3a12ca66e70614797785393509bce5e290c7863442429f",
+        "assistant_turns_directly_counted": 287
+      }
+    },
+    {
+      "trial": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ",
+      "result": {
+        "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/result.json",
+        "sha256": "1ba430e15edf3bf9b1e0e68ba59e4163b84a71151a1a978aa8e7f83e016a72e5"
+      },
+      "score": {
+        "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/verifier/score.json",
+        "sha256": "018ee95e4a6c87988547627ec120b44a643ed93a9405eb90e39b4cffa20ec536"
+      },
+      "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "model": "anthropic/claude-sonnet-5",
+      "effort": "medium",
+      "finished_at": "2026-09-14T07:23:16.707196Z",
+      "reward": 0,
+      "exception": null,
+      "cohort": "additional counted repeat; excluded from the first-result27 and frozen99 first-result tables",
+      "assistant_turns": 75,
+      "instruction": {
+        "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+        "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270"
+      },
+      "logs": [
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/verifier/matrix.log",
+          "sha256": "8994ab663cb9534aebbe0ef38d181ac9573a4a4c1625021a0e737ab9768fe198"
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/verifier/reject_cases.txt",
+          "sha256": "d2112833179ef09689220f725115be535ccfd1a0781f121ae336e07299111315"
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/verifier/anticheat_hits.txt",
+          "sha256": "95aa2bfa490b41c121feac50a28aafaa8fa0c20154d3bc8286f9534f2f13d823"
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/verifier/pytorch_unit.log",
+          "sha256": "293784db248e7e93b7a853c454c58422d50f9dcdffd67c49411aedb1bc642621"
+        }
+      ],
+      "group_results": {
+        "build": {
+          "ok": true,
+          "seconds": 100
+        },
+        "anticheat": {
+          "ok": false,
+          "hits_file": "anticheat_hits.txt"
+        },
+        "pytorch_unit": {
+          "ok": false,
+          "passed": 93,
+          "failed": 15,
+          "ignored": 0,
+          "expected": 108
+        },
+        "safetensors_unit": {
+          "ok": true,
+          "passed": 52,
+          "failed": 0,
+          "expected": 52
+        },
+        "integration": {
+          "ok": true,
+          "passed": 20,
+          "failed": 0,
+          "expected": 20
+        },
+        "pytorch_tests_crate": {
+          "ok": true,
+          "passed": 37,
+          "failed": 0,
+          "expected": 37
+        },
+        "fixture_matrix": {
+          "ok": false,
+          "passed": 57,
+          "failed": 5,
+          "expected": 62,
+          "manifest_ok": true,
+          "tensor_rows": 428
+        },
+        "reject_cases": {
+          "ok": false,
+          "passed": 24,
+          "failed": 8,
+          "expected": 32
+        }
+      },
+      "reviewed_functional_failures": [
+        {
+          "examples": [
+            "legacy_protocol4.pt",
+            "r_legacy_big_endian.pt",
+            "r_legacy_no_endian_flag.pt"
+          ],
+          "observed": "Protocol4 legacy acceptance fails; malformed endian metadata is accepted",
+          "contract": "R8 explicitly requires legacy magic detection across protocols and validated little_endian bool"
+        },
+        {
+          "examples": [
+            "int_keys.pt"
+          ],
+          "observed": "Integer dictionary keys rejected",
+          "contract": "R10 permits int keys, normalized to decimal strings"
+        },
+        {
+          "examples": [
+            "tar_early.tar",
+            "r_tar_absurd_count.tar",
+            "r_tar_truncated_storages.tar"
+          ],
+          "observed": "Valid early TAR yields zero tensors; invalid storage records accepted",
+          "contract": "R9 real early TAR storage/tensor layout and validation; grading section explicitly covers early TAR with storage view and malformed TARs"
+        },
+        {
+          "examples": [
+            "r_broadcast_bomb.pt",
+            "r_offset_past_storage.pt",
+            "r_stride_overflow.pt"
+          ],
+          "observed": "Opened successfully, rejected only on materialization",
+          "contract": "R6 requires checked extent/size bounds in PytorchReader::new, before materialization"
+        },
+        {
+          "examples": [
+            "r_deep_nesting.pkl"
+          ],
+          "observed": "Process exit134",
+          "contract": "Grading section4 explicitly requires Err for 200000-deep nesting; panic/abort/OOM/timeout fails"
+        }
+      ],
+      "source_constraint": {
+        "path": "crates/burn-store/src/pytorch/pickle_reader.rs:2191",
+        "observed": "Reference to src/pytorch/tests/reader/test_data/non_contiguous.pt",
+        "contract": "Grading section5 prohibits /tests/ in submitted sources",
+        "interpretation": "Record separately from the functional defects; this observation is not evidence of cheating."
+      },
+      "interpretation": "The directly reviewed functional failures independently justify reward0. This bounded review does not claim a separate audit of every failing PyTorch unit assertion.",
+      "trajectory": {
+        "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__F6DfDQQ/agent/trajectory.json",
+        "sha256": "a99f8db237922a0283339d03df62f1101f1af282a1589ac05c8512d792ce3106",
+        "assistant_turns_directly_counted": 75
+      }
+    }
+  ],
+  "preservation": {
+    "checked_at": "2026-09-14T07:28:40.175321+00:00",
+    "original_commit": "c1ae968",
+    "supplied_files_unchanged": 36
+  }
+}

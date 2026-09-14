@@ -1,0 +1,88 @@
+{
+  "archive": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/environment/upstream.tar.gz",
+  "archive_sha256": "3e4d52aa66d566a42426b8177c01eaab827421a9485f83d8f12493cb88073a2e",
+  "created_at": "2026-09-14T05:45:50.335093+00:00",
+  "limitations": [
+    "Use only the already present public transport/codec APIs; do not require a new timestamp-stack module or conversion trait.",
+    "TransportManagerBuilder::build takes an additional StatsRegistry only when stats feature is enabled.",
+    "Real Session role, full key expression routing and subscription readiness need a bounded smoke test.",
+    "Malformed-record public observations must not require filtering at an unspecified raw-protocol representation."
+  ],
+  "members": [
+    {
+      "archive_member": "io/zenoh-transport/src/manager.rs",
+      "bytes": 25885,
+      "excerpts": [
+        {
+          "end_line": 454,
+          "start_line": 450,
+          "text": "    pub fn build(\n        self,\n        handler: Arc<dyn TransportEventHandler>,\n        #[cfg(feature = \"stats\")] stats: zenoh_stats::StatsRegistry,\n    ) -> ZResult<TransportManager> {"
+        },
+        {
+          "end_line": 661,
+          "start_line": 655,
+          "text": "    pub fn builder() -> TransportManagerBuilder {\n        TransportManagerBuilder::default()\n    }\n\n    pub fn zid(&self) -> ZenohIdProto {\n        self.config.zid\n    }"
+        },
+        {
+          "end_line": 677,
+          "start_line": 673,
+          "text": "    pub async fn close(&self) {\n        self.close_unicast().await;\n        self.close_multicast().await;\n        self.task_controller.terminate_all_async().await;\n    }"
+        }
+      ],
+      "sha256": "ca995922c875808ef4bd3e8951e72bfd4a2f337cf9e6c69be5f7a865c997eb10"
+    },
+    {
+      "archive_member": "io/zenoh-transport/src/unicast/manager.rs",
+      "bytes": 33739,
+      "excerpts": [
+        {
+          "end_line": 839,
+          "start_line": 831,
+          "text": "    pub async fn open_transport_unicast(&self, endpoint: EndPoint) -> ZResult<TransportUnicast> {\n        self.open_transport_unicast_inner(endpoint, None).await\n    }\n\n    pub async fn open_transport_unicast_with_zid(\n        &self,\n        endpoint: EndPoint,\n        expected_zid: &ZenohIdProto,\n    ) -> ZResult<TransportUnicast> {"
+        }
+      ],
+      "sha256": "bf73ec81e9af423515a24c0ee761019b37900e72dc14e22aa0aeba80e75c968a"
+    },
+    {
+      "archive_member": "io/zenoh-transport/src/unicast/mod.rs",
+      "bytes": 6341,
+      "excerpts": [
+        {
+          "end_line": 152,
+          "start_line": 140,
+          "text": "    #[inline(always)]\n    pub fn schedule(&self, message: NetworkMessageMut) -> ZResult<bool> {\n        let transport = self.get_inner()?;\n        transport.schedule(message)\n    }\n\n    #[inline(always)]\n    pub async fn close(&self) -> ZResult<()> {\n        // Return Ok if the transport has already been closed\n        match self.get_inner() {\n            Ok(transport) => transport.close(close::reason::GENERIC).await,\n            Err(_) => Ok(()),\n        }"
+        }
+      ],
+      "sha256": "f5bbb042851430ab7239c0f0ebc004de2fdd30898445e0ec5db17e07177238f6"
+    },
+    {
+      "archive_member": "io/zenoh-transport/src/lib.rs",
+      "bytes": 4113,
+      "excerpts": [
+        {
+          "end_line": 78,
+          "start_line": 61,
+          "text": "#[derive(Debug, Default)]\npub struct DummyTransportEventHandler;\n\nimpl TransportEventHandler for DummyTransportEventHandler {\n    fn new_unicast(\n        &self,\n        _peer: TransportPeer,\n        _transport: TransportUnicast,\n    ) -> ZResult<Arc<dyn TransportPeerEventHandler>> {\n        Ok(Arc::new(DummyTransportPeerEventHandler))\n    }\n\n    fn new_multicast(\n        &self,\n        _transport: TransportMulticast,\n    ) -> ZResult<Arc<dyn TransportMulticastEventHandler>> {\n        Ok(Arc::new(DummyTransportMulticastEventHandler))\n    }"
+        }
+      ],
+      "sha256": "de84ca36c903266c61f0b1837aeab489c0936a04cf7745a0f07103f7eff90ec3"
+    },
+    {
+      "archive_member": "io/zenoh-transport/tests/unicast_transport.rs",
+      "bytes": 103530,
+      "excerpts": [
+        {
+          "end_line": 508,
+          "start_line": 500,
+          "text": "    // Create the message to send\n    let message = NetworkMessage::from(Push {\n        wire_expr: \"test\".into(),\n        ext_qos: QoSType::new(channel.priority, cctrl, false),\n        ..Push::from(vec![0u8; msg_size])\n    });\n\n    for _ in 0..msg_count {\n        let _ = client_transport.schedule(message.clone().as_mut());"
+        }
+      ],
+      "sha256": "446f4e22bb15b1f336fbb5d3af4149846faf776e9b07344b235b9863cf0d372a"
+    }
+  ],
+  "model_calls": 0,
+  "public_route": "Build a TransportManager with DummyTransportEventHandler, open_transport_unicast to a normal listening Session, then schedule a decoded Push wrapped as NetworkMessage; receive through a declared public subscriber. Transport manager implements handshake.",
+  "schema_version": 1,
+  "status": "Public API existence is source-confirmed; delivery to a public Session subscriber has not been executed in this audit.",
+  "tests_run": 0
+}

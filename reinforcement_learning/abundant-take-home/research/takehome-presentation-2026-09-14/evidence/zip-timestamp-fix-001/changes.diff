@@ -1,0 +1,11 @@
+--- before/scripts/package-takehome-evidence.py
++++ after/scripts/package-takehome-evidence.py
+@@ -1006,7 +1006,7 @@
+ def zip_verified(directory, archive):
+     require(not archive.exists(), 'Archive destination exists')
+     expected = {}
+-    with zipfile.ZipFile(archive, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as z:
++    with zipfile.ZipFile(archive, 'x', compression=zipfile.ZIP_DEFLATED, compresslevel=6, strict_timestamps=False) as z:
+         for p in sorted(directory.rglob('*')):
+             name = p.relative_to(directory).as_posix() + ('/' if p.is_dir() else '')
+             require(name not in expected, 'Duplicate ZIP destination')

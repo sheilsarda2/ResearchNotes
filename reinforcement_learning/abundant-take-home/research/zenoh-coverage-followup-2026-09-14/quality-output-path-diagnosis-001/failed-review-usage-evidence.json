@@ -1,0 +1,273 @@
+{
+  "kind": "failed_official_quality_attempt_usage_audit",
+  "at": "2026-09-14T08:01:37.085904+00:00",
+  "official_review_valid": false,
+  "official_reward": 0,
+  "diagnosis": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/quality-output-path-diagnosis-001/diagnosis.json",
+    "sha256": "f1b6af69aecc1c8d3d833e557d08678cf1053cbf3895560d9fce997f6b7b0744"
+  },
+  "evidence_collector": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/immutable-tooling-v1/files/scripts/benchmark_evidence.py",
+    "sha256": "8251801acb481513288e0189c179e8479a8dfd48ea1e1190407187aff98e93b5"
+  },
+  "evidence": {
+    "schema_version": 1,
+    "step_definition": "ATIF source=agent steps and native role=assistant turns are counted separately; tool calls are a separate count.",
+    "identity": {
+      "trial_name": "check-rs-zenoh-timestamp-instrum__BQEWrQd",
+      "task_name": "check-rs-zenoh-timestamp-instrumentation-v4-validation",
+      "task_checksum": "23ba245084f0297bf79fd872479351003fa438668d3cc9d36f5e768d76f06208",
+      "agent": "mini-swe-agent",
+      "agent_version": "2.4.6"
+    },
+    "outcome": {
+      "reward": 0.0,
+      "exception_type": null,
+      "finished_at": "2026-09-14T07:51:32.167133Z"
+    },
+    "request": {
+      "configured_model": "anthropic/claude-sonnet-5",
+      "configured_effort": "high",
+      "recorded_effort": "high",
+      "effort_matches": true,
+      "thinking_type": "adaptive",
+      "max_tokens": 64000
+    },
+    "response_models": {
+      "atif": [
+        "anthropic/claude-sonnet-5"
+      ],
+      "native": [
+        "claude-sonnet-5"
+      ],
+      "atif_reasoning_efforts": [
+        "high"
+      ]
+    },
+    "counts": {
+      "atif_agent_steps": 40,
+      "native_assistant_turns": 40,
+      "atif_tool_calls": 40,
+      "native_tool_calls": 40,
+      "native_tool_returns": 40,
+      "turn_counts_match": true,
+      "atif_steps_with_timestamp": 40,
+      "native_turns_with_timestamp": 40
+    },
+    "usage": {
+      "result": {
+        "n_input_tokens": 1905205,
+        "n_cache_tokens": 1826617,
+        "n_output_tokens": 14522,
+        "cost_usd": 0.7069733999999999
+      },
+      "atif_final": {
+        "total_prompt_tokens": 1905205,
+        "total_completion_tokens": 14522,
+        "total_cached_tokens": 1826617,
+        "total_cost_usd": 0.7069733999999999
+      },
+      "native_final": {
+        "instance_cost": 0.7069733999999999,
+        "api_calls": 40
+      },
+      "native_responses": {
+        "assistant_turns": 40,
+        "usage_totals": {
+          "prompt_tokens": 1905205,
+          "completion_tokens": 14522,
+          "total_tokens": 1919727,
+          "cache_creation_input_tokens": 78508,
+          "cache_read_input_tokens": 1826617
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 40,
+          "completion_tokens": 40,
+          "total_tokens": 40,
+          "cache_creation_input_tokens": 40,
+          "cache_read_input_tokens": 40
+        },
+        "cost_usd": 0.7069734,
+        "turns_with_cost": 40
+      },
+      "usage_censored": false,
+      "provider_charge_may_be_missing": false
+    },
+    "budget": {
+      "deadline_at": null,
+      "deadline_source": null,
+      "native_at_or_before_deadline": null,
+      "native_after_deadline": null,
+      "native_unclassified": {
+        "assistant_turns": 40,
+        "usage_totals": {
+          "prompt_tokens": 1905205,
+          "completion_tokens": 14522,
+          "total_tokens": 1919727,
+          "cache_creation_input_tokens": 78508,
+          "cache_read_input_tokens": 1826617
+        },
+        "turns_with_usage": {
+          "prompt_tokens": 40,
+          "completion_tokens": 40,
+          "total_tokens": 40,
+          "cache_creation_input_tokens": 40,
+          "cache_read_input_tokens": 40
+        },
+        "cost_usd": 0.7069734,
+        "turns_with_cost": 40
+      },
+      "native_tool_returns_after_deadline": null,
+      "native_tool_returns_without_timestamp": 0,
+      "last_assistant_seconds_after_deadline": null,
+      "post_deadline_activity": null
+    },
+    "timing": {
+      "environment_setup": {
+        "started_at": "2026-09-14T07:46:37.191886Z",
+        "finished_at": "2026-09-14T07:46:38.145787Z",
+        "seconds": 0.953901,
+        "complete": true
+      },
+      "agent_setup": {
+        "started_at": "2026-09-14T07:46:38.145890Z",
+        "finished_at": "2026-09-14T07:47:28.095219Z",
+        "seconds": 49.949329,
+        "complete": true
+      },
+      "agent_execution": {
+        "started_at": "2026-09-14T07:47:28.620913Z",
+        "finished_at": "2026-09-14T07:51:15.210658Z",
+        "seconds": 226.589745,
+        "complete": true
+      },
+      "verifier": {
+        "started_at": "2026-09-14T07:51:15.834485Z",
+        "finished_at": "2026-09-14T07:51:16.054191Z",
+        "seconds": 0.219706,
+        "complete": true
+      },
+      "trial": {
+        "started_at": "2026-09-14T07:46:37.184793Z",
+        "finished_at": "2026-09-14T07:51:32.167133Z",
+        "seconds": 294.98234,
+        "complete": true
+      }
+    },
+    "lifecycle": {
+      "runtime_present": true,
+      "runtime_state": "present",
+      "runtime_version": 1,
+      "runtime_helper_sha256": null,
+      "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+      "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e",
+      "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+      "deadline_record_present": true,
+      "deadline_record_state": "present",
+      "agent_phase_started": true,
+      "agent_run_started_at": "2026-09-14T07:47:28.622489Z",
+      "quiescent": true,
+      "closed_at": "2026-09-14T07:51:15.362343Z",
+      "cleanup_finished_at": "2026-09-14T07:51:15.370161Z",
+      "cleanup_error": null,
+      "execution_count": 3,
+      "all_executions_quiescent": true
+    },
+    "completeness": {
+      "config": "present",
+      "result": "present",
+      "atif": "present",
+      "native": "present",
+      "result_usage": true,
+      "result_cost": true,
+      "execution_and_verifier_timing": true,
+      "pre_verifier_snapshot_present": true,
+      "pre_verifier_inputs_unchanged": true
+    },
+    "pre_verifier_snapshot_check": {
+      "matches": true,
+      "expected_sha256": "b429351716db2518ee70281bef6992d18eda86b092fe83627df6890dfe97a0ff",
+      "observed_sha256": "b429351716db2518ee70281bef6992d18eda86b092fe83627df6890dfe97a0ff",
+      "changed_paths": []
+    },
+    "input_snapshot": {
+      "schema_version": 1,
+      "hash_algorithm": "sha256",
+      "paths": [
+        "agent/mini-swe-agent.trajectory.json",
+        "agent/trajectory.json",
+        "artifacts",
+        "benchmark-deadline.json",
+        "benchmark-runtime.json",
+        "config.json",
+        "result.json",
+        "verifier"
+      ],
+      "entries": {
+        "agent/mini-swe-agent.trajectory.json": {
+          "kind": "file",
+          "size": 589190,
+          "sha256": "2adc56672fed58c340b4c01d7f60f070dd18dc6d90045e66f7ada68f2a0ef813"
+        },
+        "agent/trajectory.json": {
+          "kind": "file",
+          "size": 229271,
+          "sha256": "cf9642463e2212123175224653b98e85a4e851ae920be5cd10825b3c41d8eb87"
+        },
+        "artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/logs": {
+          "kind": "directory"
+        },
+        "artifacts/logs/artifacts": {
+          "kind": "directory"
+        },
+        "artifacts/manifest.json": {
+          "kind": "file",
+          "size": 322,
+          "sha256": "af0f8ffbb837dfa17d020ca26d96825d125555446fc1aedb1c255833875e38cb"
+        },
+        "benchmark-deadline.json": {
+          "kind": "file",
+          "size": 1481,
+          "sha256": "d0574ce2212566549a271613aad0f6d3dc1a5323ee9749b4dc8bde9f9d683d37"
+        },
+        "benchmark-runtime.json": {
+          "kind": "file",
+          "size": 338,
+          "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+        },
+        "config.json": {
+          "kind": "file",
+          "size": 2193,
+          "sha256": "a9cf52e3ff26f31996b444b7f938fc7632aa8b5935e912538b6418248a62f41a"
+        },
+        "result.json": {
+          "kind": "file",
+          "size": 4381,
+          "sha256": "8be421552aeb70cdfdba672ff38e07904b973e140b890fab8b0a470f5cb58478"
+        },
+        "verifier": {
+          "kind": "directory"
+        },
+        "verifier/reward.txt": {
+          "kind": "file",
+          "size": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        "verifier/test-stdout.txt": {
+          "kind": "file",
+          "size": 39,
+          "sha256": "27453cdc6a919101f7f44c7d869bbfd629d3ee29c293eccc49111f94a17f4bc9"
+        }
+      },
+      "sha256": "24e7b0d93fac5d67f73048afe931b49dda50105bf526c30bb5c67c1c4b227bd8"
+    }
+  },
+  "raw_snapshot": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/reviews-final-001/jobs/rs-zenoh-timestamp-instrumentation-v4-validation-quality-20260914T074259Z/check-rs-zenoh-timestamp-instrum__BQEWrQd/benchmark-snapshot.json",
+    "sha256": "85527d1a76c785596baaa8e8401280ec22470c1b9cb48a15e3fb0d05126daa64"
+  }
+}

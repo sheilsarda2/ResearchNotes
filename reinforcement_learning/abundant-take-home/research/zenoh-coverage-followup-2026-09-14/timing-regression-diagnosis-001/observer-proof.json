@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "read_only_observer_temporary_fixture_validation",
+  "checked_at": "2026-09-14T07:00:35.813004+00:00",
+  "passed": true,
+  "source_sha256": {
+    "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/read_only_observer.py": "ff70af754ae5a7e06f842aaee27171260ffc009bdb8b56171cafdb014c9838f6",
+    "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/test_read_only_observer.py": "7a8a3af106f01a3289f59b50bc6b2e9babb29def0bc294077488f607fee2d418",
+    "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/OBSERVER.md": "059123d54db5e52c21aa7c12c8165326362acecfe156fc97e39556cd1ce27d7f"
+  },
+  "tests": {
+    "host": {
+      "exit_code": 0,
+      "log": "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/observer-tests-host.log",
+      "sha256": "4ac153000d5617ce6fc146417ad40f2230ec79836f58138957db8a5c7dd9453c"
+    },
+    "harbor": {
+      "exit_code": 0,
+      "log": "research/zenoh-coverage-followup-2026-09-14/timing-regression-diagnosis-001/observer-tests-harbor.log",
+      "sha256": "13dc8a1e21b76989aa4d946ccec321e1b6b4f916230b7945a15493b5e23f2670"
+    }
+  },
+  "tests_per_environment": 18,
+  "live_shared_state_reads": 0,
+  "live_shared_state_writes": 0,
+  "model_calls": 0,
+  "runtime_trial_launches": 0,
+  "docker_container_starts": 0,
+  "frozen_helpers_unchanged": {
+    "research/zenoh-coverage-followup-2026-09-14/validate_controls_immutable.py": "6eedc7e3f00184e482b5d2a5b8f21c6de2423554e42f937c66c4a8e3bbbffe80",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6"
+  },
+  "supplied_files_unchanged": 36,
+  "limitations": [
+    "Tests use temporary files and fake child objects; no benchmark run is claimed.",
+    "Bounds apply to nonblocking lock/retry waiting; kernel-stalled filesystem calls are not preempted.",
+    "Caller must validate child exit, errors, terminal_sample_valid, existing admission proof and exact control result."
+  ]
+}

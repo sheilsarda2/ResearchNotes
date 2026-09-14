@@ -1,0 +1,13 @@
+diff --git a/commons/zenoh-codec/src/network/timestamp_stack.rs b/commons/zenoh-codec/src/network/timestamp_stack.rs
+--- a/commons/zenoh-codec/src/network/timestamp_stack.rs
++++ b/commons/zenoh-codec/src/network/timestamp_stack.rs
+@@ -97,9 +97,6 @@
+             return Err(DidntRead);
+         }
+         let count: usize = self.read(&mut *reader)?;
+-        if count > zenoh_protocol::network::timestamp_stack::MAX_STACK_SIZE {
+-            return Err(DidntRead);
+-        }
+         let mut stack: Vec<Interception> = Vec::with_capacity(count);
+         for _ in 0..count {
+             stack.push(self.read(&mut *reader)?);

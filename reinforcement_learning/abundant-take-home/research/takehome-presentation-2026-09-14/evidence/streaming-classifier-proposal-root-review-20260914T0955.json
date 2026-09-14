@@ -1,0 +1,65 @@
+{
+  "approved_for_offline_review_pack": true,
+  "campaign_reclassification_performed": false,
+  "checked_at": "2026-09-14T09:55:31.872756+00:00",
+  "kind": "root_review_offline_classifier_proposal",
+  "limitations": [
+    "Classification correction does not resolve gateway truncation.",
+    "Runtime transition and cache identity require a separate reviewed rollout.",
+    "Standalone failed canary remains excluded and unadopted."
+  ],
+  "model_calls": 0,
+  "patch_sha256": "68b67e9388347ed4cff1286b41c6617aa1ece09024be18fbe46089e8f5a4211f",
+  "proposal_artifact_manifest_sha256": "ed62857a7ca8ddd85744f578df4bd96aa64d49906859aa4e2ec7df4ce4832316",
+  "proposal_path": "research/provider-streaming-classifier-2026-09-14/proposal-001",
+  "proposal_validation_sha256": "9b6213df7506af28ea25c1cb0434517ae8fa2c566c37e125948be623e2787476",
+  "runtime_deployment_performed": false,
+  "schema_version": 1,
+  "source_review": {
+    "exact_outer_and_native_terminal_pair": true,
+    "existing_supervisor_handles_integrity_errors_as_review": true,
+    "full_snapshot_comparison_before_early_return": true,
+    "no_model_or_tool_prose_scan_added": true,
+    "ordinary_abnormal_and_timeout_paths_preserved": true,
+    "raw_verifier_reward_preserved": true,
+    "requires_guarded_evidence": true,
+    "reward_independent_infrastructure_exclusion": true
+  },
+  "supplied_originals_verified_against_commit": {
+    "commit": "c1ae968",
+    "files": 36,
+    "mismatches": []
+  },
+  "validation_review": {
+    "exact_saved_canary_baseline": {
+      "agent_exit_abnormal": true,
+      "checks_passed": 9,
+      "checks_total": 57,
+      "evidence_issue": null,
+      "exception": "NonZeroAgentExitCodeError",
+      "infrastructure_detail": null,
+      "raw_reward": 0.0,
+      "reward": 0,
+      "status": "scored"
+    },
+    "exact_saved_canary_proposed": {
+      "agent_exit_abnormal": null,
+      "checks_passed": null,
+      "checks_total": null,
+      "evidence_issue": null,
+      "exception": "NonZeroAgentExitCodeError",
+      "infrastructure_detail": "MidStreamFallbackError",
+      "raw_reward": 0.0,
+      "reward": null,
+      "status": "infrastructure"
+    },
+    "new_test_execution_by_root": false,
+    "passed": true,
+    "test_log_path": "research/provider-streaming-classifier-2026-09-14/proposal-001/tests.log",
+    "test_log_sha256": "1576548deab09723e7bae1fd113575236dfd6ad2b8d7b29817f0f0e3decf5412",
+    "tests": 13
+  },
+  "verified_original_source_and_reference_files": 17,
+  "verified_proposal_files": 19,
+  "verified_raw_job_files": 196
+}

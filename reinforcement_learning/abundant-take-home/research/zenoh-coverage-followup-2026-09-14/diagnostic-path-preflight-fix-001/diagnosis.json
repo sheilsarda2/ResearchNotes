@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "kind": "pre_admission_patch_inspection_diagnosis",
+  "at": "2026-09-14T08:46:31.448008+00:00",
+  "model_calls": 0,
+  "new_admission_claims": 0,
+  "new_container_launches": 0,
+  "old_harness": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/harness/focused_validation_v2.py",
+    "sha256": "505fbc7b14d79dc335d449ffd632b782a430f8eba85b28df4fc4b37d8a28598c"
+  },
+  "old_coordinator": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/run_followup_diagnostics.py",
+    "sha256": "4fea72696074d7f6e2d6428b252867bc95be838bc86923f863431a3360b005fe"
+  },
+  "new_harness": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/harness/focused_validation_v3.py",
+    "sha256": "2450c39d54f5b0612d2b6c12ab174055725d9e25196898f6fa01aee5135bd4b2"
+  },
+  "patch": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/mutants/omit-zero-config-rejection.patch",
+    "sha256": "2608a27c26318fb04fa85437c49c6c3e68d18ca00ae1b1b40925922611275427"
+  },
+  "legacy_command": [
+    "git",
+    "apply",
+    "--numstat",
+    "-z",
+    "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/zenoh-coverage-followup-2026-09-14/mutants/omit-zero-config-rejection.patch"
+  ],
+  "legacy_cwd": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home",
+  "legacy_returncode": 0,
+  "legacy_stdout": "",
+  "legacy_stderr": "",
+  "corrected_inspection_paths": [
+    "commons/zenoh-codec/src/network/timestamp_stack.rs"
+  ],
+  "prior_continuation": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/continuation-confirmed-003/summary.json",
+    "sha256": "796ccdbf62d61f2712384eb28cae9525dd49d0e15d4f7338828f0d10dfd050f1"
+  },
+  "failure_log": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/continuation-confirmed-003/focused-diagnostics.log",
+    "sha256": "a313fea93693aa09c5f7f453d48e544b7e03c06bafc84f1af5b3c1a61088ffb1"
+  },
+  "failed_output_file_sha256": {
+    "summary.json": "62971200caa4eab0e646d3071323806cfb667296cc35ae41721624c6904c3489",
+    "omit-zero-config-rejection.controller.log": "96ccb071701178a68c176166f30a28a3957dfc664710437d77d7ccac128ab5ed"
+  },
+  "observed_absent_processes": {
+    "82357": null,
+    "83090": null,
+    "83205": null,
+    "97594": null
+  },
+  "scope": "Read-only Git inspection; source patches are not applied and no validation stage is launched."
+}

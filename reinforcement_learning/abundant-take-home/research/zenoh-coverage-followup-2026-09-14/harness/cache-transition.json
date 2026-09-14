@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-14T06:15:52.502460+00:00",
+  "model_calls": 0,
+  "kind": "focused_diagnostic_cache_transition",
+  "image_checks": [
+    {
+      "image": "sha256:4db7103cce0ba57d4bbaabd98d0608e11e4f3b39d96806c40748618f74bc95dd",
+      "exit_code": 1,
+      "stdout": "\n",
+      "stderr": "Error response from daemon: No such image: sha256:4db7103cce0ba57d4bbaabd98d0608e11e4f3b39d96806c40748618f74bc95dd\n"
+    },
+    {
+      "image": "sha256:95afa96eacc4d6fe4cb2340f19492770c4f0508dca6600a6004c545921843d6f",
+      "exit_code": 0,
+      "stdout": "sha256:95afa96eacc4d6fe4cb2340f19492770c4f0508dca6600a6004c545921843d6f [\"candidate-v2-prewarm-rs-zenoh-timestamp-instrumentation:verifier\",\"zenoh-coverage-followup-reference:20260914\"]\n",
+      "stderr": ""
+    }
+  ],
+  "old_queue_result_sha256": "293a1f892ad4179d642099c84f8f5cd4bfc8bd3efe2b597b923c581cc7707bd2",
+  "retirement_proof_sha256": "de75955f40eabe314ca706540a63be1a4a60383fdb186d691aae3da687caea6c",
+  "replacement": "harness/gold-smoke-002",
+  "frozen_v1_preserved": true,
+  "private_alias": "zenoh-coverage-followup-reference:20260914",
+  "task_or_campaign_changes": false,
+  "note": "The focused replacement uses an identical Dockerfile, gold patch, upstream archive and resources. It records the actual cached source hash for the original 47-test file and does not execute that target. All 206 gold source hashes and the three new test hashes must match before execution. Full regrades require the correct final test layer."
+}

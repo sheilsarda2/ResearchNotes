@@ -1,0 +1,15 @@
+diff --git a/zenoh/src/net/runtime/adminspace.rs b/zenoh/src/net/runtime/adminspace.rs
+--- a/zenoh/src/net/runtime/adminspace.rs
++++ b/zenoh/src/net/runtime/adminspace.rs
+@@ -486,11 +486,2 @@
+         trace!("recv Request {:?}", msg);
+-        #[cfg(feature = "unstable")]
+-        {
+-            let state = self.context.runtime.state.clone();
+-            crate::api::timestamp_stack::push_ts_interception(
+-                &mut msg.ext_ts_stack,
+-                || Some(state),
+-                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+-            );
+-        }
+         match &mut msg.payload {

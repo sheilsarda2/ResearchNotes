@@ -1,0 +1,45 @@
+   Compiling zenoh-buffers v1.9.0 (/workspace/build/commons/zenoh-buffers)
+   Compiling zenoh-util v1.9.0 (/workspace/build/commons/zenoh-util)
+   Compiling zenoh v1.9.0 (/workspace/build/zenoh)
+   Compiling zenoh-protocol v1.9.0 (/workspace/build/commons/zenoh-protocol)
+   Compiling zenoh-sync v1.9.0 (/workspace/build/commons/zenoh-sync)
+   Compiling zenoh-config v1.9.0 (/workspace/build/commons/zenoh-config)
+   Compiling zenoh-codec v1.9.0 (/workspace/build/commons/zenoh-codec)
+   Compiling zenoh-link-commons v1.9.0 (/workspace/build/io/zenoh-link-commons)
+   Compiling zenoh-plugin-trait v1.9.0 (/workspace/build/plugins/zenoh-plugin-trait)
+   Compiling zenoh-link-quic_datagram v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic_datagram)
+   Compiling zenoh-link-tcp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link-quic v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic)
+   Compiling zenoh-link-udp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-udp)
+   Compiling zenoh-link-tls v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tls)
+   Compiling zenoh-link-unixsock_stream v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-unixsock_stream)
+   Compiling zenoh-link-ws v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-ws)
+   Compiling zenoh-link v1.9.0 (/workspace/build/io/zenoh-link)
+   Compiling zenoh-transport v1.9.0 (/workspace/build/io/zenoh-transport)
+   Compiling zenoh-test v1.9.0 (/workspace/build/commons/zenoh-test)
+error[E0308]: mismatched types
+  --> zenoh/tests/timestamp_adminspace.rs:57:50
+   |
+57 |         client_config.connect.endpoints.set(vec![endpoint]).unwrap();
+   |                                                  ^^^^^^^^ expected `EndPoints`, found `EndPoint`
+   |
+help: try wrapping the expression in `zenoh::config::EndPoints::Single`
+   |
+57 |         client_config.connect.endpoints.set(vec![zenoh::config::EndPoints::Single(endpoint)]).unwrap();
+   |                                                  +++++++++++++++++++++++++++++++++        +
+
+error[E0308]: mismatched types
+  --> zenoh/tests/timestamp_adminspace_reply_stack.rs:52:50
+   |
+52 |         client_config.connect.endpoints.set(vec![endpoint]).unwrap();
+   |                                                  ^^^^^^^^ expected `EndPoints`, found `EndPoint`
+   |
+help: try wrapping the expression in `zenoh::config::EndPoints::Single`
+   |
+52 |         client_config.connect.endpoints.set(vec![zenoh::config::EndPoints::Single(endpoint)]).unwrap();
+   |                                                  +++++++++++++++++++++++++++++++++        +
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `zenoh` (test "timestamp_adminspace_reply_stack") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `zenoh` (test "timestamp_adminspace") due to 1 previous error

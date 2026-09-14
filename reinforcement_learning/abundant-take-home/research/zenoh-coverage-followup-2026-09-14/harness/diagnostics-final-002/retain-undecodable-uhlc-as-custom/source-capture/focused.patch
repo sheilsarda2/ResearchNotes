@@ -1,0 +1,22 @@
+diff --git a/zenoh/src/api/timestamp_stack.rs b/zenoh/src/api/timestamp_stack.rs
+--- a/zenoh/src/api/timestamp_stack.rs
++++ b/zenoh/src/api/timestamp_stack.rs
+@@ -482,13 +482,11 @@
+                     use zenoh_codec::{RCodec, Zenoh080};
+ 
+                     let mut reader = (&record.timestamp).reader();
+-                    let Ok(ts): Result<uhlc::Timestamp, _> = Zenoh080.read(&mut reader) else {
+-                        tracing::warn!(
+-                            "Skipping instrumentation measurement with malformed uhlc timestamp"
+-                        );
+-                        continue;
+-                    };
+-                    InstrumentationTimestamp::UHLC(ts)
++                    let decoded: Result<uhlc::Timestamp, _> = Zenoh080.read(&mut reader);
++                    match decoded {
++                        Ok(ts) => InstrumentationTimestamp::UHLC(ts),
++                        Err(_) => InstrumentationTimestamp::Custom(record.timestamp.clone()),
++                    }
+                 }
+             };
+             instance

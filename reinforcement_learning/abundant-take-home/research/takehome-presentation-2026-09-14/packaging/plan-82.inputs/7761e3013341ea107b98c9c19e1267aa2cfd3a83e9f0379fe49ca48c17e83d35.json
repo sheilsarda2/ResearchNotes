@@ -1,0 +1,2741 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-09-14T05:08:57.627858+00:00",
+  "framing": "Rust data and protocol integration",
+  "step_definition": "One saved native assistant response, including tool-call turns; ATIF agent-step count agrees. Not a code edit, test invocation, token, or elapsed minute.",
+  "scope": "Selected case studies, not broad model rankings or causal proof that additional effort improves performance.",
+  "quote_policy": "At most three short action/final-claim excerpts per trajectory, copied from visible native content and matched to ATIF message; no reasoning_content exported.",
+  "cases": [
+    {
+      "task_id": "rs-rerun-chunk-optimizer",
+      "rationale": "A lazy recording-data optimizer spans three Rust crates: planning, chunk loading, merge/split layout, row limits, and data/identity preservation must work together.",
+      "user_impact": "The failed implementation produces chunk layouts that violate split, packing, and row-limit rules. This undermines predictable, bounded recording optimization; these failures do not establish data loss.",
+      "failures": [
+        {
+          "tests": [
+            "end_to_end",
+            "split_tail_coalesces",
+            "unsorted_row_guard",
+            "chunks_that_do_not_fit_together_emit_alone_in_order",
+            "oversized_chunk_splits_into_fresh_pieces"
+          ],
+          "observed": "Split-tail rows [7,1] instead of [3,3,2]; unsorted guard yields one chunk instead of four; packing [6,2] instead of [4,4]; oversized input remains one chunk.",
+          "instruction": [
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/instruction.md",
+              "sha256": "639972e3545e9bf54171f598aad90cab4747c87af3c5cd36097140d0ee5e83b7",
+              "line": 253
+            },
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/instruction.md",
+              "sha256": "639972e3545e9bf54171f598aad90cab4747c87af3c5cd36097140d0ee5e83b7",
+              "line": 264
+            },
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/instruction.md",
+              "sha256": "639972e3545e9bf54171f598aad90cab4747c87af3c5cd36097140d0ee5e83b7",
+              "line": 294
+            }
+          ],
+          "tests_source": [
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimizer_contract.rs",
+              "sha256": "c8879c919781c6a96f734dc7770bfa06d5bceb1340d20b8613713eb2f30ed837",
+              "line": 410
+            },
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimizer_contract.rs",
+              "sha256": "c8879c919781c6a96f734dc7770bfa06d5bceb1340d20b8613713eb2f30ed837",
+              "line": 437
+            },
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimize.rs",
+              "sha256": "d960099d8bca493348416b6c9e3fa32dd771d584f3794f5c8aaa71d9ea1a01be",
+              "line": 626
+            },
+            {
+              "path": "candidates_v2/rs-rerun-chunk-optimizer/tests/hidden/optimize.rs",
+              "sha256": "d960099d8bca493348416b6c9e3fa32dd771d584f3794f5c8aaa71d9ea1a01be",
+              "line": 708
+            }
+          ]
+        }
+      ],
+      "trials": [
+        {
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5",
+          "interpretation": "Functional failure despite passing existing tests; all upstream suites pass, but five PR/contract tests fail.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "medium",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "medium",
+            "thinking_type": "adaptive"
+          },
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+          "counts": {
+            "atif_agent_steps": 138,
+            "atif_steps_with_timestamp": 138,
+            "atif_tool_calls": 138,
+            "native_assistant_turns": 138,
+            "native_tool_calls": 138,
+            "native_tool_returns": 138,
+            "native_turns_with_timestamp": 138,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "R1\u2013R8 implemented, tests passing",
+              "native_assistant_turn": 137,
+              "native_json_pointer": "/messages/274/content",
+              "atif_step_id": 139,
+              "atif_json_pointer": "/steps/138/message",
+              "verbatim_verified_in_both": true
+            },
+            {
+              "quote": "All existing tests for the three crates pass, plus my own smoke tests",
+              "native_assistant_turn": 138,
+              "native_json_pointer": "/messages/276/content",
+              "atif_step_id": 140,
+              "atif_json_pointer": "/steps/139/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "anticheat": {
+              "passed": true,
+              "hits": 0
+            },
+            "build": {
+              "passed": true,
+              "exit": 0
+            },
+            "tests": {
+              "correctness": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 4,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 4,
+                "group": "upstream_regression"
+              },
+              "dataframe": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 3,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 3,
+                "group": "upstream_regression"
+              },
+              "optimize": {
+                "passed": false,
+                "exit": 101,
+                "tests_passed": 19,
+                "tests_failed": 3,
+                "tests_ignored": 0,
+                "expected": 22,
+                "group": "pr_tests"
+              },
+              "formatting": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "arrow_encode_roundtrip": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "reads": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 10,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 10,
+                "group": "upstream_regression"
+              },
+              "stats": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "compact": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 18,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 18,
+                "group": "upstream_regression"
+              },
+              "drop_time_range": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "optimizer_contract": {
+                "passed": false,
+                "exit": 101,
+                "tests_passed": 13,
+                "tests_failed": 2,
+                "tests_ignored": 0,
+                "expected": 15,
+                "group": "contract_tests"
+              },
+              "gc": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 5,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 5,
+                "group": "upstream_regression"
+              },
+              "analysis": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 5,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 5,
+                "group": "upstream_regression"
+              },
+              "footers_and_manifests": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 10,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 10,
+                "group": "pr_tests"
+              }
+            },
+            "groups": {
+              "upstream_regression": {
+                "passed": 10,
+                "total": 10
+              },
+              "pr_tests": {
+                "passed": 1,
+                "total": 2
+              },
+              "contract_tests": {
+                "passed": 0,
+                "total": 1
+              }
+            },
+            "reward": 0
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/result.json",
+              "sha256": "6df98e03b5bd603b8b3fc5522ef46993126078c908361c5ce6c63b40d9d9a9c4"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/config.json",
+              "sha256": "d662395a1c8f8ebe1585f94ac7e5a984fabe32d04254b71e33954792f32a422a"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/benchmark-evidence.json",
+              "sha256": "6126f5db28db24a253af0d5d28dd258838bf7b9c314673a8288c83af7fec8570"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/benchmark-runtime.json",
+              "sha256": "5b87fa819654b685c6de4dcf825d84b238dc3bd1c0bb2937e763d9767161a7ba"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/benchmark-deadline.json",
+              "sha256": "2c617aaa22b5f9ee9f124f7e80edb5ff99630db3fb58734273d97df2de109f61"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/benchmark-snapshot.json",
+              "sha256": "3e49d1a92b37bf94ffccb8427278f27e0e29aae966f16101cfc270bf9b109ff8"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/agent/mini-swe-agent.trajectory.json",
+              "sha256": "d573f17c0ba0371ee566d75fe7a28b2032d30580f43265f4e5c72f6f9363165e"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/agent/trajectory.json",
+              "sha256": "447ade790b85956c7e1133018dccd2b8ba55612675e253010ecde690ab15da1c"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/score.json",
+              "sha256": "15351f8aebbbf79f19133f2aa672707e8adae4a2388dab9322edaad629b4258a"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/build.log",
+              "sha256": "5a68095e1ea8f1826037d26714c1998d763490aa40633a56918f53a3a03c9675"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_analysis.log",
+              "sha256": "e4def9fcf274980b02074d6ebf07b3af6a4824f900c8d2f768d90397db0790d4"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_arrow_encode_roundtrip.log",
+              "sha256": "8eddd0843153e9d1f119d6d881c7a6a42f33ea0ce80453b10057d7bc70a83eb0"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_compact.log",
+              "sha256": "2c6e9171944637bbaacb30a13d6a5f15a89e7d3c4b0eb9ed695b137a1ece3d1a"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_correctness.log",
+              "sha256": "19dcd6049230e2eaa874f2035ffd2800a9d1627c930249e5b94f2149e314a63e"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_dataframe.log",
+              "sha256": "2386d6f49fd48c394c48478f0eb655b63820eddbfb474aa4e8798d3e7f13befd"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_drop_time_range.log",
+              "sha256": "ea06a52e372093b02379e6592d6808bb95c162b130ce404dd82959afa06582f7"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_footers_and_manifests.log",
+              "sha256": "5b9253b40aecec3772a667859eff3a83f5cc98e5e82080691c2e37d7df37ecf3"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_formatting.log",
+              "sha256": "b77fa831d91af935aa9750e8d534cc47e74f7ba31b768d9483d834c6e6814049"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_gc.log",
+              "sha256": "bcee9ce1119f1632c623db4ef48dd00c786f8b765c3bd81decde532fec40ec48"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_optimize.log",
+              "sha256": "aeaea42075e2ef98f562a6b42ee7b62a7d84791915d43af75515640c748d8a8d"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_optimizer_contract.log",
+              "sha256": "7e6d668c7fdabf49a523a0a876be1d0e65698fead009e1d7bf75315d5595d95c"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_reads.log",
+              "sha256": "2405213df5ba2f81dbafbd29e4e94e4112fbc84962a86dc07d6830c12d711d62"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/test_stats.log",
+              "sha256": "169573337d081b6631937b1a084017d1230e1251c3abb133a0533847e6990411"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__EeEppp5/verifier/verifier.log",
+              "sha256": "d8508d14a554b046f38407f5b32fe4a61cdae6e62e76321c3265575103483b58"
+            }
+          ]
+        },
+        {
+          "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK",
+          "interpretation": "Normal pass: all 13 suites and 96 tests pass.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "max",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "max",
+            "thinking_type": "adaptive"
+          },
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+          "counts": {
+            "atif_agent_steps": 383,
+            "atif_steps_with_timestamp": 383,
+            "atif_tool_calls": 383,
+            "native_assistant_turns": 383,
+            "native_tool_calls": 383,
+            "native_tool_returns": 383,
+            "native_turns_with_timestamp": 383,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "The implementation is complete, tested, documented, clippy-clean, and rustfmt-formatted.",
+              "native_assistant_turn": 383,
+              "native_json_pointer": "/messages/766/content",
+              "atif_step_id": 385,
+              "atif_json_pointer": "/steps/384/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "anticheat": {
+              "passed": true,
+              "hits": 0
+            },
+            "build": {
+              "passed": true,
+              "exit": 0
+            },
+            "tests": {
+              "correctness": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 4,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 4,
+                "group": "upstream_regression"
+              },
+              "dataframe": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 3,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 3,
+                "group": "upstream_regression"
+              },
+              "optimize": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 22,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 22,
+                "group": "pr_tests"
+              },
+              "formatting": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "arrow_encode_roundtrip": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "reads": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 10,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 10,
+                "group": "upstream_regression"
+              },
+              "stats": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "compact": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 18,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 18,
+                "group": "upstream_regression"
+              },
+              "drop_time_range": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 1,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 1,
+                "group": "upstream_regression"
+              },
+              "optimizer_contract": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 15,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 15,
+                "group": "contract_tests"
+              },
+              "gc": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 5,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 5,
+                "group": "upstream_regression"
+              },
+              "analysis": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 5,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 5,
+                "group": "upstream_regression"
+              },
+              "footers_and_manifests": {
+                "passed": true,
+                "exit": 0,
+                "tests_passed": 10,
+                "tests_failed": 0,
+                "tests_ignored": 0,
+                "expected": 10,
+                "group": "pr_tests"
+              }
+            },
+            "groups": {
+              "upstream_regression": {
+                "passed": 10,
+                "total": 10
+              },
+              "pr_tests": {
+                "passed": 2,
+                "total": 2
+              },
+              "contract_tests": {
+                "passed": 1,
+                "total": 1
+              }
+            },
+            "reward": 1
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/result.json",
+              "sha256": "e9ca8a47b1b261339d843f9f8be2fdf87b75dbb87420e4fe566ff18f389d70ff"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/config.json",
+              "sha256": "b84e39c413927faaf6b4f9e9fc081b89f6df6f3e19dea553fe59242ccde2b957"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/benchmark-evidence.json",
+              "sha256": "6ae743c3db26c200295c3504d6d7ec75c2426699c79e7b47fc716774cb2af188"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/benchmark-deadline.json",
+              "sha256": "19030b3001f9b655d74c5c396041f155df92651e661e7ea26a340b4d667d97c0"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/benchmark-snapshot.json",
+              "sha256": "9a1d63aa763b2f72a0efb6466d30d93dad3faecac271f1dec00060eaec97ffdc"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/agent/mini-swe-agent.trajectory.json",
+              "sha256": "de3fc00fbe6227c12324958abdee3deb4074014d1f458386955c90f2c30b777a"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/agent/trajectory.json",
+              "sha256": "cb73c918eb1d8dd988aef2bf9c29feb88a94e0592cd3834de9d5f6a8fed55a0f"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/score.json",
+              "sha256": "df3eede2865ae94ddbed4d7d2e65caf0dd5b64ce104e7249a8bde1f0e71592bf"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/build.log",
+              "sha256": "4998bdddae4e0fd0be15e10745a39c34d09ed5b576056df605d8435a6f751d05"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_analysis.log",
+              "sha256": "0784ff8614dc5da8672a5f9d5eaa6a10bbda193bc35ffb81b9b288317deb42f1"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_arrow_encode_roundtrip.log",
+              "sha256": "8eddd0843153e9d1f119d6d881c7a6a42f33ea0ce80453b10057d7bc70a83eb0"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_compact.log",
+              "sha256": "0e236349f0ecea4cd1d595f9c03c3bfa900bc60c3bb821616bfd505328e901c2"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_correctness.log",
+              "sha256": "a23fbaf2dd9037ccebffd8f64d8f4ff67c8e0b1c448fe2700ed0ffd326fa315f"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_dataframe.log",
+              "sha256": "74d7edf048ef324e8fd2b762338901e3c8e7b376bf65df2d8f227b4e2939385a"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_drop_time_range.log",
+              "sha256": "148968ea853af255b635d3a554806188ead85f183ff41f1e5c5cdfa4218dc81f"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_footers_and_manifests.log",
+              "sha256": "7522692233d5930390bc02b176e1e108f379202b3b25f73c0b87d6d457d71146"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_formatting.log",
+              "sha256": "1043b925ee03e31b4b6f00b21fee896dc7d157129111f97a5edd0b5f6462fec0"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_gc.log",
+              "sha256": "8082fef048cfba38cee4bcbe33f4e1ae077b7f7db389b1d63065c0c0bd85e946"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_optimize.log",
+              "sha256": "ed5f43dcc7ad3c1def20cc4dde7e4a5f8e68d957d52f51735467260371a60c2e"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_optimizer_contract.log",
+              "sha256": "666702f3b276c03f85a9c7535ee922f883a296d0d552fc55e92963725b8348d2"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_reads.log",
+              "sha256": "2405213df5ba2f81dbafbd29e4e94e4112fbc84962a86dc07d6830c12d711d62"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/test_stats.log",
+              "sha256": "169573337d081b6631937b1a084017d1230e1251c3abb133a0533847e6990411"
+            },
+            {
+              "path": "jobs/candidates-all14-efforts-20-20260913T183301Z/rs-rerun-chunk-optimizer__iUZ6GKK/verifier/verifier.log",
+              "sha256": "6c2ef13a27efbf6822ede40f6ddbd0783a0e0de246926a37b6cecd279e4710d1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "task_id": "rs-burn-store-pytorch-reader-v4",
+      "rationale": "Checkpoint ingestion connects pickle protocols 0\u20135, ZIP/legacy/TAR containers, lazy tensor-byte loading, and hostile-length resource checks while keeping a stable Rust reader API.",
+      "user_impact": "Valid model checkpoints using FRAME, TAR storage tables, or newer tensor constructors fail to load correctly; malformed or truncated inputs must be rejected at the documented stage.",
+      "failures": [
+        {
+          "tests": [
+            "test_protocol_4_checkpoint",
+            "test_tar_absurd_storage_count",
+            "test_legacy_storage_count_mismatch",
+            "test_truncated_legacy_file_fails_at_open"
+          ],
+          "observed": "Medium rejects protocol-4 FRAME opcode 0x95; TAR fixture exposes zero tensors instead of five; legacy count/truncation guards also fail. Fixture matrix 41/62 and rejection cases 25/32.",
+          "instruction": [
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+              "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+              "line": 74
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+              "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+              "line": 104
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+              "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+              "line": 108
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+              "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+              "line": 118
+            }
+          ],
+          "tests_source": [
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/hidden/reader/mod.rs",
+              "sha256": "8cb5d50daf1912fbbcd5851abeb78cefb56e250c1967986539b3ac59786d49d9",
+              "line": 1305
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/hidden/reader/mod.rs",
+              "sha256": "8cb5d50daf1912fbbcd5851abeb78cefb56e250c1967986539b3ac59786d49d9",
+              "line": 1362
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/hidden/reader/mod.rs",
+              "sha256": "8cb5d50daf1912fbbcd5851abeb78cefb56e250c1967986539b3ac59786d49d9",
+              "line": 1430
+            },
+            {
+              "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/hidden/reader/mod.rs",
+              "sha256": "8cb5d50daf1912fbbcd5851abeb78cefb56e250c1967986539b3ac59786d49d9",
+              "line": 1577
+            }
+          ]
+        }
+      ],
+      "trials": [
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E",
+          "interpretation": "Partial functional implementation, normal termination: 42 turns, 92/108 PyTorch unit tests, 41/62 matrix cases, 25/32 rejection cases. It also retains a prohibited baseline fixture-path literal; do not infer cheating.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "medium",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "medium",
+            "thinking_type": "adaptive"
+          },
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "counts": {
+            "atif_agent_steps": 42,
+            "atif_steps_with_timestamp": 42,
+            "atif_tool_calls": 42,
+            "native_assistant_turns": 42,
+            "native_tool_calls": 42,
+            "native_tool_returns": 42,
+            "native_turns_with_timestamp": 42,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "I've made targeted, verified improvements to the most critical and well-specified issues",
+              "native_assistant_turn": 41,
+              "native_json_pointer": "/messages/82/content",
+              "atif_step_id": 43,
+              "atif_json_pointer": "/steps/42/message",
+              "verbatim_verified_in_both": true
+            },
+            {
+              "quote": "while keeping the full existing test suite green.",
+              "native_assistant_turn": 41,
+              "native_json_pointer": "/messages/82/content",
+              "atif_step_id": 43,
+              "atif_json_pointer": "/steps/42/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 0,
+            "groups": {
+              "build": {
+                "ok": true,
+                "seconds": 105
+              },
+              "anticheat": {
+                "ok": false,
+                "hits_file": "anticheat_hits.txt"
+              },
+              "pytorch_unit": {
+                "ok": false,
+                "passed": 92,
+                "failed": 16,
+                "ignored": 0,
+                "expected": 108
+              },
+              "safetensors_unit": {
+                "ok": true,
+                "passed": 52,
+                "failed": 0,
+                "expected": 52
+              },
+              "integration": {
+                "ok": true,
+                "passed": 20,
+                "failed": 0,
+                "expected": 20
+              },
+              "pytorch_tests_crate": {
+                "ok": true,
+                "passed": 37,
+                "failed": 0,
+                "expected": 37
+              },
+              "fixture_matrix": {
+                "ok": false,
+                "passed": 41,
+                "failed": 21,
+                "expected": 62,
+                "manifest_ok": true,
+                "tensor_rows": 428
+              },
+              "reject_cases": {
+                "ok": false,
+                "passed": 25,
+                "failed": 7,
+                "expected": 32
+              }
+            },
+            "failures": {
+              "pytorch_unit": [
+                "test pytorch::tests::reader::test_legacy_big_endian_file_is_refused ... FAILED",
+                "test pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols ... FAILED",
+                "test pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error ... FAILED",
+                "test pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused ... FAILED",
+                "test pytorch::tests::reader::test_protocol_4_checkpoint ... FAILED",
+                "test pytorch::tests::reader::test_tar_2d_tensor_shape ... FAILED",
+                "test pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error ... FAILED",
+                "test pytorch::tests::reader::test_tar_float32_tensor ... FAILED",
+                "test pytorch::tests::reader::test_tar_float64_tensor ... FAILED",
+                "test pytorch::tests::reader::test_tar_int64_tensor ... FAILED",
+                "test pytorch::tests::reader::test_tar_metadata ... FAILED",
+                "test pytorch::tests::reader::test_tar_multi_dtype ... FAILED",
+                "test pytorch::tests::reader::test_tar_multiple_tensors ... FAILED",
+                "test pytorch::tests::reader::test_tar_storage_view ... FAILED",
+                "test pytorch::tests::reader::test_top_level_key_that_is_not_a_dict ... FAILED",
+                "test pytorch::tests::reader::test_truncated_legacy_file_fails_at_open ... FAILED",
+                "---- pytorch::tests::reader::test_legacy_big_endian_file_is_refused stdout ----",
+                "thread 'pytorch::tests::reader::test_legacy_big_endian_file_is_refused' (3838) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1674:47:",
+                "---- pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols stdout ----",
+                "thread 'pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols' (3840) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1625:67:",
+                "---- pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error stdout ----",
+                "thread 'pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error' (3843) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1590:10:",
+                "---- pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused stdout ----",
+                "thread 'pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused' (3844) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1649:47:",
+                "---- pytorch::tests::reader::test_protocol_4_checkpoint stdout ----",
+                "thread 'pytorch::tests::reader::test_protocol_4_checkpoint' (3859) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1309:44:",
+                "---- pytorch::tests::reader::test_tar_2d_tensor_shape stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_2d_tensor_shape' (3872) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1277:39:",
+                "---- pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error' (3873) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1454:47:",
+                "---- pytorch::tests::reader::test_tar_float32_tensor stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_float32_tensor' (3874) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1165:39:",
+                "---- pytorch::tests::reader::test_tar_float64_tensor stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_float64_tensor' (3875) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1183:39:",
+                "---- pytorch::tests::reader::test_tar_int64_tensor stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_int64_tensor' (3877) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1200:39:",
+                "---- pytorch::tests::reader::test_tar_metadata stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_metadata' (3878) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1300:5:",
+                "---- pytorch::tests::reader::test_tar_multi_dtype stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_multi_dtype' (3879) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1248:10:",
+                "---- pytorch::tests::reader::test_tar_multiple_tensors stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_multiple_tensors' (3880) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1216:39:",
+                "---- pytorch::tests::reader::test_tar_storage_view stdout ----",
+                "thread 'pytorch::tests::reader::test_tar_storage_view' (3881) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1415:35:",
+                "---- pytorch::tests::reader::test_top_level_key_that_is_not_a_dict stdout ----",
+                "thread 'pytorch::tests::reader::test_top_level_key_that_is_not_a_dict' (3883) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1351:5:",
+                "---- pytorch::tests::reader::test_truncated_legacy_file_fails_at_open stdout ----",
+                "thread 'pytorch::tests::reader::test_truncated_legacy_file_fails_at_open' (3884) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1369:47:"
+              ],
+              "fixture_matrix": [
+                "FAIL ACCEPT dtypes_v3_unsigned.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT legacy_protocol4.pt key=-: open failed: Invalid PyTorch file format: Failed to read magic number from legacy format: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.",
+                "FAIL ACCEPT zip_protocol4.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT zip_protocol5.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT opaque_metadata.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT subclass_tensor.pt key=-: open failed: Pickle parsing error: Invalid data in pickle file: rebuild_tensor_v2: expected at least 5 args, got 3. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT int_keys.pt key=-: open failed: Pickle parsing error: Invalid data in pickle file: dict key must be a string. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT crafted_offsets_protocol4.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT crafted_untyped_storage_v3.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL ACCEPT tar_early.tar key=-: expected 5 tensors, reader reports len=0 keys=0 | missing tensor 'bytes' | missing tensor 'ids' | missing tensor 'matrix' | missing tensor 'root' | missing tensor 'window'",
+                "FAIL META dtypes_v3_unsigned.pt: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META legacy_protocol4.pt: open failed: Invalid PyTorch file format: Failed to read magic number from legacy format: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.",
+                "FAIL META zip_protocol4.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META zip_protocol5.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META opaque_metadata.pt: open failed: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META subclass_tensor.pt: open failed: Pickle parsing error: Invalid data in pickle file: rebuild_tensor_v2: expected at least 5 args, got 3. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META int_keys.pt: open failed: Pickle parsing error: Invalid data in pickle file: dict key must be a string. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META crafted_offsets_protocol4.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL META crafted_untyped_storage_v3.pt: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL PICKLE opaque_metadata.pt key=count: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.",
+                "FAIL PICKLE opaque_metadata.pt key=neg: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file."
+              ],
+              "reject_cases": [
+                "FAIL REJECT r_offset_past_storage.pt phase=open: opened successfully; rejected only at read: 't': Validation error: Tensor with shape [4, 8] requires 40 elements from storage 'model/data/0', but only 32 are available",
+                "FAIL REJECT r_stride_overflow.pt phase=open: opened successfully; rejected only at read: 't': Validation error: Tensor with shape [2, 2] requires 9223372036854775809 elements from storage 'model/data/0', but only 32 are available",
+                "FAIL REJECT r_legacy_big_endian.pt phase=open: accepted the file and loaded 8 tensors",
+                "FAIL REJECT r_legacy_no_endian_flag.pt phase=open: accepted the file and loaded 8 tensors",
+                "FAIL REJECT r_deep_nesting.pkl phase=open: process exit 134 (crash, abort or timeout)",
+                "FAIL REJECT r_tar_absurd_count.tar phase=open: accepted the file and loaded 0 tensors",
+                "FAIL REJECT r_tar_truncated_storages.tar phase=open: accepted the file and loaded 0 tensors"
+              ]
+            },
+            "raw": {
+              "changed_entries": "2",
+              "anticheat_ok": "false",
+              "build_seconds": "105",
+              "build_ok": "true",
+              "pytorch_unit_passed": "92",
+              "pytorch_unit_failed": "16",
+              "pytorch_unit_ignored": "0",
+              "pytorch_unit_rc": "101",
+              "pytorch_unit_ok": "false",
+              "safetensors_unit_passed": "52",
+              "safetensors_unit_failed": "0",
+              "safetensors_unit_ignored": "0",
+              "safetensors_unit_rc": "0",
+              "safetensors_unit_ok": "true",
+              "integration_passed": "20",
+              "integration_failed": "0",
+              "integration_ignored": "0",
+              "integration_rc": "0",
+              "integration_ok": "true",
+              "pytorch_tests_crate_passed": "37",
+              "pytorch_tests_crate_failed": "0",
+              "pytorch_tests_crate_ignored": "0",
+              "pytorch_tests_crate_rc": "0",
+              "pytorch_tests_crate_ok": "true",
+              "manifest_accept_files": "28",
+              "manifest_reject_files": "32",
+              "manifest_tensor_rows": "428",
+              "manifest_ok": "true",
+              "matrix_rc": "101",
+              "matrix_pass": "41",
+              "matrix_fail": "21",
+              "matrix_expected": "62",
+              "matrix_ok": "false",
+              "reject_pass": "25",
+              "reject_fail": "7",
+              "reject_expected": "32",
+              "reject_ok": "false"
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/result.json",
+              "sha256": "2cc5121ced2803f2a73050e747df2e9e0f0bcaa70b61d458cb16e500125a5dff"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/config.json",
+              "sha256": "fcdb971a9758b3e88fca9f8847286f3683597fd493444e9a9ba970ad0d67d6d0"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/benchmark-evidence.json",
+              "sha256": "265b1dbdfe96621875dfb7e1f87feb9603e509a13e15a421419af83c8a43f87a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/benchmark-deadline.json",
+              "sha256": "f905778ea8e5abd2394fc6499707b172e5f5880d7d6a07dc03d2809dc4ccd23a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/benchmark-snapshot.json",
+              "sha256": "dac43ec61902344470e3613b7516178915d5625aee4c7becb5581ada5d42963a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/agent/mini-swe-agent.trajectory.json",
+              "sha256": "0d5c7768834ba7012569bb57f0ab1254cf82997e7926f17932259f120cda44fb"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/agent/trajectory.json",
+              "sha256": "b355b700139bf2ee7f5871cc5325b3292a974a9aa3ee74a7f7a3858dc489ded7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/score.json",
+              "sha256": "f834573b2a7c99259cd61370d9ca9e93d23ee1a872750ad7cf41994cd099e353"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/build.log",
+              "sha256": "c8cc0c74e77cb2c04884d1ec0f71e05eaa11fe1a0b9e6fdc69ad51b3adee6074"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/integration.log",
+              "sha256": "28d8dc8ae675aa24f2786431804b02f48a9acc89d3a3164a774105e6b9451998"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/matrix.log",
+              "sha256": "2731ee517afc4415c9ac383abe2d0e99cc37779fa11305a7c5c42983fef886fc"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/pytorch_tests_crate.log",
+              "sha256": "3becf930db2514effaeef2c6159088067d516a76c9157e232db8df2e361bfdab"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/pytorch_unit.log",
+              "sha256": "fe2e934e13285d923aea2d00eae5ae06c964dcbfe825cf524442f8aa6a99c6b7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_bad_opcode.pkl.log",
+              "sha256": "01dc8d3160858b1d60362e43ed1bd4bf344045d1510c8ba458ba70433db265bd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_big_endian_marker.pt.log",
+              "sha256": "99fdbdee194cf6ec05d6d217ce9e8402d64bf4859fc7296f22c64a073907aa89"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_broadcast_bomb.pt.log",
+              "sha256": "5365b450b48a450b659c385933a64c7df614b6a7ea1deaa9156341a167dba520"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_byteorder_unknown.pt.log",
+              "sha256": "68751f1a70dc5305a1a7e10e444b28d8ca5175f9ef7fa566b4b295c5db4f176b"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_deep_nesting.pkl.log",
+              "sha256": "390580f70f8df21e841d0edb63aaf85871ab11ff2e3783b20e349f36144d83cc"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_dtype_mismatch_v3.pt.log",
+              "sha256": "06b4f110ff9c82438a69870f96028852ae87f135bbe0e54ad392eb8c0fbcb95c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_empty_file.pt.log",
+              "sha256": "1e896c78b01348759009ac10a682ca13b3e68e3944685a77f21e41466004cc42"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_ext_opcode.pkl.log",
+              "sha256": "a5641614e42d90de89a2c20ba8d1f2655ce22b23157c1c4bcfad8887a8352ea3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_full_model.pt.log",
+              "sha256": "510326ced04b9ae9f448c9b6b95834850f991241a5c9bc528a505f90a0fbc20e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_legacy_big_endian.pt.log",
+              "sha256": "2d9f8ff36e53db76a9878e8fad2cfae3a2d0ca781980a5b052c94dde416ea4c4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_legacy_no_endian_flag.pt.log",
+              "sha256": "c3bb6a95d2c40d9db45336fd47770d429a0a1dadb897b4a7c8784b491e46ec5f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_legacy_truncated.pt.log",
+              "sha256": "ba848e46453f231540c619c24defa7234cf521fe4ed1c27cc9cc5740cfff50f7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_memo_bomb.pkl.log",
+              "sha256": "8a78e4d563e289d3ebe0374c43711b4b630db74926bd9144c7ae593298c5e54d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_memo_copies.pkl.log",
+              "sha256": "e7f9141db9136994996d175170ed4fc8fbcf9b6877f7cb2a07f70598fc1e0ebc"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_no_data_pkl.pt.log",
+              "sha256": "2327bb55c523445b30863201dbc99a4fde0cf53cada9c1dc4d9f987803bee4f1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_offset_past_storage.pt.log",
+              "sha256": "519ffd08fe61b1f4c25a6d4e29d1750805b27b0c419eb00e59e176cd4dc93498"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_plain_pickle_with_storage.pkl.log",
+              "sha256": "9033aefd29a6ab866fec442b3c6ae1896219a3dcc8717572173159511d8c4856"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_protocol_6.pkl.log",
+              "sha256": "d297740e04b49958803fab948f27c2ceb242e5d8d0afd95ba7c468cec8aa2606"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_quantized.pt.log",
+              "sha256": "267064bf015c4965b1810175cffd7c097190203519a2ecf4a7aeca62e799126e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_sparse_coo.pt.log",
+              "sha256": "f1a0cb4093294e334f61a367cb483799d0a497b6aec766e88a197e81b672f461"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_stack_underflow.pkl.log",
+              "sha256": "ab47f2a34871c4565a38e2dafb90b5a7c470d7ce716a4823504e41db7e0528e4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_storage_missing.pt.log",
+              "sha256": "d7573a4a6a31c5a73a7e6130e3f4765c3e5670707903d3cadb45584d1dd1b2e7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_storage_short.pt.log",
+              "sha256": "8e51f7f69be44baa5e85966460a0f9c41277a5b38bafa2705f82efc171000108"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_stride_overflow.pt.log",
+              "sha256": "6504dfde48194bea1486159420cfc33a1d1b2dbd3828f393295275cb2175c7f2"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_tar_absurd_count.tar.log",
+              "sha256": "9c4f7b92ebbe4f88f1838cf406ebe283692da35c2fe53e9a998df6b74da074ef"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_tar_missing_entries.tar.log",
+              "sha256": "12720d7065ad0931cb437737c8b2cc7e414559e114a8239bae78dd6d116b9342"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_tar_truncated_storages.tar.log",
+              "sha256": "18386426741ce9de4decef68599d81a222777746d3ee966cc940a750527c2b01"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_tensor_in_unknown_object.pt.log",
+              "sha256": "45e32c31686d92fccd7baae04e885e87b5d2c755fb70e78b46c66d8c4133f17a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_truncated_pickle.pt.log",
+              "sha256": "da6e041cfe9cb2054c1a8fba8a25382369ced3311f8cbed4028598ecab93fbe5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_zip_crc_mismatch.pt.log",
+              "sha256": "205af3c92e960617f666d81b7ab3b3a8f13368d39aa0457a2ca270cb8efe61c5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_zip_signature_only.pt.log",
+              "sha256": "083bdb37e3b9447b7e4bed72d72234fa194c3b19a12c596af4236a6402d43606"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/reject_r_zip_truncated_file.pt.log",
+              "sha256": "bfc54f4d0608b76b4bc05f194ac14c4fa0f7506d15d12f2e18bb1f5238ad8a91"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__vXNtQ5E/verifier/safetensors_unit.log",
+              "sha256": "8eb40e8250d4bfdaa5c696ad5ef99e9fa4b516eba1b1dadcbd61120afd0bd1b8"
+            }
+          ]
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk",
+          "interpretation": "All functional tests pass. Raw reward zero only for retaining the baseline /tests/ fixture-path literal. This is an explicit source constraint failure, not a functional failure or evidence of cheating.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "high",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "high",
+            "thinking_type": "adaptive"
+          },
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "counts": {
+            "atif_agent_steps": 251,
+            "atif_steps_with_timestamp": 251,
+            "atif_tool_calls": 251,
+            "native_assistant_turns": 251,
+            "native_tool_calls": 251,
+            "native_tool_returns": 251,
+            "native_turns_with_timestamp": 251,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "confirmed the existing crate test suite, integration tests, and safetensors tests still pass",
+              "native_assistant_turn": 251,
+              "native_json_pointer": "/messages/502/content",
+              "atif_step_id": 253,
+              "atif_json_pointer": "/steps/252/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 0,
+            "groups": {
+              "build": {
+                "ok": true,
+                "seconds": 151
+              },
+              "anticheat": {
+                "ok": false,
+                "hits_file": "anticheat_hits.txt"
+              },
+              "pytorch_unit": {
+                "ok": true,
+                "passed": 108,
+                "failed": 0,
+                "ignored": 0,
+                "expected": 108
+              },
+              "safetensors_unit": {
+                "ok": true,
+                "passed": 52,
+                "failed": 0,
+                "expected": 52
+              },
+              "integration": {
+                "ok": true,
+                "passed": 20,
+                "failed": 0,
+                "expected": 20
+              },
+              "pytorch_tests_crate": {
+                "ok": true,
+                "passed": 37,
+                "failed": 0,
+                "expected": 37
+              },
+              "fixture_matrix": {
+                "ok": true,
+                "passed": 62,
+                "failed": 0,
+                "expected": 62,
+                "manifest_ok": true,
+                "tensor_rows": 428
+              },
+              "reject_cases": {
+                "ok": true,
+                "passed": 32,
+                "failed": 0,
+                "expected": 32
+              }
+            },
+            "failures": {},
+            "raw": {
+              "changed_entries": "3",
+              "anticheat_ok": "false",
+              "build_seconds": "151",
+              "build_ok": "true",
+              "pytorch_unit_passed": "108",
+              "pytorch_unit_failed": "0",
+              "pytorch_unit_ignored": "0",
+              "pytorch_unit_rc": "0",
+              "pytorch_unit_ok": "true",
+              "safetensors_unit_passed": "52",
+              "safetensors_unit_failed": "0",
+              "safetensors_unit_ignored": "0",
+              "safetensors_unit_rc": "0",
+              "safetensors_unit_ok": "true",
+              "integration_passed": "20",
+              "integration_failed": "0",
+              "integration_ignored": "0",
+              "integration_rc": "0",
+              "integration_ok": "true",
+              "pytorch_tests_crate_passed": "37",
+              "pytorch_tests_crate_failed": "0",
+              "pytorch_tests_crate_ignored": "0",
+              "pytorch_tests_crate_rc": "0",
+              "pytorch_tests_crate_ok": "true",
+              "manifest_accept_files": "28",
+              "manifest_reject_files": "32",
+              "manifest_tensor_rows": "428",
+              "manifest_ok": "true",
+              "matrix_rc": "0",
+              "matrix_pass": "62",
+              "matrix_fail": "0",
+              "matrix_expected": "62",
+              "matrix_ok": "true",
+              "reject_pass": "32",
+              "reject_fail": "0",
+              "reject_expected": "32",
+              "reject_ok": "true"
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/result.json",
+              "sha256": "b50f94717d1cb7f663bfa2da6b9e660128912bad9275115260416720469e6098"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/config.json",
+              "sha256": "463f8f23e00d3ffe31b5855663efd1c0685c90927436d119c6c4c6ba931adf0a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/benchmark-evidence.json",
+              "sha256": "78853b65c891d5ccfaeab7a2421ea8354c87b4f1654a4634bdd2ce169420a867"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/benchmark-deadline.json",
+              "sha256": "66cc3e7b7a0de17a7dbfdf83442104fac9b6eac0139db0c5d073a1afeb41b63b"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/benchmark-snapshot.json",
+              "sha256": "9c4eb7af37aec1edf0961338021e145306b41d67cb48404f4af8808797e54c30"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/agent/mini-swe-agent.trajectory.json",
+              "sha256": "e6b1883b1efb148cd4b17f146ca98be53b38a7ce8e226c8ff88cd4aa389664bd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/agent/trajectory.json",
+              "sha256": "c97400aa27ee6e3d0997cce7f341c81bc1cd53ca585636ded6fd92ce37d12511"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/score.json",
+              "sha256": "462ea0b48da3310213fd8195c79a2e08f6a3038a22ea2b4edfd8e221048770ee"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/build.log",
+              "sha256": "a6e1357eb3abab4018c40e6db7ba9d3625c42c1a517bcc3da1a31e199e31c92b"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/integration.log",
+              "sha256": "d164596e8c7c7b58d4daa697e60eebb09059d20829c1475aa4be6f12cd30a09e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/matrix.log",
+              "sha256": "d754247973aff7652ab1c9114b48d25f2f9ad95e5842b126e9dfb3156677e21b"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/pytorch_tests_crate.log",
+              "sha256": "a3ca983b9cc6354cb27a13a61597aa9c0d742f0fcaa6794e9f85ed76c9abfbd0"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/pytorch_unit.log",
+              "sha256": "3894c1841e2d073d90dd61fe4bcbbcb48b47300126e9c2441a137813fb55cad4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_bad_opcode.pkl.log",
+              "sha256": "3ac1222b1e635c4deb8da8adcd10af2509f890d78b03c90d05652c0e9531868f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_big_endian_marker.pt.log",
+              "sha256": "9dac86e62a9ccf6351488f367cf7b9d85735c850c1690fe201f4c6399177c657"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_broadcast_bomb.pt.log",
+              "sha256": "12fb5a01ddfff9b85900a61566da54fd23d8e0790cbb16deb83821deb3fe4e1f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_byteorder_unknown.pt.log",
+              "sha256": "916082e8fa6532758fc8b70226df96bd9e6984575a687b952033f3d3c6c38437"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_deep_nesting.pkl.log",
+              "sha256": "ce2320e9d45d8d2bb1955bd76205ef3dd28d43bec102c7db70eab94d43ef6e4d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_dtype_mismatch_v3.pt.log",
+              "sha256": "5c08dcdc43b665076bacbad114c117ce69e3ab4a95511000d8b338be7479c927"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_empty_file.pt.log",
+              "sha256": "1e896c78b01348759009ac10a682ca13b3e68e3944685a77f21e41466004cc42"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_ext_opcode.pkl.log",
+              "sha256": "a5641614e42d90de89a2c20ba8d1f2655ce22b23157c1c4bcfad8887a8352ea3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_full_model.pt.log",
+              "sha256": "4b4f44340d3a47ea1d70a9a68f7c9ef4706dc6d23ea7fc323de479009bd7afb4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_legacy_big_endian.pt.log",
+              "sha256": "4714aea6209c8728cb554f58bdeb4df61d8b1efcd06d953da4df16bebc3f9fab"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_legacy_no_endian_flag.pt.log",
+              "sha256": "0a8170c156c26bacba96a0601eea0ab154fb9891eaef09e1f7c6d3cc707b30dd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_legacy_truncated.pt.log",
+              "sha256": "dab08b2bc8a5bca0f0b12128086deec9a7eb0330d0f3814ec84cfbb907ebe2a7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_memo_bomb.pkl.log",
+              "sha256": "636883c3b07f9ed869070ee933f9aeb576ee07b6ffeacdde5b5a7ed411182c03"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_memo_copies.pkl.log",
+              "sha256": "285d1efab33d711ec79ca0cf5b17e1f8f6504c31276b4b270ee8a380e56a9cca"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_no_data_pkl.pt.log",
+              "sha256": "3fbacc45387c7fb1127b3f31f4535332fdd3315c463418d4ebab886614eaa9df"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_offset_past_storage.pt.log",
+              "sha256": "177a8ed04aba21efa98d09acf6366ed1ec019ceafc7882f44cc317f282b25ba5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_plain_pickle_with_storage.pkl.log",
+              "sha256": "7ce6fe5116765613880a3558cb4337b0f2293631aa81b8cf1ca7ccf2bb68ce7e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_protocol_6.pkl.log",
+              "sha256": "9d45ca12ce8242de6f119c346768f04e24eb465cd9644b3f2f1a10fc25ba2b4d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_quantized.pt.log",
+              "sha256": "43ee20123836ab78a816189b98f38b43de86f888333d4fe379e97de022345d73"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_sparse_coo.pt.log",
+              "sha256": "e27fe0f0c9f0ae4c9e079c9417ef06ea36dfd9f9b686a1dd698e3c3a96cbba66"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_stack_underflow.pkl.log",
+              "sha256": "ab47f2a34871c4565a38e2dafb90b5a7c470d7ce716a4823504e41db7e0528e4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_storage_missing.pt.log",
+              "sha256": "09e142ad341880554dbfcc7800846c855d872218f95e0b5a2c702d295c7975fd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_storage_short.pt.log",
+              "sha256": "8e51f7f69be44baa5e85966460a0f9c41277a5b38bafa2705f82efc171000108"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_stride_overflow.pt.log",
+              "sha256": "a796bff959b389e746fa50ee0b8c6b30da0bd4b8a2ad1e528d8e4734691886c9"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_tar_absurd_count.tar.log",
+              "sha256": "566c0669e258eaa6c604e71634a7f8a42bf607b017949105b1768811206254c5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_tar_missing_entries.tar.log",
+              "sha256": "12720d7065ad0931cb437737c8b2cc7e414559e114a8239bae78dd6d116b9342"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_tar_truncated_storages.tar.log",
+              "sha256": "edcda714673d51997c7418e380edd9aaa0cbd1104a6e16ec7cdc01c1bba2ce03"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_tensor_in_unknown_object.pt.log",
+              "sha256": "bc8b3fd715391abbb513e37716723b65e4c94ae6886bd3305f4b7cd3bfa4e3bf"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_truncated_pickle.pt.log",
+              "sha256": "da6e041cfe9cb2054c1a8fba8a25382369ced3311f8cbed4028598ecab93fbe5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_zip_crc_mismatch.pt.log",
+              "sha256": "9d75566b037e6049c32cc4c4a81558f936836de2a6bf0e8874b6f2cb4d4f4ecb"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_zip_signature_only.pt.log",
+              "sha256": "06719d48abf63ca8acdfaddcc4bd00b94a5cd0bfc62364125a65ca07e6117fd7"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/reject_r_zip_truncated_file.pt.log",
+              "sha256": "fc0965e9297f82abba29ec3e64670a1157cc11ebd4164999ea11e2ed88521ddb"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/verifier/safetensors_unit.log",
+              "sha256": "cb2550cf8a06c349062852c7ec29f556a50c3512a304a52d24c0db37e0cd28e3"
+            }
+          ]
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF",
+          "interpretation": "Primary same-model success contrast: Sonnet/max normal reward-one pass on exact Burn v4; all eight groups pass including fixture-path constraint. 323 saved assistant turns. This is a selected contrast, not causal proof of effort effectiveness.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "max",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "max",
+            "thinking_type": "adaptive"
+          },
+          "reward": 1,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "counts": {
+            "atif_agent_steps": 323,
+            "atif_steps_with_timestamp": 323,
+            "atif_tool_calls": 323,
+            "native_assistant_turns": 323,
+            "native_tool_calls": 323,
+            "native_tool_returns": 323,
+            "native_turns_with_timestamp": 323,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "re-scan for any remaining forbidden substrings across the entire `src/` tree.",
+              "native_assistant_turn": 320,
+              "native_json_pointer": "/messages/640/content",
+              "atif_step_id": 322,
+              "atif_json_pointer": "/steps/321/message",
+              "verbatim_verified_in_both": true
+            },
+            {
+              "quote": "Everything passes. The implementation is complete, thoroughly validated, and ready for submission.",
+              "native_assistant_turn": 322,
+              "native_json_pointer": "/messages/644/content",
+              "atif_step_id": 324,
+              "atif_json_pointer": "/steps/323/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 1,
+            "groups": {
+              "build": {
+                "ok": true,
+                "seconds": 94
+              },
+              "anticheat": {
+                "ok": true,
+                "hits_file": null
+              },
+              "pytorch_unit": {
+                "ok": true,
+                "passed": 108,
+                "failed": 0,
+                "ignored": 0,
+                "expected": 108
+              },
+              "safetensors_unit": {
+                "ok": true,
+                "passed": 52,
+                "failed": 0,
+                "expected": 52
+              },
+              "integration": {
+                "ok": true,
+                "passed": 20,
+                "failed": 0,
+                "expected": 20
+              },
+              "pytorch_tests_crate": {
+                "ok": true,
+                "passed": 37,
+                "failed": 0,
+                "expected": 37
+              },
+              "fixture_matrix": {
+                "ok": true,
+                "passed": 62,
+                "failed": 0,
+                "expected": 62,
+                "manifest_ok": true,
+                "tensor_rows": 428
+              },
+              "reject_cases": {
+                "ok": true,
+                "passed": 32,
+                "failed": 0,
+                "expected": 32
+              }
+            },
+            "failures": {},
+            "raw": {
+              "changed_entries": "16",
+              "anticheat_ok": "true",
+              "build_seconds": "94",
+              "build_ok": "true",
+              "pytorch_unit_passed": "108",
+              "pytorch_unit_failed": "0",
+              "pytorch_unit_ignored": "0",
+              "pytorch_unit_rc": "0",
+              "pytorch_unit_ok": "true",
+              "safetensors_unit_passed": "52",
+              "safetensors_unit_failed": "0",
+              "safetensors_unit_ignored": "0",
+              "safetensors_unit_rc": "0",
+              "safetensors_unit_ok": "true",
+              "integration_passed": "20",
+              "integration_failed": "0",
+              "integration_ignored": "0",
+              "integration_rc": "0",
+              "integration_ok": "true",
+              "pytorch_tests_crate_passed": "37",
+              "pytorch_tests_crate_failed": "0",
+              "pytorch_tests_crate_ignored": "0",
+              "pytorch_tests_crate_rc": "0",
+              "pytorch_tests_crate_ok": "true",
+              "manifest_accept_files": "28",
+              "manifest_reject_files": "32",
+              "manifest_tensor_rows": "428",
+              "manifest_ok": "true",
+              "matrix_rc": "0",
+              "matrix_pass": "62",
+              "matrix_fail": "0",
+              "matrix_expected": "62",
+              "matrix_ok": "true",
+              "reject_pass": "32",
+              "reject_fail": "0",
+              "reject_expected": "32",
+              "reject_ok": "true"
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/result.json",
+              "sha256": "f73389176872fe64897e29a9425263cb48b20a2dad92e2ad814cfb731bcccdbd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/config.json",
+              "sha256": "57c361f93c1898403741178ccf055ae192f1b18120d0a60703b3bf16e07fad45"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/benchmark-evidence.json",
+              "sha256": "45363326aefc817e1bec305ab7017045094280c6bc655e5ff89254a616fe01d4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/benchmark-deadline.json",
+              "sha256": "dbbfd38849224c7c2b4dd7ed07301154d220240acc0092590c500569d3d98577"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/benchmark-snapshot.json",
+              "sha256": "9e0441bba91931356c21bed7ff1f3f6f09a58033e0bb02c4891ff16b716c1ec1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/agent/mini-swe-agent.trajectory.json",
+              "sha256": "a40e4bcdd6a8f49df63c6cb7b86c8097dc9c8468d3ded3b2eb144a7e87159b6d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/agent/trajectory.json",
+              "sha256": "c8cce5db084bc335a0bd8add22a51c4e5c3e8c01d71db06689ab0ece9b4adc24"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/agent/benchmark-agent-runtime.json",
+              "sha256": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/agent/benchmark-agent-tool-runtime.json",
+              "sha256": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/score.json",
+              "sha256": "23236f8db76374377c6b3f08d21e7a5bc9466796b95a9137bc78f3b3ac9e262c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/build.log",
+              "sha256": "1259a3369cdb99d0b167a12c8c092e197e61ba794bae4cb1765415333dd16ccd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/integration.log",
+              "sha256": "5546440d46f69fd4d3c18545ba8f25dfa187812b9fe6c18e10f5c19e1c8e32d6"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/matrix.log",
+              "sha256": "f9e69a44d7b354dfc4f3e43301d8bd536ea3294bad0bfa4732809cc2ce269685"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/pytorch_tests_crate.log",
+              "sha256": "0379ab6451278fb011ca7c30c976920fe50e22db73af3263352283f02ddc6757"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/pytorch_unit.log",
+              "sha256": "e49d96cb2386484fe5fdc2a8e3f9d988f1c8d25b1c740649decae03df111eba1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_bad_opcode.pkl.log",
+              "sha256": "660fcd7a9caff3d4d59244ac4bc84f54a429e6ea3a267c006c296d542bf749f5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_big_endian_marker.pt.log",
+              "sha256": "3020064e5259f417d37d71d6d1b142cc17bcdd5e9e3cfeb81a8806bd4e7c2a68"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_broadcast_bomb.pt.log",
+              "sha256": "a6fbafde71276397e2c1ca032bb450de006d5eb3acabc6a900f685395d5f2041"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_byteorder_unknown.pt.log",
+              "sha256": "cad6e904869ce79c64d9596feaee079c5fc8368afaacb8dfd428d50c9d4d50bb"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_deep_nesting.pkl.log",
+              "sha256": "eb937d55f167ebf3fe1dc3bd778e38486b95e19352c13f001f10c18ec38170bd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_dtype_mismatch_v3.pt.log",
+              "sha256": "e7e2e378f3c0acb536c3cd0b2e6de45dfa475568e2a76aed0157e7faae5feb7d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_empty_file.pt.log",
+              "sha256": "1bab2aed08467fc50a72bd7681a38b589624a62fe73ea9edfd3e48662644635c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_ext_opcode.pkl.log",
+              "sha256": "4ca7b4c693c92c6937b23ee9927c3d66a193ae5c0d5336231426673e1150534e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_full_model.pt.log",
+              "sha256": "0e11050d822bcc41605ad90a00d958d9303eedf7fb89b5e94f11bcef071dd298"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_legacy_big_endian.pt.log",
+              "sha256": "ed9b6bfad5274dcd17ef87383e25d1f6d7632d6ba6d31facad13da7005902e48"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_legacy_no_endian_flag.pt.log",
+              "sha256": "920400aba8f3609bc6f5e1ca0bdabc64edaa528215ea3a8800f0d535a6759c66"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_legacy_truncated.pt.log",
+              "sha256": "b2706014632f53cda329160d622fae800a8afcd59e293e747ab95dd29833ef7c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_memo_bomb.pkl.log",
+              "sha256": "ce706061069c9730b9b4e2021eef2db370fa4ec7bfab8cdbeab0ccacda444c7e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_memo_copies.pkl.log",
+              "sha256": "5398394d176bfbfe024e096168a95b56a26cc31df6c10c892f752511204785be"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_no_data_pkl.pt.log",
+              "sha256": "bc26ae9f219d04115269150afd88941ca1aa6075f2c5dead95d4880204f8a25a"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_offset_past_storage.pt.log",
+              "sha256": "0b07a6763aa3cf3b5ed810d53af12d38a34d498d432186a1fbad4c48bf3a9bed"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_plain_pickle_with_storage.pkl.log",
+              "sha256": "511f79251d26a13762d0cf78d1693aae7a80b07a49f6ecb8c74f54bf811b87a0"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_protocol_6.pkl.log",
+              "sha256": "b1749f6800c2f967f543d0292049f5bc7fe6bfc994240559c7a55c5c3865a5f1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_quantized.pt.log",
+              "sha256": "5957d91bf68f9606dddbac8430201107f66452440175f93309c218fc14dc4f67"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_sparse_coo.pt.log",
+              "sha256": "46802e29ac61c0c3584e7a3338e8c004bd51ec3cdecbb125003b67cf2c7badc2"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_stack_underflow.pkl.log",
+              "sha256": "88d32e3a1d06345d406b5eac329f6f6ba0bc0518c4fb386860669db13c0f2246"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_storage_missing.pt.log",
+              "sha256": "fb1d3b0bf4b57d359c6aea356dfa6e0f618bd6233f4b1334e1d2d6603e454bf3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_storage_short.pt.log",
+              "sha256": "3e8684c9ad474691b90b26e31b813574e19619ddc687a7f6c81694af718e53f1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_stride_overflow.pt.log",
+              "sha256": "a9d0cd384cc6b7ecbebd3107c7d0e267b564bf74f7340fe116d4f36ace82e32f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_tar_absurd_count.tar.log",
+              "sha256": "15bd437e64bfd77b6280b2785a5df81801bd9c3cb45283511b702ae03f6173cc"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_tar_missing_entries.tar.log",
+              "sha256": "6ac7b13c5248129f5c11f1780d87ccc7c228a84f0018a02c0b92d688a192da93"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_tar_truncated_storages.tar.log",
+              "sha256": "c7a9da38ce3ef7455fe18274f244874dde83e088824736e251f0da6dbfc3f3a6"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_tensor_in_unknown_object.pt.log",
+              "sha256": "7f7153c0eaa6083859bbe172ae79ce6790884cf33e21a9086c978814141a0945"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_truncated_pickle.pt.log",
+              "sha256": "53400b01be6bc879c973a65f35209a00b97ae3f119e2028d04c51d64935d9731"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_zip_crc_mismatch.pt.log",
+              "sha256": "f7b16afdcf4a9fc1b7575601421068f92416100ec9d951c9033e7b896a22c978"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_zip_signature_only.pt.log",
+              "sha256": "881a751ecccd94b249ecf16917620d695b714f2bd8066607edca8023fd6d44f3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/reject_r_zip_truncated_file.pt.log",
+              "sha256": "813bd80cf580af4ed5b6d9b232420adf3b1c65cbf8b82a0b81574b5a34a3ca38"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF/verifier/safetensors_unit.log",
+              "sha256": "a2cfa1750b5c64bcf5edc37eef846b81c5030e22b2c811e63d77600337dcd411"
+            }
+          ],
+          "agent_usage": {
+            "n_input_tokens": 148779836,
+            "n_cache_tokens": 148076053,
+            "n_output_tokens": 450270,
+            "cost_usd": 35.877045100000004,
+            "rollout_details": null,
+            "metadata": null
+          },
+          "lifecycle": {
+            "agent_phase_started": true,
+            "agent_run_started_at": "2026-09-14T03:20:23.505016Z",
+            "all_executions_quiescent": true,
+            "cleanup_error": null,
+            "cleanup_finished_at": "2026-09-14T05:13:55.864208Z",
+            "closed_at": "2026-09-14T05:13:55.856891Z",
+            "deadline_record_present": true,
+            "deadline_record_state": "present",
+            "execution_count": 3,
+            "process_guard_sha256": "f4957411242676e6123948262506b7bd3a2f4d6fdaa610720d35aae75ffbc8b1",
+            "quiescent": true,
+            "runtime_helper_sha256": null,
+            "runtime_present": true,
+            "runtime_sha256": "e9c9743ad8ff1b40bc433607bcffa36e66fc019749f9a57217fab9853908a6a6",
+            "runtime_state": "present",
+            "runtime_version": 1,
+            "trial_containment_sha256": "3298ed48b36cb0c8704cce006e1f23162a55689bac0b7cac2de1d7507ac8ca8e"
+          },
+          "timings": {
+            "agent_execution": {
+              "started_at": "2026-09-14T03:20:23.504933Z",
+              "finished_at": "2026-09-14T05:13:55.733476Z"
+            },
+            "verifier": {
+              "started_at": "2026-09-14T05:14:13.781158Z",
+              "finished_at": "2026-09-14T05:16:12.006335Z"
+            }
+          }
+        },
+        {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw",
+          "interpretation": "Fable/max normal reward-one pass; cross-model example, not an effort-only causal comparison.",
+          "model": "claude-fable-5-1",
+          "request": {
+            "configured_effort": "max",
+            "configured_model": "anthropic/claude-fable-5-1",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "max",
+            "thinking_type": "adaptive"
+          },
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "counts": {
+            "atif_agent_steps": 158,
+            "atif_steps_with_timestamp": 158,
+            "atif_tool_calls": 158,
+            "native_assistant_turns": 158,
+            "native_tool_calls": 158,
+            "native_tool_returns": 158,
+            "native_turns_with_timestamp": 158,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "`reader.rs` keeps the public API unchanged",
+              "native_assistant_turn": 158,
+              "native_json_pointer": "/messages/316/content",
+              "atif_step_id": 160,
+              "atif_json_pointer": "/steps/159/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 1,
+            "groups": {
+              "build": {
+                "ok": true,
+                "seconds": 77
+              },
+              "anticheat": {
+                "ok": true,
+                "hits_file": null
+              },
+              "pytorch_unit": {
+                "ok": true,
+                "passed": 108,
+                "failed": 0,
+                "ignored": 0,
+                "expected": 108
+              },
+              "safetensors_unit": {
+                "ok": true,
+                "passed": 52,
+                "failed": 0,
+                "expected": 52
+              },
+              "integration": {
+                "ok": true,
+                "passed": 20,
+                "failed": 0,
+                "expected": 20
+              },
+              "pytorch_tests_crate": {
+                "ok": true,
+                "passed": 37,
+                "failed": 0,
+                "expected": 37
+              },
+              "fixture_matrix": {
+                "ok": true,
+                "passed": 62,
+                "failed": 0,
+                "expected": 62,
+                "manifest_ok": true,
+                "tensor_rows": 428
+              },
+              "reject_cases": {
+                "ok": true,
+                "passed": 32,
+                "failed": 0,
+                "expected": 32
+              }
+            },
+            "failures": {},
+            "raw": {
+              "changed_entries": "18",
+              "anticheat_ok": "true",
+              "build_seconds": "77",
+              "build_ok": "true",
+              "pytorch_unit_passed": "108",
+              "pytorch_unit_failed": "0",
+              "pytorch_unit_ignored": "0",
+              "pytorch_unit_rc": "0",
+              "pytorch_unit_ok": "true",
+              "safetensors_unit_passed": "52",
+              "safetensors_unit_failed": "0",
+              "safetensors_unit_ignored": "0",
+              "safetensors_unit_rc": "0",
+              "safetensors_unit_ok": "true",
+              "integration_passed": "20",
+              "integration_failed": "0",
+              "integration_ignored": "0",
+              "integration_rc": "0",
+              "integration_ok": "true",
+              "pytorch_tests_crate_passed": "37",
+              "pytorch_tests_crate_failed": "0",
+              "pytorch_tests_crate_ignored": "0",
+              "pytorch_tests_crate_rc": "0",
+              "pytorch_tests_crate_ok": "true",
+              "manifest_accept_files": "28",
+              "manifest_reject_files": "32",
+              "manifest_tensor_rows": "428",
+              "manifest_ok": "true",
+              "matrix_rc": "0",
+              "matrix_pass": "62",
+              "matrix_fail": "0",
+              "matrix_expected": "62",
+              "matrix_ok": "true",
+              "reject_pass": "32",
+              "reject_fail": "0",
+              "reject_expected": "32",
+              "reject_ok": "true"
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/result.json",
+              "sha256": "1e22a0d1db0a87f24fafefdb6c9c075e211e9642d4aed1f9b8d59963f38729f9"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/config.json",
+              "sha256": "987ce5d8ce242939e8e682715553f118e4fd0b649f90ea5d187d3eac754fbec5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-evidence.json",
+              "sha256": "b004718e952046c25aa6c0a091354ca55f0d41c21281fd32ee8c6ebbac426474"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-deadline.json",
+              "sha256": "110088d345e37172b4585f3b5d577f7a024f784fdf3e2ce573834944f8c49bf2"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/benchmark-snapshot.json",
+              "sha256": "ccecd8ef302fbfc6b99f695eac114d28bb34a13e5e2cc49156eda9d9696b80bf"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/mini-swe-agent.trajectory.json",
+              "sha256": "e83fe202498285b7ae130b2944a52527e5c08aed911fa0e14c5731d2893e9327"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/agent/trajectory.json",
+              "sha256": "dc54edf08ee43fcc01d73cce0ee89236a5e57e73874aca221faf6fad21dbd5ba"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/score.json",
+              "sha256": "b65c7ef7d147a07645ed4ed6f123665e434b63cb7357e3514d672d01a25145ab"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/build.log",
+              "sha256": "98f046d6067a783ed4e04094acf8d8994b566ad0239a68bb3ae9ca5eeb2e3b97"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/integration.log",
+              "sha256": "977396d6290f856ac0bd8b4dddaa2c5a0a6b8108a00c0ddcb5444c8f581d95fc"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/matrix.log",
+              "sha256": "4c3684c0fc3d49408dde0c6034023a96e440d17ed9148c52e3cc059364a15ca8"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/pytorch_tests_crate.log",
+              "sha256": "c7641711346e20d88a39b682d488fa77aad12b07c7768c3cd75a0849fded724c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/pytorch_unit.log",
+              "sha256": "2e363a013081c3b5013960f5356d5e8ddb0fadf1b3268c937aa50348376d3952"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_bad_opcode.pkl.log",
+              "sha256": "82544d5907e50b53b16c046cd366dd1a6cd361f1c4d7848c51b5679a58f662f0"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_big_endian_marker.pt.log",
+              "sha256": "db177c7496a63febc53ef09cab9d2c824474da2dc084663680cadc99c55d6b07"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_broadcast_bomb.pt.log",
+              "sha256": "26d21b1bcd68f993fabc08fbf52ec7a015c6e0cc2c1a5f38e7e2f148f8afe055"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_byteorder_unknown.pt.log",
+              "sha256": "cd687a60a98a59535454e96a0e310451d3f8d77b8c0d8ad5363d3f10a993a62e"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_deep_nesting.pkl.log",
+              "sha256": "c168c4d3b2221d292296299222c036e1156e1fa4d9e9833ff53ffb8d8773f289"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_dtype_mismatch_v3.pt.log",
+              "sha256": "00b180a8adbccc3521a4f12fda28144e3c61dffa288d763c1c94cf7369b6b4e9"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_empty_file.pt.log",
+              "sha256": "1e896c78b01348759009ac10a682ca13b3e68e3944685a77f21e41466004cc42"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_ext_opcode.pkl.log",
+              "sha256": "f63704b24b86ded8cdffe5efe23b54d818e73f7df6d4775c4abd6a7f1dc7fca9"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_full_model.pt.log",
+              "sha256": "e42000803f2aee34099ea30565e25a53e09a7e0fb09e35865be6da6c18a67054"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_legacy_big_endian.pt.log",
+              "sha256": "05f2634cd946dfbee711396ad4d1dd0a8d5a42015220d2d2b95abe3cf65bfa5f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_legacy_no_endian_flag.pt.log",
+              "sha256": "a9f6c84be410ed0b2c72a3e45c6dc8dc21b34ae891be8f338f430f1093a25007"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_legacy_truncated.pt.log",
+              "sha256": "c0ae9aa48c67dc6283e9308434c53220405529bb756403b92eb47f0060895d36"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_memo_bomb.pkl.log",
+              "sha256": "c7546cc39a35ca1304ddc468a614828c6a82b74d32c93c74b0fcd1b8e1e16686"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_memo_copies.pkl.log",
+              "sha256": "0339af8e79ff26ed45caaa3cadf0b0b50bce7c114c9ffe8913c9c8dcac3e9c58"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_no_data_pkl.pt.log",
+              "sha256": "4a4c6123200e8f13d437e2b96d83f25551fa69f2a643c82f28088c219cb85678"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_offset_past_storage.pt.log",
+              "sha256": "720a32a322580b091fdf4a490ca6ec910a6742d78ccc56b14305be106d2a8fa3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_plain_pickle_with_storage.pkl.log",
+              "sha256": "568b772a01f16dd1f6650d32fff22ee1bc25c796ec823a46490646038cb7f59f"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_protocol_6.pkl.log",
+              "sha256": "d65661208956dcbac24a3d912aa60add2e2058dd0b084e52bac26c973a937d88"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_quantized.pt.log",
+              "sha256": "a050bbd27e848f4f20bb0d33ed884dad3a9aa9fb0a946e8992db5a4f809a26f2"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_sparse_coo.pt.log",
+              "sha256": "5fc3063edf19d290fd7f39228a53893ac439a3c8b34bef0309b5cd329aafba98"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_stack_underflow.pkl.log",
+              "sha256": "ab47f2a34871c4565a38e2dafb90b5a7c470d7ce716a4823504e41db7e0528e4"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_storage_missing.pt.log",
+              "sha256": "ba7a6d000f0b0f01eca3ea41d503614c8c6be0c327523ef326e7c3ecaa196f69"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_storage_short.pt.log",
+              "sha256": "e8345d59b24811b7319d9e29acc92bd8e3871e514d406f58abf68c017051bab1"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_stride_overflow.pt.log",
+              "sha256": "f1cf62762d541c8cc120493f7c2d895ad5ccf0dc6c750ddbc749f37d433d0636"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_tar_absurd_count.tar.log",
+              "sha256": "a9fb1cce4b2eec5efef1ad166fd3c0bd935c6c728c970d5a5b5bbc9da3e59a4d"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_tar_missing_entries.tar.log",
+              "sha256": "3881416d42d570cd684c2f4aaa25ceae85b598d0331b0b3d0f4cd915e41f63b6"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_tar_truncated_storages.tar.log",
+              "sha256": "b6bf8f29b243c84483e7d510ecae8e36ab004a32d71124c5f2caf718dac0330c"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_tensor_in_unknown_object.pt.log",
+              "sha256": "5600ebc54c0ff7ad7cf0e4fcba70f21ec99dae3661c2f86de188bb128fb97a41"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_truncated_pickle.pt.log",
+              "sha256": "da6e041cfe9cb2054c1a8fba8a25382369ced3311f8cbed4028598ecab93fbe5"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_zip_crc_mismatch.pt.log",
+              "sha256": "0e77f50fca1e6297d52da8e00bf060d6d1b772d457ecdedf2272e1ee26372e89"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_zip_signature_only.pt.log",
+              "sha256": "881a751ecccd94b249ecf16917620d695b714f2bd8066607edca8023fd6d44f3"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/reject_r_zip_truncated_file.pt.log",
+              "sha256": "813bd80cf580af4ed5b6d9b232420adf3b1c65cbf8b82a0b81574b5a34a3ca38"
+            },
+            {
+              "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw/verifier/safetensors_unit.log",
+              "sha256": "4d4a6ddf5bd0fb9ec0a9e4369084366690b82839876ee217436255a058711191"
+            }
+          ]
+        }
+      ],
+      "constraint_caveat": {
+        "instruction": [
+          {
+            "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+            "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+            "line": 19
+          },
+          {
+            "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/instruction.md",
+            "sha256": "d908b9f47e6a61fa531e5300852732a7ace9134c8eb6e175a0c233e782bde270",
+            "line": 138
+          }
+        ],
+        "verifier": {
+          "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4/tests/test.sh",
+          "sha256": "a75fad3a807345083f1756bcf69e61134b03eaf7362dfaace0c0b0a1e5fd6723",
+          "line": 54
+        },
+        "submitted_source": {
+          "path": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__BrRKozk/artifacts/submission/burn-store/src/pytorch/pickle_reader.rs",
+          "sha256": "49f9a316b587a495e41cb03554f0ad86c3f6de13b9751798eb7be2eac34e3d22",
+          "line": 2169
+        },
+        "literal": "src/pytorch/tests/reader/test_data/non_contiguous.pt",
+        "baseline_helper_unchanged": true
+      },
+      "primary_success_contrast": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__X6pyirF",
+      "additional_success_contrast": "jobs/candidates-burn-reader-v4-efforts-20-20260914T011100Z/rs-burn-store-pytorch-reader-v4__8dJTVHw"
+    },
+    {
+      "task_id": "rs-zenoh-timestamp-instrumentation-v3",
+      "rationale": "Timestamp instrumentation crosses the Rust public API, wire codec, routing, and callbacks, with cross-language interoperability checks.",
+      "user_impact": "Rust client callbacks written against the documented TimestampContext public type fail to compile when zid exposes ZenohIdProto instead of ZenohId.",
+      "failures": [
+        {
+          "tests": [
+            "custom_callback_context (compile-time type check before tests run)"
+          ],
+          "observed": "build_a exits 101: hidden test line 1511 expects public ZenohId, but ctx.zid is ZenohIdProto (E0308). Subsequent groups do not run.",
+          "instruction": [
+            {
+              "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/instruction.md",
+              "sha256": "31ea9c624ba8ab89828aaa90c7e4a63efa945c65ad5fe64e6e6ccb26668fb85b",
+              "line": 57
+            }
+          ],
+          "tests_source": [
+            {
+              "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/timestamp_instrumentation.rs",
+              "sha256": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487",
+              "line": 1492
+            },
+            {
+              "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/timestamp_instrumentation.rs",
+              "sha256": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487",
+              "line": 1499
+            },
+            {
+              "path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3/tests/hidden/zenoh/tests/timestamp_instrumentation.rs",
+              "sha256": "7b9c3ab79081e74fb44f7928badc84fdf02abca893019fc8987338b432cc0487",
+              "line": 1511
+            }
+          ],
+          "not_previous_conversion_defect": true
+        }
+      ],
+      "trials": [
+        {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv",
+          "interpretation": "Legitimate public API contract compile failure on corrected v3, independent of the old internal-import test defect.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "medium",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "medium",
+            "thinking_type": "adaptive"
+          },
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+          "counts": {
+            "atif_agent_steps": 377,
+            "atif_steps_with_timestamp": 377,
+            "atif_tool_calls": 377,
+            "native_assistant_turns": 377,
+            "native_tool_calls": 377,
+            "native_tool_returns": 377,
+            "native_turns_with_timestamp": 377,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "Everything is green with both feature configurations.",
+              "native_assistant_turn": 376,
+              "native_json_pointer": "/messages/752/content",
+              "atif_step_id": 378,
+              "atif_json_pointer": "/steps/377/message",
+              "verbatim_verified_in_both": true
+            },
+            {
+              "quote": "verified it compiles both with and without the `unstable` feature",
+              "native_assistant_turn": 377,
+              "native_json_pointer": "/messages/754/content",
+              "atif_step_id": 379,
+              "atif_json_pointer": "/steps/378/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 0,
+            "required_groups": [
+              "anti_cheat",
+              "build_a",
+              "build_b",
+              "lib_test_names",
+              "hidden_pr_tests",
+              "interop_gold",
+              "parity_python",
+              "zenoh_ext",
+              "upstream_regressions"
+            ],
+            "missing_groups": [],
+            "groups": {
+              "anti_cheat": {
+                "group": "anti_cheat",
+                "pass": true,
+                "files": 204,
+                "counts": {
+                  "process::Command": 0,
+                  "Command::new(": 0,
+                  "/logs": 0,
+                  "/tests/": 0,
+                  "/opt/gold": 0,
+                  "/opt/pristine": 0,
+                  "ts_peer": 0,
+                  "py_peer": 0,
+                  "TS_PEER": 0,
+                  "TS_PY_PEER": 0,
+                  "reward.txt": 0,
+                  "score.json": 0,
+                  "include_bytes!": 0,
+                  "/workspace/build": 0,
+                  "#[ignore": 0,
+                  "atexit": 3,
+                  "env::var": 1,
+                  "include_str!": 1,
+                  "std::env": 0
+                },
+                "pristine_counts": {
+                  "process::Command": 0,
+                  "Command::new(": 0,
+                  "/logs": 0,
+                  "/tests/": 0,
+                  "/opt/gold": 0,
+                  "/opt/pristine": 0,
+                  "ts_peer": 0,
+                  "py_peer": 0,
+                  "TS_PEER": 0,
+                  "TS_PY_PEER": 0,
+                  "reward.txt": 0,
+                  "score.json": 0,
+                  "include_bytes!": 0,
+                  "/workspace/build": 0,
+                  "#[ignore": 0,
+                  "atexit": 3,
+                  "env::var": 1,
+                  "include_str!": 1,
+                  "std::env": 0
+                },
+                "problems": []
+              },
+              "build_a": {
+                "group": "build_a",
+                "pass": false,
+                "exit_code": 101
+              },
+              "build_b": {
+                "group": "build_b",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "lib_test_names": {
+                "group": "lib_test_names",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "hidden_pr_tests": {
+                "group": "hidden_pr_tests",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "interop_gold": {
+                "group": "interop_gold",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "parity_python": {
+                "group": "parity_python",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "zenoh_ext": {
+                "group": "zenoh_ext",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              },
+              "upstream_regressions": {
+                "group": "upstream_regressions",
+                "pass": false,
+                "reason": "not run: earlier group failed"
+              }
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/result.json",
+              "sha256": "98f0091609e52d0fb94a1333ed213608a7e40a41fef70b150ca206cf5e39ee8c"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/config.json",
+              "sha256": "dabc756725ee077b3c822eb35f383587c2afc234671574225db23ccf82178991"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/benchmark-evidence.json",
+              "sha256": "1d588b70c2e93fe201d32280e30fea294858a1f97908317ee895c52be99abd80"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/benchmark-deadline.json",
+              "sha256": "1d90ac290c57ec8cf48ad073c5fcab260dbdc5f1841ecebb8ee5ec6e9216eee0"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/benchmark-snapshot.json",
+              "sha256": "d02764a49aa6b9e516893e66e0cd7f1998f4c74652269d2f4ecd46cb726f653d"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/agent/mini-swe-agent.trajectory.json",
+              "sha256": "1ae318586148c2f5162a2625e398ab04c50b455719ff03bf14ad70c90d716572"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/agent/trajectory.json",
+              "sha256": "92b62322dc74ae3719db54b0857fa958911b79dd9d1caec378f9069aba15adc8"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/verifier/score.json",
+              "sha256": "605dbbd86676998a990fae3266c4b9b698a701038f431f7757667f54f8616642"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__YtCswNv/verifier/build_a.log",
+              "sha256": "71e554d3376326158080e2c79477b124f8992076d1bf103449f7286decac4dfc"
+            }
+          ]
+        },
+        {
+          "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG",
+          "interpretation": "Normal pass: all nine verifier groups, 47 hidden tests, six gold interop and four Python parity checks.",
+          "model": "claude-sonnet-5",
+          "request": {
+            "configured_effort": "max",
+            "configured_model": "anthropic/claude-sonnet-5",
+            "effort_matches": true,
+            "max_tokens": 64000,
+            "recorded_effort": "max",
+            "thinking_type": "adaptive"
+          },
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+          "counts": {
+            "atif_agent_steps": 626,
+            "atif_steps_with_timestamp": 626,
+            "atif_tool_calls": 626,
+            "native_assistant_turns": 626,
+            "native_tool_calls": 626,
+            "native_tool_returns": 626,
+            "native_turns_with_timestamp": 626,
+            "turn_counts_match": true
+          },
+          "usage_censored": false,
+          "quotes": [
+            {
+              "quote": "the whole workspace builds cleanly with and without `unstable`",
+              "native_assistant_turn": 626,
+              "native_json_pointer": "/messages/1252/content",
+              "atif_step_id": 628,
+              "atif_json_pointer": "/steps/627/message",
+              "verbatim_verified_in_both": true
+            }
+          ],
+          "score": {
+            "reward": 1,
+            "required_groups": [
+              "anti_cheat",
+              "build_a",
+              "build_b",
+              "lib_test_names",
+              "hidden_pr_tests",
+              "interop_gold",
+              "parity_python",
+              "zenoh_ext",
+              "upstream_regressions"
+            ],
+            "missing_groups": [],
+            "groups": {
+              "anti_cheat": {
+                "group": "anti_cheat",
+                "pass": true,
+                "files": 204,
+                "counts": {
+                  "process::Command": 0,
+                  "Command::new(": 0,
+                  "/logs": 0,
+                  "/tests/": 0,
+                  "/opt/gold": 0,
+                  "/opt/pristine": 0,
+                  "ts_peer": 0,
+                  "py_peer": 0,
+                  "TS_PEER": 0,
+                  "TS_PY_PEER": 0,
+                  "reward.txt": 0,
+                  "score.json": 0,
+                  "include_bytes!": 0,
+                  "/workspace/build": 0,
+                  "#[ignore": 0,
+                  "atexit": 3,
+                  "env::var": 1,
+                  "include_str!": 1,
+                  "std::env": 0
+                },
+                "pristine_counts": {
+                  "process::Command": 0,
+                  "Command::new(": 0,
+                  "/logs": 0,
+                  "/tests/": 0,
+                  "/opt/gold": 0,
+                  "/opt/pristine": 0,
+                  "ts_peer": 0,
+                  "py_peer": 0,
+                  "TS_PEER": 0,
+                  "TS_PY_PEER": 0,
+                  "reward.txt": 0,
+                  "score.json": 0,
+                  "include_bytes!": 0,
+                  "/workspace/build": 0,
+                  "#[ignore": 0,
+                  "atexit": 3,
+                  "env::var": 1,
+                  "include_str!": 1,
+                  "std::env": 0
+                },
+                "problems": []
+              },
+              "build_a": {
+                "group": "build_a",
+                "pass": true,
+                "seconds": 65
+              },
+              "build_b": {
+                "group": "build_b",
+                "pass": true
+              },
+              "lib_test_names": {
+                "group": "lib_test_names",
+                "pass": true
+              },
+              "hidden_pr_tests": {
+                "group": "hidden_pr_tests",
+                "pass": true,
+                "exit_code": 0
+              },
+              "interop_gold": {
+                "group": "interop_gold",
+                "pass": true,
+                "exit_code": 0
+              },
+              "parity_python": {
+                "group": "parity_python",
+                "pass": true,
+                "exit_code": 0
+              },
+              "zenoh_ext": {
+                "group": "zenoh_ext",
+                "pass": true,
+                "exit_code": 0
+              },
+              "upstream_regressions": {
+                "group": "upstream_regressions",
+                "pass": true,
+                "exit_code": 0
+              }
+            }
+          },
+          "raw_files": [
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/result.json",
+              "sha256": "0033ab0093b784d675cba94cbcd0e472d07a84ebe5a9d35e80fe9d5736fc9423"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/config.json",
+              "sha256": "88fbadbdaedb95cc0d01b4bb811fc05491dba8b27216233bb9eff57a2e41255d"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-evidence.json",
+              "sha256": "402f8e07cd379580fe19ebdeff38a75569c193c3248801734e524836aeea13d8"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-runtime.json",
+              "sha256": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-deadline.json",
+              "sha256": "79359f7fe8d385f95b7214e00638795f1f919e3092fcf71eb86c0313e0f193dc"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/benchmark-snapshot.json",
+              "sha256": "c596e7d5571452450030221cb72d9160f20973379b7b4ea386d736e96dc04d50"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/mini-swe-agent.trajectory.json",
+              "sha256": "0191557b8b62ef4332ee3b0da5970ab96a0794cc65810ca3ad4b306c72ad9a28"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/agent/trajectory.json",
+              "sha256": "f7906aba9eb8f42114dda3982f1acda0534d75283c5ad1df69a870286911b46e"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/score.json",
+              "sha256": "a212f3e8f109ade9e8449a3f371c4a758cab9c8d1f9df06ca0375a6a0425b4ac"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/build_a.log",
+              "sha256": "acedbb815b71463b9a729e20fdc0e6ce6c2bac55fdc222362d84bb38c704aa33"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/build_b.log",
+              "sha256": "86c9fbf7db20f2521057623d9be48337acc41ce3c7996eeb3bdc6130acfc7101"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/hidden_pr_tests.log",
+              "sha256": "c6b2139416420752dedc9e754b06499a289a93d6954f549dafb466e963d313c6"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/interop_gold.log",
+              "sha256": "6d8b17056c65439d0659f22154dd4479af0f13bd44a3806a42d887b5c973688a"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/parity_python.log",
+              "sha256": "f011a04b8c855aad9dda6b2459f16bf76a26516eb6022727f0a3f9769a42c940"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/upstream_regressions.log",
+              "sha256": "0d07a6fd5008bec24bb4a5e95724b059ea5e9c3b7a233d36071320f002ed57f2"
+            },
+            {
+              "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z/rs-zenoh-timestamp-instrumentati__gSYDMEG/verifier/zenoh_ext.log",
+              "sha256": "415bccda444fb0c0056c061bc5160bd5aa1928adbdcc47d105019b55be76b525"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "task_id": "rs-rerun-chunk-optimizer",
+      "task_path": "candidates_v2/rs-rerun-chunk-optimizer",
+      "manifest_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.tasks.json",
+      "manifest_sha256": "396f83c701fba8db2019e069b5ee7df8280cf0e368dea483eaf535fb61d4f73a",
+      "current_harbor_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+      "current_task_sha256": "905b3077fa7ca9bb5e7f7c4c8b42c3ae2ecd2076b2c521e24ba7946d1fdc8975",
+      "manifest_matches_current_digest": true,
+      "controls": [
+        {
+          "agent": "oracle",
+          "path": "research/rerun-final-controls-2026-09-14/harbor-controls-001/jobs/rs-rerun-chunk-optimizer-oracle-20260914T051114Z/rs-rerun-chunk-optimizer__wNXUu67/result.json",
+          "result_sha256": "c22ceb81bdc6151e61b184998416006a72860d33c82a53bef5a930baf7f17cb9",
+          "observed_agent": "oracle",
+          "reward": 1,
+          "exception": null,
+          "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+          "exact_current_checksum": true,
+          "score_path": "research/rerun-final-controls-2026-09-14/harbor-controls-001/jobs/rs-rerun-chunk-optimizer-oracle-20260914T051114Z/rs-rerun-chunk-optimizer__wNXUu67/verifier/score.json",
+          "score_sha256": "df3eede2865ae94ddbed4d7d2e65caf0dd5b64ce104e7249a8bde1f0e71592bf",
+          "completion_verification": "research/rerun-final-controls-2026-09-14/final-validation.json",
+          "completion_verification_sha256": "2e54b596d309571c9ad899e085d257be8a6315f8985c6c3973962896954d2617"
+        },
+        {
+          "agent": "nop",
+          "path": "research/rerun-final-controls-2026-09-14/harbor-controls-001/jobs/rs-rerun-chunk-optimizer-nop-20260914T051114Z/rs-rerun-chunk-optimizer__X5Vzq8X/result.json",
+          "result_sha256": "59536089d8a3d5947fbca181f2aba5accaea017e3ae34012eeecc8ca048004f7",
+          "observed_agent": "nop",
+          "reward": 0,
+          "exception": null,
+          "task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+          "exact_current_checksum": true,
+          "score_path": "research/rerun-final-controls-2026-09-14/harbor-controls-001/jobs/rs-rerun-chunk-optimizer-nop-20260914T051114Z/rs-rerun-chunk-optimizer__X5Vzq8X/verifier/score.json",
+          "score_sha256": "da1fc33bf4031d9b8d7881de4139e55ba6fdae5bd86dea83ab3fa96ab6a44cdb",
+          "completion_verification": "research/rerun-final-controls-2026-09-14/final-validation.json",
+          "completion_verification_sha256": "2e54b596d309571c9ad899e085d257be8a6315f8985c6c3973962896954d2617"
+        }
+      ],
+      "exact_revision_controls_pass": true,
+      "historical_controls": [
+        {
+          "agent": "oracle",
+          "path": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-oracle-20260913T121513Z/rs-rerun-chunk-optimizer__BndqJmr/result.json",
+          "result_sha256": "b11c62e4a7c641e3c848840311b16547fbedb434febc63ac257d0cedc6555587",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "oracle",
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "c60f1dd70d0661aff97127ae19c5a2cfaee426f4d3c21db4977b323b8af0b073",
+          "exact_current_checksum": false,
+          "score_path": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-oracle-20260913T121513Z/rs-rerun-chunk-optimizer__BndqJmr/verifier/score.json",
+          "score_sha256": "df3eede2865ae94ddbed4d7d2e65caf0dd5b64ce104e7249a8bde1f0e71592bf"
+        },
+        {
+          "agent": "nop",
+          "path": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-nop-20260913T121513Z/rs-rerun-chunk-optimizer__qpTicVH/result.json",
+          "result_sha256": "1d97054a8bcddb4b83a281f353fa520bdacae835b6f6b745af6be3fec138ff3d",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "nop",
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "c60f1dd70d0661aff97127ae19c5a2cfaee426f4d3c21db4977b323b8af0b073",
+          "exact_current_checksum": false,
+          "score_path": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-nop-20260913T121513Z/rs-rerun-chunk-optimizer__qpTicVH/verifier/score.json",
+          "score_sha256": "da1fc33bf4031d9b8d7881de4139e55ba6fdae5bd86dea83ab3fa96ab6a44cdb"
+        }
+      ],
+      "validation_basis": "fresh_exact_current_oracle_and_nop"
+    },
+    {
+      "task_id": "rs-burn-store-pytorch-reader-v4",
+      "task_path": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "manifest_path": "research/burn-reader-debug-fix-2026-09-13/frozen-task-manifest.json",
+      "manifest_sha256": "8db2dcb4d4bc46263f84024a730a2c876d63c397a0a78c622d1bcd8ea5891d03",
+      "current_harbor_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+      "current_task_sha256": "0f7372d7168f9d8eb07c6f6a19a8f13f5038004448b8528b6fba2f37745189ac",
+      "manifest_matches_current_digest": true,
+      "controls": [
+        {
+          "agent": "oracle",
+          "path": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-oracle-20260914T003148Z/rs-burn-store-pytorch-reader-v4__NZZnrjW/result.json",
+          "result_sha256": "62401955772b5bfca598e9292d70feb917961381a1d695abbd53500108dd9e4a",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "oracle",
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "exact_current_checksum": true,
+          "score_path": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-oracle-20260914T003148Z/rs-burn-store-pytorch-reader-v4__NZZnrjW/verifier/score.json",
+          "score_sha256": "a6253f572a6d38fbb66b3d73e47ec5db96c6ebd3d170bcbc9cf90cbf24496881"
+        },
+        {
+          "agent": "nop",
+          "path": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-nop-20260914T003148Z/rs-burn-store-pytorch-reader-v4__VkZg3xR/result.json",
+          "result_sha256": "cc2def2cc5f768e8e13c5013ca0db2dfee5bffdbb2b731c01f515ac70a4b094d",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "nop",
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+          "exact_current_checksum": true,
+          "score_path": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-nop-20260914T003148Z/rs-burn-store-pytorch-reader-v4__VkZg3xR/verifier/score.json",
+          "score_sha256": "88a6e69205426b901b74132c892526862908d633a83b40dd513933c6df625b23"
+        }
+      ],
+      "exact_revision_controls_pass": true
+    },
+    {
+      "task_id": "rs-zenoh-timestamp-instrumentation-v3",
+      "task_path": "research/task-revisions/rs-zenoh-timestamp-instrumentation-v3",
+      "manifest_path": "research/zenoh-test-fix-2026-09-13/frozen-task-manifest.json",
+      "manifest_sha256": "99ed5b56c7c760ac8fc98a3e10ceed3dce42e0d6e9789e742095bab5c8e86ea4",
+      "current_harbor_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+      "current_task_sha256": "2529942aca5c15f1d1f414a917317ac76e02582de23012badfb11e55e966959e",
+      "manifest_matches_current_digest": true,
+      "controls": [
+        {
+          "agent": "oracle",
+          "path": "research/zenoh-test-fix-2026-09-13/harbor-validation-20260913T214854Z/jobs/rs-zenoh-timestamp-instrumentation-v3-oracle-20260913T214854Z/rs-zenoh-timestamp-instrumentati__VpZ2voj/result.json",
+          "result_sha256": "42f91a6448bb5e92f91854cc9af5429053d11e048c4b78e317feb9ea9c91c441",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "oracle",
+          "reward": 1.0,
+          "exception": null,
+          "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+          "exact_current_checksum": true,
+          "score_path": "research/zenoh-test-fix-2026-09-13/harbor-validation-20260913T214854Z/jobs/rs-zenoh-timestamp-instrumentation-v3-oracle-20260913T214854Z/rs-zenoh-timestamp-instrumentati__VpZ2voj/verifier/score.json",
+          "score_sha256": "1435df4e978813ea1b60f682dcf81348f09544f4b4bc7e3244936d7fe6d3b1cc"
+        },
+        {
+          "agent": "nop",
+          "path": "research/zenoh-test-fix-2026-09-13/harbor-validation-20260913T214854Z/jobs/rs-zenoh-timestamp-instrumentation-v3-nop-20260913T214854Z/rs-zenoh-timestamp-instrumentati__qc4ghZQ/result.json",
+          "result_sha256": "517cb84691d98687b1e26029518b6a9b25a3c0bdbe1993545d8a3845d98b0f9c",
+          "manifest_result_hash_matches": true,
+          "observed_agent": "nop",
+          "reward": 0.0,
+          "exception": null,
+          "task_checksum": "4e4a5fa7e33f699c6c46ccf1e4651439378ad4f4eaa0c2cc36753ec14593d3f2",
+          "exact_current_checksum": true,
+          "score_path": "research/zenoh-test-fix-2026-09-13/harbor-validation-20260913T214854Z/jobs/rs-zenoh-timestamp-instrumentation-v3-nop-20260913T214854Z/rs-zenoh-timestamp-instrumentati__qc4ghZQ/verifier/score.json",
+          "score_sha256": "3e0eb6a2ecfa308e08247dc0533c2bca899179ad16b22cc2ac2960c928930b82"
+        }
+      ],
+      "exact_revision_controls_pass": true
+    }
+  ],
+  "remaining_validation": "All three exact-current oracle/no-op pairs are verified. Required separate model-based Harbor quality reviews are running; inspect their rubric outcomes before final delivery.",
+  "model_calls": 0,
+  "updated_at": "2026-09-14T05:18:35.522725+00:00",
+  "primary_comparisons_use_same_model": "All three primary failure/success comparisons use Sonnet; each is an individual case study, not a controlled estimate of effort causality.",
+  "historical_control_audit_source": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/shortlist-control-audit.json",
+    "sha256": "270a5c073c669d58165a47324fcb35ba8155b2d7b47d91dbd8dd77dc189a8872"
+  },
+  "control_audit_source": {
+    "path": "research/takehome-presentation-2026-09-14/evidence/shortlist-controls-final.json",
+    "sha256": "4d7cda1e96bfe6943d291fb73d826bd5ff62c98a04dcb3128164e65196db6afe"
+  }
+}

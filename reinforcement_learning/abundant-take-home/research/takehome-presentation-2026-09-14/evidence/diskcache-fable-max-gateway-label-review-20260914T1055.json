@@ -1,0 +1,131 @@
+{
+  "actual_http_evidence": {
+    "agent_stdout_occurrences_of_429": 0,
+    "native_traceback_occurrences_of_429": 0,
+    "no_observed_429_or_quota_error": true,
+    "source": "Native saved exception traceback and Mini stdout show LiteLLM handling original_exception.status_code ==502",
+    "status": 502
+  },
+  "actual_native_terminal": "BadGatewayError",
+  "finished_at": "2026-09-14T10:52:33.591492Z",
+  "kind": "read_only_terminal_provider_error_and_outer_label_review",
+  "last_failed_request_id": "3daa9516-c5e1-4220-9a75-a26ab99f3c41",
+  "model_calls": 0,
+  "native_progress": {
+    "api_calls": 21,
+    "assistant_turns": 20,
+    "completed_response_cost_usd": 1.11230075,
+    "incomplete_request_cost_unknown": true,
+    "tool_calls": 20,
+    "unanswered_logical_query": true
+  },
+  "native_provider_error_type": "api_error",
+  "native_provider_message": "upstream request failed",
+  "next_attempt_observation": {
+    "active_bytes_not_frozen": true,
+    "actual_mini_python": {
+      "executable": "/usr/local/bin/python3.12",
+      "pid": 1794,
+      "ppid": 1791,
+      "start_ticks": 6768672,
+      "state": "S",
+      "wchan": "do_sys_poll"
+    },
+    "checked_at": "2026-09-14T10:55:14.793722+00:00",
+    "config_created_at": "2026-09-14T10:52:39.780843+00:00",
+    "container": "734fdf740dee",
+    "container_running": true,
+    "container_started_at": "2026-09-14T10:52:41.397991879Z",
+    "native_api_calls_observed": 26,
+    "native_turns_observed": 26,
+    "result_present": false,
+    "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__2VaV8gW"
+  },
+  "observed_at": "2026-09-14T10:56:06.079090+00:00",
+  "outer_error": "ApiRateLimitError",
+  "outer_label_cause": {
+    "exact_matching_text": "function decorator to rate-limit calls to a",
+    "installed_harbor_source": {
+      "environment": "keen_black Harbor tool environment",
+      "matching_lines": [
+        314,
+        335
+      ],
+      "path": "/home/vscode/.local/share/uv/tools/harbor/lib/python3.14/site-packages/harbor/agents/installed/base.py",
+      "pattern_lines": [
+        173,
+        175
+      ],
+      "sha256": "a168c6d0731e4a7f9e84a8730ad6b9dfa971b9f21fc539e90fb7fefc3e5a34ea"
+    },
+    "interpretation": "The matching text is Diskcache documentation shown by a tool, not a provider throttling response. The outer error label is therefore a false positive in this run.",
+    "matching_agent_stdout_line": 4882,
+    "matching_native_message_index_zero_based": 39,
+    "matching_native_message_role": "tool",
+    "matching_occurrences": 1,
+    "matching_tool_call_id": "toolu_01BqR4mFhPG6wfh5Ukw7SKUs",
+    "mechanism": "BaseInstalledAgent compiles rate.?limit ignoring case, then searches the entire failed command stdout/stderr and returns ApiRateLimitError on any match."
+  },
+  "raw_references": {
+    "agent/mini-swe-agent.trajectory.json": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/agent/mini-swe-agent.trajectory.json",
+      "sha256": "7728b667886545daf8d64ff3a974ec1eee37418e5867c017984542422ffbdbd1"
+    },
+    "agent/mini-swe-agent.txt": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/agent/mini-swe-agent.txt",
+      "sha256": "46a6cf61ac7105859efadd6b4e5230f0b330e43b312b47b35c601558e41919e3"
+    },
+    "benchmark-deadline.json": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/benchmark-deadline.json",
+      "sha256": "c1dd559cb7d8e6253531fdd9be00973f5edb909b4e54517383e69458cf8d1611"
+    },
+    "benchmark-evidence.json": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/benchmark-evidence.json",
+      "sha256": "bc3d70c6f655c5b1a5ad485d0e3d2548f8fe3e32b67e07b7513b72d027e3fedc"
+    },
+    "benchmark-snapshot.json": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/benchmark-snapshot.json",
+      "sha256": "096703d171500652e90a29c8a36e6274bcdf34f010056d050a6c89d5edaa9ffa"
+    },
+    "result.json": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/result.json",
+      "sha256": "024959c862e380ba8686552e4a9839f6a332577d01832f8a23e6e8f563648303"
+    },
+    "trial.log": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN/trial.log",
+      "sha256": "9816dc69f8faada9d30983f454e867180746c8aaa8a0257b077768ccafc2183b"
+    }
+  },
+  "replays": 0,
+  "runtime_control_classification_edits": false,
+  "saved_classifier_observation": {
+    "classification_code": {
+      "path": "scripts/run-candidate-screen.py",
+      "sha256": "7e4eeb0ee9564e2c226158e2a3bff2f06519a61e3e085392fc0c324e281f60a1"
+    },
+    "classification_lines": [
+      196,
+      203
+    ],
+    "counted_reward": null,
+    "infrastructure_detail": "BadGatewayError",
+    "interpretation": "The existing classifier already excludes the trial as infrastructure with BadGatewayError detail. The wrong outer label does not turn this attempt into a counted task failure or require a present classification change.",
+    "outer_exception": "ApiRateLimitError",
+    "raw_reward": 0.0,
+    "record_sha256": "c4a2e9dc52d473969cd9c2b24336e711852414c8cc48ae4b71e79191e62b153d",
+    "source_summary": {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.summary.json",
+      "sha256": "cc0cf1f0588f3629128c7b3013ff0610292406b6764d7d559e6659c4d1dc5f7f"
+    },
+    "status": "infrastructure",
+    "summary_is_mutable_point_in_time": true
+  },
+  "schema_version": 1,
+  "scope_limit": "No new provider requests or replay. This establishes the saved502 terminal and an unrelated stdout-regex label match; it does not establish an absolute versus idle gateway timeout or rule out other unobserved provider conditions.",
+  "supplied_originals": {
+    "commit": "c1ae968",
+    "count": 36,
+    "unchanged": true
+  },
+  "trial": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z/diskcache-online-reshard-v2__fA2yXrN"
+}

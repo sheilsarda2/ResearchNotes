@@ -1,0 +1,109 @@
+{
+  "actual_preflight": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-004-tooling/actual-preflight.json",
+    "sha256": "e3c1e74303fa31bd7a19fdd105e29847322a94fb5911c7b7921b91d168da6a05"
+  },
+  "admission_claims": 0,
+  "automatic_retries": 0,
+  "container_launches": 0,
+  "expected_stages": [
+    "focused-diagnostics",
+    "paired-file-gate",
+    "paired-full-regrades"
+  ],
+  "independent_harness_review": {
+    "capture_before_output_and_admission": true,
+    "git_context_removed": true,
+    "neutral_temporary_git_cwd": true,
+    "same_four_source_allowlist": true,
+    "unchanged_admission_limits_cleanup": true
+  },
+  "limitations": [
+    "Check-only validates existing artifacts and absent historical Linux PIDs; it does not execute diagnostics or paired regrades.",
+    "Live PID reuse is deliberately fail-closed. A single interrupted continuation waits for its existing bounded child before releasing the common lock.",
+    "Paired success means execution/provenance complete, not that every saved submission earned reward one."
+  ],
+  "model_calls": 0,
+  "new_quality_reviews": 0,
+  "output_paths_absent": [
+    "research/zenoh-coverage-followup-2026-09-14/continuation-confirmed-004",
+    "research/zenoh-coverage-followup-2026-09-14/harness/diagnostics-final-002",
+    "research/zenoh-coverage-followup-2026-09-14/paired-regrades/run-001"
+  ],
+  "passed": true,
+  "preservation": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-004-tooling/prior-attempt-preservation.json",
+    "sha256": "50bcd91544254e2310e5d456d25e0183a13e83d3167bac89dc6472b53434ce27"
+  },
+  "preserved_extra_files": 55,
+  "preserved_tree_files": 222,
+  "requires_root_review_before_launch": true,
+  "reused_audit": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/completed-review-audits-002/rs-zenoh-timestamp-instrumentation-v4-validation.json",
+    "sha256": "77e53523e12d62d8eacc1037979208e7dfed61506ceee916e39f08b6e1e1181c"
+  },
+  "reused_controls": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-001/summary.json",
+    "sha256": "f8ea89b1137235d6ccdc8ae950bbc2121213c1df14eb553c00d0991735c9ceac"
+  },
+  "reused_quality": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/reviews-final-002/summary.json",
+    "sha256": "86fbf131221b3780b0a521507c8f51044d5da7ec5600205ae64dcc4d3e23ba42"
+  },
+  "schema_version": 1,
+  "source_manifest": {
+    "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-004-tooling/source-manifest.json",
+    "sha256": "a07942aa7a5af558d6388d372bf624a86d264a67e64bfe5fe71cab6753ccc8b1"
+  },
+  "supplied_original_files_unchanged": [
+    ".devcontainer/devcontainer-lock.json",
+    ".devcontainer/devcontainer.json",
+    ".devcontainer/post-attach.sh",
+    ".devcontainer/post-create.sh",
+    ".env.example",
+    ".gitignore",
+    "Abundant Take Home.pdf",
+    "README.md",
+    "restaurant-weekly-cost-control-audit/environment/Dockerfile",
+    "restaurant-weekly-cost-control-audit/environment/data/build_inputs.py",
+    "restaurant-weekly-cost-control-audit/environment/data/historical.csv",
+    "restaurant-weekly-cost-control-audit/environment/data/inventory_close.csv",
+    "restaurant-weekly-cost-control-audit/environment/data/inventory_open.csv",
+    "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_beverage.pdf",
+    "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_local.pdf",
+    "restaurant-weekly-cost-control-audit/environment/data/invoices/vendor_sysco.pdf",
+    "restaurant-weekly-cost-control-audit/environment/data/pos_sales.csv",
+    "restaurant-weekly-cost-control-audit/environment/data/recipes.json",
+    "restaurant-weekly-cost-control-audit/environment/skills/business-kpi-formulas/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/business-kpi-formulas/references/formulas.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/csv-tools/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/docx/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/fuzzy-match/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/git/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/pdf/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/pdf/scripts/extract_invoice_rows.py",
+    "restaurant-weekly-cost-control-audit/environment/skills/sql-window/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/web-search/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/xlsx/SKILL.md",
+    "restaurant-weekly-cost-control-audit/environment/skills/xlsx/scripts/write_table.py",
+    "restaurant-weekly-cost-control-audit/instruction.md",
+    "restaurant-weekly-cost-control-audit/solution/solve.sh",
+    "restaurant-weekly-cost-control-audit/task.toml",
+    "restaurant-weekly-cost-control-audit/tests/test.sh",
+    "restaurant-weekly-cost-control-audit/tests/test_outputs.py",
+    "scripts/doctor.sh"
+  ],
+  "tests": {
+    "harbor": {
+      "passed": 24,
+      "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-004-tooling/harbor-tests.txt",
+      "sha256": "85df57854e76476485e6c6b0695c1a84fe872f3d5f52209c01513b70669147ef"
+    },
+    "host": {
+      "passed": 24,
+      "path": "research/zenoh-coverage-followup-2026-09-14/controls-confirmed-004-tooling/host-tests.txt",
+      "sha256": "03d65f4e2306b30d0c1857369ebeda96c5951a162e9e97a568125bcd2f1c51c8"
+    }
+  },
+  "verified_at": "2026-09-14T08:49:05.447011+00:00"
+}

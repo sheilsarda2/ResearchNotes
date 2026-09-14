@@ -1,0 +1,104 @@
+   Compiling zenoh-buffers v1.9.0 (/workspace/build/commons/zenoh-buffers)
+   Compiling zenoh-util v1.9.0 (/workspace/build/commons/zenoh-util)
+   Compiling zenoh v1.9.0 (/workspace/build/zenoh)
+   Compiling zenoh-protocol v1.9.0 (/workspace/build/commons/zenoh-protocol)
+   Compiling zenoh-sync v1.9.0 (/workspace/build/commons/zenoh-sync)
+   Compiling zenoh-config v1.9.0 (/workspace/build/commons/zenoh-config)
+   Compiling zenoh-codec v1.9.0 (/workspace/build/commons/zenoh-codec)
+   Compiling zenoh-link-commons v1.9.0 (/workspace/build/io/zenoh-link-commons)
+   Compiling zenoh-plugin-trait v1.9.0 (/workspace/build/plugins/zenoh-plugin-trait)
+   Compiling zenoh-link-quic_datagram v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic_datagram)
+   Compiling zenoh-link-unixsock_stream v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-unixsock_stream)
+   Compiling zenoh-link-tls v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tls)
+   Compiling zenoh-link-quic v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic)
+   Compiling zenoh-link-udp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-udp)
+   Compiling zenoh-link-ws v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-ws)
+   Compiling zenoh-link-tcp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link v1.9.0 (/workspace/build/io/zenoh-link)
+   Compiling zenoh-transport v1.9.0 (/workspace/build/io/zenoh-transport)
+   Compiling zenoh-test v1.9.0 (/workspace/build/commons/zenoh-test)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 49.01s
+     Running tests/timestamp_adminspace.rs (target/debug/deps/timestamp_adminspace-e6899774c6e0387c)
+
+running 1 test
+test adminspace_query_invokes_receive_timestamp_callback ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+     Running tests/timestamp_adminspace_reply_stack.rs (target/debug/deps/timestamp_adminspace_reply_stack-976ca89e9061d3df)
+
+running 1 test
+test adminspace_reply_preserves_received_query_stack ... 
+thread 'adminspace_reply_preserves_received_query_stack' (438) panicked at zenoh/tests/timestamp_adminspace_reply_stack.rs:98:46:
+admin reply must inherit the instrumented query stack as received by the admin handler
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/option.rs:2257:5
+   4: <core::option::Option<&zenoh::api::timestamp_stack::TimestampStack>>::expect
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/option.rs:968:21
+   5: {async_block#0}
+             at ./tests/timestamp_adminspace_reply_stack.rs:98:46
+   6: poll<timestamp_adminspace_reply_stack::adminspace_reply_preserves_received_query_stack::{async_block#0}::{async_block_env#0}>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/time/timeout.rs:217:42
+   7: {async_block#0}
+             at ./tests/timestamp_adminspace_reply_stack.rs:123:6
+   8: poll<&mut dyn core::future::future::Future<Output=()>>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/future/future.rs:133:9
+   9: {closure#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:71
+  10: with_budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:167:5
+  11: budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:133:5
+  12: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:31
+  13: <tokio::runtime::context::blocking::BlockingRegionGuard>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/blocking.rs:66:14
+  14: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  15: tokio::runtime::context::runtime::enter_runtime::<<tokio::runtime::scheduler::multi_thread::MultiThread>::block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}, ()>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/runtime.rs:65:16
+  16: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  17: <tokio::runtime::runtime::Runtime>::block_on_inner::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:376:50
+  18: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:343:18
+  19: adminspace_reply_preserves_received_query_stack
+             at ./tests/timestamp_adminspace_reply_stack.rs:124:70
+  20: timestamp_adminspace_reply_stack::adminspace_reply_preserves_received_query_stack::{closure#0}
+             at ./tests/timestamp_adminspace_reply_stack.rs:19:59
+  21: <timestamp_adminspace_reply_stack::adminspace_reply_preserves_received_query_stack::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+  22: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+FAILED
+
+failures:
+
+failures:
+    adminspace_reply_preserves_received_query_stack
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.58s
+
+error: test failed, to rerun pass `-p zenoh --test timestamp_adminspace_reply_stack`
+     Running tests/timestamp_robustness.rs (target/debug/deps/timestamp_robustness-31513019721fc29d)
+
+running 5 tests
+test decoder_accepts_valid_boundary_counts_without_changing_payload ... ok
+test decoder_rejects_record_count_above_255 ... ok
+test decoder_rejects_zero_configuration ... ok
+test receive_appends_at_254_and_drops_further_records_at_255 ... ok
+test unknown_point_and_bad_uhlc_are_skipped_without_dropping_publication ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.53s
+
+error: 1 target failed:
+    `-p zenoh --test timestamp_adminspace_reply_stack`

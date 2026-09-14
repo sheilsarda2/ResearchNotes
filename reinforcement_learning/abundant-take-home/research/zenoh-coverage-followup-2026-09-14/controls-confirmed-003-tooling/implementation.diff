@@ -1,0 +1,229 @@
+--- research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/recovery_common.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/recovery_common.py
+@@ -14,17 +14,23 @@
+ TASK_CHECKSUM = '67f1fdca75fd66f4cbdd6e4729a582c9fbbdac428a0299eefc74104dffa59fab'
+ TASK_MANIFEST_SHA = 'b31cdea49802b2b2c24da18ae1b032671f9fbc8f406764534352d425ef160e3c'
+ TASK = BASE / 'rs-zenoh-timestamp-instrumentation-v4-validation'
+-REVIEW_OUTPUT = BASE / 'reviews-final-001'
+-AUDIT = BASE / 'completed-review-audits' / (TASK.name + '.json')
++REVIEW_OUTPUT = BASE / 'reviews-final-002'
++AUDIT = BASE / 'completed-review-audits-002' / (TASK.name + '.json')
+ DIAGNOSTICS = BASE / 'harness/diagnostics-final'
+ PAIRED = BASE / 'paired-regrades/run-001'
+-OUTPUT = BASE / 'continuation-confirmed-002'
++OUTPUT = BASE / 'continuation-confirmed-003'
+ OBSERVER = BASE / 'timing-regression-diagnosis-001/read_only_observer.py'
+ SOURCE_NAMES = (
+-    'controls-confirmed-002-tooling/recovery_common.py',
+-    'controls-confirmed-002-tooling/continue_confirmed_validation.py',
+-    'controls-confirmed-002-tooling/run_confirmed_quality_review.py',
+-    'controls-confirmed-002-tooling/test_recovery.py',
++    'controls-confirmed-003-tooling/recovery_common.py',
++    'controls-confirmed-003-tooling/continue_confirmed_validation.py',
++    'controls-confirmed-003-tooling/run_confirmed_quality_review.py',
++    'controls-confirmed-003-tooling/test_recovery.py',
++    'controls-confirmed-003-tooling/audit_final_quality_review.py',
++    'controls-confirmed-003-tooling/execute_quality_retry.py',
++    'controls-confirmed-003-tooling/test_quality_retry.py',
++    'controls-confirmed-003-tooling/prior-attempt-preservation.json',
++    'quality-output-path-diagnosis-001/diagnosis.json',
++    'quality-output-path-diagnosis-001/retry-authorization.json',
+     'run_final_quality_review.py', 'execute_quality_check.py', 'audit_final_quality_review.py',
+     'continue_validation.py', 'validate_controls_immutable.py', 'run_followup_diagnostics.py',
+     'harness/focused_validation_v2.py', 'harness/case_inside_v2.py',
+@@ -89,13 +95,117 @@
+     return reference(HERE / 'source-manifest.json')
+ 
+ 
++RETRY_AUTH_SHA = 'c0481e80e14f454d074965457c184b10cb9844e634179ef449e684e3c484471d'
++DIAGNOSIS_SHA = 'f1b6af69aecc1c8d3d833e557d08678cf1053cbf3895560d9fce997f6b7b0744'
++
++
++def prior_review_exception():
++    """Allow only the explicitly reviewed first output-placement failure."""
++    authorization_path = BASE / 'quality-output-path-diagnosis-001/retry-authorization.json'
++    auth = bound(dict(path=str(authorization_path), sha256=RETRY_AUTH_SHA))
++    diagnosis_path = BASE / 'quality-output-path-diagnosis-001/diagnosis.json'
++    require(auth['diagnosis'] == dict(path=str(diagnosis_path.relative_to(ROOT)), sha256=DIAGNOSIS_SHA),
++            'Retry must bind the reviewed first-attempt diagnosis')
++    diagnosis = bound(auth['diagnosis'])
++    old = BASE / 'reviews-final-001'
++    previous = BASE / 'continuation-confirmed-002'
++    require(auth['kind'] == 'reviewed_single_quality_output_retry'
++            and auth['new_review_attempts'] == 1 and auth['max_total_reviewer_attempts'] == 2
++            and auth['automatic_retries'] == 0 and auth['final_task_checksum'] == TASK_CHECKSUM
++            and auth['model'] == 'anthropic/claude-sonnet-5' and auth['reasoning_effort'] == 'high'
++            and auth['mini_version'] == '2.4.6' and auth['n_concurrent'] == auth['n_attempts'] == 1
++            and auth['shared_max_active'] == 14 and auth['local_max_active_overall'] == 1
++            and all(auth[key] is True for key in ('task_bytes_unchanged', 'rubric_unchanged',
++                                                 'generated_instruction_unchanged', 'review_resources_unchanged'))
++            and auth['outputs'] == dict(review=str(REVIEW_OUTPUT.relative_to(ROOT)),
++                audit=str(AUDIT.parent.relative_to(ROOT)), continuation=str(OUTPUT.relative_to(ROOT)))
++            and path(auth['prior_review']) == old and path(auth['prior_continuation']) == previous,
++            'Only one unchanged second review is authorized; no third review or changed settings')
++    require(diagnosis['kind'] == 'reviewer_output_path_error_diagnostic'
++            and diagnosis['official_review_valid'] is False and diagnosis['official_reward'] == 0
++            and diagnosis['official_criteria'] == {} and diagnosis['agent_exception'] is None
++            and diagnosis['expected_output_path'] == '/app/check-result.json'
++            and diagnosis['actual_tool_write_path'] == '/app/task/check-result.json'
++            and diagnosis['tool_returncode'] == 0 and diagnosis['new_model_calls'] == diagnosis['new_control_runs'] == 0,
++            'Only the diagnosed output-placement failure permits this second review')
++    for value in diagnosis.values():
++        if isinstance(value, dict) and set(value) == {'path', 'sha256'}:
++            require(digest(value['path']) == value['sha256'], 'Prior diagnosis input drift')
++    require(path(diagnosis['review_summary']['path']) == old / 'summary.json'
++            and path(diagnosis['stopped_continuation']['path']) == previous / 'summary.json',
++            'Prior review/continuation identities differ')
++    review = bound(diagnosis['review_summary'])
++    continuation = bound(diagnosis['stopped_continuation'])
++    require(review['passed'] is False and review['finished_at'] and set(review['reviews']) == {TASK.name}
++            and review['controls_summary'] == continuation['controls_summary'] == auth['controls_summary']
++            and continuation['passed'] is False and continuation['finished_at']
++            and set(continuation['stages']) == {'quality-review'}
++            and continuation['stages']['quality-review']['exit_code'] == 1
++            and continuation['stages']['quality-review']['finished_at']
++            and continuation['error_type'] == 'ValueError'
++            and continuation['error'] == 'quality-review failed; no later stage or retry is authorized',
++            'Prior continuation must be terminal with only its failed quality stage')
++    row = review['reviews'][TASK.name]
++    require(row['passed'] is False and row['finished_at'] and row['exit_code'] == 1
++            and row['attempts'] == 1 and row['model'] == auth['model'] and row['effort'] == auth['reasoning_effort']
++            and row['observation_errors'] == [] and row['observation']['errors'] == []
++            and row['observation']['exit_code'] == 1 and row['observation']['terminal_sample_valid'] is True
++            and row['error_type'] == 'AssertionError' and row['error'] == 'Review execution/terminal observation failed',
++            'Unexpected first-review execution or observation failure cannot authorize a retry')
++    raw = bound(diagnosis['raw_result'])
++    raw_root = path(diagnosis['raw_trial'])
++    require(raw_root.is_relative_to(old / 'jobs') and path(diagnosis['raw_result']['path']) == raw_root / 'result.json'
++            and raw['finished_at'] and raw['exception_info'] is None
++            and raw['verifier_result']['rewards']['reward'] == 0
++            and raw['agent_info']['name'] == 'mini-swe-agent' and raw['agent_info']['version'] == '2.4.6',
++            'Prior raw zero/exception-free reviewer identity must be preserved')
++    official = bound(diagnosis['official_report'])
++    require(len(official['results']) == 1 and official['results'][0]['task_name'] == TASK.name
++            and official['results'][0]['checks'] == {}
++            and 'missing result file: check-result.json' in official['results'][0]['error'],
++            'Missing official report is the sole permitted prior failure; diagnostic judgments are not a report')
++    artifacts = bound(diagnosis['artifact_manifest'])
++    expected_artifact = [item for item in artifacts if item['source'] == '/app/check-result.json']
++    require(len(expected_artifact) == 1 and expected_artifact[0]['status'] == 'failed'
++            and not (raw_root / 'artifacts/check-result.json').exists()
++            and not (BASE / 'completed-review-audits' / (TASK.name + '.json')).exists(),
++            'The first missing output must remain missing and unofficial')
++    preservation = read(HERE / 'prior-attempt-preservation.json')
++    require(preservation['kind'] == 'unchanged_failed_first_quality_attempt'
++            and set(preservation['source_trees']) == {str(old.relative_to(ROOT)), str(previous.relative_to(ROOT))},
++            'Prior-attempt preservation scope differs')
++    for folder, expected in preservation['source_trees'].items():
++        root = path(folder); items = sorted(root.rglob('*'))
++        require(not any(item.is_symlink() for item in items), 'Prior run contains symlinked evidence')
++        actual = {str(item.relative_to(root)): digest(item) for item in items if item.is_file()}
++        require(expected and actual == expected, 'Prior review/continuation tree drift')
++    old_wrapper = read(old / (TASK.name + '-proof/wrapper-inputs.json'))
++    require(old_wrapper['original_task_checksum'] == TASK_CHECKSUM
++            and old_wrapper['original_copy_byte_identical'] is True
++            and raw['task_checksum'] == old_wrapper['wrapper_checksum'], 'First generated-wrapper identity differs')
++    return dict(authorization=reference(authorization_path), diagnosis=reference(diagnosis_path),
++                prior_review=old, wrapper=old_wrapper, controls_summary=auth['controls_summary'])
++
++
++def validate_regenerated_wrapper(record):
++    prior = prior_review_exception()['wrapper']
++    require(all(record[key] == prior[key] for key in ('original_task', 'original_task_checksum',
++            'original_task_file_sha256', 'wrapper_checksum', 'captured_wrapper_file_sha256'))
++            and record['original_copy_byte_identical'] is True,
++            'Newly generated quality wrapper differs; no model launch is authorized')
++    return True
++
++
+ def fresh_outputs(*, include_coordinator=True):
+     targets = [REVIEW_OUTPUT, AUDIT, DIAGNOSTICS, PAIRED]
+     if include_coordinator:
+         targets.append(OUTPUT)
+     require(not any(p.exists() for p in targets), 'An existing review/audit/diagnostic/regrade stage cannot be retried')
+-    # Canonical output is an atomic once-only marker; alternate names never authorize a second paid review.
++    prior = prior_review_exception()
++    # Exactly the hash-bound first failure is permitted; any other prior attempt blocks.
+     for directory in BASE.glob('reviews-*'):
++        if directory == prior['prior_review']:
++            continue
+         require(not any(directory.glob('jobs/' + TASK.name + '-quality-*')), 'A prior final-task quality job already exists')
+         for config in directory.glob('jobs/*/*/config.json'):
+             raw = read(config)
+--- research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/continue_confirmed_validation.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/continue_confirmed_validation.py
+@@ -49,7 +49,7 @@
+     return [
+         ('quality-review', [common.HERE / 'run_confirmed_quality_review.py', '--controls-summary', controls,
+                             '--controls-sha256', gate['controls_reference']['sha256'], '--run']),
+-        ('quality-evidence-audit', [common.BASE / 'audit_final_quality_review.py']),
++        ('quality-evidence-audit', [common.HERE / 'audit_final_quality_review.py']),
+         ('focused-diagnostics', [common.BASE / 'run_followup_diagnostics.py', '--controls-summary', controls,
+                                  '--output', common.DIAGNOSTICS]),
+         ('paired-file-gate', [*paired, '--check-only']),
+--- research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/run_confirmed_quality_review.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/run_confirmed_quality_review.py
+@@ -22,7 +22,7 @@
+ 
+ 
+ def command(proof_dir, job_name):
+-    return [sys.executable, '-B', str(common.BASE / 'execute_quality_check.py'), '--proof-dir', str(proof_dir), '--',
++    return [sys.executable, '-B', str(common.HERE / 'execute_quality_retry.py'), '--proof-dir', str(proof_dir), '--',
+             'check', str(common.TASK), '--agent', 'mini-swe-agent', '--model', 'anthropic/claude-sonnet-5',
+             '--ak', 'version=2.4.6', '--ak', 'reasoning_effort=high',
+             '--ae', 'ANTHROPIC_BASE_URL=https://take-home-automation.vercel.app',
+--- research/zenoh-coverage-followup-2026-09-14/controls-confirmed-002-tooling/test_recovery.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/test_recovery.py
+@@ -60,6 +60,10 @@
+             DIAGNOSTICS=self.base / 'harness/diagnostics-final', PAIRED=self.base / 'paired-regrades/run-001',
+             OUTPUT=self.base / 'continuation-confirmed-001', OBSERVER=self.base / 'observer.py', SOURCE_NAMES=('frozen.py',))
+         self.patches = [patch.object(c, key, value) for key, value in values.items()]
++        # The new first-review exception has separate real-artifact regressions.
++        # Keep these existing control/sequence fixtures independent of that input.
++        self.patches.append(patch.object(c, 'prior_review_exception', return_value={
++            'prior_review': self.base / 'reviews-authorized-first'}))
+         for current in self.patches:
+             current.start()
+         self.write(self.base / 'frozen.py', b'unchanged fixture source\n')
+--- research/zenoh-coverage-followup-2026-09-14/audit_final_quality_review.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/audit_final_quality_review.py
+@@ -7,7 +7,7 @@
+ from pathlib import Path
+ import sys
+ 
+-BASE = Path(__file__).resolve().parent
++BASE = Path(__file__).resolve().parent.parent
+ ROOT = BASE.parents[1]
+ CAPTURE = BASE/'immutable-tooling-v1/files/scripts'
+ sys.path.insert(0,str(CAPTURE))
+@@ -15,8 +15,8 @@
+ 
+ 
+ def main():
+-    run = BASE/'reviews-final-001'; summary=json.loads((run/'summary.json').read_text())
+-    out=BASE/'completed-review-audits';out.mkdir(exist_ok=True)
++    run = BASE/'reviews-final-002'; summary=json.loads((run/'summary.json').read_text())
++    out=BASE/'completed-review-audits-002';out.mkdir(exist_ok=True)
+     for name,row in summary['reviews'].items():
+         if not row.get('passed'):continue
+         target=out/(name+'.json')
+--- research/zenoh-coverage-followup-2026-09-14/execute_quality_check.py
++++ research/zenoh-coverage-followup-2026-09-14/controls-confirmed-003-tooling/execute_quality_retry.py
+@@ -9,7 +9,7 @@
+ import sys
+ 
+ sys.dont_write_bytecode = True
+-BASE = Path(__file__).resolve().parent
++BASE = Path(__file__).resolve().parent.parent
+ ROOT = BASE.parents[1]
+ CAPTURE = BASE / 'immutable-tooling-v1'
+ 
+@@ -58,6 +58,8 @@
+                   'captured_wrapper': str(copied.relative_to(ROOT)),
+                   'captured_wrapper_file_sha256': hashes(copied),
+                   'original_copy_byte_identical': True}
++        import recovery_common as retry_gate
++        retry_gate.validate_regenerated_wrapper(record)
+         wrapper_records.append(record)
+         (proof_dir / 'wrapper-inputs.json').write_text(json.dumps(record, indent=2) + '\n')
+         return wrapper
