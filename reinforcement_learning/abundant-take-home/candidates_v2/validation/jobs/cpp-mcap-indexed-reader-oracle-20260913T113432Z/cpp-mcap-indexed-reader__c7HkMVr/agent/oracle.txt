@@ -1,0 +1,199 @@
+Reference 'mcap/2.1.3' in editable mode
+
+======== Input profiles ========
+Profile host:
+[settings]
+arch=armv8
+build_type=Debug
+compiler=clang
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=14
+os=Linux
+
+Profile build:
+[settings]
+arch=armv8
+build_type=Release
+compiler=clang
+compiler.cppstd=gnu14
+compiler.libcxx=libstdc++11
+compiler.version=14
+os=Linux
+
+
+======== Computing dependency graph ========
+Graph root
+    conanfile.py: /workspace/repo/cpp/test/conanfile.py
+Requirements
+    catch2/2.13.8#ac821c6881627aece6c7063bd5aa73ea - Cache
+    lz4/1.9.4#a2f02ad3908618757c68d3618256a196 - Cache
+    mcap/2.1.3 - Editable
+    nlohmann_json/3.10.5#1ebcf334c3f52d96e057d5aba398c491 - Cache
+    zstd/1.5.2#fb83f7daa9e31a51da75dbd1e3951d3e - Cache
+
+======== Computing necessary packages ========
+Requirements
+    catch2/2.13.8#ac821c6881627aece6c7063bd5aa73ea:da39a3ee5e6b4b0d3255bfef95601890afd80709#52357f6d9b637fe54d05b9f6dee5301e - Cache
+    lz4/1.9.4#a2f02ad3908618757c68d3618256a196:d954c05e8e9a90add1f6e99d4ef82d8ba3a8a73b#e6dbffe391e27e2d4985519748d9a3e8 - Cache
+    mcap/2.1.3:da39a3ee5e6b4b0d3255bfef95601890afd80709 - Editable
+    nlohmann_json/3.10.5#1ebcf334c3f52d96e057d5aba398c491:da39a3ee5e6b4b0d3255bfef95601890afd80709#5b108533a66771193ed4fadabfab7e28 - Cache
+    zstd/1.5.2#fb83f7daa9e31a51da75dbd1e3951d3e:3cc7bf99b466902aee17e670411e6cfaa1e95a01#111d313e8b787d6ceecbf4c4d1012597 - Cache
+
+======== Installing packages ========
+catch2/2.13.8: Already installed! (1 of 5)
+lz4/1.9.4: Already installed! (2 of 5)
+nlohmann_json/3.10.5: Already installed! (3 of 5)
+zstd/1.5.2: Already installed! (4 of 5)
+WARN: deprecated: Usage of deprecated Conan 1.X features that will be removed in Conan 2.X:
+WARN: deprecated:     'cpp_info.names' used in: catch2/2.13.8
+
+======== Finalizing install (deploy, generators) ========
+>>> Generate step for conanfile.py
+Generators folder: /workspace/repo/cpp/test/build/Debug/generators
+Generator 'CMakeDeps' calling 'generate()'
+CMakeDeps necessary find_package() and targets for your CMakeLists.txt
+    find_package(Catch2)
+    find_package(mcap)
+    find_package(nlohmann_json)
+    target_link_libraries(... Catch2::Catch2 mcap::mcap nlohmann_json::nlohmann_json)
+Generator 'CMakeToolchain' calling 'generate()'
+CMakeToolchain generated: conan_toolchain.cmake
+CMakeToolchain: Preset 'conan-debug' added to CMakePresets.json.
+    (cmake>=3.23) cmake --preset conan-debug
+    (cmake<3.23) cmake <path> -G "Unix Makefiles"
+                 -DCMAKE_TOOLCHAIN_FILE=<output_folder>/generators/conan_toolchain.cmake 
+                 -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Debug
+CMakeToolchain generated: /workspace/repo/cpp/test/build/Debug/generators/CMakePresets.json
+CMakeToolchain generated: /workspace/repo/cpp/test/CMakeUserPresets.json
+Generating aggregated env files
+Generated aggregated env files: ['conanbuild.sh', 'conanrun.sh']
+Install finished successfully
+
+======== Input profiles ========
+Profile host:
+[settings]
+arch=armv8
+build_type=Debug
+compiler=clang
+compiler.cppstd=17
+compiler.libcxx=libstdc++11
+compiler.version=14
+os=Linux
+
+Profile build:
+[settings]
+arch=armv8
+build_type=Release
+compiler=clang
+compiler.cppstd=gnu14
+compiler.libcxx=libstdc++11
+compiler.version=14
+os=Linux
+
+
+======== Computing dependency graph ========
+Graph root
+    conanfile.py: /workspace/repo/cpp/test/conanfile.py
+Requirements
+    catch2/2.13.8#ac821c6881627aece6c7063bd5aa73ea - Cache
+    lz4/1.9.4#a2f02ad3908618757c68d3618256a196 - Cache
+    mcap/2.1.3 - Editable
+    nlohmann_json/3.10.5#1ebcf334c3f52d96e057d5aba398c491 - Cache
+    zstd/1.5.2#fb83f7daa9e31a51da75dbd1e3951d3e - Cache
+
+======== Computing necessary packages ========
+Requirements
+    catch2/2.13.8#ac821c6881627aece6c7063bd5aa73ea:da39a3ee5e6b4b0d3255bfef95601890afd80709#52357f6d9b637fe54d05b9f6dee5301e - Cache
+    lz4/1.9.4#a2f02ad3908618757c68d3618256a196:d954c05e8e9a90add1f6e99d4ef82d8ba3a8a73b#e6dbffe391e27e2d4985519748d9a3e8 - Cache
+    mcap/2.1.3:da39a3ee5e6b4b0d3255bfef95601890afd80709 - EditableBuild
+    nlohmann_json/3.10.5#1ebcf334c3f52d96e057d5aba398c491:da39a3ee5e6b4b0d3255bfef95601890afd80709#5b108533a66771193ed4fadabfab7e28 - Cache
+    zstd/1.5.2#fb83f7daa9e31a51da75dbd1e3951d3e:3cc7bf99b466902aee17e670411e6cfaa1e95a01#111d313e8b787d6ceecbf4c4d1012597 - Cache
+
+======== Installing packages ========
+catch2/2.13.8: Already installed! (1 of 5)
+lz4/1.9.4: Already installed! (2 of 5)
+nlohmann_json/3.10.5: Already installed! (3 of 5)
+zstd/1.5.2: Already installed! (4 of 5)
+mcap/2.1.3: Rewriting files of editable package 'mcap' at '/workspace/repo/cpp/mcap'
+>>> Generate step for mcap/2.1.3
+Generators folder: /workspace/repo/cpp/mcap
+Generating aggregated env files
+Generated aggregated env files: ['conanbuild.sh', 'conanrun.sh']
+>>> Build step for mcap/2.1.3
+WARN: deprecated: Usage of deprecated Conan 1.X features that will be removed in Conan 2.X:
+WARN: deprecated:     'cpp_info.names' used in: catch2/2.13.8
+
+======== Finalizing install (deploy, generators) ========
+>>> Generate step for conanfile.py
+Generators folder: /workspace/repo/cpp/test/build/Debug/generators
+Generator 'CMakeDeps' calling 'generate()'
+CMakeDeps necessary find_package() and targets for your CMakeLists.txt
+    find_package(Catch2)
+    find_package(mcap)
+    find_package(nlohmann_json)
+    target_link_libraries(... Catch2::Catch2 mcap::mcap nlohmann_json::nlohmann_json)
+Generator 'CMakeToolchain' calling 'generate()'
+CMakeToolchain generated: conan_toolchain.cmake
+CMakeToolchain: Preset 'conan-debug' added to CMakePresets.json.
+    (cmake>=3.23) cmake --preset conan-debug
+    (cmake<3.23) cmake <path> -G "Unix Makefiles"
+                 -DCMAKE_TOOLCHAIN_FILE=<output_folder>/generators/conan_toolchain.cmake 
+                 -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Debug
+CMakeToolchain generated: /workspace/repo/cpp/test/build/Debug/generators/CMakePresets.json
+CMakeToolchain generated: /workspace/repo/cpp/test/CMakeUserPresets.json
+Generating aggregated env files
+Generated aggregated env files: ['conanbuild.sh', 'conanrun.sh']
+
+======== Calling build() ========
+>>> Build step for conanfile.py
+conanfile.py: Calling build()
+conanfile.py: Running CMake.configure()
+conanfile.py: RUN: cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="generators/conan_toolchain.cmake" -DCMAKE_INSTALL_PREFIX="/workspace/repo/cpp/test/build/Debug" -DCMAKE_POLICY_DEFAULT_CMP0091="NEW" -DCMAKE_BUILD_TYPE="Debug" "/workspace/repo/cpp/test"
+-- Using Conan toolchain: /workspace/repo/cpp/test/build/Debug/generators/conan_toolchain.cmake
+-- Conan toolchain: Defining libcxx as C++ flags: -stdlib=libstdc++
+-- Conan toolchain: C++ Standard 17 with extensions OFF
+-- Conan: Target declared 'Catch2::Catch2'
+-- Conan: Target declared 'nlohmann_json::nlohmann_json'
+-- Conan: Target declared 'mcap::mcap'
+-- Conan: Target declared 'LZ4::lz4_static'
+-- Conan: Component target declared 'zstd::libzstd_static'
+-- Configuring done
+-- Generating done
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_TOOLCHAIN_FILE
+
+
+-- Build files have been written to: /workspace/repo/cpp/test/build/Debug
+
+conanfile.py: Running CMake.build()
+conanfile.py: RUN: cmake --build "/workspace/repo/cpp/test/build/Debug" -- -j4
+Consolidate compiler generated dependencies of target streamed-reader-conformance
+Consolidate compiler generated dependencies of target indexed-reader-conformance
+Consolidate compiler generated dependencies of target unit-tests
+Consolidate compiler generated dependencies of target streamed-writer-conformance
+[ 40%] Building CXX object CMakeFiles/streamed-reader-conformance.dir/streamed_reader_conformance.cpp.o
+[ 40%] Building CXX object CMakeFiles/unit-tests.dir/unit_tests.cpp.o
+[ 40%] Building CXX object CMakeFiles/indexed-reader-conformance.dir/indexed_reader_conformance.cpp.o
+[ 40%] Building CXX object CMakeFiles/streamed-writer-conformance.dir/streamed_writer_conformance.cpp.o
+[ 50%] Linking CXX executable bin/streamed-writer-conformance
+[ 50%] Built target streamed-writer-conformance
+Consolidate compiler generated dependencies of target unit-tests-nocompress
+[ 60%] Building CXX object CMakeFiles/unit-tests-nocompress.dir/unit_tests.cpp.o
+[ 70%] Linking CXX executable bin/indexed-reader-conformance
+[ 80%] Linking CXX executable bin/streamed-reader-conformance
+[ 80%] Built target indexed-reader-conformance
+[ 80%] Built target streamed-reader-conformance
+[ 90%] Linking CXX executable bin/unit-tests
+[ 90%] Built target unit-tests
+[100%] Linking CXX executable bin/unit-tests-nocompress
+[100%] Built target unit-tests-nocompress
+
+===============================================================================
+All tests passed (495 assertions in 18 test cases)
+
+===============================================================================
+All tests passed (477 assertions in 16 test cases)
+

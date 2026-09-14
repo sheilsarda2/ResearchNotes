@@ -1,0 +1,458 @@
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 338, in run
+    await self._run()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/single_step.py", line 46, in _run
+    await self._run_verifier()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/single_step.py", line 92, in _run_verifier
+    self.result.verifier_result = await self._run_separate_verifier(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+    )
+    ^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 533, in _run_separate_verifier
+    async with self._separate_verifier_env(
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        env_config,
+        ^^^^^^^^^^^
+    ...<2 lines>...
+        step_cfg=step_cfg,
+        ^^^^^^^^^^^^^^^^^^
+    ) as target_env:
+    ^
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 611, in _separate_verifier_env
+    await asyncio.wait_for(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-mcap-indexed-reader. Command: docker compose --project-name cpp-mcap-indexed-reader__c7hkmvr__verifier__trial --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-mcap-indexed-reader/tests -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpdg7kptn_/cpp-mcap-indexed-reader__c7HkMVr__verifier__trial-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpf1aufhkc/docker-compose-mounts.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-no-network.yaml build. Return code: 1. Stdout:  Image cpp-mcap-indexed-reader__c7hkmvr__verifier__trial-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 778B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 3.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/13] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [ 2/13] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential clang make python3 git ca-certificates curl xz-utils pkg-config patch     catch2 nlohmann-json3-dev liblz4-dev libzstd-dev     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 2.53MB 0.0s done
+#7 DONE 0.0s
+
+#8 [ 3/13] RUN arch="$(dpkg --print-architecture)"     && case "$arch" in          amd64) sum=d0f743b33e8d8945e6b1f432edd15785c70507121d6e2a723b21285eddf8b57b ;;          arm64) sum=211ffced9dcb9633a55eac6364816ec0ddd951389a740e88fa8b3337971bdda0 ;;          *) echo "unsupported architecture: $arch" >&2; exit 1 ;;        esac     && curl -fsSL -o /tmp/go.tgz "https://go.dev/dl/go1.26.8.linux-${arch}.tar.gz"     && echo "$sum  /tmp/go.tgz" | sha256sum -c -     && tar -C /usr/local -xzf /tmp/go.tgz && rm /tmp/go.tgz
+#8 2.038 /tmp/go.tgz: OK
+#8 DONE 3.2s
+
+#9 [ 4/13] RUN curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.98.1 --no-modify-path
+#9 0.415 info: downloading installer
+#9 7.619 info: profile set to minimal
+#9 7.619 info: default host tuple is aarch64-unknown-linux-gnu
+#9 7.620 info: syncing channel updates for 1.98.1-aarch64-unknown-linux-gnu
+#9 8.497 info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+#9 8.497 info: downloading 3 components
+#9 24.72 
+#9 24.72 info: default toolchain set to 1.98.1-aarch64-unknown-linux-gnu
+#9 24.73   1.98.1-aarch64-unknown-linux-gnu installed - rustc 1.98.1 (48a229cea 2026-09-01)
+#9 24.73 
+#9 24.73 
+#9 24.73 Rust is installed now. Great!
+#9 24.73 
+#9 24.73 To get started you need Cargo's bin directory ($HOME/.cargo/bin) in your PATH
+#9 24.73 environment variable. This has not been done automatically.
+#9 24.73 
+#9 24.73 To configure your current shell, you need to source
+#9 24.73 the corresponding env file under $HOME/.cargo.
+#9 24.73 
+#9 24.73 Consider running the right command for your shell (note the leading DOT):
+#9 24.73 . "$HOME/.cargo/env" # For sh/ash/dash/pdksh/bash
+#9 24.73 cargo:rerun-if-env-changed=CC_aarch64-unknown-linux-gnu
+#9 24.73 CC_aarch64-unknown-linux-gnu = None
+#9 24.73 cargo:rerun-if-env-changed=CC_aarch64_unknown_linux_gnu
+#9 24.73 CC_aarch64_unknown_linux_gnu = None
+#9 24.73 cargo:rerun-if-env-changed=HOST_CC
+#9 24.73 HOST_CC = None
+#9 24.73 cargo:rerun-if-env-changed=CC
+#9 24.73 CC = None
+#9 24.73 cargo:rerun-if-env-changed=CC_ENABLE_DEBUG_OUTPUT
+#9 24.76 cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+#9 24.76 CRATE_CC_NO_DEFAULTS = None
+#9 24.76 cargo:rerun-if-env-changed=CFLAGS
+#9 24.76 CFLAGS = None
+#9 24.76 cargo:rerun-if-env-changed=HOST_CFLAGS
+#9 24.76 HOST_CFLAGS = None
+#9 24.76 cargo:rerun-if-env-changed=CFLAGS_aarch64_unknown_linux_gnu
+#9 24.76 CFLAGS_aarch64_unknown_linux_gnu = None
+#9 24.76 cargo:rerun-if-env-changed=CFLAGS_aarch64-unknown-linux-gnu
+#9 24.76 CFLAGS_aarch64-unknown-linux-gnu = None
+#9 DONE 24.9s
+
+#10 [ 5/13] COPY pristine.tar.gz /tmp/pristine.tar.gz
+#10 DONE 0.0s
+
+#11 [ 6/13] RUN mkdir -p /opt/pristine/repo && tar -xzf /tmp/pristine.tar.gz -C /opt/pristine/repo && rm /tmp/pristine.tar.gz
+#11 DONE 0.2s
+
+#12 [ 7/13] RUN mkdir -p /opt/ref/bin     && cd /opt/pristine/repo/go/conformance/test-read-conformance     && go build -o /opt/ref/bin/test-read-conformance .     && rm -rf /root/go/pkg/mod/cache/download
+#12 0.440 go: downloading github.com/pierrec/lz4/v4 v4.1.22
+#12 0.440 go: downloading github.com/stretchr/testify v1.9.0
+#12 0.440 go: downloading github.com/klauspost/compress v1.16.7
+#12 0.499 go: downloading github.com/davecgh/go-spew v1.1.1
+#12 0.499 go: downloading gopkg.in/yaml.v3 v3.0.1
+#12 0.499 go: downloading github.com/pmezard/go-difflib v1.0.0
+#12 DONE 6.7s
+
+#13 [ 8/13] RUN cd /opt/pristine/repo     && sed -i 's#, "rust/cli"##' Cargo.toml     && cargo build -p mcap --example conformance_indexed_reader     && cp target/debug/examples/conformance_indexed_reader /opt/ref/bin/     && rm -rf target /root/.cargo/registry/src /root/.cargo/registry/cache     && /opt/ref/bin/conformance_indexed_reader --help >/dev/null 2>&1 || true
+#13 0.172     Updating crates.io index
+#13 5.893  Downloading crates ...
+#13 6.046   Downloaded anstream v1.0.0
+#13 6.069   Downloaded jobserver v0.1.34
+#13 6.101   Downloaded proc-macro2 v1.0.106
+#13 6.136   Downloaded cast v0.3.0
+#13 6.139   Downloaded array-init v2.1.0
+#13 6.140   Downloaded atty v0.2.14
+#13 6.141   Downloaded ciborium-ll v0.2.2
+#13 6.143   Downloaded cfg-if v1.0.4
+#13 6.143   Downloaded colorchoice v1.0.5
+#13 6.155   Downloaded errno v0.3.14
+#13 6.156   Downloaded itoa v1.0.18
+#13 6.160   Downloaded fnv v1.0.7
+#13 6.160   Downloaded plotters-svg v0.3.7
+#13 6.186   Downloaded is_terminal_polyfill v1.70.2
+#13 6.186   Downloaded page_size v0.6.0
+#13 6.193   Downloaded powerfmt v0.2.0
+#13 6.193   Downloaded ciborium-io v0.2.2
+#13 6.193   Downloaded heck v0.5.0
+#13 6.195   Downloaded strsim v0.11.1
+#13 6.217   Downloaded assert_matches v1.5.0
+#13 6.218   Downloaded clap_lex v1.1.0
+#13 6.218   Downloaded fastrand v2.3.0
+#13 6.219   Downloaded ident_case v1.0.1
+#13 6.219   Downloaded num_threads v0.1.7
+#13 6.226   Downloaded lz4 v1.28.1
+#13 6.227   Downloaded num_cpus v1.17.0
+#13 6.228   Downloaded darling_macro v0.21.3
+#13 6.228   Downloaded num-conv v0.2.1
+#13 6.229   Downloaded zmij v1.0.21
+#13 6.229   Downloaded alloca v0.4.0
+#13 6.230   Downloaded tinytemplate v1.2.1
+#13 6.231   Downloaded anstyle-parse v1.0.0
+#13 6.231   Downloaded anstyle-query v1.1.5
+#13 6.232   Downloaded autocfg v1.5.0
+#13 6.241   Downloaded crossbeam-deque v0.8.6
+#13 6.241   Downloaded either v1.15.0
+#13 6.242   Downloaded oorandom v11.1.5
+#13 6.243   Downloaded anstyle v1.0.14
+#13 6.243   Downloaded owo-colors v4.3.0
+#13 6.244   Downloaded quote v1.0.45
+#13 6.248   Downloaded paste v1.0.15
+#13 6.249   Downloaded pkg-config v0.3.32
+#13 6.250   Downloaded static_assertions v1.1.0
+#13 6.250   Downloaded thiserror v2.0.18
+#13 6.252   Downloaded anes v0.1.6
+#13 6.253   Downloaded deranged v0.5.8
+#13 6.253   Downloaded enumset_derive v0.14.0
+#13 6.254   Downloaded plotters-backend v0.3.7
+#13 6.254   Downloaded simplelog v0.12.2
+#13 6.255   Downloaded find-msvc-tools v0.1.9
+#13 6.256   Downloaded shlex v1.3.0
+#13 6.256   Downloaded termcolor v1.4.1
+#13 6.256   Downloaded once_cell v1.21.4
+#13 6.257   Downloaded pin-project-lite v0.2.17
+#13 6.259   Downloaded bimap v0.6.3
+#13 6.260   Downloaded byteorder v1.5.0
+#13 6.265   Downloaded bitflags v2.11.0
+#13 6.267   Downloaded ciborium v0.2.2
+#13 6.268   Downloaded clap_derive v4.6.1
+#13 6.268   Downloaded crossbeam-utils v0.8.21
+#13 6.269   Downloaded same-file v1.0.6
+#13 6.270   Downloaded anyhow v1.0.102
+#13 6.274   Downloaded crc32fast v1.5.0
+#13 6.275   Downloaded crossbeam-epoch v0.9.18
+#13 6.276   Downloaded darling v0.21.3
+#13 6.277   Downloaded enumset v1.1.10
+#13 6.278   Downloaded tempfile v3.27.0
+#13 6.279   Downloaded criterion-plot v0.8.2
+#13 6.280   Downloaded memmap2 v0.9.10
+#13 6.284   Downloaded camino v1.2.2
+#13 6.285   Downloaded binrw_derive v0.15.0
+#13 6.286   Downloaded half v2.7.1
+#13 6.289   Downloaded log v0.4.29
+#13 6.291   Downloaded serde_core v1.0.228
+#13 6.292   Downloaded serde_derive v1.0.228
+#13 6.293   Downloaded getrandom v0.4.2
+#13 6.294   Downloaded num-traits v0.2.19
+#13 6.295   Downloaded clap v4.6.1
+#13 6.298   Downloaded darling_core v0.21.3
+#13 6.300   Downloaded bytemuck v1.25.0
+#13 6.301   Downloaded rayon-core v1.13.0
+#13 6.303   Downloaded binrw v0.15.0
+#13 6.307   Downloaded serde v1.0.228
+#13 6.308   Downloaded bytes v1.11.1
+#13 6.309   Downloaded cc v1.2.57
+#13 6.312   Downloaded memchr v2.8.0
+#13 6.314   Downloaded criterion v0.8.2
+#13 6.317   Downloaded itertools v0.13.0
+#13 6.324   Downloaded plotters v0.3.7
+#13 6.332   Downloaded itertools v0.14.0
+#13 6.334   Downloaded serde_json v1.0.149
+#13 6.337   Downloaded aho-corasick v1.1.4
+#13 6.339   Downloaded rayon v1.11.0
+#13 6.343   Downloaded regex v1.12.3
+#13 6.345   Downloaded tokio-macros v2.7.0
+#13 6.346   Downloaded clap_builder v4.6.0
+#13 6.360   Downloaded time v0.3.47
+#13 6.366   Downloaded utf8parse v0.2.2
+#13 6.366   Downloaded syn v2.0.117
+#13 6.371   Downloaded regex-syntax v0.8.10
+#13 6.374   Downloaded time-core v0.1.8
+#13 6.379   Downloaded lz4-sys v1.11.1+lz4-1.10.0
+#13 6.385   Downloaded rustix v1.1.4
+#13 6.399   Downloaded regex-automata v0.4.14
+#13 6.405   Downloaded libc v0.2.183
+#13 6.421   Downloaded tokio v1.52.3
+#13 6.437   Downloaded linux-raw-sys v0.12.1
+#13 6.463   Downloaded walkdir v2.5.0
+#13 6.464   Downloaded zstd-safe v7.2.4
+#13 6.464   Downloaded zstd v0.13.3
+#13 6.467   Downloaded thiserror-impl v2.0.18
+#13 6.515   Downloaded time-macros v0.2.27
+#13 6.539   Downloaded unicode-ident v1.0.24
+#13 6.585   Downloaded zerocopy-derive v0.8.47
+#13 6.789   Downloaded zerocopy v0.8.47
+#13 7.033   Downloaded zstd-sys v2.0.16+zstd.1.5.7
+#13 7.074    Compiling libc v0.2.183
+#13 7.074    Compiling proc-macro2 v1.0.106
+#13 7.074    Compiling quote v1.0.45
+#13 7.074    Compiling unicode-ident v1.0.24
+#13 7.075    Compiling shlex v1.3.0
+#13 7.075    Compiling find-msvc-tools v0.1.9
+#13 7.075    Compiling cfg-if v1.0.4
+#13 7.076    Compiling crossbeam-utils v0.8.21
+#13 7.077    Compiling serde_core v1.0.228
+#13 7.081    Compiling pkg-config v0.3.32
+#13 7.082    Compiling ident_case v1.0.1
+#13 7.082    Compiling fnv v1.0.7
+#13 7.083    Compiling zerocopy v0.8.47
+#13 7.084    Compiling owo-colors v4.3.0
+#13 7.087    Compiling zmij v1.0.21
+#13 7.087    Compiling autocfg v1.5.0
+#13 7.087    Compiling serde v1.0.228
+#13 7.091    Compiling utf8parse v0.2.2
+#13 7.104    Compiling itoa v1.0.18
+#13 7.115    Compiling either v1.15.0
+#13 7.119    Compiling serde_json v1.0.149
+#13 7.124    Compiling zstd-safe v7.2.4
+#13 7.132    Compiling anstyle-parse v1.0.0
+#13 7.177    Compiling is_terminal_polyfill v1.70.2
+#13 7.181    Compiling binrw_derive v0.15.0
+#13 7.187    Compiling colorchoice v1.0.5
+#13 7.197    Compiling anstyle-query v1.1.5
+#13 7.226    Compiling anstyle v1.0.14
+#13 7.227    Compiling rayon-core v1.13.0
+#13 7.266    Compiling strsim v0.11.1
+#13 7.273    Compiling clap_lex v1.1.0
+#13 7.274    Compiling rustix v1.1.4
+#13 7.284    Compiling num-traits v0.2.19
+#13 7.292    Compiling time-core v0.1.8
+#13 7.296    Compiling anstream v1.0.0
+#13 7.305    Compiling getrandom v0.4.2
+#13 7.309    Compiling plotters-backend v0.3.7
+#13 7.313    Compiling binrw v0.15.0
+#13 7.319    Compiling thiserror v2.0.18
+#13 7.334    Compiling powerfmt v0.2.0
+#13 7.348    Compiling ciborium-io v0.2.2
+#13 7.361    Compiling regex-syntax v0.8.10
+#13 7.380    Compiling crc32fast v1.5.0
+#13 7.403    Compiling memchr v2.8.0
+#13 7.421    Compiling num-conv v0.2.1
+#13 7.428    Compiling paste v1.0.15
+#13 7.429    Compiling heck v0.5.0
+#13 7.472    Compiling time-macros v0.2.27
+#13 7.479    Compiling clap_builder v4.6.0
+#13 7.487    Compiling crossbeam-epoch v0.9.18
+#13 7.509    Compiling plotters-svg v0.3.7
+#13 7.513    Compiling deranged v0.5.8
+#13 7.547    Compiling itertools v0.13.0
+#13 7.567    Compiling bytes v1.11.1
+#13 7.575    Compiling cast v0.3.0
+#13 7.605    Compiling same-file v1.0.6
+#13 7.617    Compiling num_threads v0.1.7
+#13 7.619    Compiling array-init v2.1.0
+#13 7.649    Compiling crossbeam-deque v0.8.6
+#13 7.658    Compiling camino v1.2.2
+#13 7.664    Compiling syn v2.0.117
+#13 7.683    Compiling jobserver v0.1.34
+#13 7.688    Compiling bitflags v2.11.0
+#13 7.693    Compiling pin-project-lite v0.2.17
+#13 7.693    Compiling log v0.4.29
+#13 7.723    Compiling anyhow v1.0.102
+#13 7.723    Compiling bytemuck v1.25.0
+#13 7.740    Compiling linux-raw-sys v0.12.1
+#13 7.793    Compiling cc v1.2.57
+#13 7.798    Compiling plotters v0.3.7
+#13 7.810    Compiling walkdir v2.5.0
+#13 7.813    Compiling num_cpus v1.17.0
+#13 7.828    Compiling page_size v0.6.0
+#13 7.944    Compiling rayon v1.11.0
+#13 7.951    Compiling once_cell v1.21.4
+#13 7.958    Compiling oorandom v11.1.5
+#13 7.965    Compiling termcolor v1.4.1
+#13 8.000    Compiling regex-automata v0.4.14
+#13 8.010    Compiling static_assertions v1.1.0
+#13 8.031    Compiling fastrand v2.3.0
+#13 8.043    Compiling bimap v0.6.3
+#13 8.048    Compiling byteorder v1.5.0
+#13 8.052    Compiling anes v0.1.6
+#13 8.151    Compiling atty v0.2.14
+#13 8.183    Compiling memmap2 v0.9.10
+#13 8.190    Compiling itertools v0.14.0
+#13 8.190    Compiling assert_matches v1.5.0
+#13 8.231    Compiling time v0.3.47
+#13 8.298    Compiling criterion-plot v0.8.2
+#13 8.418    Compiling zstd-sys v2.0.16+zstd.1.5.7
+#13 8.418    Compiling lz4-sys v1.11.1+lz4-1.10.0
+#13 8.418    Compiling alloca v0.4.0
+#13 8.569    Compiling tempfile v3.27.0
+#13 8.697    Compiling simplelog v0.12.2
+#13 8.767    Compiling regex v1.12.3
+#13 9.350    Compiling darling_core v0.21.3
+#13 9.573    Compiling zerocopy-derive v0.8.47
+#13 9.573    Compiling serde_derive v1.0.228
+#13 9.573    Compiling tokio-macros v2.7.0
+#13 9.573    Compiling thiserror-impl v2.0.18
+#13 9.575    Compiling clap_derive v4.6.1
+#13 9.973    Compiling tokio v1.52.3
+#13 10.11    Compiling darling_macro v0.21.3
+#13 10.25    Compiling zstd v0.13.3
+#13 10.38    Compiling clap v4.6.1
+#13 10.50    Compiling darling v0.21.3
+#13 10.52    Compiling enumset_derive v0.14.0
+#13 10.93    Compiling tinytemplate v1.2.1
+#13 11.10    Compiling enumset v1.1.10
+#13 11.13    Compiling lz4 v1.28.1
+#13 11.34    Compiling mcap v0.25.0 (/opt/pristine/repo/rust/mcap)
+#13 11.48    Compiling half v2.7.1
+#13 11.55    Compiling ciborium-ll v0.2.2
+#13 11.59    Compiling ciborium v0.2.2
+#13 11.72    Compiling criterion v0.8.2
+#13 13.17     Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.01s
+#13 13.17 warning: the following packages contain code that will be rejected by a future version of Rust: binrw v0.15.0
+#13 13.17 note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+#13 DONE 13.5s
+
+#14 [ 9/13] COPY harness /tests/harness
+#14 DONE 0.0s
+
+#15 [10/13] COPY corpus /tests/corpus
+#15 DONE 0.0s
+
+#16 [11/13] COPY fixtures /tests/fixtures
+#16 DONE 0.0s
+
+#17 [12/13] COPY test.sh /tests/test.sh
+#17 DONE 0.0s
+
+#18 [13/13] RUN SUBMISSION=/opt/pristine/repo/cpp/mcap/include/mcap OUT=/tmp/selfcheck bash /tests/test.sh     && grep -qx 1 /tmp/selfcheck/reward.txt     && cp /tmp/selfcheck/score.json /opt/ref/selfcheck-score.json     && rm -rf /tmp/selfcheck /opt/verify
+#18 4.504 {"build": true, "anti_cheat": true, "unit_tests": false, "corpus": true, "fixtures": true, "siblings": false, "reward": 0}
+#18 4.504   [siblings] attachments_metadata/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x78d
+#18 4.504   [siblings] boundary_times/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x550
+#18 4.504   [siblings] mixed_unchunked_tail/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x4c0
+#18 4.504   [siblings] multi_lz4_shuffled_index/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x36b
+#18 4.504   [siblings] multi_zstd/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x1e8
+#18 4.504   [siblings] no_statistics/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x38e
+#18 4.504   [siblings] overlap_heavy/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x7e6
+#18 4.504   [siblings] uncompressed_pad/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+#18 4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+#18 4.504 
+#18 4.504 goroutine 1 [running]:
+#18 4.504 main.readIndexed({0x2568d8, 0x42e
+#18 ERROR: process "/bin/sh -c SUBMISSION=/opt/pristine/repo/cpp/mcap/include/mcap OUT=/tmp/selfcheck bash /tests/test.sh     && grep -qx 1 /tmp/selfcheck/reward.txt     && cp /tmp/selfcheck/score.json /opt/ref/selfcheck-score.json     && rm -rf /tmp/selfcheck /opt/verify" did not complete successfully: exit code: 1
+------
+ > [13/13] RUN SUBMISSION=/opt/pristine/repo/cpp/mcap/include/mcap OUT=/tmp/selfcheck bash /tests/test.sh     && grep -qx 1 /tmp/selfcheck/reward.txt     && cp /tmp/selfcheck/score.json /opt/ref/selfcheck-score.json     && rm -rf /tmp/selfcheck /opt/verify:
+4.504   [siblings] overlap_heavy/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+4.504 
+4.504 goroutine 1 [running]:
+4.504 main.readIndexed({0x2568d8, 0x7e6
+4.504   [siblings] uncompressed_pad/go: reference reader failed: panic: runtime error: invalid memory address or nil pointer dereference
+4.504 [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x18d768]
+4.504 
+4.504 goroutine 1 [running]:
+4.504 main.readIndexed({0x2568d8, 0x42e
+------
+Dockerfile:59
+
+--------------------
+
+  58 |     # here fails the image build rather than silently mis-scoring later.
+
+  59 | >>> RUN SUBMISSION=/opt/pristine/repo/cpp/mcap/include/mcap OUT=/tmp/selfcheck bash /tests/test.sh \
+
+  60 | >>>     && grep -qx 1 /tmp/selfcheck/reward.txt \
+
+  61 | >>>     && cp /tmp/selfcheck/score.json /opt/ref/selfcheck-score.json \
+
+  62 | >>>     && rm -rf /tmp/selfcheck /opt/verify
+
+  63 |     
+
+--------------------
+
+failed to solve: process "/bin/sh -c SUBMISSION=/opt/pristine/repo/cpp/mcap/include/mcap OUT=/tmp/selfcheck bash /tests/test.sh     && grep -qx 1 /tmp/selfcheck/reward.txt     && cp /tmp/selfcheck/score.json /opt/ref/selfcheck-score.json     && rm -rf /tmp/selfcheck /opt/verify" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/tezhn4ijs9igl7z479c2k3ojb
+
+. Stderr: None. 
