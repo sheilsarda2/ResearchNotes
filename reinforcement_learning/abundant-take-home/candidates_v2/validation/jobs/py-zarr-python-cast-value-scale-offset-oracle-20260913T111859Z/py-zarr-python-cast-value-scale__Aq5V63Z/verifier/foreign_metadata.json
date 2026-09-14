@@ -1,0 +1,123 @@
+{
+ "summary": {
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "ok": true
+ },
+ "failures": [],
+ "records": [
+  {
+   "id": "cv_minimal_f32_to_i16",
+   "kind": "valid",
+   "oracle_encoded_hex": "0000010002000300f9ffe803",
+   "oracle_decoded_hex": "000000000000803f00000040000040400000e0c000007a44",
+   "agent_decoded_hex": "000000000000803f00000040000040400000e0c000007a44",
+   "agent_encoded_hex": "0000010002000300f9ffe803",
+   "status": "pass"
+  },
+  {
+   "id": "cv_full_json_lists_f64_to_u8",
+   "kind": "valid",
+   "oracle_encoded_hex": "000100ffff0002",
+   "oracle_decoded_hex": "000000000000f87f000000000000f03f000000000000f87f0000000000e06f400000000000e06f40000000000000f87f0000000000000040",
+   "agent_decoded_hex": "000000000000f87f000000000000f03f000000000000f87f0000000000e06f400000000000e06f40000000000000f87f0000000000000040",
+   "agent_encoded_hex": "000100ffff0002",
+   "status": "pass"
+  },
+  {
+   "id": "cv_rounding_only_f32_to_i32",
+   "kind": "valid",
+   "oracle_encoded_hex": "010000000200000003000000fffffffffeffffff03000000",
+   "oracle_decoded_hex": "0000803f0000004000004040000080bf000000c000004040",
+   "agent_decoded_hex": "0000803f0000004000004040000080bf000000c000004040",
+   "agent_encoded_hex": "010000000200000003000000fffffffffeffffff03000000",
+   "status": "pass"
+  },
+  {
+   "id": "cv_explicit_defaults_i32_to_f32",
+   "kind": "valid",
+   "oracle_encoded_hex": "000000000000803f000000c0002474490000804b",
+   "oracle_decoded_hex": "0000000001000000feffffff40420f0000000001",
+   "agent_decoded_hex": "0000000001000000feffffff40420f0000000001",
+   "agent_encoded_hex": "000000000000803f000000c0002474490000804b",
+   "status": "pass"
+  },
+  {
+   "id": "cv_wrap_i32_to_i8",
+   "kind": "valid",
+   "oracle_encoded_hex": "007f80ff007f",
+   "oracle_decoded_hex": "000000007f00000080ffffffffffffff000000007f000000",
+   "agent_decoded_hex": "000000007f00000080ffffffffffffff000000007f000000",
+   "agent_encoded_hex": "007f80ff007f",
+   "status": "pass"
+  },
+  {
+   "id": "cv_clamp_u16_to_u8",
+   "kind": "valid",
+   "oracle_encoded_hex": "00ffffff",
+   "oracle_decoded_hex": "0000ff00ff00ff00",
+   "agent_decoded_hex": "0000ff00ff00ff00",
+   "agent_encoded_hex": "00ffffff",
+   "status": "pass"
+  },
+  {
+   "id": "cv_f32_to_f16_nearest_even",
+   "kind": "valid",
+   "oracle_encoded_hex": "662e003cff7b00c10000",
+   "oracle_decoded_hex": "00c0cc3d0000803f00e07f47000020c000000000",
+   "agent_decoded_hex": "00c0cc3d0000803f00e07f47000020c000000000",
+   "agent_encoded_hex": "662e003cff7b00c10000",
+   "status": "pass"
+  },
+  {
+   "id": "cv_decode_map_only_i16_to_i8",
+   "kind": "valid",
+   "oracle_encoded_hex": "00057f7f80",
+   "oracle_decoded_hex": "00000500ffffffff80ff",
+   "agent_decoded_hex": "00000500ffffffff80ff",
+   "agent_encoded_hex": "00057f7f80",
+   "status": "pass"
+  },
+  {
+   "id": "invalid_unknown_configuration_key",
+   "kind": "invalid",
+   "oracle_check": [
+    "open_error",
+    "open error: configuration is unsupported: data did not match any variant of untagged enum CastValueCodecConfiguration"
+   ],
+   "status": "pass",
+   "agent_error": "TypeError: CastValue.__init__() got an unexpected keyword argument 'bogus'"
+  },
+  {
+   "id": "invalid_wrap_on_float_target",
+   "kind": "invalid",
+   "oracle_check": [
+    "open_error",
+    "open error: Unsupported data type float16 for codec cast_value out_of_range=wrap"
+   ],
+   "status": "pass",
+   "agent_error": "ValueError: out_of_range='wrap' is only valid for integer target types."
+  },
+  {
+   "id": "invalid_unsupported_target_bool",
+   "kind": "invalid",
+   "oracle_check": [
+    "open_error",
+    "open error: bool / |b1 does not support the CastValue codec"
+   ],
+   "status": "pass",
+   "agent_error": "ValueError: Invalid target data type 'bool'. cast_value codec only supports integer and floating-point data types. Got Bool()."
+  },
+  {
+   "id": "invalid_scalar_map_nan_key_for_int_source",
+   "kind": "invalid",
+   "oracle_check": [
+    "open_error",
+    "open error: incompatible fill value metadata"
+   ],
+   "status": "pass",
+   "agent_error": "ValueError: scalar_map encode key 'NaN' is not representable in dtype int32."
+  }
+ ]
+}

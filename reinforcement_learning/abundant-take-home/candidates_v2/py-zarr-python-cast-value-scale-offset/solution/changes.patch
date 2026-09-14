@@ -1,0 +1,888 @@
+diff --git a/changes/3874.feature.md b/changes/3874.feature.md
+new file mode 100644
+index 0000000000..592c5b330d
+--- /dev/null
++++ b/changes/3874.feature.md
+@@ -0,0 +1 @@
++Add `cast_value` and `scale_offset` codecs.
+\ No newline at end of file
+diff --git a/pyproject.toml b/pyproject.toml
+index b4783b5be3..4e3fc109e4 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -69,6 +69,7 @@ remote = [
+ gpu = [
+     "cupy-cuda12x",
+ ]
++cast-value-rs = ["cast-value-rs"]
+ cli = ["typer"]
+ optional = ["universal-pathlib"]
+ 
+@@ -166,6 +167,7 @@ matrix.deps.features = [
+   {value = "remote", if = ["optional"]},
+   {value = "optional", if = ["optional"]},
+   {value = "cli", if = ["optional"]},
++  {value = "cast-value-rs", if = ["optional"]},
+ ]
+ matrix.deps.dependency-groups = [
+   {value = "remote-tests", if = ["optional"]},
+diff --git a/src/zarr/codecs/__init__.py b/src/zarr/codecs/__init__.py
+index 4c621290e7..756bd97ed2 100644
+--- a/src/zarr/codecs/__init__.py
++++ b/src/zarr/codecs/__init__.py
+@@ -2,6 +2,7 @@
+ 
+ from zarr.codecs.blosc import BloscCname, BloscCodec, BloscShuffle
+ from zarr.codecs.bytes import BytesCodec, Endian
++from zarr.codecs.cast_value import CastValue
+ from zarr.codecs.crc32c_ import Crc32cCodec
+ from zarr.codecs.gzip import GzipCodec
+ from zarr.codecs.numcodecs import (
+@@ -27,6 +28,7 @@
+     Zlib,
+     Zstd,
+ )
++from zarr.codecs.scale_offset import ScaleOffset
+ from zarr.codecs.sharding import ShardingCodec, ShardingCodecIndexLocation
+ from zarr.codecs.transpose import TransposeCodec
+ from zarr.codecs.vlen_utf8 import VLenBytesCodec, VLenUTF8Codec
+@@ -38,9 +40,11 @@
+     "BloscCodec",
+     "BloscShuffle",
+     "BytesCodec",
++    "CastValue",
+     "Crc32cCodec",
+     "Endian",
+     "GzipCodec",
++    "ScaleOffset",
+     "ShardingCodec",
+     "ShardingCodecIndexLocation",
+     "TransposeCodec",
+@@ -50,12 +54,14 @@
+ ]
+ 
+ register_codec("blosc", BloscCodec)
++register_codec("cast_value", CastValue)
+ register_codec("bytes", BytesCodec)
+ 
+ # compatibility with earlier versions of ZEP1
+ register_codec("endian", BytesCodec)
+ register_codec("crc32c", Crc32cCodec)
+ register_codec("gzip", GzipCodec)
++register_codec("scale_offset", ScaleOffset)
+ register_codec("sharding_indexed", ShardingCodec)
+ register_codec("zstd", ZstdCodec)
+ register_codec("vlen-utf8", VLenUTF8Codec)
+diff --git a/src/zarr/codecs/cast_value.py b/src/zarr/codecs/cast_value.py
+new file mode 100644
+index 0000000000..d8c503464e
+--- /dev/null
++++ b/src/zarr/codecs/cast_value.py
+@@ -0,0 +1,386 @@
++"""Cast-value array-to-array codec.
++
++Value-converts array elements to a new data type during encoding,
++and back to the original data type during decoding, with configurable
++rounding, out-of-range handling, and explicit scalar mappings.
++
++Requires the optional ``cast-value-rs`` package for the actual casting
++logic. Install it with: ``pip install cast-value-rs``.
++"""
++
++from __future__ import annotations
++
++from collections.abc import Mapping
++from dataclasses import dataclass, replace
++from typing import TYPE_CHECKING, Final, Literal, TypedDict, cast
++
++import numpy as np
++
++from zarr.abc.codec import ArrayArrayCodec
++from zarr.core.common import JSON, parse_named_configuration
++from zarr.core.dtype import get_data_type_from_json
++
++if TYPE_CHECKING:
++    from typing import NotRequired, Self
++
++    from zarr.core.array_spec import ArraySpec
++    from zarr.core.buffer import NDBuffer
++    from zarr.core.dtype.wrapper import TBaseDType, TBaseScalar, ZDType
++    from zarr.core.metadata.v3 import ChunkGridMetadata
++
++    class ScalarMapJSON(TypedDict):
++        encode: NotRequired[list[tuple[object, object]]]
++        decode: NotRequired[list[tuple[object, object]]]
++
++
++RoundingMode = Literal[
++    "nearest-even",
++    "towards-zero",
++    "towards-positive",
++    "towards-negative",
++    "nearest-away",
++]
++
++OutOfRangeMode = Literal["clamp", "wrap"]
++
++
++class ScalarMap(TypedDict, total=False):
++    """
++    The normalized, in-memory form of a scalar map.
++    """
++
++    encode: Mapping[str | float | int, str | float | int]
++    decode: Mapping[str | float | int, str | float | int]
++
++
++# see https://github.com/zarr-developers/zarr-extensions/tree/main/codecs/cast_value
++PERMITTED_DATA_TYPE_NAMES: Final[set[str]] = {
++    "int2",
++    "int4",
++    "int8",
++    "int16",
++    "int32",
++    "int64",
++    "int64uint2",
++    "uint4",
++    "uint8",
++    "uint16",
++    "uint32",
++    "uint64",
++    "uint64float4_e2m1fn",
++    "float6_e2m3fn",
++    "float6_e3m2fn",
++    "float8_e3m4",
++    "float8_e4m3",
++    "float8_e4m3b11fnuz",
++    "float8_e4m3fnuz",
++    "float8_e5m2",
++    "float8_e5m2fnuz",
++    "float8_e8m0fnu",
++    "bfloat16",
++    "float16",
++    "float32",
++    "float64",
++}
++
++
++def parse_scalar_map(obj: ScalarMapJSON | ScalarMap) -> ScalarMap:
++    """
++    Parse a scalar map into its normalized dict-of-dicts form.
++
++    Accepts either the JSON form (lists of tuples) or an already-normalized form
++    (dicts). For example, ``{"encode": [("NaN", 0)]}`` becomes
++    ``{"encode": {"NaN": 0}}``.
++    """
++    result: ScalarMap = {}
++    for direction in ("encode", "decode"):
++        if direction in obj:
++            entries = obj[direction]
++            if entries is not None:
++                if isinstance(entries, Mapping):
++                    result[direction] = entries
++                else:
++                    result[direction] = dict(entries)  # type: ignore[arg-type]
++    return result
++
++
++# ---------------------------------------------------------------------------
++# Backend: cast-value-rs
++# ---------------------------------------------------------------------------
++
++try:
++    from cast_value_rs import cast_array as cast_array_rs
++
++    _HAS_RUST_BACKEND = True
++except ModuleNotFoundError:
++    _HAS_RUST_BACKEND = False
++
++
++def _check_representable(
++    value: JSON,
++    zdtype: ZDType[TBaseDType, TBaseScalar],
++    label: str,
++) -> None:
++    """Raise ``ValueError`` if *value* cannot be parsed by *zdtype*."""
++    try:
++        zdtype.from_json_scalar(value, zarr_format=3)
++    except (TypeError, ValueError, OverflowError) as e:
++        raise ValueError(
++            f"{label} {value!r} is not representable in dtype {zdtype.to_native_dtype()}."
++        ) from e
++
++
++# ---------------------------------------------------------------------------
++# Codec
++# ---------------------------------------------------------------------------
++
++
++@dataclass(frozen=True)
++class CastValue(ArrayArrayCodec):
++    """Cast-value array-to-array codec.
++
++    Value-converts array elements to a new data type during encoding,
++    and back to the original data type during decoding.
++
++    Requires the `cast-value-rs` package for the actual casting logic.
++
++    Parameters
++    ----------
++    data_type : str or ZDType
++        Target zarr v3 data type. Strings are looked up by spec name
++        (e.g. "uint8", "float32"); a `ZDType` instance is used as-is.
++    rounding : RoundingMode
++        How to round when exact representation is impossible. Default is
++        "nearest-even".
++    out_of_range : OutOfRangeMode or None
++        What to do when a value is outside the target's range. `None` means
++        error; "clamp" clips to range; "wrap" uses modular arithmetic
++        (only valid for integer types). Default is `None`.
++    scalar_map : ScalarMap, ScalarMapJSON, or None
++        Explicit mapping from input scalars to output scalars. Default is
++        `None`.
++
++    Attributes
++    ----------
++    dtype : ZDType
++        Resolved target data type (a `ZDType` instance, regardless of
++        whether the constructor received a string or a `ZDType`).
++    rounding : RoundingMode
++        The rounding mode, as supplied to the constructor.
++    out_of_range : OutOfRangeMode or None
++        The out-of-range behaviour, as supplied to the constructor.
++    scalar_map : ScalarMap or None
++        Parsed scalar map (always normalized to `ScalarMap` form).
++
++    References
++    ----------
++
++    - The `cast_value` codec spec: https://github.com/zarr-developers/zarr-extensions/tree/main/codecs/cast_value
++    """
++
++    is_fixed_size = True
++
++    dtype: ZDType[TBaseDType, TBaseScalar]
++    rounding: RoundingMode
++    out_of_range: OutOfRangeMode | None
++    scalar_map: ScalarMap | None
++
++    def __init__(
++        self,
++        *,
++        data_type: str | ZDType[TBaseDType, TBaseScalar],
++        rounding: RoundingMode = "nearest-even",
++        out_of_range: OutOfRangeMode | None = None,
++        scalar_map: ScalarMapJSON | ScalarMap | None = None,
++    ) -> None:
++        if isinstance(data_type, str):
++            zdtype = get_data_type_from_json(data_type, zarr_format=3)
++        else:
++            zdtype = data_type
++        if zdtype.to_json(zarr_format=3) not in PERMITTED_DATA_TYPE_NAMES:
++            raise ValueError(
++                f"Invalid target data type {data_type!r}. "
++                f"cast_value codec only supports integer and floating-point data types. "
++                f"Got {zdtype}."
++            )
++        object.__setattr__(self, "dtype", zdtype)
++        object.__setattr__(self, "rounding", rounding)
++        object.__setattr__(self, "out_of_range", out_of_range)
++        if scalar_map is not None:
++            parsed = parse_scalar_map(scalar_map)
++        else:
++            parsed = None
++        object.__setattr__(self, "scalar_map", parsed)
++
++    @classmethod
++    def from_dict(cls, data: dict[str, JSON]) -> Self:
++        _, configuration_parsed = parse_named_configuration(
++            data, "cast_value", require_configuration=True
++        )
++        return cls(**configuration_parsed)  # type: ignore[arg-type]
++
++    def to_dict(self) -> dict[str, JSON]:
++        config: dict[str, JSON] = {"data_type": cast("JSON", self.dtype.to_json(zarr_format=3))}
++        if self.rounding != "nearest-even":
++            config["rounding"] = self.rounding
++        if self.out_of_range is not None:
++            config["out_of_range"] = self.out_of_range
++        if self.scalar_map is not None:
++            json_map: dict[str, list[tuple[object, object]]] = {}
++            for direction in ("encode", "decode"):
++                if direction in self.scalar_map:
++                    json_map[direction] = [(k, v) for k, v in self.scalar_map[direction].items()]
++            config["scalar_map"] = cast("JSON", json_map)
++        return {"name": "cast_value", "configuration": config}
++
++    def validate(
++        self,
++        *,
++        shape: tuple[int, ...],
++        dtype: ZDType[TBaseDType, TBaseScalar],
++        chunk_grid: ChunkGridMetadata,
++    ) -> None:
++        target_name = dtype.to_json(zarr_format=3)
++        if target_name not in PERMITTED_DATA_TYPE_NAMES:
++            raise ValueError(
++                f"The cast_value codec only supports integer and floating-point data types. "
++                f"Got dtype {target_name}."
++            )
++        target_native = dtype.to_native_dtype()
++        if self.out_of_range == "wrap" and not np.issubdtype(target_native, np.integer):
++            raise ValueError("out_of_range='wrap' is only valid for integer target types.")
++
++        if self.scalar_map is not None:
++            self._validate_scalar_map(dtype, self.dtype)
++
++    def _validate_scalar_map(
++        self,
++        source_zdtype: ZDType[TBaseDType, TBaseScalar],
++        target_zdtype: ZDType[TBaseDType, TBaseScalar],
++    ) -> None:
++        """Validate that scalar map entries are compatible with source/target dtypes."""
++        assert self.scalar_map is not None
++        # For encode: keys are source values, values are target values.
++        # For decode: keys are target values, values are source values.
++        direction_dtypes: dict[
++            str, tuple[ZDType[TBaseDType, TBaseScalar], ZDType[TBaseDType, TBaseScalar]]
++        ] = {
++            "encode": (source_zdtype, target_zdtype),
++            "decode": (target_zdtype, source_zdtype),
++        }
++        for direction, (key_zdtype, val_zdtype) in direction_dtypes.items():
++            if direction not in self.scalar_map:
++                continue
++            sub_map = self.scalar_map[direction]  # type: ignore[literal-required]
++            for k, v in sub_map.items():
++                _check_representable(k, key_zdtype, f"scalar_map {direction} key")
++                _check_representable(v, val_zdtype, f"scalar_map {direction} value")
++
++    def _do_cast(
++        self,
++        arr: np.ndarray,  # type: ignore[type-arg]
++        *,
++        target_dtype: np.dtype,  # type: ignore[type-arg]
++        scalar_map: Mapping[str | float | int, str | float | int] | None,
++    ) -> np.ndarray:  # type: ignore[type-arg]
++        if not _HAS_RUST_BACKEND:
++            raise ImportError(
++                "The cast_value codec requires the 'cast-value-rs' package. "
++                "Install it with: pip install cast-value-rs"
++            )
++        scalar_map_entries: dict[float | int, float | int] | None = None
++        if scalar_map is not None:
++            src_dtype = arr.dtype
++            to_src = int if np.issubdtype(src_dtype, np.integer) else float
++            to_tgt = int if np.issubdtype(target_dtype, np.integer) else float
++            scalar_map_entries = {to_src(k): to_tgt(v) for k, v in scalar_map.items()}
++        return cast_array_rs(  # type: ignore[no-any-return]
++            arr,
++            target_dtype=target_dtype,
++            rounding_mode=self.rounding,
++            out_of_range_mode=self.out_of_range,
++            scalar_map_entries=scalar_map_entries,
++        )
++
++    def _get_scalar_map(
++        self, direction: str
++    ) -> Mapping[str | float | int, str | float | int] | None:
++        """Extract the encode or decode mapping from scalar_map, or None."""
++        if self.scalar_map is None:
++            return None
++        return self.scalar_map.get(direction)  # type: ignore[return-value]
++
++    def resolve_metadata(self, chunk_spec: ArraySpec) -> ArraySpec:
++        """
++        Update the fill value of the output spec by applying casting procedure.
++        """
++        target_zdtype = self.dtype
++        target_native = target_zdtype.to_native_dtype()
++        source_native = chunk_spec.dtype.to_native_dtype()
++
++        fill = chunk_spec.fill_value
++        fill_arr = np.array([fill], dtype=source_native)
++
++        new_fill_arr = self._do_cast(
++            fill_arr, target_dtype=target_native, scalar_map=self._get_scalar_map("encode")
++        )
++        new_fill = target_native.type(new_fill_arr[0])
++
++        return replace(chunk_spec, dtype=target_zdtype, fill_value=new_fill)
++
++    def _encode_sync(
++        self,
++        chunk_array: NDBuffer,
++        _chunk_spec: ArraySpec,
++    ) -> NDBuffer | None:
++        arr = chunk_array.as_ndarray_like()
++        target_native = self.dtype.to_native_dtype()
++
++        result = self._do_cast(
++            np.asarray(arr), target_dtype=target_native, scalar_map=self._get_scalar_map("encode")
++        )
++        return chunk_array.__class__.from_ndarray_like(result)
++
++    async def _encode_single(
++        self,
++        chunk_data: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer | None:
++        return self._encode_sync(chunk_data, chunk_spec)
++
++    def _decode_sync(
++        self,
++        chunk_array: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer:
++        arr = chunk_array.as_ndarray_like()
++        target_native = chunk_spec.dtype.to_native_dtype()
++
++        result = self._do_cast(
++            np.asarray(arr), target_dtype=target_native, scalar_map=self._get_scalar_map("decode")
++        )
++        return chunk_array.__class__.from_ndarray_like(result)
++
++    async def _decode_single(
++        self,
++        chunk_data: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer:
++        return self._decode_sync(chunk_data, chunk_spec)
++
++    def compute_encoded_size(self, input_byte_length: int, chunk_spec: ArraySpec) -> int:
++        dtype_name = chunk_spec.dtype.to_json(zarr_format=3)
++        if dtype_name not in PERMITTED_DATA_TYPE_NAMES:
++            raise ValueError(
++                "cast_value codec only supports fixed-size integer and floating-point data types. "
++                f"Got source dtype: {chunk_spec.dtype}."
++            )
++        source_itemsize = chunk_spec.dtype.to_native_dtype().itemsize
++        target_itemsize = self.dtype.to_native_dtype().itemsize
++        if source_itemsize == 0 or target_itemsize == 0:
++            raise ValueError(
++                "cast_value codec requires fixed-size data types. "
++                f"Got source itemsize={source_itemsize}, target itemsize={target_itemsize}."
++            )
++        num_elements = input_byte_length // source_itemsize
++        return num_elements * target_itemsize
+diff --git a/src/zarr/codecs/scale_offset.py b/src/zarr/codecs/scale_offset.py
+new file mode 100644
+index 0000000000..c96e177c6b
+--- /dev/null
++++ b/src/zarr/codecs/scale_offset.py
+@@ -0,0 +1,415 @@
++from __future__ import annotations
++
++from dataclasses import dataclass, replace
++from typing import TYPE_CHECKING, Any, cast
++
++import numpy as np
++import numpy.typing as npt
++
++from zarr.abc.codec import ArrayArrayCodec
++from zarr.core.common import JSON, parse_named_configuration
++
++if TYPE_CHECKING:
++    from typing import Self
++
++    from zarr.core.array_spec import ArraySpec
++    from zarr.core.buffer import NDBuffer
++    from zarr.core.dtype.wrapper import TBaseDType, TBaseScalar, ZDType
++    from zarr.core.metadata.v3 import ChunkGridMetadata
++
++
++_WIDE_INT = np.dtype(np.int64)
++
++
++def _encode_fits_natively(dtype: np.dtype[Any], offset: int, scale: int) -> bool:
++    """Static range proof: is ``(x - offset) * scale`` always in range for every ``x`` in dtype?
++
++    Uses Python ints (unbounded) to avoid overflow in the proof itself.
++    """
++    info = np.iinfo(dtype)
++    d_lo = int(info.min) - offset
++    d_hi = int(info.max) - offset
++    # Taking min/max of both products handles negative scale without a sign branch.
++    products = (d_lo * scale, d_hi * scale)
++    lo, hi = min(products), max(products)
++    return info.min <= lo and hi <= info.max
++
++
++def _decode_fits_natively(dtype: np.dtype[Any], offset: int, scale: int) -> bool:
++    """Static range proof for decode: is ``x // scale + offset`` always in range?"""
++    info = np.iinfo(dtype)
++    # x // scale is bounded by the extremes of x / scale (integer division stays within that range)
++    if scale > 0:
++        q_lo, q_hi = int(info.min) // scale, int(info.max) // scale
++    else:
++        q_lo, q_hi = int(info.max) // scale, int(info.min) // scale
++    lo, hi = q_lo + offset, q_hi + offset
++    return info.min <= lo and hi <= info.max
++
++
++def _check_int_range(
++    values: npt.NDArray[np.integer[Any]], target: np.dtype[np.integer[Any]]
++) -> None:
++    """Raise if any value is outside the representable range of ``target``.
++
++    Uses a single min/max pass instead of two ``np.any`` passes.
++    """
++    info = np.iinfo(target)
++    lo, hi = values.min(), values.max()
++    if lo < info.min or hi > info.max:
++        raise ValueError(
++            f"scale_offset produced a value outside the range of dtype {target} "
++            f"[{info.min}, {info.max}]."
++        )
++
++
++def _check_exact_division(
++    arr: npt.NDArray[np.integer[Any]], scale: np.integer[Any], scale_repr: object
++) -> None:
++    """Raise ValueError if ``arr`` has any element not exactly divisible by ``scale``."""
++    if np.any(arr % scale):
++        raise ValueError(
++            f"scale_offset decode produced a non-zero remainder when dividing by "
++            f"scale={scale_repr!r}; result is not exactly representable in dtype {arr.dtype}."
++        )
++
++
++def _encode_int_native(
++    arr: npt.NDArray[np.integer[Any]], offset: np.integer[Any], scale: np.integer[Any]
++) -> npt.NDArray[np.integer[Any]]:
++    """Compute ``(arr - offset) * scale`` directly in ``arr.dtype``.
++
++    This is the fast path; it exists only as a separate function to make the contract with
++    ``_encode_fits_natively`` explicit: the caller must have already proved that no ``x`` in
++    ``arr.dtype``'s range can overflow, so we can skip widening and range-checking entirely.
++    Using it without that proof would silently wrap on overflow.
++    """
++    return cast("npt.NDArray[np.integer[Any]]", (arr - offset) * scale)
++
++
++def _encode_int_widened(
++    arr: npt.NDArray[np.integer[Any]], offset: np.integer[Any], scale: np.integer[Any]
++) -> npt.NDArray[np.integer[Any]]:
++    """Overflow-checked integer encode for int8..int64 and uint8..uint32.
++
++    Exists because numpy integer arithmetic silently wraps on overflow, which the spec
++    forbids. We widen to int64, perform the arithmetic there (int64 holds the product of any
++    two values from these dtypes), range-check against the target dtype, then cast back.
++    uint64 cannot use this path because its range exceeds int64 — see ``_encode_uint64``.
++    """
++    wide_arr = arr.astype(_WIDE_INT, copy=False)
++    result = (wide_arr - _WIDE_INT.type(offset)) * _WIDE_INT.type(scale)
++    _check_int_range(result, arr.dtype)
++    return result.astype(arr.dtype, copy=False)
++
++
++def _encode_float(
++    arr: npt.NDArray[np.floating[Any]], offset: np.floating[Any], scale: np.floating[Any]
++) -> npt.NDArray[np.floating[Any]]:
++    """Encode float arrays in-dtype, guarding only against silent promotion.
++
++    Float arithmetic doesn't need widening — float64 is already the widest supported dtype,
++    and ``inf``/``nan`` from overflow are representable IEEE 754 values, so no range check is
++    required by the spec. The one thing that can still go wrong is numpy promoting the
++    result to a wider float dtype (e.g. float32 * float64 scalar -> float64), which would
++    violate the spec's "arithmetic semantics of the input array's data type" clause.
++    """
++    result = cast("npt.NDArray[np.floating[Any]]", (arr - offset) * scale)
++    if result.dtype != arr.dtype:
++        raise ValueError(
++            f"scale_offset changed dtype from {arr.dtype} to {result.dtype}. "
++            f"Arithmetic must preserve the data type."
++        )
++    return result
++
++
++def _check_py_int_range(
++    result: np.ndarray[tuple[Any, ...], np.dtype[Any]],
++    target: np.dtype[np.unsignedinteger[Any]],
++) -> None:
++    """Range-check an ``object``-dtype ndarray holding Python ints against ``target``'s iinfo.
++
++    Exists as a uint64-specific counterpart to ``_check_int_range``. That one compares numpy
++    integers against ``iinfo``; here the values are unbounded Python ints produced by
++    ``_encode_uint64`` / ``_decode_uint64``, so we rely on Python's arbitrary-precision
++    comparison to detect values outside the target dtype's range.
++    """
++    info = np.iinfo(target)
++    # np.min/np.max on an object array returns a Python int (which compares correctly with iinfo).
++    # Works uniformly for 0-d arrays where .flat iteration is awkward.
++    lo = np.min(result)
++    hi = np.max(result)
++    if lo < int(info.min) or hi > int(info.max):
++        raise ValueError(
++            f"scale_offset produced a value outside the range of dtype {target} "
++            f"[{info.min}, {info.max}]."
++        )
++
++
++def _encode_uint64(
++    arr: npt.NDArray[np.unsignedinteger[Any]], offset: int, scale: int
++) -> npt.NDArray[np.unsignedinteger[Any]]:
++    """Encode uint64 via Python-int arithmetic in an ``object``-dtype array.
++
++    Exists because uint64's range [0, 2**64) exceeds int64, so the int64 widening used by
++    ``_encode_int_widened`` would itself overflow. Python ints are unbounded, so computing
++    via ``object`` dtype is correct by construction. The trade-off is speed: object-dtype
++    arithmetic is interpreted per element and is roughly 10x slower than ufunc paths.
++    """
++    obj = arr.astype(object, copy=False)
++    # np.asarray restores ndarray-ness in the 0-d/scalar edge case.
++    result = np.asarray((obj - offset) * scale, dtype=object)
++    _check_py_int_range(result, arr.dtype)
++    return cast("npt.NDArray[np.unsignedinteger[Any]]", result.astype(arr.dtype, copy=False))
++
++
++def _decode_uint64(
++    arr: npt.NDArray[np.unsignedinteger[Any]], offset: int, scale: int
++) -> npt.NDArray[np.unsignedinteger[Any]]:
++    """Decode uint64 via Python-int arithmetic. See ``_encode_uint64`` for why."""
++    obj = arr.astype(object, copy=False)
++    result = np.asarray((obj // scale) + offset, dtype=object)
++    _check_py_int_range(result, arr.dtype)
++    return cast("npt.NDArray[np.unsignedinteger[Any]]", result.astype(arr.dtype, copy=False))
++
++
++def _decode_int_native(
++    arr: npt.NDArray[np.integer[Any]], offset: np.integer[Any], scale: np.integer[Any]
++) -> npt.NDArray[np.integer[Any]]:
++    """Compute ``arr // scale + offset`` directly in ``arr.dtype``.
++
++    Fast-path counterpart to ``_encode_int_native``; same contract. Caller must have proved
++    via ``_decode_fits_natively`` that the result can't overflow. Divisibility is checked
++    upstream in ``_decode`` before this is called, so ``//`` is exact here.
++    """
++    return cast("npt.NDArray[np.integer[Any]]", (arr // scale) + offset)
++
++
++def _decode_int_widened(
++    arr: npt.NDArray[np.integer[Any]], offset: np.integer[Any], scale: np.integer[Any]
++) -> npt.NDArray[np.integer[Any]]:
++    """Overflow-checked integer decode for int8..int64 and uint8..uint32.
++
++    Counterpart to ``_encode_int_widened``. Widens to int64 so the addition of ``offset``
++    after division can't silently wrap, then range-checks against the target dtype.
++    """
++    wide_arr = arr.astype(_WIDE_INT, copy=False)
++    result = (wide_arr // _WIDE_INT.type(scale)) + _WIDE_INT.type(offset)
++    _check_int_range(result, arr.dtype)
++    return result.astype(arr.dtype, copy=False)
++
++
++def _decode_float(
++    arr: npt.NDArray[np.floating[Any]], offset: np.floating[Any], scale: np.floating[Any]
++) -> npt.NDArray[np.floating[Any]]:
++    """Decode float arrays in-dtype, guarding only against silent promotion.
++
++    Counterpart to ``_encode_float``; same reasoning. ``arr / scale`` is true division and
++    always well-defined for floats (including ``0/0 = nan`` and ``x/0 = ±inf``), so no range
++    or exactness check is needed.
++    """
++    result = cast("npt.NDArray[np.floating[Any]]", (arr / scale) + offset)
++    if result.dtype != arr.dtype:
++        raise ValueError(
++            f"scale_offset changed dtype from {arr.dtype} to {result.dtype}. "
++            f"Arithmetic must preserve the data type."
++        )
++    return result
++
++
++def _encode(
++    arr: np.ndarray[tuple[Any, ...], np.dtype[Any]],
++    offset: np.generic,
++    scale: np.generic,
++) -> np.ndarray[tuple[Any, ...], np.dtype[Any]]:
++    """Compute ``(arr - offset) * scale`` without silent overflow, returning ``arr.dtype``."""
++    # uint64 is split out first because its full range (up to 2**64-1) doesn't fit in int64,
++    # so the widening strategy used for every other integer dtype would itself overflow.
++    if arr.dtype == np.uint64:
++        u_arr = cast("npt.NDArray[np.unsignedinteger[Any]]", arr)
++        return _encode_uint64(u_arr, int(offset), int(scale))
++    if np.issubdtype(arr.dtype, np.integer):
++        i_arr = cast("npt.NDArray[np.integer[Any]]", arr)
++        i_offset = cast("np.integer[Any]", offset)
++        i_scale = cast("np.integer[Any]", scale)
++        # Fast path: if a static proof shows no ``x`` in the dtype's range can overflow,
++        # skip the int64 widening and run the arithmetic directly in the input dtype.
++        if _encode_fits_natively(arr.dtype, int(offset), int(scale)):
++            return _encode_int_native(i_arr, i_offset, i_scale)
++        return _encode_int_widened(i_arr, i_offset, i_scale)
++    # Float path: arithmetic stays in-dtype (no widening); only guard against numpy
++    # silently promoting a narrower float to a wider one via scalar type mismatch.
++    f_arr = cast("npt.NDArray[np.floating[Any]]", arr)
++    f_offset = cast("np.floating[Any]", offset)
++    f_scale = cast("np.floating[Any]", scale)
++    return _encode_float(f_arr, f_offset, f_scale)
++
++
++def _decode(
++    arr: np.ndarray[tuple[Any, ...], np.dtype[Any]],
++    offset: np.generic,
++    scale: np.generic,
++    *,
++    scale_repr: object,
++) -> np.ndarray[tuple[Any, ...], np.dtype[Any]]:
++    """Compute ``arr / scale + offset`` without silent overflow, returning ``arr.dtype``."""
++    # uint64: same reasoning as _encode — its range exceeds int64, so the Python-int path is the
++    # only correct option. Exactness check runs first so non-divisible inputs fail before the
++    # slower object-dtype arithmetic.
++    if arr.dtype == np.uint64:
++        u_arr = cast("npt.NDArray[np.unsignedinteger[Any]]", arr)
++        _check_exact_division(u_arr, cast("np.integer[Any]", scale), scale_repr)
++        return _decode_uint64(u_arr, int(offset), int(scale))
++    if np.issubdtype(arr.dtype, np.integer):
++        i_arr = cast("npt.NDArray[np.integer[Any]]", arr)
++        i_offset = cast("np.integer[Any]", offset)
++        i_scale = cast("np.integer[Any]", scale)
++        # The spec requires decode to use true division and error if the result isn't
++        # representable. For integers that means the remainder must be zero; if any element
++        # isn't exactly divisible we fail here rather than silently truncating via //.
++        _check_exact_division(i_arr, i_scale, scale_repr)
++        # Fast path mirrors _encode: static proof that ``x // scale + offset`` stays in dtype.
++        if _decode_fits_natively(arr.dtype, int(offset), int(scale)):
++            return _decode_int_native(i_arr, i_offset, i_scale)
++        return _decode_int_widened(i_arr, i_offset, i_scale)
++    # Float path: division is well-defined; only guard against dtype promotion.
++    f_arr = cast("npt.NDArray[np.floating[Any]]", arr)
++    f_offset = cast("np.floating[Any]", offset)
++    f_scale = cast("np.floating[Any]", scale)
++    return _decode_float(f_arr, f_offset, f_scale)
++
++
++@dataclass(frozen=True)
++class ScaleOffset(ArrayArrayCodec):
++    """Scale-offset array-to-array codec.
++
++    Encodes values with `out = (in - offset) * scale` and decodes with
++    `out = (in / scale) + offset`, using the input array's data type semantics.
++    Intermediate or final values that are not representable in that dtype are reported
++    as errors (integer overflow, unsigned underflow, non-exact integer division).
++
++    Parameters
++    ----------
++    offset : int, float, or str
++        Value subtracted during encoding. Strings preserve the exact JSON
++        representation when round-tripping metadata. Default is 0.
++    scale : int, float, or str
++        Value multiplied during encoding (after offset subtraction). Strings
++        preserve the exact JSON representation when round-tripping metadata.
++        Default is 1.
++
++    Attributes
++    ----------
++    offset : int, float, or str
++        The offset value, as supplied to the constructor.
++    scale : int, float, or str
++        The scale value, as supplied to the constructor.
++
++    References
++    ----------
++
++    - The `scale_offset` codec spec: https://github.com/zarr-developers/zarr-extensions/tree/main/codecs/scale_offset
++    """
++
++    is_fixed_size = True
++
++    offset: int | float | str
++    scale: int | float | str
++
++    def __init__(self, *, offset: object = 0, scale: object = 1) -> None:
++        if not isinstance(offset, int | float | str):
++            raise TypeError(f"offset must be a number or string, got {type(offset).__name__}")
++        if not isinstance(scale, int | float | str):
++            raise TypeError(f"scale must be a number or string, got {type(scale).__name__}")
++        object.__setattr__(self, "offset", offset)
++        object.__setattr__(self, "scale", scale)
++
++    @classmethod
++    def from_dict(cls, data: dict[str, JSON]) -> Self:
++        _, configuration_parsed = parse_named_configuration(
++            data, "scale_offset", require_configuration=False
++        )
++        configuration_parsed = configuration_parsed or {}
++        return cls(**configuration_parsed)
++
++    def to_dict(self) -> dict[str, JSON]:
++        if self.offset == 0 and self.scale == 1:
++            return {"name": "scale_offset"}
++        config: dict[str, JSON] = {}
++        if self.offset != 0:
++            config["offset"] = self.offset
++        if self.scale != 1:
++            config["scale"] = self.scale
++        return {"name": "scale_offset", "configuration": config}
++
++    def validate(
++        self,
++        *,
++        shape: tuple[int, ...],
++        dtype: ZDType[TBaseDType, TBaseScalar],
++        chunk_grid: ChunkGridMetadata,
++    ) -> None:
++        native = dtype.to_native_dtype()
++        if not np.issubdtype(native, np.integer) and not np.issubdtype(native, np.floating):
++            raise ValueError(
++                f"scale_offset codec only supports integer and floating-point data types. "
++                f"Got {dtype}."
++            )
++        if self.scale == 0:
++            raise ValueError("scale_offset scale must be non-zero.")
++        for name, value in [("offset", self.offset), ("scale", self.scale)]:
++            try:
++                dtype.from_json_scalar(value, zarr_format=3)
++            except (TypeError, ValueError, OverflowError) as e:
++                raise ValueError(
++                    f"scale_offset {name} value {value!r} is not representable in dtype {native}."
++                ) from e
++
++    def resolve_metadata(self, chunk_spec: ArraySpec) -> ArraySpec:
++        zdtype = chunk_spec.dtype
++        fill = np.asarray(zdtype.cast_scalar(chunk_spec.fill_value))
++        offset = cast("np.generic", zdtype.from_json_scalar(self.offset, zarr_format=3))
++        scale = cast("np.generic", zdtype.from_json_scalar(self.scale, zarr_format=3))
++        new_fill = _encode(fill, offset, scale)
++        return replace(chunk_spec, fill_value=new_fill.reshape(()).item())
++
++    def _decode_sync(
++        self,
++        chunk_array: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer:
++        arr = cast("np.ndarray[tuple[Any, ...], np.dtype[Any]]", chunk_array.as_ndarray_like())
++        zdtype = chunk_spec.dtype
++        offset = cast("np.generic", zdtype.from_json_scalar(self.offset, zarr_format=3))
++        scale = cast("np.generic", zdtype.from_json_scalar(self.scale, zarr_format=3))
++        result = _decode(arr, offset, scale, scale_repr=self.scale)
++        return chunk_spec.prototype.nd_buffer.from_ndarray_like(result)
++
++    async def _decode_single(
++        self,
++        chunk_array: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer:
++        return self._decode_sync(chunk_array, chunk_spec)
++
++    def _encode_sync(
++        self,
++        chunk_array: NDBuffer,
++        chunk_spec: ArraySpec,
++    ) -> NDBuffer | None:
++        arr = cast("np.ndarray[tuple[Any, ...], np.dtype[Any]]", chunk_array.as_ndarray_like())
++        zdtype = chunk_spec.dtype
++        offset = cast("np.generic", zdtype.from_json_scalar(self.offset, zarr_format=3))
++        scale = cast("np.generic", zdtype.from_json_scalar(self.scale, zarr_format=3))
++        result = _encode(arr, offset, scale)
++        return chunk_spec.prototype.nd_buffer.from_ndarray_like(result)
++
++    async def _encode_single(
++        self,
++        chunk_array: NDBuffer,
++        _chunk_spec: ArraySpec,
++    ) -> NDBuffer | None:
++        return self._encode_sync(chunk_array, _chunk_spec)
++
++    def compute_encoded_size(self, input_byte_length: int, _chunk_spec: ArraySpec) -> int:
++        return input_byte_length

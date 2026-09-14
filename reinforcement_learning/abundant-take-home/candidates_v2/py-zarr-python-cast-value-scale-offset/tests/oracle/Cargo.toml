@@ -1,0 +1,13 @@
+[package]
+name = "zarrs_oracle"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Minimal zarrs-based reference reader/writer used as an independent oracle for zarr v3 arrays"
+
+[dependencies]
+zarrs = { git = "https://github.com/zarrs/zarrs.git", rev = "b111080abe9c8fbeaa10fd4ae7bf075344cf8ced", default-features = false, features = ["filesystem"] }
+
+[profile.release]
+opt-level = 2
+debug = false

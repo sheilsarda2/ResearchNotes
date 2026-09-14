@@ -1,0 +1,410 @@
+{
+  "task_id": "py-zarr-python-cast-value-scale-offset",
+  "language": "python",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/zarr-developers/zarr-python",
+    "base_commit": "279d400a19d510df6384bb1e93c4817dc867072b",
+    "base_commit_date": "2026-04-29T14:13:11-04:00",
+    "base_commit_subject": "fix(storage): preserve leading slashes in FsspecStore.path (#3926)",
+    "license": "MIT",
+    "archive_sha256": "b416260c539eae8fb2cba4258b065b9f2cd4bf41de9c30ff7d5d4817990153e6",
+    "archive_method": "git archive --format=tar.gz of the base commit from research/cache/v2/zarr-developers__zarr-python (no .git; .git_archival.txt export-subst gives describe-name v3.1.6-49-g279d400 so hatch-vcs derives a version at install)"
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/zarr-developers/zarr-python/pull/3874",
+    "title": "feat: add cast_value and scale_offset codecs",
+    "author": "d-v-b",
+    "merged_at": "2026-04-30T20:40:12Z",
+    "merge_commit": "23e96350b83079b7ef8c31fe5430024ef4a66d50",
+    "released_in": "zarr 3.2.0 (docs/release-notes.md: 'Add cast_value and scale_offset codecs (#3874)')",
+    "gold_patch": {
+      "files": 5,
+      "additions": 810,
+      "deletions": 0,
+      "non_test_files": [
+        "changes/3874.feature.md",
+        "pyproject.toml",
+        "src/zarr/codecs/__init__.py",
+        "src/zarr/codecs/cast_value.py",
+        "src/zarr/codecs/scale_offset.py"
+      ],
+      "test_files_hidden": [
+        "tests/test_codecs/conftest.py",
+        "tests/test_codecs/test_cast_value.py",
+        "tests/test_codecs/test_scale_offset.py"
+      ],
+      "pr_total": {
+        "files": 8,
+        "additions": 1732,
+        "deletions": 0
+      }
+    },
+    "gold_patch_sha256": "a084a58df515b963927863357833a948a588f5cb079a7eac0abd41c0cfcf2dd8",
+    "runtime_dependency": "cast-value-rs==0.4.0 (PyPI, manylinux wheels; the version current at merge time; 0.4.2 appeared 2026-08-13)"
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "zarrs (Rust) at git rev b111080abe9c8fbeaa10fd4ae7bf075344cf8ced (2026-09-12; cast_value codec added by zarrs/zarrs#409, merged 2026-07-18, unreleased as of 0.23.14) compiled into tests/oracle (zarrs_oracle: check/retrieve/store/batch on a filesystem store); plus the PR's own tests, upstream codec suites, and an authored exact-arithmetic reference for scale_offset (zarrs has no scale_offset codec)",
+    "groups": {
+      "import": 1,
+      "pr_tests": 63,
+      "upstream": 505,
+      "cast_value_matrix": 3790,
+      "foreign_metadata": 12,
+      "scale_offset_reference": 100
+    },
+    "local_gold_results": {
+      "pr_tests": "63 passed",
+      "upstream": "505 passed (508 collected minus 3 deselected: PCodec/ZFPY xfails, zip-store delete skip)",
+      "cast_value_matrix": "4270 generated, 480 excluded, 3790 compared, 0 mismatches (607 agree-on-error)",
+      "foreign_metadata": "12/12",
+      "scale_offset_reference": "100/100",
+      "host": "macOS arm64, Python 3.12, local rust 1.92.0 build of the oracle; not yet run in Docker"
+    }
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "Merged 2026-04-30 and released in zarr 3.2.0, i.e. before the 2026-06 recency threshold; chosen despite this because zarrs independently implements cast_value (a genuine cross-implementation oracle) and the spec is external (zarr-extensions). Hidden tests are the PR's own tests with two derivability edits; the differential matrix and the scale_offset reference are new."
+  },
+  "horizon": {
+    "proxy": "2 new modules (~800 non-test LOC), registry/exports, 11x11 dtype conversion matrix with 5 rounding modes and 3 range policies, scalar maps with JSON scalar encodings, exact integer arithmetic incl. uint64 beyond int64, fill-value propagation through resolve_metadata, JSON round-tripping with default elision; 25 distinct error-message contracts",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/zarr-developers/zarr-python/issues/3867 (linked issue: replace numcodecs.fixedscaleoffset with spec'd v3 codecs; 23 comments, maintainers d-v-b, maxrjones, TomAugspurger, LDeakin)",
+      "https://github.com/EOPF-Explorer/data-model/issues/134 (downstream user need cited in the issue)",
+      "https://github.com/zarr-developers/zarr-extensions/tree/main/codecs/cast_value and .../codecs/scale_offset (specifications)",
+      "https://github.com/zarrs/zarrs/pull/409 (independent Rust implementation with a zarr-python interop matrix test)",
+      "https://github.com/zarr-developers/zarr-python/pull/3774 (earlier pure-Python attempt, closed as too large)"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "test_to_dict[minimal,full]: to_dict omits defaults, includes data_type, rounding, out_of_range, scalar_map as list of 2-tuples",
+      "instruction_ref": "CV-4, CV-5",
+      "cases": 2
+    },
+    {
+      "assertion": "test_from_dict[defaults,explicit]: from_dict resolves dtype, rounding default nearest-even, out_of_range None",
+      "instruction_ref": "CV-4, CV-2",
+      "cases": 2
+    },
+    {
+      "assertion": "test_serialization_roundtrip[no-scalar-map,with-scalar-map]: from_dict(to_dict()) == codec",
+      "instruction_ref": "CV-2, CV-4",
+      "cases": 2
+    },
+    {
+      "assertion": "test_construction_accepts_zdtype_object: data_type may be a ZDType",
+      "instruction_ref": "CV-2",
+      "cases": 1
+    },
+    {
+      "assertion": "test_construction_rejects_invalid_target_dtype: complex64 target -> ValueError 'Invalid target data type'",
+      "instruction_ref": "CV-3",
+      "cases": 1
+    },
+    {
+      "assertion": "test_validation_rejects_invalid[complex-source]: complex128 array -> ValueError 'only supports integer and floating-point' at create_array",
+      "instruction_ref": "CV-6",
+      "cases": 1
+    },
+    {
+      "assertion": "test_validation_rejects_invalid[wrap-float-target]: float32 array + wrap -> ValueError 'only valid for integer' at create_array",
+      "instruction_ref": "CV-6",
+      "cases": 1
+    },
+    {
+      "assertion": "test_zero_itemsize_raises: compute_encoded_size with variable-length UTF8 chunk dtype -> ValueError 'fixed-size integer and floating-point data types'",
+      "instruction_ref": "CV-9",
+      "cases": 1
+    },
+    {
+      "assertion": "test_encode_decode_roundtrip[6 dtype pairs]: exactly representable data round-trips through filters=[CastValue]",
+      "instruction_ref": "CV-7, G-1",
+      "cases": 6
+    },
+    {
+      "assertion": "test_float_to_int_rounding[towards-zero]: [1.7,-1.7,2.5,-2.5] -> [1,-1,2,-2] via int32 with clamp",
+      "instruction_ref": "CV-7",
+      "cases": 1
+    },
+    {
+      "assertion": "test_out_of_range_clamp[int32->int8]: [0,200,-200] -> [0,127,-128]",
+      "instruction_ref": "CV-7",
+      "cases": 1
+    },
+    {
+      "assertion": "test_compute_encoded_size: 80 bytes float64 -> 20 bytes int16",
+      "instruction_ref": "CV-9",
+      "cases": 1
+    },
+    {
+      "assertion": "test_scalar_map_encode_decode_roundtrip: NaN<->-999 mapping applied on encode and decode",
+      "instruction_ref": "CV-5, CV-7",
+      "cases": 1
+    },
+    {
+      "assertion": "test_scalar_map_validation_rejects_invalid[4]: unrepresentable keys/values -> ValueError 'not representable in dtype int32'/'int8'",
+      "instruction_ref": "CV-6",
+      "cases": 4
+    },
+    {
+      "assertion": "test_combined_with_scale_offset: ScaleOffset(0,10) + CastValue(int16, nearest-even, clamp) reproduces arange*0.1 to 1 decimal",
+      "instruction_ref": "SO-7, G-1",
+      "cases": 1
+    },
+    {
+      "assertion": "test_parse_scalar_map[3]: JSON list form -> dict form; dict form passes through; only present directions",
+      "instruction_ref": "CV-5",
+      "cases": 3
+    },
+    {
+      "assertion": "test_to_dict[default,offset-only,scale-only,both]: no configuration when defaults; only non-default keys",
+      "instruction_ref": "SO-3",
+      "cases": 4
+    },
+    {
+      "assertion": "test_from_dict[no-config,with-config]: defaults (0,1); explicit values",
+      "instruction_ref": "SO-3",
+      "cases": 2
+    },
+    {
+      "assertion": "test_serialization_roundtrip: from_dict(to_dict()) == codec",
+      "instruction_ref": "SO-2, SO-3",
+      "cases": 1
+    },
+    {
+      "assertion": "test_construction_rejects_non_numeric[list-offset,list-scale]: TypeError 'offset/scale must be a number or string'",
+      "instruction_ref": "SO-2",
+      "cases": 2
+    },
+    {
+      "assertion": "test_construction_accepts_numeric[int,float]: attributes preserve supplied values",
+      "instruction_ref": "SO-2",
+      "cases": 2
+    },
+    {
+      "assertion": "test_encode_decode_roundtrip[float64,float32,int32-identity]: data survives encode->decode",
+      "instruction_ref": "SO-5, G-1",
+      "cases": 3
+    },
+    {
+      "assertion": "test_fill_value_transformed: unwritten array reads back the fill value 10.0 with offset 5 scale 2",
+      "instruction_ref": "SO-6",
+      "cases": 1
+    },
+    {
+      "assertion": "test_identity_is_noop: default codec leaves data unchanged",
+      "instruction_ref": "SO-5, SO-3",
+      "cases": 1
+    },
+    {
+      "assertion": "test_rejects_complex_dtype: ValueError 'only supports integer and floating-point'",
+      "instruction_ref": "SO-4",
+      "cases": 1
+    },
+    {
+      "assertion": "test_uint64_large_value_roundtrip: values above 2**63 round-trip",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_float_nan_inf_preserved: _encode/_decode propagate NaN and +-inf for float64",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_uint64_encode_rejects_underflow: ValueError 'outside the range of dtype uint64'",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_rejects_zero_scale: ValueError 'scale must be non-zero'",
+      "instruction_ref": "SO-4",
+      "cases": 1
+    },
+    {
+      "assertion": "test_rejects_unrepresentable_scale_offset[3]: 'offset value 1.5 is not representable', 'scale value 0.5 is not representable', \"offset value 'NaN' is not representable\"",
+      "instruction_ref": "SO-4",
+      "cases": 3
+    },
+    {
+      "assertion": "test_dtype_preservation: int8 with offset 1 scale 2 round-trips exactly",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_integer_decode_rejects_non_exact_division: raw chunk [2,3,4] int8 scale 2 -> ValueError 'non-zero remainder' on read",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_encode_rejects_signed_integer_overflow: int8 scale 100 -> ValueError 'outside the range of dtype int8'",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_encode_rejects_unsigned_integer_underflow: uint8 offset 10, value 5 -> ValueError 'outside the range of dtype uint8'",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_float32_dtype_preserved: _encode/_decode keep float32",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_float_encode_rejects_wider_scalar: float32 array + np.float64 scalars -> ValueError 'changed dtype from float32 to float64'",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_float_decode_rejects_wider_scalar: same for _decode",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_decode_rejects_integer_overflow_on_offset_add: raw int8 chunk, offset 100 -> ValueError 'outside the range of dtype int8' on read",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_decode_int_widened_path: uint32 offset 2**31 decodes [0,100,1000] to [2**31,...] from a raw chunk",
+      "instruction_ref": "SO-5",
+      "cases": 1
+    },
+    {
+      "assertion": "test_compute_encoded_size: returns the input byte length (called positionally)",
+      "instruction_ref": "SO-6",
+      "cases": 1
+    },
+    {
+      "assertion": "cast_value_matrix (3790): decoded bytes equal zarrs' decode of the same chunk; zarrs' encode of the same source values is byte-identical; both fail on the same must-fail cases",
+      "instruction_ref": "CV-7, CV-5, CV-8, CV-10, G-1",
+      "cases": 3790
+    },
+    {
+      "assertion": "foreign_metadata (8 valid): open hand-written metadata, decode zarrs-written chunk identically, re-encode byte-identically, to_dict semantically equal",
+      "instruction_ref": "CV-10, CV-4, CV-5, G-2",
+      "cases": 8
+    },
+    {
+      "assertion": "foreign_metadata (4 invalid): unknown key, wrap on float array, bool target, NaN key for int source -> exception at open",
+      "instruction_ref": "CV-10, CV-6, CV-3, CV-4",
+      "cases": 4
+    },
+    {
+      "assertion": "scale_offset_reference int_encode (52): exact (x-offset)*scale bytes or ValueError 'outside the range of dtype'",
+      "instruction_ref": "SO-5",
+      "cases": 52
+    },
+    {
+      "assertion": "scale_offset_reference float_encode (21): IEEE in-dtype arithmetic, NaN/inf propagate, dtype preserved",
+      "instruction_ref": "SO-5",
+      "cases": 21
+    },
+    {
+      "assertion": "scale_offset_reference int_decode (10): exact division / ValueError 'non-zero remainder' / 'outside the range of dtype'",
+      "instruction_ref": "SO-5",
+      "cases": 10
+    },
+    {
+      "assertion": "scale_offset_reference float_decode (3): (e/scale)+offset in dtype",
+      "instruction_ref": "SO-5",
+      "cases": 3
+    },
+    {
+      "assertion": "scale_offset_reference metadata (6): codec JSON omits configuration at defaults, only non-default keys; no-configuration document decodes as no-op",
+      "instruction_ref": "SO-3",
+      "cases": 6
+    },
+    {
+      "assertion": "scale_offset_reference fill (1): unwritten chunks read as fill; stored fill_value unchanged; chunk bytes are (x-5)*2",
+      "instruction_ref": "SO-6",
+      "cases": 1
+    },
+    {
+      "assertion": "scale_offset_reference chain (2): uint16 range reduction and float64->uint8 NaN-preserving examples incl. unwritten chunk NaN and unrepresentable 1256",
+      "instruction_ref": "SO-7, CV-8, G-1",
+      "cases": 2
+    },
+    {
+      "assertion": "import group: classes importable, exported, registry names resolve",
+      "instruction_ref": "G-2",
+      "cases": 1
+    },
+    {
+      "assertion": "upstream group (505): existing codec/pipeline/entry-point suites pass",
+      "instruction_ref": "G-3",
+      "cases": 505
+    }
+  ],
+  "derivability_dropped_or_edited": [
+    {
+      "assertion": "test_decode_fits_natively_negative_scale (upstream test)",
+      "action": "dropped from hidden tests",
+      "reason": "asserts an internal fast-path predicate (_decode_fits_natively) of the reference solution; not derivable from a behavioural spec"
+    },
+    {
+      "assertion": "test_compute_encoded_size keyword names input_byte_length=/_chunk_spec=",
+      "action": "edited to positional call",
+      "reason": "parameter name '_chunk_spec' is an incidental choice of the reference; the ABC names it chunk_spec"
+    },
+    {
+      "assertion": "int64 underflow (offset=1 on -2**63) must raise (authored reference case)",
+      "action": "not included",
+      "reason": "the merged upstream implementation wraps silently for int64 extremes (its int64 widening is a no-op for int64); recorded as an upstream deviation from the spec"
+    },
+    {
+      "assertion": "cast_value matrix: floating-point array with out_of_range=wrap",
+      "action": "excluded from the comparison (456 cases)",
+      "reason": "zarr-python rejects wrap for float arrays at validation (its own test asserts it); zarrs accepts wrap whenever the target is integral; instruction states the zarr-python behaviour (CV-6)"
+    },
+    {
+      "assertion": "cast_value matrix: float array -> uint64 target with wrap and towards-zero/towards-negative rounding",
+      "action": "excluded (24 cases, subsumed by the previous exclusion)",
+      "reason": "zarrs' own interop test skips them: zarr-python rounds the decoded value near 2**64 to nearest instead of the directed mode"
+    }
+  ],
+  "hidden_test_edits": [
+    "tests/hidden/test_scale_offset.py: compute_encoded_size called positionally; test_decode_fits_natively_negative_scale and the _decode_fits_natively import removed"
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "estimated_build_minutes": {
+      "agent": 4,
+      "verifier": 9,
+      "basis": "pip install of 60 pinned wheels (~2-3 min each image); zarrs oracle compiled in 26 s on an M-series laptop with only the filesystem feature, budget 3-4 min on 4 vCPU plus cargo fetch"
+    },
+    "host": "not built yet (authoring host is Docker Desktop 8.3 GB; builds deferred to the orchestration phase)",
+    "oracle_wall_seconds": 30,
+    "env_setup_seconds": 4,
+    "verifier_seconds": 23,
+    "nop_wall_seconds": 30
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "py-zarr-python-cast-value-scale-offset-oracle-20260913T111859Z",
+      "nop": "py-zarr-python-cast-value-scale-offset-nop-20260913T111859Z"
+    },
+    "local_dry_run": "see STATUS.md",
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}
