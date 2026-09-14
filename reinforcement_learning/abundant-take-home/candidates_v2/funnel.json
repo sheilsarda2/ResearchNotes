@@ -1,0 +1,643 @@
+{
+ "counts": {
+  "mined_feature_scale_prs": 1108,
+  "drafted": 0,
+  "built": 0,
+  "oracle_fail": 0,
+  "oracle_pass": 0,
+  "nop_pass": 15,
+  "derivability_done": 0,
+  "rollout_gated": 0,
+  "accepted": 0,
+  "rejected": 0
+ },
+ "tasks": [
+  {
+   "task_id": "cpp-foxglove-sdk-parameter-handler",
+   "language": "cpp",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/foxglove/foxglove-sdk",
+   "feature": "https://github.com/foxglove/foxglove-sdk/pull/1258",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "3582e2df95faf42d02e1b00088fd613c0c3d95713d5f604823153e4e0bd50c9e",
+    "files": 17,
+    "additions": 1294,
+    "deletions": 125,
+    "hand_written_non_test": {
+     "c_abi_rust": {
+      "files": [
+       "c/src/parameter_handler.rs",
+       "c/src/server.rs",
+       "c/src/gateway.rs",
+       "c/src/lib.rs"
+      ],
+      "additions": 379
+     },
+     "cpp_sdk": {
+      "files": [
+       "cpp/foxglove/include/foxglove/parameter_handler.hpp",
+       "cpp/foxglove/include/foxglove/websocket.hpp",
+       "cpp/foxglove/include/foxglove/remote_access.hpp",
+       "cpp/foxglove/include/foxglove/parameter.hpp",
+       "cpp/foxglove/src/parameter_handler.cpp",
+       "cpp/foxglove/src/websocket.cpp",
+       "cpp/foxglove/src/remote_access.cpp",
+       "cpp/cmake/foxglove-sources.cmake"
+      ],
+      "additions": 510,
+      "deletions": 26
+     },
+     "generated_header": {
+      "files": [
+       "c/include/foxglove-c/foxglove-c.h"
+      ],
+      "additions": 202
+     },
+     "cbindgen_config": {
+      "files": [
+       "c/cbindgen.toml",
+       "c/cbindgen.prelude.toml"
+      ],
+      "additions": 6
+     },
+     "example_and_ros": {
+      "files": [
+       "cpp/examples/param-server/src/main.cpp",
+       "ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp"
+      ],
+      "additions": 206,
+      "deletions": 99
+     }
+    },
+    "tests_excluded": [
+     {
+      "file": "cpp/foxglove/tests/test_websocket.cpp",
+      "additions": 459,
+      "new_cases": 5
+     }
+    ]
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": 4.4,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "cpp-mcap-indexed-reader",
+   "language": "cpp",
+   "form": "B",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/foxglove/mcap",
+   "feature": "C++ indexed read path: McapReader::readSummary (Summary section parse + fallback data-section scan), McapReader::byteRange narrowing, IndexedMessageReader (Chunk Index / Message Index driven log-time and reverse-log-time reading with time-window and topic filters), internal::ReadJobQueue ordering",
+   "gold": {
+    "files": 5,
+    "additions": 1064,
+    "deletions": 28,
+    "paths": [
+     "cpp/mcap/include/mcap/errors.hpp",
+     "cpp/mcap/include/mcap/read_job_queue.hpp",
+     "cpp/mcap/include/mcap/reader.hpp",
+     "cpp/mcap/include/mcap/reader.inl",
+     "cpp/test/unit_tests.cpp"
+    ],
+    "library_only": {
+     "files": 4,
+     "additions": 478,
+     "deletions": 28
+    },
+    "sha256": "0aa100a31176d6707b95f819df805c34e8ba86ccb08790a402eab76d1eac2fd5"
+   },
+   "oracle": "conformance_corpus+cross_impl_differential+authored",
+   "tier": "C_public",
+   "build_min": 0.1,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "cpp-rerun-cpp-ffi-bridge",
+   "language": "cpp",
+   "form": "B",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/rerun-io/rerun",
+   "feature": "rerun_cpp: the hand-written bridge between the C++ SDK and rerun_c (RecordingStream lifecycle, sinks, time, log/send_columns/log_file forwarding; Error mapping and handling; ComponentBatch/ComponentColumn/TimeColumn Arrow C Data Interface export; component type registration cache; entity path escaping; spawn options; version check)",
+   "gold": {
+    "files": 16,
+    "additions": 1064,
+    "deletions": 0,
+    "sha256": "e62489999ed4a961eae3f4566d81c20a04bed32fde62489afba6c782f8bf2aff"
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "C_public",
+   "build_min": "5.5 for the agent image in run 20260913T131420Z with the rust-build stage served from the BuildKit cache (cmake/Arrow/SDK stage and verifier reference generation built cold); 0.3 when fully cached. The cold Rust release build was not observed in these runs (35-50 min estimate stands unmeasured).",
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "cpp-rosbag2-mixed-serialization-playback",
+   "language": "cpp",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/ros2/rosbag2",
+   "feature": "https://github.com/ros2/rosbag2/pull/2476",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "5297ac1bedcddb05276702bcc8ba14438489bc9af0cfb2e9b8f8539665a5f2f7",
+    "files": 16,
+    "additions": 338,
+    "deletions": 83,
+    "packages": [
+     "rosbag2_storage",
+     "rosbag2_storage_sqlite3",
+     "rosbag2_storage_mcap",
+     "rosbag2_cpp",
+     "rosbag2_compression",
+     "rosbag2_transport"
+    ]
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": 3.1,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "cpp-zenoh-cpp-connectivity-api",
+   "language": "cpp",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/eclipse-zenoh/zenoh-cpp",
+   "feature": "https://github.com/eclipse-zenoh/zenoh-cpp/pull/750",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "301bdcabbda1e0b6b09010edf678feefab7009c07c15176dcd77b8b08af113e8",
+    "files": 27,
+    "additions": 1182,
+    "deletions": 51,
+    "include_files": 20,
+    "excluded": [
+     "tests/CMakeLists.txt",
+     "tests/universal/network/connectivity.cxx",
+     "zenoh-c (submodule bump)",
+     "zenoh-pico (submodule bump)"
+    ],
+    "git_apply_check": "OK against the worktree at base and against the plain (no .git) staged tree"
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": 2.3,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "py-mcap-writer-chunk-summary",
+   "language": "python",
+   "form": "B",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/foxglove/mcap",
+   "feature": "mcap.writer chunked writing + compression + Message Index + Chunk Index + Attachment/Metadata Index + Statistics + summary section + Summary Offsets + footer summary CRC; write() serializers of Chunk, ChunkIndex, MessageIndex, AttachmentIndex, MetadataIndex, Statistics, SummaryOffset; mcap/_chunk_builder.py removed",
+   "gold": {
+    "files": 3,
+    "additions": 379,
+    "deletions": 22,
+    "new_files": [
+     "python/mcap/mcap/_chunk_builder.py"
+    ]
+   },
+   "oracle": "conformance_corpus+cross_impl_differential",
+   "tier": "C_public",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "py-onnx-reference-rnn",
+   "language": "python",
+   "form": "B",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/onnx/onnx",
+   "feature": "onnx/reference/ops/{op_rnn,op_lstm,op_gru}.py and their registration in onnx/reference/ops/_op_list.py (operators RNN, GRU, LSTM of the default domain)",
+   "gold": {
+    "files": 4,
+    "additions": 608,
+    "deletions": 0
+   },
+   "oracle": "conformance_corpus",
+   "tier": "C_public",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "py-rosbags-rosbag2-storage-writers",
+   "language": "python",
+   "form": "B",
+   "stage": "nop_pass",
+   "upstream": "https://gitlab.com/ternaris/rosbags",
+   "feature": "rosbag2 storage writer backends: src/rosbags/rosbag2/storage_mcap.py::McapWriter (chunking, message index, chunk index, statistics, metadata record + index, summary offsets, footer; zstd storage compression) and src/rosbags/rosbag2/storage_sqlite3.py::Sqlite3Writer (rosbag2_storage_sqlite3 schema v4)",
+   "gold": {
+    "files": 2,
+    "additions": 352,
+    "deletions": 31
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "C_public",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "py-xarray-zarr-align-chunks",
+   "language": "python",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/pydata/xarray",
+   "feature": "https://github.com/pydata/xarray/pull/10336",
+   "gold": {
+    "files": 5,
+    "additions": 372,
+    "deletions": 89,
+    "non_test_non_doc": true,
+    "doc_files_also_in_patch": [
+     "doc/whats-new.rst"
+    ],
+    "sha256": "1c22bf84702baa83c5275313ce6ecf05f54b2ca492bbf552e9d81983309e0177"
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "C_public",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "py-zarr-python-cast-value-scale-offset",
+   "language": "python",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/zarr-developers/zarr-python",
+   "feature": "https://github.com/zarr-developers/zarr-python/pull/3874",
+   "gold": {
+    "files": 5,
+    "additions": 810,
+    "deletions": 0,
+    "non_test_files": [
+     "changes/3874.feature.md",
+     "pyproject.toml",
+     "src/zarr/codecs/__init__.py",
+     "src/zarr/codecs/cast_value.py",
+     "src/zarr/codecs/scale_offset.py"
+    ],
+    "test_files_hidden": [
+     "tests/test_codecs/conftest.py",
+     "tests/test_codecs/test_cast_value.py",
+     "tests/test_codecs/test_scale_offset.py"
+    ],
+    "pr_total": {
+     "files": 8,
+     "additions": 1732,
+     "deletions": 0
+    }
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "C_public",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "rs-burn-onnx-rnn-runtime-weights",
+   "language": "rust",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/tracel-ai/burn-onnx",
+   "feature": "https://github.com/tracel-ai/burn-onnx/pull/466",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "e73792ab071f0fcdcdeaea0e81cb05d8a0a15c411407fdde782b6422c8519b7d",
+    "files": 11,
+    "additions": 1931,
+    "deletions": 505,
+    "file_list": [
+     "TODO.md",
+     "crates/burn-onnx/src/import/burn/node/gru.rs",
+     "crates/burn-onnx/src/import/burn/node/lstm.rs",
+     "crates/burn-onnx/src/import/burn/node/mod.rs",
+     "crates/burn-onnx/src/import/burn/node/rnn.rs",
+     "crates/burn-onnx/src/import/burn/node/rnn_common.rs",
+     "crates/onnx-ir/src/node/gru.rs",
+     "crates/onnx-ir/src/node/lstm.rs",
+     "crates/onnx-ir/src/node/rnn.rs",
+     "crates/onnx-ir/src/processor.rs",
+     "crates/onnx-official-tests/expectations.toml"
+    ],
+    "excluded_as_hidden_tests": [
+     "crates/onnx-tests/build.rs (registers the 5 new fixtures)",
+     "crates/onnx-tests/tests/gru/{mod.rs, gru_runtime_weights.{py,onnx}, gru_bidirectional_runtime_weights.{py,onnx}, gru_bidirectional_static_weights.onnx}",
+     "crates/onnx-tests/tests/lstm/{mod.rs, lstm_runtime_weights.{py,onnx}}",
+     "crates/onnx-tests/tests/rnn/{mod.rs, rnn_runtime_weights.{py,onnx}}"
+    ],
+    "notes": "The PR's inline insta snapshot tests and onnx-ir unit tests live inside src files and therefore ship with the gold patch; they are not used as oracle. The committed .onnx fixtures are treated as hidden test fixtures (they are the models the hidden tests load), packaged in tests/hidden-overlay.tar.gz (sha256 1e941d2ea5aab1fb36505c1eacf34c8620b671266b9787b6476e8c9924044a26)."
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "rs-burn-store-pytorch-reader",
+   "language": "rust",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/tracel-ai/burn",
+   "feature": "https://github.com/tracel-ai/burn/pull/5593",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "1d46c8dde3ea73950952795dd65943f9e7adb06be5af4f52172d334a2ba13de3",
+    "includes_tests": true,
+    "files": 20,
+    "additions": 3497,
+    "deletions": 3005,
+    "non_test": {
+     "files": 8,
+     "additions": 2867,
+     "deletions": 2718,
+     "paths": [
+      "Cargo.lock",
+      "crates/burn-store/Cargo.toml",
+      "crates/burn-store/src/nested/data.rs",
+      "crates/burn-store/src/pytorch/lazy_data.rs (deleted)",
+      "crates/burn-store/src/pytorch/mod.rs",
+      "crates/burn-store/src/pytorch/pickle_reader.rs",
+      "crates/burn-store/src/pytorch/reader.rs",
+      "crates/burn-store/src/pytorch/storage.rs (new)"
+     ]
+    },
+    "test_files": 12,
+    "new_tests": 16,
+    "fixtures": "9 binary fixtures (2 new .pt, 1 new .tar, 6 regenerated .tar); generated by create_protocol4.py and create_tar_format.py without torch"
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "rs-mcap-cli-recover-parity",
+   "language": "rust",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/foxglove/mcap",
+   "feature": "https://github.com/foxglove/mcap/pull/1647",
+   "gold": {
+    "files": 6,
+    "additions": 1142,
+    "deletions": 380,
+    "code_files": 5,
+    "code_additions": 968,
+    "code_deletions": 345,
+    "readme_additions": 174,
+    "sha256": "0d7deed04424f44368d4768feb0e67ec60cdfe8740fc41a7cd635cb181541a30"
+   },
+   "oracle": "reference_binary",
+   "tier": "A_recent",
+   "build_min": 1.8,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "rs-rerun-chunk-optimizer",
+   "language": "rust",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/rerun-io/rerun",
+   "feature": "https://github.com/rerun-io/rerun/commit/bef4ed8d920e58a6355496abe93ad45a188567a8 + https://github.com/rerun-io/rerun/commit/38a25c277ef4c29f07aeb14e159b1ca2dec715ec (upstream PRs rerun-io/reality#3244-followup and #3412-followup, synced to the public repo as direct commits with Source-Ref b28961df / 6579459d)",
+   "gold": {
+    "path": "solution/changes.patch",
+    "sha256": "a39916c2a08bb192505285d5bc9bc12aa6f1f3f7b4e1e205048220b8af6f6923",
+    "files": 16,
+    "additions": 2445,
+    "deletions": 109,
+    "additions_outside_inline_test_modules": 1566,
+    "additions_inside_inline_cfg_test_modules": 879,
+    "file_list": [
+     "crates/store/re_chunk_optimizer/src/error.rs",
+     "crates/store/re_chunk_optimizer/src/executor/merge_split.rs",
+     "crates/store/re_chunk_optimizer/src/executor/mod.rs",
+     "crates/store/re_chunk_optimizer/src/lib.rs",
+     "crates/store/re_chunk_optimizer/src/optimize.rs",
+     "crates/store/re_chunk_optimizer/src/plan.rs",
+     "crates/store/re_chunk_optimizer/src/settings.rs",
+     "crates/store/re_chunk_optimizer/src/view.rs",
+     "crates/store/re_chunk_store/src/lazy_store.rs",
+     "crates/store/re_log_encoding/src/chunk_provider/in_memory.rs",
+     "crates/store/re_log_encoding/src/chunk_provider/mod.rs",
+     "crates/store/re_log_encoding/src/lib.rs",
+     "crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs",
+     "crates/store/re_server/src/rerun_cloud/mod.rs",
+     "crates/store/re_server/src/store/resolved_store.rs",
+     "crates/store/re_server/src/store/source.rs"
+    ]
+   },
+   "oracle": "pr_tests",
+   "tier": "A_recent",
+   "build_min": null,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  },
+  {
+   "task_id": "rs-zenoh-timestamp-instrumentation",
+   "language": "rust",
+   "form": "A",
+   "stage": "nop_pass",
+   "upstream": "https://github.com/eclipse-zenoh/zenoh",
+   "feature": "https://github.com/eclipse-zenoh/zenoh/pull/2620",
+   "gold": {
+    "files": 35,
+    "additions": 1588,
+    "deletions": 30,
+    "note": "non-test diff; full PR is 36 files +3202/-30 of which zenoh/tests/timestamp_instrumentation.rs (+1614) is hidden",
+    "crates": [
+     "commons/zenoh-protocol",
+     "commons/zenoh-codec",
+     "zenoh",
+     "zenoh-ext"
+    ],
+    "sha256": "6e7b6e78d8c194ed9ece8a87a715878e1fb466e8823eb9f0a723e2280e49af0d"
+   },
+   "oracle": "cross_impl_differential",
+   "tier": "A_recent",
+   "build_min": 0.3,
+   "oracle_reward": 1.0,
+   "nop_reward": 0.0,
+   "has": [
+    "instruction.md",
+    "task.toml",
+    "environment/Dockerfile",
+    "environment/upstream.tar.gz",
+    "tests/test.sh",
+    "tests/Dockerfile",
+    "solution/changes.patch",
+    "provenance.json",
+    "STATUS.md"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,96 @@
+{
+ "repo": "fjall-rs/fjall",
+ "mined_at": "2026-09-13T10:12:35.992480Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 19,
+ "candidates": 2,
+ "prs": [
+  {
+   "number": 255,
+   "title": "Compaction filters",
+   "url": "https://github.com/fjall-rs/fjall/pull/255",
+   "merged_at": "2026-03-07",
+   "additions": 529,
+   "deletions": 18,
+   "changed_files": 19,
+   "labels": [
+    "enhancement",
+    "epic",
+    "api"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/test.yml",
+    "Cargo.toml",
+    "README.md",
+    "examples/migration-lazy/.run",
+    "examples/migration-lazy/Cargo.toml",
+    "examples/migration-lazy/README.md",
+    "examples/migration-lazy/src/main.rs",
+    "examples/ttl-json/.run",
+    "examples/ttl-json/Cargo.toml",
+    "examples/ttl-json/README.md",
+    "examples/ttl-json/src/main.rs",
+    "src/builder.rs",
+    "src/compaction/mod.rs",
+    "src/db.rs",
+    "src/db_config.rs",
+    "src/keyspace/mod.rs",
+    "src/keyspace/options.rs",
+    "src/recovery.rs"
+   ],
+   "test_files": [
+    "tests/compaction_filter.rs"
+   ],
+   "theme_hits": [
+    "compact",
+    "migrat",
+    "recover"
+   ],
+   "horizon_score": 1129
+  },
+  {
+   "number": 242,
+   "title": "fix: make clear() journal-safe so data does not reappear after reopen",
+   "url": "https://github.com/fjall-rs/fjall/pull/242",
+   "merged_at": "2026-02-15",
+   "additions": 235,
+   "deletions": 8,
+   "changed_files": 8,
+   "labels": [
+    "fix",
+    "type:journal",
+    "file format"
+   ],
+   "issues": [
+    {
+     "n": 241,
+     "title": "Keyspace::clear() is not journal-safe (cleared data is restored on recovery)",
+     "url": "https://github.com/fjall-rs/fjall/issues/241"
+    }
+   ],
+   "src_files": [
+    "src/db.rs",
+    "src/journal/batch_reader.rs",
+    "src/journal/entry.rs",
+    "src/journal/writer.rs",
+    "src/keyspace/mod.rs",
+    "src/recovery.rs"
+   ],
+   "test_files": [
+    "src/db_test.rs",
+    "tests/keyspace_clear.rs"
+   ],
+   "theme_hits": [
+    "journal",
+    "recover"
+   ],
+   "horizon_score": 595
+  }
+ ]
+}

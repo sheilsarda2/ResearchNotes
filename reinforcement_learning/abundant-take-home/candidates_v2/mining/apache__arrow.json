@@ -1,0 +1,1523 @@
+{
+ "repo": "apache/arrow",
+ "mined_at": "2026-09-13T10:13:29.715971Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 934,
+ "candidates": 45,
+ "prs": [
+  {
+   "number": 49401,
+   "title": "GH-49400: [Ruby] Add `Arrow::FixedSizeList#values` and `#raw_records`",
+   "url": "https://github.com/apache/arrow/pull/49401",
+   "merged_at": "2026-02-27",
+   "additions": 3160,
+   "deletions": 0,
+   "changed_files": 12,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow/ext/arrow/converters.cpp",
+    "ruby/red-arrow/ext/arrow/converters.hpp",
+    "ruby/red-arrow/ext/arrow/raw-records.cpp",
+    "ruby/red-arrow/ext/arrow/values.cpp",
+    "ruby/red-arrow/lib/arrow/fixed-size-list-data-type.rb",
+    "ruby/red-arrow/lib/arrow/libraries.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow/test/raw-records/test-fixed-size-list-array.rb",
+    "ruby/red-arrow/test/raw-records/test-large-list-array.rb",
+    "ruby/red-arrow/test/raw-records/test-list-array.rb",
+    "ruby/red-arrow/test/values/test-fixed-size-list-array.rb",
+    "ruby/red-arrow/test/values/test-large-list-array.rb",
+    "ruby/red-arrow/test/values/test-list-array.rb"
+   ],
+   "theme_hits": [],
+   "horizon_score": 3640
+  },
+  {
+   "number": 46926,
+   "title": "GH-38558: [C++] Add support for null sort option per sort key",
+   "url": "https://github.com/apache/arrow/pull/46926",
+   "merged_at": "2026-06-22",
+   "additions": 1938,
+   "deletions": 735,
+   "changed_files": 41,
+   "labels": [
+    "Component: C++",
+    "Component: Python",
+    "Component: Ruby",
+    "Component: GLib"
+   ],
+   "issues": [],
+   "src_files": [
+    "c_glib/arrow-glib/compute.cpp",
+    "c_glib/arrow-glib/compute.h",
+    "c_glib/arrow-glib/compute.hpp",
+    "cpp/src/arrow/acero/order_by_node.cc",
+    "cpp/src/arrow/compute/api_vector.cc",
+    "cpp/src/arrow/compute/api_vector.h",
+    "cpp/src/arrow/compute/function_internal.h",
+    "cpp/src/arrow/compute/kernels/vector_rank.cc",
+    "cpp/src/arrow/compute/kernels/vector_select_k.cc",
+    "cpp/src/arrow/compute/kernels/vector_sort.cc",
+    "cpp/src/arrow/compute/kernels/vector_sort_internal.h",
+    "cpp/src/arrow/compute/ordering.cc",
+    "cpp/src/arrow/compute/ordering.h",
+    "cpp/src/arrow/engine/substrait/relation_internal.cc",
+    "python/pyarrow/_acero.pyx",
+    "python/pyarrow/_compute.pyx",
+    "python/pyarrow/_dataset.pyx",
+    "python/pyarrow/array.pxi",
+    "python/pyarrow/compute.py",
+    "python/pyarrow/includes/libarrow.pxd",
+    "python/pyarrow/table.pxi",
+    "ruby/red-arrow/lib/arrow/sort-key.rb",
+    "ruby/red-arrow/lib/arrow/sort-options.rb"
+   ],
+   "test_files": [
+    "c_glib/test/test-rank-options.rb",
+    "c_glib/test/test-rank-quantile-options.rb",
+    "c_glib/test/test-select-k-options.rb",
+    "c_glib/test/test-sort-indices.rb",
+    "c_glib/test/test-sort-options.rb",
+    "cpp/src/arrow/acero/order_by_node_test.cc",
+    "cpp/src/arrow/acero/plan_test.cc",
+    "cpp/src/arrow/compute/exec_test.cc",
+    "cpp/src/arrow/compute/function_test.cc",
+    "cpp/src/arrow/compute/kernels/select_k_test.cc",
+    "cpp/src/arrow/compute/kernels/vector_sort_test.cc",
+    "cpp/src/arrow/engine/substrait/serde_test.cc",
+    "python/pyarrow/tests/test_acero.py",
+    "python/pyarrow/tests/test_compute.py",
+    "python/pyarrow/tests/test_dataset.py",
+    "python/pyarrow/tests/test_table.py",
+    "ruby/red-arrow/test/test-sort-key.rb",
+    "ruby/red-arrow/test/test-sort-options.rb"
+   ],
+   "theme_hits": [
+    "kernel"
+   ],
+   "horizon_score": 3538
+  },
+  {
+   "number": 48821,
+   "title": "GH-48820: [Ruby] Add support for writing null array",
+   "url": "https://github.com/apache/arrow/pull/48821",
+   "merged_at": "2026-01-13",
+   "additions": 909,
+   "deletions": 179,
+   "changed_files": 77,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/Rakefile",
+    "ruby/red-arrow-format/lib/arrow-format.rb",
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb",
+    "ruby/red-arrow-format/lib/arrow-format/field.rb",
+    "ruby/red-arrow-format/lib/arrow-format/file-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/file-writer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/flat-buffers.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/binary.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/binary_view.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/block.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/body_compression.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/body_compression_method.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/bool.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/buffer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/compression_type.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/date.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/date_unit.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/decimal.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/dictionary_batch.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/dictionary_encoding.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/dictionary_kind.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/duration.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/endianness.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/feature.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/field.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/field_node.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/fixed_size_binary.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/fixed_size_list.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/floating_point.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/footer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/int.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/interval.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/interval_unit.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/key_value.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/large_binary.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/large_list.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/large_list_view.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/large_utf8.rb",
+    "ruby/red-arrow-format/lib/arrow-format/org/apache/arrow/flatbuf/list.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-reader.rb",
+    "ruby/red-arrow-format/test/test-writer.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 2589
+  },
+  {
+   "number": 37400,
+   "title": "GH-34785: [C++][Parquet] Add bloom filter write support",
+   "url": "https://github.com/apache/arrow/pull/37400",
+   "merged_at": "2026-01-14",
+   "additions": 1704,
+   "deletions": 613,
+   "changed_files": 25,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [
+    {
+     "n": 34785,
+     "title": "[C++][Parquet] Allow writing BloomFilter for specific column",
+     "url": "https://github.com/apache/arrow/issues/34785"
+    }
+   ],
+   "src_files": [
+    "cpp/src/parquet/CMakeLists.txt",
+    "cpp/src/parquet/bloom_filter.h",
+    "cpp/src/parquet/bloom_filter_writer.cc",
+    "cpp/src/parquet/bloom_filter_writer.h",
+    "cpp/src/parquet/column_writer.cc",
+    "cpp/src/parquet/column_writer.h",
+    "cpp/src/parquet/file_writer.cc",
+    "cpp/src/parquet/hasher.h",
+    "cpp/src/parquet/index_location.h",
+    "cpp/src/parquet/meson.build",
+    "cpp/src/parquet/metadata.cc",
+    "cpp/src/parquet/metadata.h",
+    "cpp/src/parquet/page_index.cc",
+    "cpp/src/parquet/page_index.h",
+    "cpp/src/parquet/properties.cc",
+    "cpp/src/parquet/properties.h",
+    "cpp/src/parquet/type_fwd.h",
+    "cpp/src/parquet/xxhasher.cc",
+    "cpp/src/parquet/xxhasher.h"
+   ],
+   "test_files": [
+    "cpp/src/parquet/arrow/arrow_reader_writer_test.cc",
+    "cpp/src/parquet/arrow/index_test.cc",
+    "cpp/src/parquet/bloom_filter_reader_test.cc",
+    "cpp/src/parquet/bloom_filter_reader_writer_test.cc",
+    "cpp/src/parquet/column_writer_test.cc",
+    "cpp/src/parquet/page_index_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 2504
+  },
+  {
+   "number": 49423,
+   "title": "GH-49422: [CI][Integration][Ruby] Add the Ruby implementation",
+   "url": "https://github.com/apache/arrow/pull/49423",
+   "merged_at": "2026-03-10",
+   "additions": 1612,
+   "deletions": 127,
+   "changed_files": 28,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/integration.yml",
+    "ci/docker/conda-integration.dockerfile",
+    "ci/scripts/integration_arrow.sh",
+    "ci/scripts/integration_arrow_build.sh",
+    "dev/archery/archery/cli.py",
+    "dev/archery/archery/integration/datagen.py",
+    "dev/archery/archery/integration/runner.py",
+    "dev/archery/archery/integration/tester_ruby.py",
+    "dev/archery/archery/integration/util.py",
+    "ruby/red-arrow-format/bin/red-arrow-format-integration-test",
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb",
+    "ruby/red-arrow-format/lib/arrow-format/error.rb",
+    "ruby/red-arrow-format/lib/arrow-format/field.rb",
+    "ruby/red-arrow-format/lib/arrow-format/file-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/integration/json-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/integration/options.rb",
+    "ruby/red-arrow-format/lib/arrow-format/integration/validate.rb",
+    "ruby/red-arrow-format/lib/arrow-format/readable.rb",
+    "ruby/red-arrow-format/lib/arrow-format/record-batch.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-pull-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-writer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb",
+    "ruby/red-arrow-format/red-arrow-format.gemspec",
+    "ruby/red-arrow/lib/arrow/table-formatter.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-reader.rb",
+    "ruby/red-arrow-format/test/test-writer.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 2312
+  },
+  {
+   "number": 50589,
+   "title": "GH-50588: [Ruby] Add `ArrowFormat::Array#[]`",
+   "url": "https://github.com/apache/arrow/pull/50589",
+   "merged_at": "2026-07-22",
+   "additions": 413,
+   "deletions": 0,
+   "changed_files": 28,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/error.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-binary-array.rb",
+    "ruby/red-arrow-format/test/test-boolean-array.rb",
+    "ruby/red-arrow-format/test/test-date32-array.rb",
+    "ruby/red-arrow-format/test/test-date64-array.rb",
+    "ruby/red-arrow-format/test/test-day-time-interval-array.rb",
+    "ruby/red-arrow-format/test/test-duration-array.rb",
+    "ruby/red-arrow-format/test/test-float32-array.rb",
+    "ruby/red-arrow-format/test/test-float64-array.rb",
+    "ruby/red-arrow-format/test/test-int16-array.rb",
+    "ruby/red-arrow-format/test/test-int32-array.rb",
+    "ruby/red-arrow-format/test/test-int64-array.rb",
+    "ruby/red-arrow-format/test/test-int8-array.rb",
+    "ruby/red-arrow-format/test/test-large-binary-array.rb",
+    "ruby/red-arrow-format/test/test-large-utf8-array.rb",
+    "ruby/red-arrow-format/test/test-month-day-nano-interval-array.rb",
+    "ruby/red-arrow-format/test/test-null-array.rb",
+    "ruby/red-arrow-format/test/test-time32-array.rb",
+    "ruby/red-arrow-format/test/test-time64-array.rb",
+    "ruby/red-arrow-format/test/test-timestamp-array.rb",
+    "ruby/red-arrow-format/test/test-uint16-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 2033
+  },
+  {
+   "number": 50590,
+   "title": "GH-50572: [Ruby] Add `ArrowFormat::RecordBatch#records`",
+   "url": "https://github.com/apache/arrow/pull/50590",
+   "merged_at": "2026-07-23",
+   "additions": 309,
+   "deletions": 39,
+   "changed_files": 30,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/field.rb",
+    "ruby/red-arrow-format/lib/arrow-format/record-batch.rb",
+    "ruby/red-arrow-format/lib/arrow-format/record.rb",
+    "ruby/red-arrow-format/lib/arrow-format/schema.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-binary-array.rb",
+    "ruby/red-arrow-format/test/test-boolean-array.rb",
+    "ruby/red-arrow-format/test/test-date32-array.rb",
+    "ruby/red-arrow-format/test/test-date64-array.rb",
+    "ruby/red-arrow-format/test/test-day-time-interval-array.rb",
+    "ruby/red-arrow-format/test/test-duration-array.rb",
+    "ruby/red-arrow-format/test/test-float32-array.rb",
+    "ruby/red-arrow-format/test/test-float64-array.rb",
+    "ruby/red-arrow-format/test/test-int16-array.rb",
+    "ruby/red-arrow-format/test/test-int32-array.rb",
+    "ruby/red-arrow-format/test/test-int64-array.rb",
+    "ruby/red-arrow-format/test/test-int8-array.rb",
+    "ruby/red-arrow-format/test/test-large-binary-array.rb",
+    "ruby/red-arrow-format/test/test-large-utf8-array.rb",
+    "ruby/red-arrow-format/test/test-month-day-nano-interval-array.rb",
+    "ruby/red-arrow-format/test/test-record-batch.rb",
+    "ruby/red-arrow-format/test/test-record.rb",
+    "ruby/red-arrow-format/test/test-time32-array.rb",
+    "ruby/red-arrow-format/test/test-time64-array.rb",
+    "ruby/red-arrow-format/test/test-timestamp-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 2009
+  },
+  {
+   "number": 49226,
+   "title": "GH-49225: [Ruby] Add support for writing dictionary delta for primitive dictionary",
+   "url": "https://github.com/apache/arrow/pull/49226",
+   "merged_at": "2026-02-12",
+   "additions": 1320,
+   "deletions": 699,
+   "changed_files": 12,
+   "labels": [
+    "Component: Ruby",
+    "awaiting changes"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb",
+    "ruby/red-arrow-format/lib/arrow-format/file-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/readable.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-pull-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-writer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb",
+    "ruby/red-arrow/ext/arrow/converters.hpp"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-reader.rb",
+    "ruby/red-arrow-format/test/test-writer.rb",
+    "ruby/red-arrow/test/raw-records/test-dictionary-array.rb",
+    "ruby/red-arrow/test/values/test-dictionary-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 1780
+  },
+  {
+   "number": 50433,
+   "title": "GH-50432: [Ruby] Add `ArrowFormat::{Array,Bitmap}#==`",
+   "url": "https://github.com/apache/arrow/pull/50433",
+   "merged_at": "2026-07-09",
+   "additions": 779,
+   "deletions": 104,
+   "changed_files": 16,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-bitmap.rb",
+    "ruby/red-arrow-format/test/test-boolean-array.rb",
+    "ruby/red-arrow-format/test/test-float32-array.rb",
+    "ruby/red-arrow-format/test/test-float64-array.rb",
+    "ruby/red-arrow-format/test/test-int16-array.rb",
+    "ruby/red-arrow-format/test/test-int32-array.rb",
+    "ruby/red-arrow-format/test/test-int64-array.rb",
+    "ruby/red-arrow-format/test/test-int8-array.rb",
+    "ruby/red-arrow-format/test/test-null-array.rb",
+    "ruby/red-arrow-format/test/test-primitive-array.rb",
+    "ruby/red-arrow-format/test/test-uint16-array.rb",
+    "ruby/red-arrow-format/test/test-uint32-array.rb",
+    "ruby/red-arrow-format/test/test-uint64-array.rb",
+    "ruby/red-arrow-format/test/test-uint8-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 1719
+  },
+  {
+   "number": 50217,
+   "title": "GH-50216: [C++][Parquet] Add RleBitPackedToBitmapDecoder",
+   "url": "https://github.com/apache/arrow/pull/50217",
+   "merged_at": "2026-06-25",
+   "additions": 1098,
+   "deletions": 32,
+   "changed_files": 6,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/util/CMakeLists.txt",
+    "cpp/src/arrow/util/bit_util.h",
+    "cpp/src/arrow/util/rle_bitmap_internal.h",
+    "cpp/src/arrow/util/rle_encoding_internal.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/util/bit_util_test.cc",
+    "cpp/src/arrow/util/rle_bitmap_test.cc"
+   ],
+   "theme_hits": [
+    "encod",
+    "parquet"
+   ],
+   "horizon_score": 1418
+  },
+  {
+   "number": 41870,
+   "title": "GH-40062: [C++][Python] Conversion of Table to Arrow Tensor",
+   "url": "https://github.com/apache/arrow/pull/41870",
+   "merged_at": "2026-07-01",
+   "additions": 967,
+   "deletions": 114,
+   "changed_files": 12,
+   "labels": [
+    "Component: C++",
+    "Component: Python"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/record_batch.cc",
+    "cpp/src/arrow/record_batch.h",
+    "cpp/src/arrow/table.cc",
+    "cpp/src/arrow/table.h",
+    "cpp/src/arrow/tensor.cc",
+    "cpp/src/arrow/tensor.h",
+    "cpp/src/arrow/tensor_benchmark.cc",
+    "python/pyarrow/includes/libarrow.pxd",
+    "python/pyarrow/table.pxi"
+   ],
+   "test_files": [
+    "cpp/src/arrow/record_batch_test.cc",
+    "cpp/src/arrow/table_test.cc",
+    "python/pyarrow/tests/test_table.py"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 1387
+  },
+  {
+   "number": 49553,
+   "title": "GH-32123: [R] Expose azure blob filesystem",
+   "url": "https://github.com/apache/arrow/pull/49553",
+   "merged_at": "2026-07-13",
+   "additions": 729,
+   "deletions": 114,
+   "changed_files": 25,
+   "labels": [
+    "Component: R"
+   ],
+   "issues": [
+    {
+     "n": 32123,
+     "title": "[R] Expose Azure Blob Storage filesystem",
+     "url": "https://github.com/apache/arrow/issues/32123"
+    }
+   ],
+   "src_files": [
+    "ci/scripts/PKGBUILD",
+    "ci/scripts/r_install_system_dependencies.sh",
+    "dev/tasks/r/github.packages.yml",
+    "r/DESCRIPTION",
+    "r/NAMESPACE",
+    "r/R/arrow-info.R",
+    "r/R/arrowExports.R",
+    "r/R/filesystem.R",
+    "r/_pkgdown.yml",
+    "r/configure",
+    "r/configure.win",
+    "r/data-raw/codegen.R",
+    "r/inst/build_arrow_static.sh",
+    "r/man/FileSystem.Rd",
+    "r/man/arrow_info.Rd",
+    "r/man/az_container.Rd",
+    "r/src/arrowExports.cpp",
+    "r/src/filesystem.cpp",
+    "r/tools/nixlibs.R",
+    "r/vignettes/developers/binary_features.Rmd",
+    "r/vignettes/developers/setup.Rmd",
+    "r/vignettes/fs.Rmd",
+    "r/vignettes/install.Rmd"
+   ],
+   "test_files": [
+    "r/tests/testthat/helper-filesystems.R",
+    "r/tests/testthat/test-azure.R"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1309
+  },
+  {
+   "number": 50827,
+   "title": "GH-41670: [C++][Python] Move to DLPack 1.3",
+   "url": "https://github.com/apache/arrow/pull/50827",
+   "merged_at": "2026-08-20",
+   "additions": 920,
+   "deletions": 130,
+   "changed_files": 9,
+   "labels": [
+    "Component: C++",
+    "Component: Python",
+    "awaiting committer review"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/c/dlpack.cc",
+    "cpp/src/arrow/c/dlpack.h",
+    "cpp/src/arrow/c/dlpack_abi.h",
+    "python/pyarrow/_dlpack.pxi",
+    "python/pyarrow/array.pxi",
+    "python/pyarrow/includes/libarrow.pxd",
+    "python/pyarrow/tensor.pxi"
+   ],
+   "test_files": [
+    "cpp/src/arrow/c/dlpack_test.cc",
+    "python/pyarrow/tests/test_dlpack.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1180
+  },
+  {
+   "number": 49209,
+   "title": "GH-49208: [Ruby] Add support for writing dictionary delta message",
+   "url": "https://github.com/apache/arrow/pull/49209",
+   "merged_at": "2026-02-11",
+   "additions": 926,
+   "deletions": 812,
+   "changed_files": 5,
+   "labels": [
+    "Component: Ruby",
+    "awaiting changes"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-writer.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-writer.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 1126
+  },
+  {
+   "number": 50044,
+   "title": "GH-46369: [C++] Add key-value pairs to the FileSystemFactory interface and to S3Options",
+   "url": "https://github.com/apache/arrow/pull/50044",
+   "merged_at": "2026-06-18",
+   "additions": 506,
+   "deletions": 43,
+   "changed_files": 13,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "ci/scripts/cpp_build.sh",
+    "cpp/src/arrow/filesystem/CMakeLists.txt",
+    "cpp/src/arrow/filesystem/filesystem.cc",
+    "cpp/src/arrow/filesystem/filesystem.h",
+    "cpp/src/arrow/filesystem/s3fs.cc",
+    "cpp/src/arrow/filesystem/s3fs.h",
+    "cpp/src/arrow/filesystem/util_internal.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/filesystem/filesystem_test.cc",
+    "cpp/src/arrow/filesystem/localfs_test.cc",
+    "cpp/src/arrow/filesystem/s3fs_module_test.cc",
+    "cpp/src/arrow/filesystem/s3fs_test.cc",
+    "cpp/src/arrow/testing/examplefs.cc",
+    "cpp/src/arrow/testing/examplefs.h"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1006
+  },
+  {
+   "number": 50929,
+   "title": "GH-38868: [C++][Python] Add Array::ToTensor and fixed size list support",
+   "url": "https://github.com/apache/arrow/pull/50929",
+   "merged_at": "2026-09-03",
+   "additions": 441,
+   "deletions": 113,
+   "changed_files": 17,
+   "labels": [
+    "Component: C++",
+    "Component: Python"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/array/array_base.cc",
+    "cpp/src/arrow/array/array_base.h",
+    "cpp/src/arrow/array/array_nested.cc",
+    "cpp/src/arrow/array/array_nested.h",
+    "cpp/src/arrow/array/array_primitive.h",
+    "cpp/src/arrow/c/dlpack.cc",
+    "cpp/src/arrow/extension/fixed_shape_tensor.cc",
+    "cpp/src/arrow/extension/fixed_shape_tensor.h",
+    "cpp/src/arrow/tensor.cc",
+    "cpp/src/arrow/tensor.h",
+    "python/pyarrow/array.pxi",
+    "python/pyarrow/includes/libarrow.pxd"
+   ],
+   "test_files": [
+    "cpp/src/arrow/array/array_list_test.cc",
+    "cpp/src/arrow/array/array_test.cc",
+    "cpp/src/arrow/c/dlpack_test.cc",
+    "cpp/src/arrow/tensor_test.cc",
+    "python/pyarrow/tests/test_dlpack.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 981
+  },
+  {
+   "number": 50248,
+   "title": "GH-50247: [C++] Reuse abstraction for null partitions in sorting functions",
+   "url": "https://github.com/apache/arrow/pull/50248",
+   "merged_at": "2026-07-22",
+   "additions": 668,
+   "deletions": 818,
+   "changed_files": 8,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/compute/kernels/chunked_internal.cc",
+    "cpp/src/arrow/compute/kernels/chunked_internal.h",
+    "cpp/src/arrow/compute/kernels/vector_array_sort.cc",
+    "cpp/src/arrow/compute/kernels/vector_rank.cc",
+    "cpp/src/arrow/compute/kernels/vector_select_k.cc",
+    "cpp/src/arrow/compute/kernels/vector_sort.cc",
+    "cpp/src/arrow/compute/kernels/vector_sort_internal.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/compute/kernels/vector_sort_test.cc"
+   ],
+   "theme_hits": [
+    "kernel"
+   ],
+   "horizon_score": 928
+  },
+  {
+   "number": 50235,
+   "title": "GH-50240: [C++] Make IPC message decoding stricter",
+   "url": "https://github.com/apache/arrow/pull/50235",
+   "merged_at": "2026-06-24",
+   "additions": 487,
+   "deletions": 114,
+   "changed_files": 10,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/buffer.cc",
+    "cpp/src/arrow/buffer.h",
+    "cpp/src/arrow/ipc/message.cc",
+    "cpp/src/arrow/ipc/message.h",
+    "cpp/src/arrow/ipc/options.h",
+    "cpp/src/arrow/ipc/reader.cc"
+   ],
+   "test_files": [
+    "cpp/src/arrow/ipc/message_internal_test.cc",
+    "cpp/src/arrow/testing/gtest_util.cc",
+    "cpp/src/arrow/testing/gtest_util.h",
+    "testing"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 907
+  },
+  {
+   "number": 48681,
+   "title": "GH-48680: [GLib][Ruby] Add CSVWriter",
+   "url": "https://github.com/apache/arrow/pull/48681",
+   "merged_at": "2026-01-01",
+   "additions": 682,
+   "deletions": 0,
+   "changed_files": 7,
+   "labels": [
+    "Component: Ruby",
+    "Component: GLib"
+   ],
+   "issues": [],
+   "src_files": [
+    "c_glib/arrow-glib/writer.cpp",
+    "c_glib/arrow-glib/writer.h",
+    "c_glib/arrow-glib/writer.hpp",
+    "ruby/red-arrow/lib/arrow/csv-write-options.rb",
+    "ruby/red-arrow/lib/arrow/libraries.rb"
+   ],
+   "test_files": [
+    "c_glib/test/test-csv-writer.rb",
+    "ruby/red-arrow/test/test-csv-writer.rb"
+   ],
+   "theme_hits": [],
+   "horizon_score": 902
+  },
+  {
+   "number": 50157,
+   "title": "GH-50156: [C++][Parquet] Ignore min/max for unknown column order",
+   "url": "https://github.com/apache/arrow/pull/50157",
+   "merged_at": "2026-06-16",
+   "additions": 303,
+   "deletions": 71,
+   "changed_files": 14,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/parquet/column_io_benchmark.cc",
+    "cpp/src/parquet/column_reader.cc",
+    "cpp/src/parquet/column_reader.h",
+    "cpp/src/parquet/file_reader.cc",
+    "cpp/src/parquet/metadata.cc",
+    "cpp/src/parquet/schema.h",
+    "cpp/src/parquet/thrift_internal.h",
+    "cpp/src/parquet/types.cc",
+    "cpp/src/parquet/types.h"
+   ],
+   "test_files": [
+    "cpp/src/parquet/column_writer_test.cc",
+    "cpp/src/parquet/file_deserialize_test.cc",
+    "cpp/src/parquet/metadata_test.cc",
+    "cpp/src/parquet/schema_test.cc",
+    "cpp/src/parquet/statistics_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 843
+  },
+  {
+   "number": 51239,
+   "title": "GH-51238: [C++][Python][Parquet] Limit schema nesting depth when reading",
+   "url": "https://github.com/apache/arrow/pull/51239",
+   "merged_at": "2026-09-09",
+   "additions": 255,
+   "deletions": 57,
+   "changed_files": 15,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++",
+    "Component: Python",
+    "Critical Fix",
+    "backport-candidate"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/dataset/file_parquet.cc",
+    "cpp/src/parquet/metadata.cc",
+    "cpp/src/parquet/metadata.h",
+    "cpp/src/parquet/properties.h",
+    "cpp/src/parquet/schema.cc",
+    "cpp/src/parquet/schema_internal.h",
+    "python/pyarrow/_dataset_parquet.pyx",
+    "python/pyarrow/_parquet.pyx",
+    "python/pyarrow/includes/libparquet.pxd",
+    "python/pyarrow/parquet/core.py"
+   ],
+   "test_files": [
+    "cpp/src/parquet/arrow/arrow_schema_test.cc",
+    "cpp/src/parquet/reader_test.cc",
+    "cpp/src/parquet/schema_test.cc",
+    "python/pyarrow/tests/parquet/test_basic.py",
+    "python/pyarrow/tests/test_dataset.py"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 815
+  },
+  {
+   "number": 49536,
+   "title": "GH-49534: [R] Implement dplyr recode_values(), replace_values(), and replace_when()",
+   "url": "https://github.com/apache/arrow/pull/49536",
+   "merged_at": "2026-04-07",
+   "additions": 521,
+   "deletions": 39,
+   "changed_files": 8,
+   "labels": [
+    "Component: R"
+   ],
+   "issues": [],
+   "src_files": [
+    "r/NAMESPACE",
+    "r/R/arrow-package.R",
+    "r/R/dplyr-funcs-conditional.R",
+    "r/R/dplyr-funcs-doc.R",
+    "r/man/acero.Rd",
+    "r/man/read_json_arrow.Rd",
+    "r/man/schema.Rd"
+   ],
+   "test_files": [
+    "r/tests/testthat/test-dplyr-funcs-conditional.R"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 781
+  },
+  {
+   "number": 50877,
+   "title": "GH-50830: [C++][Parquet] Use JsonWriter for LogicalType::ToJSON()",
+   "url": "https://github.com/apache/arrow/pull/50877",
+   "merged_at": "2026-08-27",
+   "additions": 395,
+   "deletions": 299,
+   "changed_files": 7,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/json/json_writer_internal.cc",
+    "cpp/src/arrow/json/json_writer_internal.h",
+    "cpp/src/parquet/printer.cc",
+    "cpp/src/parquet/types.cc"
+   ],
+   "test_files": [
+    "cpp/src/arrow/json/json_writer_internal_test.cc",
+    "cpp/src/parquet/reader_test.cc",
+    "cpp/src/parquet/schema_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 715
+  },
+  {
+   "number": 49968,
+   "title": "GH-49966: [C++] Detect different endianness between IPC file and stream in IPC file fuzzer",
+   "url": "https://github.com/apache/arrow/pull/49968",
+   "merged_at": "2026-06-04",
+   "additions": 233,
+   "deletions": 34,
+   "changed_files": 9,
+   "labels": [
+    "Component: C++",
+    "Component: FlightRPC"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/ipc/CMakeLists.txt",
+    "cpp/src/arrow/ipc/reader.cc",
+    "cpp/src/arrow/ipc/reader.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/flight/test_util.cc",
+    "cpp/src/arrow/ipc/endianness_test.cc",
+    "cpp/src/arrow/ipc/read_write_test.cc",
+    "cpp/src/arrow/testing/util.cc",
+    "cpp/src/arrow/testing/util.h",
+    "testing"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 713
+  },
+  {
+   "number": 49442,
+   "title": "GH-49441: [C++][Gandiva] Add rand_integer function",
+   "url": "https://github.com/apache/arrow/pull/49442",
+   "merged_at": "2026-03-06",
+   "additions": 457,
+   "deletions": 1,
+   "changed_files": 7,
+   "labels": [
+    "Component: C++",
+    "Component: Gandiva",
+    "awaiting review"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/gandiva/function_holder_maker_registry.cc",
+    "cpp/src/gandiva/function_registry_math_ops.cc",
+    "cpp/src/gandiva/gdv_function_stubs.cc",
+    "cpp/src/gandiva/random_generator_holder.cc",
+    "cpp/src/gandiva/random_generator_holder.h"
+   ],
+   "test_files": [
+    "cpp/src/gandiva/random_generator_holder_test.cc",
+    "cpp/src/gandiva/tests/projector_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 677
+  },
+  {
+   "number": 50008,
+   "title": "GH-50007: [C++][Parquet] Add bloom filter folding to automatically size SBBF filters",
+   "url": "https://github.com/apache/arrow/pull/50008",
+   "merged_at": "2026-06-11",
+   "additions": 395,
+   "deletions": 27,
+   "changed_files": 6,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++",
+    "awaiting committer review"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/parquet/bloom_filter.cc",
+    "cpp/src/parquet/bloom_filter.h",
+    "cpp/src/parquet/bloom_filter_writer.cc",
+    "cpp/src/parquet/properties.h"
+   ],
+   "test_files": [
+    "cpp/src/parquet/bloom_filter_reader_writer_test.cc",
+    "cpp/src/parquet/properties_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 655
+  },
+  {
+   "number": 48925,
+   "title": "GH-48924: [C++][CI] Fix pre-buffering issues in IPC file reader",
+   "url": "https://github.com/apache/arrow/pull/48925",
+   "merged_at": "2026-01-26",
+   "additions": 286,
+   "deletions": 128,
+   "changed_files": 7,
+   "labels": [
+    "Component: C++",
+    "Critical Fix"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/ipc/reader.cc",
+    "cpp/src/arrow/type.h",
+    "cpp/src/arrow/util/int_util_overflow.h"
+   ],
+   "test_files": [
+    "ci/scripts/cpp_test.sh",
+    "cpp/src/arrow/ipc/read_write_test.cc",
+    "cpp/src/arrow/ipc/test_common.cc",
+    "cpp/src/arrow/util/int_util_test.cc"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 646
+  },
+  {
+   "number": 50616,
+   "title": "GH-50615: [C++] Reduce code generation for string kernels",
+   "url": "https://github.com/apache/arrow/pull/50616",
+   "merged_at": "2026-07-27",
+   "additions": 357,
+   "deletions": 176,
+   "changed_files": 9,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/compute/kernels/codegen_internal.h",
+    "cpp/src/arrow/compute/kernels/scalar_compare.cc",
+    "cpp/src/arrow/compute/kernels/scalar_if_else.cc",
+    "cpp/src/arrow/compute/kernels/scalar_string_ascii.cc",
+    "cpp/src/arrow/compute/kernels/scalar_string_internal.h",
+    "cpp/src/arrow/compute/kernels/scalar_string_utf8.cc",
+    "cpp/src/arrow/compute/kernels/vector_array_sort.cc",
+    "cpp/src/arrow/compute/kernels/vector_replace.cc"
+   ],
+   "test_files": [
+    "cpp/src/arrow/compute/kernels/scalar_string_test.cc"
+   ],
+   "theme_hits": [
+    "kernel"
+   ],
+   "horizon_score": 637
+  },
+  {
+   "number": 50281,
+   "title": "GH-50280: [C++] Implement VisitTwoBitRuns and VisitTwoSetBitRuns methods",
+   "url": "https://github.com/apache/arrow/pull/50281",
+   "merged_at": "2026-07-23",
+   "additions": 411,
+   "deletions": 98,
+   "changed_files": 6,
+   "labels": [
+    "Component: C++",
+    "awaiting committer review"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/compute/kernels/codegen_internal.h",
+    "cpp/src/arrow/compute/kernels/scalar_if_else.cc",
+    "cpp/src/arrow/compute/kernels/vector_selection_take_internal.cc",
+    "cpp/src/arrow/util/bit_block_counter_benchmark.cc",
+    "cpp/src/arrow/util/bit_run_reader.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/util/bitmap_test.cc"
+   ],
+   "theme_hits": [
+    "kernel"
+   ],
+   "horizon_score": 631
+  },
+  {
+   "number": 50452,
+   "title": "GH-50439: Add ArrowFormat::{,Large}{Binary,UTF8}Array.new(values)",
+   "url": "https://github.com/apache/arrow/pull/50452",
+   "merged_at": "2026-07-10",
+   "additions": 290,
+   "deletions": 1,
+   "changed_files": 6,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-binary-array.rb",
+    "ruby/red-arrow-format/test/test-large-binary-array.rb",
+    "ruby/red-arrow-format/test/test-large-utf8-array.rb",
+    "ruby/red-arrow-format/test/test-utf8-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 630
+  },
+  {
+   "number": 50459,
+   "title": "GH-50437: [Ruby] Add `ArrowFormat::*IntervalArray.new(values)`",
+   "url": "https://github.com/apache/arrow/pull/50459",
+   "merged_at": "2026-07-10",
+   "additions": 346,
+   "deletions": 7,
+   "changed_files": 5,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-day-time-interval-array.rb",
+    "ruby/red-arrow-format/test/test-month-day-nano-interval-array.rb",
+    "ruby/red-arrow-format/test/test-year-month-interval-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 626
+  },
+  {
+   "number": 48865,
+   "title": "GH-48864: [C++] Support customizing more Zstd parameters",
+   "url": "https://github.com/apache/arrow/pull/48865",
+   "merged_at": "2026-01-21",
+   "additions": 297,
+   "deletions": 109,
+   "changed_files": 7,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/util/compression.cc",
+    "cpp/src/arrow/util/compression.h",
+    "cpp/src/arrow/util/compression_internal.h",
+    "cpp/src/arrow/util/compression_zstd.cc"
+   ],
+   "test_files": [
+    "cpp/src/arrow/util/compression_test.cc",
+    "cpp/src/parquet/column_writer_test.cc",
+    "cpp/src/parquet/properties_test.cc"
+   ],
+   "theme_hits": [
+    "compress"
+   ],
+   "horizon_score": 617
+  },
+  {
+   "number": 50166,
+   "title": "GH-49740: [C++][Python] Fix casts to view types leaving null variadic buffers",
+   "url": "https://github.com/apache/arrow/pull/50166",
+   "merged_at": "2026-07-01",
+   "additions": 235,
+   "deletions": 15,
+   "changed_files": 8,
+   "labels": [
+    "Component: C++",
+    "Component: Python"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/array/validate.cc",
+    "cpp/src/arrow/c/bridge.cc",
+    "cpp/src/arrow/compute/kernels/scalar_cast_string.cc",
+    "dev/archery/archery/integration/datagen.py"
+   ],
+   "test_files": [
+    "cpp/src/arrow/array/array_binary_test.cc",
+    "cpp/src/arrow/c/bridge_test.cc",
+    "cpp/src/arrow/compute/kernels/scalar_cast_test.cc",
+    "python/pyarrow/tests/test_cffi.py"
+   ],
+   "theme_hits": [
+    "kernel"
+   ],
+   "horizon_score": 615
+  },
+  {
+   "number": 50386,
+   "title": "GH-50385: [Ruby] Add bitmap builder for red-arrow-format",
+   "url": "https://github.com/apache/arrow/pull/50386",
+   "merged_at": "2026-07-06",
+   "additions": 262,
+   "deletions": 12,
+   "changed_files": 7,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap-builder.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap.rb",
+    "ruby/red-arrow-format/lib/arrow-format/integration/json-reader.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-boolean-array.rb",
+    "ruby/red-arrow-format/test/test-dense-bitmap-builder.rb",
+    "ruby/red-arrow-format/test/test-sparse-bitmap-builder.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 582
+  },
+  {
+   "number": 49549,
+   "title": "GH-49548: [C++][FlightRPC] Decouple Flight Serialize/Deserialize from gRPC transport",
+   "url": "https://github.com/apache/arrow/pull/49549",
+   "merged_at": "2026-03-31",
+   "additions": 340,
+   "deletions": 227,
+   "changed_files": 7,
+   "labels": [
+    "Component: C++",
+    "Component: FlightRPC"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/flight/serialization_internal.cc",
+    "cpp/src/arrow/flight/serialization_internal.h",
+    "cpp/src/arrow/flight/transport.h",
+    "cpp/src/arrow/flight/transport/grpc/serialization_internal.cc",
+    "cpp/src/arrow/flight/types.cc",
+    "cpp/src/arrow/flight/types.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/flight/flight_internals_test.cc"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 580
+  },
+  {
+   "number": 49334,
+   "title": "GH-48334: [C++][Parquet] Support reading encrypted bloom filters",
+   "url": "https://github.com/apache/arrow/pull/49334",
+   "merged_at": "2026-03-27",
+   "additions": 336,
+   "deletions": 50,
+   "changed_files": 7,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/parquet/CMakeLists.txt",
+    "cpp/src/parquet/arrow/fuzz_internal.cc",
+    "cpp/src/parquet/bloom_filter.cc",
+    "cpp/src/parquet/bloom_filter.h",
+    "cpp/src/parquet/bloom_filter_reader.cc",
+    "cpp/submodules/parquet-testing"
+   ],
+   "test_files": [
+    "cpp/src/parquet/encryption/bloom_filter_encryption_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 576
+  },
+  {
+   "number": 48706,
+   "title": "GH-48705: [Ruby] Add support for reading dictionary array",
+   "url": "https://github.com/apache/arrow/pull/48706",
+   "merged_at": "2026-01-03",
+   "additions": 313,
+   "deletions": 115,
+   "changed_files": 7,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/field.rb",
+    "ruby/red-arrow-format/lib/arrow-format/file-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/readable.rb",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-pull-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-reader.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 553
+  },
+  {
+   "number": 50475,
+   "title": "GH-37476: [C++][Python] Preserve unsigned dictionary index types when building from values",
+   "url": "https://github.com/apache/arrow/pull/50475",
+   "merged_at": "2026-07-28",
+   "additions": 242,
+   "deletions": 32,
+   "changed_files": 6,
+   "labels": [
+    "Component: C++",
+    "Component: Python"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/array/builder_dict.h",
+    "cpp/src/arrow/builder.cc",
+    "python/pyarrow/src/arrow/python/arrow_to_pandas.cc"
+   ],
+   "test_files": [
+    "cpp/src/arrow/array/array_dict_test.cc",
+    "python/pyarrow/tests/test_array.py",
+    "python/pyarrow/tests/test_pandas.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 542
+  },
+  {
+   "number": 50391,
+   "title": "GH-50390: [Ruby] Add int/float array builder for red-arrow-format",
+   "url": "https://github.com/apache/arrow/pull/50391",
+   "merged_at": "2026-07-07",
+   "additions": 282,
+   "deletions": 151,
+   "changed_files": 6,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    "ruby/red-arrow-format/lib/arrow-format/array.rb",
+    "ruby/red-arrow-format/lib/arrow-format/bitmap-builder.rb",
+    "ruby/red-arrow-format/lib/arrow-format/integration/json-reader.rb",
+    "ruby/red-arrow-format/lib/arrow-format/type.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-boolean-array.rb",
+    "ruby/red-arrow-format/test/test-primitive-array.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 542
+  },
+  {
+   "number": 48491,
+   "title": "GH-48490: [GLib][Ruby] Add GArrowMakeStructOptions",
+   "url": "https://github.com/apache/arrow/pull/48491",
+   "merged_at": "2026-01-06",
+   "additions": 302,
+   "deletions": 1,
+   "changed_files": 8,
+   "labels": [
+    "Component: Ruby",
+    "Component: GLib"
+   ],
+   "issues": [],
+   "src_files": [
+    "c_glib/arrow-glib/compute.cpp",
+    "c_glib/arrow-glib/compute.h",
+    "c_glib/arrow-glib/compute.hpp",
+    "c_glib/arrow-glib/internal-hash-table.hpp",
+    "ruby/red-arrow/lib/arrow/libraries.rb",
+    "ruby/red-arrow/lib/arrow/make-struct-options.rb"
+   ],
+   "test_files": [
+    "c_glib/test/test-make-struct-options.rb",
+    "ruby/red-arrow/test/test-make-struct-options.rb"
+   ],
+   "theme_hits": [],
+   "horizon_score": 542
+  },
+  {
+   "number": 49545,
+   "title": "GH-49544: [Ruby] Add benchmark for readers",
+   "url": "https://github.com/apache/arrow/pull/49545",
+   "merged_at": "2026-03-21",
+   "additions": 254,
+   "deletions": 15,
+   "changed_files": 8,
+   "labels": [
+    "Component: Ruby"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/ruby.yml",
+    "ruby/Rakefile",
+    "ruby/red-arrow-format/Gemfile",
+    "ruby/red-arrow-format/Rakefile",
+    "ruby/red-arrow-format/benchmark/file-reader.yaml",
+    "ruby/red-arrow-format/benchmark/streaming-reader.yaml",
+    "ruby/red-arrow-format/lib/arrow-format/streaming-reader.rb"
+   ],
+   "test_files": [
+    "ruby/red-arrow-format/test/test-reader.rb"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 514
+  },
+  {
+   "number": 50224,
+   "title": "GH-50223: [C++][Compute] Support string_view/binary_view keys in the hash-aggregate Grouper",
+   "url": "https://github.com/apache/arrow/pull/50224",
+   "merged_at": "2026-07-07",
+   "additions": 252,
+   "deletions": 16,
+   "changed_files": 6,
+   "labels": [
+    "Component: C++",
+    "awaiting committer review"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/compute/row/grouper.cc",
+    "cpp/src/arrow/compute/row/grouper_benchmark.cc",
+    "cpp/src/arrow/compute/row/row_encoder_internal.cc",
+    "cpp/src/arrow/compute/row/row_encoder_internal.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/compute/row/grouper_test.cc",
+    "cpp/src/arrow/compute/row/row_encoder_internal_test.cc"
+   ],
+   "theme_hits": [
+    "encod"
+   ],
+   "horizon_score": 512
+  },
+  {
+   "number": 50030,
+   "title": "GH-50026: [C++][Parquet] SIMD-accelerate SBBF probe via branchless autovec",
+   "url": "https://github.com/apache/arrow/pull/50030",
+   "merged_at": "2026-06-18",
+   "additions": 263,
+   "deletions": 16,
+   "changed_files": 7,
+   "labels": [
+    "Component: Parquet",
+    "Component: C++"
+   ],
+   "issues": [
+    {
+     "n": 50026,
+     "title": "[C++][Parquet] SIMD-accelerate the SBBF probe in BlockSplitBloomFilter::FindHash",
+     "url": "https://github.com/apache/arrow/issues/50026"
+    }
+   ],
+   "src_files": [
+    "cpp/src/parquet/CMakeLists.txt",
+    "cpp/src/parquet/bloom_filter.cc",
+    "cpp/src/parquet/bloom_filter.h",
+    "cpp/src/parquet/bloom_filter_avx2.cc",
+    "cpp/src/parquet/bloom_filter_avx2_internal.h",
+    "cpp/src/parquet/bloom_filter_block_impl_internal.h"
+   ],
+   "test_files": [
+    "cpp/src/parquet/bloom_filter_test.cc"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 503
+  },
+  {
+   "number": 49978,
+   "title": "GH-49977: [C++][Gandiva] Add regexp_extract optional third parameter function version",
+   "url": "https://github.com/apache/arrow/pull/49978",
+   "merged_at": "2026-08-13",
+   "additions": 211,
+   "deletions": 6,
+   "changed_files": 5,
+   "labels": [
+    "Component: C++",
+    "Component: Gandiva",
+    "awaiting merge"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/gandiva/function_registry_string.cc",
+    "cpp/src/gandiva/gdv_string_function_stubs.cc",
+    "cpp/src/gandiva/regex_functions_holder.cc"
+   ],
+   "test_files": [
+    "cpp/src/gandiva/regex_functions_holder_test.cc",
+    "cpp/src/gandiva/tests/projector_test.cc"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 451
+  },
+  {
+   "number": 50347,
+   "title": "GH-50338: [C++] Add ComputeLogicalNullCount to Datum",
+   "url": "https://github.com/apache/arrow/pull/50347",
+   "merged_at": "2026-07-29",
+   "additions": 213,
+   "deletions": 40,
+   "changed_files": 6,
+   "labels": [
+    "Component: C++"
+   ],
+   "issues": [],
+   "src_files": [
+    "cpp/src/arrow/datum.cc",
+    "cpp/src/arrow/datum.h",
+    "cpp/src/arrow/scalar.cc",
+    "cpp/src/arrow/scalar.h"
+   ],
+   "test_files": [
+    "cpp/src/arrow/datum_test.cc",
+    "cpp/src/arrow/scalar_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 413
+  }
+ ]
+}

@@ -1,0 +1,4327 @@
+{
+ "repo": "tracel-ai/burn-onnx",
+ "mined_at": "2026-09-13T10:07:50.630642Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 150,
+  "min_files": 4,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 322,
+ "candidates": 100,
+ "prs": [
+  {
+   "number": 319,
+   "title": "Add M2 onnx-official-tests: full upstream node test coverage (#315)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/319",
+   "merged_at": "2026-04-09",
+   "additions": 10521,
+   "deletions": 424,
+   "changed_files": 6967,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/onnx-ir/src/lib.rs",
+    "crates/onnx-official-tests/Cargo.toml",
+    "crates/onnx-official-tests/README.md",
+    "crates/onnx-official-tests/build.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-official-tests/src/pb_loader.rs"
+   ],
+   "test_files": [
+    "crates/onnx-official-tests/tests/test_mod.rs",
+    "crates/onnx-official-tests/vendor/node/test_acos/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_acos/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acos/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acos_example/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_acos_example/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acos_example/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acosh/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_acosh/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acosh/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acosh_example/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_acosh_example/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_acosh_example/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/input_1.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/input_2.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/input_3.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/input_4.pb",
+    "crates/onnx-official-tests/vendor/node/test_adagrad/test_data_set_0/output_0.pb"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 153681
+  },
+  {
+   "number": 46,
+   "title": "Adopt uv inline script metadata for all Python scripts",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/46",
+   "merged_at": "2026-01-31",
+   "additions": 5449,
+   "deletions": 3166,
+   "changed_files": 656,
+   "labels": [],
+   "issues": [
+    {
+     "n": 33,
+     "title": "Adopt `uv` Consistently for All Scripts and Development Setup",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/33"
+    }
+   ],
+   "src_files": [
+    "crates/model-checks/silero-vad/get_model.py",
+    "crates/model-checks/silero-vad/validate_model.py",
+    "crates/onnx-ir/benches/generate_bench_model.py",
+    "crates/onnx-tests/pyproject.toml"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/README.md",
+    "crates/onnx-ir/tests/scripts/external_data.py",
+    "crates/onnx-tests/tests/abs/abs.onnx",
+    "crates/onnx-tests/tests/abs/abs.py",
+    "crates/onnx-tests/tests/add/add.onnx",
+    "crates/onnx-tests/tests/add/add.py",
+    "crates/onnx-tests/tests/add/add_argmax_with_shape.onnx",
+    "crates/onnx-tests/tests/add/add_argmax_with_shape.py",
+    "crates/onnx-tests/tests/add/add_broadcast.onnx",
+    "crates/onnx-tests/tests/add/add_broadcast.py",
+    "crates/onnx-tests/tests/add/add_int.onnx",
+    "crates/onnx-tests/tests/add/add_int.py",
+    "crates/onnx-tests/tests/add/add_shape.onnx",
+    "crates/onnx-tests/tests/add/add_shape.py",
+    "crates/onnx-tests/tests/add/add_shape_tensor.onnx",
+    "crates/onnx-tests/tests/add/add_shape_tensor.py",
+    "crates/onnx-tests/tests/add/add_tensor_with_shape.onnx",
+    "crates/onnx-tests/tests/add/add_tensor_with_shape.py",
+    "crates/onnx-tests/tests/and/and.onnx",
+    "crates/onnx-tests/tests/and/and.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 22469
+  },
+  {
+   "number": 147,
+   "title": "Add opset compliance tests with compact Display format",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/147",
+   "merged_at": "2026-02-11",
+   "additions": 10495,
+   "deletions": 29,
+   "changed_files": 74,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "Cargo.lock",
+    "crates/onnx-ir-derive/src/lib.rs",
+    "crates/onnx-ir/Cargo.toml",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/ir/argument.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/linear.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/simplify/coalesce_attention.rs",
+    "crates/onnx-ir/src/simplify/constant_fold.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/identity_element.rs",
+    "crates/onnx-ir/src/simplify/permute_reshape.rs",
+    "crates/onnx-ir/src/tensor_store.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_02_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_03.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_04.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_05.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_06.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_06_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_07.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_07_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_08.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_10.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_10_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_11.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_11_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_12.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_13.onnx"
+   ],
+   "theme_hits": [
+    "compact",
+    "onnx"
+   ],
+   "horizon_score": 14455
+  },
+  {
+   "number": 75,
+   "title": "Add inverse trigonometric ops: asin, acos, atan, asinh, acosh, atanh",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/75",
+   "merged_at": "2026-02-02",
+   "additions": 2795,
+   "deletions": 281,
+   "changed_files": 240,
+   "labels": [],
+   "issues": [
+    {
+     "n": 66,
+     "title": "Implement trigonometric tensor ops support",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/66"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/acos.rs",
+    "crates/burn-onnx/src/burn/node/acosh.rs",
+    "crates/burn-onnx/src/burn/node/asin.rs",
+    "crates/burn-onnx/src/burn/node/asinh.rs",
+    "crates/burn-onnx/src/burn/node/atan.rs",
+    "crates/burn-onnx/src/burn/node/atanh.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/acos.rs",
+    "crates/onnx-ir/src/node/acosh.rs",
+    "crates/onnx-ir/src/node/asin.rs",
+    "crates/onnx-ir/src/node/asinh.rs",
+    "crates/onnx-ir/src/node/atan.rs",
+    "crates/onnx-ir/src/node/atanh.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs",
+    "onnx-spec/fetch-specs.py",
+    "onnx-spec/ops/Abs.md",
+    "onnx-spec/ops/Acos.md",
+    "onnx-spec/ops/Acosh.md",
+    "onnx-spec/ops/Add.md",
+    "onnx-spec/ops/AffineGrid.md",
+    "onnx-spec/ops/And.md",
+    "onnx-spec/ops/ArgMax.md",
+    "onnx-spec/ops/ArgMin.md",
+    "onnx-spec/ops/Asin.md",
+    "onnx-spec/ops/Asinh.md",
+    "onnx-spec/ops/Atan.md",
+    "onnx-spec/ops/Atanh.md",
+    "onnx-spec/ops/Attention.md",
+    "onnx-spec/ops/AveragePool.md",
+    "onnx-spec/ops/BatchNormalization.md",
+    "onnx-spec/ops/Bernoulli.md",
+    "onnx-spec/ops/BitShift.md"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/acos/acos.onnx",
+    "crates/onnx-tests/tests/acos/acos.py",
+    "crates/onnx-tests/tests/acos/mod.rs",
+    "crates/onnx-tests/tests/acosh/acosh.onnx",
+    "crates/onnx-tests/tests/acosh/acosh.py",
+    "crates/onnx-tests/tests/acosh/mod.rs",
+    "crates/onnx-tests/tests/asin/asin.onnx",
+    "crates/onnx-tests/tests/asin/asin.py",
+    "crates/onnx-tests/tests/asin/mod.rs",
+    "crates/onnx-tests/tests/asinh/asinh.onnx",
+    "crates/onnx-tests/tests/asinh/asinh.py",
+    "crates/onnx-tests/tests/asinh/mod.rs",
+    "crates/onnx-tests/tests/atan/atan.onnx",
+    "crates/onnx-tests/tests/atan/atan.py",
+    "crates/onnx-tests/tests/atan/mod.rs",
+    "crates/onnx-tests/tests/atanh/atanh.onnx",
+    "crates/onnx-tests/tests/atanh/atanh.py",
+    "crates/onnx-tests/tests/atanh/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 8415
+  },
+  {
+   "number": 445,
+   "title": "Custom op hooks: import models with unsupported operators",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/445",
+   "merged_at": "2026-08-12",
+   "additions": 5575,
+   "deletions": 64,
+   "changed_files": 60,
+   "labels": [],
+   "issues": [
+    {
+     "n": 23,
+     "title": "Add a way to implement custom function for operators not supported in ONNX format",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/23"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "DESIGN-CUSTOM-OPS.md",
+    "DEVELOPMENT-GUIDE.md",
+    "README.md",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/custom_op.rs",
+    "crates/burn-onnx/src/burn/graph.rs",
+    "crates/burn-onnx/src/burn/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/burn-onnx/src/burn/node_traits.rs",
+    "crates/burn-onnx/src/ext.rs",
+    "crates/burn-onnx/src/lib.rs",
+    "crates/burn-onnx/src/model_gen.rs",
+    "crates/onnx-ir/README.md",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/ir/attribute.rs",
+    "crates/onnx-ir/src/ir/mod.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/lib.rs",
+    "crates/onnx-ir/src/node/custom.rs",
+    "crates/onnx-ir/src/node/if_node.rs",
+    "crates/onnx-ir/src/node/loop_node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/scan_node.rs",
+    "crates/onnx-ir/src/node/sum.rs",
+    "crates/onnx-ir/src/phases/node_conversion.rs",
+    "crates/onnx-ir/src/phases/post_processing.rs",
+    "crates/onnx-ir/src/phases/type_inference.rs",
+    "crates/onnx-ir/src/pipeline.rs",
+    "crates/onnx-ir/src/processor.rs",
+    "crates/onnx-ir/src/proto_conversion.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-ir/src/simplify/coalesce_attention.rs",
+    "crates/onnx-ir/src/simplify/constant_fold.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/identity_element.rs",
+    "crates/onnx-ir/src/simplify/mod.rs",
+    "crates/onnx-ir/src/simplify/permute_reshape.rs",
+    "crates/onnx-ir/src/simplify/redundant_nodes.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-ir/tests/custom_ops.rs",
+    "crates/onnx-ir/tests/fixtures/custom_in_if.onnx",
+    "crates/onnx-ir/tests/fixtures/custom_ops.onnx",
+    "crates/onnx-ir/tests/fixtures/relu_in_if.onnx",
+    "crates/onnx-ir/tests/scripts/custom_in_subgraph.py",
+    "crates/onnx-ir/tests/scripts/custom_ops.py",
+    "crates/onnx-tests/tests/custom_ops/custom_ops.onnx",
+    "crates/onnx-tests/tests/custom_ops/custom_ops.py",
+    "crates/onnx-tests/tests/custom_ops/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "import",
+    "onnx"
+   ],
+   "horizon_score": 7335
+  },
+  {
+   "number": 192,
+   "title": "Represent ONNX scalars as 1D tensors (ScalarTensor)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/192",
+   "merged_at": "2026-02-19",
+   "additions": 4409,
+   "deletions": 1477,
+   "changed_files": 114,
+   "labels": [],
+   "issues": [
+    {
+     "n": 191,
+     "title": "Represent ONNX scalars as 1D tensors to avoid CPU-GPU transfers",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/191"
+    }
+   ],
+   "src_files": [
+    "AGENTS.md",
+    "DEVELOPMENT-GUIDE.md",
+    "crates/burn-onnx/src/burn/argument_helpers.rs",
+    "crates/burn-onnx/src/burn/graph.rs",
+    "crates/burn-onnx/src/burn/node/add.rs",
+    "crates/burn-onnx/src/burn/node/argmax.rs",
+    "crates/burn-onnx/src/burn/node/argmin.rs",
+    "crates/burn-onnx/src/burn/node/bitshift.rs",
+    "crates/burn-onnx/src/burn/node/bitwiseand.rs",
+    "crates/burn-onnx/src/burn/node/bitwiseor.rs",
+    "crates/burn-onnx/src/burn/node/bitwisexor.rs",
+    "crates/burn-onnx/src/burn/node/bool_and.rs",
+    "crates/burn-onnx/src/burn/node/bool_or.rs",
+    "crates/burn-onnx/src/burn/node/bool_xor.rs",
+    "crates/burn-onnx/src/burn/node/cast.rs",
+    "crates/burn-onnx/src/burn/node/constant.rs",
+    "crates/burn-onnx/src/burn/node/constant_of_shape.rs",
+    "crates/burn-onnx/src/burn/node/cumsum.rs",
+    "crates/burn-onnx/src/burn/node/div.rs",
+    "crates/burn-onnx/src/burn/node/equal.rs",
+    "crates/burn-onnx/src/burn/node/gather.rs",
+    "crates/burn-onnx/src/burn/node/gathernd.rs",
+    "crates/burn-onnx/src/burn/node/gemm.rs",
+    "crates/burn-onnx/src/burn/node/greater.rs",
+    "crates/burn-onnx/src/burn/node/greater_equal.rs",
+    "crates/burn-onnx/src/burn/node/gru.rs",
+    "crates/burn-onnx/src/burn/node/if_node.rs",
+    "crates/burn-onnx/src/burn/node/is_inf.rs",
+    "crates/burn-onnx/src/burn/node/loop_node.rs",
+    "crates/burn-onnx/src/burn/node/lower.rs",
+    "crates/burn-onnx/src/burn/node/lower_equal.rs",
+    "crates/burn-onnx/src/burn/node/max.rs",
+    "crates/burn-onnx/src/burn/node/min.rs",
+    "crates/burn-onnx/src/burn/node/modulo.rs",
+    "crates/burn-onnx/src/burn/node/mul.rs",
+    "crates/burn-onnx/src/burn/node/neg.rs",
+    "crates/burn-onnx/src/burn/node/pad.rs",
+    "crates/burn-onnx/src/burn/node/pow.rs",
+    "crates/burn-onnx/src/burn/node/prelude.rs",
+    "crates/burn-onnx/src/burn/node/range.rs"
+   ],
+   "test_files": [
+    "crates/burn-onnx/src/burn/node/test_helpers.rs",
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-ir/tests/edge_cases.rs",
+    "crates/onnx-ir/tests/infrastructure.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_06.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_07.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_09.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 7069
+  },
+  {
+   "number": 312,
+   "title": "Add ONNX Backend Scoreboard integration draft",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/312",
+   "merged_at": "2026-04-08",
+   "additions": 6483,
+   "deletions": 0,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "scoreboard/Dockerfile",
+    "scoreboard/README.md",
+    "scoreboard/backend.py",
+    "scoreboard/config.json",
+    "scoreboard/runner/Cargo.lock",
+    "scoreboard/runner/Cargo.toml",
+    "scoreboard/runner/src/main.rs",
+    "scoreboard/runner/src/model.rs"
+   ],
+   "test_files": [
+    "scoreboard/test_local.py"
+   ],
+   "theme_hits": [
+    "backend",
+    "onnx"
+   ],
+   "horizon_score": 6843
+  },
+  {
+   "number": 67,
+   "title": "Add ONNX graph simplification passes",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/67",
+   "merged_at": "2026-02-04",
+   "additions": 3701,
+   "deletions": 70,
+   "changed_files": 61,
+   "labels": [],
+   "issues": [
+    {
+     "n": 61,
+     "title": "Create `simplifier` to simplify onnx-ir graph output",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/61"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "Cargo.lock",
+    "DEVELOPMENT-GUIDE.md",
+    "README.md",
+    "crates/burn-onnx/src/bin/onnx2burn.rs",
+    "crates/burn-onnx/src/model_gen.rs",
+    "crates/model-checks/albert/Cargo.toml",
+    "crates/model-checks/albert/get_model.py",
+    "crates/model-checks/all-minilm-l6-v2/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-text/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-vision/Cargo.toml",
+    "crates/model-checks/modernbert-base/Cargo.toml",
+    "crates/model-checks/modernbert-base/get_model.py",
+    "crates/model-checks/rf-detr/Cargo.toml",
+    "crates/model-checks/silero-vad/Cargo.toml",
+    "crates/model-checks/yolo/Cargo.toml",
+    "crates/onnx-ir/README.md",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/ir/argument.rs",
+    "crates/onnx-ir/src/ir/attribute.rs",
+    "crates/onnx-ir/src/ir/tensor_data_ext.rs",
+    "crates/onnx-ir/src/lib.rs",
+    "crates/onnx-ir/src/node/concat.rs",
+    "crates/onnx-ir/src/node/dropout.rs",
+    "crates/onnx-ir/src/node/expand.rs",
+    "crates/onnx-ir/src/node/flatten.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/reshape.rs",
+    "crates/onnx-ir/src/node/split.rs",
+    "crates/onnx-ir/src/node/transpose.rs",
+    "crates/onnx-ir/src/phases/post_processing.rs",
+    "crates/onnx-ir/src/pipeline.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/dead_nodes.rs",
+    "crates/onnx-ir/src/simplify/idempotent.rs",
+    "crates/onnx-ir/src/simplify/identity_element.rs",
+    "crates/onnx-ir/src/simplify/mod.rs",
+    "crates/onnx-ir/src/simplify/permute_reshape.rs",
+    "crates/onnx-ir/src/simplify/redundant_nodes.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/external_data.rs",
+    "crates/onnx-ir/tests/noop_elimination.rs",
+    "crates/onnx-ir/tests/test_utils.rs",
+    "crates/onnx-tests/tests/simplify/gen_models.py",
+    "crates/onnx-tests/tests/simplify/mod.rs",
+    "crates/onnx-tests/tests/simplify/simplify_binary_ops_on_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_cast_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_concat_shapes.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_constant_of_shape_opt.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_expand_from_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_gather_on_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_gather_shape_chain.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_permute_via_shape_gather.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_reshape_from_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_shape_folding.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_slice_on_shape.onnx",
+    "crates/onnx-tests/tests/simplify/simplify_where_on_shapes.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 5701
+  },
+  {
+   "number": 318,
+   "title": "Add onnx-official-tests crate (M1 scaffold, #315)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/318",
+   "merged_at": "2026-04-09",
+   "additions": 1074,
+   "deletions": 1,
+   "changed_files": 82,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/test.yml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "_typos.toml",
+    "crates/onnx-ir/src/lib.rs",
+    "crates/onnx-official-tests/Cargo.toml",
+    "crates/onnx-official-tests/README.md",
+    "crates/onnx-official-tests/build.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-official-tests/src/expectations.rs",
+    "crates/onnx-official-tests/src/lib.rs",
+    "crates/onnx-official-tests/src/pb_loader.rs"
+   ],
+   "test_files": [
+    "crates/onnx-official-tests/tests/backend.rs",
+    "crates/onnx-official-tests/tests/test_mod.rs",
+    "crates/onnx-official-tests/vendor/node/test_abs/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_abs/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_abs/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_add/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_add/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_add/test_data_set_0/input_1.pb",
+    "crates/onnx-official-tests/vendor/node/test_add/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_ceil/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_ceil/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_ceil/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_cos/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_cos/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_cos/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_div/model.onnx",
+    "crates/onnx-official-tests/vendor/node/test_div/test_data_set_0/input_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_div/test_data_set_0/input_1.pb",
+    "crates/onnx-official-tests/vendor/node/test_div/test_data_set_0/output_0.pb",
+    "crates/onnx-official-tests/vendor/node/test_exp/model.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 5574
+  },
+  {
+   "number": 148,
+   "title": "fix: achieve 100% opset compliance across all supported ONNX operators",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/148",
+   "merged_at": "2026-02-12",
+   "additions": 1881,
+   "deletions": 290,
+   "changed_files": 63,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/onnx-ir/src/node/abs.rs",
+    "crates/onnx-ir/src/node/argmax.rs",
+    "crates/onnx-ir/src/node/argmin.rs",
+    "crates/onnx-ir/src/node/arithmetic.rs",
+    "crates/onnx-ir/src/node/avg_pool1d.rs",
+    "crates/onnx-ir/src/node/avg_pool2d.rs",
+    "crates/onnx-ir/src/node/batch_norm.rs",
+    "crates/onnx-ir/src/node/ceil.rs",
+    "crates/onnx-ir/src/node/clip.rs",
+    "crates/onnx-ir/src/node/comparison.rs",
+    "crates/onnx-ir/src/node/concat.rs",
+    "crates/onnx-ir/src/node/exp.rs",
+    "crates/onnx-ir/src/node/floor.rs",
+    "crates/onnx-ir/src/node/gemm.rs",
+    "crates/onnx-ir/src/node/hard_sigmoid.rs",
+    "crates/onnx-ir/src/node/hardmax.rs",
+    "crates/onnx-ir/src/node/instance_norm.rs",
+    "crates/onnx-ir/src/node/leaky_relu.rs",
+    "crates/onnx-ir/src/node/log.rs",
+    "crates/onnx-ir/src/node/log_softmax.rs",
+    "crates/onnx-ir/src/node/mean.rs",
+    "crates/onnx-ir/src/node/neg.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/prelu.rs",
+    "crates/onnx-ir/src/node/reciprocal.rs",
+    "crates/onnx-ir/src/node/reduce.rs",
+    "crates/onnx-ir/src/node/relu.rs",
+    "crates/onnx-ir/src/node/reshape.rs",
+    "crates/onnx-ir/src/node/resize.rs",
+    "crates/onnx-ir/src/node/sigmoid.rs",
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-ir/src/node/softmax.rs",
+    "crates/onnx-ir/src/node/split.rs",
+    "crates/onnx-ir/src/node/sqrt.rs",
+    "crates/onnx-ir/src/node/squeeze.rs",
+    "crates/onnx-ir/src/node/sum.rs",
+    "crates/onnx-ir/src/node/tanh.rs",
+    "crates/onnx-ir/src/node/tile.rs",
+    "crates/onnx-ir/src/node/topk.rs",
+    "crates/onnx-ir/src/node/unsqueeze.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_02.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_06.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_06_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_07.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_07_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_10.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_10_unsupported.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_11.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_11_unsupported.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_02.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_06.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_07.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_09.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_10.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 4121
+  },
+  {
+   "number": 150,
+   "title": "Fix Split uneven-split bug and expand integration tests for 5 operators",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/150",
+   "merged_at": "2026-02-12",
+   "additions": 1573,
+   "deletions": 44,
+   "changed_files": 40,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/split.rs",
+    "crates/onnx-ir/src/node/split.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gather_elements/gather_elements_3d.onnx",
+    "crates/onnx-tests/tests/gather_elements/gather_elements_3d.py",
+    "crates/onnx-tests/tests/gather_elements/gather_elements_axis0.onnx",
+    "crates/onnx-tests/tests/gather_elements/gather_elements_axis0.py",
+    "crates/onnx-tests/tests/gather_elements/gather_elements_negative_axis.onnx",
+    "crates/onnx-tests/tests/gather_elements/gather_elements_negative_axis.py",
+    "crates/onnx-tests/tests/gather_elements/mod.rs",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_4d.onnx",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_4d.py",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_custom_epsilon.onnx",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_custom_epsilon.py",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_no_bias.onnx",
+    "crates/onnx-tests/tests/layer_norm/layer_norm_no_bias.py",
+    "crates/onnx-tests/tests/layer_norm/mod.rs",
+    "crates/onnx-tests/tests/one_hot/mod.rs",
+    "crates/onnx-tests/tests/one_hot/one_hot_2d.onnx",
+    "crates/onnx-tests/tests/one_hot/one_hot_2d.py",
+    "crates/onnx-tests/tests/one_hot/one_hot_axis0.onnx",
+    "crates/onnx-tests/tests/one_hot/one_hot_axis0.py",
+    "crates/onnx-tests/tests/one_hot/one_hot_float_values.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 3913
+  },
+  {
+   "number": 326,
+   "title": "Replace burn-ndarray with burn-flex as the CPU backend",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/326",
+   "merged_at": "2026-04-11",
+   "additions": 741,
+   "deletions": 377,
+   "changed_files": 93,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/bump-burn.yml",
+    "AGENTS.md",
+    "Cargo.lock",
+    "Cargo.toml",
+    "DEVELOPMENT-GUIDE.md",
+    "README.md",
+    "crates/burn-onnx/Cargo.toml",
+    "crates/burn-onnx/src/burn/graph.rs",
+    "crates/burn-onnx/src/burn/node/argmax.rs",
+    "crates/burn-onnx/src/burn/node/argmin.rs",
+    "crates/burn-onnx/src/burn/node/constant.rs",
+    "crates/burn-onnx/src/burn/node/gather.rs",
+    "crates/burn-onnx/src/burn/node/gru.rs",
+    "crates/burn-onnx/src/burn/node/lstm.rs",
+    "crates/burn-onnx/src/burn/node/nonzero.rs",
+    "crates/burn-onnx/src/burn/node/one_hot.rs",
+    "crates/burn-onnx/src/burn/node/reshape.rs",
+    "crates/burn-onnx/src/burn/node/rnn.rs",
+    "crates/burn-onnx/src/burn/node/top_k.rs",
+    "crates/burn-onnx/src/burn/node_traits.rs",
+    "crates/model-checks/albert/Cargo.toml",
+    "crates/model-checks/alexnet/Cargo.toml",
+    "crates/model-checks/all-minilm-l6-v2/Cargo.toml",
+    "crates/model-checks/arcface/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-text/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-vision/Cargo.toml",
+    "crates/model-checks/common/src/lib.rs",
+    "crates/model-checks/densenet121/Cargo.toml",
+    "crates/model-checks/depth-anything-v2/Cargo.toml",
+    "crates/model-checks/depth-pro/Cargo.toml",
+    "crates/model-checks/inception-v1/Cargo.toml",
+    "crates/model-checks/inception-v2/Cargo.toml",
+    "crates/model-checks/mediapipe-face-detector/Cargo.toml",
+    "crates/model-checks/mobilenet-v2/Cargo.toml",
+    "crates/model-checks/modernbert-base/Cargo.toml",
+    "crates/model-checks/qwen/Cargo.toml",
+    "crates/model-checks/resnet50/Cargo.toml",
+    "crates/model-checks/rf-detr/Cargo.toml",
+    "crates/model-checks/rtmw3d/Cargo.toml",
+    "crates/model-checks/shufflenet/Cargo.toml"
+   ],
+   "test_files": [
+    "crates/onnx-official-tests/tests/backend.rs",
+    "crates/onnx-tests/tests/add/mod.rs",
+    "crates/onnx-tests/tests/and/mod.rs",
+    "crates/onnx-tests/tests/backend.rs",
+    "crates/onnx-tests/tests/bitshift/mod.rs",
+    "crates/onnx-tests/tests/bitwise_and/mod.rs",
+    "crates/onnx-tests/tests/bitwise_not/mod.rs",
+    "crates/onnx-tests/tests/bitwise_or/mod.rs",
+    "crates/onnx-tests/tests/bitwise_xor/mod.rs",
+    "crates/onnx-tests/tests/concat/mod.rs",
+    "crates/onnx-tests/tests/constant/mod.rs",
+    "crates/onnx-tests/tests/constant_of_shape/mod.rs",
+    "crates/onnx-tests/tests/conv/mod.rs",
+    "crates/onnx-tests/tests/conv_transpose/mod.rs",
+    "crates/onnx-tests/tests/einsum/mod.rs",
+    "crates/onnx-tests/tests/expand/mod.rs",
+    "crates/onnx-tests/tests/eye_like/mod.rs",
+    "crates/onnx-tests/tests/grid_sample/mod.rs",
+    "crates/onnx-tests/tests/matmulinteger/mod.rs",
+    "crates/onnx-tests/tests/nonzero/mod.rs"
+   ],
+   "theme_hits": [
+    "backend",
+    "index",
+    "onnx"
+   ],
+   "horizon_score": 3901
+  },
+  {
+   "number": 466,
+   "title": "RNN family: consume weights supplied as runtime graph inputs",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/466",
+   "merged_at": "2026-08-21",
+   "additions": 2526,
+   "deletions": 511,
+   "changed_files": 24,
+   "labels": [],
+   "issues": [
+    {
+     "n": 458,
+     "title": "GRU/LSTM/RNN silently discard weights supplied as runtime graph inputs",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/458"
+    }
+   ],
+   "src_files": [
+    "TODO.md",
+    "crates/burn-onnx/src/import/burn/node/gru.rs",
+    "crates/burn-onnx/src/import/burn/node/lstm.rs",
+    "crates/burn-onnx/src/import/burn/node/mod.rs",
+    "crates/burn-onnx/src/import/burn/node/rnn.rs",
+    "crates/burn-onnx/src/import/burn/node/rnn_common.rs",
+    "crates/onnx-ir/src/node/gru.rs",
+    "crates/onnx-ir/src/node/lstm.rs",
+    "crates/onnx-ir/src/node/rnn.rs",
+    "crates/onnx-ir/src/processor.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gru/gru_bidirectional_runtime_weights.onnx",
+    "crates/onnx-tests/tests/gru/gru_bidirectional_runtime_weights.py",
+    "crates/onnx-tests/tests/gru/gru_bidirectional_static_weights.onnx",
+    "crates/onnx-tests/tests/gru/gru_runtime_weights.onnx",
+    "crates/onnx-tests/tests/gru/gru_runtime_weights.py",
+    "crates/onnx-tests/tests/gru/mod.rs",
+    "crates/onnx-tests/tests/lstm/lstm_runtime_weights.onnx",
+    "crates/onnx-tests/tests/lstm/lstm_runtime_weights.py",
+    "crates/onnx-tests/tests/lstm/mod.rs",
+    "crates/onnx-tests/tests/rnn/mod.rs",
+    "crates/onnx-tests/tests/rnn/rnn_runtime_weights.onnx",
+    "crates/onnx-tests/tests/rnn/rnn_runtime_weights.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 3546
+  },
+  {
+   "number": 270,
+   "title": "feat: Support constrained Einsum operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/270",
+   "merged_at": "2026-03-30",
+   "additions": 2150,
+   "deletions": 15,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [
+    {
+     "n": 155,
+     "title": "Implement Einsum operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/155"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/argument_helpers.rs",
+    "crates/burn-onnx/src/burn/node/einsum.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/einsum.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/einsum/einsum.onnx",
+    "crates/onnx-tests/tests/einsum/einsum.py",
+    "crates/onnx-tests/tests/einsum/einsum_outer_int.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_outer_int.py",
+    "crates/onnx-tests/tests/einsum/einsum_sam.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_sam.py",
+    "crates/onnx-tests/tests/einsum/einsum_scalar.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_scalar.py",
+    "crates/onnx-tests/tests/einsum/einsum_scalar_scalar.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_scalar_scalar.py",
+    "crates/onnx-tests/tests/einsum/einsum_shadow_rhs.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_shadow_rhs.py",
+    "crates/onnx-tests/tests/einsum/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 3270
+  },
+  {
+   "number": 333,
+   "title": "Implement `QLinearMatMul` operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/333",
+   "merged_at": "2026-04-16",
+   "additions": 1736,
+   "deletions": 52,
+   "changed_files": 27,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/matmul.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/qlinear_matmul.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/matmul.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/qlinear_matmul.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/Cargo.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-tests/tests/qlinear_matmul/mod.rs",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul.py",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_i8_saturate.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_nd.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_opset_10.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_saturate.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_scalar.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_scalar_f16_scale.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_u8_saturate.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_vector.onnx",
+    "crates/onnx-tests/tests/qlinear_matmul/qlinear_matmul_vector_bf16_scale.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2856
+  },
+  {
+   "number": 457,
+   "title": "Fix Size codegen and re-triage the ONNX scoreboard",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/457",
+   "merged_at": "2026-08-18",
+   "additions": 2173,
+   "deletions": 1354,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "TODO.md",
+    "crates/burn-onnx/src/burn/node/size.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/mod.rs",
+    "crates/onnx-official-tests/build.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs",
+    "xtask/src/main.rs",
+    "xtask/src/retriage.rs",
+    "xtask/src/update_expectations.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/size/mod.rs",
+    "crates/onnx-tests/tests/size/size.onnx",
+    "crates/onnx-tests/tests/size/size.py",
+    "crates/onnx-tests/tests/size/size_shape.onnx",
+    "crates/onnx-tests/tests/size/size_shape.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2813
+  },
+  {
+   "number": 461,
+   "title": "Add Upsample operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/461",
+   "merged_at": "2026-08-20",
+   "additions": 1339,
+   "deletions": 155,
+   "changed_files": 30,
+   "labels": [],
+   "issues": [
+    {
+     "n": 415,
+     "title": "Unsupported ONNX operation(s): Upsample",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/415"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "TODO.md",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/attribute.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/node/upsample.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_07.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_10.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_07.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_09.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_10.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/test_mod.rs",
+    "crates/onnx-tests/tests/upsample/mod.rs",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_opset7.onnx",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_opset7.py",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_opset9.onnx",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_opset9.py",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_runtime_scales.onnx",
+    "crates/onnx-tests/tests/upsample/upsample_nearest_runtime_scales.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2759
+  },
+  {
+   "number": 90,
+   "title": "Implement RNN ONNX Operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/90",
+   "merged_at": "2026-02-11",
+   "additions": 1893,
+   "deletions": 3,
+   "changed_files": 20,
+   "labels": [],
+   "issues": [
+    {
+     "n": 11,
+     "title": "Implement RNN ONNX Operation",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/11"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/rnn.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/rnn.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/rnn/mod.rs",
+    "crates/onnx-tests/tests/rnn/rnn.onnx",
+    "crates/onnx-tests/tests/rnn/rnn.py",
+    "crates/onnx-tests/tests/rnn/rnn_bidirectional.onnx",
+    "crates/onnx-tests/tests/rnn/rnn_bidirectional.py",
+    "crates/onnx-tests/tests/rnn/rnn_reverse.onnx",
+    "crates/onnx-tests/tests/rnn/rnn_reverse.py",
+    "crates/onnx-tests/tests/rnn/rnn_with_initial_state.onnx",
+    "crates/onnx-tests/tests/rnn/rnn_with_initial_state.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2753
+  },
+  {
+   "number": 316,
+   "title": "Unblock 39 scoreboard tests: runtime inputs in Clip/Dropout/OneHot/TopK + ArgMax/ArgMin select_last_index + Mod/And Shape",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/316",
+   "merged_at": "2026-04-08",
+   "additions": 1581,
+   "deletions": 145,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/argmax.rs",
+    "crates/burn-onnx/src/burn/node/argmin.rs",
+    "crates/burn-onnx/src/burn/node/bool_and.rs",
+    "crates/burn-onnx/src/burn/node/clip.rs",
+    "crates/burn-onnx/src/burn/node/dropout.rs",
+    "crates/burn-onnx/src/burn/node/modulo.rs",
+    "crates/burn-onnx/src/burn/node/one_hot.rs",
+    "crates/burn-onnx/src/burn/node/top_k.rs",
+    "crates/onnx-ir/src/node/argmax.rs",
+    "crates/onnx-ir/src/node/argmin.rs",
+    "crates/onnx-ir/src/node/dropout.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_11.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_12.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-tests/tests/argmax/argmax_select_last_index.onnx",
+    "crates/onnx-tests/tests/argmax/argmax_select_last_index.py",
+    "crates/onnx-tests/tests/argmax/mod.rs",
+    "crates/onnx-tests/tests/argmin/argmin_select_last_index.onnx",
+    "crates/onnx-tests/tests/argmin/argmin_select_last_index.py",
+    "crates/onnx-tests/tests/argmin/mod.rs",
+    "crates/onnx-tests/tests/mod/mod.rs",
+    "crates/onnx-tests/tests/mod/mod_shape.onnx",
+    "crates/onnx-tests/tests/mod/mod_shape.py"
+   ],
+   "theme_hits": [
+    "index",
+    "onnx"
+   ],
+   "horizon_score": 2721
+  },
+  {
+   "number": 45,
+   "title": "Add support for asymmetric padding in conv and pool ops",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/45",
+   "merged_at": "2026-02-02",
+   "additions": 1253,
+   "deletions": 326,
+   "changed_files": 35,
+   "labels": [],
+   "issues": [
+    {
+     "n": 5,
+     "title": "Asymmetric padding is not supported",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/5"
+    }
+   ],
+   "src_files": [
+    ".github/workflows/test.yml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/burn-onnx/src/burn/codegen.rs",
+    "crates/burn-onnx/src/burn/node/avg_pool1d.rs",
+    "crates/burn-onnx/src/burn/node/avg_pool2d.rs",
+    "crates/burn-onnx/src/burn/node/conv1d.rs",
+    "crates/burn-onnx/src/burn/node/conv2d.rs",
+    "crates/burn-onnx/src/burn/node/conv3d.rs",
+    "crates/burn-onnx/src/burn/node/max_pool1d.rs",
+    "crates/burn-onnx/src/burn/node/max_pool2d.rs",
+    "crates/onnx-ir/src/node/avg_pool1d.rs",
+    "crates/onnx-ir/src/node/avg_pool2d.rs",
+    "crates/onnx-ir/src/node/conv1d.rs",
+    "crates/onnx-ir/src/node/conv2d.rs",
+    "crates/onnx-ir/src/node/conv3d.rs",
+    "crates/onnx-ir/src/node/max_pool1d.rs",
+    "crates/onnx-ir/src/node/max_pool2d.rs",
+    "crates/onnx-ir/src/node/padding.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/avg_pool/avg_pool1d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/avg_pool/avg_pool1d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/avg_pool/avg_pool2d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/avg_pool/avg_pool2d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/avg_pool/mod.rs",
+    "crates/onnx-tests/tests/conv/conv1d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/conv/conv1d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/conv/conv2d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/conv/conv2d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/conv/mod.rs",
+    "crates/onnx-tests/tests/maxpool/maxpool1d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/maxpool/maxpool1d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/maxpool/maxpool2d_asymmetric_padding.onnx",
+    "crates/onnx-tests/tests/maxpool/maxpool2d_asymmetric_padding.py",
+    "crates/onnx-tests/tests/maxpool/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2613
+  },
+  {
+   "number": 464,
+   "title": "Reduce ops: honor a runtime `axes` input",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/464",
+   "merged_at": "2026-08-21",
+   "additions": 1659,
+   "deletions": 732,
+   "changed_files": 23,
+   "labels": [],
+   "issues": [
+    {
+     "n": 459,
+     "title": "Reduce ops silently reduce over all dimensions when axes is a runtime input",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/459"
+    },
+    {
+     "n": 460,
+     "title": "Attribute validation errors are non-deterministic because Attributes is a HashMap",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/460"
+    }
+   ],
+   "src_files": [
+    "TODO.md",
+    "crates/burn-onnx/src/import/burn/node/reduce.rs",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/ir/attribute.rs",
+    "crates/onnx-ir/src/node/if_node.rs",
+    "crates/onnx-ir/src/node/loop_node.rs",
+    "crates/onnx-ir/src/node/reduce.rs",
+    "crates/onnx-ir/src/simplify/coalesce_attention.rs",
+    "crates/onnx-ir/src/simplify/constant_fold.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/permute_reshape.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_11.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_12.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_18.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_20.rs",
+    "crates/onnx-tests/tests/reduce/mod.rs",
+    "crates/onnx-tests/tests/reduce/reduce_runtime_axes.onnx",
+    "crates/onnx-tests/tests/reduce/reduce_runtime_axes.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2579
+  },
+  {
+   "number": 417,
+   "title": "Add GlobalLpPool",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/417",
+   "merged_at": "2026-08-29",
+   "additions": 1093,
+   "deletions": 4,
+   "changed_files": 29,
+   "labels": [],
+   "issues": [
+    {
+     "n": 159,
+     "title": "Implement GlobalLpPool operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/159"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/import/burn/node/global_lp_pool.rs",
+    "crates/burn-onnx/src/import/burn/node/mod.rs",
+    "crates/burn-onnx/src/import/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/global_lp_pool.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_02.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_22.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_02.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_22.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool.py",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_default.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_l1.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_l2.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_l3.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_opset1_fractional_p.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_rank_4_l1.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_rank_4_l2.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/global_lp_pool_rank_4_l3.onnx",
+    "crates/onnx-tests/tests/global_lp_pool/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2533
+  },
+  {
+   "number": 369,
+   "title": "Implement MelWeightMatrix operator (#161)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/369",
+   "merged_at": "2026-04-24",
+   "additions": 1358,
+   "deletions": 184,
+   "changed_files": 29,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".cargo/audit.toml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mel_weight_matrix.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mel_weight_matrix.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/phases/type_inference.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs",
+    "examples/image-classification-web/Cargo.toml"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_constants.onnx",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_constants.py",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_runtime.onnx",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_runtime.py",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_shaped.onnx",
+    "crates/onnx-tests/tests/mel_weight_matrix/mel_weight_matrix_shaped.py",
+    "crates/onnx-tests/tests/mel_weight_matrix/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2518
+  },
+  {
+   "number": 81,
+   "title": "Add GRU operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/81",
+   "merged_at": "2026-02-02",
+   "additions": 1753,
+   "deletions": 3,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [
+    {
+     "n": 8,
+     "title": "Implement GRU ONNX Operation",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/8"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "_typos.toml",
+    "crates/burn-onnx/src/burn/node/gru.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/gru.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gru/gru.onnx",
+    "crates/onnx-tests/tests/gru/gru.py",
+    "crates/onnx-tests/tests/gru/gru_reverse.onnx",
+    "crates/onnx-tests/tests/gru/gru_reverse.py",
+    "crates/onnx-tests/tests/gru/gru_with_initial_state.onnx",
+    "crates/onnx-tests/tests/gru/gru_with_initial_state.py",
+    "crates/onnx-tests/tests/gru/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2513
+  },
+  {
+   "number": 367,
+   "title": "Implement STFT operator (#161)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/367",
+   "merged_at": "2026-04-24",
+   "additions": 1351,
+   "deletions": 12,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/stft.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/stft.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/phases/type_inference.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/stft/mod.rs",
+    "crates/onnx-tests/tests/stft/stft_basic.onnx",
+    "crates/onnx-tests/tests/stft/stft_basic.py",
+    "crates/onnx-tests/tests/stft/stft_full.onnx",
+    "crates/onnx-tests/tests/stft/stft_full.py",
+    "crates/onnx-tests/tests/stft/stft_with_window.onnx",
+    "crates/onnx-tests/tests/stft/stft_with_window.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2431
+  },
+  {
+   "number": 332,
+   "title": "Implement HannWindow operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/332",
+   "merged_at": "2026-04-12",
+   "additions": 1120,
+   "deletions": 94,
+   "changed_files": 30,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/hamming_window.rs",
+    "crates/burn-onnx/src/burn/node/hann_window.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/hamming_window.rs",
+    "crates/onnx-ir/src/node/hann_window.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/node/window_common.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/hamming_window/hamming_window_runtime.onnx",
+    "crates/onnx-tests/tests/hamming_window/hamming_window_runtime.py",
+    "crates/onnx-tests/tests/hamming_window/mod.rs",
+    "crates/onnx-tests/tests/hann_window/hann_window.onnx",
+    "crates/onnx-tests/tests/hann_window/hann_window.py",
+    "crates/onnx-tests/tests/hann_window/hann_window_runtime.onnx",
+    "crates/onnx-tests/tests/hann_window/hann_window_runtime.py",
+    "crates/onnx-tests/tests/hann_window/hann_window_symmetric.onnx",
+    "crates/onnx-tests/tests/hann_window/hann_window_symmetric.py",
+    "crates/onnx-tests/tests/hann_window/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2420
+  },
+  {
+   "number": 131,
+   "title": "feat: add ScatterElements operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/131",
+   "merged_at": "2026-02-09",
+   "additions": 1301,
+   "deletions": 9,
+   "changed_files": 24,
+   "labels": [],
+   "issues": [
+    {
+     "n": 125,
+     "title": "Support ScatterElements operator in ONNX import/export",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/125"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/scatter_elements.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/scatter_elements.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scatter_elements/mod.rs",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_add.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_add.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_axis1.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_axis1.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_max.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_max.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_min.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_min.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_mul.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_mul.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2401
+  },
+  {
+   "number": 478,
+   "title": "fix(auto_pad): lower SAME_UPPER to PaddingConfig::Same on dynamic spatial dims",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/478",
+   "merged_at": "2026-08-25",
+   "additions": 1223,
+   "deletions": 82,
+   "changed_files": 32,
+   "labels": [],
+   "issues": [
+    {
+     "n": 468,
+     "title": "auto_pad SAME_UPPER/SAME_LOWER panics on dynamic spatial dims instead of using PaddingConfig::Same",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/468"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/import/burn/codegen.rs",
+    "crates/burn-onnx/src/import/burn/node/avg_pool1d.rs",
+    "crates/burn-onnx/src/import/burn/node/avg_pool2d.rs",
+    "crates/burn-onnx/src/import/burn/node/conv1d.rs",
+    "crates/burn-onnx/src/import/burn/node/conv2d.rs",
+    "crates/burn-onnx/src/import/burn/node/conv3d.rs",
+    "crates/burn-onnx/src/import/burn/node/lp_pool1d.rs",
+    "crates/burn-onnx/src/import/burn/node/lp_pool2d.rs",
+    "crates/burn-onnx/src/import/burn/node/max_pool1d.rs",
+    "crates/burn-onnx/src/import/burn/node/max_pool2d.rs",
+    "crates/onnx-ir/src/node/avg_pool1d.rs",
+    "crates/onnx-ir/src/node/avg_pool2d.rs",
+    "crates/onnx-ir/src/node/conv1d.rs",
+    "crates/onnx-ir/src/node/conv2d.rs",
+    "crates/onnx-ir/src/node/conv3d.rs",
+    "crates/onnx-ir/src/node/lp_pool1d.rs",
+    "crates/onnx-ir/src/node/lp_pool2d.rs",
+    "crates/onnx-ir/src/node/max_pool1d.rs",
+    "crates/onnx-ir/src/node/max_pool2d.rs",
+    "crates/onnx-ir/src/node/padding.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/avg_pool/avg_pool2d_same_upper_dynamic.onnx",
+    "crates/onnx-tests/tests/avg_pool/avg_pool2d_same_upper_dynamic.py",
+    "crates/onnx-tests/tests/avg_pool/mod.rs",
+    "crates/onnx-tests/tests/conv/conv1d_same_upper_dynamic.onnx",
+    "crates/onnx-tests/tests/conv/conv1d_same_upper_dynamic.py",
+    "crates/onnx-tests/tests/conv/conv2d_same_upper_dynamic.onnx",
+    "crates/onnx-tests/tests/conv/conv2d_same_upper_dynamic.py",
+    "crates/onnx-tests/tests/conv/mod.rs",
+    "crates/onnx-tests/tests/maxpool/maxpool2d_same_upper_dynamic.onnx",
+    "crates/onnx-tests/tests/maxpool/maxpool2d_same_upper_dynamic.py",
+    "crates/onnx-tests/tests/maxpool/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2363
+  },
+  {
+   "number": 372,
+   "title": "Add kokoro TTS model check; fix non-pow2 STFT, rank-2 signal, LSTM aliasing",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/372",
+   "merged_at": "2026-04-25",
+   "additions": 1830,
+   "deletions": 68,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/burn-onnx/src/burn/node/lstm.rs",
+    "crates/burn-onnx/src/burn/node/stft.rs",
+    "crates/model-checks/README.md",
+    "crates/model-checks/kokoro/Cargo.toml",
+    "crates/model-checks/kokoro/README.md",
+    "crates/model-checks/kokoro/bisect_setup.py",
+    "crates/model-checks/kokoro/build.rs",
+    "crates/model-checks/kokoro/get_model.py",
+    "crates/model-checks/kokoro/src/bin/bisect.rs",
+    "crates/model-checks/kokoro/src/main.rs",
+    "crates/onnx-ir/src/node/stft.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/stft/mod.rs",
+    "crates/onnx-tests/tests/stft/stft_non_pow2.onnx",
+    "crates/onnx-tests/tests/stft/stft_non_pow2.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2330
+  },
+  {
+   "number": 330,
+   "title": "Implement DFT (Discrete Fourier Transform) operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/330",
+   "merged_at": "2026-04-12",
+   "additions": 1220,
+   "deletions": 25,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/dft.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/dft.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/phases/type_inference.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_20.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_20.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/dft/dft_full.onnx",
+    "crates/onnx-tests/tests/dft/dft_full.py",
+    "crates/onnx-tests/tests/dft/dft_onesided.onnx",
+    "crates/onnx-tests/tests/dft/dft_onesided.py",
+    "crates/onnx-tests/tests/dft/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2300
+  },
+  {
+   "number": 409,
+   "title": "fix: support runtime pads and runtime axes input in Pad codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/409",
+   "merged_at": "2026-05-21",
+   "additions": 1524,
+   "deletions": 131,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [
+    {
+     "n": 341,
+     "title": "Pad: runtime pads input not supported in burn-onnx codegen (41 tests)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/341"
+    },
+    {
+     "n": 405,
+     "title": "Runtime pads are not supported in burn-onnx",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/405"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/codegen.rs",
+    "crates/burn-onnx/src/burn/node/pad.rs",
+    "crates/onnx-ir/src/ir/argument.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/pad/mod.rs",
+    "crates/onnx-tests/tests/pad/pad_runtime_axes.onnx",
+    "crates/onnx-tests/tests/pad/pad_runtime_axes.py",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads.onnx",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads.py",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads_axes.onnx",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads_axes.py",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads_shape.onnx",
+    "crates/onnx-tests/tests/pad/pad_runtime_pads_shape.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2264
+  },
+  {
+   "number": 206,
+   "title": "Add DequantizeLinear and QuantizeLinear operators",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/206",
+   "merged_at": "2026-02-24",
+   "additions": 1219,
+   "deletions": 4,
+   "changed_files": 23,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/broadcast_helpers.rs",
+    "crates/burn-onnx/src/burn/node/dequantize_linear.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/quantize_linear.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/dequantize_linear.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/quantize_linear.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/dequantize_linear/dequantize_linear.onnx",
+    "crates/onnx-tests/tests/dequantize_linear/dequantize_linear.py",
+    "crates/onnx-tests/tests/dequantize_linear/dequantize_linear_axis.onnx",
+    "crates/onnx-tests/tests/dequantize_linear/dequantize_linear_axis.py",
+    "crates/onnx-tests/tests/dequantize_linear/mod.rs",
+    "crates/onnx-tests/tests/quantize_linear/mod.rs",
+    "crates/onnx-tests/tests/quantize_linear/quantize_linear.onnx",
+    "crates/onnx-tests/tests/quantize_linear/quantize_linear.py",
+    "crates/onnx-tests/tests/quantize_linear/quantize_linear_axis.onnx",
+    "crates/onnx-tests/tests/quantize_linear/quantize_linear_axis.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx",
+    "quantiz"
+   ],
+   "horizon_score": 2239
+  },
+  {
+   "number": 455,
+   "title": "Fix uncompilable codegen for Shape/tensor mixed Concat",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/455",
+   "merged_at": "2026-08-18",
+   "additions": 955,
+   "deletions": 108,
+   "changed_files": 42,
+   "labels": [],
+   "issues": [
+    {
+     "n": 438,
+     "title": "burn-onnx: ModelGen generates uncompilable code for Shape \u2192 dynamic-bound Slice \u2192 Concat",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/438"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/graph.rs",
+    "crates/burn-onnx/src/burn/imports.rs",
+    "crates/burn-onnx/src/burn/node/concat.rs",
+    "crates/burn-onnx/src/burn/node/slice.rs",
+    "crates/model-checks/albert/src/main.rs",
+    "crates/model-checks/alexnet/src/main.rs",
+    "crates/model-checks/all-minilm-l6-v2/src/main.rs",
+    "crates/model-checks/arcface/src/main.rs",
+    "crates/model-checks/clip-vit-b-32-text/src/main.rs",
+    "crates/model-checks/clip-vit-b-32-vision/src/main.rs",
+    "crates/model-checks/densenet121/src/main.rs",
+    "crates/model-checks/depth-anything-v2/src/main.rs",
+    "crates/model-checks/depth-pro/src/main.rs",
+    "crates/model-checks/inception-v1/src/main.rs",
+    "crates/model-checks/inception-v2/src/main.rs",
+    "crates/model-checks/kokoro/src/bin/bisect.rs",
+    "crates/model-checks/kokoro/src/main.rs",
+    "crates/model-checks/mediapipe-face-detector/src/main.rs",
+    "crates/model-checks/mobilenet-v2/src/main.rs",
+    "crates/model-checks/modernbert-base/src/main.rs",
+    "crates/model-checks/qwen/src/main.rs",
+    "crates/model-checks/resnet50/src/main.rs",
+    "crates/model-checks/rf-detr/src/main.rs",
+    "crates/model-checks/rtmw3d/src/main.rs",
+    "crates/model-checks/shufflenet/src/main.rs",
+    "crates/model-checks/silero-vad/src/main.rs",
+    "crates/model-checks/smollm/src/main.rs",
+    "crates/model-checks/squeezenet/src/main.rs",
+    "crates/model-checks/stable-diffusion-xl/src/main.rs",
+    "crates/model-checks/vgg19/src/main.rs",
+    "crates/model-checks/yolo/src/main.rs",
+    "crates/model-checks/zfnet512/src/main.rs",
+    "crates/onnx-ir/src/node/concat.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/concat/concat_shape_with_tensor.onnx",
+    "crates/onnx-tests/tests/concat/concat_shape_with_tensor.py",
+    "crates/onnx-tests/tests/concat/mod.rs",
+    "crates/onnx-tests/tests/slice/mod.rs",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_concat.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_concat.py",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_concat_reshape.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_concat_reshape.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2175
+  },
+  {
+   "number": 136,
+   "title": "feat: add constant folding simplification pass",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/136",
+   "merged_at": "2026-02-09",
+   "additions": 1370,
+   "deletions": 42,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [
+    {
+     "n": 70,
+     "title": "Add constant folding simplification pass",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/70"
+    }
+   ],
+   "src_files": [
+    "crates/onnx-ir/src/simplify/constant_fold.rs",
+    "crates/onnx-ir/src/simplify/constant_shape.rs",
+    "crates/onnx-ir/src/simplify/mod.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/constant_fold_blocked.onnx",
+    "crates/onnx-ir/tests/fixtures/constant_fold_cascade.onnx",
+    "crates/onnx-ir/tests/fixtures/constant_fold_cast.onnx",
+    "crates/onnx-ir/tests/fixtures/constant_fold_chain.onnx",
+    "crates/onnx-ir/tests/fixtures/constant_fold_concat.onnx",
+    "crates/onnx-ir/tests/fixtures/constant_fold_sqrt.onnx",
+    "crates/onnx-ir/tests/scripts/generate_constant_fold.py",
+    "crates/onnx-ir/tests/simplification.rs",
+    "crates/onnx-tests/tests/simplify/gen_models.py",
+    "crates/onnx-tests/tests/simplify/mod.rs",
+    "crates/onnx-tests/tests/simplify/simplify_constant_fold.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2170
+  },
+  {
+   "number": 360,
+   "title": "Implement MeanVarianceNormalization operator (#123)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/360",
+   "merged_at": "2026-04-22",
+   "additions": 985,
+   "deletions": 8,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [
+    {
+     "n": 123,
+     "title": "Implement MeanVarianceNormalization operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/123"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mean_variance_normalization.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mean_variance_normalization.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_09.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_13.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_09.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/mean_variance_normalization/mean_variance_normalization.py",
+    "crates/onnx-tests/tests/mean_variance_normalization/mean_variance_normalization_all_axes.onnx",
+    "crates/onnx-tests/tests/mean_variance_normalization/mean_variance_normalization_custom_axes.onnx",
+    "crates/onnx-tests/tests/mean_variance_normalization/mean_variance_normalization_default_axes.onnx",
+    "crates/onnx-tests/tests/mean_variance_normalization/mean_variance_normalization_negative_axes.onnx",
+    "crates/onnx-tests/tests/mean_variance_normalization/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2105
+  },
+  {
+   "number": 129,
+   "title": "feat: coalesce decomposed SDPA patterns into Attention nodes",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/129",
+   "merged_at": "2026-02-08",
+   "additions": 1569,
+   "deletions": 8,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/onnx-ir/src/simplify/coalesce_attention.rs",
+    "crates/onnx-ir/src/simplify/mod.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/prescaled_sdpa.onnx",
+    "crates/onnx-ir/tests/scripts/generate_prescaled_sdpa.py",
+    "crates/onnx-ir/tests/simplification.rs",
+    "crates/onnx-tests/tests/simplify/gen_models.py",
+    "crates/onnx-tests/tests/simplify/mod.rs",
+    "crates/onnx-tests/tests/simplify/simplify_sdpa_coalesce.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2069
+  },
+  {
+   "number": 477,
+   "title": "fix(slice): translate ONNX reverse slices to Burn range semantics",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/477",
+   "merged_at": "2026-08-24",
+   "additions": 1284,
+   "deletions": 99,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 476,
+     "title": "Slice shape inference panics on i64::MIN sentinel (overflow in normalize_index's idx+n)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/476"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/import/burn/node/slice.rs",
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/slice/mod.rs",
+    "crates/onnx-tests/tests/slice/slice_min_sentinel.onnx",
+    "crates/onnx-tests/tests/slice/slice_min_sentinel.py",
+    "crates/onnx-tests/tests/slice/slice_reverse_dynamic.onnx",
+    "crates/onnx-tests/tests/slice/slice_reverse_dynamic.py",
+    "crates/onnx-tests/tests/slice/slice_reverse_steps.onnx",
+    "crates/onnx-tests/tests/slice/slice_reverse_steps.py",
+    "crates/onnx-tests/tests/slice/slice_shape_reverse.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_reverse.py",
+    "crates/onnx-tests/tests/slice/slice_with_steps.onnx",
+    "crates/onnx-tests/tests/slice/slice_with_steps.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2064
+  },
+  {
+   "number": 99,
+   "title": "feat: implement GatherND operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/99",
+   "merged_at": "2026-02-06",
+   "additions": 1276,
+   "deletions": 24,
+   "changed_files": 20,
+   "labels": [],
+   "issues": [
+    {
+     "n": 9,
+     "title": "Implement ScatterND ONNX Operation",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/9"
+    },
+    {
+     "n": 97,
+     "title": "Unsupported operation: GatherND",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/97"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/gathernd.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/gathernd.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/nonzero.rs",
+    "crates/onnx-ir/src/node/transpose.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gathernd/gathernd.onnx",
+    "crates/onnx-tests/tests/gathernd/gathernd.py",
+    "crates/onnx-tests/tests/gathernd/gathernd_3d.onnx",
+    "crates/onnx-tests/tests/gathernd/gathernd_batch1.onnx",
+    "crates/onnx-tests/tests/gathernd/gathernd_neg_idx.onnx",
+    "crates/onnx-tests/tests/gathernd/gathernd_partial.onnx",
+    "crates/onnx-tests/tests/gathernd/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2056
+  },
+  {
+   "number": 82,
+   "title": "Add ScatterND operator support ",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/82",
+   "merged_at": "2026-02-02",
+   "additions": 1091,
+   "deletions": 9,
+   "changed_files": 23,
+   "labels": [],
+   "issues": [
+    {
+     "n": 9,
+     "title": "Implement ScatterND ONNX Operation",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/9"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "SUPPORTED-ONNX-OPS.md",
+    "_typos.toml",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/scatter_nd.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/scatter_nd.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scatter_nd/mod.rs",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd.py",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_2d.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_add.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_bool.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_max.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_min.onnx",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_mul.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2011
+  },
+  {
+   "number": 378,
+   "title": "Add SVMRegressor operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/378",
+   "merged_at": "2026-05-06",
+   "additions": 1184,
+   "deletions": 0,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/svmregressor.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/svmregressor.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs",
+    "onnx-spec/ops/SVMRegressor.md"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/svmregressor/mod.rs",
+    "crates/onnx-tests/tests/svmregressor/svmregressor.onnx",
+    "crates/onnx-tests/tests/svmregressor/svmregressor.py",
+    "crates/onnx-tests/tests/svmregressor/svmregressor_logistic.onnx",
+    "crates/onnx-tests/tests/svmregressor/svmregressor_poly.onnx",
+    "crates/onnx-tests/tests/svmregressor/svmregressor_rbf.onnx",
+    "crates/onnx-tests/tests/svmregressor/svmregressor_sigmoid.onnx",
+    "crates/onnx-tests/tests/svmregressor/svmregressor_softmax_zero.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1984
+  },
+  {
+   "number": 130,
+   "title": "feat: add DeformConv operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/130",
+   "merged_at": "2026-02-08",
+   "additions": 1194,
+   "deletions": 3,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [
+    {
+     "n": 122,
+     "title": "Implement DeformConv (Deformable Convolution) ONNX Operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/122"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/deform_conv.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/deform_conv.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/deform_conv/deform_conv.onnx",
+    "crates/onnx-tests/tests/deform_conv/deform_conv.py",
+    "crates/onnx-tests/tests/deform_conv/deform_conv_bias.onnx",
+    "crates/onnx-tests/tests/deform_conv/deform_conv_bias.py",
+    "crates/onnx-tests/tests/deform_conv/deform_conv_mask.onnx",
+    "crates/onnx-tests/tests/deform_conv/deform_conv_mask.py",
+    "crates/onnx-tests/tests/deform_conv/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1934
+  },
+  {
+   "number": 366,
+   "title": "Implement BlackmanWindow operator (#161)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/366",
+   "merged_at": "2026-04-23",
+   "additions": 826,
+   "deletions": 11,
+   "changed_files": 24,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/blackman_window.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/blackman_window.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/blackman_window/blackman_window.onnx",
+    "crates/onnx-tests/tests/blackman_window/blackman_window.py",
+    "crates/onnx-tests/tests/blackman_window/blackman_window_runtime.onnx",
+    "crates/onnx-tests/tests/blackman_window/blackman_window_runtime.py",
+    "crates/onnx-tests/tests/blackman_window/blackman_window_symmetric.onnx",
+    "crates/onnx-tests/tests/blackman_window/blackman_window_symmetric.py",
+    "crates/onnx-tests/tests/blackman_window/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1886
+  },
+  {
+   "number": 199,
+   "title": "Add ONNX LpPool (1D/2D) support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/199",
+   "merged_at": "2026-02-23",
+   "additions": 1202,
+   "deletions": 1,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [
+    {
+     "n": 166,
+     "title": "Implement LpPool operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/166"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/lp_pool1d.rs",
+    "crates/burn-onnx/src/burn/node/lp_pool2d.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/lp_pool1d.rs",
+    "crates/onnx-ir/src/node/lp_pool2d.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/phases/node_conversion.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/lp_pool/mod.rs",
+    "crates/onnx-tests/tests/lp_pool1d/lp_pool1d.onnx",
+    "crates/onnx-tests/tests/lp_pool1d/lp_pool1d.py",
+    "crates/onnx-tests/tests/lp_pool2d/lp_pool2d.onnx",
+    "crates/onnx-tests/tests/lp_pool2d/lp_pool2d.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1862
+  },
+  {
+   "number": 361,
+   "title": "Implement LpNormalization operator (#134)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/361",
+   "merged_at": "2026-04-22",
+   "additions": 729,
+   "deletions": 23,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [
+    {
+     "n": 134,
+     "title": "Implement ONNX LpNormalization operator support",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/134"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/lp_normalization.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/lp_normalization.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_01.onnx",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_22.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_22.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/lp_normalization/lp_normalization.py",
+    "crates/onnx-tests/tests/lp_normalization/lp_normalization_default.onnx",
+    "crates/onnx-tests/tests/lp_normalization/lp_normalization_l1_axis1.onnx",
+    "crates/onnx-tests/tests/lp_normalization/lp_normalization_l2_axis0.onnx",
+    "crates/onnx-tests/tests/lp_normalization/lp_normalization_l2_negative_axis.onnx",
+    "crates/onnx-tests/tests/lp_normalization/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1849
+  },
+  {
+   "number": 169,
+   "title": "feat: Implemented Col2Im operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/169",
+   "merged_at": "2026-02-16",
+   "additions": 1222,
+   "deletions": 3,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [
+    {
+     "n": 167,
+     "title": "Implement Col2Im operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/167"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/col2im.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/col2im.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/col2im/col2im.py",
+    "crates/onnx-tests/tests/col2im/col2im_basic.onnx",
+    "crates/onnx-tests/tests/col2im/col2im_complex.onnx",
+    "crates/onnx-tests/tests/col2im/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1782
+  },
+  {
+   "number": 500,
+   "title": "feat: support NonMaxSuppression",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/500",
+   "merged_at": "2026-09-03",
+   "additions": 1011,
+   "deletions": 23,
+   "changed_files": 20,
+   "labels": [],
+   "issues": [
+    {
+     "n": 164,
+     "title": "Implement NonMaxSuppression operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/164"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/import/burn/node/mod.rs",
+    "crates/burn-onnx/src/import/burn/node/non_max_suppression.rs",
+    "crates/burn-onnx/src/import/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/non_max_suppression.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/Cargo.toml",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/Cargo.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/non_max_suppression/mod.rs",
+    "crates/onnx-tests/tests/non_max_suppression/non_max_suppression.onnx",
+    "crates/onnx-tests/tests/non_max_suppression/non_max_suppression.py",
+    "crates/onnx-tests/tests/non_max_suppression/non_max_suppression_minimal.onnx",
+    "crates/onnx-tests/tests/non_max_suppression/non_max_suppression_missing_middle.onnx",
+    "crates/onnx-tests/tests/non_max_suppression/non_max_suppression_missing_score_threshold.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1751
+  },
+  {
+   "number": 487,
+   "title": "Simplify ScatterElements reduction codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/487",
+   "merged_at": "2026-08-28",
+   "additions": 916,
+   "deletions": 309,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 311,
+     "title": "ONNX backend test suite: 181 failures across reduce/cast/resize/nllloss op families (90.1% pass)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/311"
+    },
+    {
+     "n": 486,
+     "title": "Update burn-onnx scatter codegen to use expanded IndexingUpdateOp support",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/486"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/import/burn/node/scatter_elements.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scatter_elements/mod.rs",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_1d.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_1d.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_3d.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_3d.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_bool.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_bool.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_int.onnx",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_int.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_max.py",
+    "crates/onnx-tests/tests/scatter_elements/scatter_elements_min.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1696
+  },
+  {
+   "number": 171,
+   "title": "Update to latest burn rev: new attention and pad APIs",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/171",
+   "merged_at": "2026-02-13",
+   "additions": 709,
+   "deletions": 359,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/burn-onnx/src/burn/node/attention.rs",
+    "crates/burn-onnx/src/burn/node/pad.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_02.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_11.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_18.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_19.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_21.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_23.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_24.rs",
+    "crates/onnx-tests/tests/pad/mod.rs",
+    "crates/onnx-tests/tests/pad/pad_ndim.onnx",
+    "crates/onnx-tests/tests/pad/pad_ndim.py",
+    "crates/onnx-tests/tests/simplify/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1669
+  },
+  {
+   "number": 507,
+   "title": "feat: OneHotEncoder support with end-to-end tests",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/507",
+   "merged_at": "2026-09-10",
+   "additions": 903,
+   "deletions": 0,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/import/burn/node/mod.rs",
+    "crates/burn-onnx/src/import/burn/node/one_hot_encoder.rs",
+    "crates/burn-onnx/src/import/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/one_hot_encoder.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs",
+    "onnx-spec/ops/OneHotEncoder.md"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/one_hot_encoder/mod.rs",
+    "crates/onnx-tests/tests/one_hot_encoder/one_hot_encoder.py",
+    "crates/onnx-tests/tests/one_hot_encoder/one_hot_encoder_2d.onnx",
+    "crates/onnx-tests/tests/one_hot_encoder/one_hot_encoder_f32.onnx",
+    "crates/onnx-tests/tests/one_hot_encoder/one_hot_encoder_f64.onnx",
+    "crates/onnx-tests/tests/one_hot_encoder/one_hot_encoder_i64.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "onnx"
+   ],
+   "horizon_score": 1643
+  },
+  {
+   "number": 284,
+   "title": "Added imputer operator with tests and documentation",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/284",
+   "merged_at": "2026-04-16",
+   "additions": 878,
+   "deletions": 1,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/imputer.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/imputer.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs",
+    "onnx-spec/ops/Imputer.md"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/imputer/imputer.onnx",
+    "crates/onnx-tests/tests/imputer/imputer.py",
+    "crates/onnx-tests/tests/imputer/imputer_int.onnx",
+    "crates/onnx-tests/tests/imputer/imputer_nan.onnx",
+    "crates/onnx-tests/tests/imputer/imputer_nan_default.onnx",
+    "crates/onnx-tests/tests/imputer/imputer_per_feature.onnx",
+    "crates/onnx-tests/tests/imputer/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1618
+  },
+  {
+   "number": 331,
+   "title": "Implement HammingWindow operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/331",
+   "merged_at": "2026-04-12",
+   "additions": 659,
+   "deletions": 9,
+   "changed_files": 22,
+   "labels": [],
+   "issues": [
+    {
+     "n": 161,
+     "title": "Implement signal processing operators (DFT, STFT, MelWeightMatrix, window functions)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/161"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/hamming_window.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/hamming_window.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/opset_compliance/manifest.txt",
+    "crates/onnx-ir/tests/fixtures/opset_compliance/opset_17.onnx",
+    "crates/onnx-ir/tests/opset_compliance/opset_17.rs",
+    "crates/onnx-ir/tests/scripts/gen_opset_compliance.py",
+    "crates/onnx-ir/tests/scripts/gen_rust_tests.py",
+    "crates/onnx-tests/tests/hamming_window/hamming_window.onnx",
+    "crates/onnx-tests/tests/hamming_window/hamming_window.py",
+    "crates/onnx-tests/tests/hamming_window/hamming_window_symmetric.onnx",
+    "crates/onnx-tests/tests/hamming_window/hamming_window_symmetric.py",
+    "crates/onnx-tests/tests/hamming_window/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1599
+  },
+  {
+   "number": 503,
+   "title": "fix: support scalar and shape types for max",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/503",
+   "merged_at": "2026-09-04",
+   "additions": 845,
+   "deletions": 122,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "DEVELOPMENT-GUIDE.md",
+    "crates/burn-onnx/src/import/burn/argument_helpers.rs",
+    "crates/burn-onnx/src/import/burn/node/add.rs",
+    "crates/burn-onnx/src/import/burn/node/concat.rs",
+    "crates/burn-onnx/src/import/burn/node/div.rs",
+    "crates/burn-onnx/src/import/burn/node/max.rs",
+    "crates/burn-onnx/src/import/burn/node/modulo.rs",
+    "crates/burn-onnx/src/import/burn/node/mul.rs",
+    "crates/burn-onnx/src/import/burn/node/prelude.rs",
+    "crates/burn-onnx/src/import/burn/node/sub.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/max/max_scalar.onnx",
+    "crates/onnx-tests/tests/max/max_scalar.py",
+    "crates/onnx-tests/tests/max/max_shape.onnx",
+    "crates/onnx-tests/tests/max/max_shape.py",
+    "crates/onnx-tests/tests/max/max_shape_tensor.onnx",
+    "crates/onnx-tests/tests/max/max_shape_tensor.py",
+    "crates/onnx-tests/tests/max/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1565
+  },
+  {
+   "number": 353,
+   "title": "onnx-official-tests: drift check, gathernd dtype, plus Pad/Tile/Slice/Clip/Squeeze codegen (+82 tests)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/353",
+   "merged_at": "2026-04-16",
+   "additions": 1127,
+   "deletions": 535,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 327,
+     "title": "Follow-ups from PR #326 review: fail-compare drift check + finish explicit-dtype sweep in gather codegen",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/327"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/clip.rs",
+    "crates/burn-onnx/src/burn/node/gathernd.rs",
+    "crates/burn-onnx/src/burn/node/slice.rs",
+    "crates/burn-onnx/src/burn/node/squeeze.rs",
+    "crates/burn-onnx/src/burn/node/tile.rs",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/node/clip.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/resize.rs",
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-official-tests/build.rs",
+    "crates/onnx-official-tests/expectations.toml"
+   ],
+   "test_files": [
+    "crates/onnx-official-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1487
+  },
+  {
+   "number": 357,
+   "title": "Adds support for the ONNX ML Scaler operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/357",
+   "merged_at": "2026-04-22",
+   "additions": 843,
+   "deletions": 1,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/scaler.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/scaler.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs",
+    "onnx-spec/ops/Scaler.md"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scaler/mod.rs",
+    "crates/onnx-tests/tests/scaler/scaler.onnx",
+    "crates/onnx-tests/tests/scaler/scaler.py",
+    "crates/onnx-tests/tests/scaler/scaler_i64.onnx",
+    "crates/onnx-tests/tests/scaler/scaler_per_feature_3d.onnx",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1463
+  },
+  {
+   "number": 286,
+   "title": "Implement LRN operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/286",
+   "merged_at": "2026-04-03",
+   "additions": 766,
+   "deletions": 3,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [
+    {
+     "n": 154,
+     "title": "Implement LRN (Local Response Normalization) operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/154"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/lrn.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/lrn.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-tests/tests/lrn/lrn.py",
+    "crates/onnx-tests/tests/lrn/lrn_custom_size2.onnx",
+    "crates/onnx-tests/tests/lrn/lrn_custom_size3.onnx",
+    "crates/onnx-tests/tests/lrn/lrn_default_size3.onnx",
+    "crates/onnx-tests/tests/lrn/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1446
+  },
+  {
+   "number": 40,
+   "title": "Fix Concat and Unsqueeze to handle scalar inputs",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/40",
+   "merged_at": "2026-01-30",
+   "additions": 771,
+   "deletions": 12,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 6,
+     "title": "ONNX Import Fails with TypeMismatch Error in `concat.rs` (v0.20.0-pre.6)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/6"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/concat.rs",
+    "crates/onnx-ir/src/node/concat.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/unsqueeze.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/concat/concat_scalar_direct.onnx",
+    "crates/onnx-tests/tests/concat/concat_scalar_direct.py",
+    "crates/onnx-tests/tests/concat/concat_scalar_from_gather.onnx",
+    "crates/onnx-tests/tests/concat/concat_scalar_from_gather.py",
+    "crates/onnx-tests/tests/concat/mod.rs",
+    "crates/onnx-tests/tests/unsqueeze/mod.rs",
+    "crates/onnx-tests/tests/unsqueeze/unsqueeze_scalar_axes.onnx",
+    "crates/onnx-tests/tests/unsqueeze/unsqueeze_scalar_axes.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1411
+  },
+  {
+   "number": 282,
+   "title": "Extend Einsum with implicit output, ellipsis, reductions, and optimized codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/282",
+   "merged_at": "2026-04-01",
+   "additions": 847,
+   "deletions": 171,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [
+    {
+     "n": 276,
+     "title": "Complete full Einsum operator support (add missing ONNX features)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/276"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/einsum.rs",
+    "crates/onnx-ir/src/node/einsum.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/einsum/einsum_ellipsis.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_ellipsis.py",
+    "crates/onnx-tests/tests/einsum/einsum_implicit.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_implicit.py",
+    "crates/onnx-tests/tests/einsum/einsum_reduction.onnx",
+    "crates/onnx-tests/tests/einsum/einsum_reduction.py",
+    "crates/onnx-tests/tests/einsum/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1387
+  },
+  {
+   "number": 179,
+   "title": "feat: add align_corners support to Resize codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/179",
+   "merged_at": "2026-02-16",
+   "additions": 291,
+   "deletions": 119,
+   "changed_files": 29,
+   "labels": [],
+   "issues": [
+    {
+     "n": 4510,
+     "title": "Add align_corners support to InterpolateOptions",
+     "url": "https://github.com/tracel-ai/burn/issues/4510"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/burn-onnx/src/burn/node/cumsum.rs",
+    "crates/burn-onnx/src/burn/node/flatten.rs",
+    "crates/burn-onnx/src/burn/node/resize.rs",
+    "crates/burn-onnx/src/burn/node/scan_node.rs",
+    "crates/model-checks/albert/Cargo.toml",
+    "crates/model-checks/all-minilm-l6-v2/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-text/Cargo.toml",
+    "crates/model-checks/clip-vit-b-32-vision/Cargo.toml",
+    "crates/model-checks/mediapipe-face-detector/Cargo.toml",
+    "crates/model-checks/modernbert-base/Cargo.toml",
+    "crates/model-checks/rf-detr/Cargo.toml",
+    "crates/model-checks/silero-vad/Cargo.toml",
+    "crates/model-checks/yolo/Cargo.toml",
+    "crates/onnx-ir/src/node/resize.rs",
+    "crates/onnx-tests/build.rs",
+    "examples/raspberry-pi-pico/Cargo.toml"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/constant_lifting_multiple/mod.rs",
+    "crates/onnx-tests/tests/identity/mod.rs",
+    "crates/onnx-tests/tests/initializer_to_const/mod.rs",
+    "crates/onnx-tests/tests/resize/mod.rs",
+    "crates/onnx-tests/tests/resize/resize_2d_bilinear_half_pixel.onnx",
+    "crates/onnx-tests/tests/resize/resize_2d_bilinear_half_pixel.py",
+    "crates/onnx-tests/tests/resize/resize_with_shape.onnx",
+    "crates/onnx-tests/tests/resize/resize_with_shape.py",
+    "crates/onnx-tests/tests/resize/resize_with_sizes.onnx",
+    "crates/onnx-tests/tests/resize/resize_with_sizes.py",
+    "crates/onnx-tests/tests/slice/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1371
+  },
+  {
+   "number": 237,
+   "title": "Support CastLike ONNX operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/237",
+   "merged_at": "2026-03-02",
+   "additions": 862,
+   "deletions": 3,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 126,
+     "title": "Support CastLike ONNX operator in import/export",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/126"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/cast_like.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/cast_like.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/cast_like/cast_like.onnx",
+    "crates/onnx-tests/tests/cast_like/cast_like.py",
+    "crates/onnx-tests/tests/cast_like/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1362
+  },
+  {
+   "number": 502,
+   "title": "fix(export): correct Conv, ArgMax, ArgMin, and ConstantOfShape lowering",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/502",
+   "merged_at": "2026-09-04",
+   "additions": 1037,
+   "deletions": 111,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/burn-onnx/src/export/exporter.rs",
+    "crates/burn-onnx/src/export/lower/base.rs",
+    "crates/burn-onnx/src/export/lower/mod.rs",
+    "crates/burn-onnx/src/export/lower/module.rs",
+    "crates/burn-onnx/src/export/lower/numeric.rs",
+    "crates/burn-onnx/src/export/shape/mod.rs",
+    "crates/burn-onnx/src/export/validate.rs"
+   ],
+   "test_files": [
+    "crates/burn-onnx/tests/ort_numerical.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1337
+  },
+  {
+   "number": 498,
+   "title": "feat(export): support Conv1d, slicing, indexing, creation and reductions",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/498",
+   "merged_at": "2026-09-02",
+   "additions": 1036,
+   "deletions": 16,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/burn-onnx/src/export/lower/base.rs",
+    "crates/burn-onnx/src/export/lower/mod.rs",
+    "crates/burn-onnx/src/export/lower/module.rs",
+    "crates/burn-onnx/src/export/lower/numeric.rs",
+    "crates/burn-onnx/src/export/shape/dynamic_axes.rs",
+    "crates/burn-onnx/src/export/shape/mod.rs"
+   ],
+   "test_files": [
+    "crates/burn-onnx/tests/ort_numerical.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "onnx"
+   ],
+   "horizon_score": 1336
+  },
+  {
+   "number": 240,
+   "title": "feat: Support Det (Determinant) ONNX operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/240",
+   "merged_at": "2026-03-08",
+   "additions": 661,
+   "deletions": 3,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [
+    {
+     "n": 127,
+     "title": "Support Det (Determinant) ONNX operator in import/export",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/127"
+    }
+   ],
+   "src_files": [
+    ".gitignore",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/det.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/det.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/unsupported.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/det/det.onnx",
+    "crates/onnx-tests/tests/det/det.py",
+    "crates/onnx-tests/tests/det/det_batched.onnx",
+    "crates/onnx-tests/tests/det/det_batched.py",
+    "crates/onnx-tests/tests/det/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1301
+  },
+  {
+   "number": 382,
+   "title": "Support runtime-bound slicing on Shape values",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/382",
+   "merged_at": "2026-04-28",
+   "additions": 621,
+   "deletions": 40,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [
+    {
+     "n": 380,
+     "title": "Support runtime slicing on shapes",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/380"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/slice.rs",
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/slice/mod.rs",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds.py",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_i32.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_i32.py",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_negative.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_negative.py",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_reshape.onnx",
+    "crates/onnx-tests/tests/slice/slice_shape_runtime_bounds_reshape.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1281
+  },
+  {
+   "number": 54,
+   "title": "Support broadcasting in Max, Min, and Pow binary ops",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/54",
+   "merged_at": "2026-01-31",
+   "additions": 553,
+   "deletions": 32,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 16,
+     "title": "Support broadcasting in remaining binary ONNX ops",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/16"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/max.rs",
+    "crates/burn-onnx/src/burn/node/min.rs",
+    "crates/burn-onnx/src/burn/node/pow.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/max/max_broadcast.onnx",
+    "crates/onnx-tests/tests/max/max_broadcast.py",
+    "crates/onnx-tests/tests/max/mod.rs",
+    "crates/onnx-tests/tests/min/min_broadcast.onnx",
+    "crates/onnx-tests/tests/min/min_broadcast.py",
+    "crates/onnx-tests/tests/min/mod.rs",
+    "crates/onnx-tests/tests/pow/mod.rs",
+    "crates/onnx-tests/tests/pow/pow_broadcast.onnx",
+    "crates/onnx-tests/tests/pow/pow_broadcast.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1233
+  },
+  {
+   "number": 85,
+   "title": "Preserve concrete dimensions in static_shape when some dims are symbolic",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/85",
+   "merged_at": "2026-02-02",
+   "additions": 286,
+   "deletions": 160,
+   "changed_files": 35,
+   "labels": [],
+   "issues": [
+    {
+     "n": 62,
+     "title": "Bug related to symbolic dimensions",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/62"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/prelu.rs",
+    "crates/burn-onnx/src/burn/node_traits.rs",
+    "crates/onnx-ir-derive/src/lib.rs",
+    "crates/onnx-ir/src/graph_state.rs",
+    "crates/onnx-ir/src/ir/argument.rs",
+    "crates/onnx-ir/src/node/bernoulli.rs",
+    "crates/onnx-ir/src/node/cast.rs",
+    "crates/onnx-ir/src/node/concat.rs",
+    "crates/onnx-ir/src/node/constant.rs",
+    "crates/onnx-ir/src/node/constant_of_shape.rs",
+    "crates/onnx-ir/src/node/depth_to_space.rs",
+    "crates/onnx-ir/src/node/expand.rs",
+    "crates/onnx-ir/src/node/eye_like.rs",
+    "crates/onnx-ir/src/node/gru.rs",
+    "crates/onnx-ir/src/node/hard_swish.rs",
+    "crates/onnx-ir/src/node/lstm.rs",
+    "crates/onnx-ir/src/node/prelu.rs",
+    "crates/onnx-ir/src/node/random_like.rs",
+    "crates/onnx-ir/src/node/reduce.rs",
+    "crates/onnx-ir/src/node/relu.rs",
+    "crates/onnx-ir/src/node/reshape.rs",
+    "crates/onnx-ir/src/node/scan_node.rs",
+    "crates/onnx-ir/src/node/space_to_depth.rs",
+    "crates/onnx-ir/src/node/split.rs",
+    "crates/onnx-ir/src/node/squeeze.rs",
+    "crates/onnx-ir/src/node/sum.rs",
+    "crates/onnx-ir/src/node/unsqueeze.rs",
+    "crates/onnx-ir/src/node/where_op.rs",
+    "crates/onnx-ir/src/phases/node_conversion.rs",
+    "crates/onnx-ir/src/processor.rs",
+    "crates/onnx-ir/src/proto_conversion.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs",
+    "crates/onnx-ir/tests/edge_cases.rs",
+    "crates/onnx-ir/tests/fixtures/symbolic_batch_dim.onnx",
+    "crates/onnx-ir/tests/scripts/generate_symbolic_batch_dim.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1206
+  },
+  {
+   "number": 232,
+   "title": "Add SDXL model check and fix Expand type inference for dynamic shapes",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/232",
+   "merged_at": "2026-03-01",
+   "additions": 734,
+   "deletions": 5,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/model-checks/README.md",
+    "crates/model-checks/stable-diffusion-xl/Cargo.toml",
+    "crates/model-checks/stable-diffusion-xl/build.rs",
+    "crates/model-checks/stable-diffusion-xl/get_model.py",
+    "crates/model-checks/stable-diffusion-xl/src/main.rs",
+    "crates/onnx-ir/src/node/expand.rs",
+    "crates/onnx-tests/build.rs",
+    "xtask/src/model_check.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/expand/expand_dynamic_where.onnx",
+    "crates/onnx-tests/tests/expand/expand_dynamic_where.py",
+    "crates/onnx-tests/tests/expand/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1154
+  },
+  {
+   "number": 395,
+   "title": "Use native scatter_nd and gather_nd",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/395",
+   "merged_at": "2026-05-08",
+   "additions": 703,
+   "deletions": 894,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [
+    {
+     "n": 381,
+     "title": "Update scatter_nd and gather_nd operators to use native implementation",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/381"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "crates/burn-onnx/src/burn/node/gathernd.rs",
+    "crates/burn-onnx/src/burn/node/indexing_helpers.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/prelude.rs",
+    "crates/burn-onnx/src/burn/node/scatter_nd.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scatter_nd/mod.rs",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd.py",
+    "crates/onnx-tests/tests/scatter_nd/scatter_nd_neg_idx.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1103
+  },
+  {
+   "number": 181,
+   "title": "Add Qwen model checks and fix Equal scalar comparison",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/181",
+   "merged_at": "2026-02-17",
+   "additions": 666,
+   "deletions": 7,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/equal.rs",
+    "crates/model-checks/qwen/Cargo.toml",
+    "crates/model-checks/qwen/build.rs",
+    "crates/model-checks/qwen/get_model.py",
+    "crates/model-checks/qwen/src/main.rs",
+    "crates/onnx-tests/build.rs",
+    "xtask/src/model_check.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/equal/equal_scalar.onnx",
+    "crates/onnx-tests/tests/equal/equal_scalar.py",
+    "crates/onnx-tests/tests/equal/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1046
+  },
+  {
+   "number": 39,
+   "title": "Fix ONNX Resize to support runtime scales input",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/39",
+   "merged_at": "2026-01-29",
+   "additions": 627,
+   "deletions": 173,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3,
+     "title": "Resize runtime should support scales",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/3"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/constant_of_shape.rs",
+    "crates/burn-onnx/src/burn/node/cumsum.rs",
+    "crates/burn-onnx/src/burn/node/gather.rs",
+    "crates/burn-onnx/src/burn/node/reshape.rs",
+    "crates/burn-onnx/src/burn/node/resize.rs",
+    "crates/burn-onnx/src/burn/node/slice.rs",
+    "crates/onnx-ir-derive/src/lib.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/resize/mod.rs",
+    "crates/onnx-tests/tests/resize/resize_with_scales_tensor.onnx",
+    "crates/onnx-tests/tests/resize/resize_with_scales_tensor.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1027
+  },
+  {
+   "number": 388,
+   "title": "onnx-ir: Update Slice node to compute output tensor static shape",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/388",
+   "merged_at": "2026-05-04",
+   "additions": 505,
+   "deletions": 48,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/onnx-ir/src/node/slice.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/opset_compliance/opset_01.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_10.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_11.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-tests/tests/slice/mod.rs",
+    "crates/onnx-tests/tests/slice/slice_tensor_to_split.onnx",
+    "crates/onnx-tests/tests/slice/slice_tensor_to_split.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1025
+  },
+  {
+   "number": 152,
+   "title": "fix: handle mixed input types in boolean ops and Where codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/152",
+   "merged_at": "2026-02-12",
+   "additions": 466,
+   "deletions": 6,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/bool_and.rs",
+    "crates/burn-onnx/src/burn/node/bool_or.rs",
+    "crates/burn-onnx/src/burn/node/bool_xor.rs",
+    "crates/burn-onnx/src/burn/node/where_op.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/and/and_scalar_tensor.onnx",
+    "crates/onnx-tests/tests/and/and_scalar_tensor.py",
+    "crates/onnx-tests/tests/and/mod.rs",
+    "crates/onnx-tests/tests/where_op/mod.rs",
+    "crates/onnx-tests/tests/where_op/where_scalar_xy.onnx",
+    "crates/onnx-tests/tests/where_op/where_scalar_xy.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 986
+  },
+  {
+   "number": 53,
+   "title": "Support BatchNorm with runtime (non-static) inputs",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/53",
+   "merged_at": "2026-01-31",
+   "additions": 563,
+   "deletions": 91,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [
+    {
+     "n": 20,
+     "title": "ONNX error \"BatchNorm: weight tensor must be present\"",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/20"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/batch_norm.rs",
+    "crates/onnx-ir/src/node/batch_norm.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/batch_norm/batch_norm_partial_constant.onnx",
+    "crates/onnx-tests/tests/batch_norm/batch_norm_partial_constant.py",
+    "crates/onnx-tests/tests/batch_norm/batch_norm_runtime.onnx",
+    "crates/onnx-tests/tests/batch_norm/batch_norm_runtime.py",
+    "crates/onnx-tests/tests/batch_norm/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 983
+  },
+  {
+   "number": 86,
+   "title": "Refactor onnx-ir config structs to remove Burn-derived fields",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/86",
+   "merged_at": "2026-02-02",
+   "additions": 280,
+   "deletions": 515,
+   "changed_files": 28,
+   "labels": [],
+   "issues": [
+    {
+     "n": 84,
+     "title": "Refactor onnx-ir config structs to remove Burn-specific fields",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/84"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/avg_pool1d.rs",
+    "crates/burn-onnx/src/burn/node/avg_pool2d.rs",
+    "crates/burn-onnx/src/burn/node/batch_norm.rs",
+    "crates/burn-onnx/src/burn/node/conv1d.rs",
+    "crates/burn-onnx/src/burn/node/conv2d.rs",
+    "crates/burn-onnx/src/burn/node/conv3d.rs",
+    "crates/burn-onnx/src/burn/node/conv_transpose_1d.rs",
+    "crates/burn-onnx/src/burn/node/conv_transpose_2d.rs",
+    "crates/burn-onnx/src/burn/node/conv_transpose_3d.rs",
+    "crates/burn-onnx/src/burn/node/group_norm.rs",
+    "crates/burn-onnx/src/burn/node/instance_norm.rs",
+    "crates/burn-onnx/src/burn/node/layer_norm.rs",
+    "crates/burn-onnx/src/burn/node/linear.rs",
+    "crates/burn-onnx/src/burn/node/max_pool1d.rs",
+    "crates/burn-onnx/src/burn/node/max_pool2d.rs",
+    "crates/onnx-ir-derive/src/lib.rs",
+    "crates/onnx-ir/src/node/batch_norm.rs",
+    "crates/onnx-ir/src/node/conv1d.rs",
+    "crates/onnx-ir/src/node/conv2d.rs",
+    "crates/onnx-ir/src/node/conv3d.rs",
+    "crates/onnx-ir/src/node/conv_transpose1d.rs",
+    "crates/onnx-ir/src/node/conv_transpose2d.rs",
+    "crates/onnx-ir/src/node/conv_transpose3d.rs",
+    "crates/onnx-ir/src/node/group_norm.rs",
+    "crates/onnx-ir/src/node/instance_norm.rs",
+    "crates/onnx-ir/src/node/layer_norm.rs",
+    "crates/onnx-ir/src/node/linear.rs"
+   ],
+   "test_files": [
+    "crates/burn-onnx/src/burn/node/test_helpers.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 940
+  },
+  {
+   "number": 145,
+   "title": "feat: implement ONNX Swish operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/145",
+   "merged_at": "2026-02-11",
+   "additions": 378,
+   "deletions": 6,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [
+    {
+     "n": 133,
+     "title": "Implement ONNX Swish operator support",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/133"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/swish.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/swish.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/swish/mod.rs",
+    "crates/onnx-tests/tests/swish/swish.onnx",
+    "crates/onnx-tests/tests/swish/swish.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 898
+  },
+  {
+   "number": 146,
+   "title": "feat: implement ONNX Hardmax operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/146",
+   "merged_at": "2026-02-11",
+   "additions": 354,
+   "deletions": 2,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [
+    {
+     "n": 132,
+     "title": "Implement ONNX Hardmax operator support",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/132"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/hardmax.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/hardmax.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/hardmax/hardmax.onnx",
+    "crates/onnx-tests/tests/hardmax/hardmax.py",
+    "crates/onnx-tests/tests/hardmax/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 874
+  },
+  {
+   "number": 275,
+   "title": "Handle Shape type in Unsqueeze node",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/275",
+   "merged_at": "2026-03-30",
+   "additions": 365,
+   "deletions": 29,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [
+    {
+     "n": 258,
+     "title": "Fail to import bodyposenet",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/258"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/unsqueeze.rs",
+    "crates/onnx-ir/src/node/gather.rs",
+    "crates/onnx-ir/src/node/unsqueeze.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gather/gather_shape_reorder.onnx",
+    "crates/onnx-tests/tests/gather/gather_shape_reorder.py",
+    "crates/onnx-tests/tests/gather/mod.rs",
+    "crates/onnx-tests/tests/unsqueeze/mod.rs",
+    "crates/onnx-tests/tests/unsqueeze/unsqueeze_shape_input.onnx",
+    "crates/onnx-tests/tests/unsqueeze/unsqueeze_shape_input.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 865
+  },
+  {
+   "number": 121,
+   "title": "feat: add Selu activation operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/121",
+   "merged_at": "2026-02-08",
+   "additions": 341,
+   "deletions": 209,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 113,
+     "title": "Add Selu activation function",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/113"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/selu.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/selu.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/selu/mod.rs",
+    "crates/onnx-tests/tests/selu/selu.onnx",
+    "crates/onnx-tests/tests/selu/selu.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 841
+  },
+  {
+   "number": 447,
+   "title": "Accept ONNX models that declare no default-domain opset",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/447",
+   "merged_at": "2026-08-15",
+   "additions": 458,
+   "deletions": 42,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [
+    {
+     "n": 434,
+     "title": "\"ONNX model must specify opset version for default domain\"",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/434"
+    }
+   ],
+   "src_files": [
+    "DESIGN-CUSTOM-OPS.md",
+    "crates/burn-onnx/src/burn/custom_op.rs",
+    "crates/onnx-ir/src/lib.rs",
+    "crates/onnx-ir/src/pipeline.rs",
+    "crates/onnx-ir/src/proto_conversion.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/scaler/mod.rs",
+    "crates/onnx-tests/tests/scaler/scaler.py",
+    "crates/onnx-tests/tests/scaler/scaler_ml_domain_only.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 818
+  },
+  {
+   "number": 120,
+   "title": "feat: add ThresholdedRelu activation operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/120",
+   "merged_at": "2026-02-08",
+   "additions": 311,
+   "deletions": 11,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 111,
+     "title": "Add ThresholdedRelu activation function",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/111"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/thresholded_relu.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/thresholded_relu.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/test_mod.rs",
+    "crates/onnx-tests/tests/thresholded_relu/mod.rs",
+    "crates/onnx-tests/tests/thresholded_relu/thresholded_relu.onnx",
+    "crates/onnx-tests/tests/thresholded_relu/thresholded_relu.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 811
+  },
+  {
+   "number": 119,
+   "title": "feat: add Elu activation operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/119",
+   "merged_at": "2026-02-08",
+   "additions": 308,
+   "deletions": 7,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 110,
+     "title": "Add Elu ONNX Activation Function",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/110"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/elu.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/elu.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/elu/elu.onnx",
+    "crates/onnx-tests/tests/elu/elu.py",
+    "crates/onnx-tests/tests/elu/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 808
+  },
+  {
+   "number": 200,
+   "title": "Implement Shrink ONNX operator",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/200",
+   "merged_at": "2026-02-26",
+   "additions": 327,
+   "deletions": 2,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 158,
+     "title": "Implement Shrink operator",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/158"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/shrink.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/shrink.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/shrink/mod.rs",
+    "crates/onnx-tests/tests/shrink/shrink.onnx",
+    "crates/onnx-tests/tests/shrink/shrink.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 807
+  },
+  {
+   "number": 118,
+   "title": "feat: add Celu activation operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/118",
+   "merged_at": "2026-02-08",
+   "additions": 307,
+   "deletions": 5,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 114,
+     "title": "Add Celu activation function",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/114"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/celu.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/celu.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/celu/celu.onnx",
+    "crates/onnx-tests/tests/celu/celu.py",
+    "crates/onnx-tests/tests/celu/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 807
+  },
+  {
+   "number": 60,
+   "title": "Add no-op node marking in onnx-ir processor for graph optimization",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/60",
+   "merged_at": "2026-02-01",
+   "additions": 293,
+   "deletions": 37,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 12,
+     "title": "Add no-op node marking in onnx-ir processor for graph optimization",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/12"
+    }
+   ],
+   "src_files": [
+    "DEVELOPMENT-GUIDE.md",
+    "_typos.toml",
+    "crates/onnx-ir/src/node/cast.rs",
+    "crates/onnx-ir/src/node/gather.rs",
+    "crates/onnx-ir/src/node/identity.rs",
+    "crates/onnx-ir/src/node/reshape.rs",
+    "crates/onnx-ir/src/phases/post_processing.rs",
+    "crates/onnx-ir/src/processor.rs",
+    "crates/onnx-ir/src/registry.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/fixtures/noop_cast_different_type.onnx",
+    "crates/onnx-ir/tests/fixtures/noop_cast_same_type.onnx",
+    "crates/onnx-ir/tests/noop_elimination.rs",
+    "crates/onnx-ir/tests/scripts/generate_noop.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 773
+  },
+  {
+   "number": 79,
+   "title": "Add Softplus activation op import",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/79",
+   "merged_at": "2026-02-02",
+   "additions": 212,
+   "deletions": 5,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 77,
+     "title": "Implement Softplus activation op import",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/77"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/softplus.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/softplus.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/softplus/mod.rs",
+    "crates/onnx-tests/tests/softplus/softplus.onnx",
+    "crates/onnx-tests/tests/softplus/softplus.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "import",
+    "onnx"
+   ],
+   "horizon_score": 772
+  },
+  {
+   "number": 116,
+   "title": "feat: add bidirectional GRU (BiGru) support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/116",
+   "merged_at": "2026-02-07",
+   "additions": 491,
+   "deletions": 128,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 112,
+     "title": "Add BiGru (bidirectional GRU) module",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/112"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/gru.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/gru/gru_bidirectional.onnx",
+    "crates/onnx-tests/tests/gru/gru_bidirectional.py",
+    "crates/onnx-tests/tests/gru/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 771
+  },
+  {
+   "number": 78,
+   "title": "Add Mish activation op import",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/78",
+   "merged_at": "2026-02-02",
+   "additions": 201,
+   "deletions": 5,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 76,
+     "title": "Implement Mish activation op import",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/76"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mish.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mish.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/mish/mish.onnx",
+    "crates/onnx-tests/tests/mish/mish.py",
+    "crates/onnx-tests/tests/mish/mod.rs",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "import",
+    "onnx"
+   ],
+   "horizon_score": 761
+  },
+  {
+   "number": 239,
+   "title": "Extract shared broadcast/unsqueeze logic from binary op codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/239",
+   "merged_at": "2026-03-03",
+   "additions": 185,
+   "deletions": 333,
+   "changed_files": 23,
+   "labels": [],
+   "issues": [
+    {
+     "n": 209,
+     "title": "Extract shared broadcast/unsqueeze logic from binary op codegen",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/209"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/add.rs",
+    "crates/burn-onnx/src/burn/node/bitwiseand.rs",
+    "crates/burn-onnx/src/burn/node/bitwiseor.rs",
+    "crates/burn-onnx/src/burn/node/bitwisexor.rs",
+    "crates/burn-onnx/src/burn/node/bool_and.rs",
+    "crates/burn-onnx/src/burn/node/bool_or.rs",
+    "crates/burn-onnx/src/burn/node/bool_xor.rs",
+    "crates/burn-onnx/src/burn/node/broadcast_helpers.rs",
+    "crates/burn-onnx/src/burn/node/div.rs",
+    "crates/burn-onnx/src/burn/node/equal.rs",
+    "crates/burn-onnx/src/burn/node/greater.rs",
+    "crates/burn-onnx/src/burn/node/greater_equal.rs",
+    "crates/burn-onnx/src/burn/node/lower.rs",
+    "crates/burn-onnx/src/burn/node/lower_equal.rs",
+    "crates/burn-onnx/src/burn/node/max.rs",
+    "crates/burn-onnx/src/burn/node/min.rs",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/modulo.rs",
+    "crates/burn-onnx/src/burn/node/mul.rs",
+    "crates/burn-onnx/src/burn/node/pow.rs",
+    "crates/burn-onnx/src/burn/node/prelude.rs",
+    "crates/burn-onnx/src/burn/node/sub.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/simplify/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 745
+  },
+  {
+   "number": 453,
+   "title": "Fix silent scale loss in SDPA attention coalescing",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/453",
+   "merged_at": "2026-08-17",
+   "additions": 446,
+   "deletions": 29,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 436,
+     "title": "SDPA coalescing silently double-scales a pre-scaled Q behind Add(0)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/436"
+    }
+   ],
+   "src_files": [
+    "crates/onnx-ir/src/simplify/coalesce_attention.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/simplify/gen_models.py",
+    "crates/onnx-tests/tests/simplify/mod.rs",
+    "crates/onnx-tests/tests/simplify/simplify_sdpa_prescale_alias.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 726
+  },
+  {
+   "number": 117,
+   "title": "feat: add Softsign activation operator support",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/117",
+   "merged_at": "2026-02-07",
+   "additions": 200,
+   "deletions": 5,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 115,
+     "title": "Add Softsign activation function",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/115"
+    }
+   ],
+   "src_files": [
+    "SUPPORTED-ONNX-OPS.md",
+    "crates/burn-onnx/src/burn/node/mod.rs",
+    "crates/burn-onnx/src/burn/node/softsign.rs",
+    "crates/burn-onnx/src/burn/node_codegen.rs",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/elementwise.rs",
+    "crates/onnx-ir/src/node/mod.rs",
+    "crates/onnx-ir/src/node/softsign.rs",
+    "crates/onnx-ir/src/registry.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/softsign/mod.rs",
+    "crates/onnx-tests/tests/softsign/softsign.onnx",
+    "crates/onnx-tests/tests/softsign/softsign.py",
+    "crates/onnx-tests/tests/test_mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 700
+  },
+  {
+   "number": 107,
+   "title": "fix: handle optional ONNX inputs across processors",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/107",
+   "merged_at": "2026-02-07",
+   "additions": 260,
+   "deletions": 30,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 106,
+     "title": "Handle empty-named optional ONNX inputs at framework level",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/106"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "DEVELOPMENT-GUIDE.md",
+    "crates/onnx-ir/src/ir/node.rs",
+    "crates/onnx-ir/src/node/attention.rs",
+    "crates/onnx-ir/src/node/loop_node.rs",
+    "crates/onnx-ir/src/node/pad.rs",
+    "crates/onnx-ir/src/node/squeeze.rs",
+    "crates/onnx-ir/src/node/trilu.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/pad/mod.rs",
+    "crates/onnx-tests/tests/pad/pad_optional_constant_value.onnx",
+    "crates/onnx-tests/tests/pad/pad_optional_constant_value.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 700
+  },
+  {
+   "number": 194,
+   "title": "Fix DTypeMismatch panic by preserving explicit dtypes in codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/194",
+   "merged_at": "2026-02-19",
+   "additions": 304,
+   "deletions": 98,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "AGENTS.md",
+    "crates/burn-onnx/src/burn/node/attention.rs",
+    "crates/burn-onnx/src/burn/node/bernoulli.rs",
+    "crates/burn-onnx/src/burn/node/cast.rs",
+    "crates/burn-onnx/src/burn/node/eye_like.rs",
+    "crates/burn-onnx/src/burn/node/matmul_integer.rs",
+    "crates/burn-onnx/src/burn/node/one_hot.rs",
+    "crates/burn-onnx/src/burn/node/reduce.rs",
+    "crates/onnx-ir/src/node/comparison.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/cast/mod.rs",
+    "crates/onnx-tests/tests/eye_like/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 664
+  },
+  {
+   "number": 309,
+   "title": "Fix MatMul+Add to Linear fusion with scalar bias",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/309",
+   "merged_at": "2026-04-07",
+   "additions": 382,
+   "deletions": 6,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 308,
+     "title": "Incorrect conversion of MatMul + Add to Linear when Add has a scalar value",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/308"
+    }
+   ],
+   "src_files": [
+    "crates/onnx-ir/src/phases/node_conversion.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/matmul/matmul_scalar_add.onnx",
+    "crates/onnx-tests/tests/matmul/matmul_scalar_add.py",
+    "crates/onnx-tests/tests/matmul/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 662
+  },
+  {
+   "number": 236,
+   "title": "Fix Range op: support negative delta and add validations",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/236",
+   "merged_at": "2026-03-02",
+   "additions": 347,
+   "deletions": 44,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [
+    {
+     "n": 235,
+     "title": "Range op: negative delta wraps to huge usize, causing incorrect output",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/235"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/range.rs",
+    "crates/onnx-ir/src/node/range.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/range/mod.rs",
+    "crates/onnx-tests/tests/range/range_negative_delta.onnx",
+    "crates/onnx-tests/tests/range/range_negative_delta.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 647
+  },
+  {
+   "number": 401,
+   "title": "fix: accept rank-1 input in Flatten per ONNX spec",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/401",
+   "merged_at": "2026-05-13",
+   "additions": 321,
+   "deletions": 76,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [
+    {
+     "n": 349,
+     "title": "Flatten: accept rank-1 input (14 tests)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/349"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/flatten.rs",
+    "crates/onnx-ir/src/node/flatten.rs",
+    "crates/onnx-official-tests/expectations.toml",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/flatten/flatten_rank1.onnx",
+    "crates/onnx-tests/tests/flatten/flatten_rank1.py",
+    "crates/onnx-tests/tests/flatten/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 641
+  },
+  {
+   "number": 214,
+   "title": "refactor(resize): convert string fields to enums, clean up TODOs",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/214",
+   "merged_at": "2026-02-24",
+   "additions": 189,
+   "deletions": 106,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [
+    {
+     "n": 180,
+     "title": "Clean up Resize node: convert string fields to enums, address TODOs",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/180"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/resize.rs",
+    "crates/onnx-ir/src/node/resize.rs"
+   ],
+   "test_files": [
+    "crates/onnx-ir/tests/opset_compliance/opset_10.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_11.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_13.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_18.rs",
+    "crates/onnx-ir/tests/opset_compliance/opset_19.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 589
+  },
+  {
+   "number": 41,
+   "title": "Fix panic for Expand ONNX operation with scalar input",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/41",
+   "merged_at": "2026-01-30",
+   "additions": 232,
+   "deletions": 12,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [
+    {
+     "n": 7,
+     "title": "Expand of a scalar panics burn-import",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/7"
+    }
+   ],
+   "src_files": [
+    ".claude/CLAUDE.md",
+    ".github/copilot-instructions.md",
+    "crates/burn-onnx/src/burn/node/expand.rs",
+    "crates/onnx-ir/src/node/expand.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/expand/expand_scalar.onnx",
+    "crates/onnx-tests/tests/expand/expand_scalar.py",
+    "crates/onnx-tests/tests/expand/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 572
+  },
+  {
+   "number": 484,
+   "title": "feat(export): lower PadOpIr directly to ONNX Pad",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/484",
+   "merged_at": "2026-08-27",
+   "additions": 188,
+   "deletions": 289,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/burn-onnx/src/export/lower/base.rs",
+    "crates/burn-onnx/src/export/lower/mod.rs",
+    "crates/burn-onnx/src/export/lower/numeric.rs",
+    "crates/burn-onnx/src/export/lower/patterns.rs",
+    "crates/burn-onnx/src/export/shape/dynamic_axes.rs",
+    "crates/burn-onnx/src/export/shape/mod.rs",
+    "crates/burn-onnx/src/export/validate.rs"
+   ],
+   "test_files": [
+    "crates/burn-onnx/tests/ort_numerical.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 488
+  },
+  {
+   "number": 277,
+   "title": "Handle Shape type in Expand node",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/277",
+   "merged_at": "2026-03-30",
+   "additions": 185,
+   "deletions": 7,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [
+    {
+     "n": 266,
+     "title": "Importing piper-tts/VITS TTS model fails with type inference error",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/266"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/expand.rs",
+    "crates/onnx-ir/src/node/expand.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/expand/expand_shape_as_data.onnx",
+    "crates/onnx-tests/tests/expand/expand_shape_as_data.py",
+    "crates/onnx-tests/tests/expand/mod.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 485
+  },
+  {
+   "number": 105,
+   "title": "fix: handle runtime constant_value in Pad node codegen",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/105",
+   "merged_at": "2026-02-07",
+   "additions": 199,
+   "deletions": 8,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 101,
+     "title": "Pad node fails with runtime constant value",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/101"
+    }
+   ],
+   "src_files": [
+    "crates/burn-onnx/src/burn/node/pad.rs",
+    "crates/onnx-tests/build.rs"
+   ],
+   "test_files": [
+    "crates/onnx-tests/tests/pad/mod.rs",
+    "crates/onnx-tests/tests/pad/pad_runtime_constant.onnx",
+    "crates/onnx-tests/tests/pad/pad_runtime_constant.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 479
+  },
+  {
+   "number": 392,
+   "title": "Unblock attention _expanded tests (3 codegen fixes + 1 harness fix; 27/27 promoted)",
+   "url": "https://github.com/tracel-ai/burn-onnx/pull/392",
+   "merged_at": "2026-05-06",
+   "additions": 201,
+   "deletions": 101,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [
+    {
+     "n": 342,
+     "title": "Attention expanded: empty-ident reshape + bool_not on Shape + tril on Bool (28 tests)",
+     "url": "https://github.com/tracel-ai/burn-onnx/issues/342"
+    }
+   ],
+   "src_files": [
+    "AGENTS.md",
+    "crates/burn-onnx/src/burn/node/not.rs",
+    "crates/burn-onnx/src/burn/node/trilu.rs",
+    "crates/onnx-ir/src/node/reshape.rs",
+    "crates/onnx-official-tests/build.rs",
+    "crates/onnx-official-tests/expectations.toml"
+   ],
+   "test_files": [
+    "crates/onnx-ir/src/node/test_utils.rs"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 441
+  }
+ ]
+}

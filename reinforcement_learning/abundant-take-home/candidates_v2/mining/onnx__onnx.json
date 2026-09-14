@@ -1,0 +1,1548 @@
+{
+ "repo": "onnx/onnx",
+ "mined_at": "2026-09-13T10:12:04.433798Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 581,
+ "candidates": 37,
+ "prs": [
+  {
+   "number": 7950,
+   "title": "Add LinearAttention and CausalConvWithState operators (Opset 27)",
+   "url": "https://github.com/onnx/onnx/pull/7950",
+   "merged_at": "2026-05-29",
+   "additions": 5275,
+   "deletions": 8,
+   "changed_files": 389,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/causal_conv_with_state.py",
+    "onnx/backend/test/case/node/linear_attention.py",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate/model.onnx",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate/test_data_set_0/output_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_b1_c1_degenerate_expanded/test_data_set_0/output_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic/model.onnx",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic/test_data_set_0/output_1.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_causal_conv_with_state_basic_expanded/test_data_set_0/input_1.pb"
+   ],
+   "theme_hits": [],
+   "horizon_score": 16935
+  },
+  {
+   "number": 8068,
+   "title": "Fix Attention is_causal causal-mask alignment + composed is_causal/attn_mask NaN robustness for external (static) KV cache (#8054)",
+   "url": "https://github.com/onnx/onnx/pull/8068",
+   "merged_at": "2026-06-20",
+   "additions": 2605,
+   "deletions": 69,
+   "changed_files": 233,
+   "labels": [
+    "module: spec",
+    "module: schema",
+    "topic: bug fix",
+    "ai"
+   ],
+   "issues": [
+    {
+     "n": 8054,
+     "title": "Attention op: support offset-aware causal masking for KV-cache decode and chunked/mid-cache prefill (nonpad_kv_seqlen)",
+     "url": "https://github.com/onnx/onnx/issues/8054"
+    }
+   ],
+   "src_files": [
+    "ROADMAP.md",
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "docs/docsgen/source/technical/kv_cache.md"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/attention.py",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/model.onnx",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/test_data_set_0/input_3.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/test_data_set_0/input_3.pb",
+    "onnx/backend/test/data/node/test_attention_23_boolmask_fullymasked_row_nan_robustness_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/model.onnx",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/input_3.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_attention_23_fullymasked_qk_matmul_output_mode3_zero/test_data_set_0/output_1.pb"
+   ],
+   "theme_hits": [],
+   "horizon_score": 11065
+  },
+  {
+   "number": 7534,
+   "title": "Add FlexAttention Op to ai.onnx.preview opset",
+   "url": "https://github.com/onnx/onnx/pull/7534",
+   "merged_at": "2026-04-27",
+   "additions": 3064,
+   "deletions": 19,
+   "changed_files": 147,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [
+    {
+     "n": 6389,
+     "title": "[Feature request] FlexAttention alike in ONNX",
+     "url": "https://github.com/onnx/onnx/issues/6389"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "docs/docsgen/source/api/defs.md"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/__init__.py",
+    "onnx/backend/test/case/node/flexattention.py",
+    "onnx/backend/test/data/node/test_acos/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_acosh/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_asin/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_asinh/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_atan/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_atanh/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_cosh/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_cosh_example/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_flexattention/model.onnx",
+    "onnx/backend/test/data/node/test_flexattention/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_flexattention/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_flexattention/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_flexattention/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_flexattention_causal_mask/model.onnx",
+    "onnx/backend/test/data/node/test_flexattention_causal_mask/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_flexattention_causal_mask/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_flexattention_causal_mask/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_flexattention_causal_mask/test_data_set_0/output_0.pb"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 9904
+  },
+  {
+   "number": 7867,
+   "title": "Fix Attention op softcap ordering: apply before mask/bias",
+   "url": "https://github.com/onnx/onnx/pull/7867",
+   "merged_at": "2026-04-30",
+   "additions": 339,
+   "deletions": 44,
+   "changed_files": 101,
+   "labels": [
+    "module: spec",
+    "topic: bug fix",
+    "ai"
+   ],
+   "issues": [
+    {
+     "n": 7865,
+     "title": "Softcap in Attention op",
+     "url": "https://github.com/onnx/onnx/issues/7865"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/attention.py",
+    "onnx/backend/test/data/node/test_attention_3d_attn_mask_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_causal_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_sizes_attn_mask_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_sizes_causal_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_sizes_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_sizes_scaled_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_sizes_softcap_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_diff_heads_with_past_and_present_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_attn_mask_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_causal_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_scaled_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_softcap_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_gqa_with_past_and_present_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_scaled_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_softcap_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_transpose_verification_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_attention_3d_with_past_and_present_expanded/model.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 6219
+  },
+  {
+   "number": 8108,
+   "title": "Add local_window_size attribute to Attention opset 25",
+   "url": "https://github.com/onnx/onnx/pull/8108",
+   "merged_at": "2026-08-20",
+   "additions": 2656,
+   "deletions": 66,
+   "changed_files": 20,
+   "labels": [
+    "topic: operator",
+    "module: spec",
+    "review needed: operators approvers"
+   ],
+   "issues": [
+    {
+     "n": 7914,
+     "title": "Add local_window_size attribute to Attention op for sliding window support",
+     "url": "https://github.com/onnx/onnx/issues/7914"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/common/interned_strings.h",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/nn/utils.cc",
+    "onnx/defs/nn/utils.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/reference/ops/_op_list.py",
+    "onnx/reference/ops/op_attention.py",
+    "onnx/version_converter/adapters/Attention_25_24.h",
+    "onnx/version_converter/adapters/CMakeLists.txt",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/attention.py",
+    "tests/python/printer_test.py",
+    "tests/python/reference_evaluator_attention_test.py",
+    "tests/python/shape_inference_test.py",
+    "tests/python/version_converter/automatic_downgrade_test.py",
+    "tests/python/version_converter/automatic_upgrade_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 3356
+  },
+  {
+   "number": 7857,
+   "title": "Add pre-commit hooks",
+   "url": "https://github.com/onnx/onnx/pull/7857",
+   "merged_at": "2026-05-04",
+   "additions": 2734,
+   "deletions": 681,
+   "changed_files": 19,
+   "labels": [
+    "topic: better engineering"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/pixi_build.yml",
+    ".pre-commit-config.yaml",
+    "CONTRIBUTING.md",
+    "LICENSES/BSD-2-Clause.txt",
+    "docs/CIPipelines.md",
+    "docs/proposals/0002-NLP-in-ONNX-proposal.md",
+    "docs/proposals/0007-ShardingFormalism.md",
+    "onnx/defs/tensor/utils.h",
+    "onnx/inliner/inliner.cc",
+    "onnx/numpy_helper.py",
+    "onnx/reference/ops/_op_list.py",
+    "pixi.lock",
+    "pixi.toml",
+    "requirements-min.txt",
+    "tools/check_namespace.py",
+    "tools/pixi-shim.py",
+    "typos.toml"
+   ],
+   "test_files": [
+    "onnx/backend/test/runner/__init__.py",
+    "onnx/test/cpp/shape_inference_test.cc"
+   ],
+   "theme_hits": [
+    "onnx",
+    "shard"
+   ],
+   "horizon_score": 3314
+  },
+  {
+   "number": 8155,
+   "title": "Migrate to pytest's asserts",
+   "url": "https://github.com/onnx/onnx/pull/8155",
+   "merged_at": "2026-07-06",
+   "additions": 1432,
+   "deletions": 1479,
+   "changed_files": 30,
+   "labels": [
+    "topic: test"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "onnx/test/basic_test.py",
+    "onnx/test/checker_test.py",
+    "onnx/test/compose_test.py",
+    "onnx/test/data_propagation_test.py",
+    "onnx/test/function_inference_test.py",
+    "onnx/test/function_test.py",
+    "onnx/test/helper_test.py",
+    "onnx/test/inference_function_test.py",
+    "onnx/test/inliner_test.py",
+    "onnx/test/model_container_refeval_test.py",
+    "onnx/test/model_container_test.py",
+    "onnx/test/model_inference_test.py",
+    "onnx/test/node_shape_inference_test.py",
+    "onnx/test/numpy_helper_test.py",
+    "onnx/test/parser_test.py",
+    "onnx/test/printer_test.py",
+    "onnx/test/reference_evaluator_ml_test.py",
+    "onnx/test/reference_evaluator_model_test.py",
+    "onnx/test/reference_evaluator_test.py",
+    "onnx/test/schema_test.py"
+   ],
+   "theme_hits": [
+    "migrat"
+   ],
+   "horizon_score": 3292
+  },
+  {
+   "number": 7527,
+   "title": "Add BitCast operator for bitwise type reinterpretation",
+   "url": "https://github.com/onnx/onnx/pull/7527",
+   "merged_at": "2026-02-18",
+   "additions": 950,
+   "deletions": 64,
+   "changed_files": 44,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [
+    {
+     "n": 6887,
+     "title": "Introduce BitCast (reinterpret cast)",
+     "url": "https://github.com/onnx/onnx/issues/6887"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/schema.cc",
+    "onnx/defs/schema.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/reference/ops/_op_list.py",
+    "onnx/reference/ops/op_bitcast.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/bitcast.py",
+    "onnx/backend/test/data/node/test_bitcast_2d_float32_to_int32/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_2d_float32_to_int32/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_2d_float32_to_int32/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_bool_to_uint8/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_bool_to_uint8/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_bool_to_uint8/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_float32_to_int32/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_float32_to_int32/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_float32_to_int32/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_float64_to_int64/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_float64_to_int64/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_float64_to_int64/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_int32_to_float32/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_int32_to_float32/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_int32_to_float32/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_int64_to_float64/model.onnx",
+    "onnx/backend/test/data/node/test_bitcast_int64_to_float64/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_int64_to_float64/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_bitcast_int8_to_uint8/model.onnx"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 3210
+  },
+  {
+   "number": 7923,
+   "title": "feat(generator): extend Range operator with float16 and bfloat16 support (opset 27)",
+   "url": "https://github.com/onnx/onnx/pull/7923",
+   "merged_at": "2026-06-01",
+   "additions": 837,
+   "deletions": 99,
+   "changed_files": 41,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [
+    {
+     "n": 6757,
+     "title": "Support more dtypes in Range",
+     "url": "https://github.com/onnx/onnx/issues/6757"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/generator/defs.cc",
+    "onnx/defs/generator/old.cc",
+    "onnx/defs/generator/utils.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/reference/ops/op_range.py",
+    "onnx/version_converter/adapters/range_27_26.h",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/rangeop.py",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta/model.onnx",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta_expanded/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_range_bfloat16_type_positive_delta_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta/model.onnx",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_range_float16_type_positive_delta_expanded/test_data_set_0/input_2.pb"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2877
+  },
+  {
+   "number": 7877,
+   "title": "Add clang-tidy CI job",
+   "url": "https://github.com/onnx/onnx/pull/7877",
+   "merged_at": "2026-05-08",
+   "additions": 1491,
+   "deletions": 758,
+   "changed_files": 43,
+   "labels": [
+    "topic: better engineering"
+   ],
+   "issues": [],
+   "src_files": [
+    ".clang-tidy",
+    ".github/workflows/clang-tidy.yml",
+    "docs/Changelog.md",
+    "onnx/checker.cc",
+    "onnx/checker.h",
+    "onnx/common/assertions.cc",
+    "onnx/common/assertions.h",
+    "onnx/common/interned_strings.cc",
+    "onnx/cpp2py_export.cc",
+    "onnx/defs/controlflow/defs.cc",
+    "onnx/defs/controlflow/old.cc",
+    "onnx/defs/data_type_utils.cc",
+    "onnx/defs/generator/defs.cc",
+    "onnx/defs/generator/old.cc",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/math/utils.cc",
+    "onnx/defs/math/utils.h",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/object_detection/defs.cc",
+    "onnx/defs/object_detection/old.cc",
+    "onnx/defs/printer.cc",
+    "onnx/defs/quantization/defs.cc",
+    "onnx/defs/quantization/old.cc",
+    "onnx/defs/rnn/defs.cc",
+    "onnx/defs/rnn/old.cc",
+    "onnx/defs/schema.cc",
+    "onnx/defs/sequence/utils.cc",
+    "onnx/defs/sequence/utils.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/defs/tensor/utils.cc",
+    "onnx/defs/tensor/utils.h",
+    "onnx/defs/tensor_proto_util.cc",
+    "onnx/inliner/inliner.cc",
+    "onnx/shape_inference/implementation.cc",
+    "pixi.lock",
+    "pixi.toml",
+    "tools/pretty_clang_tidy.py"
+   ],
+   "test_files": [
+    "onnx/test/cpp/checker_test.cc",
+    "onnx/test/cpp/function_verify_test.cc",
+    "onnx/test/cpp/ir_test.cc"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2531
+  },
+  {
+   "number": 8202,
+   "title": "Add SwiGLU as a function-op",
+   "url": "https://github.com/onnx/onnx/pull/8202",
+   "merged_at": "2026-07-20",
+   "additions": 607,
+   "deletions": 1,
+   "changed_files": 35,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/operator_sets.h",
+    "onnx/reference/ops/_op_list.py",
+    "onnx/reference/ops/op_swiglu.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/swiglu.py",
+    "onnx/backend/test/data/node/test_swiglu/model.onnx",
+    "onnx/backend/test/data/node/test_swiglu/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_swiglu/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_swiglu/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha/model.onnx",
+    "onnx/backend/test/data/node/test_swiglu_alpha/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_swiglu_alpha_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_swiglu_alpha_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_swiglu_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_expanded/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_swiglu_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_float16/model.onnx",
+    "onnx/backend/test/data/node/test_swiglu_float16/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_swiglu_float16/test_data_set_0/input_1.pb"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2487
+  },
+  {
+   "number": 8270,
+   "title": "Add BitShift-28 with signed integer type support",
+   "url": "https://github.com/onnx/onnx/pull/8270",
+   "merged_at": "2026-09-01",
+   "additions": 1476,
+   "deletions": 39,
+   "changed_files": 21,
+   "labels": [
+    "topic: operator",
+    "review needed: operators approvers"
+   ],
+   "issues": [
+    {
+     "n": 2406,
+     "title": "Add Support for Additional Input Types for BitShift ",
+     "url": "https://github.com/onnx/onnx/issues/2406"
+    }
+   ],
+   "src_files": [
+    "cmake/unittest.cmake",
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/cpp2py_export.cc",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/logical/defs.cc",
+    "onnx/defs/logical/old.cc",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/schema.h",
+    "onnx/reference/ops/op_bitshift.py",
+    "onnx/version_converter/convert.cc",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/bitshift.py",
+    "tests/cpp/version_converter_test.cc",
+    "tests/python/reference_evaluator_test.py",
+    "tests/python/schema_test.py",
+    "tests/python/shape_inference_test.py",
+    "tests/python/version_converter/automatic_downgrade_test.py",
+    "tests/python/version_converter_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 2236
+  },
+  {
+   "number": 8078,
+   "title": "feat(defs): support bfloat16 in Compress and related ops",
+   "url": "https://github.com/onnx/onnx/pull/8078",
+   "merged_at": "2026-08-31",
+   "additions": 1160,
+   "deletions": 191,
+   "changed_files": 15,
+   "labels": [
+    "topic: operator",
+    "module: schema"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/schema.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/compress.py",
+    "onnx/backend/test/case/node/onehot.py",
+    "onnx/backend/test/case/node/reversesequence.py",
+    "onnx/backend/test/case/node/unique.py",
+    "tests/python/backend_reference_test.py"
+   ],
+   "theme_hits": [
+    "compress",
+    "onnx"
+   ],
+   "horizon_score": 1780
+  },
+  {
+   "number": 8107,
+   "title": "Add Celu-28 with float16/bfloat16/double support",
+   "url": "https://github.com/onnx/onnx/pull/8107",
+   "merged_at": "2026-06-24",
+   "additions": 363,
+   "deletions": 33,
+   "changed_files": 28,
+   "labels": [
+    "topic: operator"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/schema.h",
+    "onnx/helper.py",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/celu.py",
+    "onnx/backend/test/data/node/test_celu/model.onnx",
+    "onnx/backend/test/data/node/test_celu_bfloat16/model.onnx",
+    "onnx/backend/test/data/node/test_celu_bfloat16/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_celu_bfloat16/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_celu_bfloat16_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_celu_bfloat16_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_celu_bfloat16_expanded/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_celu_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_celu_float16/model.onnx",
+    "onnx/backend/test/data/node/test_celu_float16/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_celu_float16/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_celu_float16_expanded/model.onnx",
+    "onnx/backend/test/data/node/test_celu_float16_expanded/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_celu_float16_expanded/test_data_set_0/output_0.pb",
+    "onnx/test/schema_test.py",
+    "onnx/test/shape_inference_test.py",
+    "onnx/test/test_backend_reference.py",
+    "onnx/test/version_converter_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1743
+  },
+  {
+   "number": 7574,
+   "title": "Clarify DFT behavior when inverse=True and onesided=True (irfft)",
+   "url": "https://github.com/onnx/onnx/pull/7574",
+   "merged_at": "2026-01-26",
+   "additions": 506,
+   "deletions": 98,
+   "changed_files": 23,
+   "labels": [
+    "topic: operator",
+    "review needed: operators approvers"
+   ],
+   "issues": [
+    {
+     "n": 5920,
+     "title": "Clarify DFT behavior when `inverse=True`",
+     "url": "https://github.com/onnx/onnx/issues/5920"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/reference/ops/op_dft.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/dft.py",
+    "onnx/backend/test/data/node/test_dft_irfft/model.onnx",
+    "onnx/backend/test/data/node/test_dft_irfft/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_dft_irfft/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_dft_irfft/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_dft_irfft_opset19/model.onnx",
+    "onnx/backend/test/data/node/test_dft_irfft_opset19/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_dft_irfft_opset19/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_dft_rfft/model.onnx",
+    "onnx/backend/test/data/node/test_dft_rfft/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_dft_rfft/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_dft_rfft/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_dft_rfft_opset19/model.onnx",
+    "onnx/backend/test/data/node/test_dft_rfft_opset19/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_dft_rfft_opset19/test_data_set_0/output_0.pb",
+    "onnx/test/shape_inference_test.py",
+    "onnx/test/version_converter/automatic_upgrade_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1706
+  },
+  {
+   "number": 7935,
+   "title": "Add tests for direction attribute of RNN ops",
+   "url": "https://github.com/onnx/onnx/pull/7935",
+   "merged_at": "2026-08-05",
+   "additions": 1289,
+   "deletions": 306,
+   "changed_files": 10,
+   "labels": [
+    "topic: test",
+    "review needed: operators approvers"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/rnn/defs.cc",
+    "onnx/reference/ops/op_gru.py",
+    "onnx/reference/ops/op_lstm.py",
+    "onnx/reference/ops/op_rnn.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/gru.py",
+    "onnx/backend/test/case/node/lstm.py",
+    "onnx/backend/test/case/node/rnn.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1669
+  },
+  {
+   "number": 8176,
+   "title": "feat(defs): support all IR14 types in Optional ops",
+   "url": "https://github.com/onnx/onnx/pull/8176",
+   "merged_at": "2026-09-01",
+   "additions": 1092,
+   "deletions": 178,
+   "changed_files": 17,
+   "labels": [
+    "topic: operator",
+    "topic: test",
+    "module: version converter",
+    "module: schema",
+    "review needed: operators approvers"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/optional/CMakeLists.txt",
+    "onnx/defs/optional/defs.cc",
+    "onnx/defs/optional/old.cc",
+    "onnx/defs/optional/utils.cc",
+    "onnx/defs/optional/utils.h",
+    "onnx/version_converter/adapters/CMakeLists.txt",
+    "onnx/version_converter/adapters/optional_ops.h",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "tests/python/schema_test.py",
+    "tests/python/version_converter/automatic_conversion_test_base.py",
+    "tests/python/version_converter/automatic_downgrade_test.py",
+    "tests/python/version_converter/automatic_upgrade_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1652
+  },
+  {
+   "number": 7964,
+   "title": "Fixed more bugs in the Scan reference op",
+   "url": "https://github.com/onnx/onnx/pull/7964",
+   "merged_at": "2026-05-27",
+   "additions": 515,
+   "deletions": 188,
+   "changed_files": 19,
+   "labels": [
+    "module: reference implementation"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/op_scan.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/scan.py",
+    "onnx/backend/test/data/node/test_scan9_multi_state/model.onnx",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/input_2.pb",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/output_1.pb",
+    "onnx/backend/test/data/node/test_scan9_multi_state/test_data_set_0/output_2.pb",
+    "onnx/backend/test/data/node/test_scan9_scalar/model.onnx",
+    "onnx/backend/test/data/node/test_scan9_scalar/test_data_set_0/input_0.pb",
+    "onnx/backend/test/data/node/test_scan9_scalar/test_data_set_0/input_1.pb",
+    "onnx/backend/test/data/node/test_scan9_scalar/test_data_set_0/output_0.pb",
+    "onnx/backend/test/data/node/test_scan9_scalar/test_data_set_0/output_1.pb",
+    "onnx/backend/test/data/node/test_scan9_sum/model.onnx",
+    "onnx/backend/test/data/node/test_scan_sum/model.onnx",
+    "onnx/test/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1595
+  },
+  {
+   "number": 8170,
+   "title": "Replace parameterized with pytest",
+   "url": "https://github.com/onnx/onnx/pull/8170",
+   "merged_at": "2026-07-08",
+   "additions": 388,
+   "deletions": 471,
+   "changed_files": 18,
+   "labels": [
+    "topic: better engineering"
+   ],
+   "issues": [
+    {
+     "n": 8104,
+     "title": "[Infra] Adopt native pytest style: convention for new tests + long-term migration",
+     "url": "https://github.com/onnx/onnx/issues/8104"
+    }
+   ],
+   "src_files": [
+    ".agents/skills/add-shape-inference/SKILL.md",
+    "pixi.lock",
+    "pixi.toml",
+    "pyproject.toml",
+    "requirements-dev.txt"
+   ],
+   "test_files": [
+    ".github/workflows/preview_source_dist_test.yml",
+    "onnx/test/basic_test.py",
+    "onnx/test/helper_test.py",
+    "onnx/test/node_shape_inference_test.py",
+    "onnx/test/numpy_helper_test.py",
+    "onnx/test/parser_test.py",
+    "onnx/test/reference_evaluator_ml_test.py",
+    "onnx/test/reference_evaluator_test.py",
+    "onnx/test/schema_test.py",
+    "onnx/test/test_external_data.py",
+    "onnx/test/version_converter/automatic_downgrade_test.py",
+    "onnx/test/version_converter_test.py",
+    "requirements-release_test.txt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1268
+  },
+  {
+   "number": 7521,
+   "title": "Allow float input to Mod when fmod=0",
+   "url": "https://github.com/onnx/onnx/pull/7521",
+   "merged_at": "2026-08-31",
+   "additions": 693,
+   "deletions": 44,
+   "changed_files": 15,
+   "labels": [
+    "topic: operator",
+    "module: version converter",
+    "module: reference implementation",
+    "module: schema"
+   ],
+   "issues": [
+    {
+     "n": 7520,
+     "title": "Allow float input to Mod when fmod=0",
+     "url": "https://github.com/onnx/onnx/issues/7520"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/operator_sets.h",
+    "onnx/reference/ops/op_mod.py",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/model/mod.py",
+    "onnx/backend/test/case/node/mod.py",
+    "tests/python/schema_test.py",
+    "tests/python/shape_inference_test.py",
+    "tests/python/version_converter_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1253
+  },
+  {
+   "number": 7622,
+   "title": "Fix cpplint warnings",
+   "url": "https://github.com/onnx/onnx/pull/7622",
+   "merged_at": "2026-01-28",
+   "additions": 230,
+   "deletions": 205,
+   "changed_files": 32,
+   "labels": [
+    "topic: better engineering"
+   ],
+   "issues": [],
+   "src_files": [
+    "onnx/checker.cc",
+    "onnx/common/array_ref.h",
+    "onnx/common/ir.h",
+    "onnx/cpp2py_export.cc",
+    "onnx/defs/generator/defs.cc",
+    "onnx/defs/logical/old.cc",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/object_detection/defs.cc",
+    "onnx/defs/object_detection/old.cc",
+    "onnx/defs/parser.cc",
+    "onnx/defs/parser.h",
+    "onnx/defs/printer.cc",
+    "onnx/defs/schema.cc",
+    "onnx/defs/sequence/old.cc",
+    "onnx/defs/shape_inference.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/defs/tensor/utils.cc",
+    "onnx/inliner/inliner.cc",
+    "onnx/shape_inference/implementation.cc",
+    "onnx/version_converter/adapters/softmax_12_13.h"
+   ],
+   "test_files": [
+    "onnx/test/cpp/data_propagation_test.cc",
+    "onnx/test/cpp/function_context_test.cc",
+    "onnx/test/cpp/function_verify_test.cc",
+    "onnx/test/cpp/inliner_test.cc",
+    "onnx/test/cpp/ir_test.cc",
+    "onnx/test/cpp/parser_test.cc",
+    "onnx/test/cpp/schema_registration_test.cc",
+    "onnx/test/cpp/shape_inference_test.cc"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1250
+  },
+  {
+   "number": 8066,
+   "title": "Cherrypicks for 1.22.0rc2",
+   "url": "https://github.com/onnx/onnx/pull/8066",
+   "merged_at": "2026-06-09",
+   "additions": 385,
+   "deletions": 67,
+   "changed_files": 34,
+   "labels": [
+    "topic: enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/pixi_build.yml",
+    "CMakeLists.txt",
+    "onnx/CMakeLists.txt",
+    "onnx/checker.cc",
+    "onnx/common/CMakeLists.txt",
+    "onnx/defs/CMakeLists.txt",
+    "onnx/defs/controlflow/CMakeLists.txt",
+    "onnx/defs/generator/CMakeLists.txt",
+    "onnx/defs/image/CMakeLists.txt",
+    "onnx/defs/logical/CMakeLists.txt",
+    "onnx/defs/math/CMakeLists.txt",
+    "onnx/defs/nn/CMakeLists.txt",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/object_detection/CMakeLists.txt",
+    "onnx/defs/optional/CMakeLists.txt",
+    "onnx/defs/preview/CMakeLists.txt",
+    "onnx/defs/quantization/CMakeLists.txt",
+    "onnx/defs/reduction/CMakeLists.txt",
+    "onnx/defs/rnn/CMakeLists.txt",
+    "onnx/defs/sequence/CMakeLists.txt",
+    "onnx/defs/tensor/CMakeLists.txt",
+    "onnx/defs/text/CMakeLists.txt",
+    "onnx/defs/traditionalml/CMakeLists.txt",
+    "onnx/defs/training/CMakeLists.txt",
+    "onnx/helper.py",
+    "onnx/inliner/CMakeLists.txt",
+    "onnx/numpy_helper.py",
+    "onnx/shape_inference/CMakeLists.txt",
+    "onnx/version_converter/CMakeLists.txt",
+    "onnx/version_converter/adapters/CMakeLists.txt"
+   ],
+   "test_files": [
+    "onnx/test/checker_test.py",
+    "onnx/test/helper_test.py",
+    "onnx/test/numpy_helper_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1245
+  },
+  {
+   "number": 7848,
+   "title": "Add `mode` attribute (DCR/CRD) to SpaceToDepth in opset 28, add function bodies to SpaceToDepth and DepthToSpace",
+   "url": "https://github.com/onnx/onnx/pull/7848",
+   "merged_at": "2026-08-31",
+   "additions": 769,
+   "deletions": 42,
+   "changed_files": 13,
+   "labels": [
+    "topic: operator",
+    "module: version converter",
+    "module: schema"
+   ],
+   "issues": [
+    {
+     "n": 6649,
+     "title": "[Feature request] Can SpaceToDepth also add mode attribute?",
+     "url": "https://github.com/onnx/onnx/issues/6649"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/doc_strings.cc",
+    "onnx/defs/doc_strings.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/reference/ops/op_space_to_depth.py",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/spacetodepth.py",
+    "tests/python/reference_evaluator_test.py",
+    "tests/python/version_converter/automatic_downgrade_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1209
+  },
+  {
+   "number": 8313,
+   "title": "Add Einsum-28 with bfloat16 support",
+   "url": "https://github.com/onnx/onnx/pull/8313",
+   "merged_at": "2026-08-31",
+   "additions": 569,
+   "deletions": 231,
+   "changed_files": 16,
+   "labels": [
+    "topic: operator",
+    "review needed: operators approvers"
+   ],
+   "issues": [
+    {
+     "n": 3842,
+     "title": "Add bfloat16 to all relevant ops",
+     "url": "https://github.com/onnx/onnx/issues/3842"
+    }
+   ],
+   "src_files": [
+    "docs/Changelog.md",
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/math/utils.cc",
+    "onnx/defs/math/utils.h",
+    "onnx/defs/operator_sets.h",
+    "onnx/reference/ops/op_einsum.py",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/einsum.py",
+    "tests/python/backend_reference_test.py",
+    "tests/python/checker_test.py",
+    "tests/python/shape_inference_test.py",
+    "tests/python/version_converter/automatic_downgrade_test.py",
+    "tests/python/version_converter_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1189
+  },
+  {
+   "number": 8269,
+   "title": "Make opaque type unconditional",
+   "url": "https://github.com/onnx/onnx/pull/8269",
+   "merged_at": "2026-08-10",
+   "additions": 503,
+   "deletions": 41,
+   "changed_files": 18,
+   "labels": [
+    "topic: type system"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/ONNXTypes.md",
+    "docs/Syntax.md",
+    "onnx/checker.cc",
+    "onnx/defs/data_type_utils.cc",
+    "onnx/defs/parser.cc",
+    "onnx/defs/parser.h",
+    "onnx/defs/printer.cc",
+    "onnx/onnx-ml.proto",
+    "onnx/onnx-ml.proto3",
+    "onnx/onnx.in.proto",
+    "onnx/onnx.proto",
+    "onnx/onnx.proto3",
+    "onnx/shape_inference/implementation.cc"
+   ],
+   "test_files": [
+    "tests/cpp/parser_test.cc",
+    "tests/python/basic_test.py",
+    "tests/python/checker_test.py",
+    "tests/python/opaque_type_test.py",
+    "tests/python/printer_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1123
+  },
+  {
+   "number": 8307,
+   "title": "Runtime checks of shape annotations in reference evaluator",
+   "url": "https://github.com/onnx/onnx/pull/8307",
+   "merged_at": "2026-08-28",
+   "additions": 842,
+   "deletions": 17,
+   "changed_files": 9,
+   "labels": [
+    "module: reference implementation"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/IR.md",
+    "docs/ShapeAnnotationSemantics.md",
+    "onnx/reference/op_run.py",
+    "onnx/reference/ops/op_if.py",
+    "onnx/reference/ops/op_loop.py",
+    "onnx/reference/ops/op_scan.py",
+    "onnx/reference/reference_evaluator.py",
+    "onnx/reference/shape_annotation_checker.py"
+   ],
+   "test_files": [
+    "tests/python/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1122
+  },
+  {
+   "number": 7840,
+   "title": "Attention (opset 23/24): fix bf16 type mismatch in causal-mask and padding-mask paths",
+   "url": "https://github.com/onnx/onnx/pull/7840",
+   "merged_at": "2026-08-28",
+   "additions": 708,
+   "deletions": 18,
+   "changed_files": 9,
+   "labels": [
+    "module: spec",
+    "topic: bug fix"
+   ],
+   "issues": [
+    {
+     "n": 27891,
+     "title": "Attention op (opset 23) fails with bfloat16 on CPU and CUDA due to function body type mismatches",
+     "url": "https://github.com/microsoft/onnxruntime/issues/27891"
+    }
+   ],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/nn/utils.cc",
+    "onnx/reference/ops/op_attention.py",
+    "onnx/reference/ops/op_matmul.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/attention.py",
+    "onnx/backend/test/runner/__init__.py",
+    "tests/python/schema_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 1068
+  },
+  {
+   "number": 8031,
+   "title": "fix: use int64_t and overflow-checked arithmetic in shape inference",
+   "url": "https://github.com/onnx/onnx/pull/8031",
+   "merged_at": "2026-08-05",
+   "additions": 353,
+   "deletions": 18,
+   "changed_files": 9,
+   "labels": [
+    "review needed: operators approvers",
+    "topic: bug fix"
+   ],
+   "issues": [],
+   "src_files": [
+    "cmake/unittest.cmake",
+    "onnx/common/safe_math.h",
+    "onnx/defs/math/utils.cc",
+    "onnx/defs/math/utils.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc"
+   ],
+   "test_files": [
+    "onnx/test/cpp/safe_math_test.cc",
+    "onnx/test/data_propagation_test.py",
+    "onnx/test/shape_inference_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 713
+  },
+  {
+   "number": 7717,
+   "title": "Improve external data file handling - onnx.load",
+   "url": "https://github.com/onnx/onnx/pull/7717",
+   "merged_at": "2026-03-04",
+   "additions": 407,
+   "deletions": 46,
+   "changed_files": 6,
+   "labels": [
+    "topic: security"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Security.md",
+    "onnx/checker.cc",
+    "onnx/external_data_helper.py",
+    "onnx/model_container.py"
+   ],
+   "test_files": [
+    "onnx/test/cpp/checker_test.cc",
+    "onnx/test/test_external_data.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 667
+  },
+  {
+   "number": 8199,
+   "title": "reference: support negative pads (cropping) in Pad",
+   "url": "https://github.com/onnx/onnx/pull/8199",
+   "merged_at": "2026-09-02",
+   "additions": 397,
+   "deletions": 9,
+   "changed_files": 5,
+   "labels": [
+    "module: reference implementation"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/op_pad.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/pad.py",
+    "tests/python/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 637
+  },
+  {
+   "number": 8174,
+   "title": "Fix: account for dilations in CommonPool._run output shape calculation",
+   "url": "https://github.com/onnx/onnx/pull/8174",
+   "merged_at": "2026-09-02",
+   "additions": 424,
+   "deletions": 35,
+   "changed_files": 5,
+   "labels": [
+    "module: reference implementation",
+    "review needed: operators approvers"
+   ],
+   "issues": [
+    {
+     "n": 4849,
+     "title": "(in _op_common_pool.py) CommonPool._run returns incorrect output shape when dilations is set",
+     "url": "https://github.com/onnx/onnx/issues/4849"
+    }
+   ],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/_op_common_pool.py",
+    "onnx/reference/ops/op_pool_common.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/averagepool.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 624
+  },
+  {
+   "number": 8413,
+   "title": "fix(reference): vectorize MaxUnpool scatter",
+   "url": "https://github.com/onnx/onnx/pull/8413",
+   "merged_at": "2026-09-04",
+   "additions": 357,
+   "deletions": 40,
+   "changed_files": 5,
+   "labels": [
+    "topic: operator",
+    "module: reference implementation",
+    "topic: bug fix"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/op_max_unpool.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/maxunpool.py",
+    "tests/python/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 597
+  },
+  {
+   "number": 8277,
+   "title": "Fix shape inference overflow",
+   "url": "https://github.com/onnx/onnx/pull/8277",
+   "merged_at": "2026-08-14",
+   "additions": 294,
+   "deletions": 88,
+   "changed_files": 10,
+   "labels": [
+    "module: shape inference",
+    "review needed: operators approvers"
+   ],
+   "issues": [],
+   "src_files": [
+    "onnx/defs/math/defs.cc",
+    "onnx/defs/math/old.cc",
+    "onnx/defs/nn/defs.cc",
+    "onnx/defs/nn/old.cc",
+    "onnx/defs/nn/utils.cc",
+    "onnx/defs/shape_inference.h",
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/defs/tensor/utils.cc"
+   ],
+   "test_files": [
+    "tests/python/shape_inference_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 594
+  },
+  {
+   "number": 8414,
+   "title": "feat(reference): implement GlobalLpPool evaluator",
+   "url": "https://github.com/onnx/onnx/pull/8414",
+   "merged_at": "2026-09-07",
+   "additions": 291,
+   "deletions": 4,
+   "changed_files": 6,
+   "labels": [
+    "topic: test",
+    "module: reference implementation"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/_op_list.py",
+    "onnx/reference/ops/op_global_lp_pool.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/globallppool.py",
+    "tests/python/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 551
+  },
+  {
+   "number": 8424,
+   "title": "fix(reference): reorder Unique outputs correctly when sorted=0",
+   "url": "https://github.com/onnx/onnx/pull/8424",
+   "merged_at": "2026-09-09",
+   "additions": 309,
+   "deletions": 7,
+   "changed_files": 5,
+   "labels": [
+    "module: reference implementation"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/Operators.md",
+    "docs/TestCoverage.md",
+    "onnx/reference/ops/op_unique.py"
+   ],
+   "test_files": [
+    "onnx/backend/test/case/node/unique.py",
+    "tests/python/reference_evaluator_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 549
+  },
+  {
+   "number": 7677,
+   "title": "Add version converter adapters for opset 15, 16, 17, 18",
+   "url": "https://github.com/onnx/onnx/pull/7677",
+   "merged_at": "2026-02-18",
+   "additions": 259,
+   "deletions": 1,
+   "changed_files": 5,
+   "labels": [
+    "module: version converter"
+   ],
+   "issues": [],
+   "src_files": [
+    "onnx/version_converter/adapters/scatter_16_15.h",
+    "onnx/version_converter/adapters/scatter_18_17.h",
+    "onnx/version_converter/adapters/transformers.h",
+    "onnx/version_converter/convert.h"
+   ],
+   "test_files": [
+    "onnx/test/version_converter_test.py"
+   ],
+   "theme_hits": [
+    "onnx",
+    "version"
+   ],
+   "horizon_score": 519
+  },
+  {
+   "number": 8177,
+   "title": "Fix OneHot shape inference when depth is empty",
+   "url": "https://github.com/onnx/onnx/pull/8177",
+   "merged_at": "2026-08-03",
+   "additions": 202,
+   "deletions": 164,
+   "changed_files": 5,
+   "labels": [
+    "module: shape inference",
+    "review needed: operators approvers",
+    "topic: bug fix"
+   ],
+   "issues": [],
+   "src_files": [
+    "onnx/defs/tensor/defs.cc",
+    "onnx/defs/tensor/old.cc",
+    "onnx/defs/tensor/utils.cc",
+    "onnx/defs/tensor/utils.h"
+   ],
+   "test_files": [
+    "onnx/test/shape_inference_test.py"
+   ],
+   "theme_hits": [
+    "onnx"
+   ],
+   "horizon_score": 402
+  }
+ ]
+}

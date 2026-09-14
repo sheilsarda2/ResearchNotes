@@ -1,0 +1,1270 @@
+{
+ "repo": "rerun-io/rerun",
+ "mined_at": "2026-09-13T10:05:56.531933Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 295,
+ "candidates": 27,
+ "prs": [
+  {
+   "number": 12176,
+   "title": "Switch to uv-based management of our python build+test environment",
+   "url": "https://github.com/rerun-io/rerun/pull/12176",
+   "merged_at": "2026-01-05",
+   "additions": 15138,
+   "deletions": 34107,
+   "changed_files": 74,
+   "labels": [
+    "sdk-python",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/contrib_checks.yml",
+    ".github/workflows/contrib_rerun_py.yml",
+    ".github/workflows/on_push_docs.yml",
+    ".github/workflows/reusable_bench.yml",
+    ".github/workflows/reusable_build_and_upload_wheels.yml",
+    ".github/workflows/reusable_build_examples.yml",
+    ".github/workflows/reusable_checks.yml",
+    ".github/workflows/reusable_checks_python.yml",
+    ".github/workflows/reusable_deploy_docs.yml",
+    ".github/workflows/reusable_publish_web.yml",
+    ".github/workflows/reusable_run_notebook.yml",
+    ".gitignore",
+    ".python-version",
+    "BUILD.md",
+    "CONTRIBUTING.md",
+    "RELEASES.md",
+    "crates/build/re_dev_tools/src/build_examples/install.rs",
+    "crates/build/re_dev_tools/src/build_examples/mod.rs",
+    "crates/build/re_dev_tools/src/build_examples/rrd.rs",
+    "crates/build/re_dev_tools/src/build_examples/snippets.rs",
+    "docs/snippets/README.md",
+    "docs/snippets/compare_snippet_output.py",
+    "examples/manifest.toml",
+    "examples/notebook/notebook_neural_field_2d/neural_field_2d.ipynb",
+    "examples/python/README.md",
+    "examples/python/all_examples/README.md",
+    "examples/python/all_examples/all_examples/__init__.py",
+    "examples/python/all_examples/all_examples/__main__.py",
+    "examples/python/all_examples/hatch_build.py",
+    "examples/python/all_examples/pyproject.toml",
+    "examples/python/arkit_scenes/arkit_scenes/__main__.py",
+    "examples/python/camera_video_stream/camera_video_stream.py",
+    "examples/python/controlnet/controlnet.py",
+    "examples/python/dicom_mri/dicom_mri.py",
+    "examples/python/human_pose_tracking/README.md",
+    "examples/python/llm_embedding_ner/llm_embedding_ner.py",
+    "examples/python/ocr/README.md",
+    "examples/python/raw_mesh/raw_mesh/__main__.py",
+    "examples/python/server_tables/README.md",
+    "pixi.lock"
+   ],
+   "test_files": [
+    ".github/workflows/reusable_test_wheels.yml",
+    "rerun_py/tests/e2e_redap_tests/README.md",
+    "rerun_py/tests/e2e_redap_tests/test_dataset_query.py",
+    "rerun_py/tests/e2e_redap_tests/test_dataset_query_filter.py",
+    "scripts/run_python_e2e_test.py",
+    "tests/assets/rrd/generate-compatibility-rrds.sh",
+    "tests/python/dataframe/examples.ipynb",
+    "tests/python/release_checklist/README.md"
+   ],
+   "theme_hits": [
+    "lease",
+    "manifest",
+    "publish",
+    "rrd",
+    "version"
+   ],
+   "horizon_score": 17238
+  },
+  {
+   "number": 12275,
+   "title": "Allow multiple visualizers of same type per `Entity`",
+   "url": "https://github.com/rerun-io/rerun/pull/12275",
+   "merged_at": "2026-01-16",
+   "additions": 1713,
+   "deletions": 1127,
+   "changed_files": 117,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "\ud83d\udfe6 blueprint",
+    "include in changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/build/re_types_builder/src/codegen/docs/snippets_ref.rs",
+    "crates/store/re_chunk/src/chunk.rs",
+    "crates/store/re_chunk_store/src/store.rs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/archetypes.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/archetypes/active_visualizers.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/archetypes/visualizer_instruction.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_instruction_id.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_overrides.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/datatypes/visualizer_component_mapping.fbs",
+    "crates/store/re_sdk_types/src/blueprint/archetypes/.gitattributes",
+    "crates/store/re_sdk_types/src/blueprint/archetypes/active_visualizers.rs",
+    "crates/store/re_sdk_types/src/blueprint/archetypes/mod.rs",
+    "crates/store/re_sdk_types/src/blueprint/archetypes/view_contents_ext.rs",
+    "crates/store/re_sdk_types/src/blueprint/archetypes/visualizer_instruction.rs",
+    "crates/store/re_sdk_types/src/blueprint/components/.gitattributes",
+    "crates/store/re_sdk_types/src/blueprint/components/mod.rs",
+    "crates/store/re_sdk_types/src/blueprint/components/visualizer_instruction_id.rs",
+    "crates/store/re_sdk_types/src/blueprint/components/visualizer_instruction_id_ext.rs",
+    "crates/store/re_sdk_types/src/blueprint/components/visualizer_override.rs",
+    "crates/store/re_sdk_types/src/blueprint/datatypes/visualizer_component_mapping.rs",
+    "crates/store/re_sdk_types/src/datatypes/uuid_ext.rs",
+    "crates/store/re_sdk_types/src/reflection/mod.rs",
+    "crates/store/re_sdk_types/src/visualizer.rs",
+    "crates/top/re_sdk/src/blueprint/view.rs",
+    "crates/viewer/re_selection_panel/src/selection_panel.rs",
+    "crates/viewer/re_selection_panel/src/visible_time_range_ui.rs",
+    "crates/viewer/re_selection_panel/src/visualizer_ui.rs",
+    "crates/viewer/re_view/src/lib.rs",
+    "crates/viewer/re_view/src/query.rs",
+    "crates/viewer/re_view/src/results_ext.rs",
+    "crates/viewer/re_view_bar_chart/src/view_class.rs",
+    "crates/viewer/re_view_bar_chart/src/visualizer_system.rs",
+    "crates/viewer/re_view_graph/src/visualizers/edges.rs",
+    "crates/viewer/re_view_graph/src/visualizers/nodes.rs",
+    "crates/viewer/re_view_map/src/visualizers/geo_line_strings.rs",
+    "crates/viewer/re_view_map/src/visualizers/geo_points.rs",
+    "crates/viewer/re_view_spatial/src/contexts/depth_offsets.rs",
+    "crates/viewer/re_view_spatial/src/contexts/transform_tree_context.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerInstructionId_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerInstructionId_placeholder.png",
+    "crates/viewer/re_component_ui/tests/test_all_components_ui.rs",
+    "crates/viewer/re_view_spatial/tests/blueprint_2d.rs",
+    "crates/viewer/re_view_spatial/tests/static_overwrite.rs",
+    "crates/viewer/re_view_spatial/tests/transform_child_parent_single_time.rs",
+    "crates/viewer/re_view_spatial/tests/visible_time_range.rs",
+    "crates/viewer/re_view_time_series/tests/basic.rs",
+    "crates/viewer/re_view_time_series/tests/blueprint.rs",
+    "crates/viewer/re_viewer/tests/blueprint_test.rs",
+    "crates/viewer/re_viewer/tests/snapshots/all_component_fallbacks__arch_fallback_rerun.blueprint.archetypes.ActiveVisualizers.snap",
+    "crates/viewer/re_viewer/tests/snapshots/all_component_fallbacks__arch_fallback_rerun.blueprint.archetypes.VisualizerInstruction.snap"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "chunk",
+    "migrat",
+    "query"
+   ],
+   "horizon_score": 4853
+  },
+  {
+   "number": 12195,
+   "title": "Improve VisualizerOverrides ergonomics in Rust (#12265) + Some of the blueprint types required for component mapping (#12215)",
+   "url": "https://github.com/rerun-io/rerun/pull/12195",
+   "merged_at": "2026-01-07",
+   "additions": 2172,
+   "deletions": 10,
+   "changed_files": 89,
+   "labels": [
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/build/re_types_builder/src/codegen/rust/api.rs",
+    "crates/store/re_sdk_types/definitions/rerun/archetypes/transform_axes3d.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/archetypes.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/archetypes/visualizer_instruction.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_component_mapping.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_instruction_id.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_type.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/datatypes.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/datatypes/visualizer_component_mapping.fbs",
+    "crates/store/re_sdk_types/src/archetypes/arrows2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/arrows3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/asset3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/bar_chart.rs",
+    "crates/store/re_sdk_types/src/archetypes/boxes2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/boxes3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/capsules3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/cylinders3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/depth_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/ellipsoids3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/encoded_depth_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/encoded_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/geo_line_strings.rs",
+    "crates/store/re_sdk_types/src/archetypes/geo_points.rs",
+    "crates/store/re_sdk_types/src/archetypes/graph_edges.rs",
+    "crates/store/re_sdk_types/src/archetypes/graph_nodes.rs",
+    "crates/store/re_sdk_types/src/archetypes/image.rs",
+    "crates/store/re_sdk_types/src/archetypes/line_strips2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/line_strips3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/mesh3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/pinhole.rs",
+    "crates/store/re_sdk_types/src/archetypes/points2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/points3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/segmentation_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/series_lines.rs",
+    "crates/store/re_sdk_types/src/archetypes/series_points.rs",
+    "crates/store/re_sdk_types/src/archetypes/tensor.rs",
+    "crates/store/re_sdk_types/src/archetypes/text_document.rs",
+    "crates/store/re_sdk_types/src/archetypes/text_log.rs",
+    "crates/store/re_sdk_types/src/archetypes/transform_axes3d.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerInstructionId_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerType_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerInstructionId_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerType_placeholder.png",
+    "crates/viewer/re_view_spatial/tests/transform_child_parent_single_time.rs",
+    "crates/viewer/re_view_time_series/tests/blueprint.rs",
+    "crates/viewer/re_viewer/tests/snapshots/all_component_fallbacks__arch_fallback_rerun.blueprint.archetypes.VisualizerInstruction.snap"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "encod"
+   ],
+   "horizon_score": 4432
+  },
+  {
+   "number": 12884,
+   "title": "Merge 0.36 release",
+   "url": "https://github.com/rerun-io/rerun/pull/12884",
+   "merged_at": "2026-08-11",
+   "additions": 578,
+   "deletions": 472,
+   "changed_files": 76,
+   "labels": [
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/build/re_type_definitions/rerun/archetypes/gaussian_splats3d.def.rs",
+    "crates/build/re_type_definitions/rerun/components/spherical_harmonics3rgb.def.rs",
+    "crates/build/re_type_definitions/rerun/components/spherical_harmonics_degree.def.rs",
+    "crates/build/re_type_definitions/rerun/datatypes/spherical_harmonics3rgb.def.rs",
+    "crates/build/re_type_definitions/rerun/datatypes/view_dir.def.rs",
+    "crates/store/re_lerobot/README.md",
+    "crates/store/re_sdk_types/src/reflection/mod.rs",
+    "crates/store/re_types_core/src/as_components.rs",
+    "crates/utils/re_int/README.md",
+    "docs/content/_redirects.yaml",
+    "docs/content/changelog.md",
+    "docs/content/changelog/changeset-0-36.md",
+    "docs/content/changelog/upcoming/application-id-entry-name-restrictions.md",
+    "docs/content/changelog/upcoming/configurable-3d-view-axes.md",
+    "docs/content/changelog/upcoming/experimental-gaussian-splats-3d.md",
+    "docs/content/changelog/upcoming/experimental-viewer-catalog-large-web-files.md",
+    "docs/content/changelog/upcoming/grpc-server-sink-multi-sink.md",
+    "docs/content/changelog/upcoming/improved-viewer-timeline-navigation.md",
+    "docs/content/changelog/upcoming/mcap-info-and-check.md",
+    "docs/content/changelog/upcoming/parquet-reader-stream-options.md",
+    "docs/content/reference/types/archetypes/gaussian_splats3d.md",
+    "docs/content/reference/types/components/color.md",
+    "docs/content/reference/types/components/position3d.md",
+    "docs/content/reference/types/components/rotation_quat.md",
+    "docs/content/reference/types/components/scale3d.md",
+    "docs/content/reference/types/components/spherical_harmonics3rgb.md",
+    "docs/content/reference/types/components/spherical_harmonics_degree.md",
+    "docs/content/reference/types/datatypes/spherical_harmonics3rgb.md",
+    "docs/content/reference/types/datatypes/uint32.md",
+    "docs/content/reference/types/datatypes/view_dir.md",
+    "examples/rust/animated_urdf/Cargo.toml",
+    "examples/rust/blueprint/Cargo.toml",
+    "examples/rust/blueprint_stocks/Cargo.toml",
+    "examples/rust/clock/Cargo.toml",
+    "examples/rust/custom_callback/Cargo.toml",
+    "examples/rust/custom_importer/Cargo.toml",
+    "examples/rust/custom_store_subscriber/Cargo.toml"
+   ],
+   "test_files": [
+    "tests/rust/re_integration_test/tests/snapshots/internal_catalog_load_rrd_recording.png",
+    "tests/rust/re_integration_test/tests/snapshots/rrd_bw_compat_detect_and_track_objects.png",
+    "tests/rust/re_integration_test/tests/snapshots/rrd_bw_compat_raw_mesh.png"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "dataframe",
+    "import",
+    "index",
+    "lease",
+    "mcap",
+    "parquet",
+    "subscri"
+   ],
+   "horizon_score": 2698
+  },
+  {
+   "number": 12277,
+   "title": "Video stream changes to support out of order samples",
+   "url": "https://github.com/rerun-io/rerun/pull/12277",
+   "merged_at": "2026-01-13",
+   "additions": 1305,
+   "deletions": 798,
+   "changed_files": 31,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "include in changelog",
+    "feat-video"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_chunk_store/src/writes.rs",
+    "crates/store/re_data_loader/src/lerobot/datasetv3.rs",
+    "crates/store/re_sdk_types/src/archetypes/asset_video_ext.rs",
+    "crates/top/rerun_c/src/video.rs",
+    "crates/utils/re_arrow_util/src/arrays.rs",
+    "crates/utils/re_byte_size/src/primitive_sizes.rs",
+    "crates/utils/re_video/Cargo.toml",
+    "crates/utils/re_video/benches/video_load_bench.rs",
+    "crates/utils/re_video/examples/frames.rs",
+    "crates/utils/re_video/src/decode/ffmpeg_cli/ffmpeg.rs",
+    "crates/utils/re_video/src/decode/mod.rs",
+    "crates/utils/re_video/src/decode/webcodecs.rs",
+    "crates/utils/re_video/src/demux/mod.rs",
+    "crates/utils/re_video/src/demux/mp4.rs",
+    "crates/utils/re_video/src/lib.rs",
+    "crates/utils/re_video/src/stable_index_deque.rs",
+    "crates/viewer/re_data_ui/src/video.rs",
+    "crates/viewer/re_renderer/Cargo.toml",
+    "crates/viewer/re_renderer/src/video/mod.rs",
+    "crates/viewer/re_renderer/src/video/player.rs",
+    "crates/viewer/re_view_spatial/Cargo.toml",
+    "crates/viewer/re_view_spatial/src/max_image_dimension_subscriber.rs",
+    "crates/viewer/re_view_spatial/src/visualizers/video/video_frame_reference.rs",
+    "crates/viewer/re_view_spatial/src/visualizers/video/video_stream.rs",
+    "crates/viewer/re_viewer/src/app.rs",
+    "crates/viewer/re_viewer_context/src/cache/caches.rs",
+    "crates/viewer/re_viewer_context/src/cache/video_asset_cache.rs",
+    "crates/viewer/re_viewer_context/src/cache/video_stream_cache.rs",
+    "rerun_py/src/video.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_view_spatial/tests/video.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "decod",
+    "index",
+    "subscri"
+   ],
+   "horizon_score": 2205
+  },
+  {
+   "number": 12475,
+   "title": "Use visualizer objects in Rust blueprint override API",
+   "url": "https://github.com/rerun-io/rerun/pull/12475",
+   "merged_at": "2026-01-15",
+   "additions": 457,
+   "deletions": 274,
+   "changed_files": 72,
+   "labels": [
+    "sdk-rust",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/build/re_types_builder/src/codegen/python/mod.rs",
+    "crates/build/re_types_builder/src/codegen/rust/api.rs",
+    "crates/store/re_sdk_types/src/archetypes/arrows2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/arrows3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/asset3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/bar_chart.rs",
+    "crates/store/re_sdk_types/src/archetypes/boxes2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/boxes3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/capsules3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/cylinders3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/depth_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/ellipsoids3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/encoded_depth_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/encoded_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/geo_line_strings.rs",
+    "crates/store/re_sdk_types/src/archetypes/geo_points.rs",
+    "crates/store/re_sdk_types/src/archetypes/graph_edges.rs",
+    "crates/store/re_sdk_types/src/archetypes/graph_nodes.rs",
+    "crates/store/re_sdk_types/src/archetypes/image.rs",
+    "crates/store/re_sdk_types/src/archetypes/line_strips2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/line_strips3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/mesh3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/pinhole.rs",
+    "crates/store/re_sdk_types/src/archetypes/points2d.rs",
+    "crates/store/re_sdk_types/src/archetypes/points3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/segmentation_image.rs",
+    "crates/store/re_sdk_types/src/archetypes/series_lines.rs",
+    "crates/store/re_sdk_types/src/archetypes/series_points.rs",
+    "crates/store/re_sdk_types/src/archetypes/tensor.rs",
+    "crates/store/re_sdk_types/src/archetypes/text_document.rs",
+    "crates/store/re_sdk_types/src/archetypes/text_log.rs",
+    "crates/store/re_sdk_types/src/archetypes/transform_axes3d.rs",
+    "crates/store/re_sdk_types/src/archetypes/video_frame_reference.rs",
+    "crates/store/re_sdk_types/src/archetypes/video_stream.rs",
+    "crates/store/re_sdk_types/src/lib.rs",
+    "crates/store/re_sdk_types/src/visualizer.rs",
+    "crates/top/re_sdk/src/blueprint/view.rs",
+    "examples/rust/blueprint/src/main.rs",
+    "rerun_py/rerun_sdk/rerun/archetypes/arrows2d.py",
+    "rerun_py/rerun_sdk/rerun/archetypes/arrows3d.py"
+   ],
+   "test_files": [
+    "crates/viewer/re_view_spatial/tests/transform_child_parent_single_time.rs",
+    "crates/viewer/re_view_time_series/tests/blueprint.rs"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "encod"
+   ],
+   "horizon_score": 2097
+  },
+  {
+   "number": 12657,
+   "title": "Add `InterpolationMode` component for step function rendering",
+   "url": "https://github.com/rerun-io/rerun/pull/12657",
+   "merged_at": "2026-02-23",
+   "additions": 882,
+   "deletions": 24,
+   "changed_files": 38,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "include in changelog",
+    "feat-plots"
+   ],
+   "issues": [
+    {
+     "n": 12655,
+     "title": "Support stepped (staircase) interpolation for time series line charts",
+     "url": "https://github.com/rerun-io/rerun/issues/12655"
+    }
+   ],
+   "src_files": [
+    "crates/store/re_sdk_types/definitions/rerun/archetypes/series_lines.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/components.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/components/interpolation_mode.fbs",
+    "crates/store/re_sdk_types/src/archetypes/series_lines.rs",
+    "crates/store/re_sdk_types/src/components/.gitattributes",
+    "crates/store/re_sdk_types/src/components/interpolation_mode.rs",
+    "crates/store/re_sdk_types/src/components/mod.rs",
+    "crates/store/re_sdk_types/src/reflection/mod.rs",
+    "crates/viewer/re_component_ui/src/lib.rs",
+    "crates/viewer/re_time_panel/src/data_density_graph.rs",
+    "crates/viewer/re_view_time_series/src/lib.rs",
+    "crates/viewer/re_view_time_series/src/line_visualizer_system.rs",
+    "crates/viewer/re_view_time_series/src/util.rs",
+    "crates/viewer/re_view_time_series/src/view_class.rs",
+    "docs/content/reference/types/archetypes/series_lines.md",
+    "docs/content/reference/types/components.md",
+    "docs/content/reference/types/components/.gitattributes",
+    "docs/content/reference/types/components/interpolation_mode.md",
+    "rerun_cpp/src/rerun/archetypes/series_lines.cpp",
+    "rerun_cpp/src/rerun/archetypes/series_lines.hpp",
+    "rerun_cpp/src/rerun/components.hpp",
+    "rerun_cpp/src/rerun/components/.gitattributes",
+    "rerun_cpp/src/rerun/components/interpolation_mode.cpp",
+    "rerun_cpp/src/rerun/components/interpolation_mode.hpp",
+    "rerun_py/rerun_sdk/rerun/archetypes/series_lines.py",
+    "rerun_py/rerun_sdk/rerun/components/.gitattributes",
+    "rerun_py/rerun_sdk/rerun/components/__init__.py",
+    "rerun_py/rerun_sdk/rerun/components/interpolation_mode.py"
+   ],
+   "test_files": [
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/InterpolationMode_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/InterpolationMode_placeholder.png",
+    "crates/viewer/re_view_time_series/tests/interpolation.rs",
+    "crates/viewer/re_view_time_series/tests/snapshots/interpolation_mode_Linear.png",
+    "crates/viewer/re_view_time_series/tests/snapshots/interpolation_mode_StepAfter.png",
+    "crates/viewer/re_view_time_series/tests/snapshots/interpolation_mode_StepBefore.png",
+    "crates/viewer/re_view_time_series/tests/snapshots/interpolation_mode_StepMid.png",
+    "crates/viewer/re_viewer/tests/snapshots/all_component_fallbacks__arch_fallback_rerun.archetypes.SeriesLines.snap",
+    "tests/rust/re_integration_test/tests/snapshots/per_visualizer_instruction_errors_3_errors_only.png",
+    "tests/rust/re_integration_test/tests/snapshots/per_visualizer_instruction_errors_3b_errors_only_menu.png"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2042
+  },
+  {
+   "number": 12542,
+   "title": "Enhanced component mapping datastructure",
+   "url": "https://github.com/rerun-io/rerun/pull/12542",
+   "merged_at": "2026-01-22",
+   "additions": 1045,
+   "deletions": 138,
+   "changed_files": 28,
+   "labels": [
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/components/visualizer_component_mapping.fbs",
+    "crates/store/re_sdk_types/definitions/rerun/blueprint/datatypes/visualizer_component_mapping.fbs",
+    "crates/store/re_sdk_types/src/blueprint/components/visualizer_component_mapping.rs",
+    "crates/store/re_sdk_types/src/blueprint/datatypes/.gitattributes",
+    "crates/store/re_sdk_types/src/blueprint/datatypes/component_source_kind.rs",
+    "crates/store/re_sdk_types/src/blueprint/datatypes/mod.rs",
+    "crates/store/re_sdk_types/src/blueprint/datatypes/visualizer_component_mapping.rs",
+    "crates/store/re_sdk_types/src/reflection/mod.rs",
+    "crates/viewer/re_selection_panel/src/visualizer_ui.rs",
+    "crates/viewer/re_view/src/query.rs",
+    "crates/viewer/re_view_time_series/src/view_class.rs",
+    "crates/viewer/re_viewer_context/src/lib.rs",
+    "crates/viewer/re_viewer_context/src/view/mod.rs",
+    "crates/viewer/re_viewer_context/src/view/view_query.rs",
+    "crates/viewer/re_viewport_blueprint/src/view_contents.rs",
+    "rerun_cpp/src/rerun/blueprint/datatypes.hpp",
+    "rerun_cpp/src/rerun/blueprint/datatypes/.gitattributes",
+    "rerun_cpp/src/rerun/blueprint/datatypes/component_source_kind.cpp",
+    "rerun_cpp/src/rerun/blueprint/datatypes/component_source_kind.hpp",
+    "rerun_cpp/src/rerun/blueprint/datatypes/visualizer_component_mapping.cpp",
+    "rerun_cpp/src/rerun/blueprint/datatypes/visualizer_component_mapping.hpp",
+    "rerun_py/rerun_sdk/rerun/blueprint/datatypes/.gitattributes",
+    "rerun_py/rerun_sdk/rerun/blueprint/datatypes/__init__.py",
+    "rerun_py/rerun_sdk/rerun/blueprint/datatypes/component_source_kind.py",
+    "rerun_py/rerun_sdk/rerun/blueprint/datatypes/visualizer_component_mapping.py"
+   ],
+   "test_files": [
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_narrow/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_component_ui/tests/snapshots/all_components_list_item_wide/VisualizerComponentMapping_placeholder.png",
+    "crates/viewer/re_viewer/tests/snapshots/all_component_fallbacks__arch_fallback_rerun.blueprint.archetypes.VisualizerInstruction.snap"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "query"
+   ],
+   "horizon_score": 1845
+  },
+  {
+   "number": 12312,
+   "title": "Introduce deep Chunk slicing",
+   "url": "https://github.com/rerun-io/rerun/pull/12312",
+   "merged_at": "2026-01-06",
+   "additions": 682,
+   "deletions": 147,
+   "changed_files": 19,
+   "labels": [
+    "\ud83e\udeb3 bug",
+    "\ud83c\udff9 arrow",
+    "\u26c3 re_datastore",
+    "\ud83d\udcc9 performance",
+    "include in changelog"
+   ],
+   "issues": [
+    {
+     "n": 12304,
+     "title": "Logging tensors to rerun following v0.22.1 -> v0.28.1 upgrade balloons .rrd size",
+     "url": "https://github.com/rerun-io/rerun/issues/12304"
+    },
+    {
+     "n": 12305,
+     "title": "Tensor data breaks when saved to .rrd and loaded back into viewer, leaving most data unviewable",
+     "url": "https://github.com/rerun-io/rerun/issues/12305"
+    }
+   ],
+   "src_files": [
+    "crates/store/re_chunk/src/range.rs",
+    "crates/store/re_chunk/src/slice.rs",
+    "crates/store/re_chunk/src/split.rs",
+    "crates/store/re_chunk_store/src/drop_time_range.rs",
+    "crates/store/re_tf/src/transform_queries.rs",
+    "crates/store/re_tf/src/transform_resolution_cache.rs",
+    "crates/utils/re_arrow_util/src/arrays.rs",
+    "crates/utils/re_byte_size/src/arrow_sizes.rs"
+   ],
+   "test_files": [
+    "crates/store/re_chunk/src/latest_at.rs",
+    "crates/store/re_chunk_store/tests/snapshots/formatting__format_chunk_store.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__fetch_chunks__simple_dataset_fetch_chunk.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__rrd_manifest__fetch_chunks_from_rrd_manifest.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__rrd_manifest__rrd_manifest.snap",
+    "crates/utils/re_arrow_util/src/snapshots/re_arrow_util__arrays__tests__deep_slice_comparisons.snap",
+    "rerun_py/tests/api_sandbox/test_current/test_dataset_basics.py",
+    "rerun_py/tests/api_sandbox/test_current/test_polars_interop.py",
+    "rerun_py/tests/api_sandbox/test_draft/test_dataset_basics.py",
+    "rerun_py/tests/api_sandbox/test_draft/test_dataset_views.py",
+    "rerun_py/tests/api_sandbox/test_draft/test_polars_interop.py"
+   ],
+   "theme_hits": [
+    "chunk"
+   ],
+   "horizon_score": 1562
+  },
+  {
+   "number": 12548,
+   "title": "Source selector for visualizer components",
+   "url": "https://github.com/rerun-io/rerun/pull/12548",
+   "merged_at": "2026-01-30",
+   "additions": 353,
+   "deletions": 337,
+   "changed_files": 23,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "include in changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/viewer/re_selection_panel/src/selection_panel.rs",
+    "crates/viewer/re_selection_panel/src/visualizer_ui.rs",
+    "crates/viewer/re_view_time_series/src/line_visualizer_system.rs",
+    "crates/viewer/re_view_time_series/src/point_visualizer_system.rs",
+    "crates/viewer/re_viewer/src/ui/settings_screen.rs",
+    "crates/viewer/re_viewer_context/src/app_options.rs",
+    "crates/viewer/re_viewer_context/src/view/view_query.rs",
+    "crates/viewer/re_viewport_blueprint/src/view_contents.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_view_time_series/tests/automatic_mapping.rs",
+    "crates/viewer/re_view_time_series/tests/blueprint.rs",
+    "crates/viewer/re_viewer/src/viewer_test_utils/mod.rs",
+    "tests/rust/re_integration_test/Cargo.toml",
+    "tests/rust/re_integration_test/src/viewer_section.rs",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_1.png",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_2.png",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_3.png",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_4.png",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_5.png",
+    "tests/rust/re_integration_test/tests/snapshots/source_component_6.png",
+    "tests/rust/re_integration_test/tests/source_component_test.rs",
+    "tests/rust/re_integration_test/tests/visualizer_instruction_errors_test.rs",
+    "tests/rust/test_any_scalar/src/main.rs"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "query"
+   ],
+   "horizon_score": 1493
+  },
+  {
+   "number": 12338,
+   "title": "Larger than ram time panel UI",
+   "url": "https://github.com/rerun-io/rerun/pull/12338",
+   "merged_at": "2026-01-09",
+   "additions": 711,
+   "deletions": 70,
+   "changed_files": 14,
+   "labels": [
+    "ui",
+    "\ud83d\udcfa re_viewer",
+    "include in changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_chunk/src/chunk.rs",
+    "crates/store/re_entity_db/src/rrd_manifest_index.rs",
+    "crates/store/re_entity_db/src/rrd_manifest_index/time_range_merger.rs",
+    "crates/viewer/re_time_panel/Cargo.toml",
+    "crates/viewer/re_time_panel/benches/bench_density_graph.rs",
+    "crates/viewer/re_time_panel/src/data_density_graph.rs",
+    "crates/viewer/re_time_panel/src/time_panel.rs",
+    "crates/viewer/re_time_panel/src/time_selection_ui.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_test_context/src/lib.rs",
+    "crates/viewer/re_time_panel/tests/snapshots/time_panel_loading_unloaded_chunks.png",
+    "crates/viewer/re_time_panel/tests/snapshots/time_panel_only_unloaded_chunks.png",
+    "crates/viewer/re_time_panel/tests/snapshots/time_panel_partially_unloaded_chunks.png",
+    "crates/viewer/re_time_panel/tests/time_panel_tests.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "rrd"
+   ],
+   "horizon_score": 1311
+  },
+  {
+   "number": 12390,
+   "title": "Virtual ChunkStore 2: support partial query results at the store level",
+   "url": "https://github.com/rerun-io/rerun/pull/12390",
+   "merged_at": "2026-01-13",
+   "additions": 721,
+   "deletions": 146,
+   "changed_files": 15,
+   "labels": [
+    "\u26c3 re_datastore",
+    "\ud83d\udd0d re_query",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_chunk/src/slice.rs",
+    "crates/store/re_chunk_store/src/drop_time_range.rs",
+    "crates/store/re_chunk_store/src/gc.rs",
+    "crates/store/re_chunk_store/src/lib.rs",
+    "crates/store/re_chunk_store/src/properties.rs",
+    "crates/store/re_chunk_store/src/query.rs",
+    "crates/store/re_chunk_store/src/writes.rs",
+    "crates/store/re_query/src/range.rs",
+    "crates/store/re_tf/src/transform_queries.rs",
+    "crates/viewer/re_chunk_store_ui/src/chunk_store_ui.rs",
+    "crates/viewer/re_time_panel/src/data_density_graph.rs"
+   ],
+   "test_files": [
+    "crates/store/re_chunk_store/tests/correctness.rs",
+    "crates/store/re_chunk_store/tests/gc.rs",
+    "crates/store/re_chunk_store/tests/reads.rs",
+    "crates/store/re_query/src/latest_at.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "query"
+   ],
+   "horizon_score": 1301
+  },
+  {
+   "number": 12310,
+   "title": "Add Python support for `UrdfTree`",
+   "url": "https://github.com/rerun-io/rerun/pull/12310",
+   "merged_at": "2026-01-06",
+   "additions": 856,
+   "deletions": 4,
+   "changed_files": 14,
+   "labels": [
+    "sdk-python",
+    "\ud83d\udcfa re_viewer",
+    "include in changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_data_loader/src/loader_urdf.rs",
+    "docs/content/howto/urdf.md",
+    "examples/manifest.toml",
+    "examples/python/animated_urdf/README.md",
+    "examples/python/animated_urdf/main.py",
+    "examples/python/animated_urdf/pyproject.toml",
+    "rerun_py/rerun_bindings/__init__.py",
+    "rerun_py/rerun_bindings/rerun_bindings.pyi",
+    "rerun_py/rerun_sdk/rerun/__init__.py",
+    "rerun_py/rerun_sdk/rerun/urdf.py",
+    "rerun_py/src/lib.rs",
+    "rerun_py/src/python_bridge.rs",
+    "rerun_py/src/urdf.rs"
+   ],
+   "test_files": [
+    "rerun_py/tests/unit/test_urdf_tree.py"
+   ],
+   "theme_hits": [
+    "manifest"
+   ],
+   "horizon_score": 1236
+  },
+  {
+   "number": 12557,
+   "title": "Don't gc chunks we last prefetched",
+   "url": "https://github.com/rerun-io/rerun/pull/12557",
+   "merged_at": "2026-01-28",
+   "additions": 720,
+   "deletions": 369,
+   "changed_files": 17,
+   "labels": [
+    "\ud83e\udeb3 bug",
+    "\ud83d\udcfa re_viewer",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_chunk_store/src/gc.rs",
+    "crates/store/re_chunk_store/src/lib.rs",
+    "crates/store/re_chunk_store/src/lineage.rs",
+    "crates/store/re_chunk_store/src/query.rs",
+    "crates/store/re_chunk_store/src/stats.rs",
+    "crates/store/re_chunk_store/src/store.rs",
+    "crates/store/re_chunk_store/src/writes.rs",
+    "crates/store/re_entity_db/src/chunk_promise.rs",
+    "crates/store/re_entity_db/src/entity_db.rs",
+    "crates/store/re_entity_db/src/rrd_manifest_index.rs",
+    "crates/store/re_entity_db/src/rrd_manifest_index/chunk_prioritizer.rs",
+    "crates/viewer/re_data_ui/src/component_path.rs",
+    "crates/viewer/re_time_panel/src/time_panel.rs",
+    "crates/viewer/re_viewer/src/app.rs",
+    "crates/viewer/re_viewer/src/prefetch_chunks.rs",
+    "crates/viewer/re_viewer_context/src/store_hub.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_viewer_context/src/cache/video_stream_cache/test_player.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "rrd"
+   ],
+   "horizon_score": 1220
+  },
+  {
+   "number": 12537,
+   "title": "Yet another attempt to fix detect-and-track example build",
+   "url": "https://github.com/rerun-io/rerun/pull/12537",
+   "merged_at": "2026-01-21",
+   "additions": 359,
+   "deletions": 314,
+   "changed_files": 26,
+   "labels": [
+    "examples",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "Cargo.lock",
+    "crates/store/re_arrow_combinators/Cargo.toml",
+    "crates/store/re_arrow_combinators/src/lib.rs",
+    "crates/store/re_types_core/src/reflection.rs",
+    "crates/top/re_sdk/src/lenses/ast.rs",
+    "crates/top/re_sdk/src/lenses/mod.rs",
+    "crates/top/re_sdk/src/lenses/semantic.rs",
+    "crates/viewer/re_selection_panel/src/visualizer_ui.rs",
+    "crates/viewer/re_view/src/query.rs",
+    "crates/viewer/re_view_time_series/src/lib.rs",
+    "crates/viewer/re_view_time_series/src/line_visualizer_system.rs",
+    "crates/viewer/re_view_time_series/src/point_visualizer_system.rs",
+    "crates/viewer/re_view_time_series/src/util.rs",
+    "crates/viewer/re_view_time_series/src/view_class.rs",
+    "crates/viewer/re_viewer_context/src/lib.rs",
+    "crates/viewer/re_viewer_context/src/view/mod.rs",
+    "crates/viewer/re_viewer_context/src/view/view_query.rs",
+    "crates/viewer/re_viewport_blueprint/src/view_contents.rs",
+    "docs/content/concepts/how-does-rerun-work.md",
+    "docs/content/getting-started/data-in/python.md",
+    "docs/content/reference/migration/migration-0-9.md",
+    "examples/rust/mcap_protobuf/src/main.rs",
+    "pyproject.toml",
+    "uv.lock"
+   ],
+   "test_files": [
+    "crates/top/re_sdk/tests/lenses/semantic.rs"
+   ],
+   "theme_hits": [
+    "blueprint",
+    "mcap",
+    "migrat",
+    "query"
+   ],
+   "horizon_score": 1159
+  },
+  {
+   "number": 12266,
+   "title": "Add test coverage for `QueryDatasetRequest.query`",
+   "url": "https://github.com/rerun-io/rerun/pull/12266",
+   "merged_at": "2026-01-05",
+   "additions": 290,
+   "deletions": 15,
+   "changed_files": 16,
+   "labels": [
+    "\ud83d\udd28 testing",
+    "exclude from changelog",
+    "dataplatform"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_datafusion/src/dataframe_query_common.rs",
+    "crates/store/re_datafusion/src/pushdown_expressions.rs",
+    "crates/store/re_protos/proto/rerun/v1alpha1/cloud.proto",
+    "crates/store/re_protos/src/v1alpha1/rerun.cloud.v1alpha1.ext.rs",
+    "crates/store/re_protos/src/v1alpha1/rerun.cloud.v1alpha1.rs",
+    "crates/store/re_redap_tests/src/utils/rerun.rs"
+   ],
+   "test_files": [
+    "crates/store/re_redap_tests/src/tests/mod.rs",
+    "crates/store/re_redap_tests/src/tests/query_dataset.rs",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_default_data.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_default_schema.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_latest_at_end_data.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_latest_at_end_schema.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_none_data.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_none_schema.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_range_all_data.snap",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__query_dataset__with_query_range_all_schema.snap"
+   ],
+   "theme_hits": [
+    "dataframe",
+    "query"
+   ],
+   "horizon_score": 1130
+  },
+  {
+   "number": 12436,
+   "title": "Fix decoding errors for MCAP files with gaps in protobufs",
+   "url": "https://github.com/rerun-io/rerun/pull/12436",
+   "merged_at": "2026-01-14",
+   "additions": 567,
+   "deletions": 136,
+   "changed_files": 5,
+   "labels": [
+    "\ud83e\udeb3 bug",
+    "\ud83d\udcfa re_viewer",
+    "include in changelog",
+    "\ud83e\udde2 MCAP"
+   ],
+   "issues": [
+    {
+     "n": 12410,
+     "title": "Rerun crashes when trying to load protobuf MCAP file",
+     "url": "https://github.com/rerun-io/rerun/issues/12410"
+    }
+   ],
+   "src_files": [
+    "crates/store/re_mcap/src/layers/protobuf.rs"
+   ],
+   "test_files": [
+    "crates/store/re_mcap/src/layers/snapshots/re_mcap__layers__protobuf__integration_tests__decode_failure_resilience.snap",
+    "crates/store/re_mcap/src/layers/snapshots/re_mcap__layers__protobuf__integration_tests__field_combinations_with_presence_tracking.snap",
+    "crates/store/re_mcap/src/layers/snapshots/re_mcap__layers__protobuf__integration_tests__field_combinations_without_presence_tracking.snap",
+    "crates/store/re_mcap/src/layers/snapshots/re_mcap__layers__protobuf__integration_tests__simple_oneof_field.snap"
+   ],
+   "theme_hits": [
+    "decod",
+    "mcap"
+   ],
+   "horizon_score": 947
+  },
+  {
+   "number": 10288,
+   "title": "Collada (`.dae`) mesh loader",
+   "url": "https://github.com/rerun-io/rerun/pull/10288",
+   "merged_at": "2026-01-07",
+   "additions": 452,
+   "deletions": 5,
+   "changed_files": 13,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "include in changelog"
+   ],
+   "issues": [
+    {
+     "n": 5251,
+     "title": "Support for collada / .dae files",
+     "url": "https://github.com/rerun-io/rerun/issues/5251"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/store/re_data_loader/src/lib.rs",
+    "crates/store/re_sdk_types/src/components/media_type_ext.rs",
+    "crates/viewer/re_renderer/Cargo.toml",
+    "crates/viewer/re_renderer/src/importer/dae.rs",
+    "crates/viewer/re_renderer/src/importer/mod.rs",
+    "crates/viewer/re_view_spatial/Cargo.toml",
+    "crates/viewer/re_view_spatial/src/mesh_loader.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_view_spatial/tests/dae_mesh.rs",
+    "crates/viewer/re_view_spatial/tests/snapshots/dae_mesh_import.png",
+    "tests/assets/.gitattributes",
+    "tests/assets/box.dae"
+   ],
+   "theme_hits": [
+    "import"
+   ],
+   "horizon_score": 932
+  },
+  {
+   "number": 12422,
+   "title": "Virtual ChunkStore 6: support virtual chunks in latest-at query cache",
+   "url": "https://github.com/rerun-io/rerun/pull/12422",
+   "merged_at": "2026-01-14",
+   "additions": 522,
+   "deletions": 21,
+   "changed_files": 5,
+   "labels": [
+    "\u26c3 re_datastore",
+    "\ud83d\udd0d re_query",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_chunk/src/helpers.rs",
+    "crates/store/re_chunk_store/src/gc.rs",
+    "crates/store/re_query/Cargo.toml",
+    "crates/viewer/re_viewer_context/src/query_context.rs"
+   ],
+   "test_files": [
+    "crates/store/re_query/src/latest_at.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "query"
+   ],
+   "horizon_score": 782
+  },
+  {
+   "number": 12443,
+   "title": "Support enqueing video gop even if the whole gop isn't loaded",
+   "url": "https://github.com/rerun-io/rerun/pull/12443",
+   "merged_at": "2026-01-19",
+   "additions": 551,
+   "deletions": 29,
+   "changed_files": 5,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "exclude from changelog",
+    "feat-video"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/viewer/re_renderer/src/video/chunk_decoder.rs",
+    "crates/viewer/re_renderer/src/video/mod.rs",
+    "crates/viewer/re_renderer/src/video/player.rs",
+    "crates/viewer/re_viewer_context/src/cache/video_stream_cache.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_viewer_context/src/cache/video_stream_cache/test_player.rs"
+   ],
+   "theme_hits": [
+    "chunk"
+   ],
+   "horizon_score": 751
+  },
+  {
+   "number": 12329,
+   "title": "Make it possible to build `rerun_sdk` through `uv` without invalidating `pyo3-config`",
+   "url": "https://github.com/rerun-io/rerun/pull/12329",
+   "merged_at": "2026-01-07",
+   "additions": 335,
+   "deletions": 76,
+   "changed_files": 14,
+   "labels": [
+    "sdk-python",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    ".cargo/config.toml",
+    ".github/workflows/reusable_publish_web.yml",
+    "BUILD.md",
+    "pixi.toml",
+    "pyproject.toml",
+    "rerun_py/.gitignore",
+    "rerun_py/build.rs",
+    "rerun_py/pyproject.toml",
+    "scripts/ci/rust_checks.py",
+    "scripts/generate_pyo3_config.py",
+    "scripts/pixi/ensure_pyo3_build_cfg.bat",
+    "scripts/pixi/ensure_pyo3_build_cfg.sh",
+    "uv.lock"
+   ],
+   "test_files": [
+    "scripts/run_python_e2e_test.py"
+   ],
+   "theme_hits": [
+    "publish"
+   ],
+   "horizon_score": 715
+  },
+  {
+   "number": 12323,
+   "title": "`/GetRrdManifest` on Rerun Cloud",
+   "url": "https://github.com/rerun-io/rerun/pull/12323",
+   "merged_at": "2026-01-07",
+   "additions": 209,
+   "deletions": 83,
+   "changed_files": 11,
+   "labels": [
+    "\ud83c\udff9 arrow",
+    "do-not-merge",
+    "exclude from changelog",
+    "dataplatform",
+    "OSS-server"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_log_encoding/src/rrd/footer/instances.rs",
+    "crates/store/re_protos/proto/rerun/v1alpha1/cloud.proto",
+    "crates/store/re_protos/src/v1alpha1/rerun.cloud.v1alpha1.rs",
+    "crates/store/re_redap_client/Cargo.toml",
+    "crates/store/re_redap_client/src/connection_client.rs",
+    "crates/store/re_server/src/rerun_cloud.rs"
+   ],
+   "test_files": [
+    "crates/store/re_redap_tests/src/tests/mod.rs",
+    "crates/store/re_redap_tests/src/tests/rrd_manifest.rs",
+    "crates/store/re_redap_tests/src/tests/snapshots/re_redap_tests__tests__rrd_manifest__rrd_manifest.snap",
+    "crates/utils/re_arrow_util/src/test_extensions.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "rrd"
+   ],
+   "horizon_score": 709
+  },
+  {
+   "number": 12381,
+   "title": "Clean up the pixi boostrapping via a python package",
+   "url": "https://github.com/rerun-io/rerun/pull/12381",
+   "merged_at": "2026-01-12",
+   "additions": 236,
+   "deletions": 125,
+   "changed_files": 19,
+   "labels": [
+    "\ud83e\uddd8 kaizen",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    ".cargo/config.toml",
+    ".gitignore",
+    "BUILD.md",
+    "pixi.lock",
+    "pixi.toml",
+    "rerun_pixi_env/pyproject.toml",
+    "rerun_pixi_env/src/rerun_pixi_env/__init__.py",
+    "rerun_pixi_env/src/rerun_pixi_env/pyo3_config.py",
+    "rerun_py/build.rs",
+    "scripts/ci/uv_install_wheel.py",
+    "scripts/pixi/activate.bat",
+    "scripts/pixi/activate.sh",
+    "scripts/pixi/ensure_pyo3_build_cfg.bat",
+    "scripts/pixi/ensure_pyo3_build_cfg.sh",
+    "scripts/pixi/uv",
+    "scripts/pixi/uv.cmd",
+    "scripts/pixi/uvpy",
+    "scripts/pixi/uvpy.cmd"
+   ],
+   "test_files": [
+    "scripts/run_python_e2e_test.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 656
+  },
+  {
+   "number": 12256,
+   "title": "Refactor `AppOptions` and add larger-than-RAM feature flag",
+   "url": "https://github.com/rerun-io/rerun/pull/12256",
+   "merged_at": "2026-01-05",
+   "additions": 210,
+   "deletions": 101,
+   "changed_files": 15,
+   "labels": [
+    "\ud83d\udcfa re_viewer",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "crates/store/re_data_source/src/data_source.rs",
+    "crates/store/re_data_source/src/lib.rs",
+    "crates/store/re_redap_client/src/grpc.rs",
+    "crates/store/re_redap_client/src/lib.rs",
+    "crates/top/rerun/src/commands/entrypoint.rs",
+    "crates/top/rerun/src/native_viewer.rs",
+    "crates/viewer/re_viewer/src/app.rs",
+    "crates/viewer/re_viewer/src/native.rs",
+    "crates/viewer/re_viewer/src/ui/settings_screen.rs",
+    "crates/viewer/re_viewer_context/src/app_options.rs",
+    "crates/viewer/re_viewer_context/src/lib.rs",
+    "examples/rust/custom_view/src/main.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_view_spatial/tests/video.rs",
+    "crates/viewer/re_viewer/src/viewer_test_utils/mod.rs",
+    "crates/viewer/re_viewer/tests/snapshots/settings_screen.png"
+   ],
+   "theme_hits": [],
+   "horizon_score": 630
+  },
+  {
+   "number": 12369,
+   "title": "Improved auth section in server modal",
+   "url": "https://github.com/rerun-io/rerun/pull/12369",
+   "merged_at": "2026-01-13",
+   "additions": 291,
+   "deletions": 302,
+   "changed_files": 12,
+   "labels": [
+    "ui",
+    "include in changelog",
+    "feat-redap-browser"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_redap_client/src/connection_registry.rs",
+    "crates/viewer/re_redap_browser/Cargo.toml",
+    "crates/viewer/re_redap_browser/src/server_modal.rs",
+    "crates/viewer/re_redap_browser/src/server_modal/login_flow.rs",
+    "crates/viewer/re_redap_browser/src/server_modal/login_flow/native.rs",
+    "crates/viewer/re_ui/src/button.rs",
+    "crates/viewer/re_ui/src/modal.rs",
+    "crates/viewer/re_viewer/src/ui/top_panel.rs",
+    "crates/viewer/re_viewer/src/ui/welcome_screen/intro_section.rs"
+   ],
+   "test_files": [
+    "tests/rust/re_integration_test/tests/datasets.rs",
+    "tests/rust/re_integration_test/tests/snapshots/dataset_ui_empty_form.png"
+   ],
+   "theme_hits": [],
+   "horizon_score": 611
+  },
+  {
+   "number": 12442,
+   "title": "Virtual ChunkStore 7: virtual store events & support for purely virtual tombstones in the cache",
+   "url": "https://github.com/rerun-io/rerun/pull/12442",
+   "merged_at": "2026-01-15",
+   "additions": 248,
+   "deletions": 10,
+   "changed_files": 6,
+   "labels": [
+    "\u26c3 re_datastore",
+    "\ud83d\udd0d re_query",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_chunk_store/src/events.rs",
+    "crates/store/re_chunk_store/src/writes.rs",
+    "crates/store/re_query/Cargo.toml",
+    "crates/store/re_query/src/cache.rs"
+   ],
+   "test_files": [
+    "crates/store/re_query/src/latest_at.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "query"
+   ],
+   "horizon_score": 528
+  },
+  {
+   "number": 12503,
+   "title": "Refactor how we measure log->viewer latencies",
+   "url": "https://github.com/rerun-io/rerun/pull/12503",
+   "merged_at": "2026-01-19",
+   "additions": 235,
+   "deletions": 293,
+   "changed_files": 12,
+   "labels": [
+    "\ud83d\ude9c refactor",
+    "exclude from changelog"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "crates/store/re_entity_db/Cargo.toml",
+    "crates/store/re_entity_db/src/ingestion_statistics.rs",
+    "crates/store/re_grpc_client/src/read.rs",
+    "crates/store/re_grpc_client/src/write.rs",
+    "crates/store/re_grpc_server/src/lib.rs",
+    "crates/store/re_sorbet/Cargo.toml",
+    "crates/store/re_sorbet/src/lib.rs",
+    "crates/store/re_sorbet/src/timestamp_metadata.rs",
+    "crates/viewer/re_viewer/Cargo.toml",
+    "crates/viewer/re_viewer/src/ui/top_panel.rs"
+   ],
+   "test_files": [
+    "crates/viewer/re_selection_panel/tests/snapshots/selection_panel_recording.png"
+   ],
+   "theme_hits": [],
+   "horizon_score": 515
+  }
+ ]
+}

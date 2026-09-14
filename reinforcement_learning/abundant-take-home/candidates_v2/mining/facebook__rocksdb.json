@@ -1,0 +1,4655 @@
+{
+ "repo": "facebook/rocksdb",
+ "mined_at": "2026-09-13T10:09:25.362453Z",
+ "since": "2026-03-01",
+ "filters": {
+  "min_additions": 150,
+  "min_files": 4,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 127,
+ "candidates": 127,
+ "prs": [
+  {
+   "number": "1cec28d82d",
+   "title": "Finish C API code generation (continues #14572) (#14868)",
+   "url": "https://github.com/facebook/rocksdb/pull/14868",
+   "merged_at": "2026-06-24",
+   "additions": 40627,
+   "deletions": 3169,
+   "changed_files": 57,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/pr-jobs.yml",
+    ".gitignore",
+    "Makefile",
+    "buckifier/targets_builder.py",
+    "c_api_gen/c_generated_block_based_options_subset.cc.inc",
+    "c_api_gen/c_generated_block_based_options_subset.h.inc",
+    "c_api_gen/c_generated_cuckoo_options_subset.cc.inc",
+    "c_api_gen/c_generated_cuckoo_options_subset.h.inc",
+    "c_api_gen/c_generated_db_simple_subset.cc.inc",
+    "c_api_gen/c_generated_db_simple_subset.h.inc",
+    "c_api_gen/c_generated_jobinfo_auto.cc.inc",
+    "c_api_gen/c_generated_jobinfo_auto.h.inc",
+    "c_api_gen/c_generated_jobinfo_metadata_subset.cc.inc",
+    "c_api_gen/c_generated_jobinfo_metadata_subset.h.inc",
+    "c_api_gen/c_generated_metadata_structs_auto.cc.inc",
+    "c_api_gen/c_generated_metadata_structs_auto.h.inc",
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_options_subset.cc.inc",
+    "c_api_gen/c_generated_options_subset.h.inc",
+    "c_api_gen/c_generated_readoptions_auto.cc.inc",
+    "c_api_gen/c_generated_readoptions_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "c_api_gen/c_generated_subset.cc.inc",
+    "c_api_gen/c_generated_subset.h.inc",
+    "c_api_gen/c_generated_transaction_subset.cc.inc",
+    "c_api_gen/c_generated_transaction_subset.h.inc",
+    "c_api_gen/c_generated_transactiondb_subset.cc.inc",
+    "c_api_gen/c_generated_transactiondb_subset.h.inc",
+    "c_api_gen/c_generated_writebatch_subset.cc.inc",
+    "c_api_gen/c_generated_writebatch_subset.h.inc",
+    "claude_md/add_option.md",
+    "claude_md/add_public_api.md",
+    "db/c.cc",
+    "include/rocksdb/c.h",
+    "table/block_based/block_based_table_factory.cc",
+    "tools/c_api_gen/README.md",
+    "tools/c_api_gen/abi_type_overrides.json",
+    "tools/c_api_gen/api_compatibility_allowlist.json",
+    "tools/c_api_gen/auto_simple_bindings.py"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "index",
+    "lease",
+    "transact"
+   ],
+   "horizon_score": 42027
+  },
+  {
+   "number": "3070f73e97",
+   "title": "Wide-column blob separation: lazy resolution through read, compaction, and write paths (#14386)",
+   "url": "https://github.com/facebook/rocksdb/pull/14386",
+   "merged_at": "2026-04-09",
+   "additions": 10184,
+   "deletions": 532,
+   "changed_files": 66,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "db/blob/blob_fetcher.cc",
+    "db/blob/blob_fetcher.h",
+    "db/blob/blob_file_partition_manager.cc",
+    "db/blob/blob_file_partition_manager.h",
+    "db/blob/blob_garbage_meter.cc",
+    "db/blob/blob_garbage_meter.h",
+    "db/blob/blob_write_batch_transformer.cc",
+    "db/blob/blob_write_batch_transformer.h",
+    "db/coalescing_iterator.cc",
+    "db/coalescing_iterator.h",
+    "db/compaction/compaction_iterator.cc",
+    "db/compaction/compaction_iterator.h",
+    "db/db_impl/compacted_db_impl.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_files.cc",
+    "db/db_impl/db_impl_write.cc",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/memtable.cc",
+    "db/merge_helper.cc",
+    "db/version_edit.cc",
+    "db/wide/blob_column_resolver_util.h",
+    "db/wide/read_path_blob_resolver.cc",
+    "db/wide/read_path_blob_resolver.h",
+    "db/wide/wide_column_serialization.cc",
+    "db/wide/wide_column_serialization.h",
+    "db/wide/wide_columns.cc",
+    "db/write_batch.cc",
+    "db/write_thread.h",
+    "db_stress_tool/cf_consistency_stress.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_compaction_filter.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/expected_state.cc"
+   ],
+   "test_files": [
+    "db/blob/blob_garbage_meter_test.cc",
+    "db/blob/db_blob_direct_write_test.cc",
+    "db/blob/db_blob_index_test.cc",
+    "db/compaction/compaction_iterator_test.cc",
+    "db/db_open_with_config_test.cc",
+    "db/multi_cf_iterator_test.cc",
+    "db/obsolete_files_test.cc",
+    "db/wide/db_wide_basic_test.cc",
+    "db/wide/db_wide_blob_direct_write_test.cc",
+    "db/wide/wide_column_serialization_test.cc",
+    "db/wide/wide_column_test_util.h",
+    "db/write_batch_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease",
+    "serializ",
+    "version"
+   ],
+   "horizon_score": 12404
+  },
+  {
+   "number": "af4e32945b",
+   "title": "Blob direct write v1: write-path blob separation with partitioned files (reduced scope) (#14535)",
+   "url": "https://github.com/facebook/rocksdb/pull/14535",
+   "merged_at": "2026-04-02",
+   "additions": 5268,
+   "deletions": 184,
+   "changed_files": 62,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "db/blob/blob_file_cache.cc",
+    "db/blob/blob_file_cache.h",
+    "db/blob/blob_file_partition_manager.cc",
+    "db/blob/blob_file_partition_manager.h",
+    "db/blob/blob_file_reader.cc",
+    "db/blob/blob_file_reader.h",
+    "db/blob/blob_log_format.h",
+    "db/blob/blob_source.cc",
+    "db/blob/blob_write_batch_transformer.cc",
+    "db/blob/blob_write_batch_transformer.h",
+    "db/column_family.cc",
+    "db/column_family.h",
+    "db/db_filesnapshot.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_debug.cc",
+    "db/db_impl/db_impl_files.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/db_impl/db_impl_write.cc",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/flush_job.cc",
+    "db/flush_job.h",
+    "db/job_context.h",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/write_batch.cc",
+    "db/write_batch_internal.h",
+    "db/write_thread.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/expected_state.cc",
+    "db_stress_tool/no_batched_ops_stress.cc"
+   ],
+   "test_files": [
+    "db/blob/blob_file_cache_test.cc",
+    "db/blob/blob_source_test.cc",
+    "db/blob/db_blob_basic_test.cc",
+    "db/blob/db_blob_direct_write_test.cc",
+    "db/db_sst_test.cc",
+    "db/obsolete_files_test.cc",
+    "db/write_batch_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "utilities/checkpoint/checkpoint_test.cc",
+    "utilities/transactions/transaction_test.cc",
+    "utilities/transactions/transaction_test.h"
+   ],
+   "theme_hits": [
+    "atomic",
+    "compact",
+    "crash",
+    "format",
+    "snapshot",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 7408
+  },
+  {
+   "number": "ec22903914",
+   "title": "Support all operation types in User Defined Index (UDI) interface (#14399)",
+   "url": "https://github.com/facebook/rocksdb/pull/14399",
+   "merged_at": "2026-03-16",
+   "additions": 4810,
+   "deletions": 1561,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "include/rocksdb/options.h",
+    "include/rocksdb/user_defined_index.h",
+    "src.mk",
+    "table/block_based/user_defined_index_wrapper.h",
+    "tools/db_crashtest.py",
+    "utilities/trie_index/bitvector.h",
+    "utilities/trie_index/louds_trie.cc",
+    "utilities/trie_index/louds_trie.h",
+    "utilities/trie_index/trie_index_factory.cc",
+    "utilities/trie_index/trie_index_factory.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "table/table_test.cc",
+    "utilities/trie_index/trie_index_db_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "index"
+   ],
+   "horizon_score": 5470
+  },
+  {
+   "number": "2c77c32ac9",
+   "title": "Add Get and MultiGet sync/async plumbing (#14934)",
+   "url": "https://github.com/facebook/rocksdb/pull/14934",
+   "merged_at": "2026-07-23",
+   "additions": 3940,
+   "deletions": 3512,
+   "changed_files": 37,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/compacted_db_impl.cc",
+    "db/db_impl/compacted_db_impl.h",
+    "db/db_impl/compacted_db_impl_sync_and_async.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_readonly.h",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_impl/db_impl_secondary.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db/table_cache.cc",
+    "db/table_cache.h",
+    "db/table_cache_sync_and_async.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/version_set_sync_and_async.h",
+    "file/random_access_file_reader.cc",
+    "file/random_access_file_reader.h",
+    "file/random_access_file_reader_sync_and_async.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "table/block_based/block_based_table_iterator.h",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "table/block_based/block_based_table_reader_impl.h",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/block_based/block_cache.h",
+    "table/block_based/partitioned_index_iterator.h",
+    "table/block_fetcher.cc",
+    "table/block_fetcher_sync_and_async.h",
+    "table/table_reader.h",
+    "util/coro_utils.h"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db/db_test_util.cc",
+    "db/db_test_util.h"
+   ],
+   "theme_hits": [
+    "compact",
+    "index",
+    "version"
+   ],
+   "horizon_score": 4980
+  },
+  {
+   "number": "4c2a977aa5",
+   "title": "Track newer snapshot versions in RocksDB metadata reads (#15086)",
+   "url": "https://github.com/facebook/rocksdb/pull/15086",
+   "merged_at": "2026-09-11",
+   "additions": 3052,
+   "deletions": 118,
+   "changed_files": 56,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "db/db_impl/compacted_db_impl.cc",
+    "db/db_impl/compacted_db_impl.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_metadata.h",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_readonly.h",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_impl/db_impl_secondary.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db/memtable_list.cc",
+    "db/range_tombstone_fragmenter.cc",
+    "db/range_tombstone_fragmenter.h",
+    "db/read_callback.h",
+    "db/table_cache.cc",
+    "db/table_cache_sync_and_async.h",
+    "db/version_set_sync_and_async.h",
+    "db_stress_tool/batched_ops_stress.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "java/CMakeLists.txt",
+    "java/rocksjni/rocksjni.cc",
+    "java/src/main/java/org/rocksdb/AbstractEventListener.java",
+    "java/src/main/java/org/rocksdb/GetWithMetadataResult.java",
+    "java/src/main/java/org/rocksdb/RocksDB.java",
+    "java/src/main/java/org/rocksdb/util/BytewiseComparator.java",
+    "memtable/wbwi_memtable.cc",
+    "memtable/wbwi_memtable.h",
+    "table/get_context.cc",
+    "table/get_context.h",
+    "table/multiget_context.h",
+    "tools/c_api_gen/c_base.cc",
+    "tools/c_api_gen/c_base.h",
+    "tools/db_bench_tool.cc"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/db_basic_test.cc",
+    "db/db_secondary_test.cc",
+    "db/db_with_timestamp_basic_test.cc",
+    "java/src/test/java/org/rocksdb/SnapshotTest.java",
+    "java/src/test/java/org/rocksdb/TtlDBTest.java",
+    "utilities/blob_db/blob_db_test.cc",
+    "utilities/transactions/write_prepared_transaction_test.cc",
+    "utilities/ttl/ttl_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "snapshot",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 4832
+  },
+  {
+   "number": "3f51c0a185",
+   "title": "Convert sequential single deletes into range tombstones (#14448)",
+   "url": "https://github.com/facebook/rocksdb/pull/14448",
+   "merged_at": "2026-04-04",
+   "additions": 3007,
+   "deletions": 148,
+   "changed_files": 45,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "db/db_impl/db_impl_write.cc",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/db_test2.cc",
+    "db/dbformat.h",
+    "db/flush_job.cc",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db/memtable_list.cc",
+    "db/read_callback.h",
+    "db/write_batch.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/c.h",
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/options.cc",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/AdvancedMutableColumnFamilyOptionsInterface.java",
+    "java/src/main/java/org/rocksdb/ColumnFamilyOptions.java",
+    "java/src/main/java/org/rocksdb/ColumnFamilyOptionsInterface.java",
+    "java/src/main/java/org/rocksdb/MutableColumnFamilyOptions.java",
+    "java/src/main/java/org/rocksdb/Options.java",
+    "java/src/main/java/org/rocksdb/TickerType.java",
+    "monitoring/statistics.cc",
+    "options/cf_options.cc",
+    "options/cf_options.h",
+    "options/options.cc",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/behavior_changes/prefix_seek_range_tombstone_conversion.md",
+    "unreleased_history/new_features/read_path_range_tombstone.md"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/db_flush_test.cc",
+    "db/db_iterator_test.cc",
+    "db/dbformat_test.cc",
+    "db/flush_job_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "java/src/test/java/org/rocksdb/ColumnFamilyOptionsTest.java",
+    "java/src/test/java/org/rocksdb/OptionsTest.java",
+    "options/options_settable_test.cc",
+    "utilities/transactions/write_prepared_transaction_test.cc",
+    "utilities/transactions/write_unprepared_transaction_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "format",
+    "lease"
+   ],
+   "horizon_score": 4527
+  },
+  {
+   "number": "fd7399004f",
+   "title": "Add lazy wide-column read API (GetEntityLazy / MultiGetEntityLazy) (#15012)",
+   "url": "https://github.com/facebook/rocksdb/pull/15012",
+   "merged_at": "2026-08-06",
+   "additions": 2749,
+   "deletions": 42,
+   "changed_files": 33,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CLAUDE.md",
+    "CMakeLists.txt",
+    "Makefile",
+    "claude_md/code_review.md",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db/version_set.h",
+    "db/version_set_sync_and_async.h",
+    "db/wide/lazy_wide_columns.cc",
+    "db/wide/lazy_wide_columns_helper.h",
+    "db/wide/read_path_blob_resolver.cc",
+    "db/wide/read_path_blob_resolver.h",
+    "db_stress_tool/batched_ops_stress.cc",
+    "db_stress_tool/cf_consistency_stress.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/db.h",
+    "include/rocksdb/lazy_wide_columns.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "include/rocksdb/wide_columns.h",
+    "src.mk",
+    "table/get_context.cc",
+    "table/get_context.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/lazy_wide_columns.md"
+   ],
+   "test_files": [
+    "db/wide/db_lazy_entity_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 3709
+  },
+  {
+   "number": "a004c2d850",
+   "title": "Add experimental embedded blob SST support (#14851)",
+   "url": "https://github.com/facebook/rocksdb/pull/14851",
+   "merged_at": "2026-06-25",
+   "additions": 2519,
+   "deletions": 74,
+   "changed_files": 36,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CLAUDE.md",
+    "CMakeLists.txt",
+    "cache/cache_key.h",
+    "db/blob/blob_constants.h",
+    "db/blob/blob_garbage_meter.cc",
+    "db/blob/blob_gen2_format.cc",
+    "db/blob/blob_gen2_format.h",
+    "db/blob/blob_index.h",
+    "db/blob/blob_source.cc",
+    "db/blob/blob_source.h",
+    "db/column_family.cc",
+    "db/table_cache.cc",
+    "db/table_cache.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/sst_file_writer.h",
+    "include/rocksdb/status.h",
+    "src.mk",
+    "table/block_based/block.cc",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_builder.h",
+    "table/block_based/block_based_table_factory.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/block_based/embedded_blob_resolving_iterator.h",
+    "table/embedded_blob_sst.h",
+    "table/sst_file_writer.cc",
+    "table/table_builder.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/embedded_blob_sst_writer.md"
+   ],
+   "test_files": [
+    "db/blob/blob_garbage_meter_test.cc",
+    "db/blob/db_blob_index_test.cc",
+    "table/sst_file_reader_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "format",
+    "index",
+    "lease"
+   ],
+   "horizon_score": 3599
+  },
+  {
+   "number": "82085868e2",
+   "title": "Add read-scoped block buffers for scan reads (#14806)",
+   "url": "https://github.com/facebook/rocksdb/pull/14806",
+   "merged_at": "2026-06-08",
+   "additions": 2427,
+   "deletions": 325,
+   "changed_files": 31,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_file_reader.cc",
+    "db/blob/blob_file_reader.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "file/file_prefetch_buffer.cc",
+    "file/file_prefetch_buffer.h",
+    "file/random_access_file_reader.cc",
+    "file/random_access_file_reader.h",
+    "include/rocksdb/cleanable.h",
+    "include/rocksdb/io_dispatcher.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/table.h",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "table/block_based/block_based_table_reader_impl.h",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/block_fetcher.cc",
+    "table/block_fetcher.h",
+    "table/format.cc",
+    "table/format.h",
+    "unreleased_history/public_api_changes/read_scoped_block_buffers.md",
+    "util/aligned_buffer.h",
+    "util/async_file_reader.h",
+    "util/cleanable.cc",
+    "util/io_dispatcher_imp.cc",
+    "utilities/blob_db/blob_db_impl.cc",
+    "utilities/blob_db/blob_file.cc"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "env/env_test.cc",
+    "file/random_access_file_reader_test.cc",
+    "util/io_dispatcher_test.cc"
+   ],
+   "theme_hits": [
+    "format",
+    "lease"
+   ],
+   "horizon_score": 3327
+  },
+  {
+   "number": "795f3bd61f",
+   "title": "Fix check-sources.sh non-ASCII check and remove non-ASCII from sources (#14729)",
+   "url": "https://github.com/facebook/rocksdb/pull/14729",
+   "merged_at": "2026-05-12",
+   "additions": 475,
+   "deletions": 469,
+   "changed_files": 65,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "build_tools/check-sources.sh",
+    "db/blob/blob_write_batch_transformer.cc",
+    "db/blob/blob_write_batch_transformer.h",
+    "db/compaction/compaction_iterator.h",
+    "db/compaction/compaction_picker_fifo.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_files.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/db_test2.cc",
+    "db/memtable.h",
+    "db/version_edit.cc",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/wide/read_path_blob_resolver.cc",
+    "db_stress_tool/db_stress_env_wrapper.h",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "file/file_util.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/compaction_filter.h",
+    "include/rocksdb/listener.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/user_defined_index.h",
+    "port/stack_trace.cc",
+    "table/block_based/block_based_table_iterator.cc",
+    "table/block_based/data_block_footer.h",
+    "table/block_based/multi_scan_index_iterator.cc",
+    "table/block_based/multi_scan_index_iterator.h",
+    "tools/db_crashtest.py",
+    "tools/run_clang_tidy.py",
+    "util/dirty_tracked.h",
+    "util/io_dispatcher_imp.cc",
+    "utilities/sorted_run_builder/sorted_run_builder.cc",
+    "utilities/transactions/write_prepared_txn.h",
+    "utilities/trie_index/bitvector.h",
+    "utilities/trie_index/louds_trie.cc",
+    "utilities/trie_index/louds_trie.h",
+    "utilities/trie_index/trie_index_factory.cc",
+    "utilities/trie_index/trie_index_factory.h"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc",
+    "db/compaction/compaction_picker_test.cc",
+    "db/db_basic_test.cc",
+    "db/db_block_cache_test.cc",
+    "db/db_compaction_test.cc",
+    "db/db_flush_test.cc",
+    "db/db_iterator_test.cc",
+    "db/db_test.cc",
+    "db/dbformat_test.cc",
+    "db/listener_test.cc",
+    "db/version_set_test.cc",
+    "db/wide/db_wide_basic_test.cc",
+    "db/wide/wide_column_serialization_test.cc",
+    "env/env_test.cc",
+    "file/prefetch_test.cc",
+    "memtable/inlineskiplist_test.cc",
+    "table/table_test.cc",
+    "util/io_dispatcher_test.cc",
+    "utilities/backup/backup_engine_test.cc",
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "index",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 3075
+  },
+  {
+   "number": "021374c62c",
+   "title": "Start format_version=8 development toward new features (#15104)",
+   "url": "https://github.com/facebook/rocksdb/pull/15104",
+   "merged_at": "2026-08-17",
+   "additions": 1358,
+   "deletions": 181,
+   "changed_files": 46,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "c_api_gen/c_generated_metadata_structs_auto.cc.inc",
+    "c_api_gen/c_generated_metadata_structs_auto.h.inc",
+    "db/c.cc",
+    "db/compaction/sst_partitioner.cc",
+    "db_stress_tool/db_stress_compression_manager.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/slice.h",
+    "include/rocksdb/sst_partitioner.h",
+    "include/rocksdb/table_properties.h",
+    "table/block_based/binary_search_index_reader.cc",
+    "table/block_based/block.cc",
+    "table/block_based/block.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_builder.cc",
+    "table/block_based/block_builder.h",
+    "table/block_based/block_cache.cc",
+    "table/block_based/block_cache.h",
+    "table/block_based/data_block_footer.cc",
+    "table/block_based/data_block_footer.h",
+    "table/block_based/hash_index_reader.cc",
+    "table/block_based/index_builder.cc",
+    "table/block_based/index_builder.h",
+    "table/block_based/index_reader_common.h",
+    "table/block_based/partitioned_filter_block.cc",
+    "table/block_based/partitioned_filter_block.h",
+    "table/block_based/partitioned_index_reader.cc",
+    "table/format.cc",
+    "table/format.h",
+    "table/meta_blocks.cc",
+    "table/table_properties.cc",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db/db_flush_test.cc",
+    "db/external_sst_file_test.cc",
+    "options/options_settable_test.cc",
+    "table/block_based/block_based_table_reader_test.cc",
+    "table/block_based/block_test.cc",
+    "table/block_based/partitioned_filter_block_test.cc",
+    "table/sst_file_reader_test.cc",
+    "table/table_test.cc",
+    "test_util/testutil.cc",
+    "util/slice_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "compress",
+    "crash",
+    "format",
+    "index"
+   ],
+   "horizon_score": 3058
+  },
+  {
+   "number": "8f492b2f47",
+   "title": "Store common user-key prefix once per block (format_version 8) (#15117)",
+   "url": "https://github.com/facebook/rocksdb/pull/15117",
+   "merged_at": "2026-08-21",
+   "additions": 1572,
+   "deletions": 256,
+   "changed_files": 46,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_metadata_structs_auto.cc.inc",
+    "c_api_gen/c_generated_metadata_structs_auto.h.inc",
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/dbformat.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/table.h",
+    "include/rocksdb/table_properties.h",
+    "java/CMakeLists.txt",
+    "java/rocksjni/portal.h",
+    "java/rocksjni/table.cc",
+    "java/src/main/java/org/rocksdb/BlockBasedTableConfig.java",
+    "java/src/main/java/org/rocksdb/OptimizeKeyCommonPrefix.java",
+    "microbench/db_basic_bench.cc",
+    "table/block_based/block.cc",
+    "table/block_based/block.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_factory.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_builder.cc",
+    "table/block_based/block_builder.h",
+    "table/block_based/data_block_footer.h",
+    "table/block_based/index_builder.cc",
+    "table/block_based/index_builder.h",
+    "table/block_based/partitioned_filter_block.cc",
+    "table/block_based/partitioned_filter_block.h",
+    "table/format.h",
+    "table/meta_blocks.cc",
+    "table/table_properties.cc",
+    "tools/c_api_gen/api_compatibility_allowlist.json",
+    "tools/c_api_gen/auto_simple_bindings.py",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/optimize_key_common_prefix.md"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "java/src/test/java/org/rocksdb/BlockBasedTableConfigTest.java",
+    "options/options_settable_test.cc",
+    "table/block_based/block_based_table_reader_test.cc",
+    "table/block_based/block_test.cc",
+    "table/block_based/data_block_hash_index_test.cc",
+    "table/table_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "format",
+    "index",
+    "lease"
+   ],
+   "horizon_score": 3052
+  },
+  {
+   "number": "f25fb41da6",
+   "title": "Add option to validate sst files in the background on DB open (#14322)",
+   "url": "https://github.com/facebook/rocksdb/pull/14322",
+   "merged_at": "2026-03-03",
+   "additions": 1344,
+   "deletions": 287,
+   "changed_files": 51,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "db/c.cc",
+    "db/column_family.cc",
+    "db/compaction/compaction_picker_fifo.cc",
+    "db/db_impl/compacted_db_impl.cc",
+    "db/db_impl/compacted_db_impl.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_files.cc",
+    "db/db_impl/db_impl_follower.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/error_handler.cc",
+    "db/table_cache.cc",
+    "db/table_cache.h",
+    "db/table_cache_sync_and_async.h",
+    "db/version_builder.cc",
+    "db/version_builder.h",
+    "db/version_edit.cc",
+    "db/version_edit.h",
+    "db/version_edit_handler.h",
+    "db/version_set.cc",
+    "db/version_util.cc",
+    "db/version_util.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/listener.h",
+    "include/rocksdb/options.h",
+    "java/rocksjni/options.cc",
+    "java/src/main/java/org/rocksdb/DBOptions.java",
+    "java/src/main/java/org/rocksdb/DBOptionsInterface.java",
+    "java/src/main/java/org/rocksdb/Options.java",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "src.mk",
+    "tools/db_bench_tool.cc"
+   ],
+   "test_files": [
+    "db/compaction/compaction_picker_test.cc",
+    "db/db_compaction_test.cc",
+    "db/db_sst_test.cc",
+    "db/db_test.cc",
+    "db/db_test_util.cc",
+    "db/db_test_util.h",
+    "db/db_wal_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 2964
+  },
+  {
+   "number": "16c81a27e9",
+   "title": "Extend UDI trie index with seqno side-table for same-user-key block boundaries (#14412)",
+   "url": "https://github.com/facebook/rocksdb/pull/14412",
+   "merged_at": "2026-03-04",
+   "additions": 2600,
+   "deletions": 283,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/user_defined_index.h",
+    "table/block_based/user_defined_index_wrapper.h",
+    "utilities/trie_index/bitvector.cc",
+    "utilities/trie_index/bitvector.h",
+    "utilities/trie_index/louds_trie.cc",
+    "utilities/trie_index/louds_trie.h",
+    "utilities/trie_index/trie_index_factory.cc",
+    "utilities/trie_index/trie_index_factory.h"
+   ],
+   "test_files": [
+    "table/table_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2940
+  },
+  {
+   "number": "8e1569b351",
+   "title": "Lazy wide-column byte-range (partial) blob reads (#15067)",
+   "url": "https://github.com/facebook/rocksdb/pull/15067",
+   "merged_at": "2026-08-07",
+   "additions": 1828,
+   "deletions": 149,
+   "changed_files": 30,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "db/blob/blob_fetcher.cc",
+    "db/blob/blob_fetcher.h",
+    "db/blob/blob_file_reader.cc",
+    "db/blob/blob_file_reader.h",
+    "db/blob/blob_gen2_format.cc",
+    "db/blob/blob_gen2_format.h",
+    "db/blob/blob_source.cc",
+    "db/blob/blob_source.h",
+    "db/blob/same_file_blob_reader.h",
+    "db/db_impl/db_impl_files.cc",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/wide/lazy_wide_columns.cc",
+    "db/wide/read_path_blob_resolver.cc",
+    "db/wide/read_path_blob_resolver.h",
+    "env/env.cc",
+    "include/rocksdb/env.h",
+    "include/rocksdb/lazy_wide_columns.h",
+    "include/rocksdb/statistics.h",
+    "include/rocksdb/thread_status.h",
+    "monitoring/statistics.cc",
+    "monitoring/thread_status_util_debug.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "unreleased_history/new_features/lazy_wide_columns.md",
+    "util/thread_operation.h"
+   ],
+   "test_files": [
+    "db/wide/db_lazy_entity_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "env/env_test.cc"
+   ],
+   "theme_hits": [
+    "format",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 2728
+  },
+  {
+   "number": "41e5eb1a4d",
+   "title": "Support reverse iteration in UDI/trie index and optimize hot paths (#14466)",
+   "url": "https://github.com/facebook/rocksdb/pull/14466",
+   "merged_at": "2026-03-31",
+   "additions": 1936,
+   "deletions": 507,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "include/rocksdb/options.h",
+    "include/rocksdb/user_defined_index.h",
+    "table/block_based/user_defined_index_wrapper.h",
+    "tools/db_crashtest.py",
+    "utilities/trie_index/bitvector.cc",
+    "utilities/trie_index/bitvector.h",
+    "utilities/trie_index/louds_trie.cc",
+    "utilities/trie_index/louds_trie.h",
+    "utilities/trie_index/trie_index_factory.cc",
+    "utilities/trie_index/trie_index_factory.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "utilities/trie_index/trie_index_db_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "index"
+   ],
+   "horizon_score": 2476
+  },
+  {
+   "number": "4707775ae9",
+   "title": "Fix GetContext status propagation and blob-backed wide-column merge operands (#14640)",
+   "url": "https://github.com/facebook/rocksdb/pull/14640",
+   "merged_at": "2026-05-12",
+   "additions": 1414,
+   "deletions": 164,
+   "changed_files": 28,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_file_partition_manager.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_follower.cc",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_test2.cc",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db/memtable_list.cc",
+    "db/memtable_list.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/wide/wide_column_serialization.h",
+    "memtable/wbwi_memtable.cc",
+    "memtable/wbwi_memtable.h",
+    "table/get_context.cc",
+    "table/get_context.h",
+    "table/sst_file_reader.cc",
+    "unreleased_history/bug_fixes/blob_backed_wide_column_merge_reads.md",
+    "unreleased_history/bug_fixes/merge_reads_preserve_precise_statuses.md"
+   ],
+   "test_files": [
+    "db/blob/db_blob_basic_test.cc",
+    "db/blob/db_blob_index_test.cc",
+    "db/db_flush_test.cc",
+    "db/db_secondary_test.cc",
+    "db/version_set_test.cc",
+    "db/wide/db_wide_basic_test.cc",
+    "table/sst_file_reader_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "serializ",
+    "version"
+   ],
+   "horizon_score": 2434
+  },
+  {
+   "number": "7affaee1c4",
+   "title": "Add use_direct_io_for_compaction_reads option (#14743)",
+   "url": "https://github.com/facebook/rocksdb/pull/14743",
+   "merged_at": "2026-06-10",
+   "additions": 1137,
+   "deletions": 65,
+   "changed_files": 34,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_job.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/range_tombstone_fragmenter.cc",
+    "db/range_tombstone_fragmenter.h",
+    "db/table_cache.cc",
+    "db/table_cache.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "env/fs_posix.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "table/block_based/block_based_table_factory.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "table/table_builder.h",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/behavior_changes/posix_optimize_for_compaction_table_read_delegates_to_base.md",
+    "unreleased_history/new_features/use_direct_io_for_compaction_reads.md"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/db_compaction_test.cc",
+    "db/db_options_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "options/options_test.cc",
+    "test_util/testutil.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 2337
+  },
+  {
+   "number": "af0eae4de3",
+   "title": "Rename TransactionLogIterator to WalIterator and document its behavior (#15056)",
+   "url": "https://github.com/facebook/rocksdb/pull/15056",
+   "merged_at": "2026-08-05",
+   "additions": 819,
+   "deletions": 528,
+   "changed_files": 42,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "db/c.cc",
+    "db/compaction/compaction_job.h",
+    "db/db_filesnapshot.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/flush_job.h",
+    "db/wal_iterator_impl.cc",
+    "db/wal_iterator_impl.h",
+    "db/wal_manager.cc",
+    "db/wal_manager.h",
+    "env/fs_posix.cc",
+    "file/filename.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/transaction_log.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "include/rocksdb/wal_iterator.h",
+    "java/CMakeLists.txt",
+    "java/Makefile",
+    "java/rocksjni/portal.h",
+    "java/rocksjni/rocksjni.cc",
+    "java/rocksjni/transaction_log.cc",
+    "java/rocksjni/wal_iterator.cc",
+    "java/src/main/java/org/rocksdb/RocksDB.java",
+    "java/src/main/java/org/rocksdb/TransactionLogIterator.java",
+    "java/src/main/java/org/rocksdb/WalIterator.java",
+    "src.mk",
+    "tools/c_api_gen/c_base.cc",
+    "tools/db_repl_stress.cc",
+    "unreleased_history/public_api_changes/wal_iterator_rename.md",
+    "utilities/backup/backup_engine.cc",
+    "utilities/checkpoint/checkpoint_impl.cc"
+   ],
+   "test_files": [
+    "db/db_log_iter_test.cc",
+    "db/db_test.cc",
+    "db/deletefile_test.cc",
+    "db/obsolete_files_test.cc",
+    "db/repair_test.cc",
+    "db/wal_manager_test.cc",
+    "java/src/test/java/org/rocksdb/WalIteratorTest.java",
+    "test_util/sync_point.h",
+    "utilities/backup/backup_engine_test.cc"
+   ],
+   "theme_hits": [
+    "checkpoint",
+    "compact",
+    "lease",
+    "snapshot",
+    "transact"
+   ],
+   "horizon_score": 2319
+  },
+  {
+   "number": "3b38fde293",
+   "title": "Support UDI as primary index (#14547)",
+   "url": "https://github.com/facebook/rocksdb/pull/14547",
+   "merged_at": "2026-04-09",
+   "additions": 1543,
+   "deletions": 445,
+   "changed_files": 21,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/options.h",
+    "include/rocksdb/table.h",
+    "include/rocksdb/table_properties.h",
+    "include/rocksdb/user_defined_index.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_factory.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/user_defined_index_wrapper.h",
+    "table/meta_blocks.cc",
+    "table/table_properties.cc",
+    "tools/db_crashtest.py",
+    "utilities/trie_index/louds_trie.h",
+    "utilities/trie_index/trie_index_factory.cc",
+    "utilities/trie_index/trie_index_factory.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "table/table_test.cc",
+    "utilities/trie_index/trie_index_db_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "index"
+   ],
+   "horizon_score": 2283
+  },
+  {
+   "number": "5db0603613",
+   "title": "Read-triggered compactions (#14426)",
+   "url": "https://github.com/facebook/rocksdb/pull/14426",
+   "merged_at": "2026-03-27",
+   "additions": 993,
+   "deletions": 116,
+   "changed_files": 36,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "db/column_family.cc",
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_picker_level.cc",
+    "db/compaction/compaction_picker_universal.cc",
+    "db/db_impl/db_impl.cc",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/c.h",
+    "include/rocksdb/listener.h",
+    "include/rocksdb/options.h",
+    "java/rocksjni/options.cc",
+    "java/src/main/java/org/rocksdb/AdvancedMutableColumnFamilyOptionsInterface.java",
+    "java/src/main/java/org/rocksdb/ColumnFamilyOptions.java",
+    "java/src/main/java/org/rocksdb/DBOptions.java",
+    "java/src/main/java/org/rocksdb/MutableColumnFamilyOptions.java",
+    "java/src/main/java/org/rocksdb/MutableDBOptions.java",
+    "java/src/main/java/org/rocksdb/MutableDBOptionsInterface.java",
+    "java/src/main/java/org/rocksdb/Options.java",
+    "options/cf_options.cc",
+    "options/cf_options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/read_triggered_compaction.md"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/compaction/compaction_picker_test.cc",
+    "db/db_compaction_test.cc",
+    "db/periodic_task_scheduler_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 2193
+  },
+  {
+   "number": "7a90dc5ba8",
+   "title": "Add built-in index factory wrappers (#14961)",
+   "url": "https://github.com/facebook/rocksdb/pull/14961",
+   "merged_at": "2026-09-11",
+   "additions": 1888,
+   "deletions": 0,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "src.mk",
+    "table/block_based/builtin_index_factory.cc",
+    "table/block_based/builtin_index_factory.h"
+   ],
+   "test_files": [
+    "table/block_based/builtin_index_factory_test.cc"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2128
+  },
+  {
+   "number": "a4645e864d",
+   "title": "Implement Get/MultiGet coroutine (#15014)",
+   "url": "https://github.com/facebook/rocksdb/pull/15014",
+   "merged_at": "2026-07-27",
+   "additions": 1219,
+   "deletions": 203,
+   "changed_files": 30,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "buckifier/buckify_rocksdb.py",
+    "db/db_impl/compacted_db_impl_sync_and_async.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db/table_cache_sync_and_async.h",
+    "db/version_set_sync_and_async.h",
+    "db_stress_tool/db_stress_env_wrapper.h",
+    "env/env.cc",
+    "env/file_system_tracer.cc",
+    "env/file_system_tracer.h",
+    "env/fs_posix.cc",
+    "env/io_posix.cc",
+    "env/io_posix.h",
+    "file/random_access_file_reader_sync_and_async.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/file_system.h",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/block_fetcher.cc",
+    "table/block_fetcher.h",
+    "table/block_fetcher_sync_and_async.h",
+    "table/multiget_context.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/public_api_changes/coroutine_read_executor.md",
+    "util/coro_utils.h"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db/db_options_test.cc",
+    "env/io_posix_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 2119
+  },
+  {
+   "number": "81ea677072",
+   "title": "PinnableWideColumns support for >1 backing buffer to avoid re-serialization (#14943)",
+   "url": "https://github.com/facebook/rocksdb/pull/14943",
+   "merged_at": "2026-07-20",
+   "additions": 798,
+   "deletions": 471,
+   "changed_files": 33,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "db/blob/blob_write_batch_transformer.cc",
+    "db/compaction/compaction_iterator.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/memtable.cc",
+    "db/merge_helper.cc",
+    "db/merge_helper.h",
+    "db/version_set.cc",
+    "db/version_set_sync_and_async.h",
+    "db/wide/wide_column_serialization.cc",
+    "db/wide/wide_column_serialization.h",
+    "db/wide/wide_columns.cc",
+    "db/wide/wide_columns_helper.cc",
+    "db/wide/wide_columns_helper.h",
+    "db_stress_tool/expected_state.cc",
+    "include/rocksdb/wide_columns.h",
+    "memtable/wbwi_memtable.cc",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/get_context.cc",
+    "unreleased_history/performance_improvements/pinnable_wide_columns_zero_copy.md",
+    "unreleased_history/public_api_changes/pinnable_wide_columns_payload_size.md",
+    "util/udt_util.cc",
+    "utilities/transactions/transaction_base.cc",
+    "utilities/write_batch_with_index/write_batch_with_index_internal.cc"
+   ],
+   "test_files": [
+    "db/compaction/compaction_iterator_test.cc",
+    "db/wide/db_wide_blob_direct_write_test.cc",
+    "db/wide/wide_column_serialization_test.cc",
+    "util/udt_util_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "index",
+    "lease",
+    "serializ",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 1978
+  },
+  {
+   "number": "21723bbbef",
+   "title": "Add async WAL precreation",
+   "url": "https://github.com/facebook/rocksdb/commit/21723bbbef39a0e525dd0ecc98af2f83cfa5faac",
+   "merged_at": "2026-05-15",
+   "additions": 823,
+   "deletions": 32,
+   "changed_files": 32,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_open.cc",
+    "db/db_impl/db_impl_write.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "docs/components/write_flow/03_wal.md",
+    "docs/components/write_flow/04_memtable_insert.md",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/RocksDB.java",
+    "java/src/main/java/org/rocksdb/TickerType.java",
+    "monitoring/statistics.cc",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/behavior_changes/error_if_wal_file_exists_empty_wals.md",
+    "unreleased_history/new_features/async_wal_precreate.md"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/db_options_test.cc",
+    "db/db_wal_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "java/src/test/java/org/rocksdb/ReadOnlyTest.java",
+    "options/options_settable_test.cc",
+    "options/options_test.cc",
+    "test_util/testutil.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease",
+    "wal"
+   ],
+   "horizon_score": 1963
+  },
+  {
+   "number": "58d835d951",
+   "title": "Add db_stress liveness profile and fix lost flush request (#14830)",
+   "url": "https://github.com/facebook/rocksdb/pull/14830",
+   "merged_at": "2026-08-12",
+   "additions": 1367,
+   "deletions": 41,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/memtable_list.cc",
+    "db/memtable_list.h",
+    "db_stress_tool/db_stress_common.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_driver.cc",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_listener.h",
+    "db_stress_tool/db_stress_shared_state.cc",
+    "db_stress_tool/db_stress_shared_state.h",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db/external_sst_file_test.cc",
+    "db/memtable_list_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "crash"
+   ],
+   "horizon_score": 1927
+  },
+  {
+   "number": "e4a7136d3e",
+   "title": "Preferred-phase scheduling for periodic (time-based) compaction",
+   "url": "https://github.com/facebook/rocksdb/commit/e4a7136d3e8290ba7683ae0f68ab54fdf1e2d61f",
+   "merged_at": "2026-08-27",
+   "additions": 698,
+   "deletions": 57,
+   "changed_files": 31,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/db_impl/db_impl.cc",
+    "db/import_column_family_job.cc",
+    "db/periodic_compaction_phaser.cc",
+    "db/periodic_compaction_phaser.h",
+    "db/repair.cc",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "src.mk",
+    "table/format.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/periodic_compaction_phasing.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_picker_test.cc",
+    "db/db_compaction_test.cc",
+    "db/version_builder_test.cc",
+    "db/version_set_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "format",
+    "import",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 1918
+  },
+  {
+   "number": "c66c14258f",
+   "title": "Add memtable MultiGet finger search optimization (#14428)",
+   "url": "https://github.com/facebook/rocksdb/pull/14428",
+   "merged_at": "2026-03-16",
+   "additions": 1222,
+   "deletions": 59,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/memtablerep.h",
+    "memtable/inlineskiplist.h",
+    "memtable/skiplistrep.cc",
+    "options/cf_options.cc",
+    "options/cf_options.h",
+    "options/options.cc",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/memtable_batch_lookup_optimization.md"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "memtable/inlineskiplist_test.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1882
+  },
+  {
+   "number": "e1ea04d9ef",
+   "title": "Add reverse order support to MultiScan (#14876)",
+   "url": "https://github.com/facebook/rocksdb/pull/14876",
+   "merged_at": "2026-07-08",
+   "additions": 1159,
+   "deletions": 385,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_iter.cc",
+    "db/multi_scan.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/multi_scan.h",
+    "include/rocksdb/options.h",
+    "table/block_based/block_based_table_iterator.cc",
+    "table/block_based/block_based_table_iterator.h",
+    "table/block_based/multi_scan_index_iterator.cc",
+    "table/block_based/multi_scan_index_iterator.h",
+    "tools/db_bench_tool.cc",
+    "utilities/trie_index/trie_index_factory.cc"
+   ],
+   "test_files": [
+    "db/db_iterator_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "table/block_based/block_based_table_reader_test.cc",
+    "table/table_test.cc",
+    "utilities/trie_index/trie_index_test.cc"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1759
+  },
+  {
+   "number": "e18d41e08c",
+   "title": "lazily intialize iterators (#14772)",
+   "url": "https://github.com/facebook/rocksdb/pull/14772",
+   "merged_at": "2026-06-11",
+   "additions": 1318,
+   "deletions": 284,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/arena_wrapped_db_iter.cc",
+    "db/arena_wrapped_db_iter.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/memtable_list.cc",
+    "db/memtable_list.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "include/rocksdb/options.h",
+    "table/merging_iterator.cc",
+    "table/merging_iterator.h"
+   ],
+   "test_files": [
+    "db/db_block_cache_test.cc",
+    "db/db_iterator_test.cc"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 1758
+  },
+  {
+   "number": "d699ffbd5c",
+   "title": "Support partial atomic range replacement (#15154)",
+   "url": "https://github.com/facebook/rocksdb/pull/15154",
+   "merged_at": "2026-08-27",
+   "additions": 743,
+   "deletions": 123,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/column_family.cc",
+    "db/column_family.h",
+    "db/compaction/compaction.cc",
+    "db/compaction/compaction.h",
+    "db/compaction/compaction_picker.cc",
+    "db/compaction/compaction_picker.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/external_sst_file_ingestion_job.cc",
+    "db/external_sst_file_ingestion_job.h",
+    "db/range_del_aggregator.cc",
+    "db/range_del_aggregator.h",
+    "db/version_set.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/options.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/public_api_changes/atomic_replace_range_partial_overlap.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_picker_test.cc",
+    "db/external_sst_file_basic_test.cc",
+    "db/external_sst_file_test.cc",
+    "db/range_del_aggregator_test.cc",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "atomic",
+    "compact",
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 1743
+  },
+  {
+   "number": "1cc216a45b",
+   "title": "Fast file open: retrieve, persist, and pass file open metadata (#14596)",
+   "url": "https://github.com/facebook/rocksdb/pull/14596",
+   "merged_at": "2026-04-15",
+   "additions": 690,
+   "deletions": 37,
+   "changed_files": 29,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/builder.cc",
+    "db/builder.h",
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_outputs.h",
+    "db/compaction/subcompaction_state.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_test2.cc",
+    "db/external_sst_file_ingestion_job.cc",
+    "db/flush_job.cc",
+    "db/flush_job.h",
+    "db/table_cache.cc",
+    "db/table_cache.h",
+    "db/version_edit.cc",
+    "db/version_edit.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/file_system.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/statistics.h",
+    "monitoring/statistics.cc",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/fast_sst_open.md"
+   ],
+   "test_files": [
+    "db/version_edit_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "options/options_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease",
+    "persist",
+    "version"
+   ],
+   "horizon_score": 1730
+  },
+  {
+   "number": "f6fabdb64f",
+   "title": "Improve build and test experience for Make builds (#14883)",
+   "url": "https://github.com/facebook/rocksdb/pull/14883",
+   "merged_at": "2026-06-29",
+   "additions": 1293,
+   "deletions": 41,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "CLAUDE.md",
+    "Makefile",
+    "build_tools/check-public-header.sh",
+    "build_tools/gtest-parallel",
+    "build_tools/rocksptest.sh",
+    "build_tools/rockstest.sh",
+    "db/post_memtable_callback.h",
+    "include/rocksdb/tool_hooks.h",
+    "tools/tool_hooks.cc",
+    "unreleased_history/add.sh",
+    "unreleased_history/release.sh"
+   ],
+   "test_files": [
+    "build_tools/gtest_parallel.py",
+    "utilities/transactions/timestamped_snapshot_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 1713
+  },
+  {
+   "number": "dbf9328c71",
+   "title": "Add per-column-family compaction abort and resume (#14982)",
+   "url": "https://github.com/facebook/rocksdb/pull/14982",
+   "merged_at": "2026-08-04",
+   "additions": 941,
+   "deletions": 36,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/column_family.h",
+    "db/compaction/compaction_job.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "include/rocksdb/db.h",
+    "include/rocksdb/listener.h",
+    "include/rocksdb/statistics.h",
+    "include/rocksdb/status.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/per_cf_compaction_abort.md"
+   ],
+   "test_files": [
+    "db/db_compaction_abort_test.cc",
+    "db/db_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1661
+  },
+  {
+   "number": "3ad23b2d94",
+   "title": "Support automated interpolation search (#14383)",
+   "url": "https://github.com/facebook/rocksdb/pull/14383",
+   "merged_at": "2026-03-06",
+   "additions": 559,
+   "deletions": 207,
+   "changed_files": 33,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/statistics.h",
+    "include/rocksdb/table.h",
+    "include/rocksdb/utilities/ldb_cmd.h",
+    "java/rocksjni/portal.h",
+    "java/rocksjni/table.cc",
+    "java/src/main/java/org/rocksdb/BlockBasedTableConfig.java",
+    "java/src/main/java/org/rocksdb/HistogramType.java",
+    "java/src/main/java/org/rocksdb/IndexSearchType.java",
+    "monitoring/statistics.cc",
+    "table/block_based/block.cc",
+    "table/block_based/block.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_factory.cc",
+    "table/block_based/block_builder.cc",
+    "table/block_based/block_builder.h",
+    "table/block_based/block_util.h",
+    "table/block_based/data_block_footer.cc",
+    "table/block_based/data_block_footer.h",
+    "table/block_based/index_builder.cc",
+    "table/block_based/index_builder.h",
+    "tools/check_format_compatible.sh",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "tools/ldb_cmd.cc",
+    "tools/ldb_tool.cc",
+    "unreleased_history/new_features/auto_interpolation_search.md"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "java/src/test/java/org/rocksdb/BlockBasedTableConfigTest.java",
+    "options/options_settable_test.cc",
+    "table/block_based/block_test.cc",
+    "table/table_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "format",
+    "index",
+    "lease"
+   ],
+   "horizon_score": 1659
+  },
+  {
+   "number": "214869aacd",
+   "title": "Persist fault injection logs and fail fast on expected-state trace writes (#14651)",
+   "url": "https://github.com/facebook/rocksdb/commit/214869aacd901467698eadf288fd229b5a3a2c4a",
+   "merged_at": "2026-06-21",
+   "additions": 1090,
+   "deletions": 937,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/expected_state.cc",
+    "docs/components/stress_test/expected_state_trace.md",
+    "env/io_posix.cc",
+    "env/io_posix.h",
+    "tools/db_crashtest.py",
+    "tools/fault_injection_log_parser.py",
+    "utilities/fault_injection_fs.cc",
+    "utilities/fault_injection_fs.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "tools/db_crashtest_test.py",
+    "utilities/fault_injection_fs_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "persist"
+   ],
+   "horizon_score": 1590
+  },
+  {
+   "number": "b616b203b8",
+   "title": "Drop flushed WAL data from the secondary's active memtable (#15066)",
+   "url": "https://github.com/facebook/rocksdb/pull/15066",
+   "merged_at": "2026-08-17",
+   "additions": 1028,
+   "deletions": 108,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_follower.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_impl/db_impl_secondary.h",
+    "db/memtable_list.h",
+    "db/version_edit_handler.cc",
+    "db/version_edit_handler.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db/write_batch.cc",
+    "db/write_batch_internal.h",
+    "include/rocksdb/db.h",
+    "unreleased_history/bug_fixes/secondary_stale_memtable_shadows_flushed_data.md"
+   ],
+   "test_files": [
+    "db/db_secondary_test.cc",
+    "db/memtable_list_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "version",
+    "wal"
+   ],
+   "horizon_score": 1568
+  },
+  {
+   "number": "fcf382c95c",
+   "title": "Integrated and ratio-aware compression auto-skip (#15079)",
+   "url": "https://github.com/facebook/rocksdb/pull/15079",
+   "merged_at": "2026-08-11",
+   "additions": 856,
+   "deletions": 442,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/advanced_compression.h",
+    "include/rocksdb/compression_type.h",
+    "options/cf_options.cc",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_builder.h",
+    "table/sst_file_dumper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "tools/sst_dump_tool.cc",
+    "unreleased_history/new_features/auto_skip_compression.md",
+    "unreleased_history/public_api_changes/remove_auto_skip_compression_manager.md",
+    "util/auto_tune_compressor.cc",
+    "util/auto_tune_compressor.h",
+    "util/compression.cc"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "util/compression_test.cc"
+   ],
+   "theme_hits": [
+    "compress",
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1536
+  },
+  {
+   "number": "2d68f30425",
+   "title": "Support remote file system for blob direct write file (#14585)",
+   "url": "https://github.com/facebook/rocksdb/pull/14585",
+   "merged_at": "2026-06-05",
+   "additions": 910,
+   "deletions": 50,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_file_builder.cc",
+    "db/blob/blob_file_cache.cc",
+    "db/blob/blob_file_partition_manager.cc",
+    "db/blob/blob_file_reader.cc",
+    "db/builder.cc",
+    "db/compaction/compaction_job.cc",
+    "file/read_write_util.cc",
+    "file/read_write_util.h",
+    "include/rocksdb/file_system.h",
+    "table/format.cc",
+    "table/sst_file_writer.cc",
+    "utilities/fault_injection_fs.cc",
+    "utilities/fault_injection_fs.h"
+   ],
+   "test_files": [
+    "db/blob/blob_file_reader_test.cc",
+    "db/blob/db_blob_direct_write_test.cc",
+    "db/fault_injection_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "format"
+   ],
+   "horizon_score": 1470
+  },
+  {
+   "number": "7247edbf0a",
+   "title": "Add opt-in stats for async RocksDB reads (#15017)",
+   "url": "https://github.com/facebook/rocksdb/pull/15017",
+   "merged_at": "2026-07-28",
+   "additions": 933,
+   "deletions": 94,
+   "changed_files": 22,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "buckifier/buckify_rocksdb.py",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db_stress_tool/db_stress_common.cc",
+    "file/random_access_file_reader_sync_and_async.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/iostats_context.h",
+    "include/rocksdb/perf_context.h",
+    "monitoring/iostats_context.cc",
+    "monitoring/perf_context.cc",
+    "src.mk",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/block_fetcher_sync_and_async.h",
+    "tools/db_bench_tool.cc",
+    "util/coro_stats_util.cc",
+    "util/coro_stats_util.h"
+   ],
+   "test_files": [
+    "db/perf_context_test.cc",
+    "test_util/mock_time_env.h"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1453
+  },
+  {
+   "number": "ad43a5fbe8",
+   "title": "Pass file metadata to IngestExternalFile to improve ingestion latency (#14837)",
+   "url": "https://github.com/facebook/rocksdb/pull/14837",
+   "merged_at": "2026-06-15",
+   "additions": 922,
+   "deletions": 157,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/external_sst_file_ingestion_job.cc",
+    "db/external_sst_file_ingestion_job.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/options.h",
+    "include/rocksdb/sst_file_writer.h",
+    "table/prepared_file_info.h",
+    "table/sst_file_writer.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/public_api_changes/ingest_external_files_file_infos.md"
+   ],
+   "test_files": [
+    "db/external_sst_file_test.cc",
+    "tools/db_bench_tool_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1422
+  },
+  {
+   "number": "3745f2e234",
+   "title": "CPU corruption injector: gdb register flip into one db_stress op (#14858)",
+   "url": "https://github.com/facebook/rocksdb/pull/14858",
+   "merged_at": "2026-07-01",
+   "additions": 1249,
+   "deletions": 0,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "tools/cpu_corruption_injector/injector.py",
+    "tools/cpu_corruption_injector/injector_critical_instruction.py",
+    "tools/cpu_corruption_injector/injector_navigate.py",
+    "tools/cpu_corruption_injector/injector_register_corruption.py",
+    "tools/cpu_corruption_injector/injector_telemetry.py"
+   ],
+   "test_files": [
+    "tools/cpu_corruption_injector/tests/test_injector_critical_instruction.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1409
+  },
+  {
+   "number": "e8554f1b11",
+   "title": "Faster and safer MANIFEST recovery for remote compaction (OpenAndCompact) (#15133)",
+   "url": "https://github.com/facebook/rocksdb/pull/15133",
+   "merged_at": "2026-08-20",
+   "additions": 615,
+   "deletions": 46,
+   "changed_files": 23,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_job.h",
+    "db/compaction/compaction_service_job.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_impl/db_impl_secondary.h",
+    "db/version_edit_handler.cc",
+    "db/version_edit_handler.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_compaction_service.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "unreleased_history/bug_fixes/remote_compaction_trust_manifest_recovery.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_service_test.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 1395
+  },
+  {
+   "number": "5dfde1c262",
+   "title": "Add coroutine reads to stackable RocksDB utilities (#15080)",
+   "url": "https://github.com/facebook/rocksdb/pull/15080",
+   "merged_at": "2026-08-11",
+   "additions": 699,
+   "deletions": 243,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "db/coro_db.cc",
+    "include/rocksdb/coro_db.h",
+    "include/rocksdb/utilities/coro_stackable_db.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "src.mk",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/public_api_changes/stackable_coroutine_reads.md",
+    "utilities/transactions/write_prepared_txn_db.cc",
+    "utilities/transactions/write_prepared_txn_db.h",
+    "utilities/transactions/write_prepared_txn_db_sync_and_async.h",
+    "utilities/ttl/db_ttl_impl.cc",
+    "utilities/ttl/db_ttl_impl.h",
+    "utilities/ttl/db_ttl_impl_sync_and_async.h"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db/db_test_util.cc",
+    "utilities/transactions/write_prepared_transaction_test.cc",
+    "utilities/ttl/ttl_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "transact"
+   ],
+   "horizon_score": 1359
+  },
+  {
+   "number": "0df7ed563b",
+   "title": "Pass SST block CRC32C checksums to file writer (#15155)",
+   "url": "https://github.com/facebook/rocksdb/pull/15155",
+   "merged_at": "2026-09-01",
+   "additions": 929,
+   "deletions": 48,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/builder.cc",
+    "db/compaction/compaction_job.cc",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "file/writable_file_writer.cc",
+    "file/writable_file_writer.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_builder.h",
+    "table/sst_file_writer.cc",
+    "unreleased_history/new_features/sst_checksum_handoff.md"
+   ],
+   "test_files": [
+    "table/table_test.cc",
+    "util/file_reader_writer_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 1349
+  },
+  {
+   "number": "897162a6bc",
+   "title": "Add session-scoped temporary directory for remote compaction (#15169)",
+   "url": "https://github.com/facebook/rocksdb/pull/15169",
+   "merged_at": "2026-09-03",
+   "additions": 464,
+   "deletions": 92,
+   "changed_files": 28,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/compaction/compaction_service_job.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_open.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db_stress_tool/db_stress_common.cc",
+    "db_stress_tool/db_stress_compaction_service.h",
+    "db_stress_tool/db_stress_listener.h",
+    "file/filename.cc",
+    "file/filename.h",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/ldb_cmd.cc",
+    "unreleased_history/behavior_changes/remote_compaction_tmp_output_dir.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_job_test.cc",
+    "db/compaction/compaction_service_test.cc",
+    "db/db_secondary_test.cc",
+    "options/options_settable_test.cc",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 1344
+  },
+  {
+   "number": "744f120b12",
+   "title": "Zero-copy reads of embedded (same-file) blob wide-column entities (#14990)",
+   "url": "https://github.com/facebook/rocksdb/pull/14990",
+   "merged_at": "2026-07-23",
+   "additions": 573,
+   "deletions": 94,
+   "changed_files": 22,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "db/blob/blob_fetcher.cc",
+    "db/blob/blob_fetcher.h",
+    "db/blob/same_file_blob_reader.h",
+    "db/compaction/compaction_iterator.cc",
+    "db/db_impl/compacted_db_impl_sync_and_async.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_readonly_sync_and_async.h",
+    "db/db_impl/db_impl_secondary_sync_and_async.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/version_set_sync_and_async.h",
+    "db/wide/read_path_blob_resolver.h",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "table/block_based/block_based_table_reader_sync_and_async.h",
+    "table/get_context.cc",
+    "table/get_context.h",
+    "unreleased_history/performance_improvements/pinnable_wide_columns_zero_copy.md"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc",
+    "db/compaction/compaction_iterator_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 1273
+  },
+  {
+   "number": "9f474a1034",
+   "title": "Enforce < 4GB sizes for keys, values, and some BlockBuilder inputs (#14461)",
+   "url": "https://github.com/facebook/rocksdb/pull/14461",
+   "merged_at": "2026-04-11",
+   "additions": 486,
+   "deletions": 41,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/compaction/compaction_iterator.cc",
+    "db/merge_helper.cc",
+    "db/write_batch.cc",
+    "port/mmap.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_builder.cc",
+    "table/block_based/block_builder.h",
+    "table/block_based/index_builder.cc",
+    "table/block_based/index_builder.h",
+    "table/block_based/partitioned_filter_block.cc",
+    "table/meta_blocks.cc",
+    "table/sst_file_writer.cc"
+   ],
+   "test_files": [
+    "db/db_compaction_test.cc",
+    "db/external_sst_file_basic_test.cc",
+    "db/merge_helper_test.cc",
+    "db/merge_test.cc",
+    "db/write_batch_test.cc",
+    "test_util/testharness.cc",
+    "test_util/testharness.h"
+   ],
+   "theme_hits": [
+    "compact",
+    "index"
+   ],
+   "horizon_score": 1266
+  },
+  {
+   "number": "4d30cfd1fc",
+   "title": "Split ingest external files into prepare and commit APIs (#14849)",
+   "url": "https://github.com/facebook/rocksdb/pull/14849",
+   "merged_at": "2026-06-13",
+   "additions": 727,
+   "deletions": 90,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_readonly.h",
+    "db/db_impl/db_impl_secondary.h",
+    "db/external_sst_file_ingestion_job.cc",
+    "db/external_sst_file_ingestion_job.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/file_ingestion_prepare_commit.md"
+   ],
+   "test_files": [
+    "db/db_test.cc",
+    "db/external_sst_file_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1247
+  },
+  {
+   "number": "88752298ff",
+   "title": "Add native coroutine read dispatch to RocksDB (#15073)",
+   "url": "https://github.com/facebook/rocksdb/pull/15073",
+   "merged_at": "2026-08-10",
+   "additions": 561,
+   "deletions": 386,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/pr-jobs.yml",
+    "Makefile",
+    "db/db_impl/compacted_db_impl_sync_and_async.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "include/rocksdb/coro_db.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/file_system.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/public_api_changes/native_coroutine_reads.md",
+    "util/coro_stats_util.cc",
+    "util/coro_stats_util.h",
+    "util/coro_utils.h"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db/db_test_util.cc",
+    "db/perf_context_test.cc",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 1201
+  },
+  {
+   "number": "c734b7cc60",
+   "title": "Add reuse_manifest_on_open DBOption (#14704)",
+   "url": "https://github.com/facebook/rocksdb/pull/14704",
+   "merged_at": "2026-05-07",
+   "additions": 526,
+   "deletions": 27,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_open.cc",
+    "db/log_writer.cc",
+    "db/log_writer.h",
+    "db/version_edit_handler.cc",
+    "db/version_edit_handler.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "file/writable_file_writer.h",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "unreleased_history/new_features/reuse_manifest_on_open.md"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 1186
+  },
+  {
+   "number": "f7b791b213",
+   "title": "Fix bottommost-files infinite compaction loop with preserve/preclude (#15146)",
+   "url": "https://github.com/facebook/rocksdb/pull/15146",
+   "merged_at": "2026-08-27",
+   "additions": 527,
+   "deletions": 43,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/compaction/compaction_iterator.cc",
+    "db/compaction/compaction_job.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/dbformat.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/bug_fixes/fix_bottommost_compaction_loop.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_picker_test.cc",
+    "db/compaction/tiered_compaction_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "format",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 1147
+  },
+  {
+   "number": "c64f682946",
+   "title": "Fix IoUringBackend crash in ReadIOExecutor worker threads (#15020)",
+   "url": "https://github.com/facebook/rocksdb/pull/15020",
+   "merged_at": "2026-07-30",
+   "additions": 266,
+   "deletions": 99,
+   "changed_files": 30,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db_stress_tool/db_stress_env_wrapper.h",
+    "env/file_system_tracer.cc",
+    "env/file_system_tracer.h",
+    "env/fs_posix.cc",
+    "env/io_posix.cc",
+    "env/io_posix.h",
+    "file/random_access_file_reader_sync_and_async.h",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/file_system.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/TickerType.java",
+    "monitoring/statistics.cc",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "unreleased_history/public_api_changes/read_io_executor_threads.md"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "env/io_posix_test.cc",
+    "file/random_access_file_reader_test.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "backend",
+    "lease"
+   ],
+   "horizon_score": 1146
+  },
+  {
+   "number": "ae322e0a73",
+   "title": "Add SortedRunBuilder: use RocksDB as an external\u2026 (#14499)",
+   "url": "https://github.com/facebook/rocksdb/pull/14499",
+   "merged_at": "2026-03-31",
+   "additions": 963,
+   "deletions": 0,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "include/rocksdb/utilities/sorted_run_builder.h",
+    "src.mk",
+    "utilities/sorted_run_builder/sorted_run_builder.cc"
+   ],
+   "test_files": [
+    "utilities/sorted_run_builder/sorted_run_builder_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1143
+  },
+  {
+   "number": "6ff96384dd",
+   "title": "db_iter: eagerly resolve blob-backed iterator columns (#14632)",
+   "url": "https://github.com/facebook/rocksdb/pull/14632",
+   "merged_at": "2026-04-18",
+   "additions": 803,
+   "deletions": 102,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/builder.cc",
+    "db/compaction/compaction_iterator.cc",
+    "db/compaction/compaction_iterator.h",
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "db/merge_helper.cc",
+    "include/rocksdb/compaction_filter.h"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc",
+    "db/wide/db_wide_blob_direct_write_test.cc"
+   ],
+   "theme_hits": [
+    "compact"
+   ],
+   "horizon_score": 1123
+  },
+  {
+   "number": "bb77d17072",
+   "title": "Make Flush() optionally wait for OnFlushCompleted (FlushOptions::listener_wait) (#14992)",
+   "url": "https://github.com/facebook/rocksdb/pull/14992",
+   "merged_at": "2026-07-24",
+   "additions": 421,
+   "deletions": 29,
+   "changed_files": 18,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_debug.cc",
+    "db/memtable_list.h",
+    "include/rocksdb/c.h",
+    "include/rocksdb/options.h",
+    "java/rocksjni/options.cc",
+    "java/src/main/java/org/rocksdb/FlushOptions.java",
+    "unreleased_history/public_api_changes/flush_listener_wait.md"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "db/db_flush_test.cc",
+    "db/listener_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "java/src/test/java/org/rocksdb/FlushOptionsTest.java"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 1101
+  },
+  {
+   "number": "276495843d",
+   "title": "Add blob file writer buffer size option (#15061)",
+   "url": "https://github.com/facebook/rocksdb/pull/15061",
+   "merged_at": "2026-08-12",
+   "additions": 228,
+   "deletions": 6,
+   "changed_files": 25,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/blob/blob_file_builder.cc",
+    "db/blob/blob_file_builder.h",
+    "db/blob/blob_file_partition_manager.cc",
+    "db/blob/blob_file_partition_manager.h",
+    "db/c.cc",
+    "db/db_impl/db_impl.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/c.h",
+    "options/cf_options.cc",
+    "options/cf_options.h",
+    "options/options.cc",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/blob_file_writable_file_max_buffer_size.md"
+   ],
+   "test_files": [
+    "db/blob/db_blob_basic_test.cc",
+    "db/db_options_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc",
+    "options/options_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 1048
+  },
+  {
+   "number": "b6f498b2c9",
+   "title": "Add verify_manifest_content_on_close option (#14451)",
+   "url": "https://github.com/facebook/rocksdb/pull/14451",
+   "merged_at": "2026-03-19",
+   "additions": 403,
+   "deletions": 12,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/verify_manifest_content_on_close.md"
+   ],
+   "test_files": [
+    "db/version_set_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 1043
+  },
+  {
+   "number": "b5922eab11",
+   "title": "Add FileSystem SyncFile API (#14739)",
+   "url": "https://github.com/facebook/rocksdb/pull/14739",
+   "merged_at": "2026-06-05",
+   "additions": 512,
+   "deletions": 30,
+   "changed_files": 19,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/external_sst_file_ingestion_job.cc",
+    "env/composite_env_wrapper.h",
+    "env/env.cc",
+    "env/env_encryption.cc",
+    "env/file_system.cc",
+    "env/fs_readonly.h",
+    "env/fs_remap.cc",
+    "env/fs_remap.h",
+    "env/mock_env.cc",
+    "env/mock_env.h",
+    "include/rocksdb/env.h",
+    "include/rocksdb/file_system.h",
+    "unreleased_history/public_api_changes/sync_file_api.md",
+    "utilities/fault_injection_env.cc",
+    "utilities/fault_injection_env.h",
+    "utilities/fault_injection_fs.cc",
+    "utilities/fault_injection_fs.h"
+   ],
+   "test_files": [
+    "db/external_sst_file_basic_test.cc",
+    "env/env_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 1032
+  },
+  {
+   "number": "c724aeb67e",
+   "title": "Add multi-DB stress testing support (--num_dbs flag) (#14749)",
+   "url": "https://github.com/facebook/rocksdb/pull/14749",
+   "merged_at": "2026-05-27",
+   "additions": 495,
+   "deletions": 203,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/batched_ops_stress.cc",
+    "db_stress_tool/cf_consistency_stress.cc",
+    "db_stress_tool/db_stress_common.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_driver.cc",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_shared_state.h",
+    "db_stress_tool/db_stress_stat.h",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/multi_ops_txns_stress.cc",
+    "db_stress_tool/multi_ops_txns_stress.h",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "crash"
+   ],
+   "horizon_score": 995
+  },
+  {
+   "number": "02a2b3501d",
+   "title": "Add optimize_manifest_for_recovery DBOption (#14702)",
+   "url": "https://github.com/facebook/rocksdb/pull/14702",
+   "merged_at": "2026-05-07",
+   "additions": 365,
+   "deletions": 22,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_files.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/version_edit.cc",
+    "db/version_edit.h",
+    "db/version_set.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "unreleased_history/new_features/optimize_manifest_for_recovery.md"
+   ],
+   "test_files": [
+    "db/db_basic_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 965
+  },
+  {
+   "number": "3aa706c2bf",
+   "title": "Enforce WriteBufferManager during WAL recovery (#14305)",
+   "url": "https://github.com/facebook/rocksdb/pull/14305",
+   "merged_at": "2026-03-05",
+   "additions": 404,
+   "deletions": 100,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_open.cc",
+    "db/memtable.h",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/options.h",
+    "options/db_options.cc",
+    "options/db_options.h",
+    "options/options_helper.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/enforce_wbm_during_recovery.md"
+   ],
+   "test_files": [
+    "db/db_write_buffer_manager_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease",
+    "wal"
+   ],
+   "horizon_score": 964
+  },
+  {
+   "number": "f9df618e4d",
+   "title": "Api to checkpoint only selected set of column families (#15019)",
+   "url": "https://github.com/facebook/rocksdb/pull/15019",
+   "merged_at": "2026-07-30",
+   "additions": 575,
+   "deletions": 11,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_filesnapshot.cc",
+    "db/db_impl/db_impl.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "include/rocksdb/utilities/checkpoint.h",
+    "utilities/checkpoint/checkpoint_impl.cc",
+    "utilities/checkpoint/checkpoint_impl.h"
+   ],
+   "test_files": [
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "checkpoint",
+    "snapshot",
+    "version"
+   ],
+   "horizon_score": 955
+  },
+  {
+   "number": "de7b8e8f7d",
+   "title": "Add RocksDB flush reason and atomic flush request metrics (#14898)",
+   "url": "https://github.com/facebook/rocksdb/pull/14898",
+   "merged_at": "2026-07-01",
+   "additions": 412,
+   "deletions": 8,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_write.cc",
+    "db/flush_job.cc",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "include/rocksdb/listener.h",
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/FlushReason.java",
+    "java/src/main/java/org/rocksdb/HistogramType.java",
+    "java/src/main/java/org/rocksdb/TickerType.java",
+    "monitoring/statistics.cc"
+   ],
+   "test_files": [
+    "db/db_etc2_test.cc",
+    "db/db_flush_test.cc",
+    "db/db_range_del_test.cc"
+   ],
+   "theme_hits": [
+    "atomic",
+    "compact"
+   ],
+   "horizon_score": 952
+  },
+  {
+   "number": "97551b72d7",
+   "title": "Per-StressTest fault injection with env/fs cleanup (#14757)",
+   "url": "https://github.com/facebook/rocksdb/pull/14757",
+   "merged_at": "2026-05-22",
+   "additions": 530,
+   "deletions": 407,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/cf_consistency_stress.cc",
+    "db_stress_tool/db_stress_common.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_driver.cc",
+    "db_stress_tool/db_stress_listener.cc",
+    "db_stress_tool/db_stress_listener.h",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/multi_ops_txns_stress.cc",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "utilities/fault_injection_fs.cc",
+    "utilities/fault_injection_fs.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h",
+    "utilities/fault_injection_fs_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 930
+  },
+  {
+   "number": "ffa95117b9",
+   "title": "Bug fix and clean up error/status handling for wide-column + blob support (#14980)",
+   "url": "https://github.com/facebook/rocksdb/pull/14980",
+   "merged_at": "2026-07-22",
+   "additions": 486,
+   "deletions": 284,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_readonly.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/memtable.cc",
+    "db/wide/wide_column_serialization.cc",
+    "db/wide/wide_column_serialization.h",
+    "table/get_context.cc",
+    "utilities/write_batch_with_index/write_batch_with_index_internal.cc"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc",
+    "db/wide/wide_column_serialization_test.cc"
+   ],
+   "theme_hits": [
+    "index",
+    "serializ"
+   ],
+   "horizon_score": 926
+  },
+  {
+   "number": "056a0f9664",
+   "title": "Add atomic_flush option for checkpoint (#14477)",
+   "url": "https://github.com/facebook/rocksdb/pull/14477",
+   "merged_at": "2026-03-25",
+   "additions": 326,
+   "deletions": 28,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_filesnapshot.cc",
+    "db/db_impl/compacted_db_impl.h",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_readonly.h",
+    "db/db_impl/db_impl_secondary.h",
+    "db/db_impl/db_impl_write.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/options.h",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "atomic",
+    "compact",
+    "crash",
+    "snapshot"
+   ],
+   "horizon_score": 906
+  },
+  {
+   "number": "521cd8b31d",
+   "title": "Add parallel gtest flake reproduction runner (#14827)",
+   "url": "https://github.com/facebook/rocksdb/pull/14827",
+   "merged_at": "2026-06-12",
+   "additions": 680,
+   "deletions": 25,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "env/io_posix.cc"
+   ],
+   "test_files": [
+    "db/c_test.c",
+    "env/env_test.cc",
+    "tools/gtest_parallel_repro.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 900
+  },
+  {
+   "number": "03e5a0b9a8",
+   "title": "Fix range tombstone conversion + ingest sst and re-enable crash tests (#14654)",
+   "url": "https://github.com/facebook/rocksdb/pull/14654",
+   "merged_at": "2026-04-24",
+   "additions": 343,
+   "deletions": 105,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/column_family.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_iter.cc",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "include/rocksdb/advanced_options.h",
+    "port/port_posix.cc",
+    "port/port_posix.h",
+    "port/win/port_win.h",
+    "tools/db_crashtest.py",
+    "unreleased_history/bug_fixes/range_tombstone_synthesis",
+    "util/mutexlock.h"
+   ],
+   "test_files": [
+    "db/db_flush_test.cc",
+    "db/db_iterator_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease",
+    "version"
+   ],
+   "horizon_score": 883
+  },
+  {
+   "number": "fe5123681e",
+   "title": "Fix GetEntity snapshot isolation for WritePrepared transactions (#15136)",
+   "url": "https://github.com/facebook/rocksdb/pull/15136",
+   "merged_at": "2026-08-31",
+   "additions": 542,
+   "deletions": 102,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/coro_db.cc",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "include/rocksdb/coro_db.h",
+    "include/rocksdb/utilities/coro_stackable_db.h",
+    "utilities/transactions/write_prepared_txn_db.h",
+    "utilities/transactions/write_prepared_txn_db_sync_and_async.h"
+   ],
+   "test_files": [
+    "utilities/transactions/write_prepared_transaction_test.cc"
+   ],
+   "theme_hits": [
+    "snapshot",
+    "transact"
+   ],
+   "horizon_score": 882
+  },
+  {
+   "number": "ec31d0074f",
+   "title": "Accelerate build and test infrastructure (#14478)",
+   "url": "https://github.com/facebook/rocksdb/pull/14478",
+   "merged_at": "2026-03-24",
+   "additions": 329,
+   "deletions": 115,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/actions/pre-steps/action.yml",
+    ".github/actions/setup-ccache/action.yml",
+    ".github/actions/teardown-ccache/action.yml",
+    ".github/actions/windows-build-steps/action.yml",
+    ".github/scripts/ccache-trim.sh",
+    ".github/scripts/compute-test-shard.sh",
+    ".github/workflows/pr-jobs.yml",
+    "CMakeLists.txt",
+    "Makefile",
+    "build_tools/build_detect_platform",
+    "build_tools/gnu_parallel"
+   ],
+   "test_files": [
+    "db/db_test_util.cc",
+    "test_util/sync_point_impl.cc",
+    "test_util/sync_point_impl.h",
+    "test_util/testharness.cc"
+   ],
+   "theme_hits": [
+    "shard"
+   ],
+   "horizon_score": 849
+  },
+  {
+   "number": "495c21dc5c",
+   "title": "Unify lazy wide-column blob read verify policy; tool coverage (#15115)",
+   "url": "https://github.com/facebook/rocksdb/pull/15115",
+   "merged_at": "2026-08-18",
+   "additions": 464,
+   "deletions": 226,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_constants.h",
+    "db/blob/blob_fetcher.cc",
+    "db/blob/blob_fetcher.h",
+    "db/blob/blob_source.cc",
+    "db/blob/same_file_blob_reader.h",
+    "db/wide/read_path_blob_resolver.cc",
+    "db/wide/read_path_blob_resolver.h",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/block_based_table_reader.h",
+    "tools/db_bench_tool.cc"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc",
+    "db/wide/db_lazy_entity_test.cc",
+    "db_stress_tool/db_stress_test_base.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 844
+  },
+  {
+   "number": "7217bf34a7",
+   "title": "Add SST build context: is_remote_compaction, db_name, kSstFileWriter (#15085)",
+   "url": "https://github.com/facebook/rocksdb/pull/15085",
+   "merged_at": "2026-08-12",
+   "additions": 200,
+   "deletions": 28,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_job.h",
+    "db/db_impl/db_impl_open.cc",
+    "db/flush_job.cc",
+    "db/repair.cc",
+    "include/rocksdb/external_table.h",
+    "include/rocksdb/filter_policy.h",
+    "include/rocksdb/types.h",
+    "java/src/main/java/org/rocksdb/TableFileCreationReason.java",
+    "table/block_based/block_based_table_builder.cc",
+    "table/sst_file_writer.cc",
+    "table/table_builder.h",
+    "unreleased_history/public_api_changes/table_file_creation_reason_sst_file_writer.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_service_test.cc",
+    "db/db_bloom_filter_test.cc",
+    "java/src/test/java/org/rocksdb/EventListenerTest.java",
+    "util/bloom_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 820
+  },
+  {
+   "number": "50852b5c8d",
+   "title": "db_stress: document expected-state trace/replay contract (#14612)",
+   "url": "https://github.com/facebook/rocksdb/pull/14612",
+   "merged_at": "2026-04-14",
+   "additions": 540,
+   "deletions": 6,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "db_stress_tool/expected_state.cc",
+    "db_stress_tool/expected_state.h",
+    "docs/components/index.md",
+    "docs/components/stress_test/expected_state_trace.md",
+    "docs/components/stress_test/index.md"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 820
+  },
+  {
+   "number": "a844cbf5b7",
+   "title": "Add coroutine reads for SstFileReader (#15189)",
+   "url": "https://github.com/facebook/rocksdb/pull/15189",
+   "merged_at": "2026-09-10",
+   "additions": 500,
+   "deletions": 165,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/coro_db.cc",
+    "include/rocksdb/coro_db.h",
+    "include/rocksdb/file_system.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/sst_file_reader.h",
+    "table/sst_file_reader.cc",
+    "table/sst_file_reader_impl.h",
+    "table/sst_file_reader_sync_and_async.h",
+    "unreleased_history/public_api_changes/coro_sst_file_reader.md"
+   ],
+   "test_files": [
+    "table/sst_file_reader_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 800
+  },
+  {
+   "number": "ac0f4ae69f",
+   "title": "Isolate coroutine statistics across async reads (#15142)",
+   "url": "https://github.com/facebook/rocksdb/pull/15142",
+   "merged_at": "2026-09-04",
+   "additions": 286,
+   "deletions": 268,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/coro_db.cc",
+    "db/db_impl/compacted_db_impl_sync_and_async.h",
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl_sync_and_async.h",
+    "db_stress_tool/db_stress_common.cc",
+    "include/rocksdb/coro_db.h",
+    "include/rocksdb/db.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/bug_fixes/coroutine_stats_request_isolation.md",
+    "unreleased_history/public_api_changes/async_callback_stats_tls.md",
+    "util/coro_stats_util.cc",
+    "util/coro_stats_util.h",
+    "utilities/transactions/write_prepared_txn_db_sync_and_async.h"
+   ],
+   "test_files": [
+    "db/perf_context_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "transact"
+   ],
+   "horizon_score": 786
+  },
+  {
+   "number": "5fe225357a",
+   "title": "Extend parallel checkpointing and db_stress coverage for column-family-subset checkpoints (#15059)",
+   "url": "https://github.com/facebook/rocksdb/pull/15059",
+   "merged_at": "2026-08-06",
+   "additions": 401,
+   "deletions": 69,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "include/rocksdb/utilities/checkpoint.h",
+    "tools/db_crashtest.py",
+    "utilities/checkpoint/checkpoint_impl.cc",
+    "utilities/checkpoint/checkpoint_impl.h"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "checkpoint",
+    "crash"
+   ],
+   "horizon_score": 781
+  },
+  {
+   "number": "9ef369c606",
+   "title": "Make StringToMap entries self-contained for direct round-trip (#14805)",
+   "url": "https://github.com/facebook/rocksdb/pull/14805",
+   "merged_at": "2026-06-02",
+   "additions": 392,
+   "deletions": 41,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "include/rocksdb/convenience.h",
+    "include/rocksdb/utilities/options_type.h",
+    "options/db_options.cc",
+    "options/options_helper.cc",
+    "unreleased_history/behavior_changes/string_to_map_self_contained.md",
+    "util/string_util.cc"
+   ],
+   "test_files": [
+    "db/db_bloom_filter_test.cc",
+    "options/options_test.cc",
+    "util/string_util_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 772
+  },
+  {
+   "number": "6d4a8144e0",
+   "title": "Unify LZ4 and LZ4HC compression levels (#14819)",
+   "url": "https://github.com/facebook/rocksdb/pull/14819",
+   "merged_at": "2026-06-11",
+   "additions": 369,
+   "deletions": 68,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/compression_type.h",
+    "include/rocksdb/options.h",
+    "table/block_based/block_based_table_builder.cc",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/behavior_changes/unify_lz4_lz4hc_levels.md",
+    "unreleased_history/behavior_changes/zstd_level_zero.md",
+    "util/auto_tune_compressor.cc",
+    "util/compression.cc",
+    "util/compression.h"
+   ],
+   "test_files": [
+    "util/compression_test.cc"
+   ],
+   "theme_hits": [
+    "compress",
+    "lease"
+   ],
+   "horizon_score": 729
+  },
+  {
+   "number": "805a476a5f",
+   "title": "Add OnCompactionPreCommit listener callback (#14740)",
+   "url": "https://github.com/facebook/rocksdb/pull/14740",
+   "merged_at": "2026-05-15",
+   "additions": 409,
+   "deletions": 13,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CLAUDE.md",
+    "db/compaction/compaction.h",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db_stress_tool/db_stress_listener.h",
+    "include/rocksdb/listener.h",
+    "unreleased_history/new_features/oncompaction_pre_commit_listener.md"
+   ],
+   "test_files": [
+    "db/listener_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 729
+  },
+  {
+   "number": "91b96f41cf",
+   "title": "Retry the OpenAndCompact secondary open when the primary replaces CURRENT (#15179)",
+   "url": "https://github.com/facebook/rocksdb/pull/15179",
+   "merged_at": "2026-09-10",
+   "additions": 287,
+   "deletions": 4,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "c_api_gen/c_generated_option_structs_auto.cc.inc",
+    "c_api_gen/c_generated_option_structs_auto.h.inc",
+    "c_api_gen/c_generated_roundtrip_tests.c.inc",
+    "db/c.cc",
+    "db/db_impl/db_impl_secondary.cc",
+    "db_stress_tool/db_stress_common.cc",
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/bug_fixes/remote_compaction_secondary_open_retry.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_service_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 727
+  },
+  {
+   "number": "e6a2ee0bd2",
+   "title": "Fix subset checkpoints with incomplete MANIFEST tails (#15123)",
+   "url": "https://github.com/facebook/rocksdb/pull/15123",
+   "merged_at": "2026-08-22",
+   "additions": 237,
+   "deletions": 11,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_filesnapshot.cc",
+    "db/version_edit_handler.cc",
+    "db/version_edit_handler.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "unreleased_history/bug_fixes/subset_checkpoint_manifest_tail.md"
+   ],
+   "test_files": [
+    "db/version_set_test.cc",
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "checkpoint",
+    "lease",
+    "snapshot",
+    "version"
+   ],
+   "horizon_score": 717
+  },
+  {
+   "number": "b874d2546e",
+   "title": "Preserve published-boundary visibility during flush/compaction (#14681) (#14681)",
+   "url": "https://github.com/facebook/rocksdb/pull/14681",
+   "merged_at": "2026-05-05",
+   "additions": 277,
+   "deletions": 0,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_write.cc",
+    "include/rocksdb/compaction_filter.h",
+    "unreleased_history/behavior_changes/write_committed_merge_operand_filtering",
+    "unreleased_history/bug_fixes/write_committed_wbwi_ingestion_missing_entry",
+    "utilities/transactions/pessimistic_transaction_db.cc"
+   ],
+   "test_files": [
+    "utilities/transactions/transaction_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease",
+    "publish",
+    "transact"
+   ],
+   "horizon_score": 717
+  },
+  {
+   "number": "bbdcd2825f",
+   "title": "Add remote storage liveness crash test signal (#15102)",
+   "url": "https://github.com/facebook/rocksdb/pull/15102",
+   "merged_at": "2026-08-18",
+   "additions": 291,
+   "deletions": 22,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "tools/db_crashtest.py",
+    "utilities/checkpoint/checkpoint_impl.cc"
+   ],
+   "test_files": [
+    "crash_test.mk",
+    "db/deletefile_test.cc",
+    "tools/db_crashtest_test.py"
+   ],
+   "theme_hits": [
+    "checkpoint",
+    "crash",
+    "storage"
+   ],
+   "horizon_score": 691
+  },
+  {
+   "number": "4b35e9966c",
+   "title": "Add batch-owned pinned MultiGet C API (#14988)",
+   "url": "https://github.com/facebook/rocksdb/pull/14988",
+   "merged_at": "2026-08-02",
+   "additions": 465,
+   "deletions": 0,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/c.cc",
+    "include/rocksdb/c.h",
+    "tools/c_api_gen/c_base.cc",
+    "tools/c_api_gen/c_base.h",
+    "unreleased_history/public_api_changes/pinnable_multi_get_batch.md"
+   ],
+   "test_files": [
+    "db/c_test.c"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 685
+  },
+  {
+   "number": "4cf28450a5",
+   "title": "Add customizable blob partition strategy for blob direct write (#14565)",
+   "url": "https://github.com/facebook/rocksdb/pull/14565",
+   "merged_at": "2026-04-03",
+   "additions": 399,
+   "deletions": 16,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_file_partition_manager.cc",
+    "db/blob/blob_file_partition_manager.h",
+    "db/db_impl/db_impl.cc",
+    "include/rocksdb/advanced_options.h",
+    "include/rocksdb/blob_file_partition_strategy.h",
+    "options/cf_options.cc",
+    "options/cf_options.h",
+    "options/options_helper.cc"
+   ],
+   "test_files": [
+    "db/blob/db_blob_direct_write_test.cc",
+    "options/options_settable_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 679
+  },
+  {
+   "number": "19482988e3",
+   "title": "Add parallel CheckpointEngine [4/4] (#14948)",
+   "url": "https://github.com/facebook/rocksdb/pull/14948",
+   "merged_at": "2026-07-24",
+   "additions": 437,
+   "deletions": 26,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/utilities/checkpoint.h",
+    "utilities/backup/backup_engine.cc",
+    "utilities/checkpoint/checkpoint_impl.cc",
+    "utilities/checkpoint/checkpoint_impl.h"
+   ],
+   "test_files": [
+    "utilities/checkpoint/checkpoint_test.cc"
+   ],
+   "theme_hits": [
+    "checkpoint"
+   ],
+   "horizon_score": 637
+  },
+  {
+   "number": "62f05627be",
+   "title": "Reduce manifest rotation for foreground metadata ops (#14797)",
+   "url": "https://github.com/facebook/rocksdb/pull/14797",
+   "merged_at": "2026-06-02",
+   "additions": 263,
+   "deletions": 57,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/version_edit.h",
+    "db/version_set.cc",
+    "include/rocksdb/options.h",
+    "unreleased_history/performance_improvements/manifest_rotation_foreground_relaxation.md"
+   ],
+   "test_files": [
+    "db/db_etc3_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 603
+  },
+  {
+   "number": "63c86160cd",
+   "title": "Add OnBackgroundJobPressureChanged listener callback (#14474)",
+   "url": "https://github.com/facebook/rocksdb/pull/14474",
+   "merged_at": "2026-03-20",
+   "additions": 298,
+   "deletions": 1,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_debug.cc",
+    "db_stress_tool/db_stress_listener.h",
+    "include/rocksdb/listener.h"
+   ],
+   "test_files": [
+    "db/db_compaction_test.cc",
+    "db/listener_test.cc"
+   ],
+   "theme_hits": [
+    "compact"
+   ],
+   "horizon_score": 598
+  },
+  {
+   "number": "4975341aef",
+   "title": "Add async I/O release UAF regression coverage (#14844)",
+   "url": "https://github.com/facebook/rocksdb/pull/14844",
+   "merged_at": "2026-06-10",
+   "additions": 309,
+   "deletions": 5,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_gflags.cc",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "util/io_dispatcher_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 589
+  },
+  {
+   "number": "ad81b654a4",
+   "title": "Prune resolved 2PC recovery state on secondaries (#15121)",
+   "url": "https://github.com/facebook/rocksdb/pull/15121",
+   "merged_at": "2026-08-21",
+   "additions": 327,
+   "deletions": 24,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_secondary.cc",
+    "db/db_impl/db_impl_secondary.h",
+    "unreleased_history/bug_fixes/secondary_retains_recovered_transactions.md"
+   ],
+   "test_files": [
+    "db/db_secondary_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "recover"
+   ],
+   "horizon_score": 587
+  },
+  {
+   "number": "75c1ffd4e3",
+   "title": "Add RocksDB rate limiter I/O usage metrics (#14884)",
+   "url": "https://github.com/facebook/rocksdb/pull/14884",
+   "merged_at": "2026-06-29",
+   "additions": 384,
+   "deletions": 90,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/HistogramType.java",
+    "java/src/main/java/org/rocksdb/TickerType.java",
+    "monitoring/statistics.cc",
+    "util/rate_limiter.cc",
+    "util/rate_limiter_impl.h"
+   ],
+   "test_files": [
+    "util/rate_limiter_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 584
+  },
+  {
+   "number": "7785264e5a",
+   "title": "Make file opens multi-threaded for commit external sst file ingestion (#14853)",
+   "url": "https://github.com/facebook/rocksdb/pull/14853",
+   "merged_at": "2026-06-15",
+   "additions": 181,
+   "deletions": 75,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/external_sst_file_ingestion_job.h",
+    "db/version_set.cc",
+    "db/version_set.h",
+    "db_stress_tool/no_batched_ops_stress.cc",
+    "include/rocksdb/options.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/performance_improvements/ingest_external_file_file_opening_threads.md"
+   ],
+   "test_files": [
+    "db/external_sst_file_test.cc",
+    "tools/db_bench_tool_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "version"
+   ],
+   "horizon_score": 581
+  },
+  {
+   "number": "156328107d",
+   "title": "Fix range deletion crash test errors (#14573)",
+   "url": "https://github.com/facebook/rocksdb/pull/14573",
+   "merged_at": "2026-04-06",
+   "additions": 259,
+   "deletions": 95,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_iter.cc",
+    "db/db_iter.h",
+    "tools/trace_analyzer_tool.cc",
+    "tools/trace_analyzer_tool.h"
+   ],
+   "test_files": [
+    "db/db_iterator_test.cc",
+    "utilities/transactions/write_prepared_transaction_test.cc",
+    "utilities/transactions/write_unprepared_transaction_test.cc"
+   ],
+   "theme_hits": [
+    "crash"
+   ],
+   "horizon_score": 579
+  },
+  {
+   "number": "8bf167a194",
+   "title": "Notify listeners before DB shutdown begins (#14769)",
+   "url": "https://github.com/facebook/rocksdb/pull/14769",
+   "merged_at": "2026-05-22",
+   "additions": 210,
+   "deletions": 85,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db_stress_tool/db_stress_listener.h",
+    "db_stress_tool/multi_ops_txns_stress.h",
+    "include/rocksdb/listener.h",
+    "unreleased_history/public_api_changes/on_db_shutdown_begin.md"
+   ],
+   "test_files": [
+    "db/listener_test.cc",
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 570
+  },
+  {
+   "number": "02941016d0",
+   "title": "Fix seqno sync race with WriteUnprepared (#14864)",
+   "url": "https://github.com/facebook/rocksdb/pull/14864",
+   "merged_at": "2026-06-21",
+   "additions": 282,
+   "deletions": 13,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_debug.cc",
+    "db/version_set.h"
+   ],
+   "test_files": [
+    "utilities/transactions/write_prepared_transaction_seqno_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "version"
+   ],
+   "horizon_score": 562
+  },
+  {
+   "number": "fc85a700cf",
+   "title": "Fix memory accounting leak in IODispatcher ReadIndex() (#14569)",
+   "url": "https://github.com/facebook/rocksdb/pull/14569",
+   "merged_at": "2026-04-06",
+   "additions": 162,
+   "deletions": 2,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/bug_fixes/io_dispatcher_memory_leak.md",
+    "util/io_dispatcher_imp.cc"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "util/io_dispatcher_test.cc"
+   ],
+   "theme_hits": [
+    "crash",
+    "index",
+    "lease"
+   ],
+   "horizon_score": 562
+  },
+  {
+   "number": "7832ee886f",
+   "title": "db_stress: fix prefix scan correctness and crashtest stability (#14512)",
+   "url": "https://github.com/facebook/rocksdb/pull/14512",
+   "merged_at": "2026-04-01",
+   "additions": 241,
+   "deletions": 10,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".claude/settings.local.json",
+    "Makefile",
+    "db_stress_tool/batched_ops_stress.cc",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "tools/db_crashtest_test.py",
+    "utilities/trie_index/trie_index_db_test.cc"
+   ],
+   "theme_hits": [
+    "crash"
+   ],
+   "horizon_score": 561
+  },
+  {
+   "number": "42eff8b632",
+   "title": "Add new heauristic 'num_collapsible_entry_reads_sampled' (#14434)",
+   "url": "https://github.com/facebook/rocksdb/pull/14434",
+   "merged_at": "2026-03-09",
+   "additions": 225,
+   "deletions": 26,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/table_cache.cc",
+    "db/version_edit.h",
+    "db/version_set.cc",
+    "db/version_set_sync_and_async.h",
+    "monitoring/file_read_sample.h",
+    "table/merging_iterator.cc",
+    "unreleased_history/behavior_changes/num_reads_sampled"
+   ],
+   "test_files": [
+    "db/db_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "version"
+   ],
+   "horizon_score": 545
+  },
+  {
+   "number": "0f493506d9",
+   "title": "Verify CPU corruption after op via --verify_cpu_corruption_dir (#14852)",
+   "url": "https://github.com/facebook/rocksdb/pull/14852",
+   "merged_at": "2026-07-01",
+   "additions": 344,
+   "deletions": 73,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "db_stress_tool/no_batched_ops_stress.cc"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [],
+   "horizon_score": 544
+  },
+  {
+   "number": "1ed5052486",
+   "title": "Prepopulate block cache during compaction (#14445)",
+   "url": "https://github.com/facebook/rocksdb/pull/14445",
+   "merged_at": "2026-03-10",
+   "additions": 181,
+   "deletions": 24,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/table.h",
+    "table/block_based/block_based_table_builder.cc",
+    "table/block_based/block_based_table_factory.cc",
+    "tools/db_bench_tool.cc",
+    "tools/db_crashtest.py",
+    "unreleased_history/new_features/prepopulate_block_cache_on_compaction.md"
+   ],
+   "test_files": [
+    "db/db_block_cache_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "crash",
+    "lease"
+   ],
+   "horizon_score": 541
+  },
+  {
+   "number": "9381544cd9",
+   "title": "Add num-running-remote-compactions DB property (#15074)",
+   "url": "https://github.com/facebook/rocksdb/pull/15074",
+   "merged_at": "2026-08-11",
+   "additions": 166,
+   "deletions": 13,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/compaction/compaction_job.cc",
+    "db/compaction/compaction_job.h",
+    "db/compaction/compaction_service_job.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/internal_stats.cc",
+    "db/internal_stats.h",
+    "include/rocksdb/db.h",
+    "unreleased_history/new_features/num_running_remote_compactions_property.md"
+   ],
+   "test_files": [
+    "db/compaction/compaction_service_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 526
+  },
+  {
+   "number": "7b06a9ae7e",
+   "title": "Track blob garbage during flush of direct-write blob references (#14623)",
+   "url": "https://github.com/facebook/rocksdb/pull/14623",
+   "merged_at": "2026-04-16",
+   "additions": 324,
+   "deletions": 19,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/builder.cc",
+    "db/builder.h",
+    "db/flush_job.cc",
+    "unreleased_history/bug_fixes/blob_direct_write_flush_blob_garbage.md"
+   ],
+   "test_files": [
+    "db/wide/db_wide_blob_direct_write_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 524
+  },
+  {
+   "number": "2b628ccfe5",
+   "title": "Preserve fast_sst_open metadata across MANIFEST rotation (#14987)",
+   "url": "https://github.com/facebook/rocksdb/pull/14987",
+   "merged_at": "2026-07-22",
+   "additions": 160,
+   "deletions": 27,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_compaction_flush.cc",
+    "db/db_impl/db_impl_experimental.cc",
+    "db/db_impl/db_impl_open.cc",
+    "db/experimental.cc",
+    "db/version_edit.h",
+    "db/version_set.cc"
+   ],
+   "test_files": [
+    "db/db_etc2_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 520
+  },
+  {
+   "number": "db1adf47bb",
+   "title": "Add bootstrap configuration for RocksDB external tables",
+   "url": "https://github.com/facebook/rocksdb/commit/db1adf47bbc87f0d0466bb446552b1ba12750ecd",
+   "merged_at": "2026-08-18",
+   "additions": 304,
+   "deletions": 4,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/external_table.h",
+    "options/cf_options.cc",
+    "table/external_table.cc",
+    "unreleased_history/public_api_changes/external_table_config.md"
+   ],
+   "test_files": [
+    "table/table_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 504
+  },
+  {
+   "number": "5f66923d1e",
+   "title": "External file ingestion, support fast prepare path from DB generated files (#14854)",
+   "url": "https://github.com/facebook/rocksdb/pull/14854",
+   "merged_at": "2026-06-16",
+   "additions": 173,
+   "deletions": 14,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "include/rocksdb/utilities/stackable_db.h",
+    "table/prepared_file_info.h",
+    "unreleased_history/public_api_changes/get_prepared_file_info_for_external_sst_ingestion.md"
+   ],
+   "test_files": [
+    "db/db_test.cc",
+    "db/external_sst_file_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 493
+  },
+  {
+   "number": "023fbb074a",
+   "title": "Optimize MultiScan dispatch for sorted blocks (#14783)",
+   "url": "https://github.com/facebook/rocksdb/pull/14783",
+   "merged_at": "2026-06-01",
+   "additions": 245,
+   "deletions": 23,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/io_dispatcher.h",
+    "table/block_based/block_based_table_iterator.cc",
+    "util/io_dispatcher_imp.cc"
+   ],
+   "test_files": [
+    "db/db_iter_test.cc",
+    "db/db_iterator_test.cc",
+    "util/io_dispatcher_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 485
+  },
+  {
+   "number": "dcf3db95a6",
+   "title": "Make concurrent Memtable stats more robust (#14506)",
+   "url": "https://github.com/facebook/rocksdb/pull/14506",
+   "merged_at": "2026-03-25",
+   "additions": 171,
+   "deletions": 30,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl_write.cc",
+    "db/memtable.cc",
+    "db/memtable.h",
+    "db/memtable_list.cc",
+    "db/memtable_list.h",
+    "memtable/wbwi_memtable.h"
+   ],
+   "test_files": [
+    "db/db_memtable_test.cc",
+    "db/db_properties_test.cc",
+    "db/memtable_list_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 471
+  },
+  {
+   "number": "6cceef9497",
+   "title": "Bug fixes: surface embedded-blob resolution errors (#14906)",
+   "url": "https://github.com/facebook/rocksdb/pull/14906",
+   "merged_at": "2026-07-01",
+   "additions": 242,
+   "deletions": 9,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/blob/blob_constants.h",
+    "db/version_edit.cc",
+    "db/version_set.cc",
+    "table/block_based/block_based_table_reader.cc",
+    "table/block_based/embedded_blob_resolving_iterator.h"
+   ],
+   "test_files": [
+    "db/blob/db_blob_index_test.cc"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 462
+  },
+  {
+   "number": "d3a82f28ce",
+   "title": "Optimize SstPartitioner overhead in compaction via ShouldPartitionByPrefix() (#15118)",
+   "url": "https://github.com/facebook/rocksdb/pull/15118",
+   "merged_at": "2026-08-19",
+   "additions": 179,
+   "deletions": 9,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/compaction/compaction_outputs.cc",
+    "db/compaction/compaction_outputs.h",
+    "include/rocksdb/sst_partitioner.h",
+    "tools/db_bench_tool.cc",
+    "unreleased_history/performance_improvements/sst_partitioner_should_partition_by_prefix.md"
+   ],
+   "test_files": [
+    "db/db_compaction_test.cc"
+   ],
+   "theme_hits": [
+    "compact",
+    "lease"
+   ],
+   "horizon_score": 459
+  },
+  {
+   "number": "4b9070bccb",
+   "title": "Defer obsolete OPTIONS file deletion on open (#15004)",
+   "url": "https://github.com/facebook/rocksdb/pull/15004",
+   "merged_at": "2026-07-29",
+   "additions": 256,
+   "deletions": 9,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_open.cc",
+    "unreleased_history/performance_improvements/delete-obsolete-options-files-background-on-open.md"
+   ],
+   "test_files": [
+    "db/options_file_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 456
+  },
+  {
+   "number": "9475798205",
+   "title": "Refresh recovery plan after error escalation (#15111)",
+   "url": "https://github.com/facebook/rocksdb/pull/15111",
+   "merged_at": "2026-08-17",
+   "additions": 168,
+   "deletions": 27,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.h",
+    "db/db_impl/db_impl_debug.cc",
+    "db/error_handler.cc",
+    "db/error_handler.h",
+    "unreleased_history/bug_fixes/error_recovery_stale_retry_flush_plan.md"
+   ],
+   "test_files": [
+    "db/error_handler_fs_test.cc"
+   ],
+   "theme_hits": [
+    "lease",
+    "recover"
+   ],
+   "horizon_score": 448
+  },
+  {
+   "number": "1a4b1e42cc",
+   "title": "Add include_blob_files option to GetApproximateSizes (#14501)",
+   "url": "https://github.com/facebook/rocksdb/pull/14501",
+   "merged_at": "2026-03-27",
+   "additions": 207,
+   "deletions": 16,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "include/rocksdb/c.h",
+    "include/rocksdb/db.h",
+    "include/rocksdb/options.h",
+    "java/rocksjni/rocksjni.cc",
+    "java/src/main/java/org/rocksdb/SizeApproximationFlag.java"
+   ],
+   "test_files": [
+    "db/blob/db_blob_basic_test.cc",
+    "db_stress_tool/db_stress_test_base.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 447
+  },
+  {
+   "number": "dcb5c2bf53",
+   "title": "Restore MultiScan prefetch stats dropped in the IODispatcher refactor (#14991)",
+   "url": "https://github.com/facebook/rocksdb/pull/14991",
+   "merged_at": "2026-07-23",
+   "additions": 192,
+   "deletions": 4,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/io_dispatcher.h",
+    "include/rocksdb/perf_context.h",
+    "monitoring/perf_context.cc",
+    "table/block_based/block_based_table_iterator.cc",
+    "table/block_based/multi_scan_index_iterator.cc",
+    "util/io_dispatcher_imp.cc"
+   ],
+   "test_files": [
+    "db/db_iterator_test.cc"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 432
+  },
+  {
+   "number": "f620a6d039",
+   "title": "Support Pinnable Reads In SstFileReader (#14500)",
+   "url": "https://github.com/facebook/rocksdb/pull/14500",
+   "merged_at": "2026-03-25",
+   "additions": 185,
+   "deletions": 48,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/sst_file_reader.h",
+    "table/sst_file_reader.cc",
+    "unreleased_history/public_api_changes/sst_file_reader_pinnable_multiget.md"
+   ],
+   "test_files": [
+    "table/sst_file_reader_test.cc",
+    "table/table_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 425
+  },
+  {
+   "number": "04cad97e7e",
+   "title": "Stress test concurrent primary and read-only DB on the same directory (#14938)",
+   "url": "https://github.com/facebook/rocksdb/pull/14938",
+   "merged_at": "2026-07-20",
+   "additions": 164,
+   "deletions": 33,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_common.h",
+    "db_stress_tool/db_stress_gflags.cc",
+    "db_stress_tool/db_stress_tool.cc",
+    "tools/db_crashtest.py"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [
+    "crash"
+   ],
+   "horizon_score": 424
+  },
+  {
+   "number": "4254c705a2",
+   "title": "env: reset TSAN state for recycled mappings (#14594)",
+   "url": "https://github.com/facebook/rocksdb/pull/14594",
+   "merged_at": "2026-04-10",
+   "additions": 297,
+   "deletions": 1,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "env/fs_posix.cc",
+    "env/io_posix.cc",
+    "env/io_posix.h"
+   ],
+   "test_files": [
+    "env/env_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 417
+  },
+  {
+   "number": "0c0bfbe8be",
+   "title": "Add hard-link support to CopyEngine [3/4] (#14947)",
+   "url": "https://github.com/facebook/rocksdb/pull/14947",
+   "merged_at": "2026-07-24",
+   "additions": 224,
+   "deletions": 2,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "BUCK",
+    "CMakeLists.txt",
+    "Makefile",
+    "src.mk",
+    "utilities/copy_engine/copy_engine.cc",
+    "utilities/copy_engine/copy_engine.h"
+   ],
+   "test_files": [
+    "utilities/copy_engine/copy_engine_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 404
+  },
+  {
+   "number": "2904bc64dc",
+   "title": "Encapsulate path access in StressTest via accessors (#14756)",
+   "url": "https://github.com/facebook/rocksdb/pull/14756",
+   "merged_at": "2026-05-20",
+   "additions": 164,
+   "deletions": 133,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_driver.cc",
+    "db_stress_tool/db_stress_listener.cc",
+    "db_stress_tool/db_stress_listener.h",
+    "db_stress_tool/db_stress_shared_state.cc",
+    "db_stress_tool/db_stress_shared_state.h",
+    "db_stress_tool/no_batched_ops_stress.cc"
+   ],
+   "test_files": [
+    "db_stress_tool/db_stress_test_base.cc",
+    "db_stress_tool/db_stress_test_base.h"
+   ],
+   "theme_hits": [],
+   "horizon_score": 404
+  },
+  {
+   "number": "763401b595",
+   "title": "Add ParseCompressionNameForDisplay API (#14637)",
+   "url": "https://github.com/facebook/rocksdb/pull/14637",
+   "merged_at": "2026-04-23",
+   "additions": 153,
+   "deletions": 0,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/table_properties.h",
+    "table/table_properties.cc",
+    "unreleased_history/new_features/parse_compression_name_for_display.md"
+   ],
+   "test_files": [
+    "db/db_table_properties_test.cc"
+   ],
+   "theme_hits": [
+    "compress",
+    "lease"
+   ],
+   "horizon_score": 393
+  },
+  {
+   "number": "b7395b3fa4",
+   "title": "Allow Compressor to override parallel_threads for SST building (#14580)",
+   "url": "https://github.com/facebook/rocksdb/pull/14580",
+   "merged_at": "2026-04-09",
+   "additions": 197,
+   "deletions": 11,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/advanced_compression.h",
+    "table/block_based/block_based_table_builder.cc",
+    "util/compression.cc"
+   ],
+   "test_files": [
+    "util/compression_test.cc"
+   ],
+   "theme_hits": [
+    "compress"
+   ],
+   "horizon_score": 377
+  },
+  {
+   "number": "304ae7190a",
+   "title": "Support ExternalTable PinnableSlice Get (#14497)",
+   "url": "https://github.com/facebook/rocksdb/pull/14497",
+   "merged_at": "2026-03-24",
+   "additions": 196,
+   "deletions": 14,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/external_table.h",
+    "table/external_table.cc",
+    "unreleased_history/public_api_changes/external_table_reader_pinnable_slice.md"
+   ],
+   "test_files": [
+    "table/table_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 376
+  },
+  {
+   "number": "a4e298b8c4",
+   "title": "Validate block entry bounds in release builds (#15200)",
+   "url": "https://github.com/facebook/rocksdb/pull/15200",
+   "merged_at": "2026-09-11",
+   "additions": 191,
+   "deletions": 46,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "table/block_based/block.cc",
+    "table/block_based/block.h",
+    "table/block_based/block_util.h"
+   ],
+   "test_files": [
+    "table/block_based/block_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 371
+  },
+  {
+   "number": "30ba4908ba",
+   "title": "Enforce value_size_soft_limit for direct-write blob values in MultiGet (#14983)",
+   "url": "https://github.com/facebook/rocksdb/pull/14983",
+   "merged_at": "2026-07-22",
+   "additions": 180,
+   "deletions": 16,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db/db_impl/db_impl.cc",
+    "include/rocksdb/options.h",
+    "unreleased_history/behavior_changes/multiget_value_size_soft_limit_blob_direct_write.md"
+   ],
+   "test_files": [
+    "db/wide/db_wide_blob_direct_write_test.cc"
+   ],
+   "theme_hits": [
+    "lease"
+   ],
+   "horizon_score": 360
+  },
+  {
+   "number": "03c3c090fb",
+   "title": "Measure IODispatcher async read latency (#15001)",
+   "url": "https://github.com/facebook/rocksdb/pull/15001",
+   "merged_at": "2026-07-24",
+   "additions": 151,
+   "deletions": 10,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "include/rocksdb/io_dispatcher.h",
+    "include/rocksdb/statistics.h",
+    "java/rocksjni/portal.h",
+    "java/src/main/java/org/rocksdb/HistogramType.java",
+    "monitoring/statistics.cc",
+    "util/io_dispatcher_imp.cc"
+   ],
+   "test_files": [
+    "util/io_dispatcher_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 331
+  },
+  {
+   "number": "36e50a61fc",
+   "title": "db_stress: exclude info logs from metadata read faults (#14616)",
+   "url": "https://github.com/facebook/rocksdb/pull/14616",
+   "merged_at": "2026-04-17",
+   "additions": 175,
+   "deletions": 9,
+   "changed_files": 4,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "db_stress_tool/db_stress_tool.cc",
+    "utilities/fault_injection_fs.cc",
+    "utilities/fault_injection_fs.h"
+   ],
+   "test_files": [
+    "utilities/fault_injection_fs_test.cc"
+   ],
+   "theme_hits": [],
+   "horizon_score": 295
+  }
+ ]
+}

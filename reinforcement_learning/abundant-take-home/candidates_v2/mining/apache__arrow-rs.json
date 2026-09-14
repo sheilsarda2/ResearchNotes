@@ -1,0 +1,802 @@
+{
+ "repo": "apache/arrow-rs",
+ "mined_at": "2026-09-13T10:09:11.310661Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 1010,
+ "candidates": 20,
+ "prs": [
+  {
+   "number": 10141,
+   "title": "feat(parquet): `RowSelection` can be backed by a `BooleanBuffer`",
+   "url": "https://github.com/apache/arrow-rs/pull/10141",
+   "merged_at": "2026-07-24",
+   "additions": 2693,
+   "deletions": 491,
+   "changed_files": 8,
+   "labels": [
+    "parquet",
+    "performance"
+   ],
+   "issues": [
+    {
+     "n": 8844,
+     "title": "[Parquet] Avoid Mask --> RowSelection --> Mask conversion to improve predicate pushdown performance",
+     "url": "https://github.com/apache/arrow-rs/issues/8844"
+    },
+    {
+     "n": 10140,
+     "title": "Allow `RowSelection` to be backed by a `BooleanBuffer` to reduce memory usage",
+     "url": "https://github.com/apache/arrow-rs/issues/10140"
+    }
+   ],
+   "src_files": [
+    "parquet/Cargo.toml",
+    "parquet/benches/row_selection_cursor.rs",
+    "parquet/benches/row_selector_boolean_buffer.rs",
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_reader/read_plan.rs",
+    "parquet/src/arrow/arrow_reader/selection/boolean.rs",
+    "parquet/src/arrow/arrow_reader/selection/mod.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/row_filter/async.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 2953
+  },
+  {
+   "number": 10533,
+   "title": "Introduce workspace lints",
+   "url": "https://github.com/apache/arrow-rs/pull/10533",
+   "merged_at": "2026-08-04",
+   "additions": 297,
+   "deletions": 119,
+   "changed_files": 89,
+   "labels": [
+    "parquet",
+    "arrow",
+    "arrow-flight",
+    "development-process",
+    "parquet-derive",
+    "parquet-variant",
+    "arrow-avro",
+    "parquet-geospatial",
+    "arrow-string",
+    "arrow-select"
+   ],
+   "issues": [],
+   "src_files": [
+    "CONTRIBUTING.md",
+    "Cargo.toml",
+    "arrow-arith/Cargo.toml",
+    "arrow-array/Cargo.toml",
+    "arrow-array/src/array/boolean_array.rs",
+    "arrow-array/src/array/union_array.rs",
+    "arrow-array/src/builder/primitive_run_builder.rs",
+    "arrow-array/src/ffi_stream.rs",
+    "arrow-array/src/record_batch.rs",
+    "arrow-avro/Cargo.toml",
+    "arrow-avro/src/codec.rs",
+    "arrow-avro/src/schema.rs",
+    "arrow-avro/src/writer/encoder.rs",
+    "arrow-buffer/Cargo.toml",
+    "arrow-buffer/src/bigint/mod.rs",
+    "arrow-buffer/src/buffer/immutable.rs",
+    "arrow-buffer/src/util/bit_iterator.rs",
+    "arrow-cast/Cargo.toml",
+    "arrow-cast/src/cast/mod.rs",
+    "arrow-csv/Cargo.toml",
+    "arrow-data/Cargo.toml",
+    "arrow-data/src/decimal.rs",
+    "arrow-data/src/ffi.rs",
+    "arrow-flight/Cargo.toml",
+    "arrow-flight/gen/Cargo.toml",
+    "arrow-flight/gen/src/main.rs",
+    "arrow-flight/src/bin/flight_sql_client.rs",
+    "arrow-flight/src/encode.rs",
+    "arrow-flight/src/sql/metadata/tables.rs",
+    "arrow-integration-test/Cargo.toml",
+    "arrow-integration-testing/Cargo.toml",
+    "arrow-integration-testing/src/bin/arrow-file-to-stream.rs",
+    "arrow-integration-testing/src/bin/arrow-json-integration-test.rs",
+    "arrow-integration-testing/src/bin/arrow-stream-to-file.rs",
+    "arrow-integration-testing/src/bin/flight-test-integration-client.rs",
+    "arrow-integration-testing/src/bin/flight-test-integration-server.rs",
+    "arrow-ipc/Cargo.toml",
+    "arrow-ipc/src/convert.rs",
+    "arrow-ipc/src/reader.rs",
+    "arrow-json/Cargo.toml"
+   ],
+   "test_files": [
+    "arrow-flight/tests/flight_sql_client.rs",
+    "arrow/src/util/test_util.rs",
+    "arrow/tests/shrink_to_fit.rs",
+    "parquet/src/util/test_common/file_util.rs",
+    "parquet/tests/arrow_reader/row_filter/async.rs"
+   ],
+   "theme_hits": [
+    "codec",
+    "encod",
+    "ipc",
+    "parquet",
+    "schema"
+   ],
+   "horizon_score": 2577
+  },
+  {
+   "number": 9848,
+   "title": "feat(parquet): selective null padding for list child readers ",
+   "url": "https://github.com/apache/arrow-rs/pull/9848",
+   "merged_at": "2026-07-02",
+   "additions": 1440,
+   "deletions": 405,
+   "changed_files": 28,
+   "labels": [
+    "parquet",
+    "arrow",
+    "performance"
+   ],
+   "issues": [],
+   "src_files": [
+    "arrow-buffer/src/builder/boolean.rs",
+    "parquet/benches/arrow_reader.rs",
+    "parquet/benches/arrow_reader_peak_memory.rs",
+    "parquet/src/arrow/array_reader/builder.rs",
+    "parquet/src/arrow/array_reader/byte_array.rs",
+    "parquet/src/arrow/array_reader/byte_array_dictionary.rs",
+    "parquet/src/arrow/array_reader/byte_view_array.rs",
+    "parquet/src/arrow/array_reader/cached_array_reader.rs",
+    "parquet/src/arrow/array_reader/fixed_len_byte_array.rs",
+    "parquet/src/arrow/array_reader/fixed_size_list_array.rs",
+    "parquet/src/arrow/array_reader/list_array.rs",
+    "parquet/src/arrow/array_reader/list_view_array.rs",
+    "parquet/src/arrow/array_reader/map_array.rs",
+    "parquet/src/arrow/array_reader/mod.rs",
+    "parquet/src/arrow/array_reader/null_array.rs",
+    "parquet/src/arrow/array_reader/primitive_array.rs",
+    "parquet/src/arrow/array_reader/struct_array.rs",
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_reader/read_plan.rs",
+    "parquet/src/arrow/buffer/dictionary_buffer.rs",
+    "parquet/src/arrow/buffer/offset_buffer.rs",
+    "parquet/src/arrow/buffer/view_buffer.rs",
+    "parquet/src/arrow/record_reader/buffer.rs",
+    "parquet/src/arrow/record_reader/definition_levels.rs",
+    "parquet/src/arrow/record_reader/mod.rs",
+    "parquet/src/column/reader.rs",
+    "parquet/src/util/bit_util.rs"
+   ],
+   "test_files": [
+    "parquet/src/arrow/array_reader/test_util.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 2100
+  },
+  {
+   "number": 9972,
+   "title": "fix(parquet): bound data page byte size for large variable-width values",
+   "url": "https://github.com/apache/arrow-rs/pull/9972",
+   "merged_at": "2026-06-04",
+   "additions": 1525,
+   "deletions": 15,
+   "changed_files": 6,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [
+    {
+     "n": 10061,
+     "title": "Parquet writer can produce massively oversized data pages for large variable-width values",
+     "url": "https://github.com/apache/arrow-rs/issues/10061"
+    }
+   ],
+   "src_files": [
+    "parquet/src/arrow/arrow_writer/byte_array.rs",
+    "parquet/src/arrow/arrow_writer/mod.rs",
+    "parquet/src/column/writer/byte_budget_chunker.rs",
+    "parquet/src/column/writer/encoder.rs",
+    "parquet/src/column/writer/mod.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_writer_layout.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1745
+  },
+  {
+   "number": 10020,
+   "title": "Pluggable page spilling API for the Parquet ArrowWriter (PageStore)",
+   "url": "https://github.com/apache/arrow-rs/pull/10020",
+   "merged_at": "2026-06-04",
+   "additions": 1127,
+   "deletions": 50,
+   "changed_files": 7,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [
+    {
+     "n": 10071,
+     "title": "Bound ArrowWriter peak memory ",
+     "url": "https://github.com/apache/arrow-rs/issues/10071"
+    }
+   ],
+   "src_files": [
+    "parquet/src/arrow/arrow_writer/mod.rs",
+    "parquet/src/column/mod.rs",
+    "parquet/src/column/page.rs",
+    "parquet/src/column/page_store.rs",
+    "parquet/src/column/writer/mod.rs",
+    "parquet/src/file/writer.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_writer.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1367
+  },
+  {
+   "number": 10351,
+   "title": "[58_maintenance] [parquet] Allow more encryption algorithms (#9203)",
+   "url": "https://github.com/apache/arrow-rs/pull/10351",
+   "merged_at": "2026-07-17",
+   "additions": 1015,
+   "deletions": 536,
+   "changed_files": 5,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet-testing",
+    "parquet/src/encryption/ciphers.rs"
+   ],
+   "test_files": [
+    "parquet/tests/encryption/encryption.rs",
+    "parquet/tests/encryption/encryption_async.rs",
+    "parquet/tests/encryption/encryption_util.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1295
+  },
+  {
+   "number": 9203,
+   "title": "[parquet] Allow more encryption algorithms",
+   "url": "https://github.com/apache/arrow-rs/pull/9203",
+   "merged_at": "2026-05-20",
+   "additions": 1015,
+   "deletions": 536,
+   "changed_files": 5,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [
+    {
+     "n": 9202,
+     "title": "[Parquet] Support other encryption/decryption key size",
+     "url": "https://github.com/apache/arrow-rs/issues/9202"
+    }
+   ],
+   "src_files": [
+    "parquet-testing",
+    "parquet/src/encryption/ciphers.rs"
+   ],
+   "test_files": [
+    "parquet/tests/encryption/encryption.rs",
+    "parquet/tests/encryption/encryption_async.rs",
+    "parquet/tests/encryption/encryption_util.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1295
+  },
+  {
+   "number": 10803,
+   "title": "enable miri workflow for parquet crate",
+   "url": "https://github.com/apache/arrow-rs/pull/10803",
+   "merged_at": "2026-08-29",
+   "additions": 243,
+   "deletions": 5,
+   "changed_files": 30,
+   "labels": [
+    "parquet",
+    "development-process"
+   ],
+   "issues": [
+    {
+     "n": 614,
+     "title": "Get MIRI running against parquet crate",
+     "url": "https://github.com/apache/arrow-rs/issues/614"
+    }
+   ],
+   "src_files": [
+    ".github/workflows/miri.sh",
+    ".github/workflows/miri.yaml",
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_reader/read_plan.rs",
+    "parquet/src/arrow/arrow_reader/selection/algebra.rs",
+    "parquet/src/arrow/arrow_reader/selection/boolean.rs",
+    "parquet/src/arrow/arrow_writer/mod.rs",
+    "parquet/src/arrow/mod.rs",
+    "parquet/src/bloom_filter/mod.rs",
+    "parquet/src/column/chunker/cdc.rs",
+    "parquet/src/column/reader/decoder.rs",
+    "parquet/src/column/writer/mod.rs",
+    "parquet/src/compression.rs",
+    "parquet/src/encodings/decoding.rs",
+    "parquet/src/encodings/encoding/mod.rs",
+    "parquet/src/encodings/rle.rs",
+    "parquet/src/file/metadata/reader.rs",
+    "parquet/src/file/serialized_reader.rs",
+    "parquet/src/file/writer.rs",
+    "parquet/src/record/api.rs",
+    "parquet/src/record/reader.rs",
+    "parquet/src/record/triplet.rs",
+    "parquet/src/util/bit_util.rs",
+    "parquet/src/util/prefix.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/bad_data.rs",
+    "parquet/tests/arrow_reader/bloom_filter/sync.rs",
+    "parquet/tests/arrow_reader/statistics.rs",
+    "parquet/tests/arrow_writer/layout.rs",
+    "parquet/tests/arrow_writer/mod.rs",
+    "parquet/tests/ieee754_nan_interop.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1143
+  },
+  {
+   "number": 10288,
+   "title": "fix(parquet): support mask filtering across skipped pages",
+   "url": "https://github.com/apache/arrow-rs/pull/10288",
+   "merged_at": "2026-07-20",
+   "additions": 845,
+   "deletions": 220,
+   "changed_files": 6,
+   "labels": [
+    "parquet",
+    "enhancement"
+   ],
+   "issues": [
+    {
+     "n": 8845,
+     "title": "[Parquet] Support skipping pages with mask based evaluation",
+     "url": "https://github.com/apache/arrow-rs/issues/8845"
+    }
+   ],
+   "src_files": [
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_reader/read_plan.rs",
+    "parquet/src/arrow/arrow_reader/selection.rs",
+    "parquet/src/arrow/push_decoder/reader_builder/mod.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/row_filter/async.rs",
+    "parquet/tests/arrow_reader/row_filter/sync.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1105
+  },
+  {
+   "number": 10354,
+   "title": "parquet: deprecate explicit `object_store` integration",
+   "url": "https://github.com/apache/arrow-rs/pull/10354",
+   "merged_at": "2026-07-31",
+   "additions": 748,
+   "deletions": 57,
+   "changed_files": 12,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet/Cargo.toml",
+    "parquet/benches/arrow_reader_clickbench.rs",
+    "parquet/examples/object_store.rs",
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_reader/selection/mod.rs",
+    "parquet/src/arrow/async_reader/mod.rs",
+    "parquet/src/arrow/async_reader/spawn.rs",
+    "parquet/src/arrow/async_reader/store.rs",
+    "parquet/src/arrow/async_writer/mod.rs",
+    "parquet/src/arrow/async_writer/store.rs",
+    "parquet/src/lib.rs"
+   ],
+   "test_files": [
+    "parquet/tests/encryption/encryption_async.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1088
+  },
+  {
+   "number": 9710,
+   "title": "Fix deprecate `MutableArrayData::extend` and `MutableArrayData::extend_nulls` in favour of fallible `try_extend` / `try_extend_nulls`",
+   "url": "https://github.com/apache/arrow-rs/pull/9710",
+   "merged_at": "2026-06-26",
+   "additions": 467,
+   "deletions": 233,
+   "changed_files": 26,
+   "labels": [
+    "parquet",
+    "arrow"
+   ],
+   "issues": [
+    {
+     "n": 9709,
+     "title": "Deprecate `MutableArrayData::extend` and `MutableArrayData::extend_nulls` in favour of fallible `try_extend` / `try_extend_nulls`",
+     "url": "https://github.com/apache/arrow-rs/issues/9709"
+    }
+   ],
+   "src_files": [
+    "arrow-array/src/array/null_array.rs",
+    "arrow-array/src/ffi.rs",
+    "arrow-cast/src/cast/list.rs",
+    "arrow-data/src/transform/boolean.rs",
+    "arrow-data/src/transform/fixed_binary.rs",
+    "arrow-data/src/transform/fixed_size_list.rs",
+    "arrow-data/src/transform/list.rs",
+    "arrow-data/src/transform/list_view.rs",
+    "arrow-data/src/transform/mod.rs",
+    "arrow-data/src/transform/null.rs",
+    "arrow-data/src/transform/primitive.rs",
+    "arrow-data/src/transform/run.rs",
+    "arrow-data/src/transform/structure.rs",
+    "arrow-data/src/transform/union.rs",
+    "arrow-data/src/transform/utils.rs",
+    "arrow-data/src/transform/variable_size.rs",
+    "arrow-select/src/concat.rs",
+    "arrow-select/src/filter.rs",
+    "arrow-select/src/interleave.rs",
+    "arrow-select/src/merge.rs",
+    "arrow-select/src/take.rs",
+    "arrow-select/src/zip.rs",
+    "arrow/benches/mutable_array.rs",
+    "parquet/src/arrow/array_reader/fixed_size_list_array.rs",
+    "parquet/src/arrow/array_reader/list_array.rs"
+   ],
+   "test_files": [
+    "arrow/tests/array_transform.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1087
+  },
+  {
+   "number": 9357,
+   "title": "feat: add max_row_group_bytes option to WriterProperties",
+   "url": "https://github.com/apache/arrow-rs/pull/9357",
+   "merged_at": "2026-02-10",
+   "additions": 369,
+   "deletions": 61,
+   "changed_files": 20,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet/benches/arrow_statistics.rs",
+    "parquet/benches/parquet_round_trip.rs",
+    "parquet/benches/row_group_index_reader.rs",
+    "parquet/src/arrow/array_reader/list_array.rs",
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/arrow_writer/mod.rs",
+    "parquet/src/arrow/async_reader/mod.rs",
+    "parquet/src/arrow/async_writer/mod.rs",
+    "parquet/src/arrow/push_decoder/mod.rs",
+    "parquet/src/bin/parquet-fromcsv.rs",
+    "parquet/src/bin/parquet-rewrite.rs",
+    "parquet/src/file/metadata/push_decoder.rs",
+    "parquet/src/file/properties.rs",
+    "parquet/src/file/writer.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/io/mod.rs",
+    "parquet/tests/arrow_reader/mod.rs",
+    "parquet/tests/arrow_reader/predicate_cache.rs",
+    "parquet/tests/arrow_reader/row_filter/async.rs",
+    "parquet/tests/arrow_reader/statistics.rs",
+    "parquet/tests/encryption/encryption.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1069
+  },
+  {
+   "number": 9355,
+   "title": "Move row_filter async tests from parquet async reader",
+   "url": "https://github.com/apache/arrow-rs/pull/9355",
+   "merged_at": "2026-02-05",
+   "additions": 552,
+   "deletions": 496,
+   "changed_files": 5,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet/src/arrow/async_reader/mod.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/io/mod.rs",
+    "parquet/tests/arrow_reader/row_filter/async.rs",
+    "parquet/tests/arrow_reader/row_filter/mod.rs",
+    "parquet/tests/arrow_reader/row_filter/sync.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 872
+  },
+  {
+   "number": 10352,
+   "title": "Add `proptest` fuzzing to parquet-variant and implement fixes for findings",
+   "url": "https://github.com/apache/arrow-rs/pull/10352",
+   "merged_at": "2026-08-26",
+   "additions": 576,
+   "deletions": 54,
+   "changed_files": 8,
+   "labels": [
+    "bug",
+    "parquet-variant"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "parquet-variant/Cargo.toml",
+    "parquet-variant/src/decoder.rs",
+    "parquet-variant/src/variant.rs",
+    "parquet-variant/src/variant/list.rs",
+    "parquet-variant/src/variant/metadata.rs",
+    "parquet-variant/src/variant/object.rs"
+   ],
+   "test_files": [
+    "parquet-variant/tests/proptest.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 836
+  },
+  {
+   "number": 9354,
+   "title": "Move bloom filter tests from parquet reader",
+   "url": "https://github.com/apache/arrow-rs/pull/9354",
+   "merged_at": "2026-02-04",
+   "additions": 249,
+   "deletions": 158,
+   "changed_files": 8,
+   "labels": [
+    "parquet",
+    "development-process"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet/src/arrow/arrow_reader/mod.rs",
+    "parquet/src/arrow/async_reader/mod.rs"
+   ],
+   "test_files": [
+    "parquet/tests/arrow_reader/bloom_filter/async.rs",
+    "parquet/tests/arrow_reader/bloom_filter/mod.rs",
+    "parquet/tests/arrow_reader/bloom_filter/sync.rs",
+    "parquet/tests/arrow_reader/io/mod.rs",
+    "parquet/tests/arrow_reader/mod.rs",
+    "parquet/tests/arrow_reader/predicate_cache.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 709
+  },
+  {
+   "number": 10647,
+   "title": "fix(arrow-ipc): return an error instead of panicking on malformed IPC schema",
+   "url": "https://github.com/apache/arrow-rs/pull/10647",
+   "merged_at": "2026-08-14",
+   "additions": 305,
+   "deletions": 134,
+   "changed_files": 10,
+   "labels": [
+    "parquet",
+    "arrow",
+    "arrow-flight",
+    "bug",
+    "arrow-ipc",
+    "arrow-integration-test"
+   ],
+   "issues": [
+    {
+     "n": 10437,
+     "title": "arrow-ipc: FileReader panics (unimplemented!/panic!) on malformed-but-parseable schema instead of returning Err",
+     "url": "https://github.com/apache/arrow-rs/issues/10437"
+    },
+    {
+     "n": 10575,
+     "title": "fb_to_schema panics on malformed IPC schema messages: unwrap() on optional FlatBuffer fields",
+     "url": "https://github.com/apache/arrow-rs/issues/10575"
+    }
+   ],
+   "src_files": [
+    "arrow-flight/src/sql/client.rs",
+    "arrow-flight/src/utils.rs",
+    "arrow-ipc/benches/ipc_reader.rs",
+    "arrow-ipc/src/convert.rs",
+    "arrow-ipc/src/reader.rs",
+    "arrow-ipc/src/reader/stream.rs",
+    "arrow-ipc/src/writer.rs",
+    "arrow/examples/zero_copy_ipc.rs",
+    "parquet/src/arrow/schema/mod.rs"
+   ],
+   "test_files": [
+    "arrow-integration-testing/src/flight_client_scenarios/integration_test.rs"
+   ],
+   "theme_hits": [
+    "ipc",
+    "parquet"
+   ],
+   "horizon_score": 665
+  },
+  {
+   "number": 10318,
+   "title": "[Variant] make `value` mandatory field for `VariantArray`/`ShreddingState`",
+   "url": "https://github.com/apache/arrow-rs/pull/10318",
+   "merged_at": "2026-07-23",
+   "additions": 307,
+   "deletions": 349,
+   "changed_files": 8,
+   "labels": [
+    "parquet",
+    "bug",
+    "parquet-variant"
+   ],
+   "issues": [
+    {
+     "n": 10306,
+     "title": "Variant: report that arrow-rs produces \"bad\" shredded variant",
+     "url": "https://github.com/apache/arrow-rs/issues/10306"
+    }
+   ],
+   "src_files": [
+    "parquet-variant-compute/src/from_json.rs",
+    "parquet-variant-compute/src/shred_variant.rs",
+    "parquet-variant-compute/src/unshred_variant.rs",
+    "parquet-variant-compute/src/variant_array.rs",
+    "parquet-variant-compute/src/variant_array_builder.rs",
+    "parquet-variant-compute/src/variant_get.rs",
+    "parquet-variant-compute/src/variant_to_arrow.rs"
+   ],
+   "test_files": [
+    "parquet/tests/variant_integration.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 567
+  },
+  {
+   "number": 9310,
+   "title": "[57_maintenance[Parquet] Provide only encrypted column stats in plaintext footer (#8305)",
+   "url": "https://github.com/apache/arrow-rs/pull/9310",
+   "merged_at": "2026-02-02",
+   "additions": 331,
+   "deletions": 73,
+   "changed_files": 5,
+   "labels": [
+    "parquet"
+   ],
+   "issues": [],
+   "src_files": [
+    "parquet/src/file/metadata/mod.rs",
+    "parquet/src/file/metadata/thrift/encryption.rs",
+    "parquet/src/file/metadata/thrift/mod.rs",
+    "parquet/src/file/metadata/writer.rs"
+   ],
+   "test_files": [
+    "parquet/tests/encryption/encryption.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 531
+  },
+  {
+   "number": 9997,
+   "title": "Use Thrift macro to generate Parquet `LogicalType` serialization code",
+   "url": "https://github.com/apache/arrow-rs/pull/9997",
+   "merged_at": "2026-05-22",
+   "additions": 259,
+   "deletions": 419,
+   "changed_files": 8,
+   "labels": [
+    "parquet",
+    "api-change"
+   ],
+   "issues": [
+    {
+     "n": 9995,
+     "title": "Switch Parquet `LogicalType` enum to macro generated version",
+     "url": "https://github.com/apache/arrow-rs/issues/9995"
+    }
+   ],
+   "src_files": [
+    "parquet/src/arrow/schema/extension.rs",
+    "parquet/src/arrow/schema/primitive.rs",
+    "parquet/src/basic.rs",
+    "parquet/src/column/writer/mod.rs",
+    "parquet/src/parquet_macros.rs",
+    "parquet/src/schema/printer.rs",
+    "parquet/src/schema/types.rs"
+   ],
+   "test_files": [
+    "parquet/tests/geospatial.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 519
+  },
+  {
+   "number": 10303,
+   "title": "Remove the unmaintained paste dependency from arrow",
+   "url": "https://github.com/apache/arrow-rs/pull/10303",
+   "merged_at": "2026-07-15",
+   "additions": 250,
+   "deletions": 207,
+   "changed_files": 8,
+   "labels": [
+    "parquet",
+    "arrow",
+    "arrow-flight",
+    "enhancement",
+    "parquet-variant"
+   ],
+   "issues": [
+    {
+     "n": 7598,
+     "title": "parquet relies on unmaintained dependency `paste`",
+     "url": "https://github.com/apache/arrow-rs/issues/7598"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "arrow-flight/Cargo.toml",
+    "arrow-flight/src/sql/mod.rs",
+    "parquet-variant/Cargo.toml",
+    "parquet-variant/src/decoder.rs",
+    "parquet/Cargo.toml",
+    "parquet/src/arrow/arrow_reader/statistics.rs"
+   ],
+   "test_files": [
+    "parquet/tests/variant_integration.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 510
+  }
+ ]
+}

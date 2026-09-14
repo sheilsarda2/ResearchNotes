@@ -1,0 +1,24 @@
+/cache/
+/tmp/
+/validation/work/
+
+# Local source checkouts and compiled reproductions; keep probes and observations.
+/rust-package-review/burn-repro/target/
+/rust-package-review/rerun-source/
+/rust-cpp-10-to-5/rust-other/checkouts/
+/rust-cpp-10-to-5/cpp/CLI11/
+/rust-cpp-10-to-5/cpp/assimp/
+/rust-cpp-10-to-5/cpp/assimp-build/
+/rust-cpp-10-to-5/cpp/range-v3/
+/rust-cpp-10-to-5/cpp/rapidjson/
+/rust-cpp-10-to-5/cpp/cli-help
+/rust-cpp-10-to-5/cpp/range-nth-upstream
+/rust-cpp-10-to-5/cpp/rapid-required
+/rust-cpp-10-to-5/cpp/rapid-required-reference
+/rust-cpp-10-to-5/cpp/schema-baseline-checks
+/rust-cpp-10-to-5/cpp/schema-reference-checks
+/rust-cpp-10-to-5/cpp/*.dSYM/
+
+# Runtime locks are local state; Cargo lockfiles pin reproducible probes.
+*.lock
+!Cargo.lock

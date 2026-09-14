@@ -1,0 +1,3176 @@
+{
+ "repo": "apache/datafusion",
+ "mined_at": "2026-09-13T10:10:11.632729Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 2643,
+ "candidates": 92,
+ "prs": [
+  {
+   "number": 24223,
+   "title": "test(proto): split roundtrip_physical_plan.rs by plan category",
+   "url": "https://github.com/apache/datafusion/pull/24223",
+   "merged_at": "2026-08-10",
+   "additions": 6438,
+   "deletions": 5786,
+   "changed_files": 19,
+   "labels": [
+    "proto"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "datafusion/proto/tests/cases/mod.rs",
+    "datafusion/proto/tests/cases/plans/aggregates.rs",
+    "datafusion/proto/tests/cases/plans/dispatch.rs",
+    "datafusion/proto/tests/cases/plans/dynamic_filters.rs",
+    "datafusion/proto/tests/cases/plans/exprs.rs",
+    "datafusion/proto/tests/cases/plans/filters.rs",
+    "datafusion/proto/tests/cases/plans/joins.rs",
+    "datafusion/proto/tests/cases/plans/leaves.rs",
+    "datafusion/proto/tests/cases/plans/limits.rs",
+    "datafusion/proto/tests/cases/plans/misc.rs",
+    "datafusion/proto/tests/cases/plans/mod.rs",
+    "datafusion/proto/tests/cases/plans/scalar_subquery.rs",
+    "datafusion/proto/tests/cases/plans/sinks.rs",
+    "datafusion/proto/tests/cases/plans/sorts.rs",
+    "datafusion/proto/tests/cases/plans/sources.rs",
+    "datafusion/proto/tests/cases/plans/tpch.rs",
+    "datafusion/proto/tests/cases/plans/udfs.rs",
+    "datafusion/proto/tests/cases/plans/windows.rs",
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 7578
+  },
+  {
+   "number": 23288,
+   "title": "Push sort requirements through simple projections",
+   "url": "https://github.com/apache/datafusion/pull/23288",
+   "merged_at": "2026-07-09",
+   "additions": 678,
+   "deletions": 306,
+   "changed_files": 43,
+   "labels": [
+    "optimizer",
+    "core",
+    "sqllogictest"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/sort_pushdown.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/core_integration.rs",
+    "datafusion/core/tests/dataframe/mod.rs",
+    "datafusion/core/tests/helper/mod.rs",
+    "datafusion/core/tests/helper/plan_metrics.rs",
+    "datafusion/core/tests/memory_limit/mod.rs",
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/core/tests/physical_optimizer/enforce_sorting.rs",
+    "datafusion/core/tests/physical_optimizer/ensure_requirements.rs",
+    "datafusion/core/tests/sql/explain_analyze.rs",
+    "datafusion/core/tests/sql/runtime_config.rs",
+    "datafusion/sqllogictest/test_files/aggregates_topk.slt",
+    "datafusion/sqllogictest/test_files/clickbench.slt",
+    "datafusion/sqllogictest/test_files/copy.slt",
+    "datafusion/sqllogictest/test_files/explain_analyze.slt",
+    "datafusion/sqllogictest/test_files/group_by.slt",
+    "datafusion/sqllogictest/test_files/insert_to_external.slt",
+    "datafusion/sqllogictest/test_files/joins.slt",
+    "datafusion/sqllogictest/test_files/limit.slt",
+    "datafusion/sqllogictest/test_files/order.slt",
+    "datafusion/sqllogictest/test_files/projection_pushdown.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 3218
+  },
+  {
+   "number": 24457,
+   "title": "feat(pwmj): support RightSemi/RightAnti existence joins",
+   "url": "https://github.com/apache/datafusion/pull/24457",
+   "merged_at": "2026-09-11",
+   "additions": 2570,
+   "deletions": 233,
+   "changed_files": 11,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "proto",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/core/src/physical_planner.rs",
+    "datafusion/physical-plan/src/joins/nested_loop_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/existence_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/mod.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/right_existence_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/utils.rs",
+    "datafusion/physical-plan/src/joins/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/join_fuzz.rs",
+    "datafusion/proto/tests/cases/plans/joins.rs",
+    "datafusion/sqllogictest/test_files/pwmj.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2910
+  },
+  {
+   "number": 24934,
+   "title": "fix: keep decimal precision for SLT tests",
+   "url": "https://github.com/apache/datafusion/pull/24934",
+   "merged_at": "2026-09-05",
+   "additions": 629,
+   "deletions": 651,
+   "changed_files": 37,
+   "labels": [
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 23835,
+     "title": "Decimal values in SLT tests lose display precision if they have trailing zeros",
+     "url": "https://github.com/apache/datafusion/issues/23835"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion/sqllogictest/Cargo.toml",
+    "datafusion/sqllogictest/README.md",
+    "datafusion/sqllogictest/src/engines/conversion.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/aggregate.slt",
+    "datafusion/sqllogictest/test_files/aggregate_skip_partial.slt",
+    "datafusion/sqllogictest/test_files/array/array_min_max.slt",
+    "datafusion/sqllogictest/test_files/arrow_typeof.slt",
+    "datafusion/sqllogictest/test_files/coalesce.slt",
+    "datafusion/sqllogictest/test_files/decimal.slt",
+    "datafusion/sqllogictest/test_files/group_by.slt",
+    "datafusion/sqllogictest/test_files/joins.slt",
+    "datafusion/sqllogictest/test_files/math.slt",
+    "datafusion/sqllogictest/test_files/options.slt",
+    "datafusion/sqllogictest/test_files/pg_compat/pg_compat_simple.slt",
+    "datafusion/sqllogictest/test_files/pg_compat/pg_compat_types.slt",
+    "datafusion/sqllogictest/test_files/pg_compat/pg_compat_window.slt",
+    "datafusion/sqllogictest/test_files/predicates.slt",
+    "datafusion/sqllogictest/test_files/qualify.slt",
+    "datafusion/sqllogictest/test_files/run_end_encoded.slt",
+    "datafusion/sqllogictest/test_files/scalar.slt",
+    "datafusion/sqllogictest/test_files/spark/aggregate/try_sum.slt",
+    "datafusion/sqllogictest/test_files/spark/math/abs.slt",
+    "datafusion/sqllogictest/test_files/spark/math/mod.slt"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 2749
+  },
+  {
+   "number": 23184,
+   "title": "Support co-partitioned range inner equi joins",
+   "url": "https://github.com/apache/datafusion/pull/23184",
+   "merged_at": "2026-07-10",
+   "additions": 1635,
+   "deletions": 473,
+   "changed_files": 37,
+   "labels": [
+    "physical-expr",
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "datasource",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23183,
+     "title": "Allow co-partitioned range inputs to satisfy inner partitioned hash joins",
+     "url": "https://github.com/apache/datafusion/issues/23183"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource/src/sink.rs",
+    "datafusion/physical-expr/src/lib.rs",
+    "datafusion/physical-expr/src/partitioning.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_distribution.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/mod.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/sort_pushdown.rs",
+    "datafusion/physical-optimizer/src/output_requirements.rs",
+    "datafusion/physical-optimizer/src/sanity_checker.rs",
+    "datafusion/physical-optimizer/src/utils.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/analyze.rs",
+    "datafusion/physical-plan/src/distribution_requirements.rs",
+    "datafusion/physical-plan/src/execution_plan.rs",
+    "datafusion/physical-plan/src/joins/cross_join.rs",
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/joins/nested_loop_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/sort_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/symmetric_hash_join.rs",
+    "datafusion/physical-plan/src/joins/utils.rs",
+    "datafusion/physical-plan/src/lib.rs",
+    "datafusion/physical-plan/src/limit.rs",
+    "datafusion/physical-plan/src/recursive_query.rs",
+    "datafusion/physical-plan/src/sorts/partial_sort.rs",
+    "datafusion/physical-plan/src/sorts/partitioned_topk.rs",
+    "datafusion/physical-plan/src/sorts/sort.rs",
+    "datafusion/physical-plan/src/sorts/sort_preserving_merge.rs",
+    "datafusion/physical-plan/src/unnest.rs",
+    "datafusion/physical-plan/src/windows/bounded_window_agg_exec.rs",
+    "datafusion/physical-plan/src/windows/window_agg_exec.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/core/tests/physical_optimizer/ensure_requirements.rs",
+    "datafusion/core/tests/physical_optimizer/projection_pushdown.rs",
+    "datafusion/core/tests/physical_optimizer/sanity_checker.rs",
+    "datafusion/core/tests/user_defined/user_defined_plan.rs",
+    "datafusion/sqllogictest/src/test_context/range_partitioning.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [
+    "query"
+   ],
+   "horizon_score": 2715
+  },
+  {
+   "number": 24090,
+   "title": "feat: prune unread Parquet leaves when a nested column is cast to a narrower type",
+   "url": "https://github.com/apache/datafusion/pull/24090",
+   "merged_at": "2026-08-05",
+   "additions": 2069,
+   "deletions": 33,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "datasource"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/core/benches/parquet_nested_schema_pruning.rs",
+    "datafusion/datasource-parquet/src/mod.rs",
+    "datafusion/datasource-parquet/src/nested_schema_pruning.rs",
+    "datafusion/datasource-parquet/src/projection_read_plan.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/parquet_nested_schema_pruning.slt"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 2269
+  },
+  {
+   "number": 23181,
+   "title": "refactor(hash-aggr): Migrate ordered partial/final aggregation",
+   "url": "https://github.com/apache/datafusion/pull/23181",
+   "merged_at": "2026-07-03",
+   "additions": 1845,
+   "deletions": 11,
+   "changed_files": 13,
+   "labels": [
+    "core",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common_ordered.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/final_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/mod.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/ordered_final_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/ordered_partial_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/partial_table.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_final_stream.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_partial_stream.rs",
+    "datafusion/physical-plan/src/aggregates/row_hash.rs",
+    "tmp/window_kernel_refactor.md"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/aggregate_fuzz.rs"
+   ],
+   "theme_hits": [
+    "kernel",
+    "migrat"
+   ],
+   "horizon_score": 2265
+  },
+  {
+   "number": 23870,
+   "title": "feat(pwmj): support LeftSemi/LeftAnti existence joins via classic scan",
+   "url": "https://github.com/apache/datafusion/pull/23870",
+   "merged_at": "2026-08-14",
+   "additions": 1939,
+   "deletions": 25,
+   "changed_files": 7,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/core/src/physical_planner.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/existence_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/mod.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/join_fuzz.rs",
+    "datafusion/sqllogictest/test_files/pwmj.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2159
+  },
+  {
+   "number": 24598,
+   "title": "Range partition on primitives.",
+   "url": "https://github.com/apache/datafusion/pull/24598",
+   "merged_at": "2026-09-06",
+   "additions": 1857,
+   "deletions": 118,
+   "changed_files": 6,
+   "labels": [
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24597,
+     "title": "Improve the performance of range re-partitioning",
+     "url": "https://github.com/apache/datafusion/issues/24597"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/Cargo.toml",
+    "datafusion/physical-plan/benches/range_repartition.rs",
+    "datafusion/physical-plan/src/joins/hash_join/shared_bounds.rs",
+    "datafusion/physical-plan/src/repartition/mod.rs",
+    "datafusion/physical-plan/src/repartition/range.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/exprs.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2017
+  },
+  {
+   "number": 23869,
+   "title": "perf: Extend WindowTopN to `dense_rank`",
+   "url": "https://github.com/apache/datafusion/pull/23869",
+   "merged_at": "2026-08-18",
+   "additions": 1828,
+   "deletions": 56,
+   "changed_files": 5,
+   "labels": [
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-optimizer/src/window_topn.rs",
+    "datafusion/physical-plan/src/sorts/partitioned_topk.rs",
+    "datafusion/physical-plan/src/topk/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/window_topn.rs",
+    "datafusion/sqllogictest/test_files/window_topn.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2008
+  },
+  {
+   "number": 24740,
+   "title": "fix: preserve external sort workspace across spilling",
+   "url": "https://github.com/apache/datafusion/pull/24740",
+   "merged_at": "2026-09-04",
+   "additions": 1775,
+   "deletions": 28,
+   "changed_files": 6,
+   "labels": [
+    "execution",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 24739,
+     "title": "External sort can lose reserved spill workspace when memory availability decreases",
+     "url": "https://github.com/apache/datafusion/issues/24739"
+    }
+   ],
+   "src_files": [
+    "datafusion/execution/src/memory_pool/merge_memory_pool.rs",
+    "datafusion/execution/src/memory_pool/mod.rs",
+    "datafusion/physical-plan/src/sorts/multi_level_merge.rs",
+    "datafusion/physical-plan/src/sorts/sort.rs",
+    "datafusion/physical-plan/src/sorts/streaming_merge.rs"
+   ],
+   "test_files": [
+    "datafusion/physical-plan/src/sorts/sort/spill_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1935
+  },
+  {
+   "number": 23854,
+   "title": "Enable dynamic filters for range-partitioned joins",
+   "url": "https://github.com/apache/datafusion/pull/23854",
+   "merged_at": "2026-08-11",
+   "additions": 1410,
+   "deletions": 485,
+   "changed_files": 11,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23376,
+     "title": "Support dynamic filters for range co-partitioned joins",
+     "url": "https://github.com/apache/datafusion/issues/23376"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/joins/hash_join/shared_bounds.rs",
+    "datafusion/physical-plan/src/repartition/mod.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto/src/physical_plan/from_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/filter_pushdown.rs",
+    "datafusion/proto/tests/cases/plans/exprs.rs",
+    "datafusion/sqllogictest/src/test_context/range_partitioning.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1790
+  },
+  {
+   "number": 23672,
+   "title": "feat: switch VirtualTable producer to use expressions field instead of deprecated values",
+   "url": "https://github.com/apache/datafusion/pull/23672",
+   "merged_at": "2026-08-03",
+   "additions": 1082,
+   "deletions": 354,
+   "changed_files": 12,
+   "labels": [
+    "substrait"
+   ],
+   "issues": [
+    {
+     "n": 23608,
+     "title": "Remove usages of deprecated VirtualTable.values field",
+     "url": "https://github.com/apache/datafusion/issues/23608"
+    }
+   ],
+   "src_files": [
+    "datafusion/substrait/src/logical_plan/consumer/rel/read_rel.rs",
+    "datafusion/substrait/src/logical_plan/producer/rel/read_rel.rs"
+   ],
+   "test_files": [
+    "datafusion/substrait/tests/testdata/test_plans/join_with_expression_key.json",
+    "datafusion/substrait/tests/testdata/test_plans/mixed_join_equal_and_indistinct.json",
+    "datafusion/substrait/tests/testdata/test_plans/mixed_join_equal_and_indistinct_left.json",
+    "datafusion/substrait/tests/testdata/test_plans/multiple_joins.json",
+    "datafusion/substrait/tests/testdata/test_plans/non_nullable_lists.substrait.json",
+    "datafusion/substrait/tests/testdata/test_plans/scalar_fn_logb_expr.substrait.json",
+    "datafusion/substrait/tests/testdata/test_plans/scalar_fn_to_between_expr.substrait.json",
+    "datafusion/substrait/tests/testdata/test_plans/scalar_fn_to_built_in_binary_expr_and_not.substrait.json",
+    "datafusion/substrait/tests/testdata/test_plans/scalar_fn_to_built_in_binary_expr_xor.substrait.json",
+    "datafusion/substrait/tests/testdata/test_plans/select_count_from_select_1.substrait.json"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1722
+  },
+  {
+   "number": 24805,
+   "title": "feat: extend SLT tests for hash join vs PWMJ, hash join vs SMJ",
+   "url": "https://github.com/apache/datafusion/pull/24805",
+   "merged_at": "2026-09-01",
+   "additions": 1346,
+   "deletions": 0,
+   "changed_files": 5,
+   "labels": [
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 24641,
+     "title": "Create a combined correctness join SLT tests",
+     "url": "https://github.com/apache/datafusion/issues/24641"
+    }
+   ],
+   "src_files": [],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/mark_join_matrix.slt",
+    "datafusion/sqllogictest/test_files/piecewise_merge_join_batches.slt",
+    "datafusion/sqllogictest/test_files/piecewise_merge_join_matrix.slt",
+    "datafusion/sqllogictest/test_files/sort_merge_join_batches.slt",
+    "datafusion/sqllogictest/test_files/sort_merge_join_matrix.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1646
+  },
+  {
+   "number": 24222,
+   "title": "test(physical-plan): add colocated field-level plan serde tests",
+   "url": "https://github.com/apache/datafusion/pull/24222",
+   "merged_at": "2026-08-19",
+   "additions": 1455,
+   "deletions": 0,
+   "changed_files": 7,
+   "labels": [
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/joins/nested_loop_join.rs",
+    "datafusion/physical-plan/src/joins/proto.rs",
+    "datafusion/physical-plan/src/lib.rs",
+    "datafusion/physical-plan/src/sorts/sort.rs",
+    "datafusion/physical-plan/src/sorts/sort_preserving_merge.rs"
+   ],
+   "test_files": [
+    "datafusion/physical-plan/src/proto_test_util.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1635
+  },
+  {
+   "number": 24680,
+   "title": "fix: preserve explicit Struct casts and evolved field semantics",
+   "url": "https://github.com/apache/datafusion/pull/24680",
+   "merged_at": "2026-08-27",
+   "additions": 1251,
+   "deletions": 72,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "datasource"
+   ],
+   "issues": [
+    {
+     "n": 24679,
+     "title": "Struct-cast narrowing can suppress cast errors and change field semantics",
+     "url": "https://github.com/apache/datafusion/issues/24679"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource-parquet/src/projection_read_plan.rs",
+    "datafusion/datasource-parquet/src/row_filter.rs",
+    "datafusion/physical-expr-adapter/src/schema_rewriter.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/parquet/expr_adapter.rs",
+    "datafusion/sqllogictest/test_files/schema_evolution_nested.slt"
+   ],
+   "theme_hits": [
+    "parquet",
+    "schema"
+   ],
+   "horizon_score": 1551
+  },
+  {
+   "number": 24875,
+   "title": "[branch-55] Align metadata propagation through Physical and Logical casts (#23169)",
+   "url": "https://github.com/apache/datafusion/pull/24875",
+   "merged_at": "2026-09-02",
+   "additions": 1070,
+   "deletions": 155,
+   "changed_files": 14,
+   "labels": [
+    "logical-expr",
+    "physical-expr",
+    "sqllogictest",
+    "proto",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion-examples/examples/custom_data_source/custom_file_casts.rs",
+    "datafusion/expr/src/expr_schema.rs",
+    "datafusion/functions/src/core/arrow_cast.rs",
+    "datafusion/functions/src/core/arrow_try_cast.rs",
+    "datafusion/physical-expr-adapter/src/rewrite.rs",
+    "datafusion/physical-expr/Cargo.toml",
+    "datafusion/physical-expr/src/expressions/cast.rs",
+    "datafusion/physical-expr/src/expressions/mod.rs",
+    "datafusion/physical-expr/src/expressions/try_cast.rs",
+    "datafusion/physical-expr/src/planner.rs",
+    "datafusion/proto/src/logical_plan/from_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_logical_plan.rs",
+    "datafusion/sqllogictest/test_files/cast_extension_type_metadata.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 1490
+  },
+  {
+   "number": 23169,
+   "title": "Align metadata propagation through Physical and Logical casts",
+   "url": "https://github.com/apache/datafusion/pull/23169",
+   "merged_at": "2026-09-01",
+   "additions": 1069,
+   "deletions": 154,
+   "changed_files": 14,
+   "labels": [
+    "logical-expr",
+    "physical-expr",
+    "sqllogictest",
+    "proto",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 22079,
+     "title": "Propagation of metadata through casts can strips extension type from the destination field and can result in invalid extension types",
+     "url": "https://github.com/apache/datafusion/issues/22079"
+    },
+    {
+     "n": 24724,
+     "title": "Cast expressions cannot distinguish inherited metadata from an explicitly empty target",
+     "url": "https://github.com/apache/datafusion/issues/24724"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion-examples/examples/custom_data_source/custom_file_casts.rs",
+    "datafusion/expr/src/expr_schema.rs",
+    "datafusion/functions/src/core/arrow_cast.rs",
+    "datafusion/functions/src/core/arrow_try_cast.rs",
+    "datafusion/physical-expr-adapter/src/rewrite.rs",
+    "datafusion/physical-expr/Cargo.toml",
+    "datafusion/physical-expr/src/expressions/cast.rs",
+    "datafusion/physical-expr/src/expressions/mod.rs",
+    "datafusion/physical-expr/src/expressions/try_cast.rs",
+    "datafusion/physical-expr/src/planner.rs",
+    "datafusion/proto/src/logical_plan/from_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_logical_plan.rs",
+    "datafusion/sqllogictest/test_files/cast_extension_type_metadata.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 1489
+  },
+  {
+   "number": 24483,
+   "title": "fix(proto): check plan integer conversions across usize boundaries",
+   "url": "https://github.com/apache/datafusion/pull/24483",
+   "merged_at": "2026-08-27",
+   "additions": 556,
+   "deletions": 180,
+   "changed_files": 28,
+   "labels": [
+    "logical-expr",
+    "physical-expr",
+    "common",
+    "proto",
+    "functions",
+    "datasource",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/common/src/utils/mod.rs",
+    "datafusion/datasource/src/file_scan_config/proto.rs",
+    "datafusion/datasource/src/memory.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/functions-table/src/generate_series.rs",
+    "datafusion/physical-expr/src/partitioning.rs",
+    "datafusion/physical-expr/src/scalar_subquery.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/buffer.rs",
+    "datafusion/physical-plan/src/coalesce_batches.rs",
+    "datafusion/physical-plan/src/coalesce_partitions.rs",
+    "datafusion/physical-plan/src/empty.rs",
+    "datafusion/physical-plan/src/filter.rs",
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/limit.rs",
+    "datafusion/physical-plan/src/placeholder_row.rs",
+    "datafusion/physical-plan/src/sorts/sort.rs",
+    "datafusion/physical-plan/src/sorts/sort_preserving_merge.rs",
+    "datafusion/physical-plan/src/unnest.rs",
+    "datafusion/physical-plan/src/windows/window_agg_exec.rs",
+    "datafusion/proto-common/src/from_proto/mod.rs",
+    "datafusion/proto/src/logical_plan/mod.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/leaves.rs",
+    "datafusion/proto/tests/cases/plans/limits.rs",
+    "datafusion/proto/tests/cases/plans/misc.rs",
+    "datafusion/proto/tests/cases/plans/sources.rs",
+    "datafusion/proto/tests/cases/roundtrip_logical_plan.rs"
+   ],
+   "theme_hits": [
+    "query",
+    "version"
+   ],
+   "horizon_score": 1436
+  },
+  {
+   "number": 24859,
+   "title": "Allow a non-distinct count alongside the single distinct aggregate in SingleDistinctToGroupBy",
+   "url": "https://github.com/apache/datafusion/pull/24859",
+   "merged_at": "2026-09-10",
+   "additions": 1155,
+   "deletions": 50,
+   "changed_files": 5,
+   "labels": [
+    "logical-expr",
+    "optimizer",
+    "sqllogictest",
+    "substrait",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/expr/src/udaf.rs",
+    "datafusion/functions-aggregate/src/count.rs",
+    "datafusion/optimizer/src/single_distinct_to_groupby.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/single_distinct_to_groupby.slt",
+    "datafusion/substrait/tests/cases/roundtrip_logical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1335
+  },
+  {
+   "number": 23832,
+   "title": "feat: serialize ASOF join plans",
+   "url": "https://github.com/apache/datafusion/pull/23832",
+   "merged_at": "2026-09-13",
+   "additions": 1024,
+   "deletions": 16,
+   "changed_files": 8,
+   "labels": [
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/asof_join.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto/src/logical_plan/mod.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/joins.rs",
+    "datafusion/proto/tests/cases/roundtrip_logical_plan.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 1324
+  },
+  {
+   "number": 25050,
+   "title": "Perf: Take the comparison-free fast path in the grouped first/last accumulator when input is pre-ordered",
+   "url": "https://github.com/apache/datafusion/pull/25050",
+   "merged_at": "2026-09-10",
+   "additions": 976,
+   "deletions": 26,
+   "changed_files": 6,
+   "labels": [
+    "performance",
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 24771,
+     "title": "first_value/last_value GroupsAccumulator ignores beneficial input ordering (is_input_pre_ordered)",
+     "url": "https://github.com/apache/datafusion/issues/24771"
+    }
+   ],
+   "src_files": [
+    "datafusion/functions-aggregate/src/first_last.rs",
+    "datafusion/physical-optimizer/src/update_aggr_exprs.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/aggregation_fuzzer/query_builder.rs",
+    "datafusion/core/tests/physical_optimizer/mod.rs",
+    "datafusion/core/tests/physical_optimizer/update_aggr_exprs.rs",
+    "datafusion/sqllogictest/test_files/first_last_ordered.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1256
+  },
+  {
+   "number": 23657,
+   "title": "refactor(hash-aggr): Support spilling for ordered aggregation",
+   "url": "https://github.com/apache/datafusion/pull/23657",
+   "merged_at": "2026-07-24",
+   "additions": 1015,
+   "deletions": 100,
+   "changed_files": 10,
+   "labels": [
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common_ordered.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/ordered_final_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/ordered_partial_table.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/aggregates/order/full.rs",
+    "datafusion/physical-plan/src/aggregates/order/mod.rs",
+    "datafusion/physical-plan/src/aggregates/order/partial.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_final_stream.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_partial_stream.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/ordered_aggregate_spill.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1255
+  },
+  {
+   "number": 24392,
+   "title": "perf: use columnar state for ordered `ARRAY_AGG` and `STRING_AGG`",
+   "url": "https://github.com/apache/datafusion/pull/24392",
+   "merged_at": "2026-09-11",
+   "additions": 1085,
+   "deletions": 285,
+   "changed_files": 5,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "datafusion/functions-aggregate/Cargo.toml",
+    "datafusion/functions-aggregate/src/array_agg.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/array_agg.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1225
+  },
+  {
+   "number": 24525,
+   "title": "fix: honor Parquet byte-array statistics ordering",
+   "url": "https://github.com/apache/datafusion/pull/24525",
+   "merged_at": "2026-08-24",
+   "additions": 956,
+   "deletions": 24,
+   "changed_files": 8,
+   "labels": [
+    "datasource"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/datasource-parquet/benches/parquet_metadata_statistics.rs",
+    "datafusion/datasource-parquet/src/metadata.rs",
+    "datafusion/datasource-parquet/src/mod.rs",
+    "datafusion/datasource-parquet/src/opener/mod.rs",
+    "datafusion/datasource-parquet/src/page_filter.rs",
+    "datafusion/datasource-parquet/src/push_decoder.rs",
+    "datafusion/datasource-parquet/src/row_group_filter.rs"
+   ],
+   "test_files": [
+    "datafusion/datasource-parquet/src/statistics_order_tests.rs"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 1216
+  },
+  {
+   "number": 23957,
+   "title": "feat: null aware RightAnti hash join execution + planning support",
+   "url": "https://github.com/apache/datafusion/pull/23957",
+   "merged_at": "2026-08-18",
+   "additions": 852,
+   "deletions": 77,
+   "changed_files": 8,
+   "labels": [
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 23931,
+     "title": "Support null-aware RightAnti hash join (build on the subquery side) for NOT IN",
+     "url": "https://github.com/apache/datafusion/issues/23931"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-optimizer/src/join_selection.rs",
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/joins/hash_join/stream.rs",
+    "datafusion/physical-plan/src/joins/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/join_selection.rs",
+    "datafusion/sqllogictest/test_files/dynamic_filter_pushdown_config.slt",
+    "datafusion/sqllogictest/test_files/null_aware_anti_join.slt",
+    "datafusion/sqllogictest/test_files/subquery.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1172
+  },
+  {
+   "number": 24378,
+   "title": "feat: proto serialization for PiecewiseMergeJoinExec",
+   "url": "https://github.com/apache/datafusion/pull/24378",
+   "merged_at": "2026-08-27",
+   "additions": 950,
+   "deletions": 6,
+   "changed_files": 6,
+   "labels": [
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/exec.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/joins.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 1170
+  },
+  {
+   "number": 23495,
+   "title": "Add ExecutionPlan try_to_proto / try_from_proto hooks + ProjectionExec reference",
+   "url": "https://github.com/apache/datafusion/pull/23495",
+   "merged_at": "2026-07-17",
+   "additions": 1008,
+   "deletions": 11,
+   "changed_files": 6,
+   "labels": [
+    "api change",
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/execution_plan.rs",
+    "datafusion/physical-plan/src/lib.rs",
+    "datafusion/physical-plan/src/projection.rs",
+    "datafusion/physical-plan/src/proto.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1168
+  },
+  {
+   "number": 24493,
+   "title": "Support config matrix for SLT tests",
+   "url": "https://github.com/apache/datafusion/pull/24493",
+   "merged_at": "2026-08-28",
+   "additions": 985,
+   "deletions": 102,
+   "changed_files": 5,
+   "labels": [
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 24390,
+     "title": "Support config matrix for slt tests",
+     "url": "https://github.com/apache/datafusion/issues/24390"
+    }
+   ],
+   "src_files": [
+    "datafusion/sqllogictest/README.md",
+    "datafusion/sqllogictest/bin/sqllogictests.rs",
+    "datafusion/sqllogictest/src/config_matrix.rs",
+    "datafusion/sqllogictest/src/lib.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/src/test_context.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1125
+  },
+  {
+   "number": 25139,
+   "title": "fix: reject window functions in WHERE and HAVING during logical planning",
+   "url": "https://github.com/apache/datafusion/pull/25139",
+   "merged_at": "2026-09-10",
+   "additions": 704,
+   "deletions": 20,
+   "changed_files": 13,
+   "labels": [
+    "sql",
+    "logical-expr",
+    "physical-expr",
+    "core",
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 4610,
+     "title": "Should not allow Window expressions in Filter or Having clause",
+     "url": "https://github.com/apache/datafusion/issues/4610"
+    }
+   ],
+   "src_files": [
+    "datafusion/core/src/physical_planner.rs",
+    "datafusion/expr/src/logical_plan/builder.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/expr/src/utils.rs",
+    "datafusion/physical-expr/src/planner.rs",
+    "datafusion/sql/src/expr/mod.rs",
+    "datafusion/sql/src/relation/join.rs",
+    "datafusion/sql/src/select.rs",
+    "datafusion/sql/src/values.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/dataframe/mod.rs",
+    "datafusion/sql/tests/cases/diagnostic.rs",
+    "datafusion/sql/tests/sql_integration.rs",
+    "datafusion/sqllogictest/test_files/window.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1124
+  },
+  {
+   "number": 24857,
+   "title": "fix: stop pre-allocating and undercounting a hash table per COUNT(DISTINCT) group",
+   "url": "https://github.com/apache/datafusion/pull/24857",
+   "merged_at": "2026-09-06",
+   "additions": 944,
+   "deletions": 60,
+   "changed_files": 7,
+   "labels": [
+    "physical-expr",
+    "core",
+    "functions",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions-aggregate-common/src/aggregate/count_distinct/bytes.rs",
+    "datafusion/physical-expr-common/benches/arrow_bytes_map.rs",
+    "datafusion/physical-expr-common/src/binary_map.rs",
+    "datafusion/physical-expr-common/src/binary_view_map.rs",
+    "datafusion/physical-plan/src/aggregates/group_values/single_group_by/bytes.rs",
+    "datafusion/physical-plan/src/aggregates/group_values/single_group_by/bytes_view.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/memory_limit/mod.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1124
+  },
+  {
+   "number": 24061,
+   "title": "refactor(hash-aggr): Support spilling for `partial` and `final` mode aggregation",
+   "url": "https://github.com/apache/datafusion/pull/24061",
+   "merged_at": "2026-08-06",
+   "additions": 879,
+   "deletions": 279,
+   "changed_files": 6,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/aggregates/hash_stream.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_final_stream.rs",
+    "datafusion/physical-plan/src/aggregates/single_stream.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/memory_limit/mod.rs",
+    "datafusion/sqllogictest/test_files/aggregate_memory_spill.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1079
+  },
+  {
+   "number": 23684,
+   "title": "fix: TopK aggregation drops groups whose MIN/MAX value is NULL",
+   "url": "https://github.com/apache/datafusion/pull/23684",
+   "merged_at": "2026-07-31",
+   "additions": 837,
+   "deletions": 63,
+   "changed_files": 6,
+   "labels": [
+    "optimizer",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 22190,
+     "title": "DataFusion drops grouped MIN/MAX rows with NULL sort keys under ORDER BY + LIMIT",
+     "url": "https://github.com/apache/datafusion/issues/22190"
+    },
+    {
+     "n": 23440,
+     "title": "Wrong result: grouped MAX(NULL) row is dropped with ORDER BY aggregate NULLS FIRST LIMIT",
+     "url": "https://github.com/apache/datafusion/issues/23440"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-optimizer/src/topk_aggregation.rs",
+    "datafusion/physical-plan/src/aggregates/grouped_topk_stream.rs",
+    "datafusion/physical-plan/src/aggregates/topk/hash_table.rs",
+    "datafusion/physical-plan/src/aggregates/topk/priority_map.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/aggregates_topk.slt",
+    "datafusion/sqllogictest/test_files/group_by.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1037
+  },
+  {
+   "number": 24258,
+   "title": "fix: preserve null semantics in expression simplification",
+   "url": "https://github.com/apache/datafusion/pull/24258",
+   "merged_at": "2026-09-07",
+   "additions": 625,
+   "deletions": 80,
+   "changed_files": 8,
+   "labels": [
+    "optimizer",
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 24246,
+     "title": "Expression simplifications may produce incorrect results with NULLs",
+     "url": "https://github.com/apache/datafusion/issues/24246"
+    }
+   ],
+   "src_files": [
+    "datafusion/functions-nested/src/array_has.rs",
+    "datafusion/optimizer/src/eliminate_filter.rs",
+    "datafusion/optimizer/src/simplify_expressions/expr_simplifier.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/array/array_has.slt",
+    "datafusion/sqllogictest/test_files/eliminate_outer_join.slt",
+    "datafusion/sqllogictest/test_files/predicates.slt",
+    "datafusion/sqllogictest/test_files/simplify_expr.slt",
+    "datafusion/sqllogictest/test_files/subquery.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 985
+  },
+  {
+   "number": 23829,
+   "title": "feat: add ASOF join logical semantics",
+   "url": "https://github.com/apache/datafusion/pull/23829",
+   "merged_at": "2026-09-04",
+   "additions": 608,
+   "deletions": 39,
+   "changed_files": 15,
+   "labels": [
+    "sql",
+    "logical-expr",
+    "optimizer",
+    "core",
+    "substrait",
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/core/src/physical_planner.rs",
+    "datafusion/expr/src/logical_plan/builder.rs",
+    "datafusion/expr/src/logical_plan/display.rs",
+    "datafusion/expr/src/logical_plan/mod.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/expr/src/logical_plan/tree_node.rs",
+    "datafusion/optimizer/src/analyzer/type_coercion.rs",
+    "datafusion/optimizer/src/common_subexpr_eliminate.rs",
+    "datafusion/optimizer/src/optimize_projections/mod.rs",
+    "datafusion/optimizer/src/optimizer.rs",
+    "datafusion/physical-plan/src/joins/asof_join.rs",
+    "datafusion/proto/src/logical_plan/mod.rs",
+    "datafusion/sql/src/unparser/plan.rs",
+    "datafusion/substrait/src/logical_plan/producer/rel/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/substrait/tests/cases/serialize.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 948
+  },
+  {
+   "number": 24003,
+   "title": "refactor(proto): put Partitioning / sort-expression serde on the types",
+   "url": "https://github.com/apache/datafusion/pull/24003",
+   "merged_at": "2026-07-31",
+   "additions": 696,
+   "deletions": 395,
+   "changed_files": 10,
+   "labels": [
+    "physical-expr",
+    "proto",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-expr-common/src/sort_expr.rs",
+    "datafusion/physical-expr/src/partitioning.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/joins/symmetric_hash_join.rs",
+    "datafusion/physical-plan/src/proto.rs",
+    "datafusion/physical-plan/src/repartition/mod.rs",
+    "datafusion/physical-plan/src/windows/proto.rs",
+    "datafusion/proto/src/physical_plan/from_proto.rs",
+    "datafusion/proto/src/physical_plan/to_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 936
+  },
+  {
+   "number": 23275,
+   "title": "feat: Implement state conversion for remaining group accumulators",
+   "url": "https://github.com/apache/datafusion/pull/23275",
+   "merged_at": "2026-07-11",
+   "additions": 623,
+   "deletions": 6,
+   "changed_files": 8,
+   "labels": [
+    "performance",
+    "core",
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion-examples/examples/udf/advanced_udaf.rs",
+    "datafusion/functions-aggregate-common/src/aggregate/count_distinct/groups.rs",
+    "datafusion/functions-aggregate/src/approx_distinct.rs",
+    "datafusion/functions-aggregate/src/correlation.rs",
+    "datafusion/functions-aggregate/src/stddev.rs",
+    "datafusion/functions-aggregate/src/variance.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/user_defined/user_defined_aggregates.rs",
+    "datafusion/sqllogictest/test_files/aggregate_skip_partial.slt"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 923
+  },
+  {
+   "number": 23696,
+   "title": "perf(parquet): skip RowFilter on statically fully-matched row groups",
+   "url": "https://github.com/apache/datafusion/pull/23696",
+   "merged_at": "2026-08-25",
+   "additions": 620,
+   "deletions": 170,
+   "changed_files": 8,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "datasource"
+   ],
+   "issues": [
+    {
+     "n": 23067,
+     "title": "[Follow-up #22450] Per-RG `fully_matched` RowFilter skip \u00b7 needs arrow-rs#10158 (`peek_next_row_group`)",
+     "url": "https://github.com/apache/datafusion/issues/23067"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource-parquet/src/access_plan.rs",
+    "datafusion/datasource-parquet/src/metrics.rs",
+    "datafusion/datasource-parquet/src/opener/mod.rs",
+    "datafusion/datasource-parquet/src/push_decoder.rs",
+    "datafusion/datasource-parquet/src/row_filter.rs",
+    "datafusion/datasource-parquet/src/sort.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/parquet/dynamic_row_group_pruning.rs",
+    "datafusion/sqllogictest/test_files/dynamic_row_group_pruning.slt"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 920
+  },
+  {
+   "number": 23906,
+   "title": "fix(ffi): preserve TableProvider DML overrides",
+   "url": "https://github.com/apache/datafusion/pull/23906",
+   "merged_at": "2026-08-13",
+   "additions": 666,
+   "deletions": 109,
+   "changed_files": 6,
+   "labels": [
+    "api change",
+    "proto",
+    "ffi"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/ffi/src/table_provider.rs",
+    "datafusion/ffi/src/udtf.rs",
+    "datafusion/proto/src/bytes/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/ffi/src/tests/mod.rs",
+    "datafusion/ffi/tests/ffi_integration.rs",
+    "datafusion/proto/tests/cases/serialize.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 906
+  },
+  {
+   "number": 23579,
+   "title": "[branch-54] fix: Correctly compute nullability in recursive CTE schemas (backport #22552)",
+   "url": "https://github.com/apache/datafusion/pull/23579",
+   "merged_at": "2026-07-14",
+   "additions": 426,
+   "deletions": 69,
+   "changed_files": 12,
+   "labels": [
+    "sql",
+    "logical-expr",
+    "core",
+    "sqllogictest",
+    "catalog",
+    "proto",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/catalog/src/cte_worktable.rs",
+    "datafusion/core/src/physical_planner.rs",
+    "datafusion/expr/src/logical_plan/builder.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/expr/src/logical_plan/tree_node.rs",
+    "datafusion/expr/src/planner.rs",
+    "datafusion/physical-plan/src/recursive_query.rs",
+    "datafusion/proto/src/logical_plan/mod.rs",
+    "datafusion/sql/src/cte.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/sql/explain_analyze.rs",
+    "datafusion/sqllogictest/test_files/cte.slt",
+    "datafusion/sqllogictest/test_files/explain_tree.slt"
+   ],
+   "theme_hits": [
+    "query",
+    "schema"
+   ],
+   "horizon_score": 906
+  },
+  {
+   "number": 23965,
+   "title": "refactor(hash-aggr): Support spilling for single mode aggregation",
+   "url": "https://github.com/apache/datafusion/pull/23965",
+   "merged_at": "2026-08-03",
+   "additions": 662,
+   "deletions": 184,
+   "changed_files": 9,
+   "labels": [
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/final_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/partial_reduce_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/partial_table.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/single_table.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/aggregates/ordered_final_stream.rs",
+    "datafusion/physical-plan/src/aggregates/single_stream.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/aggregate_memory_spill.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 882
+  },
+  {
+   "number": 23807,
+   "title": "`ScalarUdfImpl::strictly_order_preserving`: Allow expression to report whether they keep the same ordering of the input",
+   "url": "https://github.com/apache/datafusion/pull/23807",
+   "merged_at": "2026-07-27",
+   "additions": 519,
+   "deletions": 58,
+   "changed_files": 14,
+   "labels": [
+    "api change",
+    "logical-expr",
+    "physical-expr",
+    "core",
+    "sqllogictest",
+    "functions",
+    "ffi",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23798,
+     "title": "ProjectExec does not keep sorting information for passthrough expression",
+     "url": "https://github.com/apache/datafusion/issues/23798"
+    }
+   ],
+   "src_files": [
+    "datafusion/expr-common/src/sort_properties.rs",
+    "datafusion/expr/src/udf.rs",
+    "datafusion/ffi/src/expr/expr_properties.rs",
+    "datafusion/functions/src/datetime/from_unixtime.rs",
+    "datafusion/functions/src/math/monotonicity.rs",
+    "datafusion/physical-expr/src/equivalence/ordering.rs",
+    "datafusion/physical-expr/src/equivalence/properties/mod.rs",
+    "datafusion/physical-expr/src/expressions/binary.rs",
+    "datafusion/physical-expr/src/expressions/cast.rs",
+    "datafusion/physical-expr/src/expressions/literal.rs",
+    "datafusion/physical-expr/src/expressions/negative.rs",
+    "datafusion/physical-expr/src/scalar_function.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_sorting.rs",
+    "datafusion/sqllogictest/test_files/order.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 879
+  },
+  {
+   "number": 24218,
+   "title": "fix: format Bytes-category custom metrics with byte units",
+   "url": "https://github.com/apache/datafusion/pull/24218",
+   "merged_at": "2026-09-07",
+   "additions": 310,
+   "deletions": 30,
+   "changed_files": 11,
+   "labels": [
+    "physical-expr",
+    "sqllogictest",
+    "datasource",
+    "ffi",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 24203,
+     "title": "Inconsistent Explain units",
+     "url": "https://github.com/apache/datafusion/issues/24203"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource-parquet/src/metrics.rs",
+    "datafusion/datasource-parquet/src/sink.rs",
+    "datafusion/physical-expr-common/src/metrics/builder.rs",
+    "datafusion/physical-expr-common/src/metrics/mod.rs",
+    "datafusion/physical-plan/src/display.rs",
+    "datafusion/physical-plan/src/joins/stream_join_utils.rs"
+   ],
+   "test_files": [
+    "datafusion/ffi/src/tests/mod.rs",
+    "datafusion/ffi/src/tests/utils.rs",
+    "datafusion/ffi/tests/ffi_execution_plan.rs",
+    "datafusion/sqllogictest/test_files/dynamic_filter_pushdown_config.slt",
+    "datafusion/sqllogictest/test_files/parquet_nested_schema_pruning.slt"
+   ],
+   "theme_hits": [
+    "format",
+    "parquet"
+   ],
+   "horizon_score": 850
+  },
+  {
+   "number": 24377,
+   "title": "[branch-55] fix: preserve the input list's inner field in array_append/prepend/replace - #24365",
+   "url": "https://github.com/apache/datafusion/pull/24377",
+   "merged_at": "2026-08-14",
+   "additions": 505,
+   "deletions": 86,
+   "changed_files": 8,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions-nested/src/concat.rs",
+    "datafusion/functions-nested/src/extract.rs",
+    "datafusion/functions-nested/src/replace.rs",
+    "datafusion/functions-nested/src/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/array/array_append.slt",
+    "datafusion/sqllogictest/test_files/array/array_concat.slt",
+    "datafusion/sqllogictest/test_files/array/array_prepend.slt",
+    "datafusion/sqllogictest/test_files/array/array_replace.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 825
+  },
+  {
+   "number": 24365,
+   "title": "fix: preserve the input list's inner field in array_append/prepend/replace",
+   "url": "https://github.com/apache/datafusion/pull/24365",
+   "merged_at": "2026-08-14",
+   "additions": 505,
+   "deletions": 86,
+   "changed_files": 8,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 24347,
+     "title": "array_append / array_prepend / array_replace* discard the input list's inner field, contradicting their promised return type",
+     "url": "https://github.com/apache/datafusion/issues/24347"
+    }
+   ],
+   "src_files": [
+    "datafusion/functions-nested/src/concat.rs",
+    "datafusion/functions-nested/src/extract.rs",
+    "datafusion/functions-nested/src/replace.rs",
+    "datafusion/functions-nested/src/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/array/array_append.slt",
+    "datafusion/sqllogictest/test_files/array/array_concat.slt",
+    "datafusion/sqllogictest/test_files/array/array_prepend.slt",
+    "datafusion/sqllogictest/test_files/array/array_replace.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 825
+  },
+  {
+   "number": 24906,
+   "title": "Unify temporal field parsing with DatePart",
+   "url": "https://github.com/apache/datafusion/pull/24906",
+   "merged_at": "2026-09-04",
+   "additions": 245,
+   "deletions": 272,
+   "changed_files": 14,
+   "labels": [
+    "sql",
+    "sqllogictest",
+    "functions",
+    "spark"
+   ],
+   "issues": [
+    {
+     "n": 22033,
+     "title": "Unify granularity / field-name parsing across temporal functions",
+     "url": "https://github.com/apache/datafusion/issues/22033"
+    }
+   ],
+   "src_files": [
+    "datafusion/functions/src/datetime/date_part.rs",
+    "datafusion/functions/src/datetime/date_trunc.rs",
+    "datafusion/spark/src/function/datetime/date_part.rs",
+    "datafusion/spark/src/function/datetime/time_trunc.rs",
+    "datafusion/spark/src/function/datetime/trunc.rs",
+    "datafusion/sql/src/unparser/expr.rs",
+    "datafusion/sql/src/unparser/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/datetime/date_part.slt",
+    "datafusion/sqllogictest/test_files/datetime/dates.slt",
+    "datafusion/sqllogictest/test_files/datetime/timestamps.slt",
+    "datafusion/sqllogictest/test_files/spark/datetime/date_part.slt",
+    "datafusion/sqllogictest/test_files/spark/datetime/date_trunc.slt",
+    "datafusion/sqllogictest/test_files/spark/datetime/time_trunc.slt",
+    "datafusion/sqllogictest/test_files/spark/datetime/trunc.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 805
+  },
+  {
+   "number": 24813,
+   "title": "refactor(proto): destructure FileScanConfig and MemorySourceConfig serde hooks",
+   "url": "https://github.com/apache/datafusion/pull/24813",
+   "merged_at": "2026-09-08",
+   "additions": 390,
+   "deletions": 156,
+   "changed_files": 12,
+   "labels": [
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24624,
+     "title": "Destructure proto hooks for FileScanConfig and MemorySourceConfig",
+     "url": "https://github.com/apache/datafusion/issues/24624"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion-examples/examples/custom_data_source/adapter_serialization.rs",
+    "datafusion/datasource/src/file_scan_config/proto.rs",
+    "datafusion/datasource/src/memory.rs",
+    "datafusion/physical-expr-adapter/src/schema_rewriter.rs",
+    "datafusion/proto-models/Cargo.toml",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto-models/src/lib.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/sources.rs"
+   ],
+   "theme_hits": [
+    "schema",
+    "serializ"
+   ],
+   "horizon_score": 790
+  },
+  {
+   "number": 24517,
+   "title": "feat: add projection support to SortMergeJoinExec",
+   "url": "https://github.com/apache/datafusion/pull/24517",
+   "merged_at": "2026-08-22",
+   "additions": 373,
+   "deletions": 67,
+   "changed_files": 10,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24518,
+     "title": "Add projection support to `SortMergeJoinExec`",
+     "url": "https://github.com/apache/datafusion/issues/24518"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/sort_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/sort_merge_join/tests.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/projection_pushdown.rs",
+    "datafusion/proto/tests/cases/plans/joins.rs",
+    "datafusion/sqllogictest/test_files/joins.slt",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt",
+    "datafusion/sqllogictest/test_files/sort_merge_join_spill.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 773
+  },
+  {
+   "number": 23910,
+   "title": "fix: do not derive ordering for arithmetic that can overflow",
+   "url": "https://github.com/apache/datafusion/pull/23910",
+   "merged_at": "2026-08-05",
+   "additions": 390,
+   "deletions": 115,
+   "changed_files": 9,
+   "labels": [
+    "physical-expr",
+    "core",
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 23902,
+     "title": "sort should not be removed when order by a + b where a and b are sorted as they can overflow and wrap",
+     "url": "https://github.com/apache/datafusion/issues/23902"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-expr/src/equivalence/ordering.rs",
+    "datafusion/physical-expr/src/equivalence/properties/dependency.rs",
+    "datafusion/physical-expr/src/expressions/binary.rs",
+    "datafusion/physical-expr/src/projection.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/equivalence/ordering.rs",
+    "datafusion/core/tests/fuzz_cases/equivalence/projection.rs",
+    "datafusion/core/tests/fuzz_cases/equivalence/utils.rs",
+    "datafusion/sqllogictest/test_files/order.slt",
+    "datafusion/sqllogictest/test_files/topk.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 770
+  },
+  {
+   "number": 23988,
+   "title": "minor(test): strengthen sort-merge join spilling coverage",
+   "url": "https://github.com/apache/datafusion/pull/23988",
+   "merged_at": "2026-08-02",
+   "additions": 469,
+   "deletions": 44,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "sqllogictest"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "datafusion/core/tests/memory_limit/memory_limit_validation/mod.rs",
+    "datafusion/core/tests/memory_limit/memory_limit_validation/smj_mem_validation.rs",
+    "datafusion/core/tests/memory_limit/memory_limit_validation/sort_mem_validation.rs",
+    "datafusion/core/tests/memory_limit/memory_limit_validation/utils.rs",
+    "datafusion/sqllogictest/test_files/sort_merge_join_spill.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 769
+  },
+  {
+   "number": 24266,
+   "title": "feat(spark): add `to_binary` and `try_to_binary`",
+   "url": "https://github.com/apache/datafusion/pull/24266",
+   "merged_at": "2026-08-20",
+   "additions": 522,
+   "deletions": 9,
+   "changed_files": 7,
+   "labels": [
+    "sqllogictest",
+    "spark"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion/spark/Cargo.toml",
+    "datafusion/spark/src/function/math/unhex.rs",
+    "datafusion/spark/src/function/string/mod.rs",
+    "datafusion/spark/src/function/string/to_binary.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/spark/string/to_binary.slt",
+    "datafusion/sqllogictest/test_files/spark/string/try_to_binary.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 742
+  },
+  {
+   "number": 24068,
+   "title": "add ExecutionPlan::dynamic_expressions_produced() method",
+   "url": "https://github.com/apache/datafusion/pull/24068",
+   "merged_at": "2026-08-07",
+   "additions": 380,
+   "deletions": 57,
+   "changed_files": 10,
+   "labels": [
+    "core",
+    "proto",
+    "ffi",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/ffi/src/execution_plan.rs",
+    "datafusion/ffi/src/physical_expr/mod.rs",
+    "datafusion/physical-plan/src/aggregates/mod.rs",
+    "datafusion/physical-plan/src/execution_plan.rs",
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/sorts/sort.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/filter_pushdown.rs",
+    "datafusion/ffi/src/tests/mod.rs",
+    "datafusion/ffi/tests/ffi_execution_plan.rs",
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 740
+  },
+  {
+   "number": 23527,
+   "title": "Mark null-propagating math functions as strict",
+   "url": "https://github.com/apache/datafusion/pull/23527",
+   "merged_at": "2026-07-17",
+   "additions": 363,
+   "deletions": 3,
+   "changed_files": 16,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions/src/macros.rs",
+    "datafusion/functions/src/math/ceil.rs",
+    "datafusion/functions/src/math/cot.rs",
+    "datafusion/functions/src/math/factorial.rs",
+    "datafusion/functions/src/math/floor.rs",
+    "datafusion/functions/src/math/gcd.rs",
+    "datafusion/functions/src/math/iszero.rs",
+    "datafusion/functions/src/math/lcm.rs",
+    "datafusion/functions/src/math/log.rs",
+    "datafusion/functions/src/math/mod.rs",
+    "datafusion/functions/src/math/nans.rs",
+    "datafusion/functions/src/math/power.rs",
+    "datafusion/functions/src/math/round.rs",
+    "datafusion/functions/src/math/signum.rs",
+    "datafusion/functions/src/math/trunc.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/eliminate_outer_join.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 723
+  },
+  {
+   "number": 23752,
+   "title": "Proto: add DataSink serialization hook",
+   "url": "https://github.com/apache/datafusion/pull/23752",
+   "merged_at": "2026-08-06",
+   "additions": 461,
+   "deletions": 119,
+   "changed_files": 8,
+   "labels": [
+    "proto",
+    "datasource"
+   ],
+   "issues": [
+    {
+     "n": 23498,
+     "title": "Proto: add DataSink try_to_proto hook + port FileSinkConfig serde",
+     "url": "https://github.com/apache/datafusion/issues/23498"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource/Cargo.toml",
+    "datafusion/datasource/src/file_sink_config.rs",
+    "datafusion/datasource/src/file_sink_config/proto.rs",
+    "datafusion/datasource/src/sink.rs",
+    "datafusion/proto/src/physical_plan/from_proto.rs",
+    "datafusion/proto/src/physical_plan/mod.rs",
+    "datafusion/proto/src/physical_plan/to_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 721
+  },
+  {
+   "number": 23239,
+   "title": "Aggregations Support `Partitioning::Range`",
+   "url": "https://github.com/apache/datafusion/pull/23239",
+   "merged_at": "2026-07-02",
+   "additions": 535,
+   "deletions": 99,
+   "changed_files": 5,
+   "labels": [
+    "optimizer",
+    "core",
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 23191,
+     "title": "Allow `Partitioning::Range` to satisfy aggregation `Distribution::KeyPartitioned` requirements",
+     "url": "https://github.com/apache/datafusion/issues/23191"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_distribution.rs",
+    "datafusion/physical-optimizer/src/sanity_checker.rs",
+    "datafusion/physical-optimizer/src/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 715
+  },
+  {
+   "number": 23484,
+   "title": "feat: support co-partitioned range right-side equi hash joins",
+   "url": "https://github.com/apache/datafusion/pull/23484",
+   "merged_at": "2026-07-21",
+   "additions": 449,
+   "deletions": 26,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 23453,
+     "title": "Allow co-partitioned `Partitioning::Range` inputs for right-side hash joins",
+     "url": "https://github.com/apache/datafusion/issues/23453"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/core/tests/physical_optimizer/sanity_checker.rs",
+    "datafusion/sqllogictest/src/test_context/range_partitioning.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 709
+  },
+  {
+   "number": 23911,
+   "title": "feat: centralizing higher-order list lambda evaluation helpers",
+   "url": "https://github.com/apache/datafusion/pull/23911",
+   "merged_at": "2026-07-30",
+   "additions": 497,
+   "deletions": 186,
+   "changed_files": 6,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 23667,
+     "title": "Centralize higher-order list lambda evaluation helpers",
+     "url": "https://github.com/apache/datafusion/issues/23667"
+    }
+   ],
+   "src_files": [
+    "datafusion/functions-nested/src/array_any_match.rs",
+    "datafusion/functions-nested/src/array_filter.rs",
+    "datafusion/functions-nested/src/array_first.rs",
+    "datafusion/functions-nested/src/lambda_utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/array/array_any_match.slt",
+    "datafusion/sqllogictest/test_files/array/array_filter.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 697
+  },
+  {
+   "number": 24600,
+   "title": " Adapt existing partitioning for unsatisfied inputs in co-partitioned joins",
+   "url": "https://github.com/apache/datafusion/pull/24600",
+   "merged_at": "2026-08-29",
+   "additions": 514,
+   "deletions": 41,
+   "changed_files": 5,
+   "labels": [
+    "physical-expr",
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 24599,
+     "title": "Avoid unnecessary repartitioning when joining against pre-partitioned relations",
+     "url": "https://github.com/apache/datafusion/issues/24599"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-expr/src/partitioning.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_distribution.rs",
+    "datafusion/physical-plan/src/distribution_requirements.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 694
+  },
+  {
+   "number": 23743,
+   "title": "perf: preserve dictionary encoding for `bit_length`, `octet_length`, and `ascii`",
+   "url": "https://github.com/apache/datafusion/pull/23743",
+   "merged_at": "2026-07-23",
+   "additions": 331,
+   "deletions": 70,
+   "changed_files": 9,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions/Cargo.toml",
+    "datafusion/functions/benches/dictionary_encoding.rs",
+    "datafusion/functions/src/string/ascii.rs",
+    "datafusion/functions/src/string/bit_length.rs",
+    "datafusion/functions/src/string/octet_length.rs",
+    "datafusion/functions/src/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/functions.slt",
+    "datafusion/sqllogictest/test_files/string/string_literal.slt",
+    "datafusion/sqllogictest/test_files/string/string_query.slt.part"
+   ],
+   "theme_hits": [
+    "encod"
+   ],
+   "horizon_score": 691
+  },
+  {
+   "number": 23480,
+   "title": "Enforce co-partitioning for sort merge and symmetric hash joins",
+   "url": "https://github.com/apache/datafusion/pull/23480",
+   "merged_at": "2026-07-15",
+   "additions": 428,
+   "deletions": 33,
+   "changed_files": 7,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "catalog",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 23451,
+     "title": "Audit multi-child `Distribution::KeyPartitioned` requirements before general Range satisfaction",
+     "url": "https://github.com/apache/datafusion/issues/23451"
+    },
+    {
+     "n": 23478,
+     "title": "Allow co-partitioned `Partitioning::Range` inputs for sort merge joins",
+     "url": "https://github.com/apache/datafusion/issues/23478"
+    },
+    {
+     "n": 23479,
+     "title": "Allow co-partitioned `Partitioning::Range` inputs for symmetric hash joins",
+     "url": "https://github.com/apache/datafusion/issues/23479"
+    }
+   ],
+   "src_files": [
+    "datafusion/catalog/src/streaming.rs",
+    "datafusion/physical-plan/src/joins/sort_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/symmetric_hash_join.rs",
+    "datafusion/physical-plan/src/streaming.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/sanity_checker.rs",
+    "datafusion/sqllogictest/src/test_context/range_partitioning.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 688
+  },
+  {
+   "number": 23416,
+   "title": "feat: allow Partitioning::Range to satisfy window Distribution::KeyPartitioned requirements",
+   "url": "https://github.com/apache/datafusion/pull/23416",
+   "merged_at": "2026-07-14",
+   "additions": 403,
+   "deletions": 20,
+   "changed_files": 6,
+   "labels": [
+    "core",
+    "sqllogictest",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 23289,
+     "title": "Allow `Partitioning::Range` to satisfy window `Distribution::KeyPartitioned` requirements",
+     "url": "https://github.com/apache/datafusion/issues/23289"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/windows/bounded_window_agg_exec.rs",
+    "datafusion/physical-plan/src/windows/window_agg_exec.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/core/tests/physical_optimizer/sanity_checker.rs",
+    "datafusion/core/tests/physical_optimizer/test_utils.rs",
+    "datafusion/sqllogictest/test_files/range_partitioning.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 683
+  },
+  {
+   "number": 24094,
+   "title": "physical-plan: coerce UNION/INTERLEAVE schema mismatches at plan time",
+   "url": "https://github.com/apache/datafusion/pull/24094",
+   "merged_at": "2026-08-10",
+   "additions": 338,
+   "deletions": 88,
+   "changed_files": 6,
+   "labels": [
+    "physical-expr",
+    "core",
+    "sqllogictest",
+    "proto",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-expr/src/projection.rs",
+    "datafusion/physical-plan/src/union.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/dataframe/mod.rs",
+    "datafusion/proto/tests/cases/plans/misc.rs",
+    "datafusion/sqllogictest/test_files/array_agg.slt",
+    "datafusion/sqllogictest/test_files/union.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 678
+  },
+  {
+   "number": 24329,
+   "title": "perf(core): cut `datafusion` core compile time ~10x",
+   "url": "https://github.com/apache/datafusion/pull/24329",
+   "merged_at": "2026-08-13",
+   "additions": 335,
+   "deletions": 73,
+   "changed_files": 9,
+   "labels": [
+    "core"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/core/src/dataframe/mod.rs",
+    "datafusion/core/src/datasource/dynamic_file.rs",
+    "datafusion/core/src/datasource/file_format/options.rs",
+    "datafusion/core/src/datasource/listing/table.rs",
+    "datafusion/core/src/datasource/listing_table_factory.rs",
+    "datafusion/core/src/datasource/provider.rs",
+    "datafusion/core/src/execution/session_state.rs",
+    "datafusion/core/src/physical_planner.rs"
+   ],
+   "test_files": [
+    "datafusion/core/src/test_util/mod.rs"
+   ],
+   "theme_hits": [
+    "dataframe",
+    "format"
+   ],
+   "horizon_score": 675
+  },
+  {
+   "number": 23813,
+   "title": "fix: reject nested aggregate functions (e.g. `sum(sum(x))`) during logical planning",
+   "url": "https://github.com/apache/datafusion/pull/23813",
+   "merged_at": "2026-07-23",
+   "additions": 428,
+   "deletions": 5,
+   "changed_files": 6,
+   "labels": [
+    "sql",
+    "logical-expr",
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 23812,
+     "title": "Nested aggregate functions (e.g. `sum(sum(x))`) are accepted at logical planning and fail at physical planning with an unhelpful error",
+     "url": "https://github.com/apache/datafusion/issues/23812"
+    }
+   ],
+   "src_files": [
+    "datafusion/expr/src/logical_plan/builder.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/expr/src/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sql/tests/cases/diagnostic.rs",
+    "datafusion/sql/tests/sql_integration.rs",
+    "datafusion/sqllogictest/test_files/aggregate.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 668
+  },
+  {
+   "number": 23930,
+   "title": "perf: preserve dictionary encoding for `character_length`, `initcap`, and `reverse`",
+   "url": "https://github.com/apache/datafusion/pull/23930",
+   "merged_at": "2026-08-03",
+   "additions": 258,
+   "deletions": 83,
+   "changed_files": 9,
+   "labels": [
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions/Cargo.toml",
+    "datafusion/functions/benches/dictionary_encoding.rs",
+    "datafusion/functions/src/unicode/character_length.rs",
+    "datafusion/functions/src/unicode/initcap.rs",
+    "datafusion/functions/src/unicode/reverse.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/binary.slt",
+    "datafusion/sqllogictest/test_files/functions.slt",
+    "datafusion/sqllogictest/test_files/string/string_literal.slt",
+    "datafusion/sqllogictest/test_files/string/string_query.slt.part"
+   ],
+   "theme_hits": [
+    "encod"
+   ],
+   "horizon_score": 658
+  },
+  {
+   "number": 23088,
+   "title": "[branch-54] backport #22857 (Skip loading Parquet page index when row-group statistics already prove it cannot prune)",
+   "url": "https://github.com/apache/datafusion/pull/23088",
+   "merged_at": "2026-06-22",
+   "additions": 435,
+   "deletions": 72,
+   "changed_files": 6,
+   "labels": [
+    "sqllogictest",
+    "datasource"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion-cli/src/main.rs",
+    "datafusion/datasource-parquet/src/metadata.rs",
+    "datafusion/datasource-parquet/src/metrics.rs",
+    "datafusion/datasource-parquet/src/opener/mod.rs",
+    "datafusion/datasource-parquet/src/reader.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/dynamic_filter_pushdown_config.slt"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 655
+  },
+  {
+   "number": 23140,
+   "title": "fix: Fix peak memory display in `EXPLAIN ANALYZE` for multiple operators",
+   "url": "https://github.com/apache/datafusion/pull/23140",
+   "merged_at": "2026-06-26",
+   "additions": 330,
+   "deletions": 14,
+   "changed_files": 12,
+   "labels": [
+    "api change",
+    "physical-expr",
+    "sqllogictest",
+    "ffi",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/ffi/src/physical_expr/metrics.rs",
+    "datafusion/physical-expr-common/src/metrics/builder.rs",
+    "datafusion/physical-expr-common/src/metrics/mod.rs",
+    "datafusion/physical-expr-common/src/metrics/value.rs",
+    "datafusion/physical-plan/src/aggregates/row_hash.rs",
+    "datafusion/physical-plan/src/buffer.rs",
+    "datafusion/physical-plan/src/display.rs",
+    "datafusion/physical-plan/src/joins/sort_merge_join/bitwise_stream.rs",
+    "datafusion/physical-plan/src/joins/sort_merge_join/metrics.rs",
+    "datafusion/physical-plan/src/joins/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/explain_analyze.slt",
+    "datafusion/sqllogictest/test_files/joins.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 650
+  },
+  {
+   "number": 24809,
+   "title": "fix: preserve fetch across distribution reoptimization",
+   "url": "https://github.com/apache/datafusion/pull/24809",
+   "merged_at": "2026-09-09",
+   "additions": 404,
+   "deletions": 138,
+   "changed_files": 6,
+   "labels": [
+    "optimizer",
+    "core"
+   ],
+   "issues": [
+    {
+     "n": 24807,
+     "title": "EnsureRequirements can silently drop fetch during distribution reoptimization",
+     "url": "https://github.com/apache/datafusion/issues/24807"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_distribution.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/mod.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/replace_with_order_preserving_variants.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_distribution.rs",
+    "datafusion/core/tests/physical_optimizer/enforce_sorting.rs",
+    "datafusion/core/tests/physical_optimizer/replace_with_order_preserving_variants.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 644
+  },
+  {
+   "number": 24183,
+   "title": "fix(proto): serialize Global/LocalLimitExec required_ordering",
+   "url": "https://github.com/apache/datafusion/pull/24183",
+   "merged_at": "2026-08-10",
+   "additions": 322,
+   "deletions": 58,
+   "changed_files": 9,
+   "labels": [
+    "physical-expr",
+    "optimizer",
+    "core",
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24173,
+     "title": "Global/LocalLimitExec::required_ordering is not serialized, losing order-sensitivity of a pushed-down LIMIT",
+     "url": "https://github.com/apache/datafusion/issues/24173"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-expr-common/src/sort_expr.rs",
+    "datafusion/physical-optimizer/src/ensure_requirements/enforce_sorting/mod.rs",
+    "datafusion/physical-plan/src/joins/symmetric_hash_join.rs",
+    "datafusion/physical-plan/src/limit.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/physical_optimizer/enforce_sorting.rs",
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 642
+  },
+  {
+   "number": 24917,
+   "title": "fix(optimizer): bound planning-time regex compilation",
+   "url": "https://github.com/apache/datafusion/pull/24917",
+   "merged_at": "2026-09-06",
+   "additions": 402,
+   "deletions": 10,
+   "changed_files": 9,
+   "labels": [
+    "logical-expr",
+    "physical-expr",
+    "optimizer",
+    "core",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 22185,
+     "title": "Slow logical planning (>1s) for regexp_like with nested {N} quantifiers",
+     "url": "https://github.com/apache/datafusion/issues/22185"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion/expr/src/simplify.rs",
+    "datafusion/expr/src/udf.rs",
+    "datafusion/functions/src/regex/regexplike.rs",
+    "datafusion/optimizer/src/simplify_expressions/expr_simplifier.rs",
+    "datafusion/physical-expr/Cargo.toml",
+    "datafusion/physical-expr/src/simplifier/const_evaluator.rs",
+    "datafusion/physical-expr/src/simplifier/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/optimizer/mod.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 622
+  },
+  {
+   "number": 23185,
+   "title": "refactor: make join projection pushdown schema-aware via ColumnIndex/\u2026",
+   "url": "https://github.com/apache/datafusion/pull/23185",
+   "merged_at": "2026-07-15",
+   "additions": 418,
+   "deletions": 134,
+   "changed_files": 5,
+   "labels": [
+    "sqllogictest",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23010,
+     "title": "Refactor: Make join projection pushdown schema-aware via `ColumnIndex` / `JoinSide`",
+     "url": "https://github.com/apache/datafusion/issues/23010"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/hash_join/exec.rs",
+    "datafusion/physical-plan/src/joins/nested_loop_join.rs",
+    "datafusion/physical-plan/src/joins/symmetric_hash_join.rs",
+    "datafusion/physical-plan/src/projection.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/subquery.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 618
+  },
+  {
+   "number": 23488,
+   "title": "feat(substrait): serialize correlated subqueries with OuterReference field references",
+   "url": "https://github.com/apache/datafusion/pull/23488",
+   "merged_at": "2026-08-18",
+   "additions": 355,
+   "deletions": 31,
+   "changed_files": 5,
+   "labels": [
+    "substrait"
+   ],
+   "issues": [
+    {
+     "n": 16280,
+     "title": "[substrait] [sqllogictest] Cannot convert Exists { subquery: <subquery>, negated: true } to Substrait",
+     "url": "https://github.com/apache/datafusion/issues/16280"
+    }
+   ],
+   "src_files": [
+    "datafusion/substrait/src/logical_plan/producer/expr/field_reference.rs",
+    "datafusion/substrait/src/logical_plan/producer/expr/mod.rs",
+    "datafusion/substrait/src/logical_plan/producer/expr/subquery.rs",
+    "datafusion/substrait/src/logical_plan/producer/substrait_producer.rs"
+   ],
+   "test_files": [
+    "datafusion/substrait/tests/cases/roundtrip_logical_plan.rs"
+   ],
+   "theme_hits": [
+    "query",
+    "serializ"
+   ],
+   "horizon_score": 615
+  },
+  {
+   "number": 24869,
+   "title": "perf: compact inputs for grouped aggregate filter",
+   "url": "https://github.com/apache/datafusion/pull/24869",
+   "merged_at": "2026-09-10",
+   "additions": 413,
+   "deletions": 84,
+   "changed_files": 5,
+   "labels": [
+    "sqllogictest",
+    "functions",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/functions-aggregate-common/src/aggregate/groups_accumulator/accumulate.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/common_ordered.rs",
+    "datafusion/physical-plan/src/aggregates/aggregate_hash_table/partial_table.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/aggregate_filter_selection.slt"
+   ],
+   "theme_hits": [
+    "compact"
+   ],
+   "horizon_score": 613
+  },
+  {
+   "number": 23606,
+   "title": "fix: reduce peak memory usage when round robin tiebreaker is disabled",
+   "url": "https://github.com/apache/datafusion/pull/23606",
+   "merged_at": "2026-08-07",
+   "additions": 323,
+   "deletions": 66,
+   "changed_files": 11,
+   "labels": [
+    "core",
+    "execution",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "benchmarks/Cargo.toml",
+    "benchmarks/src/bin/external_aggr.rs",
+    "benchmarks/src/util/memory.rs",
+    "benchmarks/src/util/mod.rs",
+    "benchmarks/src/util/options.rs",
+    "benchmarks/src/util/run.rs",
+    "datafusion/execution/src/memory_pool/mod.rs",
+    "datafusion/execution/src/memory_pool/peak_recording.rs",
+    "datafusion/physical-plan/src/sorts/merge.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/spilling_fuzz_in_memory_constrained_env.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 583
+  },
+  {
+   "number": 23030,
+   "title": "feat: logical plan protobuf representation for range repartitioning",
+   "url": "https://github.com/apache/datafusion/pull/23030",
+   "merged_at": "2026-06-22",
+   "additions": 387,
+   "deletions": 28,
+   "changed_files": 7,
+   "labels": [
+    "proto",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 22787,
+     "title": "Support logical protobuf serialization for range repartitioning",
+     "url": "https://github.com/apache/datafusion/issues/22787"
+    }
+   ],
+   "src_files": [
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto/src/logical_plan/from_proto.rs",
+    "datafusion/proto/src/logical_plan/mod.rs",
+    "datafusion/proto/src/logical_plan/to_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_logical_plan.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 567
+  },
+  {
+   "number": 24233,
+   "title": "fix(proto): preserve CSV/JSON scan options on roundtrip",
+   "url": "https://github.com/apache/datafusion/pull/24233",
+   "merged_at": "2026-08-26",
+   "additions": 317,
+   "deletions": 28,
+   "changed_files": 10,
+   "labels": [
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24180,
+     "title": "Physical plan proto silently drops CSV/JSON scan options (newline_delimited, terminator, compression)",
+     "url": "https://github.com/apache/datafusion/issues/24180"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "datafusion/datasource-csv/src/source.rs",
+    "datafusion/datasource-json/src/source.rs",
+    "datafusion/datasource/src/file_scan_config/proto.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs",
+    "datafusion/proto/Cargo.toml",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/sources.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 557
+  },
+  {
+   "number": 23710,
+   "title": "refactor(proto): migrate single-child plans",
+   "url": "https://github.com/apache/datafusion/pull/23710",
+   "merged_at": "2026-07-21",
+   "additions": 336,
+   "deletions": 110,
+   "changed_files": 6,
+   "labels": [
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23500,
+     "title": "Proto: migrate trivial single-child plans (CoalesceBatches, CoalescePartitions, Cooperative, Buffer)",
+     "url": "https://github.com/apache/datafusion/issues/23500"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-plan/src/buffer.rs",
+    "datafusion/physical-plan/src/coalesce_batches.rs",
+    "datafusion/physical-plan/src/coalesce_partitions.rs",
+    "datafusion/physical-plan/src/coop.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [
+    "migrat"
+   ],
+   "horizon_score": 556
+  },
+  {
+   "number": 23459,
+   "title": "perf: don't re-inline CSE'd expensive expressions in projection pushdown",
+   "url": "https://github.com/apache/datafusion/pull/23459",
+   "merged_at": "2026-07-20",
+   "additions": 368,
+   "deletions": 37,
+   "changed_files": 5,
+   "labels": [
+    "performance",
+    "core",
+    "sqllogictest",
+    "datasource"
+   ],
+   "issues": [
+    {
+     "n": 23425,
+     "title": "Preserve CSE for expensive expressions when pushing projections into file scans",
+     "url": "https://github.com/apache/datafusion/issues/23425"
+    }
+   ],
+   "src_files": [
+    "datafusion/core/Cargo.toml",
+    "datafusion/core/benches/cse_projection_pushdown.rs",
+    "datafusion/datasource/src/file_scan_config/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/projection_pushdown.slt",
+    "datafusion/sqllogictest/test_files/window.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 548
+  },
+  {
+   "number": 24642,
+   "title": "fix: validate parquet statistics config",
+   "url": "https://github.com/apache/datafusion/pull/24642",
+   "merged_at": "2026-09-10",
+   "additions": 278,
+   "deletions": 19,
+   "changed_files": 8,
+   "labels": [
+    "sqllogictest",
+    "common",
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/common/src/config.rs",
+    "datafusion/common/src/file_options/parquet_writer.rs",
+    "datafusion/common/src/parquet_config.rs",
+    "datafusion/datasource-parquet/src/file_format.rs",
+    "datafusion/proto-common/src/from_proto/mod.rs",
+    "datafusion/proto-common/src/to_proto/mod.rs",
+    "datafusion/proto-models/src/from_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/set_variable.slt"
+   ],
+   "theme_hits": [
+    "parquet"
+   ],
+   "horizon_score": 538
+  },
+  {
+   "number": 24939,
+   "title": "fix: preserve Arrow field metadata on scalar subquery expressions",
+   "url": "https://github.com/apache/datafusion/pull/24939",
+   "merged_at": "2026-09-07",
+   "additions": 251,
+   "deletions": 18,
+   "changed_files": 7,
+   "labels": [
+    "physical-expr",
+    "core",
+    "sqllogictest",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24933,
+     "title": "Scalar subqueries drop extension metadata from their result",
+     "url": "https://github.com/apache/datafusion/issues/24933"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-expr/src/planner.rs",
+    "datafusion/physical-expr/src/scalar_subquery.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/user_defined/user_defined_scalar_functions.rs",
+    "datafusion/sqllogictest/test_files/metadata.slt"
+   ],
+   "theme_hits": [
+    "query"
+   ],
+   "horizon_score": 531
+  },
+  {
+   "number": 24648,
+   "title": "fix: ignore exact empty files in ordering analysis",
+   "url": "https://github.com/apache/datafusion/pull/24648",
+   "merged_at": "2026-09-01",
+   "additions": 353,
+   "deletions": 22,
+   "changed_files": 6,
+   "labels": [
+    "sqllogictest",
+    "catalog",
+    "common",
+    "datasource"
+   ],
+   "issues": [
+    {
+     "n": 24647,
+     "title": "Empty Parquet files invalidate file ordering and statistics-based grouping",
+     "url": "https://github.com/apache/datafusion/issues/24647"
+    }
+   ],
+   "src_files": [
+    "datafusion/catalog-listing/src/table.rs",
+    "datafusion/common/src/stats.rs",
+    "datafusion/datasource/src/file_scan_config/mod.rs",
+    "datafusion/datasource/src/file_scan_config/sort_pushdown.rs",
+    "datafusion/datasource/src/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/parquet_sorted_statistics.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 513
+  },
+  {
+   "number": 24669,
+   "title": "fix(proto): preserve AnalyzeExec metric types across serialization",
+   "url": "https://github.com/apache/datafusion/pull/24669",
+   "merged_at": "2026-08-31",
+   "additions": 290,
+   "deletions": 14,
+   "changed_files": 6,
+   "labels": [
+    "proto",
+    "physical-plan",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/analyze.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/mod.rs",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/misc.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 510
+  },
+  {
+   "number": 23468,
+   "title": "fix(substrait): preserve grouping set output order",
+   "url": "https://github.com/apache/datafusion/pull/23468",
+   "merged_at": "2026-09-03",
+   "additions": 289,
+   "deletions": 10,
+   "changed_files": 5,
+   "labels": [
+    "substrait"
+   ],
+   "issues": [
+    {
+     "n": 17910,
+     "title": "Handling of Aggregates with multiple groupings sets is incorrect",
+     "url": "https://github.com/apache/datafusion/issues/17910"
+    }
+   ],
+   "src_files": [
+    "datafusion/substrait/src/logical_plan/consumer/rel/aggregate_rel.rs",
+    "datafusion/substrait/src/logical_plan/producer/rel/aggregate_rel.rs"
+   ],
+   "test_files": [
+    "datafusion/substrait/tests/cases/aggregation_tests.rs",
+    "datafusion/substrait/tests/cases/roundtrip_logical_plan.rs",
+    "datafusion/substrait/tests/testdata/test_plans/aggregate_groupings/multiple_groupings.json"
+   ],
+   "theme_hits": [],
+   "horizon_score": 509
+  },
+  {
+   "number": 24534,
+   "title": "fix: preserve nullability for non-empty scalar subqueries",
+   "url": "https://github.com/apache/datafusion/pull/24534",
+   "merged_at": "2026-08-21",
+   "additions": 293,
+   "deletions": 24,
+   "changed_files": 5,
+   "labels": [
+    "logical-expr",
+    "physical-expr",
+    "optimizer",
+    "sqllogictest"
+   ],
+   "issues": [
+    {
+     "n": 24513,
+     "title": "Scalar subquery returning no rows is incorrectly marked non-nullable",
+     "url": "https://github.com/apache/datafusion/issues/24513"
+    }
+   ],
+   "src_files": [
+    "datafusion/expr/src/expr_schema.rs",
+    "datafusion/expr/src/logical_plan/plan.rs",
+    "datafusion/optimizer/src/simplify_expressions/expr_simplifier.rs",
+    "datafusion/physical-expr/src/planner.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/subquery.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 493
+  },
+  {
+   "number": 23232,
+   "title": "Align scalar UDF literal args with coerced return fields",
+   "url": "https://github.com/apache/datafusion/pull/23232",
+   "merged_at": "2026-08-24",
+   "additions": 248,
+   "deletions": 28,
+   "changed_files": 5,
+   "labels": [
+    "logical-expr",
+    "optimizer",
+    "core",
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 19982,
+     "title": "`ReturnFieldArgs.scalar_arguments` type doesn't match with `arg_fields`",
+     "url": "https://github.com/apache/datafusion/issues/19982"
+    }
+   ],
+   "src_files": [
+    "datafusion/expr/src/expr_schema.rs",
+    "datafusion/functions/src/math/round.rs",
+    "datafusion/optimizer/src/analyzer/type_coercion.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/user_defined/user_defined_scalar_functions.rs",
+    "datafusion/sqllogictest/test_files/string_numeric_coercion.slt"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 488
+  },
+  {
+   "number": 23148,
+   "title": "feat: add strictness metadata for scalar UDF null propagation and use it in outer join elimination",
+   "url": "https://github.com/apache/datafusion/pull/23148",
+   "merged_at": "2026-07-07",
+   "additions": 340,
+   "deletions": 5,
+   "changed_files": 5,
+   "labels": [
+    "logical-expr",
+    "optimizer",
+    "sqllogictest",
+    "functions"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/expr/src/predicate_bounds.rs",
+    "datafusion/expr/src/udf.rs",
+    "datafusion/functions/src/math/abs.rs",
+    "datafusion/optimizer/src/eliminate_outer_join.rs"
+   ],
+   "test_files": [
+    "datafusion/sqllogictest/test_files/eliminate_outer_join.slt"
+   ],
+   "theme_hits": [],
+   "horizon_score": 480
+  },
+  {
+   "number": 24887,
+   "title": "fix: preserve output field name when reversing aggregate window expressions",
+   "url": "https://github.com/apache/datafusion/pull/24887",
+   "merged_at": "2026-09-10",
+   "additions": 272,
+   "deletions": 69,
+   "changed_files": 6,
+   "labels": [
+    "physical-expr",
+    "core",
+    "physical-plan"
+   ],
+   "issues": [
+    {
+     "n": 24884,
+     "title": "Window reversal renames output field for aggregate-UDAF window functions, breaking parent projection",
+     "url": "https://github.com/apache/datafusion/issues/24884"
+    }
+   ],
+   "src_files": [
+    "datafusion/physical-expr/src/aggregate.rs",
+    "datafusion/physical-expr/src/window/aggregate.rs",
+    "datafusion/physical-expr/src/window/sliding_aggregate.rs",
+    "datafusion/physical-plan/src/windows/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/dataframe/mod.rs",
+    "datafusion/core/tests/physical_optimizer/window_optimize.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 472
+  },
+  {
+   "number": 24224,
+   "title": "fix(proto): preserve Arrow IPC stream format",
+   "url": "https://github.com/apache/datafusion/pull/24224",
+   "merged_at": "2026-08-15",
+   "additions": 256,
+   "deletions": 9,
+   "changed_files": 5,
+   "labels": [
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 24196,
+     "title": "Arrow IPC stream format is silently lost when a scan is serialized to protobuf",
+     "url": "https://github.com/apache/datafusion/issues/24196"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource-arrow/src/source.rs",
+    "datafusion/proto-models/proto/datafusion.proto",
+    "datafusion/proto-models/src/generated/pbjson.rs",
+    "datafusion/proto-models/src/generated/prost.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/plans/sources.rs"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 456
+  },
+  {
+   "number": 24433,
+   "title": "fix: expand float fuzz coverage and correct discovered inconsistencies",
+   "url": "https://github.com/apache/datafusion/pull/24433",
+   "merged_at": "2026-08-20",
+   "additions": 260,
+   "deletions": 13,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "common",
+    "functions"
+   ],
+   "issues": [
+    {
+     "n": 24431,
+     "title": "`ScalarValue::eq_array` is inconsistent with `ScalarValue` equality for floating-point values",
+     "url": "https://github.com/apache/datafusion/issues/24431"
+    },
+    {
+     "n": 24432,
+     "title": "Grouped floating-point `MIN` and `MAX` return order-dependent results for NaNs and signed zeros",
+     "url": "https://github.com/apache/datafusion/issues/24432"
+    }
+   ],
+   "src_files": [
+    "datafusion/common/src/scalar/mod.rs",
+    "datafusion/functions-aggregate/src/min_max.rs",
+    "test-utils/src/array_gen/random_data.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/mod.rs",
+    "datafusion/core/tests/fuzz_cases/scalar_value_fuzz.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 440
+  },
+  {
+   "number": 24187,
+   "title": "Proto: migrate MemorySourceConfig to per-source try_to_proto / try_from_proto hooks",
+   "url": "https://github.com/apache/datafusion/pull/24187",
+   "merged_at": "2026-08-09",
+   "additions": 220,
+   "deletions": 89,
+   "changed_files": 5,
+   "labels": [
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [
+    {
+     "n": 23518,
+     "title": "Proto: migrate MemorySourceConfig",
+     "url": "https://github.com/apache/datafusion/issues/23518"
+    }
+   ],
+   "src_files": [
+    "datafusion/datasource/src/memory.rs",
+    "datafusion/proto/src/physical_plan/from_proto.rs",
+    "datafusion/proto/src/physical_plan/mod.rs",
+    "datafusion/proto/src/physical_plan/to_proto.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [
+    "migrat"
+   ],
+   "horizon_score": 420
+  },
+  {
+   "number": 24177,
+   "title": "refactor(proto): migrate CsvSource serde",
+   "url": "https://github.com/apache/datafusion/pull/24177",
+   "merged_at": "2026-08-08",
+   "additions": 211,
+   "deletions": 113,
+   "changed_files": 5,
+   "labels": [
+    "proto",
+    "datasource",
+    "auto detected api change"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/datasource-csv/Cargo.toml",
+    "datafusion/datasource-csv/src/source.rs",
+    "datafusion/proto/src/common.rs",
+    "datafusion/proto/src/physical_plan/mod.rs"
+   ],
+   "test_files": [
+    "datafusion/proto/tests/cases/roundtrip_physical_plan.rs"
+   ],
+   "theme_hits": [
+    "migrat"
+   ],
+   "horizon_score": 411
+  },
+  {
+   "number": 24579,
+   "title": "perf: replace PiecewiseMergeJoin's visited bitmap with a suffix watermark (~1.8x faster Left join)",
+   "url": "https://github.com/apache/datafusion/pull/24579",
+   "merged_at": "2026-08-29",
+   "additions": 241,
+   "deletions": 111,
+   "changed_files": 5,
+   "labels": [
+    "core",
+    "physical-plan"
+   ],
+   "issues": [],
+   "src_files": [
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/classic_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/exec.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/existence_join.rs",
+    "datafusion/physical-plan/src/joins/piecewise_merge_join/utils.rs"
+   ],
+   "test_files": [
+    "datafusion/core/tests/fuzz_cases/join_fuzz.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 381
+  }
+ ]
+}

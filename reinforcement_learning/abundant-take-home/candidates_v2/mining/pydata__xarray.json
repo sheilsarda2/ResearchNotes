@@ -1,0 +1,217 @@
+{
+ "repo": "pydata/xarray",
+ "mined_at": "2026-09-13T10:12:16.598838Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 220,
+ "candidates": 6,
+ "prs": [
+  {
+   "number": 11398,
+   "title": "Add map_blocks and some testing support for array query expressions",
+   "url": "https://github.com/pydata/xarray/pull/11398",
+   "merged_at": "2026-06-29",
+   "additions": 1063,
+   "deletions": 350,
+   "changed_files": 37,
+   "labels": [
+    "topic-backends",
+    "topic-dask",
+    "topic-testing",
+    "topic-arrays",
+    "plan to merge",
+    "io",
+    "topic-NamedArray"
+   ],
+   "issues": [],
+   "src_files": [
+    "conftest.py",
+    "xarray/backends/api.py",
+    "xarray/compat/dask_array_compat.py",
+    "xarray/core/accessor_dt.py",
+    "xarray/core/dask_array_expr.py",
+    "xarray/core/dataset.py",
+    "xarray/core/duck_array_ops.py",
+    "xarray/core/parallel.py",
+    "xarray/structure/chunks.py"
+   ],
+   "test_files": [
+    "xarray/tests/CLAUDE.md",
+    "xarray/tests/__init__.py",
+    "xarray/tests/test_accessor_dt.py",
+    "xarray/tests/test_accessor_str.py",
+    "xarray/tests/test_backends.py",
+    "xarray/tests/test_backends_datatree.py",
+    "xarray/tests/test_coding.py",
+    "xarray/tests/test_coding_strings.py",
+    "xarray/tests/test_coding_times.py",
+    "xarray/tests/test_computation.py",
+    "xarray/tests/test_conventions.py",
+    "xarray/tests/test_dask.py",
+    "xarray/tests/test_dask_expr_protocol.py",
+    "xarray/tests/test_dataarray.py",
+    "xarray/tests/test_dataset.py",
+    "xarray/tests/test_datatree.py",
+    "xarray/tests/test_distributed.py",
+    "xarray/tests/test_duck_array_ops.py",
+    "xarray/tests/test_duck_array_wrapping.py",
+    "xarray/tests/test_groupby.py"
+   ],
+   "theme_hits": [
+    "backend",
+    "chunk",
+    "query"
+   ],
+   "horizon_score": 3103
+  },
+  {
+   "number": 10987,
+   "title": "Use cumsum from flox",
+   "url": "https://github.com/pydata/xarray/pull/10987",
+   "merged_at": "2026-03-29",
+   "additions": 805,
+   "deletions": 273,
+   "changed_files": 8,
+   "labels": [
+    "topic-groupby",
+    "topic-performance",
+    "plan to merge",
+    "run-benchmark",
+    "topic-DataTree"
+   ],
+   "issues": [
+    {
+     "n": 6528,
+     "title": "cumsum drops index coordinates",
+     "url": "https://github.com/pydata/xarray/issues/6528"
+    }
+   ],
+   "src_files": [
+    "asv_bench/benchmarks/groupby.py",
+    "doc/whats-new.rst",
+    "xarray/core/_aggregations.py",
+    "xarray/core/datatree.py",
+    "xarray/core/groupby.py",
+    "xarray/util/generate_aggregations.py"
+   ],
+   "test_files": [
+    "xarray/tests/test_dataset.py",
+    "xarray/tests/test_groupby.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1045
+  },
+  {
+   "number": 10816,
+   "title": "Improve HTML reprs",
+   "url": "https://github.com/pydata/xarray/pull/10816",
+   "merged_at": "2026-01-14",
+   "additions": 443,
+   "deletions": 156,
+   "changed_files": 5,
+   "labels": [
+    "topic-html-repr"
+   ],
+   "issues": [],
+   "src_files": [
+    "doc/whats-new.rst",
+    "xarray/core/formatting_html.py",
+    "xarray/core/options.py",
+    "xarray/static/css/style.css"
+   ],
+   "test_files": [
+    "xarray/tests/test_formatting_html.py"
+   ],
+   "theme_hits": [
+    "format"
+   ],
+   "horizon_score": 643
+  },
+  {
+   "number": 11382,
+   "title": "Support query optimization with Dask expression arrays",
+   "url": "https://github.com/pydata/xarray/pull/11382",
+   "merged_at": "2026-06-20",
+   "additions": 323,
+   "deletions": 12,
+   "changed_files": 6,
+   "labels": [
+    "topic-dask",
+    "Automation"
+   ],
+   "issues": [],
+   "src_files": [
+    "xarray/compat/dask_array_compat.py",
+    "xarray/compat/dask_array_ops.py",
+    "xarray/core/dataarray.py",
+    "xarray/core/dataset.py",
+    "xarray/core/parallel.py"
+   ],
+   "test_files": [
+    "xarray/tests/test_dask_expr_protocol.py"
+   ],
+   "theme_hits": [
+    "query"
+   ],
+   "horizon_score": 543
+  },
+  {
+   "number": 11528,
+   "title": "Avoid densifying sparse.COO data in to_series()/to_dataframe()",
+   "url": "https://github.com/pydata/xarray/pull/11528",
+   "merged_at": "2026-08-19",
+   "additions": 295,
+   "deletions": 4,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "doc/whats-new.rst",
+    "xarray/core/dataarray.py",
+    "xarray/core/dataset.py"
+   ],
+   "test_files": [
+    "xarray/tests/test_dataarray.py",
+    "xarray/tests/test_dataset.py"
+   ],
+   "theme_hits": [
+    "dataframe"
+   ],
+   "horizon_score": 535
+  },
+  {
+   "number": 11338,
+   "title": "feat: add __arrow_c_stream__ function",
+   "url": "https://github.com/pydata/xarray/pull/11338",
+   "merged_at": "2026-08-19",
+   "additions": 343,
+   "deletions": 1,
+   "changed_files": 5,
+   "labels": [
+    "plan to merge"
+   ],
+   "issues": [
+    {
+     "n": 10135,
+     "title": "Add a `.to_polars_df()` method (very similar to `.to_dataframe()`, which implicitly uses pandas)",
+     "url": "https://github.com/pydata/xarray/issues/10135"
+    }
+   ],
+   "src_files": [
+    "doc/whats-new.rst",
+    "pyproject.toml",
+    "xarray/core/dataarray.py"
+   ],
+   "test_files": [
+    "xarray/tests/__init__.py",
+    "xarray/tests/test_dataarray.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 523
+  }
+ ]
+}

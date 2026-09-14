@@ -1,0 +1,574 @@
+{
+ "repo": "ros2/rosbag2",
+ "mined_at": "2026-09-13T10:11:22.677651Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 132,
+ "candidates": 16,
+ "prs": [
+  {
+   "number": 2330,
+   "title": "Add delayed modes for recorder and replay services",
+   "url": "https://github.com/ros2/rosbag2/pull/2330",
+   "merged_at": "2026-02-22",
+   "additions": 1618,
+   "deletions": 168,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "README.md",
+    "rosbag2_interfaces/srv/Record.srv",
+    "rosbag2_interfaces/srv/Resume.srv",
+    "rosbag2_interfaces/srv/SplitBagfile.srv",
+    "rosbag2_storage/include/rosbag2_storage/qos.hpp",
+    "rosbag2_transport/CMakeLists.txt",
+    "rosbag2_transport/include/rosbag2_transport/delayed_action_task_runner.hpp",
+    "rosbag2_transport/include/rosbag2_transport/recorder.hpp",
+    "rosbag2_transport/src/rosbag2_transport/delayed_action_task_runner.cpp",
+    "rosbag2_transport/src/rosbag2_transport/delayed_action_task_runner_impl.hpp",
+    "rosbag2_transport/src/rosbag2_transport/player.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_writer.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_services.cpp"
+   ],
+   "theme_hits": [
+    "resum",
+    "storage"
+   ],
+   "horizon_score": 2098
+  },
+  {
+   "number": 2289,
+   "title": "Add \"--max-cache-duration\" option to the Recorder to facilitate the time bounded snapshot feature",
+   "url": "https://github.com/ros2/rosbag2/pull/2289",
+   "merged_at": "2026-01-23",
+   "additions": 813,
+   "deletions": 113,
+   "changed_files": 28,
+   "labels": [],
+   "issues": [
+    {
+     "n": 900,
+     "title": "Snapshot based on duration",
+     "url": "https://github.com/ros2/rosbag2/issues/900"
+    }
+   ],
+   "src_files": [
+    "README.md",
+    "ros2bag/ros2bag/verb/record.py",
+    "rosbag2_cpp/CMakeLists.txt",
+    "rosbag2_cpp/include/rosbag2_cpp/cache/circular_message_cache.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/cache/message_cache.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/cache/message_cache_buffer.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/cache/message_cache_circular_buffer.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/circular_message_cache.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/message_cache.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/message_cache_buffer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/message_cache_circular_buffer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/reindexer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/writers/sequential_writer.cpp",
+    "rosbag2_py/rosbag2_py/_storage.pyi",
+    "rosbag2_py/src/rosbag2_py/_storage.cpp",
+    "rosbag2_storage/include/rosbag2_storage/storage_options.hpp",
+    "rosbag2_storage/src/rosbag2_storage/storage_options.cpp",
+    "rosbag2_transport/src/rosbag2_transport/config_options_from_node_params.cpp"
+   ],
+   "test_files": [
+    "rosbag2_cpp/test/rosbag2_cpp/test_circular_message_cache.cpp",
+    "rosbag2_cpp/test/rosbag2_cpp/test_message_cache.cpp",
+    "rosbag2_storage/test/rosbag2_storage/test_storage_options.cpp",
+    "rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/storage_test_fixture.hpp",
+    "rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp",
+    "rosbag2_tests/test/rosbag2_tests/test_rosbag2_record_end_to_end.cpp",
+    "rosbag2_transport/test/resources/player_node_params.yaml",
+    "rosbag2_transport/test/resources/recorder_node_params.yaml",
+    "rosbag2_transport/test/rosbag2_transport/test_composable_player.cpp",
+    "rosbag2_transport/test/rosbag2_transport/test_composable_recorder.cpp"
+   ],
+   "theme_hits": [
+    "index",
+    "snapshot",
+    "storage"
+   ],
+   "horizon_score": 1953
+  },
+  {
+   "number": 2476,
+   "title": "Support playing bags with topics in mixed serialization formats.",
+   "url": "https://github.com/ros2/rosbag2/pull/2476",
+   "merged_at": "2026-09-11",
+   "additions": 927,
+   "deletions": 84,
+   "changed_files": 24,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "rosbag2_compression/src/rosbag2_compression/sequential_compression_reader.cpp",
+    "rosbag2_compression/src/rosbag2_compression/sequential_compression_writer.cpp",
+    "rosbag2_cpp/include/rosbag2_cpp/reader.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/reader_interfaces/base_reader_interface.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/readers/sequential_reader.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/converter.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/reader.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp",
+    "rosbag2_storage/include/rosbag2_storage/serialized_bag_message.hpp",
+    "rosbag2_storage_mcap/src/mcap_storage.cpp",
+    "rosbag2_storage_sqlite3/include/rosbag2_storage_sqlite3/sqlite_storage.hpp",
+    "rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp",
+    "rosbag2_transport/CMakeLists.txt",
+    "rosbag2_transport/include/rosbag2_transport/readers_manager.hpp",
+    "rosbag2_transport/src/rosbag2_transport/player.cpp",
+    "rosbag2_transport/src/rosbag2_transport/readers_manager.cpp",
+    "rosbag2_transport/src/rosbag2_transport/readers_manager_impl.hpp"
+   ],
+   "test_files": [
+    "rosbag2_cpp/test/rosbag2_cpp/test_sequential_reader.cpp",
+    "rosbag2_cpp/test/rosbag2_cpp/test_serialization_converter.cpp",
+    "rosbag2_storage_mcap/test/rosbag2_storage_mcap/test_mcap_storage.cpp",
+    "rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp",
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_reader.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_play.cpp",
+    "rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp"
+   ],
+   "theme_hits": [
+    "compress",
+    "serializ",
+    "storage"
+   ],
+   "horizon_score": 1867
+  },
+  {
+   "number": 2265,
+   "title": "Update Rosbag2 filename format to index+name+timestamp",
+   "url": "https://github.com/ros2/rosbag2/pull/2265",
+   "merged_at": "2026-02-21",
+   "additions": 655,
+   "deletions": 209,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [
+    {
+     "n": 2198,
+     "title": "Make timestamp-indexed naming the default for split bagfiles",
+     "url": "https://github.com/ros2/rosbag2/issues/2198"
+    }
+   ],
+   "src_files": [
+    "rosbag2_cpp/include/rosbag2_cpp/reindexer.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/writers/sequential_writer.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/reindexer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/writers/sequential_writer.cpp"
+   ],
+   "test_files": [
+    "rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp",
+    "rosbag2_cpp/test/rosbag2_cpp/test_sequential_writer.cpp",
+    "rosbag2_test_common/include/rosbag2_test_common/bag_files_helpers.hpp",
+    "rosbag2_test_common/include/rosbag2_test_common/tested_storage_ids.hpp",
+    "rosbag2_tests/test/rosbag2_tests/record_fixture.hpp",
+    "rosbag2_tests/test/rosbag2_tests/test_rosbag2_cpp_get_service_info.cpp",
+    "rosbag2_tests/test/rosbag2_tests/test_rosbag2_record_end_to_end.cpp",
+    "rosbag2_tests/test/rosbag2_tests/test_rosbag2_storage_api.cpp",
+    "rosbag2_transport/test/rosbag2_transport/test_composable_recorder.cpp"
+   ],
+   "theme_hits": [
+    "format",
+    "index"
+   ],
+   "horizon_score": 1395
+  },
+  {
+   "number": 2447,
+   "title": "use C++ 20 in default.",
+   "url": "https://github.com/ros2/rosbag2/pull/2447",
+   "merged_at": "2026-07-14",
+   "additions": 256,
+   "deletions": 170,
+   "changed_files": 27,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "mcap_vendor/CMakeLists.txt",
+    "mcap_vendor/package.xml",
+    "rosbag2_compression/CMakeLists.txt",
+    "rosbag2_compression/package.xml",
+    "rosbag2_compression_zstd/CMakeLists.txt",
+    "rosbag2_compression_zstd/package.xml",
+    "rosbag2_cpp/CMakeLists.txt",
+    "rosbag2_cpp/package.xml",
+    "rosbag2_examples/rosbag2_examples_cpp/CMakeLists.txt",
+    "rosbag2_examples/rosbag2_examples_cpp/package.xml",
+    "rosbag2_interfaces/CMakeLists.txt",
+    "rosbag2_performance/rosbag2_performance_benchmarking/CMakeLists.txt",
+    "rosbag2_performance/rosbag2_performance_benchmarking/package.xml",
+    "rosbag2_py/CMakeLists.txt",
+    "rosbag2_py/package.xml",
+    "rosbag2_storage/CMakeLists.txt",
+    "rosbag2_storage/package.xml",
+    "rosbag2_storage_mcap/CMakeLists.txt",
+    "rosbag2_storage_mcap/package.xml",
+    "rosbag2_storage_sqlite3/CMakeLists.txt",
+    "rosbag2_storage_sqlite3/package.xml",
+    "rosbag2_tests/CMakeLists.txt",
+    "rosbag2_tests/package.xml",
+    "rosbag2_transport/CMakeLists.txt",
+    "rosbag2_transport/package.xml"
+   ],
+   "test_files": [
+    "rosbag2_test_common/CMakeLists.txt",
+    "rosbag2_test_common/package.xml"
+   ],
+   "theme_hits": [
+    "compress",
+    "mcap",
+    "storage"
+   ],
+   "horizon_score": 1056
+  },
+  {
+   "number": 2319,
+   "title": "Static topic list for recorder",
+   "url": "https://github.com/ros2/rosbag2/pull/2319",
+   "merged_at": "2026-02-03",
+   "additions": 457,
+   "deletions": 18,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [
+    {
+     "n": 2318,
+     "title": "Static topic list for recorder",
+     "url": "https://github.com/ros2/rosbag2/issues/2318"
+    }
+   ],
+   "src_files": [
+    "README.md",
+    "ros2bag/ros2bag/verb/record.py",
+    "rosbag2_py/rosbag2_py/_transport.pyi",
+    "rosbag2_py/src/rosbag2_py/_transport.cpp",
+    "rosbag2_tests/resources/static_topics_list.yaml",
+    "rosbag2_transport/CMakeLists.txt",
+    "rosbag2_transport/include/rosbag2_transport/record_options.hpp",
+    "rosbag2_transport/include/rosbag2_transport/recorder.hpp",
+    "rosbag2_transport/include/rosbag2_transport/topic_filter.hpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp",
+    "rosbag2_transport/src/rosbag2_transport/topic_filter.cpp"
+   ],
+   "test_files": [
+    "rosbag2_tests/test/rosbag2_tests/test_rosbag2_record_end_to_end.cpp",
+    "rosbag2_transport/test/resources/static_topics_list.yaml",
+    "rosbag2_transport/test/rosbag2_transport/mock_recorder.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_static_topics.cpp",
+    "rosbag2_transport/test/rosbag2_transport/test_topic_filter.cpp"
+   ],
+   "theme_hits": [],
+   "horizon_score": 977
+  },
+  {
+   "number": 2357,
+   "title": "Add support for time based Resume service",
+   "url": "https://github.com/ros2/rosbag2/pull/2357",
+   "merged_at": "2026-03-14",
+   "additions": 613,
+   "deletions": 23,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "README.md",
+    "rosbag2_interfaces/srv/Resume.srv",
+    "rosbag2_transport/src/rosbag2_transport/player.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/test_record_services.cpp"
+   ],
+   "theme_hits": [
+    "resum"
+   ],
+   "horizon_score": 813
+  },
+  {
+   "number": 2309,
+   "title": "[jazzy] Add Record, Stop, StartDiscovery, StopDiscovery and IsDiscoveryRunning services for Recorder (backport #2248)",
+   "url": "https://github.com/ros2/rosbag2/pull/2309",
+   "merged_at": "2026-01-12",
+   "additions": 500,
+   "deletions": 70,
+   "changed_files": 11,
+   "labels": [
+    "conflicts"
+   ],
+   "issues": [],
+   "src_files": [
+    "README.md",
+    "rosbag2_interfaces/CMakeLists.txt",
+    "rosbag2_interfaces/srv/IsDiscoveryRunning.srv",
+    "rosbag2_interfaces/srv/Record.srv",
+    "rosbag2_interfaces/srv/StartDiscovery.srv",
+    "rosbag2_interfaces/srv/StopDiscovery.srv",
+    "rosbag2_transport/include/rosbag2_transport/record_options.hpp",
+    "rosbag2_transport/include/rosbag2_transport/recorder.hpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_writer.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_services.cpp"
+   ],
+   "theme_hits": [],
+   "horizon_score": 800
+  },
+  {
+   "number": 2308,
+   "title": "[kilted] Add Record, Stop, StartDiscovery, StopDiscovery and IsDiscoveryRunning services for Recorder (backport #2248)",
+   "url": "https://github.com/ros2/rosbag2/pull/2308",
+   "merged_at": "2026-01-12",
+   "additions": 500,
+   "deletions": 72,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "README.md",
+    "rosbag2_interfaces/CMakeLists.txt",
+    "rosbag2_interfaces/srv/IsDiscoveryRunning.srv",
+    "rosbag2_interfaces/srv/Record.srv",
+    "rosbag2_interfaces/srv/StartDiscovery.srv",
+    "rosbag2_interfaces/srv/StopDiscovery.srv",
+    "rosbag2_transport/include/rosbag2_transport/record_options.hpp",
+    "rosbag2_transport/include/rosbag2_transport/recorder.hpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_writer.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_services.cpp"
+   ],
+   "theme_hits": [],
+   "horizon_score": 800
+  },
+  {
+   "number": 2248,
+   "title": "Add Record, Stop, StartDiscovery, StopDiscovery and IsDiscoveryRunning services for Recorder",
+   "url": "https://github.com/ros2/rosbag2/pull/2248",
+   "merged_at": "2026-01-11",
+   "additions": 488,
+   "deletions": 70,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [
+    {
+     "n": 1634,
+     "title": "Add record, stop, start_discovery and stop_discovery services for rosbag2_transport::Recorder",
+     "url": "https://github.com/ros2/rosbag2/issues/1634"
+    }
+   ],
+   "src_files": [
+    "README.md",
+    "rosbag2_interfaces/CMakeLists.txt",
+    "rosbag2_interfaces/srv/IsDiscoveryRunning.srv",
+    "rosbag2_interfaces/srv/Record.srv",
+    "rosbag2_interfaces/srv/StartDiscovery.srv",
+    "rosbag2_interfaces/srv/StopDiscovery.srv",
+    "rosbag2_transport/include/rosbag2_transport/record_options.hpp",
+    "rosbag2_transport/include/rosbag2_transport/recorder.hpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_writer.hpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_services.cpp"
+   ],
+   "theme_hits": [],
+   "horizon_score": 788
+  },
+  {
+   "number": 2218,
+   "title": "Feature: Circular logging by split count (--max-bag-files)",
+   "url": "https://github.com/ros2/rosbag2/pull/2218",
+   "merged_at": "2026-02-12",
+   "additions": 269,
+   "deletions": 6,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [
+    {
+     "n": 2217,
+     "title": "Feature: Add circular logging (by size/duration) to ros2 bag record",
+     "url": "https://github.com/ros2/rosbag2/issues/2217"
+    }
+   ],
+   "src_files": [
+    "ros2bag/ros2bag/verb/record.py",
+    "rosbag2_cpp/include/rosbag2_cpp/writers/sequential_writer.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/writers/sequential_writer.cpp",
+    "rosbag2_py/rosbag2_py/_storage.pyi",
+    "rosbag2_py/src/rosbag2_py/_storage.cpp",
+    "rosbag2_storage/include/rosbag2_storage/storage_options.hpp",
+    "rosbag2_storage/src/rosbag2_storage/storage_options.cpp",
+    "rosbag2_transport/src/rosbag2_transport/config_options_from_node_params.cpp"
+   ],
+   "test_files": [
+    "rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp",
+    "rosbag2_cpp/test/rosbag2_cpp/test_sequential_writer.cpp",
+    "rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/storage_test_fixture.hpp",
+    "rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 729
+  },
+  {
+   "number": 2325,
+   "title": "Address performance issue in \"ros2 bag convert\" when used to cut a fragment of the bag file",
+   "url": "https://github.com/ros2/rosbag2/pull/2325",
+   "merged_at": "2026-02-10",
+   "additions": 383,
+   "deletions": 56,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [
+    {
+     "n": 2324,
+     "title": "Improve performance for \"ros2 bag convert\"",
+     "url": "https://github.com/ros2/rosbag2/issues/2324"
+    }
+   ],
+   "src_files": [
+    "README.md",
+    "ros2bag/ros2bag/api/__init__.py",
+    "ros2bag/ros2bag/verb/convert.py",
+    "rosbag2_py/rosbag2_py/_transport.pyi",
+    "rosbag2_py/src/rosbag2_py/_transport.cpp",
+    "rosbag2_storage/include/rosbag2_storage/storage_options.hpp",
+    "rosbag2_storage/src/rosbag2_storage/storage_options.cpp",
+    "rosbag2_transport/src/rosbag2_transport/bag_rewrite.cpp"
+   ],
+   "test_files": [
+    "rosbag2_py/test/test_convert.py",
+    "rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 723
+  },
+  {
+   "number": 2386,
+   "title": "[2/3] Repeat transient-local topics: Writer API and split/snapshot integration",
+   "url": "https://github.com/ros2/rosbag2/pull/2386",
+   "merged_at": "2026-04-02",
+   "additions": 373,
+   "deletions": 22,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "rosbag2_cpp/include/rosbag2_cpp/cache/transient_local_messages_cache.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/writer.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/writer_interfaces/base_writer_interface.hpp",
+    "rosbag2_cpp/include/rosbag2_cpp/writers/sequential_writer.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/message_cache_circular_buffer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/transient_local_messages_cache.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/writer.cpp",
+    "rosbag2_cpp/src/rosbag2_cpp/writers/sequential_writer.cpp"
+   ],
+   "test_files": [
+    "rosbag2_cpp/test/rosbag2_cpp/test_sequential_writer.cpp",
+    "rosbag2_transport/test/rosbag2_transport/mock_sequential_writer.hpp"
+   ],
+   "theme_hits": [
+    "snapshot"
+   ],
+   "horizon_score": 713
+  },
+  {
+   "number": 2385,
+   "title": "[1/3] Repeat transient-local topics: Core cache and RecordOptions",
+   "url": "https://github.com/ros2/rosbag2/pull/2385",
+   "merged_at": "2026-03-29",
+   "additions": 334,
+   "deletions": 2,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "rosbag2_cpp/CMakeLists.txt",
+    "rosbag2_cpp/include/rosbag2_cpp/cache/transient_local_messages_cache.hpp",
+    "rosbag2_cpp/src/rosbag2_cpp/cache/transient_local_messages_cache.cpp",
+    "rosbag2_storage/include/rosbag2_storage/yaml.hpp",
+    "rosbag2_transport/include/rosbag2_transport/record_options.hpp",
+    "rosbag2_transport/src/rosbag2_transport/record_options.cpp"
+   ],
+   "test_files": [
+    "rosbag2_cpp/test/rosbag2_cpp/test_transient_local_messages_cache.cpp",
+    "rosbag2_transport/test/rosbag2_transport/test_record_options.cpp"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 634
+  },
+  {
+   "number": 2286,
+   "title": "Use QoS override settings for inner Rosbag2 publishing topics",
+   "url": "https://github.com/ros2/rosbag2/pull/2286",
+   "merged_at": "2026-01-08",
+   "additions": 300,
+   "deletions": 22,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "rosbag2_transport/include/rosbag2_transport/recorder_event_notifier.hpp",
+    "rosbag2_transport/src/rosbag2_transport/player.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder_event_notifier.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder_event_notifier_impl.hpp"
+   ],
+   "test_files": [
+    "rosbag2_transport/test/rosbag2_transport/test_recorder_event_notifier.cpp"
+   ],
+   "theme_hits": [
+    "publish"
+   ],
+   "horizon_score": 520
+  },
+  {
+   "number": 2387,
+   "title": "[3/3] Repeat transient-local topics: Recorder, CLI, and Python bindings",
+   "url": "https://github.com/ros2/rosbag2/pull/2387",
+   "merged_at": "2026-04-04",
+   "additions": 239,
+   "deletions": 13,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [
+    {
+     "n": 1159,
+     "title": "Support `--repeat-latched` in ROS 2 (transient local)",
+     "url": "https://github.com/ros2/rosbag2/issues/1159"
+    }
+   ],
+   "src_files": [
+    "README.md",
+    "ros2bag/ros2bag/verb/record.py",
+    "rosbag2_py/rosbag2_py/_transport.pyi",
+    "rosbag2_py/src/rosbag2_py/_transport.cpp",
+    "rosbag2_transport/src/rosbag2_transport/config_options_from_node_params.cpp",
+    "rosbag2_transport/src/rosbag2_transport/recorder.cpp"
+   ],
+   "test_files": [
+    "ros2bag/test/test_recorder_args_parser.py",
+    "rosbag2_transport/test/rosbag2_transport/test_record.cpp"
+   ],
+   "theme_hits": [],
+   "horizon_score": 479
+  }
+ ]
+}

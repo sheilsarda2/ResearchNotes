@@ -1,0 +1,4630 @@
+{
+ "repo": "lance-format/lance",
+ "mined_at": "2026-09-13T10:11:15.228586Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 1719,
+ "candidates": 122,
+ "prs": [
+  {
+   "number": 8309,
+   "title": "refactor(fts): split inverted index module",
+   "url": "https://github.com/lance-format/lance/pull/8309",
+   "merged_at": "2026-08-07",
+   "additions": 14903,
+   "deletions": 14779,
+   "changed_files": 26,
+   "labels": [
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8243,
+     "title": "refactor: split up scalar/inverted/index.rs",
+     "url": "https://github.com/lance-format/lance/issues/8243"
+    }
+   ],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/inverted/index/cache.rs",
+    "rust/lance-index/src/scalar/inverted/index/doc_set.rs",
+    "rust/lance-index/src/scalar/inverted/index/flat_search.rs",
+    "rust/lance-index/src/scalar/inverted/index/format.rs",
+    "rust/lance-index/src/scalar/inverted/index/inverted_index.rs",
+    "rust/lance-index/src/scalar/inverted/index/partition.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_batch_builder.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_builder.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_list.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_prewarm.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_reader.rs",
+    "rust/lance-index/src/scalar/inverted/index/prewarm.rs",
+    "rust/lance-index/src/scalar/inverted/index/search.rs",
+    "rust/lance-index/src/scalar/inverted/index/search_candidates.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests.rs",
+    "rust/lance-index/src/scalar/inverted/index/token_set.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/flat_search.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/format_and_builder.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/grouping.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/lifecycle.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/position_cache.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/prewarm_cache.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/query.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/scoring.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/stats.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 15843
+  },
+  {
+   "number": 8056,
+   "title": "refactor(table): split transaction.rs into a module tree",
+   "url": "https://github.com/lance-format/lance/pull/8056",
+   "merged_at": "2026-08-19",
+   "additions": 9185,
+   "deletions": 8937,
+   "changed_files": 11,
+   "labels": [
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-table/src/transaction.rs",
+    "rust/lance-table/src/transaction/builder.rs",
+    "rust/lance-table/src/transaction/conflicts.rs",
+    "rust/lance-table/src/transaction/index_maintenance.rs",
+    "rust/lance-table/src/transaction/manifest_build.rs",
+    "rust/lance-table/src/transaction/operation.rs",
+    "rust/lance-table/src/transaction/proto.rs",
+    "rust/lance-table/src/transaction/row_version.rs",
+    "rust/lance-table/src/transaction/update_map.rs",
+    "rust/lance-table/src/transaction/validate.rs"
+   ],
+   "test_files": [
+    "rust/lance-table/src/transaction/test_support.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 9505
+  },
+  {
+   "number": 7138,
+   "title": "feat(mem_wal): support prefiltered LSM vector and FTS search",
+   "url": "https://github.com/lance-format/lance/pull/7138",
+   "merged_at": "2026-07-01",
+   "additions": 6080,
+   "deletions": 1082,
+   "changed_files": 33,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "A-deps"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/mem_wal.rs",
+    "java/src/main/java/org/lance/memwal/LsmScanner.java",
+    "java/src/main/java/org/lance/memwal/LsmVectorSearchPlanner.java",
+    "python/python/lance/dependencies.py",
+    "python/python/lance/mem_wal.py",
+    "python/src/mem_wal.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fineweb_fts.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fts_read_bench.rs",
+    "rust/lance/benches/mem_wal/read/memtable_read.rs",
+    "rust/lance/benches/mem_wal/vector/hnsw/mem_wal_recall_hnsw.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_index_micro.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/index/arena_skiplist.rs",
+    "rust/lance/src/dataset/mem_wal/index/btree.rs",
+    "rust/lance/src/dataset/mem_wal/index/fts.rs",
+    "rust/lance/src/dataset/mem_wal/index/hnsw.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/builder.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/exec.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/exec/brute_force_vector.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/exec/fts.rs",
+    "rust/lance/src/dataset/mem_wal/scanner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/builder.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/exec.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/exec/newest_pk_filter.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/exec/pk.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/fts_search.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/planner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/point_lookup.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/projection.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/vector_search.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/memwal/MemWalTest.java",
+    "python/python/tests/test_mem_wal.py"
+   ],
+   "theme_hits": [
+    "wal"
+   ],
+   "horizon_score": 6880
+  },
+  {
+   "number": 8535,
+   "title": "feat(format): add IndexMetadata.covering_fields for covering indexes",
+   "url": "https://github.com/lance-format/lance/pull/8535",
+   "merged_at": "2026-08-21",
+   "additions": 3778,
+   "deletions": 188,
+   "changed_files": 59,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "breaking-change",
+    "A-format",
+    "A-namespace",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/index.md",
+    "docs/src/format/table/data_overlay_file.md",
+    "docs/src/format/table/versioning.md",
+    "java/lance-jni/src/index.rs",
+    "java/lance-jni/src/transaction.rs",
+    "java/src/main/java/org/lance/index/Index.java",
+    "protos/table.proto",
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/indices/__init__.pyi",
+    "python/src/indices.rs",
+    "python/src/transaction.rs",
+    "rust/lance-namespace-impls/src/dir/manifest.rs",
+    "rust/lance-table/src/feature_flags.rs",
+    "rust/lance-table/src/format/index.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance-table/src/format/overlay/staleness.rs",
+    "rust/lance-table/src/system_index/mem_wal.rs",
+    "rust/lance-table/src/transaction/index_maintenance.rs",
+    "rust/lance-table/src/transaction/manifest_build.rs",
+    "rust/lance/src/dataset/cleanup.rs",
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/index/frag_reuse.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/optimize/remapping.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/dataset/statistics.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/api.rs",
+    "rust/lance/src/index/append.rs",
+    "rust/lance/src/index/create.rs",
+    "rust/lance/src/index/frag_reuse.rs",
+    "rust/lance/src/index/mem_wal.rs",
+    "rust/lance/src/index/prefilter.rs",
+    "rust/lance/src/index/scalar.rs",
+    "rust/lance/src/index/scalar/bitmap.rs",
+    "rust/lance/src/index/scalar/bloomfilter.rs",
+    "rust/lance/src/index/scalar/btree.rs",
+    "rust/lance/src/index/scalar/fmindex.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/DatasetTest.java",
+    "python/python/tests/test_commit_index.py",
+    "rust/lance-table/src/transaction/test_support.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs",
+    "rust/lance/src/dataset/tests/dataset_migrations.rs",
+    "rust/lance/src/dataset/tests/dataset_transactions.rs",
+    "rust/lance/src/utils/test/covering.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "manifest",
+    "transact",
+    "wal"
+   ],
+   "horizon_score": 5538
+  },
+  {
+   "number": 8021,
+   "title": "refactor: make encoding mechanisms version-free",
+   "url": "https://github.com/lance-format/lance/pull/8021",
+   "merged_at": "2026-07-30",
+   "additions": 3559,
+   "deletions": 3048,
+   "changed_files": 59,
+   "labels": [
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-encoding/benches/common/mod.rs",
+    "rust/lance-encoding/benches/decoder.rs",
+    "rust/lance-encoding/benches/encoder.rs",
+    "rust/lance-encoding/src/array_encoding.rs",
+    "rust/lance-encoding/src/array_encoding/logical.rs",
+    "rust/lance-encoding/src/array_encoding/logical/binary.rs",
+    "rust/lance-encoding/src/array_encoding/logical/blob.rs",
+    "rust/lance-encoding/src/array_encoding/logical/list.rs",
+    "rust/lance-encoding/src/array_encoding/logical/primitive.rs",
+    "rust/lance-encoding/src/array_encoding/logical/struct.rs",
+    "rust/lance-encoding/src/array_encoding/physical.rs",
+    "rust/lance-encoding/src/array_encoding/physical/basic.rs",
+    "rust/lance-encoding/src/array_encoding/physical/binary.rs",
+    "rust/lance-encoding/src/array_encoding/physical/bitmap.rs",
+    "rust/lance-encoding/src/array_encoding/physical/bitpack.rs",
+    "rust/lance-encoding/src/array_encoding/physical/block.rs",
+    "rust/lance-encoding/src/array_encoding/physical/dictionary.rs",
+    "rust/lance-encoding/src/array_encoding/physical/fixed_size_binary.rs",
+    "rust/lance-encoding/src/array_encoding/physical/fixed_size_list.rs",
+    "rust/lance-encoding/src/array_encoding/physical/fsst.rs",
+    "rust/lance-encoding/src/array_encoding/physical/packed_struct.rs",
+    "rust/lance-encoding/src/array_encoding/physical/value.rs",
+    "rust/lance-encoding/src/array_encoding/strategy.rs",
+    "rust/lance-encoding/src/compression.rs",
+    "rust/lance-encoding/src/decoder.rs",
+    "rust/lance-encoding/src/encoder.rs",
+    "rust/lance-encoding/src/encoder/structural.rs",
+    "rust/lance-encoding/src/encodings/logical/blob.rs",
+    "rust/lance-encoding/src/encodings/logical/fixed_size_list.rs",
+    "rust/lance-encoding/src/encodings/logical/list.rs",
+    "rust/lance-encoding/src/encodings/logical/map.rs",
+    "rust/lance-encoding/src/encodings/logical/primitive.rs",
+    "rust/lance-encoding/src/encodings/logical/primitive/layout.rs",
+    "rust/lance-encoding/src/encodings/logical/primitive/sparse/writer.rs",
+    "rust/lance-encoding/src/encodings/logical/struct.rs",
+    "rust/lance-encoding/src/encodings/physical/binary.rs",
+    "rust/lance-encoding/src/encodings/physical/bitpacking.rs",
+    "rust/lance-encoding/src/encodings/physical/block.rs",
+    "rust/lance-encoding/src/encodings/physical/fsst.rs",
+    "rust/lance-encoding/src/encodings/physical/packed.rs"
+   ],
+   "test_files": [
+    "rust/lance-encoding/src/encodings/fuzz_tests.rs",
+    "rust/lance-file/src/compatibility_tests.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "version"
+   ],
+   "horizon_score": 4939
+  },
+  {
+   "number": 8024,
+   "title": "refactor!: compose exact current-format readers",
+   "url": "https://github.com/lance-format/lance/pull/8024",
+   "merged_at": "2026-08-04",
+   "additions": 3354,
+   "deletions": 1400,
+   "changed_files": 24,
+   "labels": [
+    "A-python",
+    "A-index",
+    "A-java",
+    "breaking-change",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/file_reader.rs",
+    "python/src/file.rs",
+    "rust/lance-file/src/lib.rs",
+    "rust/lance-file/src/reader.rs",
+    "rust/lance-file/src/reader/structural.rs",
+    "rust/lance-file/src/version.rs",
+    "rust/lance-file/src/versions/mod.rs",
+    "rust/lance-file/src/versions/v1/mod.rs",
+    "rust/lance-file/src/versions/v2_0/mod.rs",
+    "rust/lance-file/src/versions/v2_0/reader.rs",
+    "rust/lance-file/src/versions/v2_1/mod.rs",
+    "rust/lance-file/src/versions/v2_1/reader.rs",
+    "rust/lance-file/src/versions/v2_2/mod.rs",
+    "rust/lance-file/src/versions/v2_2/reader.rs",
+    "rust/lance-file/src/versions/v2_3/mod.rs",
+    "rust/lance-file/src/versions/v2_3/reader.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs"
+   ],
+   "test_files": [
+    "rust/lance-file/src/compatibility_tests.rs",
+    "rust/lance-file/src/writer_tests.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "version"
+   ],
+   "horizon_score": 4134
+  },
+  {
+   "number": 7166,
+   "title": "feat: branch-aware table version ops in directory and rest namespaces",
+   "url": "https://github.com/lance-format/lance/pull/7166",
+   "merged_at": "2026-06-10",
+   "additions": 3608,
+   "deletions": 197,
+   "changed_files": 15,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "A-namespace"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/transaction.rs",
+    "python/src/dataset.rs",
+    "python/src/fragment.rs",
+    "rust/lance-namespace-impls/src/dir.rs",
+    "rust/lance-namespace-impls/src/rest.rs",
+    "rust/lance-namespace-impls/src/rest_adapter.rs",
+    "rust/lance-namespace/src/error.rs",
+    "rust/lance-namespace/src/namespace.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/branch_location.rs",
+    "rust/lance/src/dataset/builder.rs",
+    "rust/lance/src/dataset/write/commit.rs",
+    "rust/lance/src/io/commit/namespace_manifest.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_versioning.rs"
+   ],
+   "theme_hits": [
+    "manifest",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 4128
+  },
+  {
+   "number": 7878,
+   "title": "perf(cache)!: use fixed-size cache keys",
+   "url": "https://github.com/lance-format/lance/pull/7878",
+   "merged_at": "2026-07-29",
+   "additions": 2758,
+   "deletions": 1170,
+   "changed_files": 36,
+   "labels": [
+    "A-python",
+    "A-index",
+    "performance",
+    "A-java",
+    "breaking-change",
+    "A-deps",
+    "A-encoding"
+   ],
+   "issues": [
+    {
+     "n": 7832,
+     "title": "Fixed-size (u128) cache keys",
+     "url": "https://github.com/lance-format/lance/issues/7832"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "java/lance-jni/Cargo.lock",
+    "python/Cargo.lock",
+    "rust/lance-core/Cargo.toml",
+    "rust/lance-core/benches/cache_keys.rs",
+    "rust/lance-core/src/cache/backend.rs",
+    "rust/lance-core/src/cache/codec.rs",
+    "rust/lance-core/src/cache/key.rs",
+    "rust/lance-core/src/cache/mod.rs",
+    "rust/lance-core/src/cache/moka.rs",
+    "rust/lance-core/src/cache/quick.rs",
+    "rust/lance-encoding/src/encodings/logical/primitive.rs",
+    "rust/lance-file/src/previous/reader.rs",
+    "rust/lance-file/src/reader.rs",
+    "rust/lance-index/protos-cache/cache.proto",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/label_list.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/scalar/ngram.rs",
+    "rust/lance-index/src/scalar/registry.rs",
+    "rust/lance-index/src/scalar/rtree.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/partition_serde.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/session.rs",
+    "rust/lance/src/session/caches.rs",
+    "rust/lance/src/session/index_caches.rs",
+    "rust/lance/src/utils/test.rs"
+   ],
+   "test_files": [
+    "rust/lance-core/tests/cache_key_allocations.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs",
+    "rust/lance/src/utils/test/serializing_cache.rs"
+   ],
+   "theme_hits": [
+    "backend",
+    "codec",
+    "encod",
+    "index"
+   ],
+   "horizon_score": 3838
+  },
+  {
+   "number": 7176,
+   "title": "perf(dir-catalog): rewrite manifest mutations with copy-on-write",
+   "url": "https://github.com/lance-format/lance/pull/7176",
+   "merged_at": "2026-06-11",
+   "additions": 3400,
+   "deletions": 592,
+   "changed_files": 9,
+   "labels": [
+    "A-python",
+    "performance",
+    "A-deps",
+    "A-namespace"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "python/Cargo.lock",
+    "rust/lance-namespace-impls/BENCHMARK.md",
+    "rust/lance-namespace-impls/Cargo.toml",
+    "rust/lance-namespace-impls/benches/manifest_commit_sweep.sh",
+    "rust/lance-namespace-impls/examples/manifest_bench.rs",
+    "rust/lance-namespace-impls/src/dir.rs",
+    "rust/lance-namespace-impls/src/dir/manifest.rs"
+   ],
+   "test_files": [
+    "rust/lance-namespace-datafusion/tests/sql.rs"
+   ],
+   "theme_hits": [
+    "manifest"
+   ],
+   "horizon_score": 3680
+  },
+  {
+   "number": 7078,
+   "title": "feat(index): support raw-query ivf rq search",
+   "url": "https://github.com/lance-format/lance/pull/7078",
+   "merged_at": "2026-06-09",
+   "additions": 2814,
+   "deletions": 567,
+   "changed_files": 17,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/vector/index.md",
+    "rust/lance-index/src/vector/bq.rs",
+    "rust/lance-index/src/vector/bq/builder.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/bq/transform.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs",
+    "rust/lance-index/src/vector/flat/index.rs",
+    "rust/lance-index/src/vector/storage.rs",
+    "rust/lance-linalg/src/simd/dist_table.c",
+    "rust/lance-linalg/src/simd/dist_table.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/ivf/partition_serde.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/io/exec/utils.rs"
+   ],
+   "test_files": [
+    "python/python/tests/compat/compat_decorator.py",
+    "python/python/tests/compat/test_vector_indices.py",
+    "python/python/tests/test_vector_index.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index"
+   ],
+   "horizon_score": 3394
+  },
+  {
+   "number": 8923,
+   "title": "feat: add caller-managed data file parts",
+   "url": "https://github.com/lance-format/lance/pull/8923",
+   "merged_at": "2026-09-02",
+   "additions": 2945,
+   "deletions": 13,
+   "changed_files": 13,
+   "labels": [
+    "enhancement",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-file/src/concat.rs",
+    "rust/lance-file/src/lib.rs",
+    "rust/lance-file/src/versions/mod.rs",
+    "rust/lance-file/src/versions/v2_0/writer.rs",
+    "rust/lance-file/src/writer/structural.rs",
+    "rust/lance/src/blob.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/data_file.rs",
+    "rust/lance/src/dataset/fragment.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/data_file_part.rs",
+    "rust/lance/src/dataset/tests/fragment_write_columns.rs",
+    "rust/lance/src/dataset/tests/mod.rs"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 3385
+  },
+  {
+   "number": 8027,
+   "title": "refactor: centralize dataset version policies",
+   "url": "https://github.com/lance-format/lance/pull/8027",
+   "merged_at": "2026-08-11",
+   "additions": 1913,
+   "deletions": 1456,
+   "changed_files": 40,
+   "labels": [
+    "A-java",
+    "breaking-change",
+    "A-encoding",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/file_writer.rs",
+    "rust/lance-file/src/version.rs",
+    "rust/lance-table/src/format/fragment.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/fragment/session.rs",
+    "rust/lance/src/dataset/fragment/write.rs",
+    "rust/lance/src/dataset/hash_joiner.rs",
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize/binary_copy.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/schema_evolution/optimize.rs",
+    "rust/lance/src/dataset/statistics.rs",
+    "rust/lance/src/dataset/take.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/updater.rs",
+    "rust/lance/src/dataset/versions/mod.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/commit.rs",
+    "rust/lance/src/dataset/write/insert.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/builder.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/io/commit.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs",
+    "rust/lance/src/io/exec.rs",
+    "rust/lance/src/io/exec/filtered_read.rs",
+    "rust/lance/src/io/exec/pushdown_scan.rs",
+    "rust/lance/src/io/exec/scan.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/optimize/tests/binary_copy.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs",
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/dataset/tests/dataset_merge_update.rs",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "schema",
+    "transact",
+    "version",
+    "wal"
+   ],
+   "horizon_score": 3273
+  },
+  {
+   "number": 7379,
+   "title": "feat: support hamming clustering",
+   "url": "https://github.com/lance-format/lance/pull/7379",
+   "merged_at": "2026-06-19",
+   "additions": 2885,
+   "deletions": 61,
+   "changed_files": 14,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-deps"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "python/Cargo.lock",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/vector.py",
+    "python/src/dataset.rs",
+    "rust/lance-linalg/Cargo.toml",
+    "rust/lance-linalg/benches/hamming.rs",
+    "rust/lance-linalg/src/distance.rs",
+    "rust/lance-linalg/src/distance/hamming.rs",
+    "rust/lance/Cargo.toml",
+    "rust/lance/benches/hamming.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/hamming.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 3265
+  },
+  {
+   "number": 7466,
+   "title": "feat(fts)!: add configurable posting block size",
+   "url": "https://github.com/lance-format/lance/pull/7466",
+   "merged_at": "2026-07-13",
+   "additions": 2233,
+   "deletions": 302,
+   "changed_files": 27,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java",
+    "breaking-change",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/scalar/fts.md",
+    "docs/src/quickstart/full-text-search.md",
+    "java/src/main/java/org/lance/index/scalar/InvertedIndexParams.java",
+    "protos/index_old.proto",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/compression/bitpacking/src/bitpacker_internal/bitpacker8x.rs",
+    "rust/compression/bitpacking/src/bitpacker_internal/mod.rs",
+    "rust/compression/bitpacking/src/lib.rs",
+    "rust/lance-index/protos-cache/cache.proto",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/builder.rs",
+    "rust/lance-index/src/scalar/inverted/cache_codec.rs",
+    "rust/lance-index/src/scalar/inverted/encoding.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/inverted/iter.rs",
+    "rust/lance-index/src/scalar/inverted/lazy_docset.rs",
+    "rust/lance-index/src/scalar/inverted/tokenizer.rs",
+    "rust/lance-index/src/scalar/inverted/wand.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/index/fts.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/io/exec/filtered_read.rs",
+    "rust/lance/src/io/exec/pushdown_scan.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/index/scalar/InvertedIndexParamsTest.java",
+    "python/python/tests/compat/test_scalar_indices.py",
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "compress",
+    "format",
+    "index",
+    "wal"
+   ],
+   "horizon_score": 3133
+  },
+  {
+   "number": 8022,
+   "title": "refactor: add exact current-format writers",
+   "url": "https://github.com/lance-format/lance/pull/8022",
+   "merged_at": "2026-07-31",
+   "additions": 2749,
+   "deletions": 26,
+   "changed_files": 11,
+   "labels": [
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-file/src/versions/v2_0/mod.rs",
+    "rust/lance-file/src/versions/v2_0/writer.rs",
+    "rust/lance-file/src/versions/v2_1/mod.rs",
+    "rust/lance-file/src/versions/v2_1/writer.rs",
+    "rust/lance-file/src/versions/v2_2/mod.rs",
+    "rust/lance-file/src/versions/v2_2/writer.rs",
+    "rust/lance-file/src/versions/v2_3/mod.rs",
+    "rust/lance-file/src/versions/v2_3/writer.rs",
+    "rust/lance-file/src/writer.rs",
+    "rust/lance-file/src/writer/structural.rs"
+   ],
+   "test_files": [
+    "rust/lance-file/src/compatibility_tests.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "version"
+   ],
+   "horizon_score": 3129
+  },
+  {
+   "number": 8925,
+   "title": "feat(java): complete transaction operation mappings",
+   "url": "https://github.com/lance-format/lance/pull/8925",
+   "merged_at": "2026-09-04",
+   "additions": 2546,
+   "deletions": 97,
+   "changed_files": 17,
+   "labels": [
+    "enhancement",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/index.rs",
+    "java/lance-jni/src/transaction.rs",
+    "java/src/main/java/org/lance/Transaction.java",
+    "java/src/main/java/org/lance/index/Index.java",
+    "java/src/main/java/org/lance/index/IndexFile.java",
+    "java/src/main/java/org/lance/operation/Clone.java",
+    "java/src/main/java/org/lance/operation/DataOverlay.java",
+    "java/src/main/java/org/lance/operation/KeyExistenceFilter.java",
+    "java/src/main/java/org/lance/operation/Overwrite.java",
+    "java/src/main/java/org/lance/operation/RewrittenIndex.java",
+    "java/src/main/java/org/lance/operation/Update.java",
+    "java/src/main/java/org/lance/operation/UpdateBases.java",
+    "java/src/main/java/org/lance/operation/UpdateMemWalState.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/FragmentTest.java",
+    "java/src/test/java/org/lance/TransactionTest.java",
+    "java/src/test/java/org/lance/operation/UpdateTest.java"
+   ],
+   "theme_hits": [
+    "index",
+    "transact"
+   ],
+   "horizon_score": 3126
+  },
+  {
+   "number": 8423,
+   "title": "feat(merge_insert): add write_mode to select how merged rows are written",
+   "url": "https://github.com/lance-format/lance/pull/8423",
+   "merged_at": "2026-08-23",
+   "additions": 2723,
+   "deletions": 152,
+   "changed_files": 11,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/in_place.rs",
+    "rust/lance/src/dataset/write/merge_insert/logical_plan.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "python/python/ci_benchmarks/benchmarks/test_merge_insert.py",
+    "python/python/tests/test_dataset.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 3023
+  },
+  {
+   "number": 8660,
+   "title": "feat: add column slice stitching",
+   "url": "https://github.com/lance-format/lance/pull/8660",
+   "merged_at": "2026-08-31",
+   "additions": 2552,
+   "deletions": 524,
+   "changed_files": 16,
+   "labels": [
+    "enhancement",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-file/src/concat.rs",
+    "rust/lance-file/src/lib.rs",
+    "rust/lance-file/src/versions/mod.rs",
+    "rust/lance-file/src/versions/v2_0/writer.rs",
+    "rust/lance-file/src/versions/v2_1/writer.rs",
+    "rust/lance-file/src/versions/v2_2/writer.rs",
+    "rust/lance-file/src/versions/v2_3/writer.rs",
+    "rust/lance-file/src/writer.rs",
+    "rust/lance-file/src/writer/structural.rs",
+    "rust/lance/src/blob.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize/binary_copy.rs",
+    "rust/lance/src/dataset/versions/mod.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/optimize/tests/binary_copy.rs",
+    "rust/lance/src/dataset/tests/fragment_write_columns.rs"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 3012
+  },
+  {
+   "number": 8758,
+   "title": "fix(fts): canonicalize fuzzy expansion across segments",
+   "url": "https://github.com/lance-format/lance/pull/8758",
+   "merged_at": "2026-08-27",
+   "additions": 2643,
+   "deletions": 351,
+   "changed_files": 10,
+   "labels": [
+    "bug",
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/cross_column.rs",
+    "rust/lance-index/src/scalar/inverted/index/partition.rs",
+    "rust/lance-index/src/scalar/inverted/index/search.rs",
+    "rust/lance-index/src/scalar/inverted/query.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/query.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2983
+  },
+  {
+   "number": 7163,
+   "title": "feat: stabilize cache codec with a versioned envelope",
+   "url": "https://github.com/lance-format/lance/pull/7163",
+   "merged_at": "2026-06-17",
+   "additions": 2329,
+   "deletions": 838,
+   "changed_files": 17,
+   "labels": [
+    "enhancement",
+    "A-index"
+   ],
+   "issues": [
+    {
+     "n": 7160,
+     "title": "Make CacheCodec serialization format stable",
+     "url": "https://github.com/lance-format/lance/issues/7160"
+    }
+   ],
+   "src_files": [
+    "rust/lance-arrow/src/ipc.rs",
+    "rust/lance-core/src/cache/codec.rs",
+    "rust/lance-core/src/cache/entry_io.rs",
+    "rust/lance-core/src/cache/mod.rs",
+    "rust/lance-index/build.rs",
+    "rust/lance-index/protos-cache/cache.proto",
+    "rust/lance-index/src/lib.rs",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/btree/flat.rs",
+    "rust/lance-index/src/scalar/inverted/cache_codec.rs",
+    "rust/lance-index/src/scalar/label_list.rs",
+    "rust/lance-select/src/mask.rs",
+    "rust/lance-table/src/format/index.rs",
+    "rust/lance/src/index/vector/ivf/partition_serde.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "codec",
+    "format",
+    "index",
+    "ipc"
+   ],
+   "horizon_score": 2949
+  },
+  {
+   "number": 7672,
+   "title": "perf: plan take operations through FilteredReadExec's range-read path",
+   "url": "https://github.com/lance-format/lance/pull/7672",
+   "merged_at": "2026-07-20",
+   "additions": 2475,
+   "deletions": 282,
+   "changed_files": 14,
+   "labels": [
+    "A-python",
+    "A-index",
+    "performance",
+    "A-namespace"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-namespace-impls/src/dir.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/rowids.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/io/exec/count_pushdown.rs",
+    "rust/lance/src/io/exec/filtered_read.rs",
+    "rust/lance/src/io/exec/filtered_read_proto.rs",
+    "rust/lance/src/io/exec/optimizer.rs",
+    "rust/lance/src/io/exec/take.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "python/python/tests/test_mem_wal.py",
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "wal"
+   ],
+   "horizon_score": 2935
+  },
+  {
+   "number": 8023,
+   "title": "refactor: activate exact current-format writers",
+   "url": "https://github.com/lance-format/lance/pull/8023",
+   "merged_at": "2026-07-31",
+   "additions": 1870,
+   "deletions": 2662,
+   "changed_files": 28,
+   "labels": [
+    "A-python",
+    "A-index",
+    "A-java",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/file_writer.rs",
+    "python/src/file.rs",
+    "rust/lance-file/benches/reader.rs",
+    "rust/lance-file/src/reader.rs",
+    "rust/lance-file/src/testing.rs",
+    "rust/lance-file/src/versions/mod.rs",
+    "rust/lance-file/src/writer.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs",
+    "rust/lance-index/src/vector/ivf/shuffler.rs",
+    "rust/lance-index/src/vector/v3/shuffler.rs",
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/fragment/write.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize/binary_copy.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/builder.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/builder.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs"
+   ],
+   "test_files": [
+    "rust/lance-file/src/compatibility_tests.rs",
+    "rust/lance-file/src/writer_tests.rs",
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/dataset/tests/dataset_merge_update.rs",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "version",
+    "wal"
+   ],
+   "horizon_score": 2870
+  },
+  {
+   "number": 7558,
+   "title": "feat: add blob write preparation API",
+   "url": "https://github.com/lance-format/lance/pull/7558",
+   "merged_at": "2026-07-03",
+   "additions": 2451,
+   "deletions": 291,
+   "changed_files": 15,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/__init__.py",
+    "python/python/lance/blob.py",
+    "python/python/lance/file.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/blob.rs",
+    "python/src/file.rs",
+    "python/src/lib.rs",
+    "rust/lance/src/blob.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/insert.rs",
+    "rust/lance/src/lib.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_blob.py",
+    "rust/lance/src/dataset/tests/dataset_io.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 2831
+  },
+  {
+   "number": 7610,
+   "title": "feat: support multi-base tables in merge insert with target base routing",
+   "url": "https://github.com/lance-format/lance/pull/7610",
+   "merged_at": "2026-07-03",
+   "additions": 2311,
+   "deletions": 113,
+   "changed_files": 16,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/fragment.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "rust/lance/src/dataset/fragment/write.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/updater.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/insert.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/delete.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/write.rs",
+    "rust/lance/src/dataset/write/update.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_multi_base.py",
+    "rust/lance/src/dataset/tests/dataset_merge_update.rs"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 2771
+  },
+  {
+   "number": 8823,
+   "title": "feat(java): expose createIndex progress callbacks",
+   "url": "https://github.com/lance-format/lance/pull/8823",
+   "merged_at": "2026-09-03",
+   "additions": 2342,
+   "deletions": 245,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-index",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/src/main/java/org/lance/ContextIndexBuildProgress.java",
+    "java/src/main/java/org/lance/Dataset.java",
+    "java/src/main/java/org/lance/LockManager.java",
+    "java/src/main/java/org/lance/index/IndexBuildProgress.java",
+    "rust/lance-index/src/scalar/inverted/builder.rs",
+    "rust/lance/src/index/vector/ivf.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/index/ScalarIndexTest.java",
+    "java/src/test/java/org/lance/index/VectorIndexTest.java"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2662
+  },
+  {
+   "number": 8092,
+   "title": "feat(fts): add composable scorer core for multimatch",
+   "url": "https://github.com/lance-format/lance/pull/8092",
+   "merged_at": "2026-07-31",
+   "additions": 2329,
+   "deletions": 22,
+   "changed_files": 8,
+   "labels": [
+    "enhancement",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/inverted/query.rs",
+    "rust/lance-index/src/scalar/inverted/wand.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2589
+  },
+  {
+   "number": 7549,
+   "title": "feat(index): mask data overlay files in scalar and vector index queries",
+   "url": "https://github.com/lance-format/lance/pull/7549",
+   "merged_at": "2026-07-22",
+   "additions": 2075,
+   "deletions": 187,
+   "changed_files": 12,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/point_lookup.rs",
+    "rust/lance/src/dataset/overlay.rs",
+    "rust/lance/src/dataset/rowids.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index/prefilter.rs",
+    "rust/lance/src/io/exec/filtered_read.rs",
+    "rust/lance/src/io/exec/knn.rs",
+    "rust/lance/src/io/exec/scalar_index.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs",
+    "rust/lance/src/dataset/tests/mod.rs",
+    "rust/lance/src/index/vector/fixture_test.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "wal"
+   ],
+   "horizon_score": 2555
+  },
+  {
+   "number": 7244,
+   "title": "feat(index): support segmented ngram index",
+   "url": "https://github.com/lance-format/lance/pull/7244",
+   "merged_at": "2026-07-25",
+   "additions": 1787,
+   "deletions": 475,
+   "changed_files": 16,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "python/src/indices.rs",
+    "rust/lance-index/src/scalar/ngram.rs",
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/optimize/remapping.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/append.rs",
+    "rust/lance/src/index/create.rs",
+    "rust/lance/src/index/scalar.rs",
+    "rust/lance/src/index/scalar/ngram.rs",
+    "rust/lance/src/index/scalar_logical.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2247
+  },
+  {
+   "number": 7943,
+   "title": "refactor(mem-wal): rename flushed MemTable/generation to SSTable",
+   "url": "https://github.com/lance-format/lance/pull/7943",
+   "merged_at": "2026-07-23",
+   "additions": 1008,
+   "deletions": 968,
+   "changed_files": 47,
+   "labels": [
+    "A-python",
+    "A-java",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/table/mem_wal.md",
+    "java/lance-jni/src/mem_wal.rs",
+    "java/src/main/java/org/lance/memwal/LsmPointLookupPlanner.java",
+    "java/src/main/java/org/lance/memwal/LsmScanner.java",
+    "java/src/main/java/org/lance/memwal/LsmVectorSearchPlanner.java",
+    "java/src/main/java/org/lance/memwal/MergedGeneration.java",
+    "java/src/main/java/org/lance/memwal/ShardSnapshot.java",
+    "java/src/main/java/org/lance/memwal/ShardWriter.java",
+    "java/src/main/java/org/lance/memwal/SsTable.java",
+    "protos/table.proto",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/mem_wal.py",
+    "python/src/mem_wal.rs",
+    "rust/lance-table/src/system_index/mem_wal.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fts_read_bench.rs",
+    "rust/lance/benches/mem_wal/fts/run_fts_read_sweep.sh",
+    "rust/lance/benches/mem_wal/kv/mem_wal_kv_point_lookup.rs",
+    "rust/lance/benches/mem_wal/point_lookup/mem_wal_point_lookup_bench.rs",
+    "rust/lance/benches/mem_wal/vector/hnsw/disk_ann_compare.py",
+    "rust/lance/benches/mem_wal/vector/hnsw/mem_wal_recall_hnsw.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_vector_bench.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/mem_wal.rs",
+    "rust/lance/src/dataset/mem_wal/api.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/manifest.rs",
+    "rust/lance/src/dataset/mem_wal/memtable.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/exec/brute_force_vector.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/scanner/exec/fts.rs",
+    "rust/lance/src/dataset/mem_wal/scanner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/block_list.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/builder.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/collector.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/data_source.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/exec/pk_block_filter.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/fts_search.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/planner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/point_lookup.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/projection.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/memwal/MemWalTest.java",
+    "python/python/tests/test_mem_wal.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "wal"
+   ],
+   "horizon_score": 2208
+  },
+  {
+   "number": 8313,
+   "title": "feat(dataset): per-fragment column writes that survive compaction",
+   "url": "https://github.com/lance-format/lance/pull/8313",
+   "merged_at": "2026-08-13",
+   "additions": 1734,
+   "deletions": 22,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-arrow/src/lib.rs",
+    "rust/lance-core/src/lib.rs",
+    "rust/lance-file/src/versions/v2_0/writer.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/write/insert.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/fragment_write_column.rs",
+    "rust/lance/src/dataset/tests/mod.rs"
+   ],
+   "theme_hits": [
+    "compact",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 2174
+  },
+  {
+   "number": 8020,
+   "title": "refactor: make v1 the canonical legacy file owner",
+   "url": "https://github.com/lance-format/lance/pull/8020",
+   "merged_at": "2026-07-29",
+   "additions": 786,
+   "deletions": 747,
+   "changed_files": 52,
+   "labels": [
+    "A-python",
+    "A-index",
+    "A-java",
+    "A-deps",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "java/lance-jni/Cargo.lock",
+    "python/Cargo.lock",
+    "python/src/utils.rs",
+    "rust/lance-file/Cargo.toml",
+    "rust/lance-file/src/datatypes.rs",
+    "rust/lance-file/src/lib.rs",
+    "rust/lance-file/src/previous/mod.rs",
+    "rust/lance-file/src/versions/mod.rs",
+    "rust/lance-file/src/versions/v1/encoding.rs",
+    "rust/lance-file/src/versions/v1/encoding/binary.rs",
+    "rust/lance-file/src/versions/v1/encoding/dictionary.rs",
+    "rust/lance-file/src/versions/v1/encoding/plain.rs",
+    "rust/lance-file/src/versions/v1/format/metadata.rs",
+    "rust/lance-file/src/versions/v1/format/mod.rs",
+    "rust/lance-file/src/versions/v1/mod.rs",
+    "rust/lance-file/src/versions/v1/page_table.rs",
+    "rust/lance-file/src/versions/v1/reader.rs",
+    "rust/lance-file/src/versions/v1/writer/mod.rs",
+    "rust/lance-file/src/versions/v1/writer/statistics.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/flat/index.rs",
+    "rust/lance-index/src/vector/flat/storage.rs",
+    "rust/lance-index/src/vector/hnsw/builder.rs",
+    "rust/lance-index/src/vector/hnsw/index.rs",
+    "rust/lance-index/src/vector/ivf/shuffler.rs",
+    "rust/lance-index/src/vector/ivf/storage.rs",
+    "rust/lance-index/src/vector/pq/storage.rs",
+    "rust/lance-index/src/vector/quantizer.rs",
+    "rust/lance-index/src/vector/sq/storage.rs",
+    "rust/lance-index/src/vector/utils.rs",
+    "rust/lance-io/Cargo.toml",
+    "rust/lance-io/src/encodings.rs",
+    "rust/lance-io/src/lib.rs",
+    "rust/lance-io/src/utils.rs",
+    "rust/lance-table/src/format.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance-table/src/io/manifest.rs",
+    "rust/lance/src/dataset.rs"
+   ],
+   "test_files": [
+    "rust/lance-file/src/compatibility_tests.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "format",
+    "index",
+    "manifest",
+    "version"
+   ],
+   "horizon_score": 2166
+  },
+  {
+   "number": 7237,
+   "title": "feat(compaction): introduce RowAddrRemap structure to avoid remap OOM caused by HashMap",
+   "url": "https://github.com/lance-format/lance/pull/7237",
+   "merged_at": "2026-07-03",
+   "additions": 1247,
+   "deletions": 206,
+   "changed_files": 37,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java",
+    "A-deps"
+   ],
+   "issues": [
+    {
+     "n": 7150,
+     "title": "Compaction remap OOM on Large Scale",
+     "url": "https://github.com/lance-format/lance/issues/7150"
+    }
+   ],
+   "src_files": [
+    "rust/lance-core/src/utils.rs",
+    "rust/lance-core/src/utils/row_addr_remap.rs",
+    "rust/lance-index/src/scalar.rs",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/bloomfilter.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/btree/flat.rs",
+    "rust/lance-index/src/scalar/fmindex.rs",
+    "rust/lance-index/src/scalar/inverted/builder.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/json.rs",
+    "rust/lance-index/src/scalar/label_list.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/scalar/ngram.rs",
+    "rust/lance-index/src/scalar/rtree.rs",
+    "rust/lance-index/src/scalar/zonemap.rs",
+    "rust/lance-index/src/vector.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/flat/index.rs",
+    "rust/lance-index/src/vector/hnsw/builder.rs",
+    "rust/lance-index/src/vector/hnsw/index.rs",
+    "rust/lance-index/src/vector/pq/storage.rs",
+    "rust/lance-index/src/vector/quantizer.rs",
+    "rust/lance-index/src/vector/v3/subindex.rs",
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize/remapping.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/scalar_logical.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/builder.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/index/vector/pq.rs",
+    "rust/lance/src/io/exec/knn.rs",
+    "rust/lance/src/session/index_extension.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/index/vector/fixture_test.rs"
+   ],
+   "theme_hits": [
+    "compact",
+    "index"
+   ],
+   "horizon_score": 2147
+  },
+  {
+   "number": 7640,
+   "title": "feat(index): share IVF partition scans across batch vector queries",
+   "url": "https://github.com/lance-format/lance/pull/7640",
+   "merged_at": "2026-09-12",
+   "additions": 1823,
+   "deletions": 56,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [
+    {
+     "n": 6822,
+     "title": "Extend batch vector queries to ANN and indexed search",
+     "url": "https://github.com/lance-format/lance/issues/6822"
+    }
+   ],
+   "src_files": [
+    "rust/lance-index/src/vector.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/io/exec/knn.rs"
+   ],
+   "test_files": [
+    "python/python/benchmarks/test_search.py",
+    "python/python/tests/test_vector_index.py",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 2143
+  },
+  {
+   "number": 7722,
+   "title": "fix: recognize own commit on conflict and avoid deleting committed artifacts",
+   "url": "https://github.com/lance-format/lance/pull/7722",
+   "merged_at": "2026-07-31",
+   "additions": 1698,
+   "deletions": 121,
+   "changed_files": 12,
+   "labels": [
+    "bug",
+    "A-python"
+   ],
+   "issues": [
+    {
+     "n": 8123,
+     "title": "commit_compaction can delete live data after an ambiguously successful manifest PUT",
+     "url": "https://github.com/lance-format/lance/issues/8123"
+    }
+   ],
+   "src_files": [
+    "rust/lance-core/src/error.rs",
+    "rust/lance-core/src/utils/tracing.rs",
+    "rust/lance-table/src/io/commit.rs",
+    "rust/lance-table/src/io/commit/external_manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/io/commit.rs",
+    "rust/lance/src/utils/test.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "rust/lance/src/dataset/tests/dataset_io.rs"
+   ],
+   "theme_hits": [
+    "manifest",
+    "schema"
+   ],
+   "horizon_score": 2138
+  },
+  {
+   "number": 8818,
+   "title": "perf(fts): index residual compound rows once",
+   "url": "https://github.com/lance-format/lance/pull/8818",
+   "merged_at": "2026-08-31",
+   "additions": 1805,
+   "deletions": 69,
+   "changed_files": 8,
+   "labels": [
+    "A-index",
+    "performance",
+    "A-format",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/index/fts.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "wal"
+   ],
+   "horizon_score": 2125
+  },
+  {
+   "number": 8606,
+   "title": "feat(io)!: paginated directory listing on ObjectStore",
+   "url": "https://github.com/lance-format/lance/pull/8606",
+   "merged_at": "2026-08-25",
+   "additions": 1362,
+   "deletions": 72,
+   "changed_files": 22,
+   "labels": [
+    "enhancement",
+    "breaking-change",
+    "A-encoding",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-io/src/object_store.rs",
+    "rust/lance-io/src/object_store/providers.rs",
+    "rust/lance-io/src/object_store/providers/aws.rs",
+    "rust/lance-io/src/object_store/providers/azure.rs",
+    "rust/lance-io/src/object_store/providers/gcp.rs",
+    "rust/lance-io/src/object_store/providers/goosefs.rs",
+    "rust/lance-io/src/object_store/providers/huggingface.rs",
+    "rust/lance-io/src/object_store/providers/local.rs",
+    "rust/lance-io/src/object_store/providers/memory.rs",
+    "rust/lance-io/src/object_store/providers/oss.rs",
+    "rust/lance-io/src/object_store/providers/tencent.rs",
+    "rust/lance-io/src/object_store/providers/tos.rs",
+    "rust/lance-io/src/object_store/read_dir.rs",
+    "rust/lance-io/src/object_store/throttle.rs",
+    "rust/lance-io/src/utils/tracking_store.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/cleanup.rs",
+    "rust/lance/src/io/exec/pushdown_scan.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/mem_wal/test_util.rs",
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/utils/test/failing_store.rs",
+    "rust/lance/src/utils/test/throttle_store.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1962
+  },
+  {
+   "number": 8053,
+   "title": "refactor(table): move transaction helpers down into lance-table",
+   "url": "https://github.com/lance-format/lance/pull/8053",
+   "merged_at": "2026-08-18",
+   "additions": 1409,
+   "deletions": 1274,
+   "changed_files": 16,
+   "labels": [
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/lib.rs",
+    "rust/lance-table/src/format.rs",
+    "rust/lance-table/src/format/key_existence.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance-table/src/format/overlay.rs",
+    "rust/lance-table/src/format/overlay/staleness.rs",
+    "rust/lance-table/src/system_index.rs",
+    "rust/lance-table/src/system_index/mem_wal.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/overlay.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/write/merge_insert/inserted_rows.rs",
+    "rust/lance/src/index/mem_wal.rs",
+    "rust/lance/src/io/commit.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_transactions.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "transact"
+   ],
+   "horizon_score": 1949
+  },
+  {
+   "number": 7179,
+   "title": "feat(vector)!: add approx mode for RaBitQ search",
+   "url": "https://github.com/lance-format/lance/pull/7179",
+   "merged_at": "2026-06-10",
+   "additions": 1145,
+   "deletions": 102,
+   "changed_files": 23,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java",
+    "breaking-change",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/lance-jni/src/utils.rs",
+    "java/src/main/java/org/lance/ipc/ApproxMode.java",
+    "java/src/main/java/org/lance/ipc/Query.java",
+    "protos/ann.proto",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance-index/src/vector.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/flat/index.rs",
+    "rust/lance-index/src/vector/storage.rs",
+    "rust/lance-linalg/src/simd/dist_table.rs",
+    "rust/lance/benches/mem_wal/vector/hnsw/mem_wal_recall_hnsw.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/index/vector/pq.rs",
+    "rust/lance/src/io/exec/ann_proto.rs",
+    "rust/lance/src/io/exec/knn.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/JNITest.java",
+    "python/python/tests/test_vector_index.py",
+    "rust/lance/src/dataset/tests/dataset_scanner.rs",
+    "rust/lance/src/index/vector/fixture_test.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "ipc",
+    "wal"
+   ],
+   "horizon_score": 1945
+  },
+  {
+   "number": 7288,
+   "title": "feat(scanner): add external row-address mask prefilter",
+   "url": "https://github.com/lance-format/lance/pull/7288",
+   "merged_at": "2026-08-23",
+   "additions": 1629,
+   "deletions": 32,
+   "changed_files": 12,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "python/src/lib.rs",
+    "rust/lance-select/src/mask.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/io/exec.rs",
+    "rust/lance/src/io/exec/filtered_read.rs",
+    "rust/lance/src/io/exec/fts.rs",
+    "rust/lance/src/io/exec/knn.rs",
+    "rust/lance/src/io/exec/row_addr_mask.rs",
+    "rust/lance/src/io/exec/utils.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_row_addr_prefilter.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1909
+  },
+  {
+   "number": 7879,
+   "title": "feat: introduce exact file format identity and persisted codecs",
+   "url": "https://github.com/lance-format/lance/pull/7879",
+   "merged_at": "2026-07-29",
+   "additions": 819,
+   "deletions": 243,
+   "changed_files": 26,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/src/dataset.rs",
+    "rust/lance-encoding/src/version.rs",
+    "rust/lance-file/src/lib.rs",
+    "rust/lance-file/src/reader.rs",
+    "rust/lance-file/src/version.rs",
+    "rust/lance-file/src/writer.rs",
+    "rust/lance-table/src/format/fragment.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance-table/src/io/commit.rs",
+    "rust/lance-table/src/io/manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/fragment/write.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize/binary_copy.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/updater.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/commit.rs",
+    "rust/lance/src/io/commit.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/optimize/tests/binary_copy.rs",
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/dataset/tests/dataset_merge_update.rs",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "format",
+    "manifest",
+    "schema",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 1859
+  },
+  {
+   "number": 8347,
+   "title": "fix(dataset)!: conflict a NOT NULL tightening with concurrent writes",
+   "url": "https://github.com/lance-format/lance/pull/8347",
+   "merged_at": "2026-08-07",
+   "additions": 1227,
+   "deletions": 55,
+   "changed_files": 15,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-java",
+    "breaking-change",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/transaction.rs",
+    "java/src/main/java/org/lance/operation/Merge.java",
+    "java/src/main/java/org/lance/operation/Project.java",
+    "protos/transaction.proto",
+    "python/python/lance/dataset.py",
+    "python/src/transaction.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/operation/MergeTest.java",
+    "java/src/test/java/org/lance/operation/ProjectTest.java",
+    "python/python/tests/test_schema_evolution.py",
+    "rust/lance/src/dataset/tests/dataset_merge_update.rs"
+   ],
+   "theme_hits": [
+    "schema",
+    "transact"
+   ],
+   "horizon_score": 1807
+  },
+  {
+   "number": 7038,
+   "title": "feat(index): support multi-bit IVF_RQ storage",
+   "url": "https://github.com/lance-format/lance/pull/7038",
+   "merged_at": "2026-06-05",
+   "additions": 1384,
+   "deletions": 172,
+   "changed_files": 11,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/vector/index.md",
+    "rust/lance-index/src/vector/bq.rs",
+    "rust/lance-index/src/vector/bq/builder.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/bq/transform.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs",
+    "rust/lance-index/src/vector/ivf.rs",
+    "rust/lance/src/index/vector.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs"
+   ],
+   "test_files": [
+    "python/python/tests/compat/test_vector_indices.py",
+    "python/python/tests/test_vector_index.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index"
+   ],
+   "horizon_score": 1804
+  },
+  {
+   "number": 8344,
+   "title": "fix: support blob v2 in fragment update_columns",
+   "url": "https://github.com/lance-format/lance/pull/8344",
+   "merged_at": "2026-08-11",
+   "additions": 1284,
+   "deletions": 267,
+   "changed_files": 13,
+   "labels": [
+    "bug",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8336,
+     "title": "LanceFragment.update_columns fails on blob v2 columns",
+     "url": "https://github.com/lance-format/lance/issues/8336"
+    }
+   ],
+   "src_files": [
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/updater.rs",
+    "rust/lance/src/dataset/versions/mod.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/write.rs",
+    "rust/lance/src/dataset/write/update.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "python/python/tests/test_fragment.py",
+    "python/python/tests/test_optimize.py"
+   ],
+   "theme_hits": [
+    "schema",
+    "version"
+   ],
+   "horizon_score": 1784
+  },
+  {
+   "number": 9075,
+   "title": "fix(fts): preserve prewarmed state across request store wrappers",
+   "url": "https://github.com/lance-format/lance/pull/9075",
+   "merged_at": "2026-09-09",
+   "additions": 1265,
+   "deletions": 127,
+   "changed_files": 15,
+   "labels": [
+    "bug",
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/Cargo.toml",
+    "rust/lance-index/benches/inverted_request_cache.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/documents.rs",
+    "rust/lance-index/src/scalar/inverted/index/inverted_index.rs",
+    "rust/lance-index/src/scalar/inverted/index/partition.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_prewarm.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_reader.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/scalar/registry.rs",
+    "rust/lance-index/src/traits.rs",
+    "rust/lance/src/index.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/position_cache.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/query.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/stats.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1745
+  },
+  {
+   "number": 7957,
+   "title": "refactor: rename MemWAL compaction progress",
+   "url": "https://github.com/lance-format/lance/pull/7957",
+   "merged_at": "2026-07-24",
+   "additions": 478,
+   "deletions": 440,
+   "changed_files": 38,
+   "labels": [
+    "A-python",
+    "A-index",
+    "A-java",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/system/mem_wal.md",
+    "docs/src/format/table/mem_wal.md",
+    "docs/src/images/mem_wal_overview.png",
+    "docs/src/images/mem_wal_regional.png",
+    "docs/src/images/mem_wal_shard.png",
+    "java/lance-jni/src/merge_insert.rs",
+    "java/lance-jni/src/transaction.rs",
+    "java/src/main/java/org/lance/memwal/CompactedSsTable.java",
+    "java/src/main/java/org/lance/merge/MergeInsertParams.java",
+    "protos/table.proto",
+    "protos/transaction.proto",
+    "python/python/lance/__init__.py",
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/mem_wal.py",
+    "python/src/dataset.rs",
+    "python/src/lib.rs",
+    "python/src/mem_wal.rs",
+    "python/src/transaction.rs",
+    "rust/lance-index/src/mem_wal.rs",
+    "rust/lance-table/src/system_index/mem_wal.rs",
+    "rust/lance/benches/mem_wal/point_lookup/mem_wal_point_lookup_bench.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/mem_wal/scanner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/builder.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/collector.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/data_source.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/write/commit.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/delete.rs",
+    "rust/lance/src/dataset/write/merge_insert/exec/write.rs",
+    "rust/lance/src/dataset/write/update.rs",
+    "rust/lance/src/index/mem_wal.rs",
+    "rust/lance/src/io/commit/conflict_resolver.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/memwal/MemWalTest.java",
+    "python/python/tests/test_mem_wal.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "shard",
+    "transact",
+    "wal"
+   ],
+   "horizon_score": 1618
+  },
+  {
+   "number": 7864,
+   "title": "feat: add batch blob range reads",
+   "url": "https://github.com/lance-format/lance/pull/7864",
+   "merged_at": "2026-07-21",
+   "additions": 1433,
+   "deletions": 101,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/blob.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_blob.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1593
+  },
+  {
+   "number": 7862,
+   "title": "feat(index): per-query index cache hit/miss stats",
+   "url": "https://github.com/lance-format/lance/pull/7862",
+   "merged_at": "2026-07-27",
+   "additions": 975,
+   "deletions": 95,
+   "changed_files": 20,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/src/main/java/org/lance/ipc/ScanStats.java",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/scanner.rs",
+    "rust/lance-core/src/cache/mod.rs",
+    "rust/lance-datafusion/src/exec.rs",
+    "rust/lance-datafusion/src/utils.rs",
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/builder.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/ngram.rs",
+    "rust/lance-index/src/scalar/rtree.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/io/exec/fts.rs",
+    "rust/lance/src/io/exec/utils.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/ScannerTest.java",
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index",
+    "ipc"
+   ],
+   "horizon_score": 1575
+  },
+  {
+   "number": 8090,
+   "title": "feat(java): expose index build progress callbacks",
+   "url": "https://github.com/lance-format/lance/pull/8090",
+   "merged_at": "2026-08-01",
+   "additions": 910,
+   "deletions": 262,
+   "changed_files": 22,
+   "labels": [
+    "enhancement",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/async_scanner.rs",
+    "java/lance-jni/src/blocking_blob.rs",
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/lance-jni/src/delta.rs",
+    "java/lance-jni/src/file_reader.rs",
+    "java/lance-jni/src/file_writer.rs",
+    "java/lance-jni/src/fragment.rs",
+    "java/lance-jni/src/index_progress.rs",
+    "java/lance-jni/src/lib.rs",
+    "java/lance-jni/src/mem_wal.rs",
+    "java/lance-jni/src/merge_insert.rs",
+    "java/lance-jni/src/namespace.rs",
+    "java/lance-jni/src/optimize.rs",
+    "java/lance-jni/src/session.rs",
+    "java/lance-jni/src/sql.rs",
+    "java/lance-jni/src/transaction.rs",
+    "java/lance-jni/src/update.rs",
+    "java/lance-jni/src/vector_trainer.rs",
+    "java/src/main/java/org/lance/Dataset.java",
+    "java/src/main/java/org/lance/index/IndexBuildProgress.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/index/ScalarIndexTest.java"
+   ],
+   "theme_hits": [
+    "index",
+    "transact",
+    "wal"
+   ],
+   "horizon_score": 1570
+  },
+  {
+   "number": 7932,
+   "title": "feat: support segmented RTree indexes",
+   "url": "https://github.com/lance-format/lance/pull/7932",
+   "merged_at": "2026-07-24",
+   "additions": 1145,
+   "deletions": 66,
+   "changed_files": 14,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "python/src/indices.rs",
+    "rust/lance-index/src/scalar/rtree.rs",
+    "rust/lance/src/dataset/index.rs",
+    "rust/lance/src/dataset/overlay.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/api.rs",
+    "rust/lance/src/index/create.rs",
+    "rust/lance/src/index/scalar.rs",
+    "rust/lance/src/index/scalar/rtree.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_geo.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1525
+  },
+  {
+   "number": 8589,
+   "title": "feat: report the row ids deleted between two versions",
+   "url": "https://github.com/lance-format/lance/pull/8589",
+   "merged_at": "2026-08-21",
+   "additions": 1185,
+   "deletions": 1,
+   "changed_files": 8,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/delta.rs",
+    "java/src/main/java/org/lance/delta/DatasetDelta.java",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance-table/src/rowids.rs",
+    "rust/lance/src/dataset/delta.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/DeltaTest.java",
+    "python/python/tests/test_delta.py"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 1485
+  },
+  {
+   "number": 8298,
+   "title": "fix(index): handle partial FTS prewarm under cache pressure",
+   "url": "https://github.com/lance-format/lance/pull/8298",
+   "merged_at": "2026-08-06",
+   "additions": 1161,
+   "deletions": 47,
+   "changed_files": 9,
+   "labels": [
+    "bug",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-core/src/cache/mod.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/documents.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/traits.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/api.rs",
+    "rust/lance/src/index/scalar.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1441
+  },
+  {
+   "number": 8351,
+   "title": "fix(index): filter stale vector segment rows before top-k",
+   "url": "https://github.com/lance-format/lance/pull/8351",
+   "merged_at": "2026-09-01",
+   "additions": 1064,
+   "deletions": 202,
+   "changed_files": 12,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index",
+    "A-format",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8348,
+     "title": "bug: stale rows fill a vector index segment's per-partition top-k and hide rows it still owns",
+     "url": "https://github.com/lance-format/lance/issues/8348"
+    }
+   ],
+   "src_files": [
+    "rust/lance-index/src/prefilter.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs",
+    "rust/lance-select/src/mask.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/append.rs",
+    "rust/lance/src/index/vector/builder.rs",
+    "rust/lance/src/index/vector/ivf.rs",
+    "rust/lance/src/index/vector/ivf/partition_serde.rs",
+    "rust/lance/src/index/vector/ivf/v2.rs",
+    "rust/lance/src/index/vector/pq.rs",
+    "rust/lance/src/io/exec/knn.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1404
+  },
+  {
+   "number": 7683,
+   "title": "feat(cache): support register and switch pluggable cache backend",
+   "url": "https://github.com/lance-format/lance/pull/7683",
+   "merged_at": "2026-07-31",
+   "additions": 1142,
+   "deletions": 14,
+   "changed_files": 8,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/session.rs",
+    "rust/lance-core/src/cache/backend_uri.rs",
+    "rust/lance-core/src/cache/mod.rs",
+    "rust/lance-core/src/cache/moka.rs",
+    "rust/lance-core/src/cache/registry.rs",
+    "rust/lance/src/session.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_session.py"
+   ],
+   "theme_hits": [
+    "backend"
+   ],
+   "horizon_score": 1402
+  },
+  {
+   "number": 9072,
+   "title": "feat: make data file parts serializable",
+   "url": "https://github.com/lance-format/lance/pull/9072",
+   "merged_at": "2026-09-09",
+   "additions": 1195,
+   "deletions": 448,
+   "changed_files": 5,
+   "labels": [
+    "enhancement",
+    "breaking-change",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/data_file.rs",
+    "rust/lance/src/dataset/data_file_part.rs",
+    "rust/lance/src/dataset/write.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/data_file_part.rs"
+   ],
+   "theme_hits": [
+    "serializ"
+   ],
+   "horizon_score": 1395
+  },
+  {
+   "number": 7152,
+   "title": "fix(dataset): resolve Blob v2 external URIs and robustly clean failed writes in add_columns",
+   "url": "https://github.com/lance-format/lance/pull/7152",
+   "merged_at": "2026-06-12",
+   "additions": 1142,
+   "deletions": 108,
+   "changed_files": 5,
+   "labels": [
+    "bug",
+    "A-python"
+   ],
+   "issues": [
+    {
+     "n": 7075,
+     "title": "add_columns should support Blob v2 external URIs and clean up failed writes",
+     "url": "https://github.com/lance-format/lance/issues/7075"
+    }
+   ],
+   "src_files": [
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/dataset/updater.rs",
+    "rust/lance/src/dataset/write.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_blob.py"
+   ],
+   "theme_hits": [
+    "schema"
+   ],
+   "horizon_score": 1342
+  },
+  {
+   "number": 8513,
+   "title": "fix(compaction): avoid stranded remainder fragments",
+   "url": "https://github.com/lance-format/lance/pull/8513",
+   "merged_at": "2026-08-30",
+   "additions": 958,
+   "deletions": 88,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8506,
+     "title": "compact_files: compaction tasks may produce a sub-target fragment that can never be merged",
+     "url": "https://github.com/lance-format/lance/issues/8506"
+    }
+   ],
+   "src_files": [
+    "rust/lance-datafusion/src/chunker.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/fragment/write.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/versions/mod.rs",
+    "rust/lance/src/dataset/write.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "compact",
+    "version"
+   ],
+   "horizon_score": 1318
+  },
+  {
+   "number": 8499,
+   "title": "fix(commit): make object storage authoritative for external manifests",
+   "url": "https://github.com/lance-format/lance/pull/8499",
+   "merged_at": "2026-08-13",
+   "additions": 940,
+   "deletions": 153,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "A-deps",
+    "A-format",
+    "K-changes"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/table/transaction.md",
+    "rust/lance-table/src/io/commit.rs",
+    "rust/lance-table/src/io/commit/dynamodb.rs",
+    "rust/lance-table/src/io/commit/external_manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/io/commit/external_manifest.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/io/commit/s3_test.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "manifest",
+    "storage"
+   ],
+   "horizon_score": 1300
+  },
+  {
+   "number": 8507,
+   "title": "fix: reject lossy null structs in v2.0",
+   "url": "https://github.com/lance-format/lance/pull/8507",
+   "merged_at": "2026-09-08",
+   "additions": 892,
+   "deletions": 95,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index",
+    "A-encoding",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8503,
+     "title": "File version 2.0 loses StructArray validity in an unindexed full scan",
+     "url": "https://github.com/lance-format/lance/issues/8503"
+    }
+   ],
+   "src_files": [
+    "rust/lance-encoding/src/array_encoding/strategy.rs",
+    "rust/lance-encoding/src/encoder.rs",
+    "rust/lance-encoding/src/encodings/logical/struct.rs",
+    "rust/lance-file/src/versions/v2_0/writer.rs",
+    "rust/lance-index/src/scalar/zonemap.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_ingestion.py",
+    "rust/lance-file/src/writer_tests.rs"
+   ],
+   "theme_hits": [
+    "encod",
+    "index",
+    "version"
+   ],
+   "horizon_score": 1292
+  },
+  {
+   "number": 7248,
+   "title": "feat: support cleanup explain for python and java",
+   "url": "https://github.com/lance-format/lance/pull/7248",
+   "merged_at": "2026-06-24",
+   "additions": 912,
+   "deletions": 52,
+   "changed_files": 15,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/src/main/java/org/lance/CleanupOperation.java",
+    "java/src/main/java/org/lance/Dataset.java",
+    "java/src/main/java/org/lance/cleanup/CleanupCandidateFile.java",
+    "java/src/main/java/org/lance/cleanup/CleanupExplanation.java",
+    "java/src/main/java/org/lance/cleanup/CleanupFileKind.java",
+    "java/src/main/java/org/lance/cleanup/CleanupReferencedBranch.java",
+    "python/python/lance/__init__.py",
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "python/src/dataset/cleanup.rs",
+    "python/src/lib.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/CleanupTest.java",
+    "python/python/tests/test_dataset.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1292
+  },
+  {
+   "number": 8750,
+   "title": "perf(fts): share MultiMatch prefilter materialization",
+   "url": "https://github.com/lance-format/lance/pull/8750",
+   "merged_at": "2026-08-27",
+   "additions": 975,
+   "deletions": 149,
+   "changed_files": 7,
+   "labels": [
+    "performance"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/index/prefilter.rs",
+    "rust/lance/src/io/exec/fts.rs",
+    "rust/lance/src/io/exec/utils.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1255
+  },
+  {
+   "number": 7034,
+   "title": "feat(lance-io): add GooseFS object store provider",
+   "url": "https://github.com/lance-format/lance/pull/7034",
+   "merged_at": "2026-06-05",
+   "additions": 912,
+   "deletions": 20,
+   "changed_files": 13,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "A-deps",
+    "A-encoding",
+    "A-namespace"
+   ],
+   "issues": [
+    {
+     "n": 7025,
+     "title": "feat: Add GooseFS object store provider for lance-io",
+     "url": "https://github.com/lance-format/lance/issues/7025"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "java/lance-jni/Cargo.lock",
+    "java/lance-jni/Cargo.toml",
+    "python/Cargo.lock",
+    "python/Cargo.toml",
+    "rust/examples/Cargo.toml",
+    "rust/lance-io/Cargo.toml",
+    "rust/lance-io/src/object_store.rs",
+    "rust/lance-io/src/object_store/providers.rs",
+    "rust/lance-io/src/object_store/providers/goosefs.rs",
+    "rust/lance-namespace-impls/Cargo.toml",
+    "rust/lance/Cargo.toml"
+   ],
+   "test_files": [
+    "rust/lance-io/tests/goosefs_integration.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1212
+  },
+  {
+   "number": 8101,
+   "title": "fix: validate primary key nullability on every path that can change it",
+   "url": "https://github.com/lance-format/lance/pull/8101",
+   "merged_at": "2026-08-29",
+   "additions": 620,
+   "deletions": 31,
+   "changed_files": 11,
+   "labels": [
+    "bug",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-table/src/format.rs",
+    "rust/lance-table/src/format/transaction.rs",
+    "rust/lance-table/src/transaction/manifest_build.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/mem_wal/api.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs",
+    "rust/lance/src/dataset/metadata.rs",
+    "rust/lance/src/dataset/schema_evolution.rs",
+    "rust/lance/src/io/commit.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/dataset/tests/dataset_transactions.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "schema",
+    "transact",
+    "wal"
+   ],
+   "horizon_score": 1160
+  },
+  {
+   "number": 7383,
+   "title": "feat(python): add Pydantic model instance auto-conversion and from_pydantic_model() classmethod",
+   "url": "https://github.com/lance-format/lance/pull/7383",
+   "merged_at": "2026-07-29",
+   "additions": 884,
+   "deletions": 3,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [
+    {
+     "n": 1106,
+     "title": "working with pydantic model instances",
+     "url": "https://github.com/lance-format/lance/issues/1106"
+    }
+   ],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/dependencies.py",
+    "python/python/lance/pydantic.py",
+    "python/python/lance/types.py"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "python/python/tests/test_pydantic.py"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 1144
+  },
+  {
+   "number": 7547,
+   "title": "fix(mem-wal): fence writer on WAL persistence failure",
+   "url": "https://github.com/lance-format/lance/pull/7547",
+   "merged_at": "2026-07-06",
+   "additions": 706,
+   "deletions": 61,
+   "changed_files": 16,
+   "labels": [
+    "bug"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-core/src/error.rs",
+    "rust/lance-core/src/lib.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fts_read_bench.rs",
+    "rust/lance/benches/mem_wal/kv/mem_wal_kv_point_lookup.rs",
+    "rust/lance/benches/mem_wal/point_lookup/mem_wal_point_lookup_bench.rs",
+    "rust/lance/benches/mem_wal/vector/hnsw/mem_wal_recall_hnsw.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_index_micro.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_vector_bench.rs",
+    "rust/lance/benches/mem_wal/write/mem_wal_write.rs",
+    "rust/lance/src/dataset/mem_wal.rs",
+    "rust/lance/src/dataset/mem_wal/api.rs",
+    "rust/lance/src/dataset/mem_wal/manifest.rs",
+    "rust/lance/src/dataset/mem_wal/memtable.rs",
+    "rust/lance/src/dataset/mem_wal/wal.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/mem_wal/test_util.rs"
+   ],
+   "theme_hits": [
+    "wal"
+   ],
+   "horizon_score": 1126
+  },
+  {
+   "number": 8751,
+   "title": "perf(fts): complete ambiguous WAND ties without full replay",
+   "url": "https://github.com/lance-format/lance/pull/8751",
+   "merged_at": "2026-08-26",
+   "additions": 853,
+   "deletions": 70,
+   "changed_files": 8,
+   "labels": [
+    "A-index",
+    "performance",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/index/search.rs",
+    "rust/lance-index/src/scalar/inverted/index/search_candidates.rs",
+    "rust/lance/src/io/exec/fts.rs",
+    "rust/lance/src/io/exec/utils.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1113
+  },
+  {
+   "number": 8580,
+   "title": "feat: add mixed data file version capability",
+   "url": "https://github.com/lance-format/lance/pull/8580",
+   "merged_at": "2026-08-27",
+   "additions": 585,
+   "deletions": 73,
+   "changed_files": 10,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-format",
+    "A-namespace",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "protos/table.proto",
+    "rust/lance-namespace-impls/src/dir/manifest.rs",
+    "rust/lance-table/src/feature_flags.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance-table/src/transaction/manifest_build.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/builder.rs",
+    "rust/lance/src/io/commit.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "rust/lance/src/dataset/tests/dataset_io.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "manifest",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 1105
+  },
+  {
+   "number": 8054,
+   "title": "refactor(table): move transaction.rs into lance-table",
+   "url": "https://github.com/lance-format/lance/pull/8054",
+   "merged_at": "2026-08-19",
+   "additions": 664,
+   "deletions": 769,
+   "changed_files": 8,
+   "labels": [
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-table/src/format/index.rs",
+    "rust/lance-table/src/lib.rs",
+    "rust/lance-table/src/transaction.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/versions/mod.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/mem_wal.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_transactions.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "index",
+    "transact",
+    "version"
+   ],
+   "horizon_score": 1104
+  },
+  {
+   "number": 7966,
+   "title": "fix(index): align scalar index field type support",
+   "url": "https://github.com/lance-format/lance/pull/7966",
+   "merged_at": "2026-08-17",
+   "additions": 302,
+   "deletions": 29,
+   "changed_files": 15,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "rust/arrow-stats/src/lib.rs",
+    "rust/lance-datafusion/src/expr.rs",
+    "rust/lance-index/src/scalar/zonemap.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py",
+    "rust/lance/src/dataset/tests/dataset_migrations.rs",
+    "test_data/readme.md",
+    "test_data/v8.0.0/datagen.py",
+    "test_data/v8.0.0/decimal_zonemap/_indices/ac25dab3-5657-4e81-90b8-df2daacdb7ab/zonemap.lance",
+    "test_data/v8.0.0/decimal_zonemap/_transactions/0-6ba4fa06-16d6-41b4-83cf-cf793c636534.txn",
+    "test_data/v8.0.0/decimal_zonemap/_transactions/1-aba0c0c9-b72c-425a-8fb2-d38e1635659c.txn",
+    "test_data/v8.0.0/decimal_zonemap/_versions/18446744073709551613.manifest",
+    "test_data/v8.0.0/decimal_zonemap/_versions/18446744073709551614.manifest",
+    "test_data/v8.0.0/decimal_zonemap/_versions/latest_version_hint.json",
+    "test_data/v8.0.0/decimal_zonemap/data/010000100111000010010010c5c73f4e94990fd906290a7890.lance"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1102
+  },
+  {
+   "number": 8018,
+   "title": "feat(overlay): gate overlay writes on an explicit dataset setting",
+   "url": "https://github.com/lance-format/lance/pull/8018",
+   "merged_at": "2026-07-27",
+   "additions": 618,
+   "deletions": 30,
+   "changed_files": 14,
+   "labels": [
+    "enhancement",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/table/data_overlay_file.md",
+    "docs/src/format/table/index.md",
+    "protos/table.proto",
+    "rust/lance-table/src/feature_flags.rs",
+    "rust/lance-table/src/format.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/fragment.rs",
+    "rust/lance/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/insert.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_overlay_feature_flag.rs",
+    "rust/lance/src/dataset/tests/dataset_overlay_index_masking.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "transact"
+   ],
+   "horizon_score": 1098
+  },
+  {
+   "number": 7894,
+   "title": "feat(mem_wal): drive the WAL append on a flush-interval ticker",
+   "url": "https://github.com/lance-format/lance/pull/7894",
+   "merged_at": "2026-07-22",
+   "additions": 567,
+   "deletions": 427,
+   "changed_files": 19,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/mem_wal.rs",
+    "java/src/main/java/org/lance/memwal/ShardWriterConfig.java",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fineweb_fts.rs",
+    "rust/lance/benches/mem_wal/fts/mem_wal_fts_read_bench.rs",
+    "rust/lance/benches/mem_wal/kv/mem_wal_kv_point_lookup.rs",
+    "rust/lance/benches/mem_wal/point_lookup/mem_wal_point_lookup_bench.rs",
+    "rust/lance/benches/mem_wal/vector/hnsw/mem_wal_recall_hnsw.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_index_micro.rs",
+    "rust/lance/benches/mem_wal/vector/mem_wal_vector_bench.rs",
+    "rust/lance/benches/mem_wal/write/mem_wal_replay.rs",
+    "rust/lance/benches/mem_wal/write/mem_wal_shard_writer_backpressure.rs",
+    "rust/lance/benches/mem_wal/write/mem_wal_write.rs",
+    "rust/lance/src/dataset/mem_wal/api.rs",
+    "rust/lance/src/dataset/mem_wal/wal.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/memwal/MemWalTest.java",
+    "python/python/tests/test_mem_wal.py"
+   ],
+   "theme_hits": [
+    "wal"
+   ],
+   "horizon_score": 1087
+  },
+  {
+   "number": 7368,
+   "title": "feat: accept TableProvider write inputs for merge_insert and insert",
+   "url": "https://github.com/lance-format/lance/pull/7368",
+   "merged_at": "2026-07-21",
+   "additions": 847,
+   "deletions": 160,
+   "changed_files": 10,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/types.py",
+    "python/src/dataset.rs",
+    "rust/lance-core/src/error.rs",
+    "rust/lance-datafusion/src/exec.rs",
+    "rust/lance-datafusion/src/spill.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/merge_insert.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1087
+  },
+  {
+   "number": 7735,
+   "title": "feat(mem_wal): thread store_params + session through WAL write/read paths",
+   "url": "https://github.com/lance-format/lance/pull/7735",
+   "merged_at": "2026-07-14",
+   "additions": 703,
+   "deletions": 69,
+   "changed_files": 14,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance/benches/mem_wal/write/mem_wal_write.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/mem_wal/api.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/block_list.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/builder.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/flushed_cache.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/fts_search.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/planner.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/point_lookup.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/vector_search.rs",
+    "rust/lance/src/dataset/mem_wal/util.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/mem_wal/test_util.rs"
+   ],
+   "theme_hits": [
+    "wal"
+   ],
+   "horizon_score": 1083
+  },
+  {
+   "number": 7512,
+   "title": "feat(fts)!: make v2 the default index format",
+   "url": "https://github.com/lance-format/lance/pull/7512",
+   "merged_at": "2026-06-30",
+   "additions": 492,
+   "deletions": 57,
+   "changed_files": 15,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java",
+    "breaking-change"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/src/main/java/org/lance/index/scalar/InvertedIndexParams.java",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/builder.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance-index/src/scalar/inverted/tokenizer.rs",
+    "rust/lance/src/dataset/mem_wal/index.rs",
+    "rust/lance/src/dataset/mem_wal/index/fts.rs",
+    "rust/lance/src/dataset/mem_wal/memtable/flush.rs",
+    "rust/lance/src/dataset/mem_wal/write.rs"
+   ],
+   "test_files": [
+    "python/python/tests/compat/compat_sequence.py",
+    "python/python/tests/compat/test_scalar_indices.py",
+    "python/python/tests/test_scalar_index.py",
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "wal"
+   ],
+   "horizon_score": 1072
+  },
+  {
+   "number": 7219,
+   "title": "fix: branch support on object stores, python branch ops, s3/ddb integration tests",
+   "url": "https://github.com/lance-format/lance/pull/7219",
+   "merged_at": "2026-06-11",
+   "additions": 609,
+   "deletions": 19,
+   "changed_files": 12,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-deps"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/pyproject.toml",
+    "python/python/lance/dataset.py",
+    "python/python/lance/namespace.py",
+    "python/src/namespace.rs",
+    "python/uv.lock",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/branch_location.rs",
+    "rust/lance/src/io/commit/namespace_manifest.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "python/python/tests/test_namespace_dir.py",
+    "python/python/tests/test_namespace_integration.py",
+    "python/python/tests/test_s3_ddb.py"
+   ],
+   "theme_hits": [
+    "manifest"
+   ],
+   "horizon_score": 1069
+  },
+  {
+   "number": 7743,
+   "title": "feat(python): add bulk packed blob writer API",
+   "url": "https://github.com/lance-format/lance/pull/7743",
+   "merged_at": "2026-07-14",
+   "additions": 861,
+   "deletions": 47,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [
+    {
+     "n": 7741,
+     "title": "PyLance: add an Arrow-native bulk API for PackedBlobWriter",
+     "url": "https://github.com/lance-format/lance/issues/7741"
+    }
+   ],
+   "src_files": [
+    "python/Cargo.toml",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/blob.rs",
+    "rust/lance/src/blob.rs"
+   ],
+   "test_files": [
+    "python/python/benchmarks/test_blob.py",
+    "python/python/tests/test_blob.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1061
+  },
+  {
+   "number": 8829,
+   "title": "feat(java): align inverted index options",
+   "url": "https://github.com/lance-format/lance/pull/8829",
+   "merged_at": "2026-09-05",
+   "additions": 703,
+   "deletions": 49,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-java",
+    "A-deps",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/Cargo.lock",
+    "java/lance-jni/Cargo.toml",
+    "java/pom.xml",
+    "java/src/main/java/org/lance/index/scalar/InvertedIndexParams.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/index/scalar/InvertedIndexParamsTest.java",
+    "java/src/test/java/org/lance/ipc/LanceScannerFullTextSearchTest.java",
+    "java/src/test/resources/language_models/jieba/default/dict.txt"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 1023
+  },
+  {
+   "number": 7376,
+   "title": "feat: add RLE v2 run length widths",
+   "url": "https://github.com/lance-format/lance/pull/7376",
+   "merged_at": "2026-07-06",
+   "additions": 777,
+   "deletions": 185,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-encoding",
+    "A-format",
+    "A-namespace"
+   ],
+   "issues": [
+    {
+     "n": 7327,
+     "title": "Add opt-in RLE v2 run-length widths",
+     "url": "https://github.com/lance-format/lance/issues/7327"
+    }
+   ],
+   "src_files": [
+    "protos/table.proto",
+    "rust/lance-encoding/src/compression.rs",
+    "rust/lance-encoding/src/encodings/physical/general.rs",
+    "rust/lance-encoding/src/encodings/physical/rle.rs",
+    "rust/lance/src/dataset/write.rs",
+    "rust/lance/src/dataset/write/commit.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_io.rs"
+   ],
+   "theme_hits": [
+    "encod"
+   ],
+   "horizon_score": 1017
+  },
+  {
+   "number": 8288,
+   "title": "feat(java): add scanner performance and memory options",
+   "url": "https://github.com/lance-format/lance/pull/8288",
+   "merged_at": "2026-08-05",
+   "additions": 644,
+   "deletions": 7,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/async_scanner.rs",
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/src/main/java/org/lance/ipc/AsyncScanner.java",
+    "java/src/main/java/org/lance/ipc/LanceScanner.java",
+    "java/src/main/java/org/lance/ipc/MaterializationStyle.java",
+    "java/src/main/java/org/lance/ipc/ScanOptions.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/AsyncScannerTest.java",
+    "java/src/test/java/org/lance/ScannerTest.java",
+    "java/src/test/java/org/lance/TestUtils.java"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 1004
+  },
+  {
+   "number": 9032,
+   "title": "perf(fts): reuse resident statistics and prepared scorers",
+   "url": "https://github.com/lance-format/lance/pull/9032",
+   "merged_at": "2026-09-08",
+   "additions": 698,
+   "deletions": 6,
+   "changed_files": 6,
+   "labels": [
+    "A-index",
+    "performance",
+    "K-approved",
+    "K-risk"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/inverted/index/posting_reader.rs",
+    "rust/lance-index/src/scalar/inverted/index/search.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/query.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/scoring.rs",
+    "rust/lance-index/src/scalar/inverted/index/tests/stats.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 998
+  },
+  {
+   "number": 8235,
+   "title": "feat(compaction)!: support max_source_rows and max_source_bytes limits",
+   "url": "https://github.com/lance-format/lance/pull/8235",
+   "merged_at": "2026-08-13",
+   "additions": 611,
+   "deletions": 68,
+   "changed_files": 12,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "breaking-change",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/optimize.rs",
+    "java/lance-jni/src/utils.rs",
+    "java/src/main/java/org/lance/compaction/Compaction.java",
+    "java/src/main/java/org/lance/compaction/CompactionOptions.java",
+    "java/src/main/java/org/lance/compaction/CompactionTask.java",
+    "python/python/lance/dataset.py",
+    "python/python/lance/optimize.py",
+    "python/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/CompactionTest.java",
+    "python/python/tests/test_optimize.py"
+   ],
+   "theme_hits": [
+    "compact"
+   ],
+   "horizon_score": 991
+  },
+  {
+   "number": 7013,
+   "title": "refactor(index)!: move distributed BTree build to segmented index framework",
+   "url": "https://github.com/lance-format/lance/pull/7013",
+   "merged_at": "2026-06-03",
+   "additions": 630,
+   "deletions": 644,
+   "changed_files": 9,
+   "labels": [
+    "A-python",
+    "A-index",
+    "A-java",
+    "breaking-change"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/src/main/java/org/lance/index/scalar/BTreeIndexParams.java",
+    "python/python/lance/dataset.py",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/index/create.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/DatasetTest.java",
+    "java/src/test/java/org/lance/index/ScalarIndexTest.java",
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 990
+  },
+  {
+   "number": 7925,
+   "title": "feat(index): support segmented bloom filters",
+   "url": "https://github.com/lance-format/lance/pull/7925",
+   "merged_at": "2026-07-23",
+   "additions": 711,
+   "deletions": 20,
+   "changed_files": 8,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "rust/lance-index/src/scalar/bloomfilter.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/api.rs",
+    "rust/lance/src/index/create.rs",
+    "rust/lance/src/index/scalar.rs",
+    "rust/lance/src/index/scalar/bloomfilter.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 971
+  },
+  {
+   "number": 7758,
+   "title": "feat: support multi-segment indices in hamming clustering",
+   "url": "https://github.com/lance-format/lance/pull/7758",
+   "merged_at": "2026-07-13",
+   "additions": 726,
+   "deletions": 255,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/util.py",
+    "python/python/lance/vector.py",
+    "python/src/dataset.rs",
+    "rust/lance/src/index/vector/hamming.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 966
+  },
+  {
+   "number": 8575,
+   "title": "fix(java): hold Dataset read lock when passing Dataset into native calls",
+   "url": "https://github.com/lance-format/lance/pull/8575",
+   "merged_at": "2026-08-24",
+   "additions": 289,
+   "deletions": 134,
+   "changed_files": 16,
+   "labels": [
+    "bug",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/optimize.rs",
+    "java/src/main/java/org/lance/CommitBuilder.java",
+    "java/src/main/java/org/lance/Dataset.java",
+    "java/src/main/java/org/lance/Fragment.java",
+    "java/src/main/java/org/lance/SqlQuery.java",
+    "java/src/main/java/org/lance/compaction/Compaction.java",
+    "java/src/main/java/org/lance/compaction/CompactionTask.java",
+    "java/src/main/java/org/lance/delta/DatasetDeltaBuilder.java",
+    "java/src/main/java/org/lance/index/vector/VectorTrainer.java",
+    "java/src/main/java/org/lance/ipc/AsyncScanner.java",
+    "java/src/main/java/org/lance/ipc/LanceScanner.java",
+    "java/src/main/java/org/lance/memwal/LsmPointLookupPlanner.java",
+    "java/src/main/java/org/lance/memwal/LsmScanner.java",
+    "java/src/main/java/org/lance/memwal/LsmVectorSearchPlanner.java",
+    "java/src/main/java/org/lance/memwal/ShardWriter.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/FragmentTest.java"
+   ],
+   "theme_hits": [
+    "compact",
+    "index",
+    "ipc",
+    "query",
+    "wal"
+   ],
+   "horizon_score": 949
+  },
+  {
+   "number": 8703,
+   "title": "perf(fts): add WAND exactness certificate",
+   "url": "https://github.com/lance-format/lance/pull/8703",
+   "merged_at": "2026-08-24",
+   "additions": 692,
+   "deletions": 7,
+   "changed_files": 5,
+   "labels": [
+    "A-index",
+    "performance",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/inverted/index/inverted_index.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/scoring.rs",
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 932
+  },
+  {
+   "number": 8088,
+   "title": "fix(index): use zone map index for IS NOT NULL predicates",
+   "url": "https://github.com/lance-format/lance/pull/8088",
+   "merged_at": "2026-08-06",
+   "additions": 685,
+   "deletions": 26,
+   "changed_files": 5,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index",
+    "A-format"
+   ],
+   "issues": [],
+   "src_files": [
+    "protos/index_old.proto",
+    "rust/lance-index/src/scalar/expression.rs",
+    "rust/lance-index/src/scalar/zonemap.rs"
+   ],
+   "test_files": [
+    "python/python/tests/compat/test_scalar_indices.py",
+    "rust/lance/tests/query/primitives.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 925
+  },
+  {
+   "number": 7060,
+   "title": "fix: handle nested JSON conversion recursively",
+   "url": "https://github.com/lance-format/lance/pull/7060",
+   "merged_at": "2026-06-03",
+   "additions": 677,
+   "deletions": 124,
+   "changed_files": 5,
+   "labels": [
+    "bug",
+    "A-python"
+   ],
+   "issues": [
+    {
+     "n": 7015,
+     "title": "[BUG] v2.1+ read panic: `decoder.rs:1902` buffer-offset assert on `list<struct<\u2026, json>>` with a populated `arrow.json` field",
+     "url": "https://github.com/lance-format/lance/issues/7015"
+    }
+   ],
+   "src_files": [
+    "rust/lance-arrow/src/json.rs",
+    "rust/lance/src/dataset/take.rs",
+    "rust/lance/src/dataset/utils.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_json.py",
+    "rust/lance/src/dataset/tests/dataset_scanner.rs"
+   ],
+   "theme_hits": [
+    "version"
+   ],
+   "horizon_score": 917
+  },
+  {
+   "number": 8410,
+   "title": "fix(encoding): read wrapped miniblock level counts",
+   "url": "https://github.com/lance-format/lance/pull/8410",
+   "merged_at": "2026-08-27",
+   "additions": 447,
+   "deletions": 42,
+   "changed_files": 8,
+   "labels": [
+    "bug",
+    "A-encoding",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 6936,
+     "title": "BUG:Incorrect array length for StructArray field \"captions\", expected 8192 got 5364",
+     "url": "https://github.com/lance-format/lance/issues/6936"
+    }
+   ],
+   "src_files": [
+    "rust/lance-encoding/src/compression.rs",
+    "rust/lance-encoding/src/encodings/logical/primitive.rs",
+    "rust/lance-encoding/src/encodings/physical/rle.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_migrations.rs",
+    "test_data/v6.0.1/datagen.py",
+    "test_data/v6.0.1/miniblock_level_count_overflow.lance/_transactions/0-8f7139ed-6394-401a-bad6-d22598894380.txn",
+    "test_data/v6.0.1/miniblock_level_count_overflow.lance/_versions/18446744073709551614.manifest",
+    "test_data/v6.0.1/miniblock_level_count_overflow.lance/data/110111010100010000111011182b1d41469840c6b679aeab55.lance"
+   ],
+   "theme_hits": [
+    "encod"
+   ],
+   "horizon_score": 867
+  },
+  {
+   "number": 8017,
+   "title": "feat(index): add zone map support for all data types",
+   "url": "https://github.com/lance-format/lance/pull/8017",
+   "merged_at": "2026-08-04",
+   "additions": 627,
+   "deletions": 48,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "rust/lance-index-core/src/lib.rs",
+    "rust/lance-index/src/registry.rs",
+    "rust/lance-index/src/scalar/zonemap.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/create.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 867
+  },
+  {
+   "number": 8093,
+   "title": "feat(fts): compose boolean and phrase scorers",
+   "url": "https://github.com/lance-format/lance/pull/8093",
+   "merged_at": "2026-07-31",
+   "additions": 612,
+   "deletions": 54,
+   "changed_files": 5,
+   "labels": [
+    "enhancement",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/wand.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 812
+  },
+  {
+   "number": 7962,
+   "title": "fix(index): replace scalar cache entries on store rotation",
+   "url": "https://github.com/lance-format/lance/pull/7962",
+   "merged_at": "2026-09-07",
+   "additions": 424,
+   "deletions": 31,
+   "changed_files": 11,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 7959,
+     "title": "bug: scalar/FTS index caches are not isolated by object store and may reuse expired credentials after rotation",
+     "url": "https://github.com/lance-format/lance/issues/7959"
+    }
+   ],
+   "src_files": [
+    "rust/lance-index-core/src/scalar.rs",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/inverted.rs",
+    "rust/lance-index/src/scalar/label_list.rs",
+    "rust/lance-index/src/scalar/lance_format.rs",
+    "rust/lance-index/src/scalar/registry.rs",
+    "rust/lance/src/dataset/mem_wal/scanner/block_list.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/scalar.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "wal"
+   ],
+   "horizon_score": 804
+  },
+  {
+   "number": 7767,
+   "title": "feat: support wider hamming hashes",
+   "url": "https://github.com/lance-format/lance/pull/7767",
+   "merged_at": "2026-07-14",
+   "additions": 584,
+   "deletions": 69,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/vector.py",
+    "python/src/dataset.rs",
+    "rust/lance-linalg/src/distance.rs",
+    "rust/lance-linalg/src/distance/hamming.rs",
+    "rust/lance/src/index/vector/hamming.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 804
+  },
+  {
+   "number": 7540,
+   "title": "feat(python): expose DataOverlay commit operation",
+   "url": "https://github.com/lance-format/lance/pull/7540",
+   "merged_at": "2026-07-15",
+   "additions": 531,
+   "deletions": 10,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/fragment.py",
+    "python/src/fragment.rs",
+    "python/src/transaction.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py",
+    "python/python/tests/test_fragment.py"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 791
+  },
+  {
+   "number": 7766,
+   "title": "fix: reconstruct protobuf schema fields in linear time",
+   "url": "https://github.com/lance-format/lance/pull/7766",
+   "merged_at": "2026-07-14",
+   "additions": 386,
+   "deletions": 32,
+   "changed_files": 9,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/src/schema.rs",
+    "rust/lance-file/Cargo.toml",
+    "rust/lance-file/benches/schema.rs",
+    "rust/lance-file/src/datatypes.rs",
+    "rust/lance-file/src/previous/format/metadata.rs",
+    "rust/lance-file/src/reader.rs",
+    "rust/lance-table/src/format/manifest.rs",
+    "rust/lance/src/dataset/transaction.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_schema.py"
+   ],
+   "theme_hits": [
+    "format",
+    "schema",
+    "transact"
+   ],
+   "horizon_score": 786
+  },
+  {
+   "number": 8356,
+   "title": "feat(python): add RowIdSequence for constructing row id metadata",
+   "url": "https://github.com/lance-format/lance/pull/8356",
+   "merged_at": "2026-08-07",
+   "additions": 589,
+   "deletions": 2,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8353,
+     "title": "feat(python): API to construct RowIdSequence",
+     "url": "https://github.com/lance-format/lance/issues/8353"
+    }
+   ],
+   "src_files": [
+    "python/python/lance/fragment.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/python/lance/lance/fragment.pyi",
+    "python/src/lib.rs",
+    "python/src/rowids.rs",
+    "rust/lance-table/src/rowids.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_fragment.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 769
+  },
+  {
+   "number": 7100,
+   "title": "feat(java): add missing scanner and merge insert params to align with Python/Rust",
+   "url": "https://github.com/lance-format/lance/pull/7100",
+   "merged_at": "2026-06-05",
+   "additions": 374,
+   "deletions": 6,
+   "changed_files": 10,
+   "labels": [
+    "enhancement",
+    "A-java"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/async_scanner.rs",
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/lance-jni/src/merge_insert.rs",
+    "java/src/main/java/org/lance/ipc/AsyncScanner.java",
+    "java/src/main/java/org/lance/ipc/LanceScanner.java",
+    "java/src/main/java/org/lance/ipc/ScanOptions.java",
+    "java/src/main/java/org/lance/merge/MergeInsertParams.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/AsyncScannerTest.java",
+    "java/src/test/java/org/lance/MergeInsertTest.java",
+    "java/src/test/java/org/lance/ScannerTest.java"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 754
+  },
+  {
+   "number": 7281,
+   "title": "fix: support blob v2 in nested structs",
+   "url": "https://github.com/lance-format/lance/pull/7281",
+   "merged_at": "2026-06-16",
+   "additions": 602,
+   "deletions": 256,
+   "changed_files": 5,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-core/src/datatypes/field.rs",
+    "rust/lance-file/src/writer.rs",
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/write.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_blob.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 742
+  },
+  {
+   "number": 8665,
+   "title": "fix: refuse to drop a path that is not a Lance dataset",
+   "url": "https://github.com/lance-format/lance/pull/8665",
+   "merged_at": "2026-08-24",
+   "additions": 437,
+   "deletions": 4,
+   "changed_files": 8,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/src/main/java/org/lance/Dataset.java",
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance/src/dataset.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/DatasetTest.java",
+    "python/python/tests/test_dataset.py",
+    "rust/lance/src/dataset/tests/dataset_io.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 717
+  },
+  {
+   "number": 7884,
+   "title": "feat(python): expose LABEL_LIST segment index build",
+   "url": "https://github.com/lance-format/lance/pull/7884",
+   "merged_at": "2026-07-28",
+   "additions": 453,
+   "deletions": 61,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "rust/lance-index/src/scalar/expression.rs",
+    "rust/lance-index/src/scalar/label_list.rs",
+    "rust/lance/src/index/create.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py",
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 713
+  },
+  {
+   "number": 8161,
+   "title": "perf(fts): bound compound score-floor tie buffering",
+   "url": "https://github.com/lance-format/lance/pull/8161",
+   "merged_at": "2026-08-03",
+   "additions": 509,
+   "deletions": 153,
+   "changed_files": 5,
+   "labels": [
+    "A-index",
+    "performance"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/documents.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 709
+  },
+  {
+   "number": 7677,
+   "title": "feat: support segment selection in pylance prewarm",
+   "url": "https://github.com/lance-format/lance/pull/7677",
+   "merged_at": "2026-07-08",
+   "additions": 439,
+   "deletions": 52,
+   "changed_files": 8,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "python/src/session.rs",
+    "rust/lance-index/src/scalar/inverted/index.rs",
+    "rust/lance/src/index.rs",
+    "rust/lance/src/index/api.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 699
+  },
+  {
+   "number": 8521,
+   "title": "feat: add Dataset::migrate_to_stable_row_ids migration method",
+   "url": "https://github.com/lance-format/lance/pull/8521",
+   "merged_at": "2026-08-18",
+   "additions": 386,
+   "deletions": 8,
+   "changed_files": 5,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/dataset/transaction.rs",
+    "rust/lance/src/dataset/write/commit.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_io.rs",
+    "rust/lance/src/dataset/tests/dataset_migrations.rs"
+   ],
+   "theme_hits": [
+    "migrat",
+    "transact"
+   ],
+   "horizon_score": 686
+  },
+  {
+   "number": 8577,
+   "title": "perf(index): skip unnecessary null tracking for BTree and Bitmap indexes",
+   "url": "https://github.com/lance-format/lance/pull/8577",
+   "merged_at": "2026-08-18",
+   "additions": 400,
+   "deletions": 75,
+   "changed_files": 9,
+   "labels": [
+    "A-index",
+    "performance",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/scalar.rs",
+    "rust/lance-index/src/scalar.rs",
+    "rust/lance-index/src/scalar/bitmap.rs",
+    "rust/lance-index/src/scalar/btree.rs",
+    "rust/lance-index/src/scalar/btree/flat.rs",
+    "rust/lance-index/src/scalar/expression.rs",
+    "rust/lance-index/src/scalar/json.rs",
+    "rust/lance/src/index/scalar_logical.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 680
+  },
+  {
+   "number": 8532,
+   "title": "feat(compaction): support excluding fragments from planning",
+   "url": "https://github.com/lance-format/lance/pull/8532",
+   "merged_at": "2026-08-17",
+   "additions": 290,
+   "deletions": 19,
+   "changed_files": 12,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/lance-jni/src/optimize.rs",
+    "java/lance-jni/src/utils.rs",
+    "java/src/main/java/org/lance/compaction/Compaction.java",
+    "java/src/main/java/org/lance/compaction/CompactionOptions.java",
+    "java/src/main/java/org/lance/compaction/CompactionTask.java",
+    "python/python/lance/dataset.py",
+    "python/python/lance/optimize.py",
+    "python/src/dataset/optimize.rs",
+    "rust/lance/src/dataset/optimize.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/CompactionTest.java",
+    "python/python/tests/test_optimize.py"
+   ],
+   "theme_hits": [
+    "compact"
+   ],
+   "horizon_score": 670
+  },
+  {
+   "number": 8748,
+   "title": "fix(fts): preserve global scoring for no-impact indexes",
+   "url": "https://github.com/lance-format/lance/pull/8748",
+   "merged_at": "2026-08-27",
+   "additions": 427,
+   "deletions": 56,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "A-index"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/inverted/index/partition.rs",
+    "rust/lance-index/src/scalar/inverted/index/search.rs",
+    "rust/lance-index/src/scalar/inverted/index/search_candidates.rs",
+    "rust/lance-index/src/scalar/inverted/wand.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance-index/src/scalar/inverted/index/tests/scoring.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 667
+  },
+  {
+   "number": 8450,
+   "title": "feat(java): expose manifest location metadata",
+   "url": "https://github.com/lance-format/lance/pull/8450",
+   "merged_at": "2026-08-13",
+   "additions": 387,
+   "deletions": 6,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/blocking_dataset.rs",
+    "java/src/main/java/org/lance/Dataset.java",
+    "java/src/main/java/org/lance/ManifestLocation.java",
+    "java/src/main/java/org/lance/ManifestNamingScheme.java",
+    "rust/lance/src/dataset/builder.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/DatasetTest.java",
+    "rust/lance/src/dataset/tests/dataset_versioning.rs"
+   ],
+   "theme_hits": [
+    "manifest"
+   ],
+   "horizon_score": 667
+  },
+  {
+   "number": 7021,
+   "title": "refactor(index): scaffold ivfrq split code layout",
+   "url": "https://github.com/lance-format/lance/pull/7021",
+   "merged_at": "2026-06-01",
+   "additions": 297,
+   "deletions": 52,
+   "changed_files": 8,
+   "labels": [
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "docs/src/format/index/vector/index.md",
+    "docs/src/guide/performance.md",
+    "rust/lance-index/src/vector/bq.rs",
+    "rust/lance-index/src/vector/bq/builder.rs",
+    "rust/lance-index/src/vector/bq/storage.rs",
+    "rust/lance-index/src/vector/bq/transform.rs",
+    "rust/lance-index/src/vector/distributed/index_merger.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector_index.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index"
+   ],
+   "horizon_score": 617
+  },
+  {
+   "number": 8522,
+   "title": "feat(python): expose ObjectStoreProvider registration in pylance",
+   "url": "https://github.com/lance-format/lance/pull/8522",
+   "merged_at": "2026-08-25",
+   "additions": 417,
+   "deletions": 2,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-deps",
+    "K-changes"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/Cargo.lock",
+    "python/Cargo.toml",
+    "python/python/lance/dataset.py",
+    "python/src/lib.rs",
+    "python/src/object_store.rs",
+    "python/src/session.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_custom_registry.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 597
+  },
+  {
+   "number": 7474,
+   "title": "feat: add ICU split tokenizer variant",
+   "url": "https://github.com/lance-format/lance/pull/7474",
+   "merged_at": "2026-06-25",
+   "additions": 213,
+   "deletions": 16,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-java",
+    "A-format"
+   ],
+   "issues": [
+    {
+     "n": 7280,
+     "title": "Add simple-style split control for the ICU FTS tokenizer",
+     "url": "https://github.com/lance-format/lance/issues/7280"
+    }
+   ],
+   "src_files": [
+    "docs/src/format/index/scalar/fts.md",
+    "docs/src/guide/tokenizer.md",
+    "docs/src/quickstart/full-text-search.md",
+    "java/src/main/java/org/lance/index/scalar/InvertedIndexParams.java",
+    "python/python/lance/dataset.py",
+    "rust/lance-index/src/scalar/inverted/tokenizer.rs",
+    "rust/lance-tokenizer/src/icu.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/index/scalar/InvertedIndexParamsTest.java",
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "format",
+    "index"
+   ],
+   "horizon_score": 593
+  },
+  {
+   "number": 7014,
+   "title": "feat(python): add shared RaBitQ rotation for distributed IVF_RQ builds",
+   "url": "https://github.com/lance-format/lance/pull/7014",
+   "merged_at": "2026-06-04",
+   "additions": 302,
+   "deletions": 3,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [
+    {
+     "n": 7012,
+     "title": "Distributed IVF_RQ builds have no way of sharing the RaBitQ rotation across workers in Python",
+     "url": "https://github.com/lance-format/lance/issues/7012"
+    }
+   ],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/python/lance/lance/indices/__init__.pyi",
+    "python/src/dataset.rs",
+    "python/src/indices.rs",
+    "rust/lance-index/src/vector/bq.rs",
+    "rust/lance-index/src/vector/bq/builder.rs",
+    "rust/lance-index/src/vector/bq/rotation.rs",
+    "rust/lance/src/index/vector.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_vector_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 582
+  },
+  {
+   "number": 7565,
+   "title": "fix(index): translate address-domain scalar index results to row ids under stable row ids",
+   "url": "https://github.com/lance-format/lance/pull/7565",
+   "merged_at": "2026-07-08",
+   "additions": 317,
+   "deletions": 6,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-index"
+   ],
+   "issues": [
+    {
+     "n": 7434,
+     "title": "ZoneMap scalar index returns incomplete results on datasets with stable row IDs",
+     "url": "https://github.com/lance-format/lance/issues/7434"
+    }
+   ],
+   "src_files": [
+    "rust/lance-index/src/scalar.rs",
+    "rust/lance-index/src/scalar/bloomfilter.rs",
+    "rust/lance-index/src/scalar/expression.rs",
+    "rust/lance-index/src/scalar/zonemap.rs",
+    "rust/lance/src/index/scalar_logical.rs",
+    "rust/lance/src/io/exec/scalar_index.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 557
+  },
+  {
+   "number": 8459,
+   "title": "fix(tag): make tag creation atomic",
+   "url": "https://github.com/lance-format/lance/pull/8459",
+   "merged_at": "2026-08-13",
+   "additions": 214,
+   "deletions": 134,
+   "changed_files": 9,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-java",
+    "A-deps",
+    "A-encoding",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8460,
+     "title": "Tag creation is not atomic",
+     "url": "https://github.com/lance-format/lance/issues/8460"
+    }
+   ],
+   "src_files": [
+    "Cargo.lock",
+    "java/lance-jni/Cargo.lock",
+    "python/Cargo.lock",
+    "rust/lance-io/Cargo.toml",
+    "rust/lance-io/src/object_store.rs",
+    "rust/lance/src/dataset/mem_wal/manifest.rs",
+    "rust/lance/src/dataset/mem_wal/wal.rs",
+    "rust/lance/src/dataset/refs.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_versioning.rs"
+   ],
+   "theme_hits": [
+    "atomic",
+    "wal"
+   ],
+   "horizon_score": 554
+  },
+  {
+   "number": 7169,
+   "title": "feat(java): support segment-based distributed vector search",
+   "url": "https://github.com/lance-format/lance/pull/7169",
+   "merged_at": "2026-09-10",
+   "additions": 270,
+   "deletions": 23,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "java/lance-jni/src/async_scanner.rs",
+    "java/lance-jni/src/blocking_scanner.rs",
+    "java/src/main/java/org/lance/ipc/AsyncScanner.java",
+    "java/src/main/java/org/lance/ipc/LanceScanner.java",
+    "java/src/main/java/org/lance/ipc/ScanOptions.java"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/ScannerTest.java",
+    "java/src/test/java/org/lance/index/VectorIndexTest.java"
+   ],
+   "theme_hits": [
+    "ipc"
+   ],
+   "horizon_score": 550
+  },
+  {
+   "number": 8648,
+   "title": "feat(sql): expose batch size to sql builder",
+   "url": "https://github.com/lance-format/lance/pull/8648",
+   "merged_at": "2026-08-24",
+   "additions": 304,
+   "deletions": 8,
+   "changed_files": 6,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 8649,
+     "title": "Feature request: expose query batch size to sql builder",
+     "url": "https://github.com/lance-format/lance/issues/8649"
+    }
+   ],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "python/src/dataset.rs",
+    "rust/lance/src/datafusion/dataframe.rs",
+    "rust/lance/src/dataset/scanner.rs",
+    "rust/lance/src/dataset/sql.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_dataset.py"
+   ],
+   "theme_hits": [
+    "dataframe"
+   ],
+   "horizon_score": 524
+  },
+  {
+   "number": 7360,
+   "title": "feat: support COUNT(*) pushdown on stable row id datasets",
+   "url": "https://github.com/lance-format/lance/pull/7360",
+   "merged_at": "2026-06-22",
+   "additions": 368,
+   "deletions": 59,
+   "changed_files": 5,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance/Cargo.toml",
+    "rust/lance/benches/count_pushdown.rs",
+    "rust/lance/src/io/exec/count_from_mask.rs",
+    "rust/lance/src/io/exec/count_pushdown.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_aggregate.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 508
+  },
+  {
+   "number": 8034,
+   "title": "feat: support shared session for fragment API",
+   "url": "https://github.com/lance-format/lance/pull/8034",
+   "merged_at": "2026-08-11",
+   "additions": 239,
+   "deletions": 37,
+   "changed_files": 9,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-java",
+    "K-approved"
+   ],
+   "issues": [
+    {
+     "n": 7974,
+     "title": "Support fragment session cache",
+     "url": "https://github.com/lance-format/lance/issues/7974"
+    }
+   ],
+   "src_files": [
+    "java/lance-jni/src/fragment.rs",
+    "java/src/main/java/org/lance/Fragment.java",
+    "java/src/main/java/org/lance/WriteFragmentBuilder.java",
+    "python/python/lance/fragment.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/dataset.rs",
+    "rust/lance/src/dataset/fragment/write.rs"
+   ],
+   "test_files": [
+    "java/src/test/java/org/lance/FragmentTest.java",
+    "python/python/tests/test_session.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 499
+  },
+  {
+   "number": 8475,
+   "title": "feat(fts): expose pure SHOULD MAXSCORE metrics",
+   "url": "https://github.com/lance-format/lance/pull/8475",
+   "merged_at": "2026-08-13",
+   "additions": 298,
+   "deletions": 37,
+   "changed_files": 5,
+   "labels": [
+    "enhancement",
+    "A-index",
+    "K-approved"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-index-core/src/metrics.rs",
+    "rust/lance-index/src/scalar/inverted/compound.rs",
+    "rust/lance-index/src/scalar/inverted/compound/should_maxscore.rs",
+    "rust/lance/src/io/exec/fts.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_index.rs"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 498
+  },
+  {
+   "number": 7322,
+   "title": "feat(blob-v2): configure packed blob file max size with field metadata",
+   "url": "https://github.com/lance-format/lance/pull/7322",
+   "merged_at": "2026-07-03",
+   "additions": 340,
+   "deletions": 93,
+   "changed_files": 5,
+   "labels": [
+    "enhancement",
+    "A-python"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/blob.py",
+    "rust/lance-arrow/src/lib.rs",
+    "rust/lance/src/dataset/blob.rs",
+    "rust/lance/src/dataset/write.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_blob.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 480
+  },
+  {
+   "number": 7234,
+   "title": "perf(dir-catalog): avoid unchanged manifest reloads",
+   "url": "https://github.com/lance-format/lance/pull/7234",
+   "merged_at": "2026-06-12",
+   "additions": 232,
+   "deletions": 9,
+   "changed_files": 7,
+   "labels": [
+    "bug",
+    "performance",
+    "A-namespace"
+   ],
+   "issues": [],
+   "src_files": [
+    "rust/lance-namespace-impls/src/dir.rs",
+    "rust/lance-namespace-impls/src/dir/manifest.rs",
+    "rust/lance-table/src/io/commit.rs",
+    "rust/lance-table/src/io/commit/external_manifest.rs",
+    "rust/lance/src/dataset.rs",
+    "rust/lance/src/io/commit/external_manifest.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_versioning.rs"
+   ],
+   "theme_hits": [
+    "manifest"
+   ],
+   "horizon_score": 472
+  },
+  {
+   "number": 7324,
+   "title": "feat: support mixed-language FTS stop words",
+   "url": "https://github.com/lance-format/lance/pull/7324",
+   "merged_at": "2026-06-18",
+   "additions": 208,
+   "deletions": 16,
+   "changed_files": 7,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-index",
+    "A-deps"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "python/Cargo.lock",
+    "rust/lance-index/src/scalar/inverted/tokenizer.rs",
+    "rust/lance-tokenizer/Cargo.toml",
+    "rust/lance-tokenizer/src/stop_word_filter.rs",
+    "rust/lance-tokenizer/src/stop_word_filter/stopwords.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_scalar_index.py"
+   ],
+   "theme_hits": [
+    "index"
+   ],
+   "horizon_score": 448
+  },
+  {
+   "number": 7426,
+   "title": "feat(python): add list_with_delimiter, delete_file, and read_range to LanceFileSession",
+   "url": "https://github.com/lance-format/lance/pull/7426",
+   "merged_at": "2026-06-23",
+   "additions": 291,
+   "deletions": 1,
+   "changed_files": 5,
+   "labels": [
+    "enhancement",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/file.py",
+    "python/python/lance/lance/__init__.pyi",
+    "python/src/file.rs",
+    "rust/lance-io/src/object_store.rs"
+   ],
+   "test_files": [
+    "python/python/tests/test_file.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 431
+  },
+  {
+   "number": 7588,
+   "title": "fix: avoid scheduler deadlock on same-priority chunks",
+   "url": "https://github.com/lance-format/lance/pull/7588",
+   "merged_at": "2026-07-06",
+   "additions": 209,
+   "deletions": 13,
+   "changed_files": 5,
+   "labels": [
+    "bug",
+    "A-python",
+    "A-encoding"
+   ],
+   "issues": [],
+   "src_files": [
+    "python/python/lance/dataset.py",
+    "rust/lance-io/src/scheduler.rs",
+    "rust/lance-io/src/scheduler/lite.rs",
+    "rust/lance/src/dataset/scanner.rs"
+   ],
+   "test_files": [
+    "rust/lance/src/dataset/tests/dataset_scanner.rs"
+   ],
+   "theme_hits": [
+    "chunk"
+   ],
+   "horizon_score": 409
+  }
+ ]
+}

@@ -1,0 +1,1138 @@
+{
+ "repo": "eclipse-zenoh/zenoh",
+ "mined_at": "2026-09-13T10:06:11.754212Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 262,
+ "candidates": 26,
+ "prs": [
+  {
+   "number": 2096,
+   "title": "Regions",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2096",
+   "merged_at": "2026-04-01",
+   "additions": 32750,
+   "deletions": 15090,
+   "changed_files": 142,
+   "labels": [
+    "new feature",
+    "breaking-change"
+   ],
+   "issues": [
+    {
+     "n": 2224,
+     "title": "Regions",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2224"
+    },
+    {
+     "n": 2233,
+     "title": "Refuse interests without key expressions for all modes",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2233"
+    },
+    {
+     "n": 2247,
+     "title": "Deferral of peer subscriber undeclarations",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2247"
+    },
+    {
+     "n": 2477,
+     "title": "Duplicate messages for `peers_failover_brokering = false`",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2477"
+    },
+    {
+     "n": 2530,
+     "title": "Inconsistent adminspace behavior for `@/<zid>/<mode>/<entity>/**`",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2530"
+    }
+   ],
+   "src_files": [
+    ".config/nextest.toml",
+    ".github/workflows/ci.yml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "DEFAULT_CONFIG.json5",
+    "_typos.toml",
+    "commons/zenoh-buffers/src/lib.rs",
+    "commons/zenoh-codec/src/network/interest.rs",
+    "commons/zenoh-codec/src/network/push.rs",
+    "commons/zenoh-codec/src/transport/init.rs",
+    "commons/zenoh-codec/src/transport/open.rs",
+    "commons/zenoh-config/src/defaults.rs",
+    "commons/zenoh-config/src/gateway.rs",
+    "commons/zenoh-config/src/lib.rs",
+    "commons/zenoh-core/src/lib.rs",
+    "commons/zenoh-protocol/src/common/extension.rs",
+    "commons/zenoh-protocol/src/core/mod.rs",
+    "commons/zenoh-protocol/src/core/region.rs",
+    "commons/zenoh-protocol/src/core/whatami.rs",
+    "commons/zenoh-protocol/src/network/declare.rs",
+    "commons/zenoh-protocol/src/network/interest.rs",
+    "commons/zenoh-protocol/src/network/mod.rs",
+    "commons/zenoh-protocol/src/network/oam.rs",
+    "commons/zenoh-protocol/src/network/push.rs",
+    "commons/zenoh-protocol/src/network/request.rs",
+    "commons/zenoh-protocol/src/network/response.rs",
+    "commons/zenoh-protocol/src/transport/fragment.rs",
+    "commons/zenoh-protocol/src/transport/frame.rs",
+    "commons/zenoh-protocol/src/transport/init.rs",
+    "commons/zenoh-protocol/src/transport/join.rs",
+    "commons/zenoh-protocol/src/transport/oam.rs",
+    "commons/zenoh-protocol/src/transport/open.rs",
+    "commons/zenoh-protocol/src/zenoh/del.rs",
+    "commons/zenoh-protocol/src/zenoh/err.rs",
+    "commons/zenoh-protocol/src/zenoh/put.rs",
+    "commons/zenoh-shm/src/header/chunk_header.rs",
+    "commons/zenoh-shm/src/metadata/segment.rs",
+    "io/zenoh-transport/src/lib.rs",
+    "io/zenoh-transport/src/manager.rs",
+    "io/zenoh-transport/src/multicast/manager.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/src/unicast/test_helpers.rs"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec",
+    "protocol"
+   ],
+   "horizon_score": 35810
+  },
+  {
+   "number": 2332,
+   "title": "Support io_uring",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2332",
+   "merged_at": "2026-06-30",
+   "additions": 3502,
+   "deletions": 65,
+   "changed_files": 69,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/ci.yml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "commons/zenoh-buffers/src/zbuf.rs",
+    "commons/zenoh-uring/Cargo.toml",
+    "commons/zenoh-uring/README.md",
+    "commons/zenoh-uring/src/lib.rs",
+    "commons/zenoh-uring/src/linux/api/mod.rs",
+    "commons/zenoh-uring/src/linux/api/reader/fragmented_batch.rs",
+    "commons/zenoh-uring/src/linux/api/reader/mod.rs",
+    "commons/zenoh-uring/src/linux/api/reader/read_task.rs",
+    "commons/zenoh-uring/src/linux/api/reader/rx_buffer.rs",
+    "commons/zenoh-uring/src/linux/api/types.rs",
+    "commons/zenoh-uring/src/linux/batch_arena.rs",
+    "commons/zenoh-uring/src/linux/mod.rs",
+    "commons/zenoh-uring/src/linux/page_arena.rs",
+    "commons/zenoh-uring/src/linux/reader/buffer_group.rs",
+    "commons/zenoh-uring/src/linux/reader/index.rs",
+    "commons/zenoh-uring/src/linux/reader/mod.rs",
+    "commons/zenoh-uring/src/linux/reader/reactor_cmd.rs",
+    "commons/zenoh-uring/src/linux/reader/reservable_arena.rs",
+    "commons/zenoh-uring/src/linux/reader/rx_context.rs",
+    "commons/zenoh-uring/src/linux/reader/rx_context_storage.rs",
+    "commons/zenoh-uring/src/linux/reader/submission.rs",
+    "commons/zenoh-uring/src/linux/reader/window.rs",
+    "commons/zenoh-uring/src/linux/types.rs",
+    "io/zenoh-link-commons/Cargo.toml",
+    "io/zenoh-link-commons/src/unicast.rs",
+    "io/zenoh-link/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic_datagram/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic_datagram/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-serial/Cargo.toml",
+    "io/zenoh-links/zenoh-link-serial/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tcp/Cargo.toml",
+    "io/zenoh-links/zenoh-link-tcp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tls/Cargo.toml",
+    "io/zenoh-links/zenoh-link-tls/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-udp/Cargo.toml"
+   ],
+   "test_files": [
+    "commons/zenoh-uring/tests/index_generation.rs",
+    "commons/zenoh-uring/tests/reader.rs",
+    "commons/zenoh-uring/tests/rw.rs",
+    "io/zenoh-transport/tests/unicast_intermittent.rs",
+    "io/zenoh-transport/tests/unicast_multilink.rs",
+    "io/zenoh-transport/tests/unicast_openclose.rs",
+    "io/zenoh-transport/tests/unicast_time.rs",
+    "io/zenoh-transport/tests/unicast_transport.rs"
+   ],
+   "theme_hits": [
+    "index",
+    "storage"
+   ],
+   "horizon_score": 5322
+  },
+  {
+   "number": 2620,
+   "title": "Add timestamp instrumentation for latency measurement",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2620",
+   "merged_at": "2026-07-21",
+   "additions": 3202,
+   "deletions": 30,
+   "changed_files": 36,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [],
+   "src_files": [
+    "commons/zenoh-codec/fuzz/src/samples.rs",
+    "commons/zenoh-codec/src/network/mod.rs",
+    "commons/zenoh-codec/src/network/push.rs",
+    "commons/zenoh-codec/src/network/request.rs",
+    "commons/zenoh-codec/src/network/response.rs",
+    "commons/zenoh-codec/src/network/timestamp_stack.rs",
+    "commons/zenoh-protocol/src/network/mod.rs",
+    "commons/zenoh-protocol/src/network/push.rs",
+    "commons/zenoh-protocol/src/network/request.rs",
+    "commons/zenoh-protocol/src/network/response.rs",
+    "commons/zenoh-protocol/src/network/timestamp_stack.rs",
+    "zenoh-ext/src/advanced_publisher.rs",
+    "zenoh/src/api/admin.rs",
+    "zenoh/src/api/builders/publisher.rs",
+    "zenoh/src/api/builders/querier.rs",
+    "zenoh/src/api/builders/query.rs",
+    "zenoh/src/api/builders/reply.rs",
+    "zenoh/src/api/builders/sample.rs",
+    "zenoh/src/api/builders/session.rs",
+    "zenoh/src/api/mod.rs",
+    "zenoh/src/api/publisher.rs",
+    "zenoh/src/api/querier.rs",
+    "zenoh/src/api/query.rs",
+    "zenoh/src/api/queryable.rs",
+    "zenoh/src/api/sample.rs",
+    "zenoh/src/api/session.rs",
+    "zenoh/src/api/timestamp_stack.rs",
+    "zenoh/src/lib.rs",
+    "zenoh/src/net/routing/dispatcher/pubsub.rs",
+    "zenoh/src/net/routing/dispatcher/queries.rs",
+    "zenoh/src/net/runtime/adminspace.rs",
+    "zenoh/src/net/runtime/mod.rs"
+   ],
+   "test_files": [
+    "zenoh/src/net/tests/regions/mod.rs",
+    "zenoh/src/net/tests/tables.rs",
+    "zenoh/src/tests/query_reply.rs",
+    "zenoh/tests/timestamp_instrumentation.rs"
+   ],
+   "theme_hits": [
+    "codec",
+    "protocol",
+    "publish",
+    "query"
+   ],
+   "horizon_score": 4322
+  },
+  {
+   "number": 2573,
+   "title": "test: centralize test helpers and remove fixed ports from Zenoh test suites",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2573",
+   "merged_at": "2026-04-24",
+   "additions": 1125,
+   "deletions": 772,
+   "changed_files": 51,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "commons/zenoh-test/Cargo.toml",
+    "commons/zenoh-test/README.md",
+    "commons/zenoh-test/src/lib.rs",
+    "io/zenoh-transport/Cargo.toml",
+    "zenoh-ext/Cargo.toml",
+    "zenoh/Cargo.toml"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/endpoints.rs",
+    "io/zenoh-transport/tests/multicast_compression.rs",
+    "io/zenoh-transport/tests/multicast_transport.rs",
+    "io/zenoh-transport/tests/transport_whitelist.rs",
+    "io/zenoh-transport/tests/unicast_authenticator.rs",
+    "io/zenoh-transport/tests/unicast_bind.rs",
+    "io/zenoh-transport/tests/unicast_compression.rs",
+    "io/zenoh-transport/tests/unicast_concurrent.rs",
+    "io/zenoh-transport/tests/unicast_fragmentation.rs",
+    "io/zenoh-transport/tests/unicast_intermittent.rs",
+    "io/zenoh-transport/tests/unicast_multilink.rs",
+    "io/zenoh-transport/tests/unicast_openclose.rs",
+    "io/zenoh-transport/tests/unicast_priorities.rs",
+    "io/zenoh-transport/tests/unicast_shm.rs",
+    "io/zenoh-transport/tests/unicast_simultaneous.rs",
+    "io/zenoh-transport/tests/unicast_time.rs",
+    "io/zenoh-transport/tests/unicast_transport.rs",
+    "zenoh-ext/tests/advanced.rs",
+    "zenoh-ext/tests/liveliness.rs",
+    "zenoh/src/tests/interceptor_cache.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 3865
+  },
+  {
+   "number": 2365,
+   "title": "Regions tests",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2365",
+   "merged_at": "2026-02-19",
+   "additions": 3100,
+   "deletions": 21,
+   "changed_files": 12,
+   "labels": [
+    "internal"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "DEFAULT_CONFIG.json5",
+    "e.txt",
+    "zenoh/Cargo.toml",
+    "zenoh/src/net/runtime/adminspace.rs",
+    "zenoh/src/net/runtime/orchestrator.rs"
+   ],
+   "test_files": [
+    "zenoh/tests/regions/main.rs",
+    "zenoh/tests/regions/scenario1.rs",
+    "zenoh/tests/regions/scenario2.rs",
+    "zenoh/tests/regions/scenario3.rs",
+    "zenoh/tests/regions/scenario4.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 3540
+  },
+  {
+   "number": 2301,
+   "title": "Connectivity API: get information about links and transports through Session::info()",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2301",
+   "merged_at": "2026-01-14",
+   "additions": 2748,
+   "deletions": 333,
+   "changed_files": 19,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "commons/zenoh-config/src/wrappers.rs",
+    "commons/zenoh-protocol/Cargo.toml",
+    "commons/zenoh-protocol/src/core/endpoint.rs",
+    "commons/zenoh-protocol/src/core/locator.rs",
+    "examples/examples/z_info.rs",
+    "zenoh/src/api/admin.rs",
+    "zenoh/src/api/builders/info_links.rs",
+    "zenoh/src/api/builders/info_transport.rs",
+    "zenoh/src/api/builders/mod.rs",
+    "zenoh/src/api/connectivity.rs",
+    "zenoh/src/api/info.rs",
+    "zenoh/src/api/mod.rs",
+    "zenoh/src/api/session.rs",
+    "zenoh/src/lib.rs",
+    "zenoh/src/net/runtime/mod.rs"
+   ],
+   "test_files": [
+    "zenoh/tests/common/mod.rs",
+    "zenoh/tests/connectivity.rs",
+    "zenoh/tests/session.rs"
+   ],
+   "theme_hits": [
+    "format",
+    "protocol"
+   ],
+   "horizon_score": 3368
+  },
+  {
+   "number": 2457,
+   "title": "Add tests for single-gateway router regions",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2457",
+   "merged_at": "2026-03-05",
+   "additions": 2304,
+   "deletions": 25,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "zenoh/tests/regions/main.rs",
+    "zenoh/tests/regions/scenario1.rs",
+    "zenoh/tests/regions/scenario2.rs",
+    "zenoh/tests/regions/scenario3.rs",
+    "zenoh/tests/regions/scenario4.rs",
+    "zenoh/tests/regions/scenario5.rs"
+   ],
+   "theme_hits": [
+    "router"
+   ],
+   "horizon_score": 2724
+  },
+  {
+   "number": 2397,
+   "title": "[ZEN-836] Add option to wait until callback drop in undeclare",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2397",
+   "merged_at": "2026-02-11",
+   "additions": 1657,
+   "deletions": 345,
+   "changed_files": 28,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [
+    {
+     "n": 1818,
+     "title": "Ensure that callbacks are never called when subscriber/queryable go out of scope.",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/1818"
+    }
+   ],
+   "src_files": [
+    "commons/zenoh-macros/src/lib.rs",
+    "zenoh-ext/src/advanced_publisher.rs",
+    "zenoh-ext/src/advanced_subscriber.rs",
+    "zenoh/src/api/admin.rs",
+    "zenoh/src/api/builders/close.rs",
+    "zenoh/src/api/builders/info_links.rs",
+    "zenoh/src/api/builders/info_transport.rs",
+    "zenoh/src/api/builders/liveliness.rs",
+    "zenoh/src/api/builders/matching_listener.rs",
+    "zenoh/src/api/builders/publisher.rs",
+    "zenoh/src/api/builders/querier.rs",
+    "zenoh/src/api/builders/query.rs",
+    "zenoh/src/api/builders/queryable.rs",
+    "zenoh/src/api/builders/subscriber.rs",
+    "zenoh/src/api/cancellation.rs",
+    "zenoh/src/api/handlers/callback.rs",
+    "zenoh/src/api/matching.rs",
+    "zenoh/src/api/publisher.rs",
+    "zenoh/src/api/querier.rs",
+    "zenoh/src/api/query.rs",
+    "zenoh/src/api/queryable.rs",
+    "zenoh/src/api/session.rs",
+    "zenoh/src/api/subscriber.rs",
+    "zenoh/src/lib.rs",
+    "zenoh/src/net/runtime/mod.rs"
+   ],
+   "test_files": [
+    "zenoh-ext/tests/advanced.rs",
+    "zenoh/tests/callback_drop_on_undeclare.rs",
+    "zenoh/tests/cancellation.rs"
+   ],
+   "theme_hits": [
+    "liveliness",
+    "publish",
+    "query",
+    "subscri"
+   ],
+   "horizon_score": 2577
+  },
+  {
+   "number": 2591,
+   "title": "feat(codec): add Zenoh message fuzz target",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2591",
+   "merged_at": "2026-05-21",
+   "additions": 1795,
+   "deletions": 15,
+   "changed_files": 25,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "Cargo.toml",
+    "commons/zenoh-codec/README.md",
+    "commons/zenoh-codec/fuzz/Cargo.toml",
+    "commons/zenoh-codec/fuzz/fuzz_targets/frame.rs",
+    "commons/zenoh-codec/fuzz/fuzz_targets/network_message.rs",
+    "commons/zenoh-codec/fuzz/fuzz_targets/scouting_message.rs",
+    "commons/zenoh-codec/fuzz/fuzz_targets/transport_message.rs",
+    "commons/zenoh-codec/fuzz/src/bin/analyze_frame.rs",
+    "commons/zenoh-codec/fuzz/src/bin/analyze_network_message.rs",
+    "commons/zenoh-codec/fuzz/src/bin/analyze_scouting_message.rs",
+    "commons/zenoh-codec/fuzz/src/bin/analyze_transport_message.rs",
+    "commons/zenoh-codec/fuzz/src/bin/gen_all_corpora.rs",
+    "commons/zenoh-codec/fuzz/src/bin/verify_all_corpora.rs",
+    "commons/zenoh-codec/fuzz/src/lib.rs",
+    "commons/zenoh-protocol/README.md",
+    "commons/zenoh-protocol/fuzz/Cargo.toml",
+    "commons/zenoh-protocol/fuzz/fuzz_targets/endpoint_from_str.rs",
+    "commons/zenoh-protocol/fuzz/src/bin/analyze_endpoint_from_str.rs",
+    "commons/zenoh-protocol/fuzz/src/bin/gen_endpoint_corpus.rs",
+    "commons/zenoh-protocol/fuzz/src/bin/verify_endpoint_corpus.rs",
+    "commons/zenoh-protocol/fuzz/src/lib.rs"
+   ],
+   "test_files": [
+    "commons/zenoh-codec/tests/codec.rs",
+    "commons/zenoh-codec/tests/malformed_inputs.rs"
+   ],
+   "theme_hits": [
+    "codec",
+    "protocol"
+   ],
+   "horizon_score": 2495
+  },
+  {
+   "number": 2555,
+   "title": "Avoid port collision with the common test framework (final round)",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2555",
+   "merged_at": "2026-04-14",
+   "additions": 1392,
+   "deletions": 2141,
+   "changed_files": 10,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "zenoh/tests/acl.rs",
+    "zenoh/tests/adminspace.rs",
+    "zenoh/tests/authentication.rs",
+    "zenoh/tests/common/mod.rs",
+    "zenoh/tests/interceptors.rs",
+    "zenoh/tests/liveliness.rs",
+    "zenoh/tests/matching.rs",
+    "zenoh/tests/namespace.rs",
+    "zenoh/tests/open_time.rs",
+    "zenoh/tests/routing.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1992
+  },
+  {
+   "number": 2476,
+   "title": "Add mixed-reliability QUIC",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2476",
+   "merged_at": "2026-04-09",
+   "additions": 1204,
+   "deletions": 282,
+   "changed_files": 28,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "commons/zenoh-protocol/src/core/endpoint.rs",
+    "io/zenoh-link-commons/src/quic/unicast.rs",
+    "io/zenoh-link-commons/src/quic/utils.rs",
+    "io/zenoh-link-commons/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic_datagram/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic_datagram/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-serial/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tcp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tls/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-udp/Cargo.toml",
+    "io/zenoh-links/zenoh-link-udp/src/reliability.rs",
+    "io/zenoh-links/zenoh-link-udp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixpipe/src/unix/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixsock_stream/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-vsock/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-ws/src/unicast.rs",
+    "io/zenoh-transport/src/unicast/establishment/accept.rs",
+    "io/zenoh-transport/src/unicast/establishment/open.rs",
+    "io/zenoh-transport/src/unicast/link.rs",
+    "io/zenoh-transport/src/unicast/lowlatency/transport.rs",
+    "io/zenoh-transport/src/unicast/manager.rs",
+    "io/zenoh-transport/src/unicast/transport_unicast_inner.rs",
+    "io/zenoh-transport/src/unicast/universal/transport.rs",
+    "io/zenoh-transport/src/unicast/universal/tx.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/unicast_transport.rs"
+   ],
+   "theme_hits": [
+    "protocol"
+   ],
+   "horizon_score": 1864
+  },
+  {
+   "number": 2189,
+   "title": "support quic streams per priority",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2189",
+   "merged_at": "2026-04-03",
+   "additions": 1258,
+   "deletions": 299,
+   "changed_files": 23,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "commons/zenoh-protocol/src/core/endpoint.rs",
+    "commons/zenoh-sync/src/object_pool.rs",
+    "io/zenoh-link-commons/src/quic.rs",
+    "io/zenoh-link-commons/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic/Cargo.toml",
+    "io/zenoh-links/zenoh-link-quic/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic_datagram/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-serial/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tcp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tls/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-udp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixpipe/src/unix/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixsock_stream/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-vsock/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-ws/src/unicast.rs",
+    "io/zenoh-transport/Cargo.toml",
+    "io/zenoh-transport/src/common/pipeline.rs",
+    "io/zenoh-transport/src/multicast/link.rs",
+    "io/zenoh-transport/src/unicast/link.rs",
+    "io/zenoh-transport/src/unicast/lowlatency/link.rs",
+    "io/zenoh-transport/src/unicast/universal/link.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/unicast_transport.rs"
+   ],
+   "theme_hits": [
+    "protocol"
+   ],
+   "horizon_score": 1818
+  },
+  {
+   "number": 2352,
+   "title": "`internal_config` feature removal",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2352",
+   "merged_at": "2026-01-09",
+   "additions": 255,
+   "deletions": 311,
+   "changed_files": 27,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [
+    {
+     "n": 1655,
+     "title": "get rid of `internal_config` feature",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/1655"
+    }
+   ],
+   "src_files": [
+    ".github/workflows/ci.yml",
+    "commons/zenoh-macros/src/lib.rs",
+    "zenoh/Cargo.toml",
+    "zenoh/src/api/config.rs",
+    "zenohd/Cargo.toml"
+   ],
+   "test_files": [
+    "zenoh/src/tests/interceptor_cache.rs",
+    "zenoh/src/tests/link_weights.rs",
+    "zenoh/tests/acl.rs",
+    "zenoh/tests/adminspace.rs",
+    "zenoh/tests/atexit.rs",
+    "zenoh/tests/authentication.rs",
+    "zenoh/tests/cancellation.rs",
+    "zenoh/tests/connection_retry.rs",
+    "zenoh/tests/events.rs",
+    "zenoh/tests/interceptors.rs",
+    "zenoh/tests/keyexpr.rs",
+    "zenoh/tests/liveliness.rs",
+    "zenoh/tests/low_pass.rs",
+    "zenoh/tests/matching.rs",
+    "zenoh/tests/namespace.rs",
+    "zenoh/tests/open_time.rs",
+    "zenoh/tests/qos_overwrite.rs",
+    "zenoh/tests/routing.rs",
+    "zenoh/tests/session.rs",
+    "zenoh/tests/shm.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1675
+  },
+  {
+   "number": 2320,
+   "title": "Support multiple connections in the client mode.",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2320",
+   "merged_at": "2026-05-20",
+   "additions": 613,
+   "deletions": 154,
+   "changed_files": 20,
+   "labels": [
+    "bug"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "DEFAULT_CONFIG.json5",
+    "commons/zenoh-config/src/lib.rs",
+    "commons/zenoh-config/src/mode_dependent.rs",
+    "commons/zenoh-protocol/Cargo.toml",
+    "commons/zenoh-protocol/src/core/endpoint.rs",
+    "commons/zenoh-test/Cargo.toml",
+    "commons/zenoh-test/src/lib.rs",
+    "zenoh/src/net/runtime/orchestrator.rs",
+    "zenohd/src/main.rs"
+   ],
+   "test_files": [
+    "zenoh-ext/tests/advanced.rs",
+    "zenoh/src/tests/interceptor_cache.rs",
+    "zenoh/src/tests/session.rs",
+    "zenoh/tests/adminspace.rs",
+    "zenoh/tests/connectivity.rs",
+    "zenoh/tests/liveliness.rs",
+    "zenoh/tests/low_pass.rs",
+    "zenoh/tests/routing.rs",
+    "zenoh/tests/session.rs",
+    "zenoh/tests/unicity.rs"
+   ],
+   "theme_hits": [
+    "protocol"
+   ],
+   "horizon_score": 1473
+  },
+  {
+   "number": 2430,
+   "title": "Add reliability to UDP link via unsecure QUIC",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2430",
+   "merged_at": "2026-04-03",
+   "additions": 1057,
+   "deletions": 100,
+   "changed_files": 14,
+   "labels": [
+    "new feature"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "io/zenoh-link-commons/Cargo.toml",
+    "io/zenoh-link-commons/src/quic/mod.rs",
+    "io/zenoh-link-commons/src/quic/plaintext.rs",
+    "io/zenoh-link-commons/src/quic/unicast.rs",
+    "io/zenoh-link-commons/src/quic/utils.rs",
+    "io/zenoh-links/zenoh-link-quic/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic_datagram/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-udp/Cargo.toml",
+    "io/zenoh-links/zenoh-link-udp/src/lib.rs",
+    "io/zenoh-links/zenoh-link-udp/src/reliability.rs",
+    "io/zenoh-links/zenoh-link-udp/src/unicast.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/unicast_transport.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1377
+  },
+  {
+   "number": 2671,
+   "title": "Fix multicast scouting on loopback",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2671",
+   "merged_at": "2026-08-04",
+   "additions": 530,
+   "deletions": 131,
+   "changed_files": 24,
+   "labels": [
+    "bug"
+   ],
+   "issues": [
+    {
+     "n": 2408,
+     "title": "Multicast scouting fails on macOS localhost",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2408"
+    }
+   ],
+   "src_files": [
+    "commons/zenoh-util/src/net/mod.rs",
+    "io/zenoh-link-commons/src/listener.rs",
+    "io/zenoh-link-commons/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-quic_datagram/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-serial/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tcp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-tls/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-udp/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixpipe/src/unix/unicast.rs",
+    "io/zenoh-links/zenoh-link-unixsock_stream/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-vsock/src/unicast.rs",
+    "io/zenoh-links/zenoh-link-ws/src/unicast.rs",
+    "io/zenoh-transport/src/manager.rs",
+    "io/zenoh-transport/src/unicast/manager.rs",
+    "zenoh/src/api/scouting.rs",
+    "zenoh/src/net/protocol/gossip.rs",
+    "zenoh/src/net/protocol/network.rs",
+    "zenoh/src/net/runtime/adminspace.rs",
+    "zenoh/src/net/runtime/mod.rs",
+    "zenoh/src/net/runtime/orchestrator.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/unicast_bind.rs",
+    "io/zenoh-transport/tests/unicast_openclose.rs",
+    "zenoh/tests/scouting.rs"
+   ],
+   "theme_hits": [
+    "protocol"
+   ],
+   "horizon_score": 1190
+  },
+  {
+   "number": 2317,
+   "title": "Close the advanced subscriber with the session ",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2317",
+   "merged_at": "2026-02-06",
+   "additions": 316,
+   "deletions": 276,
+   "changed_files": 25,
+   "labels": [
+    "bug"
+   ],
+   "issues": [],
+   "src_files": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "zenoh-ext/src/advanced_subscriber.rs",
+    "zenoh-ext/src/querying_subscriber.rs",
+    "zenoh/Cargo.toml",
+    "zenoh/src/api/admin.rs",
+    "zenoh/src/api/builders/info_links.rs",
+    "zenoh/src/api/builders/liveliness.rs",
+    "zenoh/src/api/builders/publisher.rs",
+    "zenoh/src/api/builders/querier.rs",
+    "zenoh/src/api/builders/query.rs",
+    "zenoh/src/api/builders/queryable.rs",
+    "zenoh/src/api/builders/subscriber.rs",
+    "zenoh/src/api/connectivity.rs",
+    "zenoh/src/api/info.rs",
+    "zenoh/src/api/key_expr.rs",
+    "zenoh/src/api/liveliness.rs",
+    "zenoh/src/api/publisher.rs",
+    "zenoh/src/api/querier.rs",
+    "zenoh/src/api/session.rs",
+    "zenoh/src/api/subscriber.rs",
+    "zenoh/src/lib.rs"
+   ],
+   "test_files": [
+    "zenoh-ext/tests/advanced.rs",
+    "zenoh/src/tests/interceptor_cache.rs",
+    "zenoh/src/tests/link_weights.rs"
+   ],
+   "theme_hits": [
+    "liveliness",
+    "publish",
+    "query",
+    "subscri"
+   ],
+   "horizon_score": 1176
+  },
+  {
+   "number": 2603,
+   "title": "fix routers unregistering liveness tokens and queryables",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2603",
+   "merged_at": "2026-07-24",
+   "additions": 450,
+   "deletions": 319,
+   "changed_files": 21,
+   "labels": [
+    "bug"
+   ],
+   "issues": [
+    {
+     "n": 2602,
+     "title": "Router liveliness tokens aren't properly cleaned up on link disconnects",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2602"
+    }
+   ],
+   "src_files": [
+    "zenoh/src/net/protocol/network.rs",
+    "zenoh/src/net/routing/dispatcher/face.rs",
+    "zenoh/src/net/routing/hat/broker/mod.rs",
+    "zenoh/src/net/routing/hat/broker/pubsub.rs",
+    "zenoh/src/net/routing/hat/broker/queries.rs",
+    "zenoh/src/net/routing/hat/broker/token.rs",
+    "zenoh/src/net/routing/hat/client/mod.rs",
+    "zenoh/src/net/routing/hat/client/pubsub.rs",
+    "zenoh/src/net/routing/hat/client/queries.rs",
+    "zenoh/src/net/routing/hat/client/token.rs",
+    "zenoh/src/net/routing/hat/mod.rs",
+    "zenoh/src/net/routing/hat/peer/mod.rs",
+    "zenoh/src/net/routing/hat/peer/pubsub.rs",
+    "zenoh/src/net/routing/hat/peer/queries.rs",
+    "zenoh/src/net/routing/hat/peer/token.rs",
+    "zenoh/src/net/routing/hat/router/mod.rs",
+    "zenoh/src/net/routing/hat/router/pubsub.rs",
+    "zenoh/src/net/routing/hat/router/queries.rs",
+    "zenoh/src/net/routing/hat/router/token.rs"
+   ],
+   "test_files": [
+    "zenoh/src/net/tests/regions/declare.rs",
+    "zenoh/src/net/tests/regions/mod.rs"
+   ],
+   "theme_hits": [
+    "protocol",
+    "router"
+   ],
+   "horizon_score": 1070
+  },
+  {
+   "number": 2726,
+   "title": "Add configuration in shared_memory/transport_optimization to select the type of messages to optimize",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2726",
+   "merged_at": "2026-08-03",
+   "additions": 515,
+   "deletions": 92,
+   "changed_files": 15,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "DEFAULT_CONFIG.json5",
+    "commons/zenoh-config/src/defaults.rs",
+    "commons/zenoh-config/src/lib.rs",
+    "io/zenoh-transport/src/multicast/establishment.rs",
+    "io/zenoh-transport/src/multicast/tx.rs",
+    "io/zenoh-transport/src/shm.rs",
+    "io/zenoh-transport/src/shm_context.rs",
+    "io/zenoh-transport/src/unicast/lowlatency/tx.rs",
+    "io/zenoh-transport/src/unicast/manager.rs",
+    "io/zenoh-transport/src/unicast/universal/tx.rs",
+    "zenoh/src/net/routing/interceptor/downsampling.rs",
+    "zenoh/src/net/routing/interceptor/low_pass.rs"
+   ],
+   "test_files": [
+    "io/zenoh-transport/tests/unicast_shm.rs",
+    "zenoh/tests/interceptors.rs",
+    "zenoh/tests/low_pass.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 935
+  },
+  {
+   "number": 2347,
+   "title": "Fix bugs in gossip",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2347",
+   "merged_at": "2026-01-06",
+   "additions": 543,
+   "deletions": 256,
+   "changed_files": 8,
+   "labels": [
+    "bug"
+   ],
+   "issues": [
+    {
+     "n": 2089,
+     "title": "Gossip list not being cleared",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2089"
+    },
+    {
+     "n": 2312,
+     "title": "Config gossip/multihop: false does not work properly",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/2312"
+    }
+   ],
+   "src_files": [
+    "zenoh/src/net/protocol/gossip.rs",
+    "zenoh/src/net/protocol/mod.rs",
+    "zenoh/src/net/protocol/network.rs",
+    "zenoh/src/net/routing/hat/linkstate_peer/mod.rs",
+    "zenoh/src/net/routing/hat/p2p_peer/mod.rs",
+    "zenoh/src/net/routing/hat/router/mod.rs",
+    "zenoh/src/net/runtime/adminspace.rs"
+   ],
+   "test_files": [
+    "zenoh/tests/routing.rs"
+   ],
+   "theme_hits": [
+    "protocol",
+    "router"
+   ],
+   "horizon_score": 863
+  },
+  {
+   "number": 2505,
+   "title": "Review the unsafe fn (final round).",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2505",
+   "merged_at": "2026-03-23",
+   "additions": 206,
+   "deletions": 76,
+   "changed_files": 24,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [
+    "commons/zenoh-buffers/src/bbuf.rs",
+    "commons/zenoh-buffers/src/lib.rs",
+    "commons/zenoh-buffers/src/slice.rs",
+    "commons/zenoh-buffers/src/vec.rs",
+    "commons/zenoh-buffers/src/zbuf.rs",
+    "commons/zenoh-buffers/src/zslice.rs",
+    "commons/zenoh-shm/src/api/buffer/typed.rs",
+    "commons/zenoh-shm/src/api/buffer/zshm.rs",
+    "commons/zenoh-shm/src/api/buffer/zshmmut.rs",
+    "commons/zenoh-shm/src/api/common/types.rs",
+    "commons/zenoh-shm/src/api/protocol_implementations/posix/posix_shm_provider_backend_buddy.rs",
+    "commons/zenoh-shm/src/api/protocol_implementations/posix/posix_shm_provider_backend_talc.rs",
+    "commons/zenoh-shm/src/api/protocol_implementations/posix/posix_shm_segment.rs",
+    "commons/zenoh-shm/src/api/provider/memory_layout.rs",
+    "commons/zenoh-shm/src/api/provider/shm_provider.rs",
+    "commons/zenoh-shm/src/lib.rs",
+    "commons/zenoh-shm/src/metadata/descriptor.rs",
+    "commons/zenoh-shm/src/metadata/segment.rs",
+    "commons/zenoh-shm/src/metadata/storage.rs",
+    "commons/zenoh-shm/src/posix_shm/array.rs",
+    "commons/zenoh-shm/src/posix_shm/struct_in_shm.rs",
+    "commons/zenoh-shm/src/shm/unix.rs",
+    "commons/zenoh-shm/src/shm/windows.rs"
+   ],
+   "test_files": [
+    "commons/zenoh-buffers/tests/readwrite.rs"
+   ],
+   "theme_hits": [
+    "protocol",
+    "storage"
+   ],
+   "horizon_score": 846
+  },
+  {
+   "number": 2341,
+   "title": "[ZEN-641] Undeclare key expression on drop",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2341",
+   "merged_at": "2026-01-05",
+   "additions": 369,
+   "deletions": 406,
+   "changed_files": 8,
+   "labels": [
+    "bug"
+   ],
+   "issues": [
+    {
+     "n": 1518,
+     "title": "z_declare_publisher and then z_undeclare_publisher results in memory leak (zenoh-c and Rust)",
+     "url": "https://github.com/eclipse-zenoh/zenoh/issues/1518"
+    }
+   ],
+   "src_files": [
+    "commons/zenoh-collections/src/int_hash_map.rs",
+    "zenoh/src/api/builders/publisher.rs",
+    "zenoh/src/api/builders/querier.rs",
+    "zenoh/src/api/builders/queryable.rs",
+    "zenoh/src/api/builders/subscriber.rs",
+    "zenoh/src/api/key_expr.rs",
+    "zenoh/src/api/session.rs"
+   ],
+   "test_files": [
+    "zenoh/tests/keyexpr.rs"
+   ],
+   "theme_hits": [
+    "publish",
+    "query",
+    "subscri"
+   ],
+   "horizon_score": 749
+  },
+  {
+   "number": 2540,
+   "title": "Avoid port collision with the common test framework",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2540",
+   "merged_at": "2026-04-07",
+   "additions": 267,
+   "deletions": 364,
+   "changed_files": 8,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "zenoh/tests/common/mod.rs",
+    "zenoh/tests/connectivity.rs",
+    "zenoh/tests/events.rs",
+    "zenoh/tests/low_pass.rs",
+    "zenoh/tests/qos_overwrite.rs",
+    "zenoh/tests/shm.rs",
+    "zenoh/tests/source_info.rs",
+    "zenoh/tests/unicity.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 747
+  },
+  {
+   "number": 2525,
+   "title": "Update the test framework to use unused port for test",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2525",
+   "merged_at": "2026-04-01",
+   "additions": 292,
+   "deletions": 284,
+   "changed_files": 6,
+   "labels": [
+    "enhancement"
+   ],
+   "issues": [],
+   "src_files": [],
+   "test_files": [
+    "zenoh/tests/atexit.rs",
+    "zenoh/tests/callback_drop_on_undeclare.rs",
+    "zenoh/tests/cancellation.rs",
+    "zenoh/tests/common/mod.rs",
+    "zenoh/tests/connectivity.rs",
+    "zenoh/tests/session.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 652
+  },
+  {
+   "number": 2383,
+   "title": "Fix unregistering of declared resource and remapping of reply wireexpr",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2383",
+   "merged_at": "2026-01-22",
+   "additions": 232,
+   "deletions": 37,
+   "changed_files": 5,
+   "labels": [
+    "bug"
+   ],
+   "issues": [],
+   "src_files": [
+    "commons/zenoh-protocol/src/zenoh/query.rs",
+    "zenoh/src/net/routing/dispatcher/queries.rs",
+    "zenoh/src/net/routing/dispatcher/resource.rs"
+   ],
+   "test_files": [
+    "zenoh/src/net/tests/tables.rs",
+    "zenoh/tests/routing.rs"
+   ],
+   "theme_hits": [
+    "protocol"
+   ],
+   "horizon_score": 472
+  },
+  {
+   "number": 2380,
+   "title": "Make primitives consume the pushed message",
+   "url": "https://github.com/eclipse-zenoh/zenoh/pull/2380",
+   "merged_at": "2026-02-11",
+   "additions": 207,
+   "deletions": 128,
+   "changed_files": 8,
+   "labels": [
+    "internal"
+   ],
+   "issues": [],
+   "src_files": [
+    "zenoh/src/api/session.rs",
+    "zenoh/src/net/primitives/mod.rs",
+    "zenoh/src/net/routing/dispatcher/face.rs",
+    "zenoh/src/net/routing/dispatcher/pubsub.rs",
+    "zenoh/src/net/routing/namespace.rs",
+    "zenoh/src/net/runtime/adminspace.rs"
+   ],
+   "test_files": [
+    "zenoh/src/net/tests/tables.rs",
+    "zenoh/src/tests/query_reply.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 447
+  }
+ ]
+}

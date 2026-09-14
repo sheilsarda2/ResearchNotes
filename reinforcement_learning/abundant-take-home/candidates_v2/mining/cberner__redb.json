@@ -1,0 +1,933 @@
+{
+ "repo": "cberner/redb",
+ "mined_at": "2026-09-13T10:12:34.544683Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 319,
+ "candidates": 34,
+ "prs": [
+  {
+   "number": 1477,
+   "title": "Support locking in custom backends",
+   "url": "https://github.com/cberner/redb/pull/1477",
+   "merged_at": "2026-09-10",
+   "additions": 1325,
+   "deletions": 711,
+   "changed_files": 24,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/ci.yml",
+    "CHANGELOG.md",
+    "crates/redb-no-std-test/.gitignore",
+    "crates/redb-no-std-test/Cargo.toml",
+    "crates/redb-no-std-test/src/main.rs",
+    "src/db.rs",
+    "src/error.rs",
+    "src/io.rs",
+    "src/lib.rs",
+    "src/transaction_tracker.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/mod.rs",
+    "src/tree_store/page_store/backends.rs",
+    "src/tree_store/page_store/cached_file.rs",
+    "src/tree_store/page_store/file_backend/fallback.rs",
+    "src/tree_store/page_store/file_backend/optimized.rs",
+    "src/tree_store/page_store/file_backend/range_lock.rs",
+    "src/tree_store/page_store/mod.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs",
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "backend",
+    "transact"
+   ],
+   "horizon_score": 2005
+  },
+  {
+   "number": 1268,
+   "title": "Coalesce sparse leaf rewrites into packed replacement runs",
+   "url": "https://github.com/cberner/redb/pull/1268",
+   "merged_at": "2026-07-03",
+   "additions": 1260,
+   "deletions": 237,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/table.rs",
+    "src/transactions.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/extract_if.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs",
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 1620
+  },
+  {
+   "number": 1217,
+   "title": "Optimize retain() and retain_in()",
+   "url": "https://github.com/cberner/redb/pull/1217",
+   "merged_at": "2026-05-01",
+   "additions": 1192,
+   "deletions": 21,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/mod.rs",
+    "src/tree_store/retain.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1352
+  },
+  {
+   "number": 1327,
+   "title": "Add the experimental CursorMut API for bulk loading sorted data",
+   "url": "https://github.com/cberner/redb/pull/1327",
+   "merged_at": "2026-08-08",
+   "additions": 937,
+   "deletions": 16,
+   "changed_files": 13,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "fuzz/Cargo.toml",
+    "fuzz/fuzz_targets/common.rs",
+    "fuzz/fuzz_targets/fuzz_redb.rs",
+    "src/error.rs",
+    "src/lib.rs",
+    "src/table.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/mod.rs"
+   ],
+   "test_files": [
+    "tests/cursor_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1237
+  },
+  {
+   "number": 1233,
+   "title": "Optimize retain_in with range iterator events",
+   "url": "https://github.com/cberner/redb/pull/1233",
+   "merged_at": "2026-05-07",
+   "additions": 875,
+   "deletions": 360,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "src/multimap_table.rs",
+    "src/tree_store/btree_iters.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/retain.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 1015
+  },
+  {
+   "number": 1306,
+   "title": "Add owned accessors that keep the read transaction alive",
+   "url": "https://github.com/cberner/redb/pull/1306",
+   "merged_at": "2026-08-04",
+   "additions": 450,
+   "deletions": 34,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "crates/redb-bench/benches/common.rs",
+    "examples/derive_value_impl.rs",
+    "examples/int_keys.rs",
+    "examples/multithread.rs",
+    "src/db.rs",
+    "src/lib.rs",
+    "src/multimap_table.rs",
+    "src/table.rs",
+    "src/tree_store/page_store/header.rs",
+    "src/types/chrono_v0_4.rs",
+    "src/types/uuid.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs",
+    "tests/integration_tests.rs",
+    "tests/multimap_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 930
+  },
+  {
+   "number": 1336,
+   "title": "Add a read-only table cursor API, behind the experimental flags",
+   "url": "https://github.com/cberner/redb/pull/1336",
+   "merged_at": "2026-08-08",
+   "additions": 627,
+   "deletions": 8,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "Cargo.toml",
+    "src/lib.rs",
+    "src/table.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/mod.rs"
+   ],
+   "test_files": [
+    "tests/cursor_tests.rs",
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 887
+  },
+  {
+   "number": 1419,
+   "title": "Add the concurrency modes and the mode bytes they announce",
+   "url": "https://github.com/cberner/redb/pull/1419",
+   "merged_at": "2026-08-30",
+   "additions": 490,
+   "deletions": 39,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "Cargo.toml",
+    "src/db.rs",
+    "src/lib.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/page_store/backends.rs",
+    "src/tree_store/page_store/cached_file.rs",
+    "src/tree_store/page_store/file_backend/fallback.rs",
+    "src/tree_store/page_store/file_backend/optimized.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "backend"
+   ],
+   "horizon_score": 870
+  },
+  {
+   "number": 1201,
+   "title": "Reuse freed pages one transaction sooner after durable commits",
+   "url": "https://github.com/cberner/redb/pull/1201",
+   "merged_at": "2026-04-28",
+   "additions": 668,
+   "deletions": 64,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 829,
+     "title": "Writes don't reuse freed pages from the previous transaction",
+     "url": "https://github.com/cberner/redb/issues/829"
+    }
+   ],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 868
+  },
+  {
+   "number": 1449,
+   "title": "Begin a multi-writer transaction from the file's latest commit",
+   "url": "https://github.com/cberner/redb/pull/1449",
+   "merged_at": "2026-09-06",
+   "additions": 603,
+   "deletions": 31,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs",
+    "src/tree_store/page_store/cached_file.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 843
+  },
+  {
+   "number": 1237,
+   "title": "Use read-only btree cursor for table ranges",
+   "url": "https://github.com/cberner/redb/pull/1237",
+   "merged_at": "2026-05-11",
+   "additions": 562,
+   "deletions": 13,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "src/table.rs",
+    "src/transactions.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_cursor_range.rs",
+    "src/tree_store/btree_iters.rs",
+    "src/tree_store/mod.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 822
+  },
+  {
+   "number": 1280,
+   "title": "Preserve non-durable commits across check_integrity()",
+   "url": "https://github.com/cberner/redb/pull/1280",
+   "merged_at": "2026-06-19",
+   "additions": 468,
+   "deletions": 24,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/tree_store/page_store/header.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/check_integrity_nondurable.rs",
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "durab"
+   ],
+   "horizon_score": 728
+  },
+  {
+   "number": 1318,
+   "title": "Keep non-durable commits in the write buffer instead of flushing them",
+   "url": "https://github.com/cberner/redb/pull/1318",
+   "merged_at": "2026-08-11",
+   "additions": 454,
+   "deletions": 26,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/tree_store/page_store/base.rs",
+    "src/tree_store/page_store/cached_file.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/check_integrity_nondurable.rs",
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "durab"
+   ],
+   "horizon_score": 714
+  },
+  {
+   "number": 1337,
+   "title": "Take a KeyRange in the range taking methods, behind experimental-api-5",
+   "url": "https://github.com/cberner/redb/pull/1337",
+   "merged_at": "2026-08-09",
+   "additions": 368,
+   "deletions": 15,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "Cargo.toml",
+    "crates/redb-bench/benches/common.rs",
+    "src/db.rs",
+    "src/key_range.rs",
+    "src/lib.rs",
+    "src/multimap_table.rs",
+    "src/table.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs",
+    "tests/integration_tests.rs",
+    "tests/multimap_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 708
+  },
+  {
+   "number": 1338,
+   "title": "Add CursorMut::insert_after(), inserting through the gap's other side",
+   "url": "https://github.com/cberner/redb/pull/1338",
+   "merged_at": "2026-08-09",
+   "additions": 506,
+   "deletions": 63,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "fuzz/fuzz_targets/common.rs",
+    "fuzz/fuzz_targets/fuzz_redb.rs",
+    "src/table.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs"
+   ],
+   "test_files": [
+    "tests/cursor_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 686
+  },
+  {
+   "number": 1166,
+   "title": "Fix compact() growing file on densely packed databases",
+   "url": "https://github.com/cberner/redb/pull/1166",
+   "merged_at": "2026-04-22",
+   "additions": 232,
+   "deletions": 32,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [
+    {
+     "n": 1165,
+     "title": "Compaction increases the size of the DB",
+     "url": "https://github.com/cberner/redb/issues/1165"
+    }
+   ],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/multimap_table.rs",
+    "src/table.rs",
+    "src/transactions.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_iters.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/mod.rs",
+    "src/tree_store/page_store/mod.rs",
+    "src/tree_store/page_store/page_manager.rs",
+    "src/tree_store/table_tree.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "compact",
+    "transact"
+   ],
+   "horizon_score": 672
+  },
+  {
+   "number": 1311,
+   "title": "Fix derived Value and Key impls resolving inherent methods on field types",
+   "url": "https://github.com/cberner/redb/pull/1311",
+   "merged_at": "2026-08-06",
+   "additions": 430,
+   "deletions": 57,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "crates/redb-derive/Cargo.toml",
+    "crates/redb-derive/src/lib.rs",
+    "examples/derive_value_impl.rs"
+   ],
+   "test_files": [
+    "crates/redb-derive-rename-test/tests/rename_test.rs",
+    "crates/redb-derive/tests/crate_attr_tests.rs",
+    "crates/redb-derive/tests/derive_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 670
+  },
+  {
+   "number": 1479,
+   "title": "Reserve backend lock bytes and serialize Windows lock queries",
+   "url": "https://github.com/cberner/redb/pull/1479",
+   "merged_at": "2026-09-11",
+   "additions": 426,
+   "deletions": 72,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "docs/design.md",
+    "src/db.rs",
+    "src/tree_store/page_store/file_backend/optimized.rs",
+    "src/tree_store/page_store/file_backend/range_lock.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "backend"
+   ],
+   "horizon_score": 646
+  },
+  {
+   "number": 1345,
+   "title": "Add CursorMut::remove_next() and remove_prev(), removing the entries around the gap",
+   "url": "https://github.com/cberner/redb/pull/1345",
+   "merged_at": "2026-08-09",
+   "additions": 484,
+   "deletions": 36,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "fuzz/fuzz_targets/common.rs",
+    "fuzz/fuzz_targets/fuzz_redb.rs",
+    "src/table.rs",
+    "src/tree_store/btree_cursor.rs"
+   ],
+   "test_files": [
+    "tests/cursor_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 644
+  },
+  {
+   "number": 1478,
+   "title": "Rename the concurrency modes",
+   "url": "https://github.com/cberner/redb/pull/1478",
+   "merged_at": "2026-09-12",
+   "additions": 240,
+   "deletions": 262,
+   "changed_files": 12,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "docs/design.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/tree_store/page_store/file_backend/optimized.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "backend",
+    "transact"
+   ],
+   "horizon_score": 640
+  },
+  {
+   "number": 1312,
+   "title": "Add Table::insert_with_hint() and InsertHint::Append",
+   "url": "https://github.com/cberner/redb/pull/1312",
+   "merged_at": "2026-08-06",
+   "additions": 366,
+   "deletions": 17,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "crates/redb-bench/Cargo.toml",
+    "crates/redb-bench/benches/insert_hint_benchmark.rs",
+    "src/lib.rs",
+    "src/table.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_mutator.rs"
+   ],
+   "test_files": [
+    "tests/insert_hint_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 586
+  },
+  {
+   "number": 1274,
+   "title": "Fix stale allocated-pages entries after deleting a persistent savepoint",
+   "url": "https://github.com/cberner/redb/pull/1274",
+   "merged_at": "2026-06-13",
+   "additions": 278,
+   "deletions": 5,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs"
+   ],
+   "test_files": [
+    "tests/backward_compatibility.rs",
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "persist",
+    "transact"
+   ],
+   "horizon_score": 578
+  },
+  {
+   "number": 1441,
+   "title": "Bound reclamation by the transactions other processes are reading",
+   "url": "https://github.com/cberner/redb/pull/1441",
+   "merged_at": "2026-09-03",
+   "additions": 326,
+   "deletions": 9,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs",
+    "src/tree_store/page_store/active_transactions.rs",
+    "src/tree_store/page_store/mod.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 566
+  },
+  {
+   "number": 1298,
+   "title": "Distinguish composite types of user types from built-in composites",
+   "url": "https://github.com/cberner/redb/pull/1298",
+   "merged_at": "2026-07-09",
+   "additions": 355,
+   "deletions": 11,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/complex_types.rs",
+    "src/tree_store/table_tree_base.rs",
+    "src/tuple_types.rs",
+    "src/types.rs"
+   ],
+   "test_files": [
+    "tests/backward_compatibility.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 515
+  },
+  {
+   "number": 1342,
+   "title": "Add CursorMut::next() and prev(), moving the cursor over entries",
+   "url": "https://github.com/cberner/redb/pull/1342",
+   "merged_at": "2026-08-09",
+   "additions": 307,
+   "deletions": 4,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "fuzz/fuzz_targets/common.rs",
+    "fuzz/fuzz_targets/fuzz_redb.rs",
+    "src/table.rs",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_cursor.rs"
+   ],
+   "test_files": [
+    "tests/cursor_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 487
+  },
+  {
+   "number": 1272,
+   "title": "Fix compact() returning TransactionInProgress when a savepoint exists",
+   "url": "https://github.com/cberner/redb/pull/1272",
+   "merged_at": "2026-06-13",
+   "additions": 225,
+   "deletions": 6,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "compact",
+    "transact"
+   ],
+   "horizon_score": 485
+  },
+  {
+   "number": 1358,
+   "title": "Store minimal key separators in branch nodes",
+   "url": "https://github.com/cberner/redb/pull/1358",
+   "merged_at": "2026-08-17",
+   "additions": 301,
+   "deletions": 48,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "docs/design.md",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_mutator.rs",
+    "src/types.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 481
+  },
+  {
+   "number": 1313,
+   "title": "Tag user-defined field types in the derived TypeName",
+   "url": "https://github.com/cberner/redb/pull/1313",
+   "merged_at": "2026-08-07",
+   "additions": 280,
+   "deletions": 21,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "crates/redb-derive/Cargo.toml",
+    "crates/redb-derive/src/lib.rs",
+    "src/types.rs"
+   ],
+   "test_files": [
+    "crates/redb-derive/tests/crate_attr_tests.rs",
+    "crates/redb-derive/tests/derive_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 480
+  },
+  {
+   "number": 1438,
+   "title": "Let a read-only handle open a database another process is writing",
+   "url": "https://github.com/cberner/redb/pull/1438",
+   "merged_at": "2026-09-03",
+   "additions": 336,
+   "deletions": 16,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/tree_store/page_store/header.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 476
+  },
+  {
+   "number": 1480,
+   "title": "Keep aborted savepoint handles invalid across writer processes",
+   "url": "https://github.com/cberner/redb/pull/1480",
+   "merged_at": "2026-09-11",
+   "additions": 254,
+   "deletions": 56,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "docs/design.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs",
+    "src/tree_store/page_store/savepoint.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 474
+  },
+  {
+   "number": 1146,
+   "title": "Fix aborting restore_savepoint()",
+   "url": "https://github.com/cberner/redb/pull/1146",
+   "merged_at": "2026-04-18",
+   "additions": 258,
+   "deletions": 10,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs"
+   ],
+   "test_files": [
+    "tests/integration_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 458
+  },
+  {
+   "number": 1308,
+   "title": "Keep the database open while a write transaction is live",
+   "url": "https://github.com/cberner/redb/pull/1308",
+   "merged_at": "2026-08-05",
+   "additions": 241,
+   "deletions": 52,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 1072,
+     "title": "Unclear `Database` drop semantics and deadlock risk",
+     "url": "https://github.com/cberner/redb/issues/1072"
+    }
+   ],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/db.rs",
+    "src/transaction_tracker.rs",
+    "src/transactions.rs"
+   ],
+   "test_files": [
+    "tests/basic_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 441
+  },
+  {
+   "number": 1427,
+   "title": "Hold the writer byte for the duration of a write transaction",
+   "url": "https://github.com/cberner/redb/pull/1427",
+   "merged_at": "2026-08-31",
+   "additions": 236,
+   "deletions": 3,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "src/db.rs",
+    "src/tree_store/mod.rs",
+    "src/tree_store/page_store/mod.rs",
+    "src/tree_store/page_store/page_manager.rs"
+   ],
+   "test_files": [
+    "tests/multiprocess_tests.rs"
+   ],
+   "theme_hits": [
+    "transact"
+   ],
+   "horizon_score": 436
+  },
+  {
+   "number": 1370,
+   "title": "Bound the btree descent depth",
+   "url": "https://github.com/cberner/redb/pull/1370",
+   "merged_at": "2026-08-13",
+   "additions": 236,
+   "deletions": 49,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 1332,
+     "title": "Stack overflow abort: no cycle detection on btree read/mutate/compact descent paths (88868bf follow-up)",
+     "url": "https://github.com/cberner/redb/issues/1332"
+    }
+   ],
+   "src_files": [
+    "CHANGELOG.md",
+    "src/tree_store/btree.rs",
+    "src/tree_store/btree_base.rs",
+    "src/tree_store/btree_cursor.rs"
+   ],
+   "test_files": [
+    "tests/corrupted_btree_descent.rs"
+   ],
+   "theme_hits": [],
+   "horizon_score": 376
+  }
+ ]
+}

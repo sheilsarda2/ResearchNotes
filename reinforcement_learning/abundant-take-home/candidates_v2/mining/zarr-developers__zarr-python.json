@@ -1,0 +1,831 @@
+{
+ "repo": "zarr-developers/zarr-python",
+ "mined_at": "2026-09-13T10:08:06.849184Z",
+ "since": "2026-01-01",
+ "filters": {
+  "min_additions": 200,
+  "min_files": 5,
+  "needs_test_files": true
+ },
+ "total_merged_in_window": 335,
+ "candidates": 24,
+ "prs": [
+  {
+   "number": 3802,
+   "title": "feat: add experimental support for rectilinear (variable-sized) chunks",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3802",
+   "merged_at": "2026-04-07",
+   "additions": 6014,
+   "deletions": 427,
+   "changed_files": 38,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3802.feature.md",
+    "design/chunk-grid.md",
+    "docs/user-guide/arrays.md",
+    "docs/user-guide/config.md",
+    "docs/user-guide/examples/rectilinear_chunks.ipynb",
+    "docs/user-guide/glossary.md",
+    "mkdocs.yml",
+    "pyproject.toml",
+    "src/zarr/abc/codec.py",
+    "src/zarr/api/synchronous.py",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/codecs/transpose.py",
+    "src/zarr/core/_info.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/chunk_grids.py",
+    "src/zarr/core/codec_pipeline.py",
+    "src/zarr/core/common.py",
+    "src/zarr/core/config.py",
+    "src/zarr/core/group.py",
+    "src/zarr/core/indexing.py",
+    "src/zarr/core/metadata/v2.py",
+    "src/zarr/core/metadata/v3.py",
+    "src/zarr/experimental/__init__.py",
+    "src/zarr/metadata/migrate_v3.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/stateful.py",
+    "src/zarr/testing/strategies.py",
+    "tests/conftest.py",
+    "tests/test_api.py",
+    "tests/test_array.py",
+    "tests/test_cli/test_migrate_v3.py",
+    "tests/test_codec_pipeline.py",
+    "tests/test_codecs/test_sharding.py",
+    "tests/test_config.py",
+    "tests/test_group.py",
+    "tests/test_indexing.py",
+    "tests/test_properties.py",
+    "tests/test_store/test_stateful.py",
+    "tests/test_unified_chunk_grid.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec",
+    "index",
+    "migrat"
+   ],
+   "horizon_score": 7574
+  },
+  {
+   "number": 3885,
+   "title": "perf: use sync methods for chunk encoding / decoding",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3885",
+   "merged_at": "2026-07-13",
+   "additions": 5378,
+   "deletions": 472,
+   "changed_files": 35,
+   "labels": [
+    "performance",
+    "benchmark",
+    "run-downstream"
+   ],
+   "issues": [],
+   "src_files": [
+    ".gitignore",
+    "changes/3885.bugfix.md",
+    "changes/3885.feature.1.md",
+    "changes/3885.feature.md",
+    "docs/user-guide/experimental.md",
+    "pyproject.toml",
+    "src/zarr/abc/codec.py",
+    "src/zarr/abc/store.py",
+    "src/zarr/codecs/_v2.py",
+    "src/zarr/codecs/numcodecs/_codecs.py",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/chunk_utils.py",
+    "src/zarr/core/codec_pipeline.py",
+    "src/zarr/core/common.py",
+    "src/zarr/core/config.py",
+    "src/zarr/storage/_fsspec.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/buffer.py",
+    "src/zarr/testing/store.py",
+    "src/zarr/testing/strategies.py",
+    "tests/benchmarks/test_e2e.py",
+    "tests/conftest.py",
+    "tests/test_chunk_transform.py",
+    "tests/test_codec_pipeline.py",
+    "tests/test_codec_pipeline_suite.py",
+    "tests/test_codecs/test_codecs.py",
+    "tests/test_codecs/test_sharding.py",
+    "tests/test_codecs/test_sharding_unit.py",
+    "tests/test_config.py",
+    "tests/test_fastpath_equivalence.py",
+    "tests/test_fused_pipeline.py",
+    "tests/test_pipeline_parity.py",
+    "tests/test_store/test_get_ranges.py",
+    "tests/test_store/test_local.py",
+    "tests/test_store/test_memory.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec",
+    "storage"
+   ],
+   "horizon_score": 6978
+  },
+  {
+   "number": 3874,
+   "title": "feat: add cast_value and scale_offset codecs",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3874",
+   "merged_at": "2026-04-30",
+   "additions": 1732,
+   "deletions": 0,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3867,
+     "title": "zarr v3 scale-offset codec, and should the codec API be defined upstream",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3867"
+    }
+   ],
+   "src_files": [
+    "changes/3874.feature.md",
+    "pyproject.toml",
+    "src/zarr/codecs/__init__.py",
+    "src/zarr/codecs/cast_value.py",
+    "src/zarr/codecs/scale_offset.py"
+   ],
+   "test_files": [
+    "tests/test_codecs/conftest.py",
+    "tests/test_codecs/test_cast_value.py",
+    "tests/test_codecs/test_scale_offset.py"
+   ],
+   "theme_hits": [
+    "codec"
+   ],
+   "horizon_score": 2072
+  },
+  {
+   "number": 3679,
+   "title": "feat/memory store registry",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3679",
+   "merged_at": "2026-04-21",
+   "additions": 941,
+   "deletions": 90,
+   "changed_files": 16,
+   "labels": [],
+   "issues": [
+    {
+     "n": 2906,
+     "title": "deterministic memorystore names",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/2906"
+    }
+   ],
+   "src_files": [
+    "changes/3679.feature.md",
+    "docs/user-guide/arrays.md",
+    "docs/user-guide/attributes.md",
+    "docs/user-guide/consolidated_metadata.md",
+    "docs/user-guide/gpu.md",
+    "docs/user-guide/groups.md",
+    "src/zarr/storage/__init__.py",
+    "src/zarr/storage/_common.py",
+    "src/zarr/storage/_fsspec.py",
+    "src/zarr/storage/_memory.py",
+    "src/zarr/storage/_utils.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/strategies.py",
+    "tests/conftest.py",
+    "tests/test_metadata/test_v3.py",
+    "tests/test_store/test_memory.py",
+    "tests/test_store/test_utils.py"
+   ],
+   "theme_hits": [
+    "consolidat",
+    "storage"
+   ],
+   "horizon_score": 1581
+  },
+  {
+   "number": 3925,
+   "title": "feat:get_ranges",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3925",
+   "merged_at": "2026-05-15",
+   "additions": 1252,
+   "deletions": 2,
+   "changed_files": 7,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3925.feature.md",
+    "src/zarr/abc/store.py",
+    "src/zarr/core/_coalesce.py",
+    "src/zarr/storage/_wrapper.py"
+   ],
+   "test_files": [
+    "tests/test_coalesce.py",
+    "tests/test_store/test_fsspec_get_ranges.py",
+    "tests/test_store/test_get_ranges.py"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 1572
+  },
+  {
+   "number": 4218,
+   "title": "fix(chunk-grids): make array creation O(1) in per-dimension chunk count",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4218",
+   "merged_at": "2026-09-09",
+   "additions": 844,
+   "deletions": 276,
+   "changed_files": 16,
+   "labels": [
+    "benchmark"
+   ],
+   "issues": [],
+   "src_files": [
+    "changes/4174.bugfix.md",
+    "changes/4272.bugfix.md",
+    "docs/user-guide/arrays.md",
+    "src/zarr/core/_info.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/chunk_grids.py",
+    "src/zarr/core/common.py",
+    "src/zarr/core/metadata/v3.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/stateful.py",
+    "src/zarr/testing/strategies.py",
+    "tests/conftest.py",
+    "tests/test_array.py",
+    "tests/test_chunk_grids.py",
+    "tests/test_metadata/test_v3.py",
+    "tests/test_properties.py",
+    "tests/test_unified_chunk_grid.py"
+   ],
+   "theme_hits": [
+    "chunk"
+   ],
+   "horizon_score": 1544
+  },
+  {
+   "number": 4206,
+   "title": "fix: explicit store sync-IO capability; wrappers forward it; LatencyStore fixes",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4206",
+   "merged_at": "2026-07-30",
+   "additions": 596,
+   "deletions": 32,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/4206.bugfix.md",
+    "src/zarr/abc/store.py",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/codec_pipeline.py",
+    "src/zarr/experimental/cache_store.py",
+    "src/zarr/storage/_logging.py",
+    "src/zarr/storage/_wrapper.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/store.py",
+    "tests/test_codec_pipeline_suite.py",
+    "tests/test_experimental/test_cache_store.py",
+    "tests/test_fused_pipeline.py",
+    "tests/test_store/test_get_ranges.py",
+    "tests/test_store/test_latency.py",
+    "tests/test_store/test_wrapper.py"
+   ],
+   "theme_hits": [
+    "codec",
+    "storage"
+   ],
+   "horizon_score": 1276
+  },
+  {
+   "number": 3899,
+   "title": "refactor: simplify internal chunk representation",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3899",
+   "merged_at": "2026-05-07",
+   "additions": 671,
+   "deletions": 225,
+   "changed_files": 9,
+   "labels": [
+    "benchmark"
+   ],
+   "issues": [
+    {
+     "n": 3898,
+     "title": "given shape=(s,) chunks=(-1,) should mean (s,)",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3898"
+    }
+   ],
+   "src_files": [
+    "changes/3899.bugfix.md",
+    "src/zarr/core/array.py",
+    "src/zarr/core/chunk_grids.py",
+    "src/zarr/core/metadata/v3.py"
+   ],
+   "test_files": [
+    "tests/conftest.py",
+    "tests/test_array.py",
+    "tests/test_chunk_grids.py",
+    "tests/test_codecs/test_sharding.py",
+    "tests/test_metadata/test_v3.py"
+   ],
+   "theme_hits": [
+    "chunk"
+   ],
+   "horizon_score": 1111
+  },
+  {
+   "number": 4277,
+   "title": "feat: name packages that provide a codec zarr cannot find",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4277",
+   "merged_at": "2026-08-30",
+   "additions": 588,
+   "deletions": 28,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [
+    {
+     "n": 4271,
+     "title": "handle missing codecs by telling users what package to install to get the codec",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/4271"
+    }
+   ],
+   "src_files": [
+    "changes/4277.feature.md",
+    "docs/user-guide/extending.md",
+    "src/zarr/core/metadata/v3.py",
+    "src/zarr/errors.py",
+    "src/zarr/metadata/migrate_v3.py",
+    "src/zarr/registry.py"
+   ],
+   "test_files": [
+    "tests/test_codecs/test_numcodecs.py",
+    "tests/test_config.py",
+    "tests/test_registry.py"
+   ],
+   "theme_hits": [
+    "codec",
+    "migrat"
+   ],
+   "horizon_score": 1008
+  },
+  {
+   "number": 3998,
+   "title": "refactor/consolidated JSON IO routines",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3998",
+   "merged_at": "2026-06-10",
+   "additions": 378,
+   "deletions": 967,
+   "changed_files": 15,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3998.misc.md",
+    "src/zarr/abc/store.py",
+    "src/zarr/core/_json.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/group.py",
+    "src/zarr/core/metadata/v2.py",
+    "src/zarr/core/metadata/v3.py",
+    "src/zarr/storage/_common.py",
+    "src/zarr/storage/_local.py",
+    "src/zarr/storage/_memory.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/store.py",
+    "tests/test_json.py",
+    "tests/test_store/test_core.py",
+    "tests/test_store/test_local.py",
+    "tests/test_store/test_memory.py"
+   ],
+   "theme_hits": [
+    "consolidat",
+    "storage"
+   ],
+   "horizon_score": 998
+  },
+  {
+   "number": 4063,
+   "title": "Add unified JSON metadata validation via msgspec (#3285)",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4063",
+   "merged_at": "2026-08-13",
+   "additions": 369,
+   "deletions": 73,
+   "changed_files": 17,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3285,
+     "title": "unified runtime type checking for our json data",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3285"
+    }
+   ],
+   "src_files": [
+    "changes/3285.feature.md",
+    "mkdocs.yml",
+    "pyproject.toml",
+    "src/zarr/codecs/blosc.py",
+    "src/zarr/codecs/gzip.py",
+    "src/zarr/codecs/zstd.py",
+    "src/zarr/core/chunk_key_encodings.py",
+    "src/zarr/core/common.py",
+    "src/zarr/core/config.py",
+    "src/zarr/core/group.py",
+    "src/zarr/core/json_parse.py",
+    "src/zarr/core/metadata/v2.py",
+    "src/zarr/core/metadata/v3.py",
+    "uv.lock"
+   ],
+   "test_files": [
+    "tests/test_common.py",
+    "tests/test_json_parse.py",
+    "tests/test_metadata/test_v2.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec"
+   ],
+   "horizon_score": 949
+  },
+  {
+   "number": 4074,
+   "title": "Claude/storage codec bugfixes",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4074",
+   "merged_at": "2026-06-18",
+   "additions": 305,
+   "deletions": 48,
+   "changed_files": 14,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/4074.bugfix.md",
+    "pyproject.toml",
+    "src/zarr/abc/store.py",
+    "src/zarr/core/codec_pipeline.py",
+    "src/zarr/storage/_fsspec.py",
+    "src/zarr/storage/_logging.py",
+    "src/zarr/storage/_utils.py",
+    "src/zarr/storage/_zip.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/stateful.py",
+    "src/zarr/testing/store.py",
+    "src/zarr/testing/strategies.py",
+    "tests/test_codec_pipeline.py",
+    "tests/test_store/test_utils.py",
+    "tests/test_store/test_zip.py"
+   ],
+   "theme_hits": [
+    "codec",
+    "storage"
+   ],
+   "horizon_score": 945
+  },
+  {
+   "number": 3968,
+   "title": "deprecate more enums",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3968",
+   "merged_at": "2026-06-12",
+   "additions": 499,
+   "deletions": 132,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3457,
+     "title": "deprecate / remove enums",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3457"
+    }
+   ],
+   "src_files": [
+    "changes/3968.removal.md",
+    "src/zarr/codecs/_deprecated_enum.py",
+    "src/zarr/codecs/blosc.py",
+    "src/zarr/codecs/bytes.py",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/buffer/core.py"
+   ],
+   "test_files": [
+    "tests/conftest.py",
+    "tests/test_codecs/test_bytes.py",
+    "tests/test_codecs/test_sharding.py",
+    "tests/test_info.py"
+   ],
+   "theme_hits": [
+    "codec"
+   ],
+   "horizon_score": 939
+  },
+  {
+   "number": 4205,
+   "title": "fix: minor correctness and hygiene fixes from the sync-pipeline audit",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4205",
+   "merged_at": "2026-07-30",
+   "additions": 325,
+   "deletions": 148,
+   "changed_files": 11,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/4205.bugfix.md",
+    "src/zarr/core/array.py",
+    "src/zarr/core/chunk_utils.py",
+    "src/zarr/core/codec_pipeline.py",
+    "src/zarr/core/common.py"
+   ],
+   "test_files": [
+    "tests/benchmarks/test_e2e.py",
+    "tests/test_codecs/test_codecs.py",
+    "tests/test_common.py",
+    "tests/test_fused_pipeline.py",
+    "tests/test_store/test_local.py",
+    "tests/test_store/test_memory.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec"
+   ],
+   "horizon_score": 905
+  },
+  {
+   "number": 3781,
+   "title": "Implement support for `structured` and `struct` zarr-extension defined dtypes",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3781",
+   "merged_at": "2026-04-21",
+   "additions": 441,
+   "deletions": 51,
+   "changed_files": 10,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3781.feature.md",
+    "docs/user-guide/data_types.md",
+    "src/zarr/codecs/bytes.py",
+    "src/zarr/core/array.py",
+    "src/zarr/core/dtype/__init__.py",
+    "src/zarr/core/dtype/npy/structured.py",
+    "src/zarr/dtype.py"
+   ],
+   "test_files": [
+    "tests/test_dtype/conftest.py",
+    "tests/test_dtype/test_npy/test_structured.py",
+    "tests/test_v2.py"
+   ],
+   "theme_hits": [
+    "codec"
+   ],
+   "horizon_score": 821
+  },
+  {
+   "number": 3987,
+   "title": "Control sharding codec read coalescing with ArrayConfig and runtime config options",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3987",
+   "merged_at": "2026-06-18",
+   "additions": 250,
+   "deletions": 4,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3987.feature.md",
+    "docs/user-guide/config.md",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/array_spec.py",
+    "src/zarr/core/common.py",
+    "src/zarr/core/config.py"
+   ],
+   "test_files": [
+    "tests/test_codecs/test_sharding_unit.py",
+    "tests/test_common.py",
+    "tests/test_config.py"
+   ],
+   "theme_hits": [
+    "codec",
+    "shard"
+   ],
+   "horizon_score": 670
+  },
+  {
+   "number": 4012,
+   "title": "perf: cache lexicographic chunk coords in sharding codec",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4012",
+   "merged_at": "2026-06-12",
+   "additions": 229,
+   "deletions": 69,
+   "changed_files": 6,
+   "labels": [
+    "benchmark"
+   ],
+   "issues": [],
+   "src_files": [
+    "changes/4001.misc.md",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/indexing.py"
+   ],
+   "test_files": [
+    "tests/benchmarks/test_indexing.py",
+    "tests/test_codecs/test_codecs.py",
+    "tests/test_codecs/test_sharding.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec",
+    "index"
+   ],
+   "horizon_score": 649
+  },
+  {
+   "number": 3700,
+   "title": "Support with read only in wrappers",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3700",
+   "merged_at": "2026-02-12",
+   "additions": 268,
+   "deletions": 100,
+   "changed_files": 8,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3699,
+     "title": "Wrapper stores don't support with_read_only",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3699"
+    }
+   ],
+   "src_files": [
+    "changes/3700.bugfix.md",
+    "src/zarr/experimental/cache_store.py",
+    "src/zarr/storage/_logging.py",
+    "src/zarr/storage/_wrapper.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/store.py",
+    "tests/test_experimental/test_cache_store.py",
+    "tests/test_store/test_latency.py",
+    "tests/test_store/test_logging.py"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 648
+  },
+  {
+   "number": 3562,
+   "title": "add benchmarks using pytest-benchmark and codspeed",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3562",
+   "merged_at": "2026-01-15",
+   "additions": 203,
+   "deletions": 4,
+   "changed_files": 9,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    ".github/workflows/codspeed.yml",
+    "changes/3562.misc.md",
+    "docs/contributing.md",
+    "pyproject.toml"
+   ],
+   "test_files": [
+    "tests/benchmarks/__init__.py",
+    "tests/benchmarks/common.py",
+    "tests/benchmarks/conftest.py",
+    "tests/benchmarks/test_e2e.py",
+    "tests/benchmarks/test_indexing.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 583
+  },
+  {
+   "number": 3826,
+   "title": "feat: subchunk write order",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3826",
+   "merged_at": "2026-05-22",
+   "additions": 235,
+   "deletions": 39,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/3826.feature.md",
+    "docs/user-guide/performance.md",
+    "src/zarr/codecs/__init__.py",
+    "src/zarr/codecs/sharding.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/strategies.py",
+    "tests/test_codecs/test_sharding.py"
+   ],
+   "theme_hits": [
+    "chunk",
+    "codec"
+   ],
+   "horizon_score": 555
+  },
+  {
+   "number": 4204,
+   "title": "fix: ManagedMemoryStore sync methods must respect the path prefix",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4204",
+   "merged_at": "2026-07-30",
+   "additions": 202,
+   "deletions": 13,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/4204.bugfix.md",
+    "src/zarr/storage/_memory.py"
+   ],
+   "test_files": [
+    "src/zarr/testing/store.py",
+    "tests/test_store/test_local.py",
+    "tests/test_store/test_memory.py"
+   ],
+   "theme_hits": [
+    "storage"
+   ],
+   "horizon_score": 482
+  },
+  {
+   "number": 4128,
+   "title": "feat: add type-safe `get_array` and `get_group` methods to `AsyncGroup` and `Group`",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4128",
+   "merged_at": "2026-07-28",
+   "additions": 239,
+   "deletions": 13,
+   "changed_files": 6,
+   "labels": [],
+   "issues": [],
+   "src_files": [
+    "changes/4128.feature.md",
+    "docs/user-guide/groups.md",
+    "src/zarr/core/group.py"
+   ],
+   "test_files": [
+    "tests/test_group.py",
+    "tests/test_metadata/test_consolidated.py",
+    "tests/test_store/test_zip.py"
+   ],
+   "theme_hits": [],
+   "horizon_score": 479
+  },
+  {
+   "number": 3963,
+   "title": "deprecate blosc enums",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/3963",
+   "merged_at": "2026-05-11",
+   "additions": 276,
+   "deletions": 74,
+   "changed_files": 5,
+   "labels": [
+    "downstream"
+   ],
+   "issues": [],
+   "src_files": [
+    "changes/3963.removal.md",
+    "docs/quick-start.md",
+    "docs/user-guide/arrays.md",
+    "src/zarr/codecs/blosc.py"
+   ],
+   "test_files": [
+    "tests/test_codecs/test_blosc.py"
+   ],
+   "theme_hits": [
+    "codec"
+   ],
+   "horizon_score": 476
+  },
+  {
+   "number": 4183,
+   "title": "fix(ArraySpec): proper and robust equality semantics for ArraySpec by checking fill_value for byte-identicality, fixes #3054.",
+   "url": "https://github.com/zarr-developers/zarr-python/pull/4183",
+   "merged_at": "2026-07-29",
+   "additions": 228,
+   "deletions": 7,
+   "changed_files": 5,
+   "labels": [],
+   "issues": [
+    {
+     "n": 3054,
+     "title": "sharding codec use of lru caching fails with numpy void scalars",
+     "url": "https://github.com/zarr-developers/zarr-python/issues/3054"
+    }
+   ],
+   "src_files": [
+    "changes/4183.bugfix.md",
+    "src/zarr/codecs/sharding.py",
+    "src/zarr/core/array_spec.py"
+   ],
+   "test_files": [
+    "tests/test_array_spec.py",
+    "tests/test_codecs/test_sharding.py"
+   ],
+   "theme_hits": [
+    "codec"
+   ],
+   "horizon_score": 468
+  }
+ ]
+}
