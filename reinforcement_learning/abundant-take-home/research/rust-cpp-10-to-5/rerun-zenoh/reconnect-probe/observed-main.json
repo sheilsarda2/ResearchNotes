@@ -1,0 +1,308 @@
+{
+  "checked_at_utc": "2026-09-13T10:14:37.134097+00:00",
+  "repository": "https://github.com/eclipse-zenoh/zenoh",
+  "commit": "646f2d1b730e584a570015a77bee9f6db08be9d1",
+  "source_version": "1.10.1",
+  "image": "rust:1.97.1-slim-bookworm@sha256:2775a09d208ff0d7c1f50490c45b62db929e87ba1dcbc3f2132ac71a704bcdd3",
+  "architecture": "aarch64",
+  "build_jobs": 2,
+  "build_seconds": 45.15,
+  "build_exit_code": 0,
+  "probe_exit_code": 0,
+  "probe_interpretation": "Probe records observed values rather than asserting intended behavior. Five of five reconnect-immediate cases yielded zero, all 25 controls yielded one.",
+  "network": "Docker --network none, TCP loopback 127.0.0.1:17447, multicast disabled",
+  "dependencies": "Cargo.lock reused from existing independent Zenoh research probe; --locked build against read-only current-main source",
+  "source_mutation": "none",
+  "summary": {
+    "after-reconnect-immediate": {
+      "runs": 5,
+      "replies": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "elapsed_us": [
+        70,
+        70,
+        191,
+        69,
+        79
+      ]
+    },
+    "after-reconnect-settled": {
+      "runs": 5,
+      "replies": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "elapsed_us": [
+        917,
+        752,
+        8526,
+        2490,
+        723
+      ]
+    },
+    "first-declaration": {
+      "runs": 5,
+      "replies": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "elapsed_us": [
+        1127,
+        495,
+        505,
+        496,
+        688
+      ]
+    },
+    "redeclare-without-disconnect-immediate": {
+      "runs": 5,
+      "replies": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "elapsed_us": [
+        515,
+        415,
+        500,
+        594,
+        815
+      ]
+    },
+    "redeclare-without-disconnect-settled": {
+      "runs": 5,
+      "replies": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "elapsed_us": [
+        656,
+        625,
+        757,
+        762,
+        850
+      ]
+    },
+    "settled-before-disconnect": {
+      "runs": 5,
+      "replies": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "elapsed_us": [
+        652,
+        680,
+        640,
+        705,
+        649
+      ]
+    }
+  },
+  "rows": [
+    {
+      "iteration": 0,
+      "phase": "first-declaration",
+      "replies": 1,
+      "elapsed_us": 1127
+    },
+    {
+      "iteration": 0,
+      "phase": "settled-before-disconnect",
+      "replies": 1,
+      "elapsed_us": 652
+    },
+    {
+      "iteration": 0,
+      "phase": "after-reconnect-immediate",
+      "replies": 0,
+      "elapsed_us": 70
+    },
+    {
+      "iteration": 0,
+      "phase": "after-reconnect-settled",
+      "replies": 1,
+      "elapsed_us": 917
+    },
+    {
+      "iteration": 0,
+      "phase": "redeclare-without-disconnect-immediate",
+      "replies": 1,
+      "elapsed_us": 515
+    },
+    {
+      "iteration": 0,
+      "phase": "redeclare-without-disconnect-settled",
+      "replies": 1,
+      "elapsed_us": 656
+    },
+    {
+      "iteration": 1,
+      "phase": "first-declaration",
+      "replies": 1,
+      "elapsed_us": 495
+    },
+    {
+      "iteration": 1,
+      "phase": "settled-before-disconnect",
+      "replies": 1,
+      "elapsed_us": 680
+    },
+    {
+      "iteration": 1,
+      "phase": "after-reconnect-immediate",
+      "replies": 0,
+      "elapsed_us": 70
+    },
+    {
+      "iteration": 1,
+      "phase": "after-reconnect-settled",
+      "replies": 1,
+      "elapsed_us": 752
+    },
+    {
+      "iteration": 1,
+      "phase": "redeclare-without-disconnect-immediate",
+      "replies": 1,
+      "elapsed_us": 415
+    },
+    {
+      "iteration": 1,
+      "phase": "redeclare-without-disconnect-settled",
+      "replies": 1,
+      "elapsed_us": 625
+    },
+    {
+      "iteration": 2,
+      "phase": "first-declaration",
+      "replies": 1,
+      "elapsed_us": 505
+    },
+    {
+      "iteration": 2,
+      "phase": "settled-before-disconnect",
+      "replies": 1,
+      "elapsed_us": 640
+    },
+    {
+      "iteration": 2,
+      "phase": "after-reconnect-immediate",
+      "replies": 0,
+      "elapsed_us": 191
+    },
+    {
+      "iteration": 2,
+      "phase": "after-reconnect-settled",
+      "replies": 1,
+      "elapsed_us": 8526
+    },
+    {
+      "iteration": 2,
+      "phase": "redeclare-without-disconnect-immediate",
+      "replies": 1,
+      "elapsed_us": 500
+    },
+    {
+      "iteration": 2,
+      "phase": "redeclare-without-disconnect-settled",
+      "replies": 1,
+      "elapsed_us": 757
+    },
+    {
+      "iteration": 3,
+      "phase": "first-declaration",
+      "replies": 1,
+      "elapsed_us": 496
+    },
+    {
+      "iteration": 3,
+      "phase": "settled-before-disconnect",
+      "replies": 1,
+      "elapsed_us": 705
+    },
+    {
+      "iteration": 3,
+      "phase": "after-reconnect-immediate",
+      "replies": 0,
+      "elapsed_us": 69
+    },
+    {
+      "iteration": 3,
+      "phase": "after-reconnect-settled",
+      "replies": 1,
+      "elapsed_us": 2490
+    },
+    {
+      "iteration": 3,
+      "phase": "redeclare-without-disconnect-immediate",
+      "replies": 1,
+      "elapsed_us": 594
+    },
+    {
+      "iteration": 3,
+      "phase": "redeclare-without-disconnect-settled",
+      "replies": 1,
+      "elapsed_us": 762
+    },
+    {
+      "iteration": 4,
+      "phase": "first-declaration",
+      "replies": 1,
+      "elapsed_us": 688
+    },
+    {
+      "iteration": 4,
+      "phase": "settled-before-disconnect",
+      "replies": 1,
+      "elapsed_us": 649
+    },
+    {
+      "iteration": 4,
+      "phase": "after-reconnect-immediate",
+      "replies": 0,
+      "elapsed_us": 79
+    },
+    {
+      "iteration": 4,
+      "phase": "after-reconnect-settled",
+      "replies": 1,
+      "elapsed_us": 723
+    },
+    {
+      "iteration": 4,
+      "phase": "redeclare-without-disconnect-immediate",
+      "replies": 1,
+      "elapsed_us": 815
+    },
+    {
+      "iteration": 4,
+      "phase": "redeclare-without-disconnect-settled",
+      "replies": 1,
+      "elapsed_us": 850
+    }
+  ],
+  "limits": [
+    "Current main only for #2767; no independent latest-release replay.",
+    "Same-process router and distinct requester/responder sessions; no exact multiprocess reporter execution or network trace capture.",
+    "No readiness barrier is promised by declare_querier().await; no blanket timeout-minimum contract asserted.",
+    "Root-cause interpretation from source remains a hypothesis; no patch or Harbor task constructed."
+  ]
+}

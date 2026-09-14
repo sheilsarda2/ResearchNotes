@@ -1,0 +1,85 @@
+{
+  "query": "repo:ericniebler/range-v3 \"1737\"",
+  "time": "2026-09-13T10:12:16.300883+00:00",
+  "response": {
+    "total_count": 1,
+    "incomplete_results": false,
+    "items": [
+      {
+        "url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737",
+        "repository_url": "https://api.github.com/repos/ericniebler/range-v3",
+        "labels_url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737/labels{/name}",
+        "comments_url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737/comments",
+        "events_url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737/events",
+        "html_url": "https://github.com/ericniebler/range-v3/issues/1737",
+        "id": 1382513688,
+        "node_id": "I_kwDOANpJv85SZ3wY",
+        "number": 1737,
+        "title": "Crash in ranges::nth_element with std::numeric_limits::infinity",
+        "user": {
+          "login": "mathysie",
+          "id": 26286382,
+          "node_id": "MDQ6VXNlcjI2Mjg2Mzgy",
+          "avatar_url": "https://avatars.githubusercontent.com/u/26286382?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/mathysie",
+          "html_url": "https://github.com/mathysie",
+          "followers_url": "https://api.github.com/users/mathysie/followers",
+          "following_url": "https://api.github.com/users/mathysie/following{/other_user}",
+          "gists_url": "https://api.github.com/users/mathysie/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/mathysie/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/mathysie/subscriptions",
+          "organizations_url": "https://api.github.com/users/mathysie/orgs",
+          "repos_url": "https://api.github.com/users/mathysie/repos",
+          "events_url": "https://api.github.com/users/mathysie/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/mathysie/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "labels": [],
+        "state": "open",
+        "locked": false,
+        "assignees": [],
+        "milestone": null,
+        "comments": 6,
+        "created_at": "2022-09-22T14:04:55Z",
+        "updated_at": "2022-09-23T11:57:47Z",
+        "closed_at": null,
+        "assignee": null,
+        "author_association": "NONE",
+        "active_lock_reason": null,
+        "sub_issues_summary": {
+          "total": 0,
+          "completed": 0,
+          "percent_completed": 0
+        },
+        "issue_dependencies_summary": {
+          "blocked_by": 0,
+          "total_blocked_by": 0,
+          "blocking": 0,
+          "total_blocking": 0
+        },
+        "body": "In our code we use `ranges::nth_element` to partial sort the 10 highest doubles in a set of 2000, possibly containing infinity. Since version 0.13 however in some cases there is a crash.\r\n\r\nThe crash happens in `nth_element.hpp`, line 162. The code states `if (i == --j)`. `j` is the 0th element of the array however, resulting in a out of bounds write.\r\n\r\nI however did not succeed in reproducing the crash with a small example, so [RangesCrashExample.txt](https://github.com/ericniebler/range-v3/files/9626637/RangesCrashExample.txt) is a cpp-file with my example and the data used in our sorting algorithm.\r\nThis example has 2000 doubles with 8 entries `std::numeric_limits<double>::infinity()` and the comparison is `std::greater{}`.\r\n\r\nI compile using Visual Studio 16.11.19 with the MSVC 19.29 compiler.",
+        "reactions": {
+          "url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "timeline_url": "https://api.github.com/repos/ericniebler/range-v3/issues/1737/timeline",
+        "performed_via_github_app": null,
+        "state_reason": null,
+        "pinned_comment": null,
+        "score": 1.0
+      }
+    ],
+    "search_type": "lexical"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "checked_at_utc": "2026-09-13T10:16:37.949600+00:00",
+  "query": "repo:apache/arrow-rs is:pr dictionary FieldRef",
+  "data": {
+    "total_count": 1,
+    "items": [
+      {
+        "url": "https://api.github.com/repos/apache/arrow-rs/issues/9093",
+        "repository_url": "https://api.github.com/repos/apache/arrow-rs",
+        "labels_url": "https://api.github.com/repos/apache/arrow-rs/issues/9093/labels{/name}",
+        "comments_url": "https://api.github.com/repos/apache/arrow-rs/issues/9093/comments",
+        "events_url": "https://api.github.com/repos/apache/arrow-rs/issues/9093/events",
+        "html_url": "https://github.com/apache/arrow-rs/pull/9093",
+        "id": 3777883185,
+        "node_id": "PR_kwDOFWSkgs67XEeK",
+        "number": 9093,
+        "title": "[Parquet] perf: preallocate capacity for ArrayReaderBuilder",
+        "user": {
+          "login": "lyang24",
+          "id": 20375035,
+          "node_id": "MDQ6VXNlcjIwMzc1MDM1",
+          "avatar_url": "https://avatars.githubusercontent.com/u/20375035?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/lyang24",
+          "html_url": "https://github.com/lyang24",
+          "followers_url": "https://api.github.com/users/lyang24/followers",
+          "following_url": "https://api.github.com/users/lyang24/following{/other_user}",
+          "gists_url": "https://api.github.com/users/lyang24/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/lyang24/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/lyang24/subscriptions",
+          "organizations_url": "https://api.github.com/users/lyang24/orgs",
+          "repos_url": "https://api.github.com/users/lyang24/repos",
+          "events_url": "https://api.github.com/users/lyang24/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/lyang24/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "labels": [
+          {
+            "id": 2928368265,
+            "node_id": "MDU6TGFiZWwyOTI4MzY4MjY1",
+            "url": "https://api.github.com/repos/apache/arrow-rs/labels/parquet",
+            "name": "parquet",
+            "color": "E3AC42",
+            "default": false,
+            "description": "Changes to the parquet crate",
+            "archived_at": null,
+            "archived_by": null
+          },
+          {
+            "id": 3748429821,
+            "node_id": "LA_kwDOFWSkgs7fbH_9",
+            "url": "https://api.github.com/repos/apache/arrow-rs/labels/performance",
+            "name": "performance",
+            "color": "02C08D",
+            "default": false,
+            "description": "",
+            "archived_at": null,
+            "archived_by": null
+          }
+        ],
+        "state": "closed",
+        "locked": false,
+        "assignees": [],
+        "milestone": null,
+        "comments": 63,
+        "created_at": "2026-01-03T09:15:12Z",
+        "updated_at": "2026-04-17T06:50:46Z",
+        "closed_at": "2026-04-17T06:50:41Z",
+        "assignee": null,
+        "author_association": "CONTRIBUTOR",
+        "issue_field_values": [],
+        "type": null,
+        "active_lock_reason": null,
+        "draft": false,
+        "pull_request": {
+          "url": "https://api.github.com/repos/apache/arrow-rs/pulls/9093",
+          "html_url": "https://github.com/apache/arrow-rs/pull/9093",
+          "diff_url": "https://github.com/apache/arrow-rs/pull/9093.diff",
+          "patch_url": "https://github.com/apache/arrow-rs/pull/9093.patch",
+          "merged_at": "2026-04-17T06:50:41Z"
+        },
+        "body": "# Which issue does this PR close?\r\n\r\n\r\n\r\n- Closes #9059.\r\n\r\n# Rationale for this change\r\n\r\nreduce allocation cost mentioned in https://github.com/apache/arrow-rs/issues/9059 from experiment: Pre-allocation overhead may offset the savings from avoiding incremental growth\r\n\r\n# What changes are included in this PR?\r\n- add with_capacity method to ValuesBuffer trait, and remove defaults to enforce the capacity hint is required for ArrayReaderBuilder.\r\n\r\n- The capacity hint will be passed down to GenericRecordReader to preallocate the buffer. \r\n\r\n# Are there any user-facing changes?\r\n\r\nyes ArrayReaders needs an extra capacity variable to indicate the preferred batch size and we will provision buffer with this capacity.\r\n",
+        "reactions": {
+          "url": "https://api.github.com/repos/apache/arrow-rs/issues/9093/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "timeline_url": "https://api.github.com/repos/apache/arrow-rs/issues/9093/timeline",
+        "performed_via_github_app": null,
+        "state_reason": null,
+        "score": 1.0
+      }
+    ]
+  }
+}

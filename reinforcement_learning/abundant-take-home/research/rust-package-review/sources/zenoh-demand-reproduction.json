@@ -1,0 +1,158 @@
+{
+  "checked_at_utc": "2026-09-13T09:50:16.241058+00:00",
+  "main_sha": "646f2d1b730e584a570015a77bee9f6db08be9d1",
+  "release": "1.10.1",
+  "release_sha": "1d563a05e6c4e33d838b1146c0a15f3d53b8b2a2",
+  "rust_image": "rust:1.97.1-slim-bookworm@sha256:2775a09d208ff0d7c1f50490c45b62db929e87ba1dcbc3f2132ac71a704bcdd3",
+  "main_mixed_queryables": {
+    "single_complete": {
+      "All": 1,
+      "AllComplete": 1
+    },
+    "two_complete": {
+      "All": 2,
+      "AllComplete": 2
+    },
+    "complete_then_incomplete": {
+      "All": 2,
+      "AllComplete": 0
+    },
+    "incomplete_then_complete": {
+      "All": 2,
+      "AllComplete": 1
+    }
+  },
+  "main_async_open": {
+    "requested_timeout_ms": 100,
+    "elapsed_ms": 2015,
+    "timeout_error": false,
+    "configured_connect_timeout_ms": 2000
+  },
+  "main_postrm_upgrade": {
+    "configuration_before": "present",
+    "state_before": "present",
+    "configuration_after": "deleted",
+    "state_after": "deleted",
+    "isolation": "--rm --network none disposable Docker, synthetic files only"
+  },
+  "sse_release": {
+    "baseline": {
+      "states": {
+        "0A": 1
+      },
+      "fds": 17
+    },
+    "after_idle_disconnect": {
+      "states": {
+        "0A": 1
+      },
+      "fds": 17
+    },
+    "live_event_received": true,
+    "live_event_raw": "A8\r\nevent: PUT\ndata: {\"key\":\"demo/x\",\"value\":\"cHJvYmU=\",\"encoding\":\"application/x-www-form-urlencoded\",\"timestamp\":\"7684954791753719392/b58f8c97aa47bf091e30adef70bfed7c\"}\n\n\r\n",
+    "after_publish": {
+      "states": {
+        "0A": 1,
+        "06": 1
+      },
+      "fds": 17
+    }
+  },
+  "caveats": [
+    "No RocksDB or S3 service performance was measured; mixed-queryable public API reproduction isolates the reported shared-session cause.",
+    "SSE positive control recognizes base64-encoded probe in received event; initial plain-text matching was corrected before saved results.",
+    "postrm executed directly in isolated container, not a full apt/dpkg upgrade; apt update alone is not a demonstrated trigger.",
+    "No model trials, >75-step measurement, or headroom claim."
+  ],
+  "release_source_mixed_queryables": {
+    "single_complete": {
+      "All": 1,
+      "AllComplete": 1
+    },
+    "two_complete": {
+      "All": 2,
+      "AllComplete": 2
+    },
+    "complete_then_incomplete": {
+      "All": 2,
+      "AllComplete": 0
+    },
+    "incomplete_then_complete": {
+      "All": 2,
+      "AllComplete": 1
+    }
+  },
+  "release_build_run_log": "../zenoh-repro/release-build-and-run.log",
+  "postrm_lifecycle_probe": [
+    {
+      "action": "upgrade",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "remove",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "failed-upgrade",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "abort-install",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "abort-upgrade",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "disappear",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    },
+    {
+      "action": "purge",
+      "both_present_before": true,
+      "returncode": 0,
+      "configuration_exists": false,
+      "state_exists": false,
+      "unrelated_preserved": true
+    }
+  ],
+  "python_image": [
+    "python@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7"
+  ],
+  "release_zip_sha256": "4d050013368b630ce102128168e50a22027b96fa8710cfd2379ededa578a384d",
+  "reproducer_sha256": {
+    "Cargo.toml": "c5abe6c4fdc9ff7e05265faee99b2e49c9bfb135d790f490aa7b0931c4af6a3b",
+    "postrm-result.json": "5ad80c5ae1686c84d386f80aa25f39859e39737f3f4e3a7e1db509e94f662b64",
+    "Cargo.lock": "c18c6b93732b4b6d0d989708e4eb5ef9d0db1bc5942aeb204046eeb24dcea867",
+    "release-build-and-run.log": "a807a801f38a657d6be55bc5a3fed90d7da28924329e7f32088fef0f1a00c1b0",
+    "sse.py": "cf4021195e89f22651266acafd254ec9f8d93b7c37802b6cc5bbab9aba6b7f1e",
+    "postrm_probe.py": "f24058651f924eedca2be31df0a4233efb63e4ab03dfbdc580e079cd687f4f95",
+    "sse-result.json": "a1d0318c59b35f93860b65d7e6ce4383a21e42c5ffc4b53123286992af4bec72",
+    "src/main.rs": "b651777ea1153774f231c215605ec2af9a2f8ad621ce4e5d2c3ba63f7ca1e660"
+  }
+}

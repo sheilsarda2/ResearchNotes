@@ -1,0 +1,188 @@
+   Compiling fastrand v2.5.0
+   Compiling futures-lite v2.6.1
+   Compiling cubecl-environment v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=359770be3c9fe69c0b0f4c6f7697062a86bbf4a8#359770be)
+   Compiling cubecl-common v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=359770be3c9fe69c0b0f4c6f7697062a86bbf4a8#359770be)
+   Compiling burn-std v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-std)
+   Compiling burn-backend v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-backend)
+   Compiling burn-ir v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-ir)
+   Compiling rustix v1.1.4
+   Compiling burn-flex v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-flex)
+   Compiling burn-dispatch v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-dispatch)
+   Compiling burn-pack v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-pack)
+   Compiling burn-tensor v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-tensor)
+   Compiling xattr v1.6.1
+   Compiling tar v0.4.46
+   Compiling burn-core v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-core)
+   Compiling burn-store v0.22.0-pre.3 (/research/cache/burn-review/crates/burn-store)
+   Compiling burn-store-scope-probe v0.1.0 (/research/rust-cpp-10-to-5/burn/probe)
+warning: use of deprecated method `burn_std::data::tensor::conversion::<impl burn_core::tensor::TensorData>::to_vec`: use try_to_vec::<E>()
+  --> src/main.rs:25:45
+   |
+25 |         .map(|x| x.weight.val().into_data().to_vec::<f32>().unwrap()[0]).collect()
+   |                                             ^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: `burn-store-scope-probe` (bin "burn-store-scope-probe") generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 53.61s
+     Running `/research/rust-package-review/burn-repro/target/debug/burn-store-scope-probe`
+{
+  "pytorch_global_false": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "error": "Tensor not found: \n┌─ Tensor Loading Summary ─────────────────────────\n│\n│ ✓ Successfully applied: 5 tensors\n│ ⊘ Skipped (filtered):  0 tensors\n│ ✗ Missing in source:    1 tensors\n│ ? Unused in target:     1 tensors\n│ ! Errors:               0 errors\n│\n├─ Missing Tensors (requested by model but not found in source)\n│\n│  First 10 missing tensors:\n│    • encoder.layers.1.weight\n│        Did you mean: 'encoder.layers.4.weight'?\n│\n├─ Unused Tensors (in source but not used by model)\n│\n│  First 10 unused tensors:\n│    • encoder.layers.4.weight\n│\n└───────────────────────────────────────────────────\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+      "ok": false
+    },
+    "values": [
+      10.0,
+      12.0,
+      14.0,
+      20.0,
+      -1.0,
+      22.0
+    ],
+    "values_match": false
+  },
+  "pytorch_global_true": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "error": "Tensor not found: \n┌─ Tensor Loading Summary ─────────────────────────\n│\n│ ✓ Successfully applied: 5 tensors\n│ ⊘ Skipped (filtered):  0 tensors\n│ ✗ Missing in source:    1 tensors\n│ ? Unused in target:     1 tensors\n│ ! Errors:               0 errors\n│\n├─ Missing Tensors (requested by model but not found in source)\n│\n│  First 10 missing tensors:\n│    • flow.flows.4.weight\n│        Did you mean: 'flow.flows.1.weight'?\n│\n├─ Unused Tensors (in source but not used by model)\n│\n│  First 10 unused tensors:\n│    • flow.flows.1.weight\n│\n└───────────────────────────────────────────────────\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+      "ok": false
+    },
+    "values": [
+      10.0,
+      14.0,
+      -1.0,
+      20.0,
+      22.0,
+      24.0
+    ],
+    "values_match": false
+  },
+  "pytorch_manual_control": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "applied": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "errors": "[]",
+      "missing": [],
+      "ok": true,
+      "unused": []
+    },
+    "values": [
+      10.0,
+      12.0,
+      14.0,
+      20.0,
+      22.0,
+      24.0
+    ],
+    "values_match": true
+  },
+  "safetensors_global_false": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "error": "Tensor not found: \n┌─ Tensor Loading Summary ─────────────────────────\n│\n│ ✓ Successfully applied: 5 tensors\n│ ⊘ Skipped (filtered):  0 tensors\n│ ✗ Missing in source:    1 tensors\n│ ? Unused in target:     1 tensors\n│ ! Errors:               0 errors\n│\n├─ Missing Tensors (requested by model but not found in source)\n│\n│  First 10 missing tensors:\n│    • encoder.layers.1.weight\n│        Did you mean: 'encoder.layers.4.weight'?\n│\n├─ Unused Tensors (in source but not used by model)\n│\n│  First 10 unused tensors:\n│    • encoder.layers.4.weight\n│\n└───────────────────────────────────────────────────\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+      "ok": false
+    },
+    "values": [
+      10.0,
+      12.0,
+      14.0,
+      20.0,
+      -1.0,
+      22.0
+    ],
+    "values_match": false
+  },
+  "safetensors_global_true": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "error": "Tensor not found: \n┌─ Tensor Loading Summary ─────────────────────────\n│\n│ ✓ Successfully applied: 5 tensors\n│ ⊘ Skipped (filtered):  0 tensors\n│ ✗ Missing in source:    1 tensors\n│ ? Unused in target:     1 tensors\n│ ! Errors:               0 errors\n│\n├─ Missing Tensors (requested by model but not found in source)\n│\n│  First 10 missing tensors:\n│    • flow.flows.4.weight\n│        Did you mean: 'flow.flows.1.weight'?\n│\n├─ Unused Tensors (in source but not used by model)\n│\n│  First 10 unused tensors:\n│    • flow.flows.1.weight\n│\n└───────────────────────────────────────────────────\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+      "ok": false
+    },
+    "values": [
+      10.0,
+      14.0,
+      -1.0,
+      20.0,
+      22.0,
+      24.0
+    ],
+    "values_match": false
+  },
+  "safetensors_manual_control": {
+    "expected_names": [
+      "flow.flows.0.weight",
+      "flow.flows.2.weight",
+      "flow.flows.4.weight",
+      "encoder.layers.0.weight",
+      "encoder.layers.1.weight",
+      "encoder.layers.2.weight"
+    ],
+    "result": {
+      "applied": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "errors": "[]",
+      "missing": [],
+      "ok": true,
+      "unused": []
+    },
+    "values": [
+      10.0,
+      12.0,
+      14.0,
+      20.0,
+      22.0,
+      24.0
+    ],
+    "values_match": true
+  }
+}

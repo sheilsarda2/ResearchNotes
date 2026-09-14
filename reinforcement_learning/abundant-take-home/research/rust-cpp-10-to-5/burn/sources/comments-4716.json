@@ -1,0 +1,53 @@
+{
+  "url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/comments?per_page=100",
+  "checked_at_utc": "2026-09-13T10:09:38.444033+00:00",
+  "data": [
+    {
+      "url": "https://api.github.com/repos/tracel-ai/burn/issues/comments/5576304561",
+      "html_url": "https://github.com/tracel-ai/burn/issues/4716#issuecomment-5576304561",
+      "issue_url": "https://api.github.com/repos/tracel-ai/burn/issues/4716",
+      "id": 5576304561,
+      "node_id": "IC_kwDOHrfku88AAAABTF-nsQ",
+      "user": {
+        "login": "antimora",
+        "id": 939125,
+        "node_id": "MDQ6VXNlcjkzOTEyNQ==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/939125?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/antimora",
+        "html_url": "https://github.com/antimora",
+        "followers_url": "https://api.github.com/users/antimora/followers",
+        "following_url": "https://api.github.com/users/antimora/following{/other_user}",
+        "gists_url": "https://api.github.com/users/antimora/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/antimora/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/antimora/subscriptions",
+        "organizations_url": "https://api.github.com/users/antimora/orgs",
+        "repos_url": "https://api.github.com/users/antimora/repos",
+        "events_url": "https://api.github.com/users/antimora/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/antimora/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "created_at": "2026-09-07T22:41:14Z",
+      "updated_at": "2026-09-07T22:41:14Z",
+      "body": "Root cause, from reading the code rather than the reader:\n\nThe renumbering is not done by the PyTorch reader. It happens in `map_indices_contiguous` (`crates/burn-store/src/keyremapper.rs`), a free function called by both `PytorchStore` and `SafetensorsStore` after tensors are named. For every numeric path segment it groups by the prefix before it and renumbers the observed indices in sorted order, for every prefix in the file, all or nothing.\n\nThe reported model needs both behaviours at once: `model_g.flow.flows.{0,2,4}` must keep its original indices (the Burn side mirrors them directly, presumably a `Vec` of an enum whose odd entries are parameter-free flips), while another `Sequential` in the same file has gaps that do need collapsing. That is why enabling the flag breaks `flows` and disabling it breaks something else. No value of a single boolean can satisfy both.\n\nProposed fix, one of:\n\n1. Scope the mapping: a per-prefix opt-in or opt-out on the store, e.g. a regex for which prefixes get renumbered. Small, explicit, no new information needed.\n2. Make the mapping aware of the target module: only collapse gaps where the Burn side has fewer entries than the file. More automatic, but the module structure is not available when the tensor cache is built today.\n\nSince the function is shared, either fix applies to both stores.\n",
+      "author_association": "COLLABORATOR",
+      "pin": null,
+      "reactions": {
+        "url": "https://api.github.com/repos/tracel-ai/burn/issues/comments/5576304561/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "performed_via_github_app": null,
+      "minimized": null
+    }
+  ]
+}

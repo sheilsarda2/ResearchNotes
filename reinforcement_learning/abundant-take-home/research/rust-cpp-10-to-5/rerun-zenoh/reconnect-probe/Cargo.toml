@@ -1,0 +1,7 @@
+[package]
+name = "zenoh-demand-repro"
+version = "0.1.0"
+edition = "2021"
+[dependencies]
+zenoh = { path = "/zenoh/zenoh", default-features = false, features = ["transport_tcp", "unstable"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }

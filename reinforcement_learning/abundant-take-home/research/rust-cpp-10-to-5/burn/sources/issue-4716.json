@@ -1,0 +1,92 @@
+{
+  "url": "https://api.github.com/repos/tracel-ai/burn/issues/4716",
+  "checked_at_utc": "2026-09-13T10:09:38.501279+00:00",
+  "data": {
+    "url": "https://api.github.com/repos/tracel-ai/burn/issues/4716",
+    "repository_url": "https://api.github.com/repos/tracel-ai/burn",
+    "labels_url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/labels{/name}",
+    "comments_url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/comments",
+    "events_url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/events",
+    "html_url": "https://github.com/tracel-ai/burn/issues/4716",
+    "id": 4194957312,
+    "node_id": "I_kwDOHrfku876CfgA",
+    "number": 4716,
+    "title": "Bug: Non-Contiguous Layer Indices remapping causes incorrect weights mapping in PytorchStore",
+    "user": {
+      "login": "antimora",
+      "id": 939125,
+      "node_id": "MDQ6VXNlcjkzOTEyNQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/939125?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/antimora",
+      "html_url": "https://github.com/antimora",
+      "followers_url": "https://api.github.com/users/antimora/followers",
+      "following_url": "https://api.github.com/users/antimora/following{/other_user}",
+      "gists_url": "https://api.github.com/users/antimora/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/antimora/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/antimora/subscriptions",
+      "organizations_url": "https://api.github.com/users/antimora/orgs",
+      "repos_url": "https://api.github.com/users/antimora/repos",
+      "events_url": "https://api.github.com/users/antimora/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/antimora/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 4340666740,
+        "node_id": "LA_kwDOHrfku88AAAABArlRdA",
+        "url": "https://api.github.com/repos/tracel-ai/burn/labels/bug",
+        "name": "bug",
+        "color": "d73a4a",
+        "default": true,
+        "description": "Something isn't working",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignees": [],
+    "milestone": null,
+    "comments": 1,
+    "created_at": "2026-04-02T14:23:14Z",
+    "updated_at": "2026-09-07T22:41:14Z",
+    "closed_at": null,
+    "assignee": null,
+    "author_association": "COLLABORATOR",
+    "issue_field_values": [],
+    "type": null,
+    "active_lock_reason": null,
+    "sub_issues_summary": {
+      "total": 0,
+      "completed": 0,
+      "percent_completed": 0
+    },
+    "issue_dependencies_summary": {
+      "blocked_by": 0,
+      "total_blocked_by": 0,
+      "blocking": 0,
+      "total_blocking": 0
+    },
+    "body": "**Describe the bug**\nPytorchStore's \"Non-Contiguous Layer Indices\" feature appears to incorrectly remap certain weights when loading a model with non-contiguous indices, resulting in parameter name mismatches. Error messages are produced when loading models, e.g.:\n\n- model_g.flow.flows.4.enc.in_layers.0.bias\n    Did you mean: 'model_g.flow.flows.1.enc.in_layers.0.bias'?\n- model_g.flow.flows.4.enc.in_layers.0.weight_g\n    Did you mean: 'model_g.flow.flows.1.enc.in_layers.0.weight_g'?\n\nReported by a Discord user (see [reference](https://discord.com/channels/1038839012602941528/1059209073784008835/1489262642911645847)).\n\nModel weights are named, for example:\nmodel_g.flow.flows.0.pre.weight [192, 96, 1]\nmodel_g.flow.flows.0.pre.bias [192]\nmodel_g.flow.flows.0.enc.in_layers.0.bias [384]\nmodel_g.flow.flows.0.enc.in_layers.0.weight_g [384, 1, 1]\nmodel_g.flow.flows.2.pre.weight [192, 96, 1]\nmodel_g.flow.flows.2.pre.bias [192]\nmodel_g.flow.flows.2.enc.in_layers.0.bias [384]\nmodel_g.flow.flows.2.enc.in_layers.0.weight_g [384, 1, 1]\n\nThe weights for flows 1 and 3 are missing, and remapping appears to be introducing errors when corresponding Burn weight indices do not match PyTorch's non-contiguous order.\n\nUsers have confirmed that disabling the `map_indices_contiguous` flag leads to other mismatches, so the default mapping *should* work but currently doesn't handle gaps as intended.\n\n**To Reproduce**\n1. Load a PyTorch model with non-contiguous layer indices (e.g., a model with flows 0, 2, 4 but missing 1 and 3 in `model_g.flow.flows`)\n2. Attempt to import into Burn using PytorchStore with default or enabled `map_indices_contiguous`\n3. Observe parameter mismatch errors in log (see above for example)\n\n**Expected behavior**\nThe remapping of non-contiguous PyTorch indices should correctly assign weights so that all available weights from PyTorch are mapped to the expected Burn model parameters, with no missing or misassigned tensors.\n\n**Additional context**\n- [Discord bug discussion](https://discord.com/channels/1038839012602941528/1059209073784008835/1489262642911645847)\n- Possibly a logical error in the remapping function when PyTorch indices are non-contiguous.\n- See Burn documentation: \"Non-Contiguous Layer Indices\"\n",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/tracel-ai/burn/issues/4716/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null,
+    "pinned_comment": null
+  }
+}

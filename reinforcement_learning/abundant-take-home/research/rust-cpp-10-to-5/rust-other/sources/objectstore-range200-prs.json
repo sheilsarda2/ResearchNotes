@@ -1,0 +1,83 @@
+{
+  "fetched_at": "2026-09-13T10:10:55.698447+00:00",
+  "query": "repo:apache/arrow-rs-object-store is:pr \"range\" \"200\"",
+  "data": {
+    "total_count": 1,
+    "incomplete_results": false,
+    "items": [
+      {
+        "url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609",
+        "repository_url": "https://api.github.com/repos/apache/arrow-rs-object-store",
+        "labels_url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609/labels{/name}",
+        "comments_url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609/comments",
+        "events_url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609/events",
+        "html_url": "https://github.com/apache/arrow-rs-object-store/pull/609",
+        "id": 3819751615,
+        "node_id": "PR_kwDOOL_ZFs69gAxW",
+        "number": 609,
+        "title": "Fix EOF retry bug that could cause data duplication when Range header is ignored",
+        "user": {
+          "login": "sarum90",
+          "id": 604129,
+          "node_id": "MDQ6VXNlcjYwNDEyOQ==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/604129?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/sarum90",
+          "html_url": "https://github.com/sarum90",
+          "followers_url": "https://api.github.com/users/sarum90/followers",
+          "following_url": "https://api.github.com/users/sarum90/following{/other_user}",
+          "gists_url": "https://api.github.com/users/sarum90/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/sarum90/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/sarum90/subscriptions",
+          "organizations_url": "https://api.github.com/users/sarum90/orgs",
+          "repos_url": "https://api.github.com/users/sarum90/repos",
+          "events_url": "https://api.github.com/users/sarum90/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/sarum90/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "labels": [],
+        "state": "closed",
+        "locked": false,
+        "assignees": [],
+        "milestone": null,
+        "comments": 7,
+        "created_at": "2026-01-16T00:29:14Z",
+        "updated_at": "2026-05-27T18:57:39Z",
+        "closed_at": "2026-05-27T18:57:39Z",
+        "assignee": null,
+        "author_association": "NONE",
+        "issue_field_values": [],
+        "type": null,
+        "active_lock_reason": null,
+        "draft": false,
+        "pull_request": {
+          "url": "https://api.github.com/repos/apache/arrow-rs-object-store/pulls/609",
+          "html_url": "https://github.com/apache/arrow-rs-object-store/pull/609",
+          "diff_url": "https://github.com/apache/arrow-rs-object-store/pull/609.diff",
+          "patch_url": "https://github.com/apache/arrow-rs-object-store/pull/609.patch",
+          "merged_at": null
+        },
+        "body": "# Which issue does this PR close?\r\n\r\nN/A - no existing issue. Happy to create one if preferred.\r\n\r\n# Rationale for this change\r\n\r\nIf a reqwest timeout occurs after consuming all bytes from an S3 response body but before receiving the EOF signal, `retry_stream` attempts to retry with a `Range` header like `bytes=5-4` (where 5 is the file size). This is an invalid/backwards range.\r\n\r\nPer RFC 7233, servers MUST ignore syntactically invalid Range headers. S3 follows this spec and returns `200 OK` with the **full file** instead of `206 Partial Content` or `416 Range Not Satisfiable`.\r\n\r\nWithout validation, `retry_stream` would read the full file again, causing data duplication (e.g., `\"hellohello\"` instead of `\"hello\"`).\r\n\r\n# What changes are included in this PR?\r\n\r\n1. **Early EOF check**: If `range.start >= range.end` before retrying, return EOF immediately rather than sending an invalid range request.\r\n\r\n2. **206 status validation**: Verify the retry response is `206 Partial Content`. If the server returns `200 OK` (indicating it ignored our Range header), fail the retry and return the original error.\r\n\r\n3. **Content-Range validation**: Verify the `Content-Range` header matches the requested range. This catches cases where the server returns a different range than requested.\r\n\r\n4. **Warning logs**: Added `warn!` logs for the new validation failures to aid debugging.\r\n\r\n# Are there any user-facing changes?\r\n\r\nNo breaking changes. Users may see different error behavior in edge cases where retries were previously succeeding incorrectly (by silently duplicating data).\r\n\r\n# Test Coverage\r\n\r\nAutomated test coverage for this specific bug is limited for two reasons:\r\n\r\n1. **Requires real S3**: LocalStack returns `416 Range Not Satisfiable` for invalid ranges, which is actually non-compliant with RFC 7233. Real S3 correctly ignores the invalid range and returns `200 OK` with the full file, which is what triggers the bug.\r\n\r\n2. **Hard to trigger**: The bug requires a timeout (or other error) from reqwest *after* all data is read but *before* EOF is signaled. This is timing-dependent and would require integration tests with long sleeps to force a timeout.\r\n\r\nA manual reproduction script is available in this gist: https://gist.github.com/sarum90/cb95633750390db690ef701f08aa20ed\r\n\r\nThe script demonstrates the bug against real S3 and shows the data duplication.\r\n",
+        "reactions": {
+          "url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "timeline_url": "https://api.github.com/repos/apache/arrow-rs-object-store/issues/609/timeline",
+        "performed_via_github_app": null,
+        "state_reason": null,
+        "score": 1.0
+      }
+    ],
+    "search_type": "lexical"
+  }
+}

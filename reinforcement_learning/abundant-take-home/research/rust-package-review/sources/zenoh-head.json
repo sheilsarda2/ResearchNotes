@@ -1,0 +1,129 @@
+{
+  "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/commits/main",
+  "checked_at_utc": "2026-09-13T09:45:18.442081+00:00",
+  "data": {
+    "sha": "646f2d1b730e584a570015a77bee9f6db08be9d1",
+    "node_id": "C_kwDODgeTO9oAKDY0NmYyZDFiNzMwZTU4NGE1NzAwMTVhNzdiZWU5ZjZkYjA4YmU5ZDE",
+    "commit": {
+      "author": {
+        "name": "Yuyuan Yuan",
+        "email": "az6980522@gmail.com",
+        "date": "2026-09-11T14:10:40Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-09-11T14:10:40Z"
+      },
+      "message": "fix: make StartConditions sync, drop block_in_place under ctrl_lock (#2779)\n\nThe RX thread handles OAM/Declare messages holding ctrl_lock and the\ntables write lock, then parks in ZRuntime::Net.block_in_place(...)\nwaiting on the StartConditions tokio mutex (two sites: the gossip\nlink_states tail and the peer hat's route_declare_final). The single\nNet worker meanwhile blocks on ctrl_lock in autoconnect's transport\nsetup, and tokio's fair mutex handoff can strand the permit in a Net\ntask that never gets polled again -- deadlocking the whole session.\n\nEvery StartConditions critical section is a pure Vec operation that\nnever awaits, so its tokio::sync::Mutex becomes std::sync::Mutex, all\nits methods go sync, and both block_in_place sites are deleted\noutright.\n\nPorted onto current main from a fix independently developed and\nfield-validated by Guillaume Doisy (Dexory), adapting it past the\n#2096 hat rename (p2p_peer -> peer) and the resulting route_declare_final\nsignature change. Original work, full credit preserved via authorship.\n\nSee PR body for the upstream discussion this consolidates.\n\nCo-authored-by: Guillaume Doisy <guillaume@dexory.com>",
+      "tree": {
+        "sha": "ca42231c4a3c5b5ba13b7afef072d9102e8ef80b",
+        "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/git/trees/ca42231c4a3c5b5ba13b7afef072d9102e8ef80b"
+      },
+      "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/git/commits/646f2d1b730e584a570015a77bee9f6db08be9d1",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqpAvgCRC1aQ7uu5UhlAAA0xIQAFBwe959DEfWL7N4Nnw4bOLQ\nMdKY0YqH2ggnKtViJGGI06imNc/Q1Sx9/wHGVyUn8oW8fDnqJ/WMlzFP/sdd+XM1\nJBzH7+BDzrtXgJEsixeHB7Xz/FLo5I7G8ADf/WqLrsfZsw1p8Zoa0yvR9e8aBktl\nx0BEnTVKFt54rO8qb0DdeUWIORHJz+q1eKHeVJPNTOYXscig/RWEgltGYhf4DVF5\n8lAZLZV9VUnpgv5C/Sv42bzpA1fR1h3OkV1fftrcGEw77FWnzzdOdmMdVtCmThdp\nFW8/S41NPZJ0XVfNiwg/Oq7VN5Ide+XhNA8u47yPH23YZy8ZyqCDRyby9scNgQ29\nH5gjSZvTdjjNB/9eQlN0ZKcn5R1uSslfiTSN80VdjOLPUGYOYr3L1it/nsj88gjL\ncIhHHgUYKp6qMUbSlBF/IckGoBZXlhfEM7JzyDUVbvJEaedpwwU7HFvQ21WmFjdU\nGjTIjVDoME7uzsvQljXeJd8wqwQV9VM0POiPQSiPmaJKh1qv9oAnJJ4z2NkI8jvr\nFAJzHrb8ebdRqJzhuXCkYw6qrAASVm9hA2b/PQOnve9c2HQtp/TLp0oy4VHi8Cgi\nW0aByjGxY+8KtKZdjJ2Su5fywKn1DEEIF4INDChWiFq+dE7UWvdLT5+wveoUYxP4\ndn2sOkh7SLcKuN56JKE5\n=465z\n-----END PGP SIGNATURE-----\n",
+        "payload": "tree ca42231c4a3c5b5ba13b7afef072d9102e8ef80b\nparent 52ae1e7068fcd25243edda9804777d39d79308e4\nauthor Yuyuan Yuan <az6980522@gmail.com> 1789135840 +0800\ncommitter GitHub <noreply@github.com> 1789135840 +0200\n\nfix: make StartConditions sync, drop block_in_place under ctrl_lock (#2779)\n\nThe RX thread handles OAM/Declare messages holding ctrl_lock and the\ntables write lock, then parks in ZRuntime::Net.block_in_place(...)\nwaiting on the StartConditions tokio mutex (two sites: the gossip\nlink_states tail and the peer hat's route_declare_final). The single\nNet worker meanwhile blocks on ctrl_lock in autoconnect's transport\nsetup, and tokio's fair mutex handoff can strand the permit in a Net\ntask that never gets polled again -- deadlocking the whole session.\n\nEvery StartConditions critical section is a pure Vec operation that\nnever awaits, so its tokio::sync::Mutex becomes std::sync::Mutex, all\nits methods go sync, and both block_in_place sites are deleted\noutright.\n\nPorted onto current main from a fix independently developed and\nfield-validated by Guillaume Doisy (Dexory), adapting it past the\n#2096 hat rename (p2p_peer -> peer) and the resulting route_declare_final\nsignature change. Original work, full credit preserved via authorship.\n\nSee PR body for the upstream discussion this consolidates.\n\nCo-authored-by: Guillaume Doisy <guillaume@dexory.com>",
+        "verified_at": "2026-09-11T14:10:40Z"
+      }
+    },
+    "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/commits/646f2d1b730e584a570015a77bee9f6db08be9d1",
+    "html_url": "https://github.com/eclipse-zenoh/zenoh/commit/646f2d1b730e584a570015a77bee9f6db08be9d1",
+    "comments_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/commits/646f2d1b730e584a570015a77bee9f6db08be9d1/comments",
+    "author": {
+      "login": "YuanYuYuan",
+      "id": 10692887,
+      "node_id": "MDQ6VXNlcjEwNjkyODg3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10692887?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/YuanYuYuan",
+      "html_url": "https://github.com/YuanYuYuan",
+      "followers_url": "https://api.github.com/users/YuanYuYuan/followers",
+      "following_url": "https://api.github.com/users/YuanYuYuan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/YuanYuYuan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/YuanYuYuan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/YuanYuYuan/subscriptions",
+      "organizations_url": "https://api.github.com/users/YuanYuYuan/orgs",
+      "repos_url": "https://api.github.com/users/YuanYuYuan/repos",
+      "events_url": "https://api.github.com/users/YuanYuYuan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/YuanYuYuan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "52ae1e7068fcd25243edda9804777d39d79308e4",
+        "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/commits/52ae1e7068fcd25243edda9804777d39d79308e4",
+        "html_url": "https://github.com/eclipse-zenoh/zenoh/commit/52ae1e7068fcd25243edda9804777d39d79308e4"
+      }
+    ],
+    "stats": {
+      "total": 83,
+      "additions": 42,
+      "deletions": 41
+    },
+    "files": [
+      {
+        "sha": "e5d1e325339b1ce243b00245d1aa7b3722161b1a",
+        "filename": "zenoh/src/net/protocol/gossip.rs",
+        "status": "modified",
+        "additions": 12,
+        "deletions": 10,
+        "changes": 22,
+        "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Fprotocol%2Fgossip.rs",
+        "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Fprotocol%2Fgossip.rs",
+        "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Fprotocol%2Fgossip.rs?ref=646f2d1b730e584a570015a77bee9f6db08be9d1",
+        "patch": "@@ -394,26 +394,28 @@ impl Gossip {\n                             .await\n                             .is_none()\n                         {\n-                            runtime.start_conditions().add_peer_connector_zid(zid).await;\n+                            runtime.start_conditions().add_peer_connector_zid(zid);\n                             if runtime.connect_peer(&zid, &locators).await\n                                 && ((!wait_declares) || whatami != WhatAmI::Peer)\n                             {\n-                                runtime\n-                                    .start_conditions()\n-                                    .terminate_peer_connector_zid(zid)\n-                                    .await;\n+                                runtime.start_conditions().terminate_peer_connector_zid(zid);\n                             }\n                         }\n                     });\n                 }\n             }\n         }\n+        // NOTE: link_states() is called from OAM handling with the router\n+        // ctrl_lock and the tables write lock held. It must never block on\n+        // work scheduled on another runtime (e.g. via block_in_place): the\n+        // Net runtime concurrently runs autoconnect connectors that block\n+        // synchronously on the ctrl_lock in Router::new_transport_unicast,\n+        // which deadlocks the whole session. terminate_peer_connector_zid\n+        // is a sync call precisely so that it is safe to invoke here.\n         if (!self.wait_declares) || src_whatami != WhatAmI::Peer {\n-            zenoh_runtime::ZRuntime::Net.block_in_place(\n-                strong_runtime\n-                    .start_conditions()\n-                    .terminate_peer_connector_zid(src),\n-            );\n+            strong_runtime\n+                .start_conditions()\n+                .terminate_peer_connector_zid(src);\n         }\n     }\n "
+      },
+      {
+        "sha": "d83654e6e22c356aa882f266cca742fb024f507b",
+        "filename": "zenoh/src/net/routing/hat/peer/interests.rs",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 10,
+        "changes": 20,
+        "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fpeer%2Finterests.rs",
+        "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fpeer%2Finterests.rs",
+        "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fpeer%2Finterests.rs?ref=646f2d1b730e584a570015a77bee9f6db08be9d1",
+        "patch": "@@ -280,17 +280,17 @@ impl HatInterestTrait for Hat {\n                 return Noop;\n             }\n \n-            zenoh_runtime::ZRuntime::Net.block_in_place(async move {\n-                if let Some(runtime) = &ctx.tables.runtime {\n-                    if let Some(runtime) = runtime.upgrade() {\n-                        tracing::debug!(\"Terminating peer connector\");\n-                        runtime\n-                            .start_conditions()\n-                            .terminate_peer_connector_zid(ctx.src_face.zid)\n-                            .await\n-                    }\n+            // NOTE: called with the router ctrl_lock and the tables write lock\n+            // held -- must not block on another runtime (see gossip.rs\n+            // link_states); terminate_peer_connector_zid is sync on purpose.\n+            if let Some(runtime) = &ctx.tables.runtime {\n+                if let Some(runtime) = runtime.upgrade() {\n+                    tracing::debug!(\"Terminating peer connector\");\n+                    runtime\n+                        .start_conditions()\n+                        .terminate_peer_connector_zid(ctx.src_face.zid)\n                 }\n-            });\n+            }\n \n             Noop\n         } else {"
+      },
+      {
+        "sha": "109ecdcaadaff1c3b37579adbc8c0ecb0a95cdf7",
+        "filename": "zenoh/src/net/runtime/orchestrator.rs",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 21,
+        "changes": 41,
+        "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Fruntime%2Forchestrator.rs",
+        "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/646f2d1b730e584a570015a77bee9f6db08be9d1/zenoh%2Fsrc%2Fnet%2Fruntime%2Forchestrator.rs",
+        "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Fruntime%2Forchestrator.rs?ref=646f2d1b730e584a570015a77bee9f6db08be9d1",
+        "patch": "@@ -23,7 +23,7 @@ use futures::{prelude::*, stream::FuturesUnordered};\n use socket2::{Domain, Socket, Type};\n use tokio::{\n     net::UdpSocket,\n-    sync::{futures::Notified, Mutex, Notify},\n+    sync::{futures::Notified, Notify},\n };\n use tokio_util::sync::CancellationToken;\n use zenoh_buffers::{\n@@ -91,22 +91,27 @@ pub(crate) struct PeerConnector {\n #[derive(Default, Debug)]\n pub(crate) struct StartConditions {\n     notify: Notify,\n-    peer_connectors: Mutex<Vec<PeerConnector>>,\n+    // NOTE: this is a sync mutex on purpose: its critical sections never await\n+    // and it is locked from RX/routing contexts that hold the router\n+    // ctrl_lock. An async (fair) mutex here can hand ownership to a connector\n+    // task parked on a starved runtime and deadlock the whole session (see\n+    // gossip.rs link_states / hat/peer/interests.rs route_declare_final).\n+    peer_connectors: std::sync::Mutex<Vec<PeerConnector>>,\n }\n \n impl StartConditions {\n     pub(crate) fn notified(&self) -> Notified<'_> {\n         self.notify.notified()\n     }\n \n-    pub(crate) async fn add_peer_connector(&self) -> usize {\n-        let mut peer_connectors = self.peer_connectors.lock().await;\n+    pub(crate) fn add_peer_connector(&self) -> usize {\n+        let mut peer_connectors = zlock!(self.peer_connectors);\n         peer_connectors.push(PeerConnector::default());\n         peer_connectors.len() - 1\n     }\n \n-    pub(crate) async fn add_peer_connector_zid(&self, zid: ZenohIdProto) {\n-        let mut peer_connectors = self.peer_connectors.lock().await;\n+    pub(crate) fn add_peer_connector_zid(&self, zid: ZenohIdProto) {\n+        let mut peer_connectors = zlock!(self.peer_connectors);\n         if !peer_connectors.iter().any(|pc| pc.zid == Some(zid)) {\n             peer_connectors.push(PeerConnector {\n                 zid: Some(zid),\n@@ -115,15 +120,15 @@ impl StartConditions {\n         }\n     }\n \n-    pub(crate) async fn set_peer_connector_zid(&self, idx: usize, zid: ZenohIdProto) {\n-        let mut peer_connectors = self.peer_connectors.lock().await;\n+    pub(crate) fn set_peer_connector_zid(&self, idx: usize, zid: ZenohIdProto) {\n+        let mut peer_connectors = zlock!(self.peer_connectors);\n         if let Some(peer_connector) = peer_connectors.get_mut(idx) {\n             peer_connector.zid = Some(zid);\n         }\n     }\n \n-    pub(crate) async fn terminate_peer_connector(&self, idx: usize) {\n-        let mut peer_connectors = self.peer_connectors.lock().await;\n+    pub(crate) fn terminate_peer_connector(&self, idx: usize) {\n+        let mut peer_connectors = zlock!(self.peer_connectors);\n         if let Some(peer_connector) = peer_connectors.get_mut(idx) {\n             peer_connector.terminated = true;\n         }\n@@ -132,8 +137,8 @@ impl StartConditions {\n         }\n     }\n \n-    pub(crate) async fn terminate_peer_connector_zid(&self, zid: ZenohIdProto) {\n-        let mut peer_connectors = self.peer_connectors.lock().await;\n+    pub(crate) fn terminate_peer_connector_zid(&self, zid: ZenohIdProto) {\n+        let mut peer_connectors = zlock!(self.peer_connectors);\n         if let Some(peer_connector) = peer_connectors.iter_mut().find(|pc| pc.zid == Some(zid)) {\n             peer_connector.terminated = true;\n         } else {\n@@ -867,24 +872,18 @@ impl Runtime {\n             .await?\n         {\n             let this = self.clone();\n-            let idx = self.state.start_conditions.add_peer_connector().await;\n+            let idx = self.state.start_conditions.add_peer_connector();\n             let config_guard = this.config().lock();\n             let config = &config_guard;\n             let gossip = unwrap_or_default!(config.scouting().gossip().enabled());\n             let wait_declares = unwrap_or_default!(config.open().return_conditions().declares());\n             drop(config_guard);\n             self.spawn(async move {\n                 if let Ok(zid) = this.peer_connector_retry(peer).await {\n-                    this.state\n-                        .start_conditions\n-                        .set_peer_connector_zid(idx, zid)\n-                        .await;\n+                    this.state.start_conditions.set_peer_connector_zid(idx, zid);\n                 }\n                 if !gossip && (!wait_declares || this.whatami() != WhatAmI::Peer) {\n-                    this.state\n-                        .start_conditions\n-                        .terminate_peer_connector(idx)\n-                        .await;\n+                    this.state.start_conditions.terminate_peer_connector(idx);\n                 }\n             });\n             Ok(())"
+      }
+    ]
+  }
+}

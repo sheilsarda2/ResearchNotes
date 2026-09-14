@@ -1,0 +1,70 @@
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1081:18
+     |
+1081 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+     = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+     = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1168:18
+     |
+1168 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1390:30
+     |
+1390 | ...                   .saturating_cast(),
+     |                        ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: `re_chunk_store` (lib) generated 3 warnings
+warning: a method with this name may be added to the standard library in the future
+   --> crates/store/re_entity_db/src/rrd_manifest_index/chunk_prioritizer.rs:263:56
+    |
+263 |             remaining_bytes_on_wire: max_bytes_on_wire.saturating_cast::<i64>(),
+    |                                                        ^^^^^^^^^^^^^^^
+    |
+    = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+    = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+    = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: `re_entity_db` (lib) generated 1 warning
+   Compiling re_entity_db v0.38.0-alpha.1+dev (/work/crates/store/re_entity_db)
+    Finished `test` profile [unoptimized] target(s) in 9.99s
+     Running tests/demand_time_selection.rs (/target/debug/deps/demand_time_selection-e39323487b042e03)
+
+running 1 test
+positive_control_unfiltered=([2, 4, 6, 8, 10, 12, 14, 16, 18, 20], 1)
+positive_control_disjoint=([], 1)
+selected_4_to_7=([2, 4, 6, 8, 10, 12, 14, 16, 18, 20], 1)
+
+thread 'exported_selection_only_contains_selected_rows' (32) panicked at crates/store/re_entity_db/tests/demand_time_selection.rs:56:5:
+assertion `left == right` failed: selected export leaked rows outside [4, 7]
+  left: ([2, 4, 6, 8, 10, 12, 14, 16, 18, 20], 1)
+ right: ([4, 6], 1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test exported_selection_only_contains_selected_rows ... FAILED
+
+failures:
+
+failures:
+    exported_selection_only_contains_selected_rows
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p re_entity_db --test demand_time_selection`

@@ -1,0 +1,69 @@
+{
+  "recorded_at": "2026-09-13T08:02:35.895306+00:00",
+  "model_calls": 0,
+  "execution": "Each original task directory mounted read-only as /audit in an ephemeral --rm --network none container. Applied reference patch to pinned source inside container, made only stated variation, ran complete independent feature test file. All container writes discarded; no candidates/common runners/originals edited. Tests were run before integration corrections, so counts refer to pre-correction verifiers.",
+  "command_template": "python -m pytest -q -c /dev/null -p no:cacheprovider /audit/tests/TEST_FILE; PYTEST_DISABLE_PLUGIN_AUTOLOAD=1; PYTHONPATH=/workspace/repo:/audit/tests",
+  "results": [
+    {
+      "id": "outbox-list-ids",
+      "task": "huey-sqlite-outbox",
+      "image": "abundant-huey-sqlite-outbox:baseline",
+      "file": "huey/contrib/sqlite_outbox.py",
+      "modification": "Replace tuple(envelope['task_ids']) with list(envelope['task_ids']) in _receipt().",
+      "passed": 27,
+      "failed": 1,
+      "failures": [
+        "test_staging_is_part_of_business_commit_and_rollback"
+      ],
+      "mechanism": "['committed-work'] != ('committed-work',); sequence type is not specified publicly.",
+      "image_id": "sha256:7ea05835035dd5b64b83ce13a75b0172d82495b066e9f411f4d3f3cbb8b2b179",
+      "solution_patch_sha256": "03b5ab3bc98cce046c2b9562bb2a57293aedea314b40a9ac5e025eaece8520c7"
+    },
+    {
+      "id": "generation-open-alias",
+      "task": "luigi-generation-target",
+      "image": "abundant-luigi-generation-target:dev",
+      "file": "luigi/generation_target.py",
+      "modification": "Prepend from os import open as _native_open; replace every os.open( with _native_open(.",
+      "passed": 47,
+      "failed": 1,
+      "failures": [
+        "test_unrelated_io_errors_propagate"
+      ],
+      "mechanism": "DID NOT RAISE PermissionError; injection misses the alias of the same function.",
+      "image_id": "sha256:a3a09c87c0518442857c1a539b68e8f1b1df57077a4d4a1be2c65de65fa450ac",
+      "solution_patch_sha256": "3d3384b439ac9b8d53b80d2ccc269f7a090b1caff0dae283ba873b80278652ab"
+    },
+    {
+      "id": "checkpoint-open-alias",
+      "task": "luigi-checkpoint-task",
+      "image": "abundant-luigi-checkpoint-task:dev",
+      "file": "luigi/checkpoint.py",
+      "modification": "Prepend from os import open as _native_open; replace every os.open( with _native_open(.",
+      "passed": 41,
+      "failed": 1,
+      "failures": [
+        "test_io_failures_propagate"
+      ],
+      "mechanism": "DID NOT RAISE PermissionError; injection misses the alias of the same function.",
+      "image_id": "sha256:bbb12c74a1b40c8d8ab2159cef07dd77fd0a1f17fade9b1bb9f0060edbf2f87d",
+      "solution_patch_sha256": "9019f4561a210cde1f35b13bb9f899b06cc70c3cab35d17c8d05c918392fecb8"
+    },
+    {
+      "id": "schema-native-rename-without-rebuild",
+      "task": "sqlite-utils-schema-plan",
+      "image": "abundant-candidate-sqlite-schema-plan:85b1be1",
+      "file": "sqlite_utils/schema_plan.py",
+      "modification": "Filter restore to [r for r in objects if r[2] in plan and set(plan[r[2]]) - {'rename', 'drop'}]. At start of for table, raw_op in sorted(plan.items()) rebuild loop, continue when not set(raw_op) - {'rename', 'drop'}. The preceding native ALTER loop already completes these changes.",
+      "passed": 117,
+      "failed": 2,
+      "failures": [
+        "test_deterministic_late_authorization_failure_rolls_back",
+        "test_process_death_between_rebuilds_recovers_all_original_state"
+      ],
+      "mechanism": "No DROP TABLE z required for native rename. First test DID NOT RAISE TransformError; second exits 0 instead of forced 73.",
+      "image_id": "sha256:71a88dcc3047ca1a6f6089cbe300255558f4526cd2f4db952cc4c1654c79f10f",
+      "solution_patch_sha256": "3fe90b8452891507bf208a2c07d40d010e389c820160f590668ba39817b09867"
+    }
+  ]
+}

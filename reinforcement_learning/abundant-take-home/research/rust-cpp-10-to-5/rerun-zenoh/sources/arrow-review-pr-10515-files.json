@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "b930893eb28c838a62cdcdf37e45f9a4ec61df1f",
+    "filename": "arrow-schema/src/ffi.rs",
+    "status": "modified",
+    "additions": 37,
+    "deletions": 1,
+    "changes": 38,
+    "blob_url": "https://github.com/apache/arrow-rs/blob/558ce2332d42701ef6194cfae27520ada3b57d5c/arrow-schema%2Fsrc%2Fffi.rs",
+    "raw_url": "https://github.com/apache/arrow-rs/raw/558ce2332d42701ef6194cfae27520ada3b57d5c/arrow-schema%2Fsrc%2Fffi.rs",
+    "contents_url": "https://api.github.com/repos/apache/arrow-rs/contents/arrow-schema%2Fsrc%2Fffi.rs?ref=558ce2332d42701ef6194cfae27520ada3b57d5c",
+    "patch": "@@ -649,7 +649,9 @@ impl TryFrom<&FFI_ArrowSchema> for Field {\n \n     fn try_from(c_schema: &FFI_ArrowSchema) -> Result<Self, ArrowError> {\n         let dtype = DataType::try_from(c_schema)?;\n-        let mut field = Field::new(c_schema.name().unwrap_or(\"\"), dtype, c_schema.nullable());\n+        let mut field =\n+            Field::new(c_schema.name().unwrap_or(\"\"), dtype, c_schema.nullable())\n+                .with_dict_is_ordered(c_schema.dictionary_ordered());\n         field.set_metadata(c_schema.metadata()?);\n         Ok(field)\n     }\n@@ -990,6 +992,40 @@ mod tests {\n         assert!(arrow_schema.child(0).dictionary_ordered());\n     }\n \n+    #[test]\n+    fn test_dictionary_ordered_roundtrip() {\n+        #[allow(deprecated)]\n+        let field = Field::new_dict(\n+            \"dict\",\n+            DataType::Dictionary(Box::new(DataType::Int32), Box::new(DataType::Utf8)),\n+            false,\n+            0,\n+            true,\n+        );\n+\n+        // Export to FFI schema\n+        let ffi = FFI_ArrowSchema::try_from(&field).unwrap();\n+        assert!(ffi.dictionary_ordered());\n+\n+        // Import back \u2014 the ordered flag must survive the round trip\n+        let roundtripped = Field::try_from(&ffi).unwrap();\n+        assert_eq!(roundtripped.dict_is_ordered(), Some(true));\n+\n+        // Also check that an unordered dictionary round-trips as unordered\n+        #[allow(deprecated)]\n+        let unordered = Field::new_dict(\n+            \"dict\",\n+            DataType::Dictionary(Box::new(DataType::Int32), Box::new(DataType::Utf8)),\n+            false,\n+            0,\n+            false,\n+        );\n+        let ffi_unordered = FFI_ArrowSchema::try_from(&unordered).unwrap();\n+        assert!(!ffi_unordered.dictionary_ordered());\n+        let roundtripped_unordered = Field::try_from(&ffi_unordered).unwrap();\n+        assert_eq!(roundtripped_unordered.dict_is_ordered(), Some(false));\n+    }\n+\n     #[test]\n     fn test_set_field_metadata() {\n         let metadata_cases: Vec<HashMap<String, String>> = vec!["
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "url": "https://api.github.com/repos/rerun-io/rerun/issues/12769/comments",
+  "data": [
+    {
+      "url": "https://api.github.com/repos/rerun-io/rerun/issues/comments/4451733657",
+      "html_url": "https://github.com/rerun-io/rerun/issues/12769#issuecomment-4451733657",
+      "issue_url": "https://api.github.com/repos/rerun-io/rerun/issues/12769",
+      "id": 4451733657,
+      "node_id": "IC_kwDOHJFhi88AAAABCVgQmQ",
+      "user": {
+        "login": "ntjohnson1",
+        "id": 24689722,
+        "node_id": "MDQ6VXNlcjI0Njg5NzIy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/24689722?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/ntjohnson1",
+        "html_url": "https://github.com/ntjohnson1",
+        "followers_url": "https://api.github.com/users/ntjohnson1/followers",
+        "following_url": "https://api.github.com/users/ntjohnson1/following{/other_user}",
+        "gists_url": "https://api.github.com/users/ntjohnson1/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/ntjohnson1/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/ntjohnson1/subscriptions",
+        "organizations_url": "https://api.github.com/users/ntjohnson1/orgs",
+        "repos_url": "https://api.github.com/users/ntjohnson1/repos",
+        "events_url": "https://api.github.com/users/ntjohnson1/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/ntjohnson1/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "created_at": "2026-05-14T14:45:06Z",
+      "updated_at": "2026-05-14T14:45:06Z",
+      "body": "Thanks for such a clear issue and repro!\n\nConfirmed initial state\n```console\n$ uvx --from rerun-sdk[dataplatform]==0.32.0 --python 3.10 python repro.py \nProperties columns: ['rerun_segment_id', 'property:RecordingInfo:start_time']\nData: Index 'step' does not exist in the dataset.\n```\n\nHave a branch that appears to solve\n```console\n$ pixi run uvpy repro.py \nProperties columns: ['rerun_segment_id', 'step', 'log_time', 'log_tick', 'property:RecordingInfo:start_time', 'property:config:TextDocument:text']\nData rows: 10\n```\n\nStill verifying that it doesn't hit anything else as a side effect.",
+      "author_association": "MEMBER",
+      "pin": null,
+      "reactions": {
+        "url": "https://api.github.com/repos/rerun-io/rerun/issues/comments/4451733657/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "performed_via_github_app": null,
+      "minimized": null
+    }
+  ]
+}

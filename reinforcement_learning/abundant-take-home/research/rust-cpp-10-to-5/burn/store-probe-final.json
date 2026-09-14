@@ -1,0 +1,176 @@
+{
+  "checked_at_utc": "2026-09-13T10:14:29.208265+00:00",
+  "upstream_commit": "1414c8a14e5169ef5e5fc67f9b8ab01a25d6352d",
+  "upstream_clean": true,
+  "image": "rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa",
+  "command": "cargo run --locked --offline",
+  "network": "none",
+  "rustflags": "-C target-feature=+fp16",
+  "observations": {
+    "pytorch_global_false": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "error": "Tensor not found: \n\u250c\u2500 Tensor Loading Summary \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\u2502\n\u2502 \u2713 Successfully applied: 5 tensors\n\u2502 \u2298 Skipped (filtered):  0 tensors\n\u2502 \u2717 Missing in source:    1 tensors\n\u2502 ? Unused in target:     1 tensors\n\u2502 ! Errors:               0 errors\n\u2502\n\u251c\u2500 Missing Tensors (requested by model but not found in source)\n\u2502\n\u2502  First 10 missing tensors:\n\u2502    \u2022 encoder.layers.1.weight\n\u2502        Did you mean: 'encoder.layers.4.weight'?\n\u2502\n\u251c\u2500 Unused Tensors (in source but not used by model)\n\u2502\n\u2502  First 10 unused tensors:\n\u2502    \u2022 encoder.layers.4.weight\n\u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+        "ok": false
+      },
+      "values": [
+        10.0,
+        12.0,
+        14.0,
+        20.0,
+        -1.0,
+        22.0
+      ],
+      "values_match": false
+    },
+    "pytorch_global_true": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "error": "Tensor not found: \n\u250c\u2500 Tensor Loading Summary \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\u2502\n\u2502 \u2713 Successfully applied: 5 tensors\n\u2502 \u2298 Skipped (filtered):  0 tensors\n\u2502 \u2717 Missing in source:    1 tensors\n\u2502 ? Unused in target:     1 tensors\n\u2502 ! Errors:               0 errors\n\u2502\n\u251c\u2500 Missing Tensors (requested by model but not found in source)\n\u2502\n\u2502  First 10 missing tensors:\n\u2502    \u2022 flow.flows.4.weight\n\u2502        Did you mean: 'flow.flows.1.weight'?\n\u2502\n\u251c\u2500 Unused Tensors (in source but not used by model)\n\u2502\n\u2502  First 10 unused tensors:\n\u2502    \u2022 flow.flows.1.weight\n\u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+        "ok": false
+      },
+      "values": [
+        10.0,
+        14.0,
+        -1.0,
+        20.0,
+        22.0,
+        24.0
+      ],
+      "values_match": false
+    },
+    "pytorch_manual_control": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "applied": [
+          "flow.flows.0.weight",
+          "flow.flows.2.weight",
+          "flow.flows.4.weight",
+          "encoder.layers.0.weight",
+          "encoder.layers.1.weight",
+          "encoder.layers.2.weight"
+        ],
+        "errors": "[]",
+        "missing": [],
+        "ok": true,
+        "unused": []
+      },
+      "values": [
+        10.0,
+        12.0,
+        14.0,
+        20.0,
+        22.0,
+        24.0
+      ],
+      "values_match": true
+    },
+    "safetensors_global_false": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "error": "Tensor not found: \n\u250c\u2500 Tensor Loading Summary \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\u2502\n\u2502 \u2713 Successfully applied: 5 tensors\n\u2502 \u2298 Skipped (filtered):  0 tensors\n\u2502 \u2717 Missing in source:    1 tensors\n\u2502 ? Unused in target:     1 tensors\n\u2502 ! Errors:               0 errors\n\u2502\n\u251c\u2500 Missing Tensors (requested by model but not found in source)\n\u2502\n\u2502  First 10 missing tensors:\n\u2502    \u2022 encoder.layers.1.weight\n\u2502        Did you mean: 'encoder.layers.4.weight'?\n\u2502\n\u251c\u2500 Unused Tensors (in source but not used by model)\n\u2502\n\u2502  First 10 unused tensors:\n\u2502    \u2022 encoder.layers.4.weight\n\u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+        "ok": false
+      },
+      "values": [
+        10.0,
+        12.0,
+        14.0,
+        20.0,
+        -1.0,
+        22.0
+      ],
+      "values_match": false
+    },
+    "safetensors_global_true": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "error": "Tensor not found: \n\u250c\u2500 Tensor Loading Summary \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\u2502\n\u2502 \u2713 Successfully applied: 5 tensors\n\u2502 \u2298 Skipped (filtered):  0 tensors\n\u2502 \u2717 Missing in source:    1 tensors\n\u2502 ? Unused in target:     1 tensors\n\u2502 ! Errors:               0 errors\n\u2502\n\u251c\u2500 Missing Tensors (requested by model but not found in source)\n\u2502\n\u2502  First 10 missing tensors:\n\u2502    \u2022 flow.flows.4.weight\n\u2502        Did you mean: 'flow.flows.1.weight'?\n\u2502\n\u251c\u2500 Unused Tensors (in source but not used by model)\n\u2502\n\u2502  First 10 unused tensors:\n\u2502    \u2022 flow.flows.1.weight\n\u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nHint: Use `.allow_partial(true)` on the store to get an `ApplyResult` with structured missing/error info instead of a hard failure.",
+        "ok": false
+      },
+      "values": [
+        10.0,
+        14.0,
+        -1.0,
+        20.0,
+        22.0,
+        24.0
+      ],
+      "values_match": false
+    },
+    "safetensors_manual_control": {
+      "expected_names": [
+        "flow.flows.0.weight",
+        "flow.flows.2.weight",
+        "flow.flows.4.weight",
+        "encoder.layers.0.weight",
+        "encoder.layers.1.weight",
+        "encoder.layers.2.weight"
+      ],
+      "result": {
+        "applied": [
+          "flow.flows.0.weight",
+          "flow.flows.2.weight",
+          "flow.flows.4.weight",
+          "encoder.layers.0.weight",
+          "encoder.layers.1.weight",
+          "encoder.layers.2.weight"
+        ],
+        "errors": "[]",
+        "missing": [],
+        "ok": true,
+        "unused": []
+      },
+      "values": [
+        10.0,
+        12.0,
+        14.0,
+        20.0,
+        22.0,
+        24.0
+      ],
+      "values_match": true
+    }
+  },
+  "file_sha256": {
+    "probe/mixed.pt": "c1842f4e78b0c216c5367c447d2d95b4d2e376e5338474bfc2364f96fc6f7ff0",
+    "probe/mixed.safetensors": "c5e36333eaa9930f9b83dcbdcb503ed90237c4e8bb7b606685b0765e2e5d9c90",
+    "probe/Cargo.lock": "bf8134c0e52e02f39c4f9b2ab150181abb23339d4a2d194b0e29dc2c0656ce90",
+    "probe/src/main.rs": "894a795f4a9094242869d32bf6e9afc97588c3c186949ae180fd466c6a48429f",
+    "store-probe-final.log": "cb63283851fbe74a3d5e939e6d805d1110012f2ac8d06263c7ced60de09dd9ba"
+  }
+}

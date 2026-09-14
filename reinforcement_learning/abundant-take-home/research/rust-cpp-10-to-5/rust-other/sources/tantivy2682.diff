@@ -1,0 +1,453 @@
+diff --git a/src/directory/mod.rs b/src/directory/mod.rs
+index 7fab7e051f..dfc3a696d4 100644
+--- a/src/directory/mod.rs
++++ b/src/directory/mod.rs
+@@ -9,6 +9,7 @@ mod file_watcher;
+ pub mod footer;
+ mod managed_directory;
+ mod ram_directory;
++mod nrt_directory;
+ mod watch_event_router;
+ 
+ /// Errors specific to the directory module.
+@@ -48,6 +49,7 @@ pub use memmap2::Advice;
+ pub use self::managed_directory::ManagedDirectory;
+ #[cfg(feature = "mmap")]
+ pub use self::mmap_directory::MmapDirectory;
++pub use self::nrt_directory::NrtDirectory;
+ 
+ /// Write object for Directory.
+ ///
+diff --git a/src/directory/nrt_directory.rs b/src/directory/nrt_directory.rs
+new file mode 100644
+index 0000000000..310a8e552f
+--- /dev/null
++++ b/src/directory/nrt_directory.rs
+@@ -0,0 +1,156 @@
++use std::collections::HashSet;
++use std::fmt;
++use std::io::{self, Write};
++use std::path::{Path, PathBuf};
++use std::sync::{Arc, RwLock};
++
++use crate::core::META_FILEPATH;
++use crate::directory::error::{DeleteError, OpenReadError, OpenWriteError};
++use crate::directory::{Directory, DirectoryLock, FileHandle, FileSlice, Lock, TerminatingWrite,
++                       WatchCallback, WatchHandle, WritePtr};
++use crate::directory::RamDirectory;
++
++/// A Directory that overlays a `RamDirectory` on top of a base `Directory`.
++///
++/// - Writes (open_write and atomic_write) go to the in-memory overlay.
++/// - Reads first check the overlay, then fallback to the base directory.
++/// - sync_directory() persists overlay files that do not yet exist in the base directory.
++#[derive(Clone)]
++pub struct NrtDirectory {
++    base: Box<dyn Directory>,
++    overlay: RamDirectory,
++    /// Tracks files written into the overlay to decide what to persist on sync.
++    overlay_paths: Arc<RwLock<HashSet<PathBuf>>>,
++}
++
++impl NrtDirectory {
++    /// Wraps a base directory with an NRT overlay.
++    pub fn wrap(base: Box<dyn Directory>) -> NrtDirectory {
++        NrtDirectory {
++            base,
++            overlay: RamDirectory::default(),
++            overlay_paths: Arc::new(RwLock::new(HashSet::new())),
++        }
++    }
++
++    /// Persist overlay files into the base directory if missing there.
++    fn persist_overlay_into_base(&self) -> crate::Result<()> {
++        let snapshot_paths: Vec<PathBuf> = {
++            let guard = self.overlay_paths.read().unwrap();
++            guard.iter().cloned().collect()
++        };
++        // First copy all non-meta files. `meta.json` must be written last atomically.
++        for path in snapshot_paths {
++            if path == *META_FILEPATH {
++                continue;
++            }
++            // Skip if base already has the file
++            if self.base.exists(&path).unwrap_or(false) {
++                continue;
++            }
++            // Read bytes from overlay
++            let file_slice: FileSlice = match self.overlay.open_read(&path) {
++                Ok(slice) => slice,
++                Err(OpenReadError::FileDoesNotExist(_)) => continue, // was removed meanwhile
++                Err(e) => return Err(e.into()),
++            };
++            let bytes = file_slice
++                .read_bytes()
++                .map_err(|io_err| OpenReadError::IoError {
++                    io_error: Arc::new(io_err),
++                    filepath: path.clone(),
++                })?;
++            // Write to base
++            let mut dest_wrt: WritePtr = self.base.open_write(&path)?;
++            dest_wrt.write_all(bytes.as_slice())?;
++            dest_wrt.terminate()?;
++        }
++        // Then, if present, write `meta.json` atomically to the base directory.
++        if self.overlay.exists(&*META_FILEPATH).unwrap_or(false) {
++            // Read meta from overlay atomically to a buffer and then write to base atomically.
++            if let Ok(meta_bytes) = self.overlay.atomic_read(&*META_FILEPATH) {
++                self.base.atomic_write(&*META_FILEPATH, &meta_bytes)?;
++            }
++        }
++        Ok(())
++    }
++}
++
++impl fmt::Debug for NrtDirectory {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        write!(f, "NrtDirectory")
++    }
++}
++
++impl Directory for NrtDirectory {
++    fn get_file_handle(&self, path: &Path) -> Result<Arc<dyn FileHandle>, OpenReadError> {
++        if self.overlay.exists(path).unwrap_or(false) {
++            return self.overlay.get_file_handle(path);
++        }
++        self.base.get_file_handle(path)
++    }
++
++    fn open_read(&self, path: &Path) -> Result<FileSlice, OpenReadError> {
++        if self.overlay.exists(path).unwrap_or(false) {
++            return self.overlay.open_read(path);
++        }
++        self.base.open_read(path)
++    }
++
++    fn delete(&self, path: &Path) -> Result<(), DeleteError> {
++        let _ = self.overlay.delete(path); // best-effort
++        self.base.delete(path)
++    }
++
++    fn exists(&self, path: &Path) -> Result<bool, OpenReadError> {
++        if self.overlay.exists(path).unwrap_or(false) {
++            return Ok(true);
++        }
++        self.base.exists(path)
++    }
++
++    fn open_write(&self, path: &Path) -> Result<WritePtr, OpenWriteError> {
++        {
++            let mut guard = self.overlay_paths.write().unwrap();
++            guard.insert(path.to_path_buf());
++        }
++        self.overlay.open_write(path)
++    }
++
++    fn atomic_read(&self, path: &Path) -> Result<Vec<u8>, OpenReadError> {
++        if self.overlay.exists(path).unwrap_or(false) {
++            return self.overlay.atomic_read(path);
++        }
++        self.base.atomic_read(path)
++    }
++
++    fn atomic_write(&self, path: &Path, data: &[u8]) -> io::Result<()> {
++        {
++            let mut guard = self.overlay_paths.write().unwrap();
++            guard.insert(path.to_path_buf());
++        }
++        // Always write to the overlay first. We do not write meta.json to base here,
++        // to ensure meta is published only after all files are persisted in sync_directory().
++        self.overlay.atomic_write(path, data)?;
++        Ok(())
++    }
++
++    fn acquire_lock(&self, lock: &Lock) -> Result<DirectoryLock, crate::directory::error::LockError> {
++        self.base.acquire_lock(lock)
++    }
++
++    fn watch(&self, watch_callback: WatchCallback) -> crate::Result<WatchHandle> {
++        // Watch meta.json changes on the base directory
++        self.base.watch(watch_callback)
++    }
++
++    fn sync_directory(&self) -> io::Result<()> {
++        // Best effort: persist overlay, then sync base directory
++        if let Err(err) = self.persist_overlay_into_base() {
++            return Err(io::Error::new(io::ErrorKind::Other, format!("{err}")));
++        }
++        self.base.sync_directory()
++    }
++}
++
++
+diff --git a/src/indexer/index_writer.rs b/src/indexer/index_writer.rs
+index 2e89050507..c3130f39aa 100644
+--- a/src/indexer/index_writer.rs
++++ b/src/indexer/index_writer.rs
+@@ -349,6 +349,41 @@ impl<D: Document> IndexWriter<D> {
+         &self.index
+     }
+ 
++    /// Creates a near-real-time `Searcher` reflecting the latest `soft_commit()` state.
++    ///
++    /// This builds a `Searcher` directly from the IndexWriter's in-memory committed segments,
++    /// without relying on `meta.json` having been persisted.
++    pub fn nrt_searcher(&self) -> crate::Result<crate::Searcher> {
++        use crate::core::searcher::{SearcherGeneration, SearcherInner};
++        use crate::directory::{Directory as _, META_LOCK};
++        use crate::store::DOCSTORE_CACHE_CAPACITY;
++        use crate::Inventory;
++
++        // Prevent GC from removing files while we open readers
++        let _meta_lock = self.index.directory().acquire_lock(&META_LOCK)?;
++
++        // Load the current in-memory committed segment metas
++        let metas = self.segment_updater().committed_segment_metas();
++        let mut segment_readers = Vec::with_capacity(metas.len());
++        for meta in metas {
++            let segment = self.index.segment(meta);
++            let seg_reader = SegmentReader::open(&segment)?;
++            segment_readers.push(seg_reader);
++        }
++
++        // Track generation using a fresh Inventory
++        let inventory: Inventory<SearcherGeneration> = Inventory::default();
++        let generation = inventory.track(SearcherGeneration::from_segment_readers(&segment_readers, 0));
++        let searcher_inner = SearcherInner::new(
++            self.index.schema(),
++            self.index.clone(),
++            segment_readers,
++            generation,
++            DOCSTORE_CACHE_CAPACITY,
++        )?;
++        Ok(Arc::new(searcher_inner).into())
++    }
++
+     /// If there are some merging threads, blocks until they all finish their work and
+     /// then drop the `IndexWriter`.
+     pub fn wait_merging_threads(mut self) -> crate::Result<()> {
+@@ -665,6 +700,13 @@ impl<D: Document> IndexWriter<D> {
+         self.prepare_commit()?.commit()
+     }
+ 
++    /// Soft-commit the current changes: publishes them to the in-memory committed set so
++    /// they become visible to a near real-time reader, without persisting `meta.json`.
++    pub fn soft_commit(&mut self) -> crate::Result<Opstamp> {
++        let prepared = self.prepare_commit()?;
++        prepared.soft_commit()
++    }
++
+     pub(crate) fn segment_updater(&self) -> &SegmentUpdater {
+         &self.segment_updater
+     }
+diff --git a/src/indexer/prepared_commit.rs b/src/indexer/prepared_commit.rs
+index 8e0b0f87c0..142e6c8526 100644
+--- a/src/indexer/prepared_commit.rs
++++ b/src/indexer/prepared_commit.rs
+@@ -39,6 +39,15 @@ impl<'a, D: Document> PreparedCommit<'a, D> {
+         self.commit_future().wait()
+     }
+ 
++    /// Soft-commit: publish segments in-memory for near real-time search without persisting
++    /// `meta.json`. This does not call gc or directory sync.
++    pub fn soft_commit(self) -> crate::Result<Opstamp> {
++        self.index_writer
++            .segment_updater()
++            .schedule_soft_commit(self.opstamp, self.payload)
++            .wait()
++    }
++
+     /// Proceeds to commit.
+     ///
+     /// Unfortunately, contrary to what `PrepareCommit` may suggests,
+diff --git a/src/indexer/segment_updater.rs b/src/indexer/segment_updater.rs
+index b72667dedb..70cd7a98cb 100644
+--- a/src/indexer/segment_updater.rs
++++ b/src/indexer/segment_updater.rs
+@@ -454,6 +454,29 @@ impl SegmentUpdater {
+         })
+     }
+ 
++    /// Perform a soft commit: publish current uncommitted segments as committed in the
++    /// in-memory state, but do not write `meta.json`.
++    pub(crate) fn schedule_soft_commit(
++        &self,
++        opstamp: Opstamp,
++        _payload: Option<String>,
++    ) -> FutureResult<Opstamp> {
++        let segment_updater: SegmentUpdater = self.clone();
++        self.schedule_task(move || {
++            let segment_entries = segment_updater.purge_deletes(opstamp)?;
++            // Move them to committed in memory only
++            segment_updater.segment_manager.commit(segment_entries);
++            // Do not persist meta.json. Keep active_index_meta opstamp as-is.
++            segment_updater.consider_merge_options();
++            Ok(opstamp)
++        })
++    }
++
++    /// Returns the current list of committed segment metas from the in-memory state.
++    pub(crate) fn committed_segment_metas(&self) -> Vec<SegmentMeta> {
++        self.segment_manager.committed_segment_metas()
++    }
++
+     fn store_meta(&self, index_meta: &IndexMeta) {
+         *self.active_index_meta.write().unwrap() = Arc::new(index_meta.clone());
+     }
+diff --git a/src/query/query_parser/query_parser.rs b/src/query/query_parser/query_parser.rs
+index 62d15d8f53..70f89a4ab5 100644
+--- a/src/query/query_parser/query_parser.rs
++++ b/src/query/query_parser/query_parser.rs
+@@ -208,7 +208,13 @@ pub struct QueryParser {
+     tokenizer_manager: TokenizerManager,
+     boost: FxHashMap<Field, Score>,
+     fuzzy: FxHashMap<Field, Fuzzy>,
++
++    /// If true, an empty query (e.g. "" or only whitespace) will match all
++    /// documents instead of matching none.
++    empty_query_match_all: bool,
++
+     regexes_allowed: bool,
++
+ }
+ 
+ #[derive(Clone)]
+@@ -263,7 +269,11 @@ impl QueryParser {
+             conjunction_by_default: false,
+             boost: Default::default(),
+             fuzzy: Default::default(),
++
++            empty_query_match_all: false,
++
+             regexes_allowed: false,
++
+         }
+     }
+ 
+@@ -324,9 +334,37 @@ impl QueryParser {
+         );
+     }
+ 
++
++    /// Configure the behaviour of an empty query (e.g. an empty string or only whitespace).
++    ///
++    /// If `should_match_all` is `true`, an empty query will match all documents in the index.
++    /// Otherwise (the default), an empty query matches no documents.
++    pub fn set_empty_query_match_all(&mut self, should_match_all: bool) {
++        self.empty_query_match_all = should_match_all;
++    }
++
++    /// Returns the current behaviour for empty queries.
++    pub fn get_empty_query_match_all(&self) -> bool {
++        self.empty_query_match_all
++    }
++
++    #[inline]
++    fn empty_query_result(&self) -> Box<dyn Query> {
++        if self.empty_query_match_all {
++            Box::new(AllQuery)
++        } else {
++            Box::new(EmptyQuery)
++        }
++    }
++
++    #[inline]
++    fn is_user_input_ast_empty(user_input_ast: &UserInputAst) -> bool {
++        matches!(user_input_ast, UserInputAst::Clause(clauses) if clauses.is_empty())
++
+     /// Allow regexes in queries
+     pub fn allow_regexes(&mut self) {
+         self.regexes_allowed = true;
++
+     }
+ 
+     /// Parse a query
+@@ -334,8 +372,17 @@ impl QueryParser {
+     /// Note that `parse_query` returns an error if the input
+     /// is not a valid query.
+     pub fn parse_query(&self, query: &str) -> Result<Box<dyn Query>, QueryParserError> {
+-        let logical_ast = self.parse_query_to_logical_ast(query)?;
+-        Ok(convert_to_query(&self.fuzzy, logical_ast))
++        // Parse to user input AST first so we can decide on empty-query behaviour early
++        let user_input_ast = query_grammar::parse_query(query)
++            .map_err(|_| QueryParserError::SyntaxError(query.to_string()))?;
++        if Self::is_user_input_ast_empty(&user_input_ast) {
++            return Ok(self.empty_query_result());
++        }
++        let (logical_ast, mut err) = self.compute_logical_ast_lenient(user_input_ast);
++        if !err.is_empty() {
++            return Err(err.swap_remove(0));
++        }
++        Ok(self.logical_ast_to_query(logical_ast))
+     }
+ 
+     /// Parse a query leniently
+@@ -347,8 +394,22 @@ impl QueryParser {
+     ///
+     /// In case it encountered such issues, they are reported as a Vec of errors.
+     pub fn parse_query_lenient(&self, query: &str) -> (Box<dyn Query>, Vec<QueryParserError>) {
+-        let (logical_ast, errors) = self.parse_query_to_logical_ast_lenient(query);
+-        (convert_to_query(&self.fuzzy, logical_ast), errors)
++        let (user_input_ast, grammar_errors) = query_grammar::parse_query_lenient(query);
++        let mut errors: Vec<_> = grammar_errors
++            .into_iter()
++            .map(|error| {
++                QueryParserError::SyntaxError(format!(
++                    "{} at position {}",
++                    error.message, error.pos
++                ))
++            })
++            .collect();
++        if Self::is_user_input_ast_empty(&user_input_ast) {
++            return (self.empty_query_result(), errors);
++        }
++        let (logical_ast, mut ast_errors) = self.compute_logical_ast_lenient(user_input_ast);
++        errors.append(&mut ast_errors);
++        (self.logical_ast_to_query(logical_ast), errors)
+     }
+ 
+     /// Build a query from an already parsed user input AST
+@@ -360,11 +421,14 @@ impl QueryParser {
+         &self,
+         user_input_ast: UserInputAst,
+     ) -> Result<Box<dyn Query>, QueryParserError> {
++        if Self::is_user_input_ast_empty(&user_input_ast) {
++            return Ok(self.empty_query_result());
++        }
+         let (logical_ast, mut err) = self.compute_logical_ast_lenient(user_input_ast);
+         if !err.is_empty() {
+             return Err(err.swap_remove(0));
+         }
+-        Ok(convert_to_query(&self.fuzzy, logical_ast))
++        Ok(self.logical_ast_to_query(logical_ast))
+     }
+ 
+     /// Build leniently a query from an already parsed user input AST.
+@@ -374,8 +438,11 @@ impl QueryParser {
+         &self,
+         user_input_ast: UserInputAst,
+     ) -> (Box<dyn Query>, Vec<QueryParserError>) {
++        if Self::is_user_input_ast_empty(&user_input_ast) {
++            return (self.empty_query_result(), Vec::new());
++        }
+         let (logical_ast, errors) = self.compute_logical_ast_lenient(user_input_ast);
+-        (convert_to_query(&self.fuzzy, logical_ast), errors)
++        (self.logical_ast_to_query(logical_ast), errors)
+     }
+ 
+     /// Parse the user query into an AST.
+@@ -916,6 +983,14 @@ impl QueryParser {
+             }
+         }
+     }
++
++    /// Convert a logical AST into a runnable `Query`, taking into account the parser configuration.
++    fn logical_ast_to_query(&self, logical_ast: LogicalAst) -> Box<dyn Query> {
++        match trim_ast(logical_ast) {
++            Some(trimmed_ast) => convert_to_query(&self.fuzzy, trimmed_ast),
++            None => Box::new(EmptyQuery),
++        }
++    }
+ }
+ 
+ fn convert_literal_to_query(

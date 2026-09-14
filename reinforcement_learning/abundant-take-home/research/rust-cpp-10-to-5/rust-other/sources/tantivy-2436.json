@@ -1,0 +1,92 @@
+{
+  "fetched_at": "2026-09-13T10:09:38.606215+00:00",
+  "issue": {
+    "url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436",
+    "repository_url": "https://api.github.com/repos/quickwit-oss/tantivy",
+    "labels_url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436/labels{/name}",
+    "comments_url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436/comments",
+    "events_url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436/events",
+    "html_url": "https://github.com/quickwit-oss/tantivy/issues/2436",
+    "id": 2351179652,
+    "node_id": "I_kwDOAvH5zM6MJCeE",
+    "number": 2436,
+    "title": "monotonic mapping broken for `get_docids_for_value_range`",
+    "user": {
+      "login": "PSeitz",
+      "id": 1109503,
+      "node_id": "MDQ6VXNlcjExMDk1MDM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1109503?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/PSeitz",
+      "html_url": "https://github.com/PSeitz",
+      "followers_url": "https://api.github.com/users/PSeitz/followers",
+      "following_url": "https://api.github.com/users/PSeitz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/PSeitz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/PSeitz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/PSeitz/subscriptions",
+      "organizations_url": "https://api.github.com/users/PSeitz/orgs",
+      "repos_url": "https://api.github.com/users/PSeitz/repos",
+      "events_url": "https://api.github.com/users/PSeitz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/PSeitz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 309632831,
+        "node_id": "MDU6TGFiZWwzMDk2MzI4MzE=",
+        "url": "https://api.github.com/repos/quickwit-oss/tantivy/labels/bug",
+        "name": "bug",
+        "color": "fc2929",
+        "default": true,
+        "description": null,
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2024-06-13T13:36:02Z",
+    "updated_at": "2024-07-29T12:40:51Z",
+    "closed_at": null,
+    "assignee": null,
+    "author_association": "COLLABORATOR",
+    "issue_field_values": [],
+    "type": null,
+    "active_lock_reason": null,
+    "sub_issues_summary": {
+      "total": 0,
+      "completed": 0,
+      "percent_completed": 0
+    },
+    "issue_dependencies_summary": {
+      "blocked_by": 0,
+      "total_blocked_by": 0,
+      "blocking": 0,
+      "total_blocking": 0
+    },
+    "body": "``` rust\r\n#[test]\r\nfn test_bug_1() {\r\n    use crate::ColumnarWriter;\r\n\r\n    let mut columnar_writer = ColumnarWriter::default();\r\n\r\n    // This column gets internally coerced to i64\r\n    columnar_writer.record_numerical(0, \"full\", 0 as u64);\r\n\r\n    let mut wrt: Vec<u8> = Vec::new();\r\n    columnar_writer.serialize(1, &mut wrt).unwrap();\r\n\r\n    let reader = ColumnarReader::open(wrt).unwrap();\r\n    // Open the column as u64\r\n    let column = reader.read_columns(\"full\").unwrap()[0]\r\n        .open()\r\n        .unwrap()\r\n        .coerce_numerical(crate::NumericalType::U64)\r\n        .unwrap();\r\n    let DynamicColumn::U64(column) = column else {\r\n        panic!();\r\n    };\r\n    let mut docids = Vec::new();\r\n\r\n    // The monotonic mapping incorrectly converts the value range\r\n    let full_range = 0..=u64::MAX;\r\n    column.get_docids_for_value_range(full_range, 0..1, &mut docids);\r\n    assert_eq!(docids, vec![0]); // fails, returns []\r\n}\r\n```\r\n\r\n### Impact\r\n\r\n`get_docids_for_value_range` is only used by fast field range, which opens the column as u64 lenient and has it's own conversion layer and is therefore unaffected.",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/quickwit-oss/tantivy/issues/2436/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null,
+    "pinned_comment": null
+  },
+  "comments": []
+}

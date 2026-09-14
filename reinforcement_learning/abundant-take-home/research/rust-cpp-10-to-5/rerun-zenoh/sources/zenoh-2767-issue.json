@@ -1,0 +1,92 @@
+{
+  "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767",
+  "checked_at_utc": "2026-09-13T10:09:46.809650+00:00",
+  "data": {
+    "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767",
+    "repository_url": "https://api.github.com/repos/eclipse-zenoh/zenoh",
+    "labels_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767/labels{/name}",
+    "comments_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767/comments",
+    "events_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767/events",
+    "html_url": "https://github.com/eclipse-zenoh/zenoh/issues/2767",
+    "id": 5348453742,
+    "node_id": "I_kwDODgeTO88AAAABPsrtbg",
+    "number": 2767,
+    "title": "Query immediately returns zero replies after queryable reconnect",
+    "user": {
+      "login": "bdjellabaldebaran",
+      "id": 144217889,
+      "node_id": "U_kgDOCJiXIQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/144217889?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bdjellabaldebaran",
+      "html_url": "https://github.com/bdjellabaldebaran",
+      "followers_url": "https://api.github.com/users/bdjellabaldebaran/followers",
+      "following_url": "https://api.github.com/users/bdjellabaldebaran/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bdjellabaldebaran/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bdjellabaldebaran/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bdjellabaldebaran/subscriptions",
+      "organizations_url": "https://api.github.com/users/bdjellabaldebaran/orgs",
+      "repos_url": "https://api.github.com/users/bdjellabaldebaran/repos",
+      "events_url": "https://api.github.com/users/bdjellabaldebaran/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bdjellabaldebaran/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1800842489,
+        "node_id": "MDU6TGFiZWwxODAwODQyNDg5",
+        "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/labels/bug",
+        "name": "bug",
+        "color": "d73a4a",
+        "default": true,
+        "description": "Something isn't working",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2026-09-04T13:08:48Z",
+    "updated_at": "2026-09-04T13:08:48Z",
+    "closed_at": null,
+    "assignee": null,
+    "author_association": "NONE",
+    "issue_field_values": [],
+    "type": null,
+    "active_lock_reason": null,
+    "sub_issues_summary": {
+      "total": 0,
+      "completed": 0,
+      "percent_completed": 0
+    },
+    "issue_dependencies_summary": {
+      "blocked_by": 0,
+      "total_blocked_by": 0,
+      "blocking": 0,
+      "total_blocking": 0
+    },
+    "body": "### Describe the bug\n\nAfter a queryable disconnects and reconnects, a newly declared querier can immediately return zero replies.\n\nThe configured timeout is 10 seconds, but `recv_async()` fails after only a few milliseconds:\n\nThe same query works before the disconnection and shortly after the failed call. During the failure, the router receives the querier interest and returns the current queryable declaration, but never receives the query request.\n\nHere's my network topology to reproduce the issue, it may occur in other contexts:\n\n```text\nrequester (client) \u2192 router \u2192 responder (client/queryable)\n```\n\n- Multicast scouting disabled\n- Explicit router endpoint\n\n\n\n### To reproduce\n\nUse https://github.com/bdjellabaldebaran/zenoh-queryable-reconnect-repro\n\nStart the router:\n\n```sh\ndocker run --rm --network host eclipse/zenoh:1.10.0 -l tcp/0.0.0.0:7447\n```\n\nStart the provided responder and requester:\n\n```sh\ncargo run -- responder\n```\n\n```sh\ncargo run -- requester\n```\n\nObserved output:\n\n```text\nbefore disconnect: reply=pong ...\nimmediately after reconnect: ZERO REPLIES ... after a few milliseconds\none second later: reply=pong ...\n```\n\n### Expected behavior\n\nThe query should reach the router or wait for its configured timeout.\n\n### Actual behavior\n\nIt immediately completes with zero replies and never reaches the router.\n\n### Possibly related\n\n- [#2204 \u2014 `querier.matching_listener` not working after reconnect](https://github.com/eclipse-zenoh/zenoh/issues/2204)\n- [#2205 \u2014 Fix queryable info update after connection loss](https://github.com/eclipse-zenoh/zenoh/pull/2205)\n- [#2516 \u2014 `session.get()` immediately returns zero replies](https://github.com/eclipse-zenoh/zenoh/issues/2516)\n\n### Complete logs\n\nThe complete router trace is attached here:\n\n[router-trace.log](https://github.com/user-attachments/files/31836419/router-trace.log)\n\nThe relevant interval is `12:58:27`\u2013`12:58:38 UTC`.\n\n### Relevant router logs\n\nThe first responder (`e88c3da0`) declares the queryable:\n\n```text\n2026-09-04T12:58:27.960880Z DEBUG ... src=south:0:client/e88c3da0:2}:declare_queryable ... expr.mapped=repro/service/rpc\n2026-09-04T12:58:27.960893Z DEBUG ... register_queryable ... res=repro/service/rpc\n```\n\nThe requester (`7423bba6`) sends its first query successfully:\n\n```text\n2026-09-04T12:58:29.560622Z DEBUG ... src=south:0:client/7423bba6:3}:send_request ... Route query for res repro/service/rpc\n2026-09-04T12:58:29.560702Z TRACE ... dirs=[... dst_face ... e88c3da0 ...]\n2026-09-04T12:58:29.560716Z TRACE ... Propagate query to south:0:client/e88c3da0:2\n2026-09-04T12:58:29.561572Z TRACE ... Route reply for query south:0:client/7423bba6:3:1\n```\n\nThe responder disconnects and undeclares the queryable:\n\n```text\n2026-09-04T12:58:31.962413Z DEBUG ... src=south:0:client/e88c3da0:2}:undeclare_queryable\n2026-09-04T12:58:31.962429Z DEBUG ... unregister_queryable ... return=LastUnregistered { res: repro/service/rpc }\n2026-09-04T12:58:31.962616Z TRACE ... Received: TransportMessage { body: Close(...) }\n```\n\nA new responder connection (`1ea42db7`) declares the same queryable:\n\n```text\n2026-09-04T12:58:33.967210Z DEBUG ... New transport opened ... 1ea42db709faea95662245d1b953d5ae\n2026-09-04T12:58:33.968543Z DEBUG ... src=south:0:client/1ea42db7:4}:declare_queryable ... expr.mapped=repro/service/rpc\n2026-09-04T12:58:33.968562Z DEBUG ... register_queryable ... res=repro/service/rpc\n```\n\nThree seconds later, the requester declares its second querier. The router receives the interest and sends the existing queryable declaration:\n\n```text\n2026-09-04T12:58:36.564141Z DEBUG ... src=south:0:client/7423bba6:3}:interest{id=2 mode=CurrentFuture opts={K Q} ...}\n2026-09-04T12:58:36.564281Z DEBUG ... send_current_queryables ... dst=south:0:client/7423bba6:3\n2026-09-04T12:58:36.564385Z TRACE ... Scheduled ... DeclareQueryable ... for transmission to ... 7423bba6\n2026-09-04T12:58:36.564443Z TRACE ... Scheduled ... DeclareFinal ... for transmission to ... 7423bba6\n```\n\nNo `send_request` is received at this time. The requester reports zero replies immediately.\n\nExactly one second later, another `get()` using the same querier reaches the router and succeeds:\n\n```text\n2026-09-04T12:58:37.565388Z DEBUG ... src=south:0:client/7423bba6:3}:send_request ... Route query for res repro/service/rpc\n2026-09-04T12:58:37.565408Z DEBUG ... dst=south:0:client/1ea42db7:4 dst.has_queryable=true\n2026-09-04T12:58:37.565447Z TRACE ... Propagate query to south:0:client/1ea42db7:4\n2026-09-04T12:58:37.565985Z TRACE ... Route reply for query south:0:client/7423bba6:3:2\n```\n\nThis shows that the failed `get()` never reached the router, while the querier's interest did. After the routing state was refreshed, the next `get()` on the same querier succeeded.\n\n### System info\n\n- Arch linux \n- Zenoh 1.10.0\n",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2767/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null,
+    "pinned_comment": null
+  }
+}

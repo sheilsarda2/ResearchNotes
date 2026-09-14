@@ -1,0 +1,92 @@
+{
+  "fetched_at": "2026-09-13T10:09:38.664405+00:00",
+  "issue": {
+    "url": "https://api.github.com/repos/apache/arrow-rs/issues/9484",
+    "repository_url": "https://api.github.com/repos/apache/arrow-rs",
+    "labels_url": "https://api.github.com/repos/apache/arrow-rs/issues/9484/labels{/name}",
+    "comments_url": "https://api.github.com/repos/apache/arrow-rs/issues/9484/comments",
+    "events_url": "https://api.github.com/repos/apache/arrow-rs/issues/9484/events",
+    "html_url": "https://github.com/apache/arrow-rs/issues/9484",
+    "id": 3994144892,
+    "node_id": "I_kwDOFWSkgs7uEdB8",
+    "number": 9484,
+    "title": "JSON reader doesn't support scalar-to-list promotion, even though schema inference does",
+    "user": {
+      "login": "Rafferty97",
+      "id": 3154683,
+      "node_id": "MDQ6VXNlcjMxNTQ2ODM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3154683?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Rafferty97",
+      "html_url": "https://github.com/Rafferty97",
+      "followers_url": "https://api.github.com/users/Rafferty97/followers",
+      "following_url": "https://api.github.com/users/Rafferty97/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Rafferty97/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Rafferty97/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Rafferty97/subscriptions",
+      "organizations_url": "https://api.github.com/users/Rafferty97/orgs",
+      "repos_url": "https://api.github.com/users/Rafferty97/repos",
+      "events_url": "https://api.github.com/users/Rafferty97/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Rafferty97/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 2937654106,
+        "node_id": "MDU6TGFiZWwyOTM3NjU0MTA2",
+        "url": "https://api.github.com/repos/apache/arrow-rs/labels/bug",
+        "name": "bug",
+        "color": "B60205",
+        "default": true,
+        "description": "",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2026-02-26T08:45:43Z",
+    "updated_at": "2026-02-26T08:45:43Z",
+    "closed_at": null,
+    "assignee": null,
+    "author_association": "CONTRIBUTOR",
+    "issue_field_values": [],
+    "type": null,
+    "active_lock_reason": null,
+    "sub_issues_summary": {
+      "total": 0,
+      "completed": 0,
+      "percent_completed": 0
+    },
+    "issue_dependencies_summary": {
+      "blocked_by": 0,
+      "total_blocked_by": 0,
+      "blocking": 0,
+      "total_blocking": 0
+    },
+    "body": "**Describe the bug**\nWhilst doing some hacking on the JSON schema inference logic, I noticed that there is logic to \"promote\" scalars to lists when the two are mixed. For example, if one row has `\"foo\": [1, 2, 3]` and another has `\"foo\": 4`, then \"foo\" will be inferred to have type `List(Int64)` rather than reporting a mismatch.\n\nHowever, this behaviour doesn't appear to be present in the actual JSON reader.\n\n**To Reproduce**\nI added this simple test case that uses the already available \"mixed_arrays.json\" test file:\n\n```rust\n    #[test]\n    fn test_json_mixed_arrays() {\n        let reader = read_file(\"test/data/mixed_arrays.json\", None);\n        reader.collect::<Result<Vec<_>, _>>().unwrap();\n    }\n```\n\nIt returns the following error:\n```text\nthread 'reader::tests::test_json_mixed_arrays' (2600) panicked at arrow-json\\src\\reader\\mod.rs:2047:47:\ncalled `Result::unwrap()` on an `Err` value: JsonError(\"whilst decoding field 'b': expected [ got 4\")\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\ntest reader::tests::test_json_mixed_arrays ... FAILED\n```\n\n**Expected behavior**\nEither:\n* The schema inference fails (i.e. no scalar promotion logic), or\n* The test succeeds\n\nPersonally, I would prefer the former, as this \"scalar-to-list promotion\" logic feels like an unconventional and unexpected feature to have for a JSON parser.",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/apache/arrow-rs/issues/9484/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/apache/arrow-rs/issues/9484/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null,
+    "pinned_comment": null
+  },
+  "comments": []
+}

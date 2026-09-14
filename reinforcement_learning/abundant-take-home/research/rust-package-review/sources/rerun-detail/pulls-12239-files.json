@@ -1,0 +1,17 @@
+{
+  "url": "https://api.github.com/repos/rerun-io/rerun/pulls/12239/files",
+  "data": [
+    {
+      "sha": "d456086ea0a56bb7cbb0e0ff7f8fec4cf3a510b2",
+      "filename": "crates/store/re_entity_db/src/entity_db.rs",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 5,
+      "changes": 14,
+      "blob_url": "https://github.com/rerun-io/rerun/blob/9d77d777b2592a8d478c141974bb0eb959b36b18/crates%2Fstore%2Fre_entity_db%2Fsrc%2Fentity_db.rs",
+      "raw_url": "https://github.com/rerun-io/rerun/raw/9d77d777b2592a8d478c141974bb0eb959b36b18/crates%2Fstore%2Fre_entity_db%2Fsrc%2Fentity_db.rs",
+      "contents_url": "https://api.github.com/repos/rerun-io/rerun/contents/crates%2Fstore%2Fre_entity_db%2Fsrc%2Fentity_db.rs?ref=9d77d777b2592a8d478c141974bb0eb959b36b18",
+      "patch": "@@ -777,15 +777,19 @@ impl EntityDb {\n                 .store()\n                 .iter_chunks()\n                 .filter(move |chunk| {\n+                    if chunk.is_static() {\n+                        return true; // always keep all static data\n+                    }\n+\n                     let Some((timeline, time_range)) = time_filter else {\n-                        return true;\n+                        return true; // no filter -> keep all data\n                     };\n \n                     // TODO(cmc): chunk.slice_time_selection(time_selection)\n-                    chunk.timelines().get(&timeline).is_some_and(|time_column| {\n-                        time_range.contains(time_column.time_range().min())\n-                            || time_range.contains(time_column.time_range().max())\n-                    })\n+                    chunk\n+                        .timelines()\n+                        .get(&timeline)\n+                        .is_some_and(|time_column| time_range.intersects(time_column.time_range()))\n                 })\n                 .cloned() // refcount\n                 .collect();"
+    }
+  ]
+}

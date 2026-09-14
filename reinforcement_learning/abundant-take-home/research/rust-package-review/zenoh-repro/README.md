@@ -1,0 +1,9 @@
+# Independent Zenoh probes
+
+These are research probes, not a Harbor task or its final hidden verifier. Pins and result interpretation are in [../zenoh.md](../zenoh.md) and [../sources/zenoh-demand-reproduction.json](../sources/zenoh-demand-reproduction.json).
+
+Clone `https://github.com/eclipse-zenoh/zenoh.git` and check out either main pin `646f2d1b730e584a570015a77bee9f6db08be9d1` or release pin recorded in the results. Mount that checkout read-only at `/zenoh`, this directory writable at `/repro`, and a disposable Cargo cache at `/usr/local/cargo`. Use `rust:1.97.1-slim-bookworm` at the recorded digest. With working directory `/repro` and `CARGO_BUILD_JOBS=2`, run `cargo build --locked`. Dependency fetching requires network at build time. Execute `/repro/target/debug/zenoh-demand-repro` in a fresh `--rm --network none` container for the completeness matrix. An `open` argument runs the blocking-open timeout probe; an external six-second process timeout bounds it.
+
+The SSE probe expects the official 1.10.1 Linux ARM64 standalone release files at `/release`; their ZIP hash is recorded. Mount the binary/plugin directory read-only and run `python /repro/sse.py` with `python:3.12.11-slim-bookworm` in a disposable, network-disabled container. It starts its own router on container-local port 18000, counts process FDs and TCP states, and verifies a live stream receives a published probe. No public network service is started.
+
+Run `postrm_probe.py` **only inside a disposable container**, with the pinned source mounted read-only at `/zenoh`. It creates synthetic files at the exact daemon paths inside that container, invokes the unmodified maintainer script for each lifecycle argument, and checks an unrelated marker remains. Never run this probe on the host. It is a direct script reproduction, not a full apt/dpkg transaction.

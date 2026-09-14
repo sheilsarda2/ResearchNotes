@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-09-13T10:14:26.529618+00:00",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "-v",
+    "abundant-rust-other-target:/target:ro",
+    "rust:1.98.1-bookworm",
+    "/target/debug/tantivy_opstamp"
+  ],
+  "seconds": 0.145546833,
+  "exit_code": 101,
+  "stdout": "{\"actual_commit\":2,\"commit_accessor_correct\":false,\"committed_document_count\":1,\"discarded_document\":4,\"first_document\":0,\"initial\":0,\"next_document_after_rollback\":2,\"reported_commit\":0,\"rollback_loads_actual_commit_control\":true,\"rollback_return\":2}\n",
+  "stderr": "\nthread 'main' (1) panicked at src/bin/tantivy_opstamp.rs:19:5:\nassertion `left == right` failed: commit_opstamp must report last successful commit\n  left: 0\n right: 2\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+}

@@ -1,0 +1,104 @@
+{
+  "url": "https://api.github.com/repos/russellromney/honker/commits/main",
+  "data": {
+    "sha": "c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52",
+    "node_id": "C_kwDOSGYEGtoAKGMxOGMyNjNhZjJkOTRjYTU2ZmYwZjlhNzE3NGJmN2QxYzFmYzliNTI",
+    "commit": {
+      "author": {
+        "name": "russell romney",
+        "email": "russellromney@gmail.com",
+        "date": "2026-08-27T23:27:37Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2026-08-27T23:27:37Z"
+      },
+      "message": "fix(ci): refresh the node lockfile after publishing the 0.5.1 natives (#127)\n\nWhile the four honker-node-<platform> packages at 0.5.1 were unpublished,\nnpm recorded their lockfile entries with no version and no resolved URL.\nThat lockfile was valid. Publishing them made the entries resolvable, so\nnpm ci now rejects it:\n\n  Invalid: lock file's @russellthehippo/honker-node-darwin-arm64@ does\n  not satisfy @russellthehippo/honker-node-darwin-arm64@0.5.1\n\nNothing in the repo changed \u2014 the lockfile is stale only relative to a\nregistry that moved underneath it. Reproduced against the published\nregistry before and after regenerating, so this is the fix, not a\nmechanical refresh.\n\nSame failure as #118 after the 0.5.0 natives. bun.lock only pins\nhonker-ext at 0.4.6, which did not move, so it needs no refresh.\n\nClaude-Session: https://claude.ai/code/session_01YMCFasvKC52r37DDKSTeMC",
+      "tree": {
+        "sha": "2fdff0656d0cc5a1018093476b499cf478af8dc9",
+        "url": "https://api.github.com/repos/russellromney/honker/git/trees/2fdff0656d0cc5a1018093476b499cf478af8dc9"
+      },
+      "url": "https://api.github.com/repos/russellromney/honker/git/commits/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqkMfpCRC1aQ7uu5UhlAAA6lEQAIx6PnJr1uAA86ELCjyErZ/M\nDa0wSkxtSdL93DOchzkZ+A9jcvVc3gNK0t+DSKv2P2Kd9nohi73WXUBrqzAfbGnF\ndyKVhKsIy1z69+3txC4b7sM3W4kOH38L6ZShquV9vpTUTP7MjCQ6OHmHKn1itIG4\nsI9+DUYz3wCX/c9xw/A/UHwXHPKalEPGKArLQdlcLQnMAfJnwvLG97gUdLevV2Qx\n8rALSoR6QoM04IAy5l10nLF6wtCqtuIEKUCed6OUGAB2kYsPzeU73vX8KjXByJRT\nWNXc/Uf0ZiJ4CdBjH+FfXo2mIJx/dSQJpgK042bTmET+stZdwfejE+gU4wWQBHj5\neIXdOWn37p6dBEOwunHpyJnEfIkr3zO+jdhAbVN54tlejCDW+EnNG2k6GYuwwCUg\nRGFyys1ebpeU7IFGA8Xw1jXEbWRUYjEvY+WySyC1szw9SPpqtJappwSL0aGRJnsm\nr3R7j4KcEjveO7gm2pp4AThbPeb56DjL4vFSqe2xBnlfhSOdzJX31mxGxk+dm4Mx\n4Rkv03NkPP2/nOIttBpx+9MKKsA/HqmVrYTKWZ8EGP/jFoLw6cgawFlK31gKVAHB\n2cUuXH1AGlkM9JWTupMtSLF6R7WFgVLezLbfUPcCCMvOwr0qm8ryP5x3cuy8btE+\nquB+wqOtEqPUe81gPLVU\n=0kCG\n-----END PGP SIGNATURE-----\n",
+        "payload": "tree 2fdff0656d0cc5a1018093476b499cf478af8dc9\nparent c4a6d90ce00e624aee41535d0629b2bc3352a71b\nauthor russell romney <russellromney@gmail.com> 1787873257 -0700\ncommitter GitHub <noreply@github.com> 1787873257 -0700\n\nfix(ci): refresh the node lockfile after publishing the 0.5.1 natives (#127)\n\nWhile the four honker-node-<platform> packages at 0.5.1 were unpublished,\nnpm recorded their lockfile entries with no version and no resolved URL.\nThat lockfile was valid. Publishing them made the entries resolvable, so\nnpm ci now rejects it:\n\n  Invalid: lock file's @russellthehippo/honker-node-darwin-arm64@ does\n  not satisfy @russellthehippo/honker-node-darwin-arm64@0.5.1\n\nNothing in the repo changed \u2014 the lockfile is stale only relative to a\nregistry that moved underneath it. Reproduced against the published\nregistry before and after regenerating, so this is the fix, not a\nmechanical refresh.\n\nSame failure as #118 after the 0.5.0 natives. bun.lock only pins\nhonker-ext at 0.4.6, which did not move, so it needs no refresh.\n\nClaude-Session: https://claude.ai/code/session_01YMCFasvKC52r37DDKSTeMC",
+        "verified_at": "2026-08-27T23:27:38Z"
+      }
+    },
+    "url": "https://api.github.com/repos/russellromney/honker/commits/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52",
+    "html_url": "https://github.com/russellromney/honker/commit/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52",
+    "comments_url": "https://api.github.com/repos/russellromney/honker/commits/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52/comments",
+    "author": {
+      "login": "russellromney",
+      "id": 22407809,
+      "node_id": "MDQ6VXNlcjIyNDA3ODA5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22407809?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/russellromney",
+      "html_url": "https://github.com/russellromney",
+      "followers_url": "https://api.github.com/users/russellromney/followers",
+      "following_url": "https://api.github.com/users/russellromney/following{/other_user}",
+      "gists_url": "https://api.github.com/users/russellromney/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/russellromney/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/russellromney/subscriptions",
+      "organizations_url": "https://api.github.com/users/russellromney/orgs",
+      "repos_url": "https://api.github.com/users/russellromney/repos",
+      "events_url": "https://api.github.com/users/russellromney/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/russellromney/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "c4a6d90ce00e624aee41535d0629b2bc3352a71b",
+        "url": "https://api.github.com/repos/russellromney/honker/commits/c4a6d90ce00e624aee41535d0629b2bc3352a71b",
+        "html_url": "https://github.com/russellromney/honker/commit/c4a6d90ce00e624aee41535d0629b2bc3352a71b"
+      }
+    ],
+    "stats": {
+      "total": 66,
+      "additions": 62,
+      "deletions": 4
+    },
+    "files": [
+      {
+        "sha": "2a86718b885249878bf96db6d13bc0e43c264321",
+        "filename": "packages/honker-node/package-lock.json",
+        "status": "modified",
+        "additions": 62,
+        "deletions": 4,
+        "changes": 66,
+        "blob_url": "https://github.com/russellromney/honker/blob/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52/packages%2Fhonker-node%2Fpackage-lock.json",
+        "raw_url": "https://github.com/russellromney/honker/raw/c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52/packages%2Fhonker-node%2Fpackage-lock.json",
+        "contents_url": "https://api.github.com/repos/russellromney/honker/contents/packages%2Fhonker-node%2Fpackage-lock.json?ref=c18c263af2d94ca56ff0f9a7174bf7d1c1fc9b52",
+        "patch": "@@ -1657,16 +1657,74 @@\n       ]\n     },\n     \"node_modules/@russellthehippo/honker-node-darwin-arm64\": {\n-      \"optional\": true\n+      \"version\": \"0.5.1\",\n+      \"resolved\": \"https://registry.npmjs.org/@russellthehippo/honker-node-darwin-arm64/-/honker-node-darwin-arm64-0.5.1.tgz\",\n+      \"integrity\": \"sha512-s87nEcQh5/5ifwX/+c7eaQQslM6T0gHed7s1sd4p1l1Mv+PJcELOQKj6s+S2L/dck7u9FdmgNgbZ3lnH7UlXew==\",\n+      \"cpu\": [\n+        \"arm64\"\n+      ],\n+      \"license\": \"MIT OR Apache-2.0\",\n+      \"optional\": true,\n+      \"os\": [\n+        \"darwin\"\n+      ],\n+      \"engines\": {\n+        \"node\": \">= 20\"\n+      }\n     },\n     \"node_modules/@russellthehippo/honker-node-darwin-x64\": {\n-      \"optional\": true\n+      \"version\": \"0.5.1\",\n+      \"resolved\": \"https://registry.npmjs.org/@russellthehippo/honker-node-darwin-x64/-/honker-node-darwin-x64-0.5.1.tgz\",\n+      \"integrity\": \"sha512-ua8UeON4koctANlEiEJzrII/IWRjz6xFLfatzErfhtksOJhvqUSw+Gg3yMLmWRnd5dHmWctgTbcot6x/c8b23g==\",\n+      \"cpu\": [\n+        \"x64\"\n+      ],\n+      \"license\": \"MIT OR Apache-2.0\",\n+      \"optional\": true,\n+      \"os\": [\n+        \"darwin\"\n+      ],\n+      \"engines\": {\n+        \"node\": \">= 20\"\n+      }\n     },\n     \"node_modules/@russellthehippo/honker-node-linux-arm64-gnu\": {\n-      \"optional\": true\n+      \"version\": \"0.5.1\",\n+      \"resolved\": \"https://registry.npmjs.org/@russellthehippo/honker-node-linux-arm64-gnu/-/honker-node-linux-arm64-gnu-0.5.1.tgz\",\n+      \"integrity\": \"sha512-LGB67rNLG8mNiOzuE79I3nYk4UmgBWioLBnUAd/47PjoKCnt5YrB7R+t+gGCUncW+PqEsdxET6uPHACMvs1S6w==\",\n+      \"cpu\": [\n+        \"arm64\"\n+      ],\n+      \"libc\": [\n+        \"glibc\"\n+      ],\n+      \"license\": \"MIT OR Apache-2.0\",\n+      \"optional\": true,\n+      \"os\": [\n+        \"linux\"\n+      ],\n+      \"engines\": {\n+        \"node\": \">= 20\"\n+      }\n     },\n     \"node_modules/@russellthehippo/honker-node-linux-x64-gnu\": {\n-      \"optional\": true\n+      \"version\": \"0.5.1\",\n+      \"resolved\": \"https://registry.npmjs.org/@russellthehippo/honker-node-linux-x64-gnu/-/honker-node-linux-x64-gnu-0.5.1.tgz\",\n+      \"integrity\": \"sha512-IGo/hSI7bqJdrjAQXkvzhmuJ+UPMj/D4w+afKW7Ro9Hfj5AEUKPAf7184FlnNWlRyLIw0H6ZmXTAwxKOcOfb/A==\",\n+      \"cpu\": [\n+        \"x64\"\n+      ],\n+      \"libc\": [\n+        \"glibc\"\n+      ],\n+      \"license\": \"MIT OR Apache-2.0\",\n+      \"optional\": true,\n+      \"os\": [\n+        \"linux\"\n+      ],\n+      \"engines\": {\n+        \"node\": \">= 20\"\n+      }\n     },\n     \"node_modules/@tybys/wasm-util\": {\n       \"version\": \"0.10.3\","
+      }
+    ]
+  }
+}

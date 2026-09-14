@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-09-13",
+  "model_calls": 0,
+  "source_commit": "dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+  "image": "abundant-huey-deadletter-redrive:baseline",
+  "network": "none",
+  "command": "docker run --rm -i --network none abundant-huey-deadletter-redrive:baseline python -",
+  "script": "import json,tempfile,logging\nfrom pathlib import Path\nfrom huey import SqliteHuey\nfrom huey.exceptions import TaskException\nfrom huey.signals import SIGNAL_ERROR\nlogging.disable(logging.CRITICAL)\nout={}\nwith tempfile.TemporaryDirectory() as tmp:\n for enabled in (True,False):\n  filename=str(Path(tmp)/('results-%s.db'%enabled))\n  h=SqliteHuey('demand-audit',filename=filename,results=enabled)\n  delivered=[];fixed=[False];terminal_payloads=[]\n  @h.task(name='send_email',retries=1,retry_delay=0)\n  def send_email(subject,body,to):\n   if not fixed[0]:raise RuntimeError('mail provider unavailable')\n   delivered.append(to);return 'sent'\n  @h.signal(SIGNAL_ERROR)\n  def observe_terminal(signal,task,exc):\n   if task.retries==0:terminal_payloads.append(h.serialize_task(task))\n  task=send_email.s('Receipt','body','customer@example.invalid')\n  original_id=task.id;handle=h.enqueue(task)\n  attempts=0\n  while h.pending_count():\n   h.execute(h.dequeue());attempts+=1\n  fresh=SqliteHuey('demand-audit',filename=filename,results=enabled)\n  state={'attempts':attempts,'pending_after_exhaustion':fresh.pending_count(),'scheduled_after_exhaustion':fresh.scheduled_count(),'result_count_after_exhaustion':fresh.result_count(),'native_archive_api':hasattr(fresh,'failures'),'native_redrive_api':hasattr(fresh,'redrive'),'terminal_errors_observed_via_existing_signal':len(terminal_payloads),'signal_payload_preserves_args':h.deserialize_task(terminal_payloads[0]).args==task.args}\n  if enabled:\n   error=fresh.get(original_id,peek=True)\n   state['stored_error_type']=type(error).__name__\n   state['stored_error_fields']=sorted(error.metadata)\n   state['stored_error_includes_invocation']=any(k in error.metadata for k in ('args','kwargs','data'))\n   try:fresh.result(original_id)\n   except TaskException:pass\n   state['result_count_after_read']=fresh.result_count()\n   fixed[0]=True\n   one=handle.reschedule();two=handle.reschedule()\n   state['retained_handle_reschedule_control']={'distinct_replacement_ids':one.id!=two.id,'pending':h.pending_count()}\n   while h.pending_count():h.execute(h.dequeue())\n   state['delivered_after_manual_repair']=len(delivered)\n  out[str(enabled)]=state\nprint(json.dumps({'unmodified_upstream_reproduction':out},indent=2))\n",
+  "result": {
+    "unmodified_upstream_reproduction": {
+      "True": {
+        "attempts": 2,
+        "pending_after_exhaustion": 0,
+        "scheduled_after_exhaustion": 0,
+        "result_count_after_exhaustion": 1,
+        "native_archive_api": false,
+        "native_redrive_api": false,
+        "terminal_errors_observed_via_existing_signal": 1,
+        "signal_payload_preserves_args": true,
+        "stored_error_type": "Error",
+        "stored_error_fields": [
+          "error",
+          "retries",
+          "task_id",
+          "traceback"
+        ],
+        "stored_error_includes_invocation": false,
+        "result_count_after_read": 0,
+        "retained_handle_reschedule_control": {
+          "distinct_replacement_ids": true,
+          "pending": 2
+        },
+        "delivered_after_manual_repair": 2
+      },
+      "False": {
+        "attempts": 2,
+        "pending_after_exhaustion": 0,
+        "scheduled_after_exhaustion": 0,
+        "result_count_after_exhaustion": 0,
+        "native_archive_api": false,
+        "native_redrive_api": false,
+        "terminal_errors_observed_via_existing_signal": 1,
+        "signal_payload_preserves_args": true
+      }
+    }
+  },
+  "exit_code": 0,
+  "scope": "Unmodified upstream installed package. A new independently constructed SqliteHuey instance reopens the same database within the disposable container process. No actual email or external service. Existing signal hook retained bytes in memory only as an observability/extension-point positive control."
+}

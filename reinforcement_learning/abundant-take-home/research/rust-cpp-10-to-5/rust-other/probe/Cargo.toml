@@ -1,0 +1,29 @@
+[package]
+name = "rust-other-probes"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+arrow-schema = { path = "../checkouts/arrow-rs-4cd8be954f6bc6b6dd265140207365b59a9900ec/arrow-schema", features = ["ffi"] }
+object_store = { path = "../checkouts/arrow-rs-object-store-279572ea60f3a7a6e5237e066a6f4a35eee611e0", default-features = false, features = ["http"], optional = true }
+tokio = { version = "1", features = ["macros", "rt"], optional = true }
+tantivy = { path = "../checkouts/tantivy-4abd98fa19a75671a08631190ca90d93b9dbd2df", default-features = false, optional = true }
+serde_json = "1"
+
+[features]
+object = ["dep:object_store", "dep:tokio"]
+search = ["dep:tantivy"]
+
+[[bin]]
+name = "arrow_metadata"
+path = "src/bin/arrow_metadata.rs"
+
+[[bin]]
+name = "object_range"
+path = "src/bin/object_range.rs"
+required-features = ["object"]
+
+[[bin]]
+name = "tantivy_opstamp"
+path = "src/bin/tantivy_opstamp.rs"
+required-features = ["search"]

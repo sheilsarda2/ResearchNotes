@@ -1,0 +1,42 @@
+{
+  "researched_at": "2026-09-13",
+  "repository": "https://github.com/simonw/sqlite-utils",
+  "commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+  "commit_date": "2026-09-01T21:44:52-07:00",
+  "release": "4.2.1",
+  "release_date": "2026-08-13",
+  "license": "Apache-2.0",
+  "sources": [
+    {"url": "https://github.com/simonw/sqlite-utils/tree/85b1be10c81d9dd3567e36faf8dd411e4a8789bd", "kind": "pinned_source", "supports": "Current base repository and absence of the proposed public APIs."},
+    {"url": "https://sqlite-utils.datasette.io/en/stable/changelog.html", "kind": "official_release_notes", "supports": "Already shipped transactions, migrations, compound foreign keys, transform preservation and latest release."},
+    {"url": "https://sqlite-utils.datasette.io/en/stable/migrations.html", "kind": "official_docs", "supports": "Existing durable migration ledger and per-migration atomicity; these are not new task features."},
+    {"url": "https://github.com/simonw/sqlite-utils/issues/491", "kind": "upstream_issue", "supports": "User need for database merging and primary-key collision problem."},
+    {"url": "https://github.com/simonw/sqlite-utils/pull/724", "kind": "prior_solution", "state_at_research": "open", "supports": "Generic merge implementation exists publicly; inspected code does not remap FK graphs or supply provenance/checkpoint semantics."},
+    {"url": "https://github.com/simonw/sqlite-utils/issues/849", "kind": "upstream_issue", "state_at_research": "open", "supports": "Current transform behavior and documentation disagreement about triggers/views/indexes."},
+    {"url": "https://github.com/simonw/sqlite-utils/pull/854", "kind": "upstream_docs_pr", "state_at_research": "open", "created_date": "2026-09-06", "supports": "Current transforms delete table triggers and leave view definitions unchanged; PR documents behavior without implementing preservation."},
+    {"url": "https://github.com/simonw/sqlite-utils/pull/851", "kind": "upstream_docs_pr", "state_at_research": "open", "supports": "Related documentation clarification; not an implementation of coordinated transformation."},
+    {"url": "https://github.com/simonw/sqlite-utils/pull/703", "kind": "prior_solution", "state_at_research": "open", "supports": "Incoming-FK rename solution already public and must not be presented as newly invented."},
+    {"url": "https://github.com/simonw/sqlite-utils/pull/499", "kind": "prior_solution", "state_at_research": "open", "supports": "Earlier FTS trigger recreation attempt overlaps part of dependency preservation."},
+    {"url": "https://github.com/simonw/sqlite-utils/issues/831", "kind": "solved_issue", "state_at_research": "closed", "supports": "Basic survival of dependent views through rebuild is already implemented; view SQL rewriting was explicitly outside that fix."},
+    {"url": "https://www.sqlite.org/lang_altertable.html", "kind": "official_sqlite_docs", "supports": "Native rename updates dependent objects; use engine semantics rather than forcing manual SQL rewriting."},
+    {"url": "https://api.github.com/repos/simonw/sqlite-utils/issues?state=open&per_page=100", "kind": "freshness_audit", "supports": "Inspected current open issues/PRs including Sep13 changes through #868."}
+  ],
+  "baseline_checks": {
+    "model_runs": 0,
+    "python_version": "3.14.6",
+    "sqlite_version": "3.53.1",
+    "upstream_test_command": "python -m pytest tests/test_atomic.py tests/test_migrations.py tests/test_transform.py -q",
+    "upstream_test_result": "156 passed in 0.19s",
+    "trigger_rename_smoke": "after_triggers=[]",
+    "dependent_view_smoke": "no such column: value",
+    "expression_index_rename_smoke": "TransformError: partial or expression index cannot be safely recreated while columns are renamed or dropped",
+    "harbor_oracle_validated": false,
+    "harbor_noop_validated": false
+  },
+  "limitations": [
+    "Subsequent broad GitHub search API calls were rate limited; no claim of exhaustive absence across all historical issues or forks.",
+    "Implementation scope estimates and long-horizon difficulty are hypotheses until oracle and trajectory validation.",
+    "Current release and main source already include many formerly proposed transform and transaction fixes.",
+    "Third candidate is a reserve due to composition risk and the possibility that native ALTER resolves much of the rename portion."
+  ]
+}

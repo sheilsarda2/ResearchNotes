@@ -1,0 +1,91 @@
+{
+  "checked_at_utc": "2026-09-13T09:55:44.392362+00:00",
+  "main_pin": "ddd684110e1f200ee13ba482ab42689b78dd0551",
+  "scope": "Public metadata, comments and relevant diffs; cannot exclude private work or unlinked differently named branches.",
+  "sources": [
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596",
+      "event_date": "2026-01-27",
+      "finding": "One reporter supplies selected-export mismatch and C++ fixture; real data and workaround in comments.",
+      "status": "open; exact demand"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596#issuecomment-3810831112",
+      "event_date": "2026-01-28",
+      "finding": "Maintainer identifies whole overlapping chunks and need to truncate.",
+      "status": "cause confirmed"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596#issuecomment-3841776767",
+      "event_date": "2026-02-03",
+      "finding": "Reporter sets RERUN_CHUNK_MAX_ROWS=1, exports correctly, optionally recompacts.",
+      "status": "working workaround"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12239",
+      "event_date": "2025-12-16",
+      "finding": "Diff keeps static chunks and corrects intersection; does not slice rows.",
+      "status": "merged; related partial fix"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12312",
+      "event_date": "2026-01-06",
+      "finding": "Provides deep slicing, fixes physical serialization size, no selected-export integration.",
+      "status": "merged; available primitive"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/11318",
+      "event_date": null,
+      "finding": "Proposes incoming server data cropping and overlap handling, not export.",
+      "status": "closed unmerged"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12062",
+      "event_date": "2025-12-02",
+      "finding": "Loads selected chunks rather than truncating export rows.",
+      "status": "merged; different operation"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12821",
+      "event_date": "2026-06-18",
+      "finding": "C cleanup exceeds 60-second watchdog with million row logs, controls return.",
+      "status": "open; exact C report"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12620",
+      "event_date": "2026-02-07",
+      "finding": "Independent Python user reports blocked exit until viewer starts.",
+      "status": "open; related demand"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/11008",
+      "event_date": "2025-08-28",
+      "finding": "Flush intentionally waits indefinitely but disconnected gRPC should break early.",
+      "status": "merged; limits acceptable fix scope"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12846",
+      "event_date": null,
+      "finding": "Open diff changes DataFusion/server chunk fetching, not SDK shutdown.",
+      "status": "open; not exact competing fix"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12828",
+      "event_date": "2026-07-01",
+      "finding": "Repeated Python context use loses later data; finalization intentional, API remedy uncertain.",
+      "status": "hold/reject task scope"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12880",
+      "event_date": null,
+      "finding": "Completed anamorphic projection patch and tests already public.",
+      "status": "closed unmerged; reject fresh-task claim"
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/releases/tag/0.37.2",
+      "event_date": "2026-09-11",
+      "finding": "Latest release verified by authoritative API metadata.",
+      "status": "current release tested via Python wheel"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+=================================================================
+==70547==ERROR: AddressSanitizer: stack-buffer-underflow on address 0x00016cfb2df8 at pc 0x000102e49bec bp 0x00016cfb2ad0 sp 0x00016cfb2ac8
+READ of size 8 at 0x00016cfb2df8 thread T0
+    #0 0x000102e49be8 in double* ranges::nth_element_fn::operator()<double*, double*, std::__1::greater<void>, ranges::identity, true, 0, 0>(double*, double*, double*, std::__1::greater<void>, ranges::identity) const nth_element.hpp:219
+    #1 0x000102e489f4 in main range-nth-upstream.cpp:9
+    #2 0x00018f1684e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+Address 0x00016cfb2df8 is located in stack of thread T0 at offset 24 in frame
+    #0 0x000102e488c4 in main range-nth-upstream.cpp:6
+
+  This frame has 1 object(s):
+    [32, 16032) 'arr' (line 7) <== Memory access at offset 24 underflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-underflow nth_element.hpp:219 in double* ranges::nth_element_fn::operator()<double*, double*, std::__1::greater<void>, ranges::identity, true, 0, 0>(double*, double*, double*, std::__1::greater<void>, ranges::identity) const
+Shadow bytes around the buggy address:
+  0x00016cfb2b00: 01 f2 01 f2 00 f2 f2 f2 00 f2 f2 f2 00 f2 f2 f2
+  0x00016cfb2b80: 00 f2 f2 f2 00 f2 f2 f2 04 f2 00 f2 f2 f2 00 f2
+  0x00016cfb2c00: f2 f2 f8 f8 f2 f2 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+  0x00016cfb2c80: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016cfb2d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x00016cfb2d80: 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1[f1]
+  0x00016cfb2e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016cfb2e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016cfb2f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016cfb2f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x00016cfb3000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==70547==ABORTING

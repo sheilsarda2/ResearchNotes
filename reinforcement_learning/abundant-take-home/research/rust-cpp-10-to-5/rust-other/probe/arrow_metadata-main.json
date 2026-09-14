@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-09-13T10:14:26.192361+00:00",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "-v",
+    "abundant-rust-other-target:/target:ro",
+    "rust:1.98.1-bookworm",
+    "/target/debug/arrow_metadata"
+  ],
+  "seconds": 0.14732425,
+  "exit_code": 101,
+  "stdout": "{\"dictionary_original\":{\"ARROW:extension:metadata\":\"{}\",\"ARROW:extension:name\":\"geoarrow.wkb\"},\"dictionary_restored\":{},\"roundtrip_equal\":false,\"rust_type\":\"Dictionary(Int32, Binary)\",\"scalar_metadata_control\":true}\n",
+  "stderr": "\nthread 'main' (1) panicked at src/bin/arrow_metadata.rs:20:5:\nassertion `left == right` failed: dictionary value field metadata must survive C Data schema import/export\n  left: {\"ARROW:extension:metadata\": \"{}\", \"ARROW:extension:name\": \"geoarrow.wkb\"}\n right: {}\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+}

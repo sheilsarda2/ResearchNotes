@@ -1,0 +1,67 @@
+{
+  "updated_at": "2026-09-13T10:16:20.954486+00:00",
+  "candidates": [
+    {
+      "id": "object-store-full-range-200",
+      "repo": "apache/arrow-rs-object-store",
+      "issue": 806,
+      "source_sha": "279572ea60f3a7a6e5237e066a6f4a35eee611e0",
+      "recommendation": "advance",
+      "status": "current_main_reproduced",
+      "natural_scope": "small_to_medium",
+      "public_work": "no_exact_fix_found_in_bounded_search",
+      "evidence": "probe/object_range-main.json",
+      "demand": [
+        "https://github.com/apache/arrow-rs-object-store/issues/806",
+        "https://github.com/pola-rs/polars/issues/28400"
+      ],
+      "caveats": [
+        "No actual miniserve/Polars integration execution",
+        "Difficulty unmeasured"
+      ]
+    },
+    {
+      "id": "arrow-dictionary-value-metadata",
+      "repo": "apache/arrow-rs",
+      "issue": 7982,
+      "source_sha": "4cd8be954f6bc6b6dd265140207365b59a9900ec",
+      "recommendation": "substantial_reserve_with_adjacent_work_caveat",
+      "status": "current_main_reproduced",
+      "natural_scope": "potentially_substantial_schema_integration",
+      "public_work": "adjacent_IPC_format_work_publicly_claimed_not_Rust_C_Data_fix",
+      "evidence": "probe/arrow_metadata-main.json",
+      "demand": [
+        "https://github.com/apache/arrow-rs/issues/7982",
+        "https://github.com/apache/arrow/issues/49704"
+      ],
+      "caveats": [
+        "C Data spec allows ignoring metadata; requested interoperability feature",
+        "Only schema roundtrip executed",
+        "IPC overlap must be disclosed",
+        "Full Arrow build not measured",
+        "Difficulty unmeasured"
+      ]
+    },
+    {
+      "id": "tantivy-committed-opstamp",
+      "repo": "quickwit-oss/tantivy",
+      "issue": 2666,
+      "source_sha": "4abd98fa19a75671a08631190ca90d93b9dbd2df",
+      "recommendation": "prune_from_five",
+      "status": "narrow_accessor_failure_reproduced_broad_rollback_claim_contradicted",
+      "natural_scope": "probably_modest",
+      "public_work": "no_exact_upstream_fix_found_adjacent_commit_prs_exist",
+      "evidence": "probe/tantivy_opstamp-main.json",
+      "demand": [
+        "https://github.com/quickwit-oss/tantivy/issues/2666",
+        "https://github.com/anyproto/anytype-heart/pull/2547",
+        "https://github.com/anyproto/tantivy-go/pull/24"
+      ],
+      "caveats": [
+        "Current rollback control works",
+        "delete_all_documents data-loss path not executed",
+        "Difficulty unmeasured"
+      ]
+    }
+  ]
+}

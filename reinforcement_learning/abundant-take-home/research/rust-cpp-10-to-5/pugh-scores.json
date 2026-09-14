@@ -1,0 +1,269 @@
+{
+  "updated_at": "2026-09-13T11:42:42.910202+00:00",
+  "datum": "sqlite-utils-relational-merge",
+  "weights": {
+    "HR": 3,
+    "ATT": 3,
+    "HZ": 2,
+    "VER": 2,
+    "DEM": 2,
+    "NOV": 1,
+    "SCL": 1,
+    "OPS": 1
+  },
+  "ranking": "as-built weighted total descending; ties use DEM, then ATT, then HZ; remaining ties share a rank",
+  "measurement_status": "HR and HZ are static estimates; no model trials or measured >75-step horizon",
+  "original_chart_sha256": "a8a346bf179d2e928af1efd438345a7acaa8ee4a7b6dc86297be8a5f1644369a",
+  "corrections": [
+    {
+      "task": "huey-sqlite-leases",
+      "criterion": "DEM",
+      "previous": 2,
+      "current": 0,
+      "reason": "Exact SQLite workflow demand unqualified by later Huey demand audit",
+      "evidence": "research/huey-demand-review.md"
+    }
+  ],
+  "rows": [
+    {
+      "task": "luigi-generation-target",
+      "scores": {
+        "HR": 1,
+        "ATT": 0,
+        "HZ": 1,
+        "VER": 1,
+        "DEM": 0,
+        "NOV": 0,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": 8,
+      "after_listed_fixes": 8,
+      "rank": 1
+    },
+    {
+      "task": "burn-scoped-checkpoint-remap",
+      "scores": {
+        "HR": -1,
+        "ATT": 1,
+        "HZ": -1,
+        "VER": 1,
+        "DEM": 2,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": 4,
+      "after_listed_fixes": 4,
+      "rank": 2
+    },
+    {
+      "task": "sqlite-utils-schema-plan",
+      "scores": {
+        "HR": 1,
+        "ATT": -1,
+        "HZ": 1,
+        "VER": -1,
+        "DEM": 1,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": 2,
+      "after_listed_fixes": 7,
+      "rank": 3
+    },
+    {
+      "task": "diskcache-online-reshard",
+      "scores": {
+        "HR": 2,
+        "ATT": -1,
+        "HZ": 2,
+        "VER": -1,
+        "DEM": -1,
+        "NOV": 1,
+        "SCL": -1,
+        "OPS": -1
+      },
+      "weighted_total": 2,
+      "after_listed_fixes": 8,
+      "rank": 4
+    },
+    {
+      "task": "huey-sqlite-leases",
+      "scores": {
+        "HR": 1,
+        "ATT": -1,
+        "HZ": 1,
+        "VER": -1,
+        "DEM": 0,
+        "NOV": 0,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": 1,
+      "after_listed_fixes": 6,
+      "rank": 5
+    },
+    {
+      "task": "sqlite-utils-relational-merge",
+      "scores": {
+        "HR": 0,
+        "ATT": 0,
+        "HZ": 0,
+        "VER": 0,
+        "DEM": 0,
+        "NOV": 0,
+        "SCL": 0,
+        "OPS": 0
+      },
+      "weighted_total": 0,
+      "after_listed_fixes": 5,
+      "rank": 6
+    },
+    {
+      "task": "rerun-selected-time-export",
+      "scores": {
+        "HR": -2,
+        "ATT": 1,
+        "HZ": -2,
+        "VER": 1,
+        "DEM": 2,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -1,
+      "after_listed_fixes": -1,
+      "rank": 7
+    },
+    {
+      "task": "object-store-full-range-response",
+      "scores": {
+        "HR": -2,
+        "ATT": 1,
+        "HZ": -2,
+        "VER": 1,
+        "DEM": 2,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -1,
+      "after_listed_fixes": -1,
+      "rank": 7
+    },
+    {
+      "task": "zenoh-queryable-completeness",
+      "scores": {
+        "HR": -2,
+        "ATT": 1,
+        "HZ": -2,
+        "VER": 1,
+        "DEM": 2,
+        "NOV": -1,
+        "SCL": 0,
+        "OPS": 0
+      },
+      "weighted_total": -2,
+      "after_listed_fixes": -2,
+      "rank": 9
+    },
+    {
+      "task": "luigi-checkpoint-task",
+      "scores": {
+        "HR": 0,
+        "ATT": 0,
+        "HZ": 0,
+        "VER": -1,
+        "DEM": 0,
+        "NOV": 0,
+        "SCL": 1,
+        "OPS": -1
+      },
+      "weighted_total": -2,
+      "after_listed_fixes": 1,
+      "rank": 10
+    },
+    {
+      "task": "diskcache-snapshot-restore",
+      "scores": {
+        "HR": -1,
+        "ATT": 1,
+        "HZ": -1,
+        "VER": 1,
+        "DEM": -1,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -2,
+      "after_listed_fixes": -2,
+      "rank": 11
+    },
+    {
+      "task": "huey-sqlite-outbox",
+      "scores": {
+        "HR": 1,
+        "ATT": -1,
+        "HZ": 1,
+        "VER": -1,
+        "DEM": -1,
+        "NOV": -1,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -2,
+      "after_listed_fixes": 3,
+      "rank": 12
+    },
+    {
+      "task": "rapidjson-schema-property-membership",
+      "scores": {
+        "HR": -2,
+        "ATT": 1,
+        "HZ": -2,
+        "VER": 1,
+        "DEM": 1,
+        "NOV": -2,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -4,
+      "after_listed_fixes": -4,
+      "rank": 13
+    },
+    {
+      "task": "sqlite-utils-resumable-import",
+      "scores": {
+        "HR": -1,
+        "ATT": -1,
+        "HZ": -1,
+        "VER": -1,
+        "DEM": 0,
+        "NOV": -1,
+        "SCL": 2,
+        "OPS": 0
+      },
+      "weighted_total": -9,
+      "after_listed_fixes": -4,
+      "rank": 14
+    },
+    {
+      "task": "huey-deadletter-redrive",
+      "scores": {
+        "HR": 0,
+        "ATT": -2,
+        "HZ": 0,
+        "VER": -1,
+        "DEM": -1,
+        "NOV": 0,
+        "SCL": 1,
+        "OPS": 0
+      },
+      "weighted_total": -9,
+      "after_listed_fixes": -4,
+      "rank": 15
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "url": "https://api.github.com/repos/coleifer/huey/commits/master",
+  "data": {
+    "sha": "dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+    "node_id": "C_kwDOAClAItoAKGRiZDFhZWY0NWFkZjU3ZDIxNjllODBiZGM5ZjE4ZWExY2Q3MDQ3NTk",
+    "commit": {
+      "author": {
+        "name": "Charles Leifer",
+        "email": "coleifer@gmail.com",
+        "date": "2026-09-08T01:25:03Z"
+      },
+      "committer": {
+        "name": "Charles Leifer",
+        "email": "coleifer@gmail.com",
+        "date": "2026-09-08T01:25:57Z"
+      },
+      "message": "Don't let a single bad enqueue ruin your day.\n\nFixes #915",
+      "tree": {
+        "sha": "524d252f0b2475fa914a1620e0c9fc714b4ca68b",
+        "url": "https://api.github.com/repos/coleifer/huey/git/trees/524d252f0b2475fa914a1620e0c9fc714b4ca68b"
+      },
+      "url": "https://api.github.com/repos/coleifer/huey/git/commits/dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/coleifer/huey/commits/dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+    "html_url": "https://github.com/coleifer/huey/commit/dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+    "comments_url": "https://api.github.com/repos/coleifer/huey/commits/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/comments",
+    "author": {
+      "login": "coleifer",
+      "id": 119974,
+      "node_id": "MDQ6VXNlcjExOTk3NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/119974?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/coleifer",
+      "html_url": "https://github.com/coleifer",
+      "followers_url": "https://api.github.com/users/coleifer/followers",
+      "following_url": "https://api.github.com/users/coleifer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/coleifer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/coleifer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/coleifer/subscriptions",
+      "organizations_url": "https://api.github.com/users/coleifer/orgs",
+      "repos_url": "https://api.github.com/users/coleifer/repos",
+      "events_url": "https://api.github.com/users/coleifer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/coleifer/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "coleifer",
+      "id": 119974,
+      "node_id": "MDQ6VXNlcjExOTk3NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/119974?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/coleifer",
+      "html_url": "https://github.com/coleifer",
+      "followers_url": "https://api.github.com/users/coleifer/followers",
+      "following_url": "https://api.github.com/users/coleifer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/coleifer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/coleifer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/coleifer/subscriptions",
+      "organizations_url": "https://api.github.com/users/coleifer/orgs",
+      "repos_url": "https://api.github.com/users/coleifer/repos",
+      "events_url": "https://api.github.com/users/coleifer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/coleifer/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "6e8acd022346eeb1b09f46c7fa2612f760ee194b",
+        "url": "https://api.github.com/repos/coleifer/huey/commits/6e8acd022346eeb1b09f46c7fa2612f760ee194b",
+        "html_url": "https://github.com/coleifer/huey/commit/6e8acd022346eeb1b09f46c7fa2612f760ee194b"
+      }
+    ],
+    "stats": {
+      "total": 5,
+      "additions": 4,
+      "deletions": 1
+    },
+    "files": [
+      {
+        "sha": "d643d21e44803f12d1eabca9c34a147edcf9ac94",
+        "filename": "huey/consumer.py",
+        "status": "modified",
+        "additions": 4,
+        "deletions": 1,
+        "changes": 5,
+        "blob_url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey%2Fconsumer.py",
+        "raw_url": "https://github.com/coleifer/huey/raw/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey%2Fconsumer.py",
+        "contents_url": "https://api.github.com/repos/coleifer/huey/contents/huey%2Fconsumer.py?ref=dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+        "patch": "@@ -180,7 +180,10 @@ def loop(self, now=None):\n         else:\n             for task in task_list:\n                 self._logger.debug('Enqueueing %s', task)\n-                self.huey.enqueue(task)\n+                try:\n+                    self.huey.enqueue(task)\n+                except Exception:\n+                    self._logger.exception('Error enqueueing %s.', task)\n \n         if self.periodic and self._next_periodic <= time.monotonic():\n             # If the scheduler stalled (e.g. suspend/resume), skip past any"
+      }
+    ]
+  }
+}

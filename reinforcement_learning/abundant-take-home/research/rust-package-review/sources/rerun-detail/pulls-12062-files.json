@@ -1,0 +1,18 @@
+{
+  "url": "https://api.github.com/repos/rerun-io/rerun/pulls/12062/files?per_page=100",
+  "checked_at_utc": "2026-09-13T09:54:13.460785+00:00",
+  "data": [
+    {
+      "sha": "f7262620e7ca4a04b50c5e41b33512ed36a99beb",
+      "filename": "crates/store/re_redap_client/src/grpc.rs",
+      "status": "modified",
+      "additions": 24,
+      "deletions": 2,
+      "changes": 26,
+      "blob_url": "https://github.com/rerun-io/rerun/blob/655b8d1fa33a00e03cd19aed85c2b1970d913c1e/crates%2Fstore%2Fre_redap_client%2Fsrc%2Fgrpc.rs",
+      "raw_url": "https://github.com/rerun-io/rerun/raw/655b8d1fa33a00e03cd19aed85c2b1970d913c1e/crates%2Fstore%2Fre_redap_client%2Fsrc%2Fgrpc.rs",
+      "contents_url": "https://api.github.com/repos/rerun-io/rerun/contents/crates%2Fstore%2Fre_redap_client%2Fsrc%2Fgrpc.rs?ref=655b8d1fa33a00e03cd19aed85c2b1970d913c1e",
+      "patch": "@@ -9,6 +9,7 @@ use re_log_types::{\n     AbsoluteTimeRange, BlueprintActivationCommand, DataSourceMessage, DataSourceUiCommand, EntryId,\n     LogMsg, SetStoreInfo, StoreId, StoreInfo, StoreKind, StoreSource,\n };\n+use re_protos::cloud::v1alpha1::ext::{Query, QueryLatestAt, QueryRange};\n use re_protos::cloud::v1alpha1::rerun_cloud_service_client::RerunCloudServiceClient;\n use re_protos::common::v1alpha1::ext::SegmentId;\n use re_uri::{Origin, TimeSelection};\n@@ -459,14 +460,35 @@ async fn stream_segment_from_server(\n     // of client's HTTP2 connection window, and ultimately to a complete stall of the entire system.\n     // See the attached issues for more information.\n \n-    // Retrieve the chunk IDs we're interested in (all of them):\n+    // Retrieve the chunk IDs we're interested in:\n     let chunk_index_messages = client\n         .query_dataset_chunk_index(SegmentQueryParams {\n             dataset_id,\n             segment_id: segment_id.clone(),\n             include_static_data: true,\n             include_temporal_data: true,\n-            query: None,\n+            query: time_range.map(|time_range| {\n+                Query {\n+                    // So that we can show the state at the start:\n+                    latest_at: Some(QueryLatestAt {\n+                        index: Some(time_range.timeline.name().to_string()),\n+                        at: time_range.range.min(),\n+                    }),\n+                    // Show we can show everything in the range:\n+                    range: Some(QueryRange {\n+                        index: time_range.timeline.name().to_string(),\n+                        index_range: time_range.into(),\n+                    }),\n+                    columns_always_include_everything: false,\n+                    columns_always_include_chunk_ids: false,\n+                    columns_always_include_byte_offsets: false,\n+                    columns_always_include_entity_paths: false,\n+                    columns_always_include_static_indexes: false,\n+                    columns_always_include_global_indexes: false,\n+                    columns_always_include_component_indexes: false,\n+                }\n+                .into()\n+            }),\n         })\n         .await?;\n "
+    }
+  ]
+}

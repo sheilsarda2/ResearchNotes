@@ -1,0 +1,66 @@
+{
+  "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/pulls/2647/files",
+  "checked_at_utc": "2026-09-13T09:50:17.734484+00:00",
+  "data": [
+    {
+      "sha": "1c460dec67ddbf16700714ccca22e691043f8782",
+      "filename": "plugins/zenoh-backend-example/src/lib.rs",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-backend-example%2Fsrc%2Flib.rs",
+      "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-backend-example%2Fsrc%2Flib.rs",
+      "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/plugins%2Fzenoh-backend-example%2Fsrc%2Flib.rs?ref=b948909f812938d9bd83b975cada891da2a9043e",
+      "patch": "@@ -70,6 +70,7 @@ impl Volume for ExampleBackend {\n         Capability {\n             persistence: Persistence::Volatile,\n             history: History::Latest,\n+            read_only: false,\n         }\n     }\n     async fn create_storage(&self, _props: StorageConfig) -> ZResult<Box<dyn Storage>> {"
+    },
+    {
+      "sha": "16b7a3f027cf765935815c7476628460494f3c46",
+      "filename": "plugins/zenoh-backend-traits/src/lib.rs",
+      "status": "modified",
+      "additions": 57,
+      "deletions": 3,
+      "changes": 60,
+      "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-backend-traits%2Fsrc%2Flib.rs",
+      "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-backend-traits%2Fsrc%2Flib.rs",
+      "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/plugins%2Fzenoh-backend-traits%2Fsrc%2Flib.rs?ref=b948909f812938d9bd83b975cada891da2a9043e",
+      "patch": "@@ -73,6 +73,7 @@\n //!         Capability{\n //!             persistence: Persistence::Volatile,\n //!             history: History::Latest,\n+//!             read_only: false,\n //!         }\n //!     }\n //!\n@@ -155,28 +156,42 @@ const FEATURES: &str =\n \n /// Capability of a storage indicates the guarantees of the storage\n /// It is used by the storage manager to take decisions on the trade-offs to ensure correct performance\n-#[derive(Debug, Clone, PartialEq, Eq)]\n+#[derive(Debug, Clone, Default, PartialEq, Eq)]\n pub struct Capability {\n     pub persistence: Persistence,\n     pub history: History,\n+    /// Read-only storages serve reads (queries) but ignore incoming writes/samples.\n+    ///\n+    /// When `true`, the storage manager does not declare a write subscriber for the\n+    /// storage, so samples published on its key expression are never dispatched to the\n+    /// backend (which would otherwise trigger a guaranteed-to-fail `put`). The queryable\n+    /// is still declared, so reads keep working.\n+    ///\n+    /// Backends report this through [`Volume::get_capability`]. A backend whose\n+    /// read-only mode is configured per-storage should determine the value when the\n+    /// storage is created and reflect it here. Defaults to `false`, preserving the\n+    /// previous write-subscribing behavior for existing backends.\n+    pub read_only: bool,\n }\n \n /// Persistence is the guarantee expected from a storage in case of failures\n /// If a storage is marked Persistent::Durable, if it restarts after a crash, it will still have all the values that were saved.\n /// This will include also persisting the metadata that Zenoh stores for the updates.\n /// If a storage is marked Persistent::Volatile, the storage will not have any guarantees on its content after a crash.\n /// This option should be used only if the storage is considered to function as a cache.\n-#[derive(Debug, Clone, PartialEq, Eq)]\n+#[derive(Debug, Clone, Default, PartialEq, Eq)]\n pub enum Persistence {\n+    #[default]\n     Volatile, //default\n     Durable,\n }\n \n /// History is the number of values that the backend is expected to save per key\n /// History::Latest saves only the latest value per key\n /// History::All saves all the values including historical values\n-#[derive(Debug, Clone, PartialEq, Eq)]\n+#[derive(Debug, Clone, Default, PartialEq, Eq)]\n pub enum History {\n+    #[default]\n     Latest, //default\n     All,\n }\n@@ -227,6 +242,17 @@ pub trait Storage: Send + Sync {\n     /// on the administration space for this storage.\n     fn get_admin_status(&self) -> JsonValue;\n \n+    /// Returns capability overrides for this specific storage instance, if any.\n+    ///\n+    /// Returns `None` by default, meaning the storage inherits its volume's\n+    /// [`Capability`] as reported by [`Volume::get_capability`]. Backends whose\n+    /// capability depends on per-storage configuration (for example a read-only\n+    /// flag set in the storage's volume config) can override this to report the\n+    /// effective capability for the created storage.\n+    fn capability(&self) -> Option<Capability> {\n+        None\n+    }\n+\n     /// Function called for each incoming data ([`Sample`](zenoh::sample::Sample)) to be stored in this storage.\n     /// A key can be `None` if it matches the `strip_prefix` exactly.\n     /// In order to avoid data loss, the storage must store the `value` and `timestamp` associated with the `None` key\n@@ -264,3 +290,31 @@ pub trait Storage: Send + Sync {\n     /// Remember to fetch the entry corresponding to the `None` key\n     async fn get_all_entries(&self) -> ZResult<Vec<(Option<OwnedKeyExpr>, Timestamp)>>;\n }\n+\n+#[cfg(test)]\n+mod tests {\n+    use super::{Capability, History, Persistence};\n+\n+    #[test]\n+    fn read_only_defaults_to_false_for_writable_backends() {\n+        let capability = Capability {\n+            persistence: Persistence::Volatile,\n+            history: History::Latest,\n+            read_only: false,\n+        };\n+\n+        assert!(!capability.read_only);\n+    }\n+\n+    #[test]\n+    fn capability_default_is_writable() {\n+        // Backends can build a Capability from defaults and only override what\n+        // they need (e.g. `Capability { read_only: true, ..Default::default() }`),\n+        // which keeps adding capability fields source-compatible.\n+        let capability = Capability::default();\n+\n+        assert_eq!(capability.persistence, Persistence::Volatile);\n+        assert_eq!(capability.history, History::Latest);\n+        assert!(!capability.read_only);\n+    }\n+}"
+    },
+    {
+      "sha": "038c39022af608781df08872b787ad30765a7734",
+      "filename": "plugins/zenoh-plugin-storage-manager/src/memory_backend/mod.rs",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fmemory_backend%2Fmod.rs",
+      "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fmemory_backend%2Fmod.rs",
+      "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fmemory_backend%2Fmod.rs?ref=b948909f812938d9bd83b975cada891da2a9043e",
+      "patch": "@@ -59,6 +59,7 @@ impl Volume for MemoryBackend {\n         Capability {\n             persistence: Persistence::Volatile,\n             history: History::Latest,\n+            read_only: false,\n         }\n     }\n "
+    },
+    {
+      "sha": "64253bc469ed23c0b30383beb9ecd0f4bf873505",
+      "filename": "plugins/zenoh-plugin-storage-manager/src/storages_mgt/mod.rs",
+      "status": "modified",
+      "additions": 9,
+      "deletions": 1,
+      "changes": 10,
+      "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fmod.rs",
+      "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fmod.rs",
+      "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fmod.rs?ref=b948909f812938d9bd83b975cada891da2a9043e",
+      "patch": "@@ -56,8 +56,10 @@ pub(crate) async fn create_and_start_storage(\n     zenoh_session: Arc<Session>,\n ) -> ZResult<Sender<StorageMessage>> {\n     tracing::trace!(\"Create storage '{}'\", &admin_key);\n-    let capability = backend.get_capability();\n     let storage = backend.create_storage(config.clone()).await?;\n+    let capability = storage\n+        .capability()\n+        .unwrap_or_else(|| backend.get_capability());\n \n     // Ex: @/390CEC11A1E34977A1C609A35BC015E6/router/status/plugins/storage_manager/storages/demo1\n     // -> 390CEC11A1E34977A1C609A35BC015E6/demo1 (/<type> needed????)\n@@ -83,6 +85,12 @@ pub(crate) async fn create_and_start_storage(\n     let mut replication_log = None;\n     let mut latest_updates = HashMap::default();\n     if let Some(replica_config) = &config.replication {\n+        if capability.read_only {\n+            bail!(\n+                \"Replication was enabled for storage {name} but it is read-only: replication \\\n+                 alignment writes to the backend, which a read-only storage cannot accept\"\n+            );\n+        }\n         if capability.history != History::Latest {\n             bail!(\n                 \"Replication was enabled for storage {name} but its history capability is not \\"
+    },
+    {
+      "sha": "6c32e37943718643109aab0c774d308849fcebd9",
+      "filename": "plugins/zenoh-plugin-storage-manager/src/storages_mgt/service.rs",
+      "status": "modified",
+      "additions": 15,
+      "deletions": 6,
+      "changes": 21,
+      "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fservice.rs",
+      "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/b948909f812938d9bd83b975cada891da2a9043e/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fservice.rs",
+      "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/plugins%2Fzenoh-plugin-storage-manager%2Fsrc%2Fstorages_mgt%2Fservice.rs?ref=b948909f812938d9bd83b975cada891da2a9043e",
+      "patch": "@@ -139,11 +139,20 @@ impl StorageService {\n         let storage_key_expr = &self.configuration.key_expr;\n \n         // subscribe on key_expr\n-        let storage_sub = match self.session.declare_subscriber(storage_key_expr).await {\n-            Ok(storage_sub) => storage_sub,\n-            Err(e) => {\n-                tracing::error!(\"Error starting storage '{}': {}\", self.name, e);\n-                return;\n+        let storage_sub = if self.capability.read_only {\n+            tracing::debug!(\n+                \"Storage '{}' is read-only; not subscribing to writes on keyexpr '{}'\",\n+                self.name,\n+                storage_key_expr\n+            );\n+            None\n+        } else {\n+            match self.session.declare_subscriber(storage_key_expr).await {\n+                Ok(storage_sub) => Some(storage_sub),\n+                Err(e) => {\n+                    tracing::error!(\"Error starting storage '{}': {}\", self.name, e);\n+                    return;\n+                }\n             }\n         };\n \n@@ -171,7 +180,7 @@ impl StorageService {\n             loop {\n                 tokio::select!(\n                     // on sample for key_expr\n-                    sample = storage_sub.recv_async() => {\n+                    sample = async { storage_sub.as_ref().unwrap().recv_async().await }, if storage_sub.is_some() => {\n                         let sample = match sample {\n                             Ok(sample) => sample,\n                             Err(e) => {"
+    }
+  ]
+}

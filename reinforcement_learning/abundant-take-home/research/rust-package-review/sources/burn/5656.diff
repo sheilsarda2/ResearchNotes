@@ -1,0 +1,2821 @@
+diff --git a/.github/workflows/publish.yml b/.github/workflows/publish.yml
+index 9124862a326..5aa73f72936 100644
+--- a/.github/workflows/publish.yml
++++ b/.github/workflows/publish.yml
+@@ -408,12 +408,21 @@ jobs:
+     secrets:
+       CRATES_IO_API_TOKEN: ${{ secrets.CRATES_IO_API_TOKEN }}
+ 
++  publish-pytorch-reader:
++    uses: tracel-ai/github-actions/.github/workflows/publish-crate.yml@v11
++    with:
++      crate: pytorch-reader
++      dry-run-only: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run-only || false }}
++    secrets:
++      CRATES_IO_API_TOKEN: ${{ secrets.CRATES_IO_API_TOKEN }}
++
+   publish-burn-store:
+     needs:
+       - publish-burn-core
+       - publish-burn-pack
+       - publish-burn-tensor
+       - publish-burn-nn
++      - publish-pytorch-reader
+     uses: tracel-ai/github-actions/.github/workflows/publish-crate.yml@v11
+     with:
+       crate: burn-store
+diff --git a/Cargo.lock b/Cargo.lock
+index 124571c9654..77e36148e70 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -1407,15 +1407,11 @@ dependencies = [
+  "half",
+  "hashbrown 0.16.1",
+  "memmap2",
+- "num-traits",
++ "pytorch-reader",
+  "regex",
+  "safetensors 0.7.0",
+- "serde",
+- "tar",
+  "tempfile",
+  "textdistance",
+- "thiserror 2.0.20",
+- "zip 8.6.0",
+ ]
+ 
+ [[package]]
+@@ -8498,6 +8494,21 @@ version = "0.1.30"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "d55d956fa96f5ec02be2e13af0e20391a5aa83d6a074e3ad368959d0fab299ea"
+ 
++[[package]]
++name = "pytorch-reader"
++version = "0.22.0-pre.3"
++dependencies = [
++ "bytemuck",
++ "byteorder",
++ "half",
++ "num-traits",
++ "serde",
++ "tar",
++ "tempfile",
++ "thiserror 2.0.20",
++ "zip 8.6.0",
++]
++
+ [[package]]
+ name = "pytorch-tests"
+ version = "0.22.0-pre.3"
+diff --git a/Cargo.toml b/Cargo.toml
+index bd555979439..82e97b67ac0 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -223,6 +223,7 @@ burn-tensor-testgen = { path = "crates/burn-tensor-testgen", version = "=0.22.0-
+ burn-train = { path = "crates/burn-train", version = "=0.22.0-pre.3", default-features = false }
+ burn-vision = { path = "crates/burn-vision", version = "=0.22.0-pre.3", default-features = false }
+ burn-wgpu = { path = "crates/burn-wgpu", version = "=0.22.0-pre.3", default-features = false }
++pytorch-reader = { path = "crates/pytorch-reader", version = "=0.22.0-pre.3" }
+ 
+ ### For the main burn branch. ###
+ cubecl = { git = "https://github.com/tracel-ai/cubecl", default-features = false, rev = "f3e3bd9e015d74c9627a3485edd10e2dd14268ec" }
+diff --git a/burn-book/src/saving-and-loading.md b/burn-book/src/saving-and-loading.md
+index d26d50c0979..4a567e1bd23 100644
+--- a/burn-book/src/saving-and-loading.md
++++ b/burn-book/src/saving-and-loading.md
+@@ -156,6 +156,13 @@ let mut store = PytorchStore::from_file("checkpoint.pt")
+ model.load_from(&mut store)?;
+ ```
+ 
++#### Reading Checkpoints Without Burn
++
++The parser behind `PytorchStore` is its own crate,
++[`pytorch-reader`](https://crates.io/crates/pytorch-reader), with no dependency on Burn. Use it
++directly for tools that only need to list or convert a checkpoint's tensors. It is re-exported
++as `burn_store::pytorch_reader`.
++
+ ### Loading from SafeTensors
+ 
+ For SafeTensors files exported from PyTorch, use the adapter for proper weight transformation:
+diff --git a/crates/burn-store/Cargo.toml b/crates/burn-store/Cargo.toml
+index 6300a95b630..107ef40d75d 100644
+--- a/crates/burn-store/Cargo.toml
++++ b/crates/burn-store/Cargo.toml
+@@ -39,11 +39,12 @@ wgpu = ["burn-core/wgpu"]
+ 
+ safetensors = ["dep:safetensors"]
+ 
+-pytorch = ["std", "zip", "serde", "tar", "dep:thiserror", "dep:num-traits"]
++pytorch = ["std", "dep:pytorch-reader"]
+ 
+ [dependencies]
+ burn-core = { workspace = true }
+ burn-pack = { workspace = true }
++pytorch-reader = { workspace = true, optional = true }
+ 
+ # External dependencies
+ byteorder = { workspace = true, default-features = false }
+@@ -52,13 +53,8 @@ ciborium = { workspace = true, optional = true }
+ half = { workspace = true }
+ hashbrown = { workspace = true, features = ["serde"] }
+ memmap2 = { workspace = true, optional = true }
+-num-traits = { workspace = true, optional = true }
+ regex = { workspace = true, optional = true }
+-serde = { workspace = true, optional = true }
+ textdistance = { workspace = true }
+-thiserror = { workspace = true, optional = true }
+-zip = { workspace = true, optional = true }
+-tar = { workspace = true, optional = true }
+ 
+ # Workaround to force broken minor version to update
+ 
+diff --git a/crates/burn-store/benches/resnet18_loading.rs b/crates/burn-store/benches/resnet18_loading.rs
+index f352f9cb4c7..d13552fb23c 100644
+--- a/crates/burn-store/benches/resnet18_loading.rs
++++ b/crates/burn-store/benches/resnet18_loading.rs
+@@ -10,7 +10,9 @@
+ //! cargo bench --bench resnet18_loading
+ //! ```
+ 
++use burn_core::tensor::TensorData;
+ use burn_store::pytorch::PytorchReader;
++use burn_store::pytorch_reader::Tensor;
+ use divan::{AllocProfiler, Bencher};
+ use std::path::PathBuf;
+ 
+@@ -54,6 +56,11 @@ fn main() {
+     divan::main();
+ }
+ 
++/// Read a tensor's bytes out of the checkpoint, through the same path the store takes.
++fn materialize(tensor: &Tensor) -> Result<TensorData, burn_store::burn_pack::Error> {
++    burn_store::bridge::into_data(burn_store::bridge::from_pytorch(tensor.clone()))
++}
++
+ /// Get the path to ResNet18 model file
+ fn resnet18_path() -> PathBuf {
+     // First try to read from the path file created by download script
+@@ -102,8 +109,7 @@ fn load_resnet18_materialize_all(bencher: Bencher) {
+         for key in &keys {
+             let tensor = reader.get(key).expect("Failed to get tensor");
+             // Materialize the tensor data
+-            let _data =
+-                burn_store::bridge::to_data(tensor).expect("Failed to materialize tensor data");
++            let _data = materialize(tensor).expect("Failed to materialize tensor data");
+             total_bytes += tensor.byte_len();
+         }
+ 
+@@ -124,8 +130,7 @@ fn load_resnet18_materialize_sequential(bencher: Bencher) {
+         // This simulates processing tensors sequentially without keeping all in memory
+         for key in &keys {
+             let tensor = reader.get(key).expect("Failed to get tensor");
+-            let data =
+-                burn_store::bridge::to_data(tensor).expect("Failed to materialize tensor data");
++            let data = materialize(tensor).expect("Failed to materialize tensor data");
+ 
+             // Do minimal work with the data to prevent optimization
+             let sum = match data.dtype {
+@@ -172,7 +177,7 @@ fn load_resnet18_largest_tensor(bencher: Bencher) {
+         let tensor = reader
+             .get(&largest_key)
+             .expect("Failed to get largest tensor");
+-        let _data = burn_store::bridge::to_data(tensor).expect("Failed to materialize tensor data");
++        let _data = materialize(tensor).expect("Failed to materialize tensor data");
+ 
+         assert!(largest_size > 9_000_000); // Should be ~9MB for layer4.0.conv2.weight
+     });
+@@ -202,8 +207,7 @@ fn load_resnet18_memory_profile(bencher: Bencher) {
+                 }
+ 
+                 // Materialize the tensor
+-                let data =
+-                    burn_store::bridge::to_data(tensor).expect("Failed to materialize tensor data");
++                let data = materialize(tensor).expect("Failed to materialize tensor data");
+                 total_data += tensor_size;
+ 
+                 // Drop data immediately to test lazy loading memory efficiency
+diff --git a/crates/burn-store/src/bridge.rs b/crates/burn-store/src/bridge.rs
+index 546fa73be82..0dc51afcee4 100644
+--- a/crates/burn-store/src/bridge.rs
++++ b/crates/burn-store/src/bridge.rs
+@@ -8,7 +8,8 @@
+ //! This module is the seam where burn-core's [`TensorData`] meets those raw bytes. The lazy
+ //! paths are the load-bearing ones: a tensor built by [`from_tensor`] holds the
+ //! (reference-counted) device tensor and reads it back only when the bytes are finally drawn,
+-//! and [`map_data`] composes a transform onto a byte source without materializing it.
++//! [`map_data`] composes a transform onto a byte source without materializing it, and
++//! `from_pytorch` (with the `pytorch` feature) leaves a checkpoint tensor's bytes unread.
+ 
+ use alloc::format;
+ use alloc::string::String;
+@@ -194,6 +195,54 @@ pub fn map_data(
+     })
+ }
+ 
++/// Wrap a PyTorch checkpoint tensor, leaving its bytes unread until they are drawn.
++///
++/// PyTorch carries no parameter identity, so `param_id` stays `None`. Takes the tensor by
++/// value for the same reason [`map_data`] does.
++#[cfg(feature = "pytorch")]
++pub fn from_pytorch(tensor: pytorch_reader::Tensor) -> PackTensor {
++    use std::io::ErrorKind;
++
++    let (name, dtype, shape, read) = tensor.into_parts();
++    let dtype = pytorch_dtype(dtype);
++    let shape = Shape::from(shape);
++    let declared = shape.clone();
++
++    deferred(name, dtype, shape, None, move || {
++        // `Tensor::read` documents the split: these two kinds mean the file disagrees with
++        // itself, any other that the operating system could not read it.
++        let bytes = read().map_err(|err| match err.kind() {
++            ErrorKind::InvalidData | ErrorKind::UnexpectedEof => {
++                PackError::ValidationError(err.to_string())
++            }
++            _ => PackError::IoError(err.to_string()),
++        })?;
++        Ok(TensorData::from_bytes_vec(bytes, declared.clone(), dtype))
++    })
++}
++
++#[cfg(feature = "pytorch")]
++fn pytorch_dtype(dtype: pytorch_reader::DType) -> DType {
++    use burn_core::tensor::BoolStore;
++    use pytorch_reader::DType as Pt;
++
++    match dtype {
++        Pt::F64 => DType::F64,
++        Pt::F32 => DType::F32,
++        Pt::F16 => DType::F16,
++        Pt::BF16 => DType::BF16,
++        Pt::I64 => DType::I64,
++        Pt::I32 => DType::I32,
++        Pt::I16 => DType::I16,
++        Pt::I8 => DType::I8,
++        Pt::U64 => DType::U64,
++        Pt::U32 => DType::U32,
++        Pt::U16 => DType::U16,
++        Pt::U8 => DType::U8,
++        Pt::Bool => DType::Bool(BoolStore::Native),
++    }
++}
++
+ #[cfg(all(test, feature = "std"))]
+ mod tests {
+     use super::*;
+@@ -508,4 +557,64 @@ mod tests {
+         assert_eq!(cast.byte_len(), 8);
+         assert_byte_len_matches(cast);
+     }
++
++    /// A checkpoint tensor crosses over with its identity intact and its bytes reinterpreted
++    /// under the mapped dtype. Bool is the variant with no direct counterpart, and the one
++    /// whose bytes must arrive as valid `bool`s.
++    #[cfg(feature = "pytorch")]
++    #[test]
++    fn from_pytorch_maps_dtype_and_reads_bytes() {
++        use burn_core::tensor::BoolStore;
++
++        let path = concat!(
++            env!("CARGO_MANIFEST_DIR"),
++            "/pytorch-tests/tests/boolean/boolean.pt"
++        );
++        let mut tensors = pytorch_reader::PytorchReader::new(path)
++            .unwrap()
++            .into_tensors();
++        let tensor = from_pytorch(tensors.remove("buffer").unwrap());
++
++        assert_eq!(tensor.name, "buffer");
++        assert_eq!(tensor.dtype, DType::Bool(BoolStore::Native));
++        assert_eq!(tensor.shape, shape![3]);
++        assert_byte_len_matches(tensor.clone());
++
++        let data = into_data(tensor).unwrap();
++        assert_eq!(data.as_slice::<bool>().unwrap(), &[true, false, true]);
++    }
++
++    /// Every checkpoint dtype maps to the burn dtype of the same name and width. The two
++    /// sides of a swapped arm (`I16` to `U16`, say) would agree with each other everywhere
++    /// downstream, so only a check against the names catches it.
++    #[cfg(feature = "pytorch")]
++    #[test]
++    fn pytorch_dtype_maps_every_variant_by_name() {
++        use pytorch_reader::DType as Pt;
++
++        let all = [
++            Pt::F64,
++            Pt::F32,
++            Pt::F16,
++            Pt::BF16,
++            Pt::I64,
++            Pt::I32,
++            Pt::I16,
++            Pt::I8,
++            Pt::U64,
++            Pt::U32,
++            Pt::U16,
++            Pt::U8,
++            Pt::Bool,
++        ];
++        for pt in all {
++            let mapped = pytorch_dtype(pt);
++            assert_eq!(mapped.size(), pt.size(), "{pt:?}");
++            let expected = match pt {
++                Pt::Bool => "Bool(Native)".to_string(),
++                other => format!("{other:?}"),
++            };
++            assert_eq!(format!("{mapped:?}"), expected);
++        }
++    }
+ }
+diff --git a/crates/burn-store/src/lib.rs b/crates/burn-store/src/lib.rs
+index f6de4cb948a..842f8af3760 100644
+--- a/crates/burn-store/src/lib.rs
++++ b/crates/burn-store/src/lib.rs
+@@ -105,16 +105,21 @@ mod keyremapper;
+ #[cfg(feature = "std")]
+ pub use keyremapper::{KeyRemapper, map_indices_contiguous};
+ 
+-/// Serde-based deserialization of nested values, used for importing model weights from external
+-/// formats (e.g. PyTorch's pickle `.pt` files).
+-#[cfg(feature = "pytorch")]
+-pub mod nested;
+-
+ #[cfg(feature = "pytorch")]
+ pub mod pytorch;
+ #[cfg(feature = "pytorch")]
+ pub use pytorch::{PytorchStore, PytorchStoreError};
+ 
++/// The PyTorch checkpoint reader crate, re-exported.
++///
++/// [`PytorchStore`] is built on it, and [`bridge::from_pytorch`] turns one of its tensors
++/// into the [`burn_pack::Tensor`] the rest of burn-store works with. The crate itself reads
++/// a checkpoint without going through burn-pack at all, and exposes the serde deserializer
++/// behind [`load_config`](pytorch::PytorchReader::load_config) as
++/// [`pytorch_reader::nested`].
++#[cfg(feature = "pytorch")]
++pub use pytorch_reader;
++
+ #[cfg(feature = "safetensors")]
+ mod safetensors;
+ #[cfg(feature = "safetensors")]
+diff --git a/crates/burn-store/src/pytorch/mod.rs b/crates/burn-store/src/pytorch/mod.rs
+index 171a3fed31e..3782ff737a2 100644
+--- a/crates/burn-store/src/pytorch/mod.rs
++++ b/crates/burn-store/src/pytorch/mod.rs
+@@ -35,15 +35,12 @@
+ //! }
+ //! ```
+ 
+-mod pickle_reader;
+-pub mod reader;
+-mod storage;
+ pub mod store;
+ 
+ #[cfg(test)]
+ pub mod tests;
+ 
+-// Main public interface
+-pub use pickle_reader::{OpCode, PickleError};
+-pub use reader::{PytorchError, PytorchReader};
++// Kept at their pre-crate paths for compatibility; everything else the reader defines is
++// under `burn_store::pytorch_reader`.
++pub use pytorch_reader::{OpCode, PickleError, PytorchError, PytorchReader};
+ pub use store::{PytorchStore, PytorchStoreError};
+diff --git a/crates/burn-store/src/pytorch/store.rs b/crates/burn-store/src/pytorch/store.rs
+index bf23b3f288c..6338366ab03 100644
+--- a/crates/burn-store/src/pytorch/store.rs
++++ b/crates/burn-store/src/pytorch/store.rs
+@@ -2,7 +2,7 @@
+ 
+ use crate::{
+     ApplyResult, KeyRemapper, ModuleSnapshot, ModuleStore, PathFilter, PyTorchToBurnAdapter,
+-    map_indices_contiguous,
++    bridge, map_indices_contiguous,
+ };
+ 
+ use alloc::collections::BTreeMap;
+@@ -15,7 +15,7 @@ use alloc::vec::Vec;
+ use core::fmt;
+ use std::path::PathBuf;
+ 
+-use super::reader::{PytorchError as ReaderError, PytorchReader};
++use pytorch_reader::{PytorchError as ReaderError, PytorchReader};
+ 
+ /// Errors that can occur during PyTorch operations.
+ #[derive(Debug)]
+@@ -412,9 +412,13 @@ impl PytorchStore {
+ 
+         let reader = self.create_reader()?;
+ 
+-        // The reader already names each tensor by its key, and PyTorch carries no parameter
+-        // identity, so nothing has to be patched up here.
+-        let mut tensors: Vec<PackTensor> = reader.into_tensors().into_values().collect();
++        // The reader already names each tensor by its key, so nothing has to be patched up
++        // here beyond wrapping each one for the applier.
++        let mut tensors: Vec<PackTensor> = reader
++            .into_tensors()
++            .into_values()
++            .map(bridge::from_pytorch)
++            .collect();
+ 
+         // Apply remapping (but NOT filtering - that's done at apply time)
+         tensors = self.apply_remapping(tensors);
+diff --git a/crates/burn-store/src/pytorch/tests/mod.rs b/crates/burn-store/src/pytorch/tests/mod.rs
+index b9d78f0030d..55c88cbf3d2 100644
+--- a/crates/burn-store/src/pytorch/tests/mod.rs
++++ b/crates/burn-store/src/pytorch/tests/mod.rs
+@@ -1,2 +1 @@
+-pub mod reader;
+ pub mod store;
+diff --git a/crates/burn-store/src/pytorch/tests/store/mod.rs b/crates/burn-store/src/pytorch/tests/store/mod.rs
+index d9ea4da5616..ff90b1a338b 100644
+--- a/crates/burn-store/src/pytorch/tests/store/mod.rs
++++ b/crates/burn-store/src/pytorch/tests/store/mod.rs
+@@ -19,17 +19,6 @@ fn pytorch_test_path(subdir: &str, filename: &str) -> PathBuf {
+         .join(filename)
+ }
+ 
+-/// Path to burn-store test data files
+-fn test_data_path(filename: &str) -> PathBuf {
+-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+-        .join("src")
+-        .join("pytorch")
+-        .join("tests")
+-        .join("reader")
+-        .join("test_data")
+-        .join(filename)
+-}
+-
+ /// Path to store test data files
+ fn store_test_data_path(filename: &str) -> PathBuf {
+     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+@@ -315,45 +304,6 @@ mod conv_model_tests {
+ mod complex_model_tests {
+     use super::*;
+ 
+-    #[test]
+-    fn test_load_with_top_level_key() {
+-        let path = test_data_path("checkpoint.pt");
+-
+-        // Just verify that we can create a store with top-level key
+-        let store = PytorchStore::from_file(path)
+-            .with_top_level_key("model_state_dict")
+-            .allow_partial(true);
+-
+-        assert_eq!(store.top_level_key, Some("model_state_dict".to_string()));
+-    }
+-
+-    #[test]
+-    fn test_load_nested_structure() {
+-        let path = test_data_path("complex_structure.pt");
+-
+-        // Just verify that we can create a store for nested structure
+-        let store = PytorchStore::from_file(path).allow_partial(true);
+-
+-        assert!(store.allow_partial);
+-    }
+-
+-    #[test]
+-    fn test_legacy_format() {
+-        let path = test_data_path("simple_legacy.pt");
+-
+-        if !path.exists() {
+-            println!("Skipping legacy format test - file not found: {:?}", path);
+-            return;
+-        }
+-
+-        // Just verify that we can create a store for legacy format
+-        let store = PytorchStore::from_file(path).allow_partial(true);
+-
+-        assert!(store.allow_partial);
+-
+-        // Could load into an actual model if we had legacy model structure
+-    }
+-
+     #[test]
+     fn test_key_remap_chained() {
+         let path = pytorch_test_path("linear", "linear.pt");
+diff --git a/crates/burn-train/src/metric/vision/afine/weights.rs b/crates/burn-train/src/metric/vision/afine/weights.rs
+index 266944e54eb..b86e22ae499 100644
+--- a/crates/burn-train/src/metric/vision/afine/weights.rs
++++ b/crates/burn-train/src/metric/vision/afine/weights.rs
+@@ -107,8 +107,8 @@ fn read_scalar_value<P: AsRef<Path>>(
+     let reader = PytorchReader::with_top_level_key(cache_path.as_ref(), top_level_key)
+         .map_err(|e| log::warn!("Failed to open shard '{top_level_key}': {e:?}"))
+         .ok()?;
+-    let tensor = reader.get(field_name)?;
+-    let data = burn_store::bridge::to_data(tensor)
++    let tensor = burn_store::bridge::from_pytorch(reader.get(field_name)?.clone());
++    let data = burn_store::bridge::into_data(tensor)
+         .map_err(|e| log::warn!("Failed to read '{top_level_key}.{field_name}' tensor data: {e:?}"))
+         .ok()?;
+     let values = data
+diff --git a/crates/pytorch-reader/Cargo.toml b/crates/pytorch-reader/Cargo.toml
+new file mode 100644
+index 00000000000..de60f03ff89
+--- /dev/null
++++ b/crates/pytorch-reader/Cargo.toml
+@@ -0,0 +1,28 @@
++[package]
++authors = ["Dilshod Tadjibaev (@antimora)"]
++categories = ["science", "parser-implementations"]
++description = "Reader for PyTorch checkpoint files (.pt/.pth) that depends on neither PyTorch nor Burn"
++documentation = "https://docs.rs/pytorch-reader"
++edition.workspace = true
++keywords = ["pytorch", "checkpoint", "pickle", "deep-learning", "machine-learning"]
++license.workspace = true
++name = "pytorch-reader"
++readme = "README.md"
++repository = "https://github.com/tracel-ai/burn/tree/main/crates/pytorch-reader"
++version.workspace = true
++
++[lints]
++workspace = true
++
++[dependencies]
++byteorder = { workspace = true, features = ["std"] }
++num-traits = { workspace = true, features = ["std"] }
++serde = { workspace = true, features = ["std"] }
++tar = { workspace = true }
++thiserror = { workspace = true, features = ["std"] }
++zip = { workspace = true }
++
++[dev-dependencies]
++bytemuck = { workspace = true, features = ["extern_crate_alloc"] }
++half = { workspace = true, features = ["bytemuck", "std"] }
++tempfile = { workspace = true }
+diff --git a/crates/pytorch-reader/README.md b/crates/pytorch-reader/README.md
+new file mode 100644
+index 00000000000..9e3db833151
+--- /dev/null
++++ b/crates/pytorch-reader/README.md
+@@ -0,0 +1,32 @@
++# pytorch-reader
++
++Read PyTorch checkpoint files (`.pt`, `.pth`) without PyTorch or Burn.
++
++[![Current Crates.io Version](https://img.shields.io/crates/v/pytorch-reader.svg)](https://crates.io/crates/pytorch-reader)
++[![license](https://shields.io/badge/license-MIT%2FApache--2.0-blue)](https://github.com/tracel-ai/burn/blob/main/LICENSE-MIT)
++
++The crate parses the pickle inside a checkpoint and hands back each tensor's name, element
++type and shape, with the bytes produced only when asked for. It reads every container
++`torch.save` has written: the ZIP archive of PyTorch 1.6 and later, the legacy pickle stream
++of 0.1.10 through 1.5, and the TAR archive before that.
++
++```rust
++use pytorch_reader::PytorchReader;
++
++let reader = PytorchReader::new("model.pt")?;
++for tensor in reader.tensors().values() {
++    println!("{}: {:?} {:?}", tensor.name, tensor.dtype(), tensor.shape());
++}
++
++// Bytes are read from the file here, not at open.
++let weight = reader.get("fc.weight").unwrap();
++let bytes: Vec<u8> = weight.read()?;
++```
++
++A checkpoint that nests its weights under a key (`"state_dict"`, `"model"`, ...) is opened
++with `PytorchReader::with_top_level_key("checkpoint.pt", "state_dict")`. Non-tensor values
++(configuration dictionaries, say) can be deserialized into any `serde` type with
++`PytorchReader::load_config`.
++
++This is the reader behind [`burn-store`](https://crates.io/crates/burn-store), which wraps
++its tensors for loading into [Burn](https://github.com/tracel-ai/burn) modules.
+diff --git a/crates/pytorch-reader/src/lib.rs b/crates/pytorch-reader/src/lib.rs
+new file mode 100644
+index 00000000000..206441c4bfc
+--- /dev/null
++++ b/crates/pytorch-reader/src/lib.rs
+@@ -0,0 +1,93 @@
++//! Read PyTorch checkpoint files (`.pt`, `.pth`) without PyTorch or Burn.
++//!
++//! A checkpoint is a pickle describing the saved object, with each tensor's bytes kept in a
++//! separate storage inside the same container. [`PytorchReader`] parses the pickle and hands
++//! back a [`Tensor`] per entry, carrying its name, [`DType`] and shape; the bytes are
++//! produced only when [`Tensor::read`] asks for them (from the file for ZIP and legacy
++//! containers, from memory for TAR, whose storages are read at open).
++//!
++//! ```rust,no_run
++//! use pytorch_reader::PytorchReader;
++//!
++//! let reader = PytorchReader::new("model.pt")?;
++//! for tensor in reader.tensors().values() {
++//!     println!("{}: {:?} {:?}", tensor.name, tensor.dtype(), tensor.shape());
++//! }
++//!
++//! // Bytes are read from the file here, not at open.
++//! let weight = reader.get("fc.weight").unwrap();
++//! let bytes: Vec<u8> = weight.read()?;
++//! # Ok::<(), Box<dyn std::error::Error>>(())
++//! ```
++//!
++//! A checkpoint that nests its weights under a key (`"state_dict"`, `"model"`, ...) is
++//! opened with [`PytorchReader::with_top_level_key`]. Values that are not tensors, such as a
++//! configuration dictionary saved next to the weights, can be deserialized into any `serde`
++//! type with [`PytorchReader::load_config`].
++//!
++//! # Supported containers
++//!
++//! Every layout `torch.save` has written is read, and detected from the file itself.
++//!
++//! **ZIP (PyTorch 1.6 and later).** An archive holding, under a root directory usually named
++//! after the file: `data.pkl` with the pickled tensor metadata, one entry per tensor storage
++//! under `data/`, and small text entries such as `version` and `byteorder`.
++//!
++//! **Legacy pickle stream (PyTorch 0.1.10 through 1.5).** Sequential pickles: a magic number
++//! (`0x1950a86a20f9469cfc6c`), the protocol version (1001), system info (endianness, type
++//! sizes), the saved object, then the storage key list followed by each storage as an `i64`
++//! element count and its bytes.
++//!
++//! **TAR (before PyTorch 0.1.10, e.g. early torchvision models).** An archive of `sys_info`
++//! (a system info pickle), `storages` (a count pickle, then per storage a metadata pickle,
++//! element count and bytes), `tensors` (a count pickle, then per tensor a metadata pickle and
++//! binary shape, stride and storage offset) and `pickle` (the saved object, referencing
++//! tensors by persistent id).
++//!
++//! **Plain pickle.** A pickle with a dictionary at its root, as some tools write for
++//! configuration on its own.
++//!
++//! Full-model saves (as opposed to a `state_dict`) are refused, as are checkpoints holding
++//! sparse, quantized or nested tensors, since those cannot be represented. Only little-endian
++//! files are supported.
++//!
++//! # Safety limits
++//!
++//! Parsing is hardened against malformed or hostile files. A ZIP checkpoint whose `data.pkl`
++//! claims more than [`MAX_PICKLE_SIZE`], or any checkpoint holding a tensor that would
++//! materialize more than [`MAX_TENSOR_SIZE`] bytes, is refused at open before an allocation
++//! of that size is made, and every length a file declares is checked against what the file
++//! actually holds.
++
++pub mod nested;
++mod pickle_reader;
++mod reader;
++mod storage;
++mod tensor;
++
++#[cfg(test)]
++mod tests;
++
++pub use pickle_reader::{OpCode, PickleError};
++pub use reader::{
++    ByteOrder, FileFormat, PickleValue, PytorchError, PytorchMetadata, PytorchReader,
++};
++pub use tensor::{DType, Tensor};
++
++/// Largest `data.pkl` accepted from a ZIP checkpoint (100 MiB).
++///
++/// Only that container needs a ceiling: a deflated entry can claim any decompressed size,
++/// while the other containers' pickles are parsed straight off the file. The pickle holds
++/// tensor metadata and whatever non-tensor values were saved alongside; the tensor bytes
++/// live in separate entries and are never subject to this limit.
++pub const MAX_PICKLE_SIZE: u64 = 100 * 1024 * 1024;
++
++/// Largest tensor accepted: 2 GiB on 32-bit targets, 10 GiB elsewhere.
++///
++/// A view can declare far more elements than its storage holds (an `expand` has stride 0),
++/// so the file itself gives no bound on what a tensor materializes to. A checkpoint holding
++/// a tensor whose bytes would exceed this fails to open.
++#[cfg(target_pointer_width = "32")]
++pub const MAX_TENSOR_SIZE: usize = 2 * 1024 * 1024 * 1024;
++#[cfg(not(target_pointer_width = "32"))]
++pub const MAX_TENSOR_SIZE: usize = 10 * 1024 * 1024 * 1024;
+diff --git a/crates/burn-store/src/nested/adapter.rs b/crates/pytorch-reader/src/nested/adapter.rs
+similarity index 100%
+rename from crates/burn-store/src/nested/adapter.rs
+rename to crates/pytorch-reader/src/nested/adapter.rs
+diff --git a/crates/burn-store/src/nested/data.rs b/crates/pytorch-reader/src/nested/data.rs
+similarity index 94%
+rename from crates/burn-store/src/nested/data.rs
+rename to crates/pytorch-reader/src/nested/data.rs
+index 6d34acf9a4f..ff2b1fae881 100644
+--- a/crates/burn-store/src/nested/data.rs
++++ b/crates/pytorch-reader/src/nested/data.rs
+@@ -1,6 +1,5 @@
+ use std::collections::HashMap;
+ 
+-use burn_core::tensor::Bytes;
+ use core::fmt;
+ use num_traits::cast::ToPrimitive;
+ 
+@@ -58,9 +57,6 @@ pub enum NestedValue {
+ 
+     /// A vector of 32-bit floating point values.
+     F32s(Vec<f32>),
+-
+-    /// An opaque vector of bytes, with alignment.
+-    Bytes(Bytes),
+ }
+ 
+ impl NestedValue {
+@@ -180,10 +176,9 @@ impl NestedValue {
+     }
+ 
+     /// Get the nested value as a vector of bytes.
+-    pub fn as_bytes(self) -> Option<Bytes> {
++    pub fn as_bytes(self) -> Option<Vec<u8>> {
+         match self {
+-            NestedValue::Bytes(u) => Some(u),
+-            NestedValue::U8s(u) => Some(Bytes::from_elems(u)),
++            NestedValue::U8s(u) => Some(u),
+             _ => None,
+         }
+     }
+@@ -211,7 +206,6 @@ impl fmt::Debug for NestedValue {
+             NestedValue::U8s(vec) if vec.len() > 3 => write_vec_truncated(vec, f),
+             NestedValue::U16s(vec) if vec.len() > 3 => write_vec_truncated(vec, f),
+             NestedValue::F32s(vec) if vec.len() > 3 => write_vec_truncated(vec, f),
+-            NestedValue::Bytes(bytes) if bytes.len() > 3 => write_vec_truncated(bytes, f),
+             // Handle other variants as usual
+             NestedValue::Default(origin) => f.debug_tuple("Default").field(origin).finish(),
+             NestedValue::Bool(b) => f.debug_tuple("Bool").field(b).finish(),
+@@ -229,7 +223,6 @@ impl fmt::Debug for NestedValue {
+             NestedValue::U8s(vec) => f.debug_list().entries(vec.iter()).finish(),
+             NestedValue::U16s(vec) => f.debug_list().entries(vec.iter()).finish(),
+             NestedValue::F32s(vec) => f.debug_list().entries(vec.iter()).finish(),
+-            NestedValue::Bytes(bytes) => f.debug_list().entries(bytes.iter()).finish(),
+         }
+     }
+ }
+diff --git a/crates/burn-store/src/nested/de.rs b/crates/pytorch-reader/src/nested/de.rs
+similarity index 99%
+rename from crates/burn-store/src/nested/de.rs
+rename to crates/pytorch-reader/src/nested/de.rs
+index 8fa50eaf5e5..778f37cd967 100644
+--- a/crates/burn-store/src/nested/de.rs
++++ b/crates/pytorch-reader/src/nested/de.rs
+@@ -268,10 +268,6 @@ impl<'de, A: BurnModuleAdapter> serde::Deserializer<'de> for Deserializer<A> {
+         V: Visitor<'de>,
+     {
+         match self.value {
+-            Some(NestedValue::Bytes(bytes)) => match bytes.try_into_vec::<u8>() {
+-                Ok(bytes) => visitor.visit_byte_buf(bytes),
+-                Err(bytes) => visitor.visit_bytes(&bytes),
+-            },
+             Some(NestedValue::U8s(bytes)) => visitor.visit_byte_buf(bytes),
+             Some(other) => Err(custom_err(format!(
+                 "expected byte buffer but got {other:?}"
+diff --git a/crates/burn-store/src/nested/error.rs b/crates/pytorch-reader/src/nested/error.rs
+similarity index 100%
+rename from crates/burn-store/src/nested/error.rs
+rename to crates/pytorch-reader/src/nested/error.rs
+diff --git a/crates/burn-store/src/nested/mod.rs b/crates/pytorch-reader/src/nested/mod.rs
+similarity index 58%
+rename from crates/burn-store/src/nested/mod.rs
+rename to crates/pytorch-reader/src/nested/mod.rs
+index de363d1f8e6..79a7b65c6ec 100644
+--- a/crates/burn-store/src/nested/mod.rs
++++ b/crates/pytorch-reader/src/nested/mod.rs
+@@ -1,5 +1,6 @@
+-//! Serde-based deserialization of nested values, used for importing model weights from external
+-//! formats (e.g. PyTorch's pickle `.pt` files) into Burn modules via `burn-store`.
++//! Serde-based deserialization of nested values, which is how
++//! [`PytorchReader::load_config`](crate::PytorchReader::load_config) turns the non-tensor
++//! part of a checkpoint into a typed value.
+ 
+ /// The adapter trait that is used to convert the nested value to the module type.
+ pub mod adapter;
+diff --git a/crates/burn-store/src/pytorch/pickle_reader.rs b/crates/pytorch-reader/src/pickle_reader.rs
+similarity index 94%
+rename from crates/burn-store/src/pytorch/pickle_reader.rs
+rename to crates/pytorch-reader/src/pickle_reader.rs
+index dd0831d4339..c155c9d0b2b 100644
+--- a/crates/burn-store/src/pytorch/pickle_reader.rs
++++ b/crates/pytorch-reader/src/pickle_reader.rs
+@@ -11,12 +11,8 @@
+ //! built ahead of time), and `REDUCE` calls of `torch._utils._rebuild_tensor*` turn a storage
+ //! reference into a tensor whose bytes are read only when asked for.
+ 
+-use super::storage::{StorageSource, read_exact_len};
+-use crate::bridge;
+-use alloc::string::{String, ToString};
+-use alloc::vec::Vec;
+-use burn_core::tensor::{BoolStore, DType, TensorData};
+-use burn_pack::{Error as PackError, MAX_TENSOR_SIZE, Tensor as PackTensor};
++use crate::storage::{StorageSource, read_exact_len};
++use crate::{DType, MAX_TENSOR_SIZE, Tensor};
+ use byteorder::{BigEndian, LittleEndian, ReadBytesExt};
+ use std::collections::HashMap;
+ use std::io::{self, BufRead};
+@@ -287,7 +283,7 @@ pub enum Object {
+     /// A Python object this reader does not interpret: an unknown `REDUCE`, `NEWOBJ`,
+     /// `NEWOBJ_EX` or `BUILD`. Nothing downstream looks inside one, so nothing is kept.
+     Opaque,
+-    Tensor(PackTensor),
++    Tensor(Tensor),
+ }
+ 
+ impl Object {
+@@ -350,7 +346,7 @@ pub(crate) enum PersistentIds {
+     /// `('storage', type, key, location, numel[, view])` tuples, backed by a source.
+     Storages(Arc<StorageSource>),
+     /// Ids naming tensors built ahead of time (the TAR container).
+-    Tensors(HashMap<String, PackTensor>),
++    Tensors(HashMap<String, Tensor>),
+ }
+ 
+ /// Parse one pickle from `r`, leaving it positioned just after the `STOP` opcode.
+@@ -374,7 +370,7 @@ pub(crate) fn storage_type_to_dtype(storage_type: &str) -> Result<DType> {
+         "ShortStorage" => Ok(DType::I16),
+         "CharStorage" => Ok(DType::I8),
+         "ByteStorage" => Ok(DType::U8),
+-        "BoolStorage" => Ok(DType::Bool(BoolStore::Native)),
++        "BoolStorage" => Ok(DType::Bool),
+         _ => Err(PickleError::UnsupportedType(format!(
+             "torch.{storage_type}"
+         ))),
+@@ -396,7 +392,7 @@ fn torch_dtype_to_dtype(name: &str) -> Result<DType> {
+         "uint16" => Ok(DType::U16),
+         "uint32" => Ok(DType::U32),
+         "uint64" => Ok(DType::U64),
+-        "bool" => Ok(DType::Bool(BoolStore::Native)),
++        "bool" => Ok(DType::Bool),
+         _ => Err(PickleError::UnsupportedType(format!("torch.{name}"))),
+     }
+ }
+@@ -653,7 +649,7 @@ enum TensorRebuild {
+     V2,
+     /// `_rebuild_tensor_v3(storage, storage_offset, size, stride, requires_grad, hooks, dtype[, metadata])`,
+     /// used for element types without a typed storage class (uint16/32/64, float8 and
+-    /// others). Only the unsigned ints have a burn dtype; the rest are unsupported.
++    /// others). Only the unsigned ints have a [`DType`]; the rest are unsupported.
+     V3,
+ }
+ 
+@@ -861,7 +857,7 @@ pub(crate) fn build_tensor(
+     storage_offset: usize,
+     shape: Vec<usize>,
+     stride: Vec<usize>,
+-) -> Result<PackTensor> {
++) -> Result<Tensor> {
+     let element_size = dtype.size();
+     let storage_offset = storage_offset
+         .checked_add(storage.view_offset)
+@@ -879,9 +875,7 @@ pub(crate) fn build_tensor(
+             storage.key
+         )));
+     }
+-    // A view can declare far more logical elements than its storage holds (an `expand` has
+-    // stride 0), so the file gives no bound on what a tensor materializes. Apply the
+-    // burn-pack ceiling that its own reader already enforces.
++    // See `MAX_TENSOR_SIZE`: the file itself bounds nothing here.
+     if byte_len > MAX_TENSOR_SIZE {
+         return Err(PickleError::InvalidData(format!(
+             "Tensor with shape {shape:?} would materialize {byte_len} bytes, above the {MAX_TENSOR_SIZE} byte limit"
+@@ -894,20 +888,33 @@ pub(crate) fn build_tensor(
+     // tensor's offset or past its extent, is not paid for.
+     let window_start = storage_offset.saturating_mul(element_size);
+     let window_len = (extent - storage_offset).saturating_mul(element_size);
+-    let provider = move || -> std::result::Result<TensorData, PackError> {
++    let provider = move || -> io::Result<Vec<u8>> {
+         let shape = &provider_shape;
+         let (mut data, skipped) = source.read(&key, window_start, window_len).map_err(|err| {
+-            PackError::ValidationError(format!(
+-                "Failed to read storage '{key}' for tensor with shape {shape:?}: {err}"
+-            ))
++            // A source reports a missing, corrupt or unreadable storage with whatever kind
++            // it or its container library chose, so they are folded into one. Only an error
++            // that came from the operating system keeps its kind: that is how a caller tells
++            // a file that disagrees with itself from one it cannot read.
++            let kind = match err.kind() {
++                kind if err.raw_os_error().is_some() => kind,
++                io::ErrorKind::UnexpectedEof => io::ErrorKind::UnexpectedEof,
++                _ => io::ErrorKind::InvalidData,
++            };
++            io::Error::new(
++                kind,
++                format!("Failed to read storage '{key}' for tensor with shape {shape:?}: {err}"),
++            )
+         })?;
+ 
+         // `data` starts at the tensor's own offset, so every index below is relative to it.
+         let available = (skipped + data.len()) / element_size;
+         if extent > available {
+-            return Err(PackError::ValidationError(format!(
+-                "Tensor with shape {shape:?} requires {extent} elements from storage '{key}', but only {available} are available"
+-            )));
++            return Err(io::Error::new(
++                io::ErrorKind::UnexpectedEof,
++                format!(
++                    "Tensor with shape {shape:?} requires {extent} elements from storage '{key}', but only {available} are available"
++                ),
++            ));
+         }
+ 
+         let mut bytes = if is_contiguous_stride(shape, &stride) {
+@@ -918,26 +925,20 @@ pub(crate) fn build_tensor(
+         };
+ 
+         to_native_endian(&mut bytes, element_size);
+-        if matches!(dtype, DType::Bool(_)) {
++        if dtype == DType::Bool {
+             // A well-formed file holds only 0 or 1; any other byte would be an invalid
+-            // `bool`, so normalize before reinterpreting.
++            // `bool`, so normalize so a consumer can reinterpret them as such.
+             for byte in &mut bytes {
+                 *byte = u8::from(*byte != 0);
+             }
+         }
+ 
+-        Ok(TensorData::from_bytes_vec(bytes, shape.clone(), dtype))
++        Ok(bytes)
+     };
+ 
+-    // The tensor's name is a path through the pickle's dicts, assembled by the caller that
+-    // walks them. PyTorch carries no parameter identity, so `param_id` stays `None`.
+-    Ok(bridge::deferred(
+-        String::new(),
+-        dtype,
+-        shape.into(),
+-        None,
+-        provider,
+-    ))
++    // The tensor's name is its path through the pickle's dicts, which `extract_tensors`
++    // assigns once the whole pickle has been walked.
++    Ok(Tensor::new(String::new(), dtype, shape, provider))
+ }
+ 
+ // ---------------------------------------------------------------------------------------------
+@@ -1583,8 +1584,8 @@ fn insert_pairs(dict: &mut HashMap<String, Object>, items: Vec<Object>) -> Resul
+ /// Only dicts are descended into: a state_dict is one, and a tensor reached any other way is
+ /// ignored. A tensor is built without a name, its path being assembled only here, so this is
+ /// also where each one gets its final identity.
+-pub(crate) fn extract_tensors(dict: HashMap<String, Object>) -> HashMap<String, PackTensor> {
+-    fn walk(obj: Object, path: &mut Vec<String>, tensors: &mut HashMap<String, PackTensor>) {
++pub(crate) fn extract_tensors(dict: HashMap<String, Object>) -> HashMap<String, Tensor> {
++    fn walk(obj: Object, path: &mut Vec<String>, tensors: &mut HashMap<String, Tensor>) {
+         match obj {
+             Object::Dict(dict) => {
+                 for (key, value) in dict {
+@@ -1608,12 +1609,13 @@ pub(crate) fn extract_tensors(dict: HashMap<String, Object>) -> HashMap<String,
+ #[cfg(test)]
+ mod tests {
+     use super::*;
++    use crate::tests::{read_as, test_data_path};
+     use std::io::Cursor;
+ 
+     fn fixture_source() -> Arc<StorageSource> {
+-        let path = crate::pytorch::tests::reader::test_data_path("non_contiguous.pt");
++        let path = test_data_path("non_contiguous.pt");
+         Arc::new(StorageSource::Zip(
+-            super::super::storage::ZipSource::open(&path).unwrap(),
++            crate::storage::ZipSource::open(&path).unwrap(),
+         ))
+     }
+ 
+@@ -1651,7 +1653,7 @@ mod tests {
+         ])
+     }
+ 
+-    fn rebuild(args: Object) -> Result<PackTensor> {
++    fn rebuild(args: Object) -> Result<Tensor> {
+         match rebuild_tensor(args, TensorRebuild::Legacy)? {
+             Object::Tensor(tensor) => Ok(tensor),
+             other => panic!("expected tensor, got {other:?}"),
+@@ -2005,8 +2007,9 @@ mod tests {
+                 &source,
+             ))
+             .unwrap_or_else(|e| panic!("{name}: {e}"));
+-            let data = bridge::into_data(tensor).unwrap_or_else(|e| panic!("{name}: {e}"));
+-            assert_eq!(data.as_slice::<f32>().unwrap(), expected, "{name}");
++            let bytes = tensor.read().unwrap_or_else(|e| panic!("{name}: {e}"));
++            let data: Vec<f32> = bytemuck::pod_collect_to_vec(&bytes);
++            assert_eq!(data, expected, "{name}");
+         }
+     }
+ 
+@@ -2026,11 +2029,7 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<i16>().unwrap(),
+-            &[0, 16256, 16384, 0, 0, 0][..]
+-        );
++        assert_eq!(read_as::<i16>(&tensor), [0, 16256, 16384, 0, 0, 0]);
+ 
+         let tensor = rebuild(rebuild_args(
+             "ByteStorage",
+@@ -2042,11 +2041,7 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<u8>().unwrap(),
+-            &[0, 128, 0, 64, 0, 63, 64, 64][..]
+-        );
++        assert_eq!(read_as::<u8>(&tensor), [0, 128, 0, 64, 0, 63, 64, 64]);
+ 
+         let tensor = rebuild(rebuild_args(
+             "DoubleStorage",
+@@ -2058,10 +2053,7 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        let bits: Vec<u64> = data
+-            .as_slice::<f64>()
+-            .unwrap()
++        let bits: Vec<u64> = read_as::<f64>(&tensor)
+             .iter()
+             .map(|v| v.to_bits())
+             .collect();
+@@ -2119,11 +2111,13 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let err = bridge::into_data(tensor).unwrap_err();
+-        assert!(matches!(
+-            err,
+-            PackError::ValidationError(msg) if msg.contains("requires 46 elements from storage '0', but only 32 are available")
+-        ));
++        let err = tensor.read().unwrap_err();
++        assert_eq!(err.kind(), io::ErrorKind::UnexpectedEof);
++        assert!(
++            err.to_string()
++                .contains("requires 46 elements from storage '0', but only 32 are available"),
++            "{err}"
++        );
+     }
+ 
+     #[test]
+@@ -2158,11 +2152,7 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<f32>().unwrap(),
+-            &[1.0, 2.0, 3.0, 1.0, 2.0, 3.0]
+-        );
++        assert_eq!(read_as::<f32>(&tensor), [1.0, 2.0, 3.0, 1.0, 2.0, 3.0]);
+     }
+ 
+     #[test]
+@@ -2178,11 +2168,7 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<f32>().unwrap(),
+-            &[5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+-        );
++        assert_eq!(read_as::<f32>(&tensor), [5.0, 6.0, 7.0, 8.0, 9.0, 10.0]);
+     }
+ 
+     #[test]
+@@ -2198,10 +2184,9 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+         assert_eq!(
+-            data.as_slice::<f32>().unwrap(),
+-            &[
++            read_as::<f32>(&tensor),
++            [
+                 5.0, 9.0, 13.0, 6.0, 10.0, 14.0, 7.0, 11.0, 15.0, 8.0, 12.0, 16.0, 17.0, 21.0,
+                 25.0, 18.0, 22.0, 26.0, 19.0, 23.0, 27.0, 20.0, 24.0, 28.0,
+             ]
+@@ -2212,8 +2197,7 @@ mod tests {
+     fn legacy_rebuild_tensor_loads_scalar_at_offset() {
+         let source = fixture_source();
+         let tensor = rebuild(rebuild_args("FloatStorage", "0", 32, 5, &[], &[], &source)).unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(data.as_slice::<f32>().unwrap(), &[5.0]);
++        assert_eq!(read_as::<f32>(&tensor), [5.0]);
+     }
+ 
+     #[test]
+@@ -2231,8 +2215,7 @@ mod tests {
+         let storage = resolve_storage_id(&pid, &source).unwrap();
+         assert_eq!(storage.view_offset, 4);
+         let tensor = build_tensor(storage, DType::F32, 1, vec![3], vec![1]).unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(data.as_slice::<f32>().unwrap(), &[5.0, 6.0, 7.0]);
++        assert_eq!(read_as::<f32>(&tensor), [5.0, 6.0, 7.0]);
+     }
+ 
+     #[test]
+@@ -2265,10 +2248,9 @@ mod tests {
+         let Object::Tensor(tensor) = rebuild_tensor(args, TensorRebuild::V3).unwrap() else {
+             panic!("expected tensor");
+         };
+-        assert_eq!(tensor.dtype, DType::U32);
+-        let data = bridge::into_data(tensor).unwrap();
++        assert_eq!(tensor.dtype(), DType::U32);
+         // The storage holds f32 0.0 and 1.0; read as u32 bit patterns.
+-        assert_eq!(data.as_slice::<u32>().unwrap(), &[0, 1.0f32.to_bits()]);
++        assert_eq!(read_as::<u32>(&tensor), [0, 1.0f32.to_bits()]);
+     }
+ 
+     #[test]
+@@ -2294,11 +2276,7 @@ mod tests {
+         let Object::Tensor(tensor) = reduce(callable, args).unwrap() else {
+             panic!("expected tensor");
+         };
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<f32>().unwrap(),
+-            &[5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+-        );
++        assert_eq!(read_as::<f32>(&tensor), [5.0, 6.0, 7.0, 8.0, 9.0, 10.0]);
+     }
+ 
+     #[test]
+@@ -2310,13 +2288,8 @@ mod tests {
+             unreachable!()
+         };
+         let storage = resolve_storage_id(&pid, &source).unwrap();
+-        let tensor =
+-            build_tensor(storage, DType::Bool(BoolStore::Native), 0, vec![8], vec![1]).unwrap();
+-        let data = bridge::into_data(tensor).unwrap();
+-        assert_eq!(
+-            data.as_slice::<bool>().unwrap(),
+-            &[false, false, false, false, false, false, true, true]
+-        );
++        let tensor = build_tensor(storage, DType::Bool, 0, vec![8], vec![1]).unwrap();
++        assert_eq!(tensor.read().unwrap(), [0, 0, 0, 0, 0, 0, 1, 1]);
+     }
+ 
+     #[test]
+@@ -2431,11 +2404,12 @@ mod tests {
+             &source,
+         ))
+         .unwrap();
+-        let err = bridge::into_data(tensor).unwrap_err();
+-        assert!(matches!(
+-            err,
+-            PackError::ValidationError(msg)
+-                if msg.contains("Failed to read storage 'missing' for tensor with shape [2, 3]")
+-        ));
++        let err = tensor.read().unwrap_err();
++        assert_eq!(err.kind(), io::ErrorKind::InvalidData);
++        assert!(
++            err.to_string()
++                .contains("Failed to read storage 'missing' for tensor with shape [2, 3]"),
++            "{err}"
++        );
+     }
+ }
+diff --git a/crates/burn-store/src/pytorch/reader.rs b/crates/pytorch-reader/src/reader.rs
+similarity index 92%
+rename from crates/burn-store/src/pytorch/reader.rs
+rename to crates/pytorch-reader/src/reader.rs
+index 1b1a6792646..5dc78f9c45b 100644
+--- a/crates/burn-store/src/pytorch/reader.rs
++++ b/crates/pytorch-reader/src/reader.rs
+@@ -1,47 +1,9 @@
+-//! PyTorch file reader implementation.
++//! Format detection and container loading behind [`PytorchReader`].
+ //!
+-//! This module provides support for reading PyTorch checkpoint files (.pt/.pth).
+-//!
+-//! # Supported Formats
+-//!
+-//! ## 1. Modern ZIP Format (PyTorch 1.6+)
+-//! Files are ZIP archives holding, under a root directory (usually named after the file):
+-//! - `data.pkl`: Pickled tensor metadata
+-//! - `data/`: One binary file per tensor storage
+-//! - `version`, `byteorder`, and other small text entries
+-//!
+-//! ## 2. TAR Format (PyTorch before 0.1.10, e.g. early torchvision models)
+-//! TAR archives containing:
+-//! - `sys_info`: System info pickle (endianness, type sizes)
+-//! - `storages`: Count pickle, then per storage a metadata pickle, element count and bytes
+-//! - `tensors`: Count pickle, then per tensor a metadata pickle and binary shape, stride
+-//!   and storage offset
+-//! - `pickle`: The saved object, referencing tensors by persistent id
+-//!
+-//! ## 3. Legacy Pickle Format (PyTorch 0.1.10 - 1.5)
+-//! Sequential pickle streams with the structure:
+-//! - Magic number pickle (0x1950a86a20f9469cfc6c)
+-//! - Protocol version pickle (e.g., 1001)
+-//! - System info pickle (endianness, type sizes)
+-//! - Model data pickle (state_dict or full model)
+-//! - Storage key list, then each storage as an `i64` element count followed by its bytes
+-//!
+-//! ## 4. Simple Pickle Format
+-//! Direct pickle file with a dictionary at the root, commonly used for
+-//! manually saved configuration.
+-//!
+-//! # Compatibility
+-//!
+-//! The reader detects the file format automatically. Files from the earliest PyTorch
+-//! releases (TAR) through current versions are supported. Full model saves (as opposed to
+-//! a state_dict) are refused, as are checkpoints holding sparse, quantized or nested
+-//! tensors, since those cannot be represented. Only little-endian files are supported.
++//! The containers and their layouts are described in the crate docs.
+ 
+ use crate::nested::{adapter::DefaultAdapter, data::NestedValue, de::Deserializer};
+-use alloc::string::{String, ToString};
+-use alloc::vec::Vec;
+-use burn_core::tensor::DType;
+-use burn_pack::Tensor as PackTensor;
++use crate::{DType, Tensor};
+ use serde::de::DeserializeOwned;
+ use std::collections::HashMap;
+ use std::fs::File;
+@@ -49,11 +11,11 @@ use std::io::{BufReader, Cursor, Read, Seek, SeekFrom};
+ use std::path::Path;
+ use std::sync::Arc;
+ 
+-use super::pickle_reader::{
++use crate::pickle_reader::{
+     Object, PersistentIds, PickleError, StorageRef, build_tensor, extract_tensors, key_string,
+     non_negative, read_pickle, storage_type_to_dtype,
+ };
+-use super::storage::{LegacySource, StorageSource, TarSource, ZipSource};
++use crate::storage::{LegacySource, StorageSource, TarSource, ZipSource};
+ use byteorder::{LittleEndian, ReadBytesExt};
+ 
+ /// Error type for PyTorch file operations
+@@ -197,7 +159,7 @@ pub enum ByteOrder {
+ ///
+ /// # Example
+ /// ```rust,no_run
+-/// # use burn_store::pytorch::PytorchReader;
++/// # use pytorch_reader::PytorchReader;
+ /// # fn example() -> Result<(), Box<dyn std::error::Error>> {
+ /// // Load a checkpoint file
+ /// let reader = PytorchReader::new("model.pt")?;
+@@ -207,7 +169,7 @@ pub enum ByteOrder {
+ ///
+ /// // Access a specific tensor
+ /// if let Some(tensor) = reader.get("conv1.weight") {
+-///     let data = burn_store::bridge::to_data(tensor)?; // Materializes the tensor
++///     let bytes = tensor.read()?; // Reads the tensor's bytes from the file
+ /// }
+ ///
+ /// // Check file metadata
+@@ -218,7 +180,7 @@ pub enum ByteOrder {
+ /// ```
+ #[derive(Debug)]
+ pub struct PytorchReader {
+-    tensors: HashMap<String, PackTensor>,
++    tensors: HashMap<String, Tensor>,
+     metadata: PytorchMetadata,
+ }
+ 
+@@ -245,7 +207,7 @@ impl PytorchReader {
+     ///
+     /// # Example
+     /// ```rust,no_run
+-    /// # use burn_store::pytorch::PytorchReader;
++    /// # use pytorch_reader::PytorchReader;
+     /// # fn example() -> Result<(), Box<dyn std::error::Error>> {
+     /// let reader = PytorchReader::with_top_level_key("checkpoint.pt", "state_dict")?;
+     /// # Ok(())
+@@ -285,17 +247,17 @@ impl PytorchReader {
+     }
+ 
+     /// Get a tensor by name
+-    pub fn get(&self, name: &str) -> Option<&PackTensor> {
++    pub fn get(&self, name: &str) -> Option<&Tensor> {
+         self.tensors.get(name)
+     }
+ 
+     /// Get all tensors
+-    pub fn tensors(&self) -> &HashMap<String, PackTensor> {
++    pub fn tensors(&self) -> &HashMap<String, Tensor> {
+         &self.tensors
+     }
+ 
+     /// Take ownership of all tensors
+-    pub fn into_tensors(self) -> HashMap<String, PackTensor> {
++    pub fn into_tensors(self) -> HashMap<String, Tensor> {
+         self.tensors
+     }
+ 
+@@ -358,7 +320,7 @@ impl PytorchReader {
+     ///
+     /// # Example
+     /// ```rust,no_run
+-    /// # use burn_store::pytorch::PytorchReader;
++    /// # use pytorch_reader::PytorchReader;
+     /// # use serde::Deserialize;
+     /// # fn example() -> Result<(), Box<dyn std::error::Error>> {
+     /// #[derive(Debug, Deserialize)]
+@@ -696,7 +658,7 @@ fn parse_tar_tensors(
+     blob: &[u8],
+     storage_info: &TarStorageInfo,
+     source: &Arc<StorageSource>,
+-) -> Result<HashMap<String, PackTensor>> {
++) -> Result<HashMap<String, Tensor>> {
+     let mut cursor = Cursor::new(blob);
+     let count = read_tar_count(&mut cursor, "tensor")?;
+     let mut tensors = HashMap::with_capacity(count.min(blob.len() / 8));
+@@ -825,7 +787,7 @@ fn select_top_level(root: Object, key: Option<&str>) -> Result<Object> {
+ fn extract_tensors_at(
+     root: Object,
+     top_level_key: Option<&str>,
+-) -> Result<HashMap<String, PackTensor>> {
++) -> Result<HashMap<String, Tensor>> {
+     let Object::Dict(dict) = select_top_level(root, top_level_key)? else {
+         return Err(PytorchError::InvalidFormat(match top_level_key {
+             Some(key) => format!("Top-level key '{key}' does not hold a dictionary"),
+diff --git a/crates/burn-store/src/pytorch/storage.rs b/crates/pytorch-reader/src/storage.rs
+similarity index 98%
+rename from crates/burn-store/src/pytorch/storage.rs
+rename to crates/pytorch-reader/src/storage.rs
+index 3c70adaf4d3..48fcaff9819 100644
+--- a/crates/burn-store/src/pytorch/storage.rs
++++ b/crates/pytorch-reader/src/storage.rs
+@@ -14,8 +14,7 @@ use std::path::{Path, PathBuf};
+ use std::sync::Mutex;
+ use zip::ZipArchive;
+ 
+-use super::reader::PytorchError;
+-use burn_pack::MAX_METADATA_SIZE;
++use crate::{MAX_PICKLE_SIZE, PytorchError};
+ 
+ /// Largest `version`, `byteorder` or similar text entry accepted.
+ const MAX_TEXT_ENTRY_SIZE: u64 = 4096;
+@@ -158,10 +157,10 @@ impl ZipSource {
+         Ok(data_size)
+     }
+ 
+-    /// The `data.pkl` bytes. Refused beyond burn-pack's metadata ceiling, since a deflated
+-    /// entry can claim any decompressed size.
++    /// The `data.pkl` bytes. Refused beyond [`MAX_PICKLE_SIZE`], since a deflated entry can
++    /// claim any decompressed size.
+     pub fn pickle(&self) -> io::Result<Vec<u8>> {
+-        self.read_entry(&format!("{}data.pkl", self.root), MAX_METADATA_SIZE as u64)
++        self.read_entry(&format!("{}data.pkl", self.root), MAX_PICKLE_SIZE)
+     }
+ 
+     /// A small text entry next to `data.pkl` (`version`, `byteorder`, ...), trimmed, if the
+diff --git a/crates/pytorch-reader/src/tensor.rs b/crates/pytorch-reader/src/tensor.rs
+new file mode 100644
+index 00000000000..5fe0da13993
+--- /dev/null
++++ b/crates/pytorch-reader/src/tensor.rs
+@@ -0,0 +1,161 @@
++//! What the reader produces for each tensor in a checkpoint.
++
++use std::fmt;
++use std::io;
++use std::sync::Arc;
++
++/// Element type of a tensor.
++///
++/// The types `torch.save` writes as a plain storage. Complex, quantized and sparse tensors
++/// are refused at parse time rather than given a variant here. Deliberately exhaustive: a
++/// converter matching on it should fail to compile, not fall through, when a variant is
++/// added, so adding one is a breaking change.
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
++pub enum DType {
++    F64,
++    F32,
++    F16,
++    BF16,
++    I64,
++    I32,
++    I16,
++    I8,
++    U64,
++    U32,
++    U16,
++    U8,
++    /// One byte per element, holding 0 or 1.
++    Bool,
++}
++
++impl DType {
++    /// Size of one element in bytes.
++    pub const fn size(self) -> usize {
++        match self {
++            DType::F64 | DType::I64 | DType::U64 => 8,
++            DType::F32 | DType::I32 | DType::U32 => 4,
++            DType::F16 | DType::BF16 | DType::I16 | DType::U16 => 2,
++            DType::I8 | DType::U8 | DType::Bool => 1,
++        }
++    }
++}
++
++/// A tensor in a checkpoint, with its bytes not yet read.
++///
++/// Opening a checkpoint parses its metadata only. [`read`](Self::read) is what produces the
++/// tensor's bytes, so a checkpoint can be inspected without loading it, or loaded one tensor
++/// at a time. ZIP and legacy containers read the file at that point; a TAR container's
++/// storages are held in memory from open.
++///
++/// The element type and shape are fixed at parse time, when the reader checks that the
++/// tensor fits its storage, so they are read-only: [`byte_len`](Self::byte_len) is what
++/// [`read`](Self::read) returns because nothing can move them apart.
++#[derive(Clone)]
++pub struct Tensor {
++    /// Dotted path of the tensor through the checkpoint's dictionaries
++    /// (`"encoder.0.weight"`). Free to rename; only error messages look at it.
++    pub name: String,
++    dtype: DType,
++    shape: Vec<usize>,
++    read: Arc<dyn Fn() -> io::Result<Vec<u8>> + Send + Sync>,
++}
++
++impl Tensor {
++    pub(crate) fn new(
++        name: String,
++        dtype: DType,
++        shape: Vec<usize>,
++        read: impl Fn() -> io::Result<Vec<u8>> + Send + Sync + 'static,
++    ) -> Self {
++        Self {
++            name,
++            dtype,
++            shape,
++            read: Arc::new(read),
++        }
++    }
++
++    /// Element type.
++    pub fn dtype(&self) -> DType {
++        self.dtype
++    }
++
++    /// Extents, outermost first. Empty for a scalar.
++    pub fn shape(&self) -> &[usize] {
++        &self.shape
++    }
++
++    /// Number of elements.
++    pub fn num_elements(&self) -> usize {
++        self.shape.iter().product()
++    }
++
++    /// Number of bytes [`read`](Self::read) returns.
++    pub fn byte_len(&self) -> usize {
++        self.num_elements() * self.dtype.size()
++    }
++
++    /// Read the tensor's bytes from the checkpoint.
++    ///
++    /// The bytes are contiguous in row-major order and native-endian, whatever layout the
++    /// file stored the tensor in: a strided or offset view is gathered, and a `bool` tensor
++    /// holds only 0 and 1. Nothing is cached, so each call reads the storage again.
++    ///
++    /// # Errors
++    ///
++    /// A storage that is missing, corrupt or unreadable by its container fails with
++    /// [`io::ErrorKind::InvalidData`], and one shorter than the pickle declared with
++    /// [`io::ErrorKind::UnexpectedEof`]: the file disagrees with itself. Any other kind is
++    /// the operating system's, and means the file could not be read at all. Every error
++    /// names the tensor and its storage.
++    pub fn read(&self) -> io::Result<Vec<u8>> {
++        (self.read)().map_err(|err| named(&self.name, err))
++    }
++
++    /// Split the tensor into its metadata and its read handle.
++    ///
++    /// For a caller that keeps the metadata elsewhere and wants only the handle, without a
++    /// second copy of the name and shape held alive with it. The handle reads and fails
++    /// exactly as [`read`](Self::read) does.
++    pub fn into_parts(
++        self,
++    ) -> (
++        String,
++        DType,
++        Vec<usize>,
++        impl Fn() -> io::Result<Vec<u8>> + Send + Sync + 'static,
++    ) {
++        let Self {
++            name,
++            dtype,
++            shape,
++            read,
++        } = self;
++        let context = name.clone();
++
++        (name, dtype, shape, move || {
++            read().map_err(|err| named(&context, err))
++        })
++    }
++}
++
++impl fmt::Debug for Tensor {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        f.debug_struct("Tensor")
++            .field("name", &self.name)
++            .field("dtype", &self.dtype)
++            .field("shape", &self.shape)
++            .finish_non_exhaustive()
++    }
++}
++
++/// Put the tensor's name in front of a read error, keeping its kind.
++///
++/// The reader builds a tensor before it knows the name (that is assembled from the dict
++/// path afterwards), so the name is added here rather than inside the handle.
++fn named(name: &str, err: io::Error) -> io::Error {
++    if name.is_empty() {
++        return err;
++    }
++    io::Error::new(err.kind(), format!("tensor '{name}': {err}"))
++}
+diff --git a/crates/burn-store/src/pytorch/tests/reader/create_legacy_with_offsets.py b/crates/pytorch-reader/src/tests/create_legacy_with_offsets.py
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/create_legacy_with_offsets.py
+rename to crates/pytorch-reader/src/tests/create_legacy_with_offsets.py
+diff --git a/crates/burn-store/src/pytorch/tests/reader/create_protocol4.py b/crates/pytorch-reader/src/tests/create_protocol4.py
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/create_protocol4.py
+rename to crates/pytorch-reader/src/tests/create_protocol4.py
+diff --git a/crates/burn-store/src/pytorch/tests/reader/create_tar_format.py b/crates/pytorch-reader/src/tests/create_tar_format.py
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/create_tar_format.py
+rename to crates/pytorch-reader/src/tests/create_tar_format.py
+diff --git a/crates/burn-store/src/pytorch/tests/reader/mod.rs b/crates/pytorch-reader/src/tests/mod.rs
+similarity index 77%
+rename from crates/burn-store/src/pytorch/tests/reader/mod.rs
+rename to crates/pytorch-reader/src/tests/mod.rs
+index e895971ac9b..4fedcedd6db 100644
+--- a/crates/burn-store/src/pytorch/tests/reader/mod.rs
++++ b/crates/pytorch-reader/src/tests/mod.rs
+@@ -7,33 +7,62 @@
+ 
+ #![allow(clippy::needless_range_loop)]
+ 
+-use crate::pytorch::PytorchReader;
+-// Import internal types for testing only
+-use crate::pytorch::reader::{ByteOrder, FileFormat};
+-use burn_core::tensor::{BoolStore, DType, TensorData, Tolerance, shape};
++use crate::{ByteOrder, DType, FileFormat, PytorchReader, Tensor};
+ use std::path::PathBuf;
+ 
+ pub(crate) fn test_data_path(filename: &str) -> PathBuf {
+     // Get the path relative to the crate root
+     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+         .join("src")
+-        .join("pytorch")
+         .join("tests")
+-        .join("reader")
+         .join("test_data")
+         .join(filename)
+ }
+ 
++/// The tensor's bytes, checked against the length it declared.
++fn read(tensor: &Tensor) -> Vec<u8> {
++    let bytes = tensor.read().unwrap();
++    assert_eq!(
++        bytes.len(),
++        tensor.byte_len(),
++        "byte_len disagrees with read()"
++    );
++    bytes
++}
++
++/// The tensor's bytes, reinterpreted as `T`.
++pub(crate) fn read_as<T: bytemuck::Pod>(tensor: &Tensor) -> Vec<T> {
++    bytemuck::pod_collect_to_vec(&read(tensor))
++}
++
++/// The tensor's bytes as bools, which the reader guarantees are 0 or 1.
++fn bools(tensor: &Tensor) -> Vec<bool> {
++    read(tensor)
++        .into_iter()
++        .map(|b| {
++            assert!(b <= 1, "bool byte {b} was not normalized");
++            b != 0
++        })
++        .collect()
++}
++
++/// `values` against `expected` to the F32 tolerance in the module docs.
++fn assert_close(values: &[f32], expected: &[f32]) {
++    assert_eq!(values.len(), expected.len(), "length mismatch");
++    for (i, (v, e)) in values.iter().zip(expected).enumerate() {
++        assert!((v - e).abs() <= 1e-6, "element {i}: {v} != {e}");
++    }
++}
++
+ #[test]
+ fn test_float32_tensor() {
+     let path = test_data_path("float32.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load float32.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 4);
+     assert!((values[0] - 1.0).abs() < 1e-6);
+     assert!((values[1] - 2.5).abs() < 1e-6);
+@@ -46,11 +75,10 @@ fn test_float64_tensor() {
+     let path = test_data_path("float64.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load float64.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F64);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::F64);
++    assert_eq!(tensor.shape(), [3]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f64>().unwrap();
++    let values = read_as::<f64>(tensor);
+     assert_eq!(values.len(), 3);
+     assert!((values[0] - 1.1).abs() < 1e-10);
+     assert!((values[1] - 2.2).abs() < 1e-10);
+@@ -62,11 +90,10 @@ fn test_int64_tensor() {
+     let path = test_data_path("int64.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load int64.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::I64);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::I64);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<i64>().unwrap();
++    let values = read_as::<i64>(tensor);
+     assert_eq!(values, &[100, -200, 300, 0]);
+ }
+ 
+@@ -75,13 +102,10 @@ fn test_int32_tensor() {
+     let path = test_data_path("int32.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load int32.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::I32);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::I32);
++    assert_eq!(tensor.shape(), [3]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    // Convert to the appropriate element type
+-    let data_converted = data.convert::<i32>();
+-    let values = data_converted.as_slice::<i32>().unwrap();
++    let values = read_as::<i32>(tensor);
+     assert_eq!(values, &[10, 20, -30]);
+ }
+ 
+@@ -90,12 +114,10 @@ fn test_int16_tensor() {
+     let path = test_data_path("int16.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load int16.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::I16);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::I16);
++    assert_eq!(tensor.shape(), [3]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let data_converted = data.convert::<i16>();
+-    let values = data_converted.as_slice::<i16>().unwrap();
++    let values = read_as::<i16>(tensor);
+     assert_eq!(values, &[1000, -2000, 3000]);
+ }
+ 
+@@ -104,12 +126,10 @@ fn test_int8_tensor() {
+     let path = test_data_path("int8.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load int8.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::I8);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::I8);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let data_converted = data.convert::<i8>();
+-    let values = data_converted.as_slice::<i8>().unwrap();
++    let values = read_as::<i8>(tensor);
+     assert_eq!(values, &[127, -128, 0, 50]);
+ }
+ 
+@@ -118,11 +138,10 @@ fn test_bool_tensor() {
+     let path = test_data_path("bool.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load bool.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::Bool(BoolStore::Native));
+-    assert_eq!(tensor.shape, shape![5]);
++    assert_eq!(tensor.dtype(), DType::Bool);
++    assert_eq!(tensor.shape(), [5]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<bool>().unwrap();
++    let values = bools(tensor);
+     assert_eq!(values, &[true, false, true, true, false]);
+ }
+ 
+@@ -132,12 +151,11 @@ fn test_uint8_tensor() {
+ 
+     let reader = PytorchReader::new(&path).expect("Failed to load uint8.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::U8);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::U8);
++    assert_eq!(tensor.shape(), [4]);
+ 
+     // Verify actual U8 values [0, 128, 255, 42] from test_data.py
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<u8>().unwrap();
++    let values = read_as::<u8>(tensor);
+     assert_eq!(values, &[0, 128, 255, 42]);
+ }
+ 
+@@ -148,13 +166,11 @@ fn test_float16_tensor() {
+     let path = test_data_path("float16.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load float16.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F16);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::F16);
++    assert_eq!(tensor.shape(), [3]);
+ 
+     // Verify actual F16 values [1.5, -2.25, 3.125] from test_data.py
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    assert_eq!(data.shape, shape![3]);
+-    let values = data.as_slice::<f16>().unwrap();
++    let values = read_as::<f16>(tensor);
+     assert_eq!(values.len(), 3);
+     assert!((values[0].to_f32() - 1.5).abs() < 1e-2);
+     assert!((values[1].to_f32() - (-2.25)).abs() < 1e-2);
+@@ -168,13 +184,11 @@ fn test_bfloat16_tensor() {
+     let path = test_data_path("bfloat16.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load bfloat16.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::BF16);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::BF16);
++    assert_eq!(tensor.shape(), [3]);
+ 
+     // Verify actual BF16 values [1.5, -2.5, 3.5] from test_data.py
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    assert_eq!(data.shape, shape![3]);
+-    let values = data.as_slice::<bf16>().unwrap();
++    let values = read_as::<bf16>(tensor);
+     assert_eq!(values.len(), 3);
+     assert!((values[0].to_f32() - 1.5).abs() < 1e-2);
+     assert!((values[1].to_f32() - (-2.5)).abs() < 1e-2);
+@@ -186,11 +200,10 @@ fn test_2d_tensor() {
+     let path = test_data_path("tensor_2d.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load tensor_2d.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![3, 2]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [3, 2]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 6);
+     // Check flattened values [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+     for (i, expected) in [1.0, 2.0, 3.0, 4.0, 5.0, 6.0].iter().enumerate() {
+@@ -203,12 +216,10 @@ fn test_3d_tensor() {
+     let path = test_data_path("tensor_3d.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load tensor_3d.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![2, 3, 4]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [2, 3, 4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    assert_eq!(data.shape, shape![2, 3, 4]);
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 24);
+ }
+ 
+@@ -217,12 +228,10 @@ fn test_4d_tensor() {
+     let path = test_data_path("tensor_4d.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load tensor_4d.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![2, 3, 2, 2]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [2, 3, 2, 2]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    assert_eq!(data.shape, shape![2, 3, 2, 2]);
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 24);
+ }
+ 
+@@ -232,9 +241,8 @@ fn test_non_contiguous_tensors() {
+     let reader = PytorchReader::new(&path).expect("Failed to load non_contiguous.pt");
+ 
+     let permuted = reader.get("permuted").expect("permuted key not found");
+-    assert_eq!(permuted.shape, shape![2, 4, 3]);
+-    let data = crate::bridge::to_data(permuted).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(permuted.shape(), [2, 4, 3]);
++    let values = read_as::<f32>(permuted);
+     assert_eq!(
+         values,
+         &[
+@@ -244,9 +252,8 @@ fn test_non_contiguous_tensors() {
+     );
+ 
+     let expanded = reader.get("expanded").expect("expanded key not found");
+-    assert_eq!(expanded.shape, shape![2, 3]);
+-    let data = crate::bridge::to_data(expanded).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(expanded.shape(), [2, 3]);
++    let values = read_as::<f32>(expanded);
+     assert_eq!(values, &[1.0, 2.0, 3.0, 1.0, 2.0, 3.0]);
+ }
+ 
+@@ -264,26 +271,24 @@ fn test_state_dict() {
+ 
+     // Check weight tensor
+     let weight = reader.get("weight").unwrap();
+-    assert_eq!(weight.shape, shape![3, 4]);
+-    assert_eq!(weight.dtype, DType::F32);
++    assert_eq!(weight.shape(), [3, 4]);
++    assert_eq!(weight.dtype(), DType::F32);
+ 
+     // Check bias tensor
+     let bias = reader.get("bias").unwrap();
+-    assert_eq!(bias.shape, shape![3]);
+-    assert_eq!(bias.dtype, DType::F32);
++    assert_eq!(bias.shape(), [3]);
++    assert_eq!(bias.dtype(), DType::F32);
+ 
+     // Check running_mean (should be zeros)
+     let running_mean = reader.get("running_mean").unwrap();
+-    assert_eq!(running_mean.shape, shape![3]);
+-    let mean_data = crate::bridge::to_data(running_mean).unwrap();
+-    let mean_values = mean_data.as_slice::<f32>().unwrap();
++    assert_eq!(running_mean.shape(), [3]);
++    let mean_values = read_as::<f32>(running_mean);
+     assert!(mean_values.iter().all(|&v| v.abs() < 1e-6));
+ 
+     // Check running_var (should be ones)
+     let running_var = reader.get("running_var").unwrap();
+-    assert_eq!(running_var.shape, shape![3]);
+-    let var_data = crate::bridge::to_data(running_var).unwrap();
+-    let var_values = var_data.as_slice::<f32>().unwrap();
++    assert_eq!(running_var.shape(), [3]);
++    let var_values = read_as::<f32>(running_var);
+     assert!(var_values.iter().all(|&v| (v - 1.0).abs() < 1e-6));
+ }
+ 
+@@ -301,18 +306,16 @@ fn test_nested_dict() {
+ 
+     // Check layer1.weight and load data
+     let layer1_weight = reader.get("layer1.weight").unwrap();
+-    assert_eq!(layer1_weight.shape, shape![2, 3]);
+-    assert_eq!(layer1_weight.dtype, DType::F32);
+-    let data = crate::bridge::to_data(layer1_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(layer1_weight.shape(), [2, 3]);
++    assert_eq!(layer1_weight.dtype(), DType::F32);
++    let values = read_as::<f32>(layer1_weight);
+     assert_eq!(values.len(), 6); // 2x3 = 6 elements
+ 
+     // Check layer2.weight and load data
+     let layer2_weight = reader.get("layer2.weight").unwrap();
+-    assert_eq!(layer2_weight.shape, shape![4, 2]);
+-    assert_eq!(layer2_weight.dtype, DType::F32);
+-    let data = crate::bridge::to_data(layer2_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(layer2_weight.shape(), [4, 2]);
++    assert_eq!(layer2_weight.dtype(), DType::F32);
++    let values = read_as::<f32>(layer2_weight);
+     assert_eq!(values.len(), 8); // 4x2 = 8 elements
+ }
+ 
+@@ -330,16 +333,14 @@ fn test_checkpoint() {
+ 
+     // Check fc1.weight dimensions and load data
+     let fc1_weight = reader.get("model_state_dict.fc1.weight").unwrap();
+-    assert_eq!(fc1_weight.shape, shape![10, 5]);
+-    let data = crate::bridge::to_data(fc1_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(fc1_weight.shape(), [10, 5]);
++    let values = read_as::<f32>(fc1_weight);
+     assert_eq!(values.len(), 50); // 10x5 = 50 elements
+ 
+     // Check fc2.weight dimensions and load data
+     let fc2_weight = reader.get("model_state_dict.fc2.weight").unwrap();
+-    assert_eq!(fc2_weight.shape, shape![3, 10]);
+-    let data = crate::bridge::to_data(fc2_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(fc2_weight.shape(), [3, 10]);
++    let values = read_as::<f32>(fc2_weight);
+     assert_eq!(values.len(), 30); // 3x10 = 30 elements
+ }
+ 
+@@ -348,11 +349,10 @@ fn test_empty_tensor() {
+     let path = test_data_path("empty.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load empty.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.shape, shape![0]); // Empty tensor has shape [0]
+-    assert_eq!(tensor.dtype, DType::F32);
++    assert_eq!(tensor.shape(), [0]); // Empty tensor has shape [0]
++    assert_eq!(tensor.dtype(), DType::F32);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    assert!(data.as_slice::<f32>().unwrap().is_empty());
++    assert!(read_as::<f32>(tensor).is_empty());
+ }
+ 
+ #[test]
+@@ -360,11 +360,10 @@ fn test_scalar_tensor() {
+     let path = test_data_path("scalar.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load scalar.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.shape, shape![]); // Scalar has empty shape
+-    assert_eq!(tensor.dtype, DType::F32);
++    assert!(tensor.shape().is_empty()); // Scalar has empty shape
++    assert_eq!(tensor.dtype(), DType::F32);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 1);
+     assert!((values[0] - 42.0).abs() < 1e-6);
+ }
+@@ -374,11 +373,10 @@ fn test_large_shape() {
+     let path = test_data_path("large_shape.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load large_shape.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.shape, shape![100, 100]);
+-    assert_eq!(tensor.dtype, DType::F32);
++    assert_eq!(tensor.shape(), [100, 100]);
++    assert_eq!(tensor.dtype(), DType::F32);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 10000);
+ 
+     // Check specific non-zero values
+@@ -397,35 +395,31 @@ fn test_mixed_types() {
+ 
+     // Check float32 tensor [1.0, 2.0] from test_data.py
+     let float32 = reader.get("float32").unwrap();
+-    assert_eq!(float32.dtype, DType::F32);
+-    assert_eq!(float32.shape, shape![2]);
+-    let data = crate::bridge::to_data(float32).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(float32.dtype(), DType::F32);
++    assert_eq!(float32.shape(), [2]);
++    let values = read_as::<f32>(float32);
+     assert!((values[0] - 1.0).abs() < 1e-6);
+     assert!((values[1] - 2.0).abs() < 1e-6);
+ 
+     // Check int64 tensor [100, 200] from test_data.py
+     let int64 = reader.get("int64").unwrap();
+-    assert_eq!(int64.dtype, DType::I64);
+-    assert_eq!(int64.shape, shape![2]);
+-    let data = crate::bridge::to_data(int64).unwrap();
+-    let values = data.as_slice::<i64>().unwrap();
++    assert_eq!(int64.dtype(), DType::I64);
++    assert_eq!(int64.shape(), [2]);
++    let values = read_as::<i64>(int64);
+     assert_eq!(values, &[100, 200]);
+ 
+     // Check bool tensor [True, False] from test_data.py
+     let bool_tensor = reader.get("bool").unwrap();
+-    assert_eq!(bool_tensor.dtype, DType::Bool(BoolStore::Native));
+-    assert_eq!(bool_tensor.shape, shape![2]);
+-    let data = crate::bridge::to_data(bool_tensor).unwrap();
+-    let values = data.as_slice::<bool>().unwrap();
++    assert_eq!(bool_tensor.dtype(), DType::Bool);
++    assert_eq!(bool_tensor.shape(), [2]);
++    let values = bools(bool_tensor);
+     assert_eq!(values, &[true, false]);
+ 
+     // Check float64 tensor [1.1, 2.2] from test_data.py
+     let float64 = reader.get("float64").unwrap();
+-    assert_eq!(float64.dtype, DType::F64);
+-    assert_eq!(float64.shape, shape![2]);
+-    let data = crate::bridge::to_data(float64).unwrap();
+-    let values = data.as_slice::<f64>().unwrap();
++    assert_eq!(float64.dtype(), DType::F64);
++    assert_eq!(float64.shape(), [2]);
++    let values = read_as::<f64>(float64);
+     assert!((values[0] - 1.1).abs() < 1e-10);
+     assert!((values[1] - 2.2).abs() < 1e-10);
+ }
+@@ -435,11 +429,10 @@ fn test_special_values() {
+     let path = test_data_path("special_values.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load special_values.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![5]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [5]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 5);
+ 
+     // Check for special values
+@@ -455,11 +448,10 @@ fn test_extreme_values() {
+     let path = test_data_path("extreme_values.pt");
+     let reader = PytorchReader::new(&path).expect("Failed to load extreme_values.pt");
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 4);
+ 
+     // Very small positive
+@@ -481,11 +473,10 @@ fn test_parameter() {
+     // nn.Parameter is typically saved as a regular tensor
+     assert_eq!(tensors.len(), 1);
+     let param = reader.get("param").unwrap();
+-    assert_eq!(param.shape, shape![3, 3]);
+-    assert_eq!(param.dtype, DType::F32);
++    assert_eq!(param.shape(), [3, 3]);
++    assert_eq!(param.dtype(), DType::F32);
+ 
+-    let data = crate::bridge::to_data(param).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(param);
+     assert_eq!(values.len(), 9);
+ }
+ 
+@@ -499,19 +490,16 @@ fn test_buffers() {
+ 
+     // Check buffer1 (int32)
+     let buffer1 = reader.get("buffer1").unwrap();
+-    assert_eq!(buffer1.dtype, DType::I32);
+-    assert_eq!(buffer1.shape, shape![3]);
+-    let data1 = crate::bridge::to_data(buffer1).unwrap();
+-    let data1_converted = data1.convert::<i32>();
+-    let values1 = data1_converted.as_slice::<i32>().unwrap();
++    assert_eq!(buffer1.dtype(), DType::I32);
++    assert_eq!(buffer1.shape(), [3]);
++    let values1 = read_as::<i32>(buffer1);
+     assert_eq!(values1, &[1, 2, 3]);
+ 
+     // Check buffer2 (bool)
+     let buffer2 = reader.get("buffer2").unwrap();
+-    assert_eq!(buffer2.dtype, DType::Bool(BoolStore::Native));
+-    assert_eq!(buffer2.shape, shape![2]);
+-    let data2 = crate::bridge::to_data(buffer2).unwrap();
+-    let values2 = data2.as_slice::<bool>().unwrap();
++    assert_eq!(buffer2.dtype(), DType::Bool);
++    assert_eq!(buffer2.shape(), [2]);
++    let values2 = bools(buffer2);
+     assert_eq!(values2, &[true, false]);
+ }
+ 
+@@ -531,16 +519,14 @@ fn test_complex_structure() {
+ 
+     // Check encoder layer_0 weight and load data
+     let layer0_weight = reader.get("state.encoder.layer_0.weight").unwrap();
+-    assert_eq!(layer0_weight.shape, shape![4, 3]);
+-    let data = crate::bridge::to_data(layer0_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(layer0_weight.shape(), [4, 3]);
++    let values = read_as::<f32>(layer0_weight);
+     assert_eq!(values.len(), 12); // 4x3 = 12 elements
+ 
+     // Check decoder weight and load data
+     let decoder_weight = reader.get("state.decoder.weight").unwrap();
+-    assert_eq!(decoder_weight.shape, shape![3, 2]);
+-    let data = crate::bridge::to_data(decoder_weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(decoder_weight.shape(), [3, 2]);
++    let values = read_as::<f32>(decoder_weight);
+     assert_eq!(values.len(), 6); // 3x2 = 6 elements
+ }
+ 
+@@ -557,9 +543,9 @@ fn test_read_pytorch_tensors_convenience() {
+ 
+     // Check that data can be materialized
+     let weight = reader.get("weight").unwrap();
+-    let weight_data = crate::bridge::to_data(weight).unwrap();
+-    assert_eq!(weight_data.shape, shape![3, 4]);
+-    assert_eq!(weight_data.dtype, DType::F32);
++    assert_eq!(weight.shape(), [3, 4]);
++    assert_eq!(weight.dtype(), DType::F32);
++    assert_eq!(read_as::<f32>(weight).len(), 12);
+ }
+ 
+ #[test]
+@@ -602,28 +588,24 @@ fn test_legacy_format() {
+     // Check weight tensor
+     let weight = reader.get("weight").expect("weight not found");
+     // Note: values for `weight` in simple_legacy.pt are randomly generated
+-    assert_eq!(weight.shape, shape![2, 3]);
+-    assert_eq!(weight.dtype, DType::F32);
++    assert_eq!(weight.shape(), [2, 3]);
++    assert_eq!(weight.dtype(), DType::F32);
+ 
+     // Check bias tensor
+     let bias = reader.get("bias").expect("bias not found");
+-    assert_eq!(bias.shape, shape![2]);
+-    assert_eq!(bias.dtype, DType::F32);
++    assert_eq!(bias.shape(), [2]);
++    assert_eq!(bias.dtype(), DType::F32);
+ 
+     // Verify bias values are all ones
+-    let bias_data = crate::bridge::to_data(bias).unwrap();
+-    let expected_bias_data = TensorData::new(vec![1.0_f32, 1.0], vec![2]);
+-    bias_data.assert_approx_eq::<f32>(&expected_bias_data, Tolerance::default());
++    assert_close(&read_as::<f32>(bias), &[1.0, 1.0]);
+ 
+     // Check running_mean tensor
+     let running_mean = reader.get("running_mean").expect("running_mean not found");
+-    assert_eq!(running_mean.shape, shape![2]);
+-    assert_eq!(running_mean.dtype, DType::F32);
++    assert_eq!(running_mean.shape(), [2]);
++    assert_eq!(running_mean.dtype(), DType::F32);
+ 
+     // Verify running_mean values are accessible
+-    let mean_data = crate::bridge::to_data(running_mean).unwrap();
+-    let expected_mean_data = TensorData::new(vec![0.0_f32, 0.0], vec![2]);
+-    mean_data.assert_approx_eq::<f32>(&expected_mean_data, Tolerance::default());
++    assert_close(&read_as::<f32>(running_mean), &[0.0, 0.0]);
+ }
+ 
+ #[test]
+@@ -644,21 +626,21 @@ fn test_legacy_uncloned_views() {
+ 
+     // Check tensor1
+     let tensor1 = reader.get("tensor1").expect("tensor1 not found");
+-    assert_eq!(tensor1.shape, shape![10]);
+-    assert_eq!(tensor1.dtype, DType::F32);
+-    let tensor1_data = crate::bridge::to_data(tensor1).unwrap();
+-    let expected_tensor1_data =
+-        TensorData::new(vec![10, 11, 12, 13, 14, 15, 16, 17, 18, 19], vec![10]);
+-    tensor1_data.assert_approx_eq::<f32>(&expected_tensor1_data, Tolerance::default());
++    assert_eq!(tensor1.shape(), [10]);
++    assert_eq!(tensor1.dtype(), DType::F32);
++    assert_close(
++        &read_as::<f32>(tensor1),
++        &[10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0],
++    );
+ 
+     // Check tensor2
+     let tensor2 = reader.get("tensor2").expect("tensor2 not found");
+-    assert_eq!(tensor2.shape, shape![10]);
+-    assert_eq!(tensor2.dtype, DType::F32);
+-    let tensor2_data = crate::bridge::to_data(tensor2).unwrap();
+-    let expected_tensor2_data =
+-        TensorData::new(vec![50, 51, 52, 53, 54, 55, 56, 57, 58, 59], vec![10]);
+-    tensor2_data.assert_approx_eq::<f32>(&expected_tensor2_data, Tolerance::default());
++    assert_eq!(tensor2.shape(), [10]);
++    assert_eq!(tensor2.dtype(), DType::F32);
++    assert_close(
++        &read_as::<f32>(tensor2),
++        &[50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0],
++    );
+ }
+ 
+ #[test]
+@@ -671,31 +653,23 @@ fn test_legacy_with_offsets() {
+     let tensor1 = reader
+         .get("tensor1")
+         .expect("Legacy file should contain tensor1");
+-    assert_eq!(tensor1.shape, shape![10]);
+-    let data1 = crate::bridge::to_data(tensor1).unwrap();
+-    let expected_data1 = TensorData::new(
+-        vec![
+-            1.00_f32, 1.01, 1.02, 1.03, 1.04, 1.05, 1.06, 1.07, 1.08, 1.09,
+-        ],
+-        vec![10],
++    assert_eq!(tensor1.shape(), [10]);
++    assert_close(
++        &read_as::<f32>(tensor1),
++        &[1.00, 1.01, 1.02, 1.03, 1.04, 1.05, 1.06, 1.07, 1.08, 1.09],
+     );
+-    data1.assert_approx_eq::<f32>(&expected_data1, Tolerance::default());
+ 
+     let tensor2 = reader
+         .get("tensor2")
+         .expect("Legacy file should contain tensor2");
+-    assert_eq!(tensor2.shape, shape![5]);
+-    let data2 = crate::bridge::to_data(tensor2).unwrap();
+-    let expected_data2 = TensorData::new(vec![2.0_f32, 2.1, 2.2, 2.3, 2.4], vec![5]);
+-    data2.assert_approx_eq::<f32>(&expected_data2, Tolerance::default());
++    assert_eq!(tensor2.shape(), [5]);
++    assert_close(&read_as::<f32>(tensor2), &[2.0, 2.1, 2.2, 2.3, 2.4]);
+ 
+     let tensor3 = reader
+         .get("tensor3")
+         .expect("Legacy file should contain tensor3");
+-    assert_eq!(tensor3.shape, shape![5]);
+-    let data3 = crate::bridge::to_data(tensor3).unwrap();
+-    let expected_data3 = TensorData::new(vec![3.0_f32, 3.1, 3.2, 3.3, 3.4], vec![5]);
+-    data3.assert_approx_eq::<f32>(&expected_data3, Tolerance::default());
++    assert_eq!(tensor3.shape(), [5]);
++    assert_close(&read_as::<f32>(tensor3), &[3.0, 3.1, 3.2, 3.3, 3.4]);
+ }
+ 
+ #[test]
+@@ -711,21 +685,24 @@ fn test_legacy_shared_storage() {
+     for key in &keys {
+         assert!(reader.get(key).is_some(), "Should have tensor: {}", key);
+         let tensor = reader.get(key).unwrap();
+-        let data = crate::bridge::to_data(tensor).unwrap();
+ 
+         // Verify tensor data can be accessed
+-        match tensor.dtype {
++        match tensor.dtype() {
+             DType::F32 => {
+-                let values = data.as_slice::<f32>().unwrap();
++                let values = read_as::<f32>(tensor);
+                 assert!(!values.is_empty(), "Tensor {} should have data", key);
+             }
+             DType::I64 => {
+-                let values = data.as_slice::<i64>().unwrap();
++                let values = read_as::<i64>(tensor);
+                 assert!(!values.is_empty(), "Tensor {} should have data", key);
+             }
+             _ => {
+-                // For other types, just verify we can convert to data
+-                assert!(!data.shape.is_empty(), "Tensor {} should have shape", key);
++                // For other types, just verify we can read the data
++                assert!(
++                    !tensor.read().unwrap().is_empty(),
++                    "Tensor {} should have data",
++                    key
++                );
+             }
+         }
+     }
+@@ -848,7 +825,7 @@ fn test_small_invalid_file() {
+ 
+ #[test]
+ fn test_read_pickle_data_basic() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test reading pickle data from a checkpoint file
+     let path = test_data_path("checkpoint.pt");
+@@ -884,7 +861,7 @@ fn test_read_pickle_data_basic() {
+ 
+ #[test]
+ fn test_read_pickle_data_with_key() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test reading specific key from checkpoint
+     let path = test_data_path("checkpoint.pt");
+@@ -911,7 +888,7 @@ fn test_read_pickle_data_with_key() {
+ 
+ #[test]
+ fn test_read_pickle_data_nested_structure() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test reading nested dictionary structure
+     let path = test_data_path("nested_dict.pt");
+@@ -941,7 +918,7 @@ fn test_read_pickle_data_nested_structure() {
+ 
+ #[test]
+ fn test_read_pickle_data_types() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test various data types in mixed_types.pt
+     let path = test_data_path("mixed_types.pt");
+@@ -985,7 +962,7 @@ fn test_read_pickle_data_key_not_found() {
+ 
+ #[test]
+ fn test_read_pickle_data_simple_pickle() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test reading a simple pickle file (not ZIP)
+     // Note: simple_legacy.pt is a legacy format file, not a simple pickle
+@@ -1055,7 +1032,7 @@ fn test_load_config_with_top_level_key() {
+     let data = PytorchReader::read_pickle_data(&path2, None).unwrap();
+ 
+     // Verify it's a dict
+-    if let crate::pytorch::reader::PickleValue::Dict(dict) = data {
++    if let crate::PickleValue::Dict(dict) = data {
+         assert!(!dict.is_empty());
+     } else {
+         panic!("Expected a dict");
+@@ -1106,7 +1083,7 @@ fn test_load_config_key_not_found() {
+ 
+ #[test]
+ fn test_pickle_value_conversion() {
+-    use crate::pytorch::reader::PickleValue;
++    use crate::PickleValue;
+ 
+     // Test that PickleValue provides useful data structures
+     let path = test_data_path("checkpoint.pt");
+@@ -1163,11 +1140,10 @@ fn test_tar_float32_tensor() {
+     let reader = PytorchReader::new(&path).expect("Failed to load tar_float32.tar");
+ 
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F32);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::F32);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(tensor);
+     assert_eq!(values.len(), 4);
+     assert!((values[0] - 1.0).abs() < 1e-6);
+     assert!((values[1] - 2.5).abs() < 1e-6);
+@@ -1181,11 +1157,10 @@ fn test_tar_float64_tensor() {
+     let reader = PytorchReader::new(&path).expect("Failed to load tar_float64.tar");
+ 
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::F64);
+-    assert_eq!(tensor.shape, shape![3]);
++    assert_eq!(tensor.dtype(), DType::F64);
++    assert_eq!(tensor.shape(), [3]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<f64>().unwrap();
++    let values = read_as::<f64>(tensor);
+     assert_eq!(values.len(), 3);
+     assert!((values[0] - 1.1).abs() < 1e-10);
+     assert!((values[1] - 2.2).abs() < 1e-10);
+@@ -1198,11 +1173,10 @@ fn test_tar_int64_tensor() {
+     let reader = PytorchReader::new(&path).expect("Failed to load tar_int64.tar");
+ 
+     let tensor = reader.get("tensor").expect("tensor key not found");
+-    assert_eq!(tensor.dtype, DType::I64);
+-    assert_eq!(tensor.shape, shape![4]);
++    assert_eq!(tensor.dtype(), DType::I64);
++    assert_eq!(tensor.shape(), [4]);
+ 
+-    let data = crate::bridge::to_data(tensor).unwrap();
+-    let values = data.as_slice::<i64>().unwrap();
++    let values = read_as::<i64>(tensor);
+     assert_eq!(values, &[100, -200, 300, 0]);
+ }
+ 
+@@ -1214,11 +1188,10 @@ fn test_tar_multiple_tensors() {
+ 
+     // Check weight tensor (2x3 matrix)
+     let weight = reader.get("weight").expect("weight key not found");
+-    assert_eq!(weight.dtype, DType::F32);
+-    assert_eq!(weight.shape, shape![2, 3]);
++    assert_eq!(weight.dtype(), DType::F32);
++    assert_eq!(weight.shape(), [2, 3]);
+ 
+-    let data = crate::bridge::to_data(weight).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(weight);
+     assert_eq!(values.len(), 6);
+     assert!((values[0] - 0.1).abs() < 1e-6);
+     assert!((values[1] - 0.2).abs() < 1e-6);
+@@ -1226,11 +1199,10 @@ fn test_tar_multiple_tensors() {
+ 
+     // Check bias tensor (2-element vector)
+     let bias = reader.get("bias").expect("bias key not found");
+-    assert_eq!(bias.dtype, DType::F32);
+-    assert_eq!(bias.shape, shape![2]);
++    assert_eq!(bias.dtype(), DType::F32);
++    assert_eq!(bias.shape(), [2]);
+ 
+-    let data = crate::bridge::to_data(bias).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(bias);
+     assert_eq!(values.len(), 2);
+     assert!((values[0] - 0.01).abs() < 1e-6);
+     assert!((values[1] - 0.02).abs() < 1e-6);
+@@ -1246,25 +1218,22 @@ fn test_tar_multi_dtype() {
+     let float_tensor = reader
+         .get("float_tensor")
+         .expect("float_tensor key not found");
+-    assert_eq!(float_tensor.dtype, DType::F32);
+-    let data = crate::bridge::to_data(float_tensor).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    assert_eq!(float_tensor.dtype(), DType::F32);
++    let values = read_as::<f32>(float_tensor);
+     assert!((values[0] - 1.5).abs() < 1e-6);
+ 
+     // Float64 tensor
+     let double_tensor = reader
+         .get("double_tensor")
+         .expect("double_tensor key not found");
+-    assert_eq!(double_tensor.dtype, DType::F64);
+-    let data = crate::bridge::to_data(double_tensor).unwrap();
+-    let values = data.as_slice::<f64>().unwrap();
++    assert_eq!(double_tensor.dtype(), DType::F64);
++    let values = read_as::<f64>(double_tensor);
+     assert!((values[0] - 1.111).abs() < 1e-10);
+ 
+     // Int64 tensor
+     let int_tensor = reader.get("int_tensor").expect("int_tensor key not found");
+-    assert_eq!(int_tensor.dtype, DType::I64);
+-    let data = crate::bridge::to_data(int_tensor).unwrap();
+-    let values = data.as_slice::<i64>().unwrap();
++    assert_eq!(int_tensor.dtype(), DType::I64);
++    let values = read_as::<i64>(int_tensor);
+     assert_eq!(values, &[10, 20, 30, 40]);
+ }
+ 
+@@ -1275,11 +1244,10 @@ fn test_tar_2d_tensor_shape() {
+     let reader = PytorchReader::new(&path).expect("Failed to load tar_2d_tensor.tar");
+ 
+     let matrix = reader.get("matrix").expect("matrix key not found");
+-    assert_eq!(matrix.dtype, DType::F32);
+-    assert_eq!(matrix.shape, shape![3, 4]); // 3 rows, 4 columns
++    assert_eq!(matrix.dtype(), DType::F32);
++    assert_eq!(matrix.shape(), [3, 4]); // 3 rows, 4 columns
+ 
+-    let data = crate::bridge::to_data(matrix).unwrap();
+-    let values = data.as_slice::<f32>().unwrap();
++    let values = read_as::<f32>(matrix);
+     assert_eq!(values.len(), 12);
+ 
+     // Verify values in row-major order
+@@ -1310,16 +1278,11 @@ fn test_protocol_4_checkpoint() {
+     assert_eq!(reader.len(), 2);
+ 
+     let weight = reader.get("weight").expect("weight not found");
+-    assert_eq!(weight.shape, shape![2, 3]);
+-    let data = crate::bridge::to_data(weight).unwrap();
+-    assert_eq!(
+-        data.as_slice::<f32>().unwrap(),
+-        &[1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+-    );
++    assert_eq!(weight.shape(), [2, 3]);
++    assert_eq!(read_as::<f32>(weight), [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]);
+ 
+     let bias = reader.get("bias").expect("bias not found");
+-    let data = crate::bridge::to_data(bias).unwrap();
+-    assert_eq!(data.as_slice::<f32>().unwrap(), &[0.5, -0.5]);
++    assert_eq!(read_as::<f32>(bias), [0.5, -0.5]);
+ }
+ 
+ #[test]
+@@ -1355,7 +1318,7 @@ fn test_top_level_key_that_is_not_a_dict() {
+ 
+     // Reading it as pickle data is fine, though.
+     let value = PytorchReader::read_pickle_data(&path, Some("epoch")).unwrap();
+-    assert_eq!(value, crate::pytorch::reader::PickleValue::Int(42));
++    assert_eq!(value, crate::PickleValue::Int(42));
+ }
+ 
+ #[test]
+@@ -1400,7 +1363,8 @@ fn test_tensor_read_errors_are_not_zeros() {
+ 
+     let reader = PytorchReader::new(&path).expect("metadata alone still parses");
+     let tensor = reader.get("tensor").unwrap();
+-    let err = crate::bridge::to_data(tensor).expect_err("short storage must not load");
++    let err = tensor.read().expect_err("short storage must not load");
++    assert_eq!(err.kind(), std::io::ErrorKind::UnexpectedEof);
+     assert!(
+         err.to_string().contains("only 2 are available"),
+         "unexpected error: {err}"
+@@ -1413,17 +1377,15 @@ fn test_tar_storage_view() {
+     let reader = PytorchReader::new(&path).expect("Failed to load tar_storage_view.tar");
+ 
+     let root = reader.get("root").expect("root not found");
+-    let data = crate::bridge::to_data(root).unwrap();
+     assert_eq!(
+-        data.as_slice::<f32>().unwrap(),
+-        &[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
++        read_as::<f32>(root),
++        [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+     );
+ 
+     // A view over elements 2..6 of the root storage.
+     let window = reader.get("window").expect("window not found");
+-    assert_eq!(window.shape, shape![2, 2]);
+-    let data = crate::bridge::to_data(window).unwrap();
+-    assert_eq!(data.as_slice::<f32>().unwrap(), &[2.0, 3.0, 4.0, 5.0]);
++    assert_eq!(window.shape(), [2, 2]);
++    assert_eq!(read_as::<f32>(window), [2.0, 3.0, 4.0, 5.0]);
+ }
+ 
+ #[test]
+@@ -1522,8 +1484,8 @@ fn test_storage_larger_than_tensor_reads_only_what_is_needed() {
+         },
+     );
+     let reader = PytorchReader::new(&path).unwrap();
+-    let data = crate::bridge::to_data(reader.get("tensor").unwrap()).unwrap();
+-    assert_eq!(data.as_slice::<f32>().unwrap(), &[1.0, 2.5, -3.7, 0.0]);
++    let tensor = reader.get("tensor").unwrap();
++    assert_eq!(read_as::<f32>(tensor), [1.0, 2.5, -3.7, 0.0]);
+ }
+ 
+ #[test]
+@@ -1543,14 +1505,83 @@ fn test_zip_checksum_mismatch_is_an_error() {
+     std::fs::write(&path, &bytes).unwrap();
+ 
+     let reader = PytorchReader::new(&path).expect("metadata still parses");
+-    let err = crate::bridge::to_data(reader.get("tensor").unwrap())
++    let err = reader
++        .get("tensor")
++        .unwrap()
++        .read()
+         .expect_err("a storage that fails its checksum must not load");
++    assert_eq!(err.kind(), std::io::ErrorKind::InvalidData);
++    let message = err.to_string();
+     assert!(
+-        err.to_string().contains("Invalid checksum"),
++        message.starts_with("tensor 'tensor':") && message.contains("Invalid checksum"),
+         "unexpected error: {err}"
+     );
+ }
+ 
++#[test]
++fn test_corrupt_compressed_storage_is_invalid_data() {
++    // A deflated entry whose stream is damaged. The compression library reports that with
++    // its own kind (flate2 says `InvalidInput`), which must not reach a caller as anything
++    // but the file disagreeing with itself.
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("deflated.pt");
++    {
++        let original = test_data_path("float32.pt");
++        let mut source = zip::ZipArchive::new(std::fs::File::open(&original).unwrap()).unwrap();
++        let mut writer = zip::ZipWriter::new(std::fs::File::create(&path).unwrap());
++        for i in 0..source.len() {
++            let mut entry = source.by_index(i).unwrap();
++            let mut bytes = Vec::new();
++            std::io::Read::read_to_end(&mut entry, &mut bytes).unwrap();
++            writer
++                .start_file(
++                    entry.name(),
++                    zip::write::SimpleFileOptions::default()
++                        .compression_method(zip::CompressionMethod::Deflated),
++                )
++                .unwrap();
++            std::io::Write::write_all(&mut writer, &bytes).unwrap();
++        }
++        writer.finish().unwrap();
++    }
++    let data_start = {
++        let mut archive = zip::ZipArchive::new(std::fs::File::open(&path).unwrap()).unwrap();
++        let entry = archive.by_name("float32/data/0").unwrap();
++        entry.data_start().expect("entry has a data offset") as usize
++    };
++    let mut bytes = std::fs::read(&path).unwrap();
++    // The first byte carries the block type; 0b11 is reserved and refused by any inflater.
++    bytes[data_start] |= 0x06;
++    std::fs::write(&path, &bytes).unwrap();
++
++    let reader = PytorchReader::new(&path).expect("metadata still parses");
++    let err = reader
++        .get("tensor")
++        .unwrap()
++        .read()
++        .expect_err("a corrupt stream must not load");
++    assert_eq!(err.kind(), std::io::ErrorKind::InvalidData, "{err}");
++}
++
++#[test]
++fn test_os_errors_keep_their_kind() {
++    // A legacy container reopens the file on every read, so a file that disappears after
++    // open fails at read with the operating system's own kind rather than the reader's.
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("vanishing.pt");
++    std::fs::copy(test_data_path("simple_legacy.pt"), &path).unwrap();
++
++    let reader = PytorchReader::new(&path).unwrap();
++    std::fs::remove_file(&path).unwrap();
++    let err = reader
++        .get("bias")
++        .unwrap()
++        .read()
++        .expect_err("a missing file must not load");
++    assert_eq!(err.kind(), std::io::ErrorKind::NotFound, "{err}");
++    assert!(err.to_string().starts_with("tensor 'bias':"), "{err}");
++}
++
+ #[test]
+ fn test_zip_archive_and_root_level_layouts() {
+     // torch.save to a file object writes under `archive/`; some tools write at the root.
+@@ -1562,8 +1593,7 @@ fn test_zip_archive_and_root_level_layouts() {
+ 
+         let reader = PytorchReader::new(&path).unwrap_or_else(|e| panic!("root {root:?}: {e}"));
+         let tensor = reader.get("tensor").expect("tensor not found");
+-        let data = crate::bridge::to_data(tensor).unwrap();
+-        assert_eq!(data.as_slice::<f32>().unwrap(), &[1.0, 2.5, -3.7, 0.0]);
++        assert_eq!(read_as::<f32>(tensor), [1.0, 2.5, -3.7, 0.0]);
+         assert_eq!(reader.metadata().pytorch_version.as_deref(), Some("3"));
+         assert_eq!(reader.metadata().total_data_size, Some(16));
+     }
+@@ -1582,18 +1612,21 @@ fn test_legacy_storage_count_mismatch_is_an_error() {
+     std::fs::write(&path, &bytes).unwrap();
+ 
+     let reader = PytorchReader::new(&path).expect("metadata still parses");
+-    let err = crate::bridge::to_data(reader.get("tensor1").unwrap())
++    let err = reader
++        .get("tensor1")
++        .unwrap()
++        .read()
+         .expect_err("mismatched element count must be rejected");
++    assert_eq!(err.kind(), std::io::ErrorKind::InvalidData);
+     assert!(
+         err.to_string()
+             .contains("holds 11 elements but the pickle declares 10"),
+         "unexpected error: {err}"
+     );
+     // Other storages are unaffected.
+-    let data = crate::bridge::to_data(reader.get("tensor2").unwrap()).unwrap();
+-    data.assert_approx_eq::<f32>(
+-        &TensorData::new(vec![2.0_f32, 2.1, 2.2, 2.3, 2.4], vec![5]),
+-        Tolerance::default(),
++    assert_close(
++        &read_as::<f32>(reader.get("tensor2").unwrap()),
++        &[2.0, 2.1, 2.2, 2.3, 2.4],
+     );
+ }
+ 
+@@ -1620,11 +1653,8 @@ fn test_legacy_magic_in_other_pickle_protocols() {
+ 
+         let reader = PytorchReader::new(&path).unwrap_or_else(|e| panic!("{name}: {e}"));
+         assert_eq!(reader.metadata().format_type, FileFormat::Legacy, "{name}");
+-        let bias = crate::bridge::to_data(reader.get("bias").expect("bias not found")).unwrap();
+-        bias.assert_approx_eq::<f32>(
+-            &TensorData::new(vec![1.0_f32, 1.0], vec![2]),
+-            Tolerance::default(),
+-        );
++        let bias = reader.get("bias").expect("bias not found");
++        assert_close(&read_as::<f32>(bias), &[1.0, 1.0]);
+     }
+ }
+ 
+diff --git a/crates/burn-store/src/pytorch/tests/reader/simple_legacy.py b/crates/pytorch-reader/src/tests/simple_legacy.py
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/simple_legacy.py
+rename to crates/pytorch-reader/src/tests/simple_legacy.py
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data.py b/crates/pytorch-reader/src/tests/test_data.py
+similarity index 99%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data.py
+rename to crates/pytorch-reader/src/tests/test_data.py
+index a11e70f74f8..3f82f205bca 100644
+--- a/crates/burn-store/src/pytorch/tests/reader/test_data.py
++++ b/crates/pytorch-reader/src/tests/test_data.py
+@@ -3,7 +3,7 @@
+ # dependencies = ["torch", "numpy"]
+ # ///
+ """
+-Generate test PyTorch .pt files for testing the burn-store PyTorch reader.
++Generate test PyTorch .pt files for testing the pytorch-reader crate.
+ Run with: uv run test_files.py
+ """
+ 
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/bfloat16.pt b/crates/pytorch-reader/src/tests/test_data/bfloat16.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/bfloat16.pt
+rename to crates/pytorch-reader/src/tests/test_data/bfloat16.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/big_endian.pt b/crates/pytorch-reader/src/tests/test_data/big_endian.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/big_endian.pt
+rename to crates/pytorch-reader/src/tests/test_data/big_endian.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/bool.pt b/crates/pytorch-reader/src/tests/test_data/bool.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/bool.pt
+rename to crates/pytorch-reader/src/tests/test_data/bool.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/broken.pt b/crates/pytorch-reader/src/tests/test_data/broken.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/broken.pt
+rename to crates/pytorch-reader/src/tests/test_data/broken.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/buffers.pt b/crates/pytorch-reader/src/tests/test_data/buffers.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/buffers.pt
+rename to crates/pytorch-reader/src/tests/test_data/buffers.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/checkpoint.pt b/crates/pytorch-reader/src/tests/test_data/checkpoint.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/checkpoint.pt
+rename to crates/pytorch-reader/src/tests/test_data/checkpoint.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/complex_structure.pt b/crates/pytorch-reader/src/tests/test_data/complex_structure.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/complex_structure.pt
+rename to crates/pytorch-reader/src/tests/test_data/complex_structure.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/empty.pt b/crates/pytorch-reader/src/tests/test_data/empty.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/empty.pt
+rename to crates/pytorch-reader/src/tests/test_data/empty.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/extreme_values.pt b/crates/pytorch-reader/src/tests/test_data/extreme_values.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/extreme_values.pt
+rename to crates/pytorch-reader/src/tests/test_data/extreme_values.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/float16.pt b/crates/pytorch-reader/src/tests/test_data/float16.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/float16.pt
+rename to crates/pytorch-reader/src/tests/test_data/float16.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/float32.pt b/crates/pytorch-reader/src/tests/test_data/float32.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/float32.pt
+rename to crates/pytorch-reader/src/tests/test_data/float32.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/float64.pt b/crates/pytorch-reader/src/tests/test_data/float64.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/float64.pt
+rename to crates/pytorch-reader/src/tests/test_data/float64.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/int16.pt b/crates/pytorch-reader/src/tests/test_data/int16.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/int16.pt
+rename to crates/pytorch-reader/src/tests/test_data/int16.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/int32.pt b/crates/pytorch-reader/src/tests/test_data/int32.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/int32.pt
+rename to crates/pytorch-reader/src/tests/test_data/int32.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/int64.pt b/crates/pytorch-reader/src/tests/test_data/int64.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/int64.pt
+rename to crates/pytorch-reader/src/tests/test_data/int64.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/int8.pt b/crates/pytorch-reader/src/tests/test_data/int8.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/int8.pt
+rename to crates/pytorch-reader/src/tests/test_data/int8.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/large_shape.pt b/crates/pytorch-reader/src/tests/test_data/large_shape.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/large_shape.pt
+rename to crates/pytorch-reader/src/tests/test_data/large_shape.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/legacy_shared_storage.pt b/crates/pytorch-reader/src/tests/test_data/legacy_shared_storage.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/legacy_shared_storage.pt
+rename to crates/pytorch-reader/src/tests/test_data/legacy_shared_storage.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/legacy_uncloned_views.pt b/crates/pytorch-reader/src/tests/test_data/legacy_uncloned_views.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/legacy_uncloned_views.pt
+rename to crates/pytorch-reader/src/tests/test_data/legacy_uncloned_views.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/legacy_with_offsets.pt b/crates/pytorch-reader/src/tests/test_data/legacy_with_offsets.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/legacy_with_offsets.pt
+rename to crates/pytorch-reader/src/tests/test_data/legacy_with_offsets.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/mixed_types.pt b/crates/pytorch-reader/src/tests/test_data/mixed_types.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/mixed_types.pt
+rename to crates/pytorch-reader/src/tests/test_data/mixed_types.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/nested_dict.pt b/crates/pytorch-reader/src/tests/test_data/nested_dict.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/nested_dict.pt
+rename to crates/pytorch-reader/src/tests/test_data/nested_dict.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/non_contiguous.pt b/crates/pytorch-reader/src/tests/test_data/non_contiguous.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/non_contiguous.pt
+rename to crates/pytorch-reader/src/tests/test_data/non_contiguous.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/parameter.pt b/crates/pytorch-reader/src/tests/test_data/parameter.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/parameter.pt
+rename to crates/pytorch-reader/src/tests/test_data/parameter.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/protocol4.pt b/crates/pytorch-reader/src/tests/test_data/protocol4.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/protocol4.pt
+rename to crates/pytorch-reader/src/tests/test_data/protocol4.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/scalar.pt b/crates/pytorch-reader/src/tests/test_data/scalar.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/scalar.pt
+rename to crates/pytorch-reader/src/tests/test_data/scalar.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/simple_legacy.pt b/crates/pytorch-reader/src/tests/test_data/simple_legacy.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/simple_legacy.pt
+rename to crates/pytorch-reader/src/tests/test_data/simple_legacy.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/special_values.pt b/crates/pytorch-reader/src/tests/test_data/special_values.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/special_values.pt
+rename to crates/pytorch-reader/src/tests/test_data/special_values.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/state_dict.pt b/crates/pytorch-reader/src/tests/test_data/state_dict.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/state_dict.pt
+rename to crates/pytorch-reader/src/tests/test_data/state_dict.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_2d_tensor.tar b/crates/pytorch-reader/src/tests/test_data/tar_2d_tensor.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_2d_tensor.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_2d_tensor.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_float32.tar b/crates/pytorch-reader/src/tests/test_data/tar_float32.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_float32.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_float32.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_float64.tar b/crates/pytorch-reader/src/tests/test_data/tar_float64.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_float64.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_float64.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_int64.tar b/crates/pytorch-reader/src/tests/test_data/tar_int64.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_int64.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_int64.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_multi_dtype.tar b/crates/pytorch-reader/src/tests/test_data/tar_multi_dtype.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_multi_dtype.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_multi_dtype.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_storage_view.tar b/crates/pytorch-reader/src/tests/test_data/tar_storage_view.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_storage_view.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_storage_view.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tar_weight_bias.tar b/crates/pytorch-reader/src/tests/test_data/tar_weight_bias.tar
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tar_weight_bias.tar
+rename to crates/pytorch-reader/src/tests/test_data/tar_weight_bias.tar
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tensor_2d.pt b/crates/pytorch-reader/src/tests/test_data/tensor_2d.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tensor_2d.pt
+rename to crates/pytorch-reader/src/tests/test_data/tensor_2d.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tensor_3d.pt b/crates/pytorch-reader/src/tests/test_data/tensor_3d.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tensor_3d.pt
+rename to crates/pytorch-reader/src/tests/test_data/tensor_3d.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/tensor_4d.pt b/crates/pytorch-reader/src/tests/test_data/tensor_4d.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/tensor_4d.pt
+rename to crates/pytorch-reader/src/tests/test_data/tensor_4d.pt
+diff --git a/crates/burn-store/src/pytorch/tests/reader/test_data/uint8.pt b/crates/pytorch-reader/src/tests/test_data/uint8.pt
+similarity index 100%
+rename from crates/burn-store/src/pytorch/tests/reader/test_data/uint8.pt
+rename to crates/pytorch-reader/src/tests/test_data/uint8.pt

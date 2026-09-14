@@ -1,0 +1,57 @@
+{
+  "research_date": "2026-09-13",
+  "status": "research_only",
+  "measurement_status": "At least 75 steps and headroom remain hypotheses pending user benchmarking.",
+  "repositories": [
+    {"name": "luigi", "url": "https://github.com/spotify/luigi", "commit": "715f65c4a56a908ef0a1df4df6fc33b8420e2e6c", "commit_date": "2026-07-18", "cache": "research/cache/luigi"},
+    {"name": "diskcache", "url": "https://github.com/grantjenks/python-diskcache", "commit": "ebfa37cd99d7ef716ec452ad8af4b4276a8e2233", "commit_date": "2024-03-02", "cache": "research/cache/diskcache"}
+  ],
+  "sources": [
+    {"id": "luigi-task-output", "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/doc/tasks.rst#L55-L62", "kind": "pinned_primary_source", "finding": "Documentation warns that multiple target outputs lose atomicity unless the task provides it."},
+    {"id": "luigi-local-atomic", "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/local_target.py#L34-L43", "kind": "pinned_primary_source", "finding": "Existing atomic local writer replaces one destination file."},
+    {"id": "luigi-temp-path", "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/target.py#L269-L304", "kind": "pinned_primary_source", "finding": "temporary_path stages one target and renames it; no generation or snapshot API."},
+    {"id": "luigi-patterns", "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/doc/luigi_patterns.rst", "kind": "pinned_primary_source", "finding": "Atomic Writes Problem discusses temporary directories and target existence, supplying adjacent prior art."},
+    {"id": "luigi-dynamic-docs", "url": "https://luigi.readthedocs.io/en/latest/tasks.html#dynamic-dependencies", "kind": "primary_documentation", "finding": "Dynamic run resumes from scratch; task code should be idempotent."},
+    {"id": "luigi-worker", "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/worker.py#L146-L174", "kind": "pinned_primary_source", "finding": "Worker creates a fresh run generator and returns dependency identities when incomplete; no application-state cursor."},
+    {"id": "luigi-scheduler-issue", "url": "https://github.com/spotify/luigi/issues/1523", "kind": "primary_issue", "finding": "Closed wontfix distributed scheduler proposal; adjacent scheduler-persistence topic, not an explicit task transition journal."},
+    {"id": "luigi-directory-pr", "url": "https://github.com/spotify/luigi/pull/1066", "kind": "primary_pr_unretrieved", "finding": "Referenced by a historical LocalTarget directory discussion. Direct fetch returned 429; not treated as inspected solution."},
+    {"id": "diskcache-topology", "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L19-L56", "kind": "pinned_primary_source", "finding": "Constructor builds numbered shards from supplied count without a persisted topology record."},
+    {"id": "diskcache-routing", "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L257-L290", "kind": "pinned_primary_source", "finding": "Get routes hash(key) modulo constructor shard count."},
+    {"id": "diskcache-transact", "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L69-L100", "kind": "pinned_primary_source", "finding": "FanoutCache transact exists and enters each shard transaction through ExitStack."},
+    {"id": "diskcache-tutorial", "url": "https://grantjenks.com/docs/diskcache/tutorial.html", "kind": "primary_documentation", "finding": "Documents sharding and size limits. Its assertion that FanoutCache lacks transactions conflicts with inspected current source and was not used as a feature-gap claim."},
+    {"id": "diskcache-core", "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/core.py", "kind": "pinned_primary_source", "finding": "Core stores absolute expiry, tag and raw/serialized or file-backed values; migration must preserve these semantics."},
+    {"id": "typed-diskcache-fanout", "url": "https://typed-diskcache.readthedocs.io/en/latest/api/cache/fanout/", "kind": "alternative_project_primary_documentation", "finding": "Search surfaced an alternative FanoutCache implementation; no full restartable resharding contract was identified in the reviewed API."}
+  ],
+  "github_issue_searches": [
+    {"query": "repo:spotify/luigi atomic targets", "total_count": 15, "inspected_result_limit": 8, "selected_results": [2994, 3180, 3181, 2598, 1647, 1519, 1648, 1407]},
+    {"query": "repo:spotify/luigi checkpoint", "total_count": 3, "selected_results": [1523, 77, 11]},
+    {"query": "repo:spotify/luigi dynamic dependencies persist", "total_count": 0, "selected_results": []},
+    {"query": "repo:grantjenks/python-diskcache reshard", "total_count": 0, "selected_results": []},
+    {"query": "repo:grantjenks/python-diskcache shards change", "total_count": 7, "selected_results": [224, 131, 105, 109, 85, 62, 1]},
+    {"query": "repo:grantjenks/python-diskcache migration", "total_count": 4, "selected_results": [364, 355, 361, 363]},
+    {"query": "repo:spotify/luigi generation target", "error": "HTTP 403 rate limit exceeded"},
+    {"query": "repo:spotify/luigi atomic directory", "error": "HTTP 403 rate limit exceeded"},
+    {"query": "repo:spotify/luigi checkpoint resume", "error": "HTTP 403 rate limit exceeded"},
+    {"query": "repo:grantjenks/python-diskcache shard migration", "error": "HTTP 403 rate limit exceeded"},
+    {"query": "repo:grantjenks/python-diskcache resharding", "error": "HTTP 403 rate limit exceeded"}
+  ],
+  "web_searches": [
+    "site.luigi.readthedocs.io atomic multiple targets dynamic dependencies restart run checkpoint",
+    "site.github.com/spotify/luigi/issues atomic multiple targets",
+    "site.grantjenks.com/docs/diskcache FanoutCache transactions shards",
+    "Luigi generation manifest target atomic snapshot",
+    "Luigi checkpoint task persistent stages dynamic dependencies restart",
+    "diskcache reshard migration shards FanoutCache",
+    "site.github.com/grantjenks/python-diskcache transaction crash",
+    "luigi checkpoint github task state",
+    "luigi GenerationTarget",
+    "diskcache reshard",
+    "FanoutCache number of shards change"
+  ],
+  "novelty_conclusion": "No matching full contract found within bounded source, documentation, issue, and web searches. This is not a universal absence claim. Expanded issue searching was rate limited.",
+  "candidates": [
+    {"id": "luigi-generation-target", "base_repository": "luigi", "status": "selected_for_first_implementation_assignment", "contract": "Named immutable file generations with manifest integrity, atomic publication, compare-and-swap, pinned snapshots, and safe pruning."},
+    {"id": "luigi-checkpoint-task", "base_repository": "luigi", "status": "research_only", "contract": "Explicit JSON transitions with persistent dynamic dependency descriptors, crash/restart continuation, identity/version guards, and reset fencing."},
+    {"id": "diskcache-resumable-reshard", "base_repository": "diskcache", "status": "research_only", "contract": "Persisted shard topology and bounded resumable migration with write fencing, metadata preservation, abort, and atomic cutover."}
+  ]
+}

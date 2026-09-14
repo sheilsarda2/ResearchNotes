@@ -1,0 +1,92 @@
+{
+  "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614",
+  "checked_at_utc": "2026-09-13T10:09:46.370604+00:00",
+  "data": {
+    "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614",
+    "repository_url": "https://api.github.com/repos/eclipse-zenoh/zenoh",
+    "labels_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614/labels{/name}",
+    "comments_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614/comments",
+    "events_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614/events",
+    "html_url": "https://github.com/eclipse-zenoh/zenoh/issues/2614",
+    "id": 4489663004,
+    "node_id": "I_kwDODgeTO88AAAABC5rSHA",
+    "number": 2614,
+    "title": "AllComplete fails when two same-keyExpr queryables on a single router have mixed complete flags",
+    "user": {
+      "login": "leon-somana",
+      "id": 254529647,
+      "node_id": "U_kgDODyvQbw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/254529647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/leon-somana",
+      "html_url": "https://github.com/leon-somana",
+      "followers_url": "https://api.github.com/users/leon-somana/followers",
+      "following_url": "https://api.github.com/users/leon-somana/following{/other_user}",
+      "gists_url": "https://api.github.com/users/leon-somana/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/leon-somana/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/leon-somana/subscriptions",
+      "organizations_url": "https://api.github.com/users/leon-somana/orgs",
+      "repos_url": "https://api.github.com/users/leon-somana/repos",
+      "events_url": "https://api.github.com/users/leon-somana/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/leon-somana/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1800842489,
+        "node_id": "MDU6TGFiZWwxODAwODQyNDg5",
+        "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/labels/bug",
+        "name": "bug",
+        "color": "d73a4a",
+        "default": true,
+        "description": "Something isn't working",
+        "archived_at": null,
+        "archived_by": null
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignees": [],
+    "milestone": null,
+    "comments": 7,
+    "created_at": "2026-05-20T20:23:00Z",
+    "updated_at": "2026-06-17T15:40:38Z",
+    "closed_at": null,
+    "assignee": null,
+    "author_association": "NONE",
+    "issue_field_values": [],
+    "type": null,
+    "active_lock_reason": null,
+    "sub_issues_summary": {
+      "total": 0,
+      "completed": 0,
+      "percent_completed": 0
+    },
+    "issue_dependencies_summary": {
+      "blocked_by": 0,
+      "total_blocked_by": 0,
+      "blocking": 0,
+      "total_blocking": 0
+    },
+    "body": "### Describe the bug\n\nWhen a single router (or any session) declares two queryables on the **exact same** key_expr \u2014 one with `complete=true` and one with `complete=false` \u2014 a client query with `QueryTarget::AllComplete` against a matching key receives **no replies at all**. Neither queryable's callback is invoked. The query times out client-side after `ResponseFinal` arrives with an empty result set.\n\nOther combinations on the same key_expr work as expected:\n\n| Config (one router, one client session) | `target=AllComplete` | `target=All` |\n|---|---|---|\n| 1 queryable, `complete=true` | \u2713 | \u2713 |\n| 2 queryables, both `complete=true`, same key_expr | \u2713 both reply | \u2713 both reply |\n| 2 queryables, both `complete=false`, same key_expr | n/a (no complete) | \u2713 both reply |\n| **2 queryables, `complete=true` + `complete=false`, same key_expr** | **\u2717 neither replies** | \u2713 both reply |\n| 2 queryables, `complete=true` + `complete=false`, **different** key_exprs | \u2713 | \u2713 |\n\nThe trigger is specifically the combination of **same key_expr + mixed `complete` flags + `target=AllComplete`**. Either separating the key_exprs or using `target=All` works around it.\n\n### To reproduce\n\nRust binary to run with `cargo run --release`:\n\n```\nuse std::collections::HashMap;\nuse std::sync::Arc;\nuse std::time::Instant;\nuse tokio::sync::Mutex;\nuse zenoh::query::{ConsolidationMode, QueryTarget};\nuse zenoh::sample::Sample;\nuse zenoh::Config;\n\ntype AnyErr = Box<dyn std::error::Error + Send + Sync>;\ntype Store = Arc<Mutex<HashMap<String, Sample>>>;\n\nasync fn attach(sess: &zenoh::Session, name: &'static str, key_expr: &'static str, complete: bool) -> Result<(), AnyErr> {\n    let store: Store = Arc::new(Mutex::new(HashMap::new()));\n    let sub_store = store.clone();\n    let _sub = sess.declare_subscriber(key_expr).callback(move |sample| {\n        let s = sub_store.clone();\n        tokio::spawn(async move {\n            eprintln!(\"  [{}] sub got put for {}\", name, sample.key_expr());\n            s.lock().await.insert(sample.key_expr().to_string(), sample);\n        });\n    }).await?;\n    std::mem::forget(_sub);\n    let q_store = store.clone();\n    let _qabl = sess.declare_queryable(key_expr).complete(complete).callback(move |query| {\n        let s = q_store.clone();\n        tokio::spawn(async move {\n            let ke = query.key_expr().clone();\n            if let Some(sample) = s.lock().await.get(&ke.to_string()) {\n                eprintln!(\"  [{}] qabl replying for {}\", name, ke);\n                let _ = query.reply(ke.clone(), sample.payload().clone()).timestamp(*sample.timestamp().unwrap()).await;\n            } else {\n                eprintln!(\"  [{}] qabl: {} not present\", name, ke);\n            }\n        });\n    }).await?;\n    std::mem::forget(_qabl);\n    Ok(())\n}\n\n#[tokio::main]\nasync fn main() -> Result<(), AnyErr> {\n    let mut router_cfg = Config::default();\n    router_cfg.insert_json5(\"mode\", r#\"\"router\"\"#).unwrap();\n    router_cfg.insert_json5(\"listen/endpoints\", r#\"[\"tcp/127.0.0.1:17447\"]\"#).unwrap();\n    let router = zenoh::open(router_cfg).await?;\n\n    // Two queryables on the SAME key_expr, mixed `complete`.\n    attach(&router, \"primary\", \"test/state/**\", true).await?;\n    attach(&router, \"backup\",  \"test/state/**\", false).await?;\n\n    let mut client_cfg = Config::default();\n    client_cfg.insert_json5(\"mode\", r#\"\"client\"\"#).unwrap();\n    client_cfg.insert_json5(\"connect/endpoints\", r#\"[\"tcp/127.0.0.1:17447\"]\"#).unwrap();\n    let client = zenoh::open(client_cfg).await?;\n    tokio::time::sleep(std::time::Duration::from_millis(500)).await;\n\n    let key = \"test/state/probe-key\";\n    client.put(key, \"hello\".as_bytes()).await?;\n\n    let start = Instant::now();\n    let replies = client.get(key)\n        .target(QueryTarget::AllComplete)\n        .consolidation(ConsolidationMode::Monotonic)\n        .await?;\n    let mut n = 0usize;\n    while let Ok(r) = replies.recv_async().await {\n        if r.result().is_ok() { n += 1; }\n    }\n    eprintln!(\"AllComplete: {} reply(ies) in {}ms\", n, start.elapsed().as_millis());\n    assert!(n > 0, \"AllComplete returned no replies \u2014 bug reproduced\");\n    Ok(())\n}\n\n```\n\n### System info\n\nzenoh 1.9.0",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "timeline_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/issues/2614/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null,
+    "pinned_comment": null
+  }
+}

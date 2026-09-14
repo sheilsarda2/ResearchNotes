@@ -1,0 +1,98 @@
+[
+  {
+    "sha": "e1a0549eb4afaefd52eeafc4c67499768a2177d3",
+    "filename": "zenoh/src/net/routing/dispatcher/queries.rs",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 0,
+    "changes": 3,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fdispatcher%2Fqueries.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fdispatcher%2Fqueries.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Frouting%2Fdispatcher%2Fqueries.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -136,6 +136,9 @@ impl Face {\n             match tables.hats[region].unregister_queryable(ctx.reborrow(), id, res.clone(), node_id)\n             {\n                 UnregisterEntityResult::Noop => {} // \u00af\\_(\u30c4)_/\u00af\n+                UnregisterEntityResult::DisableRoutes { mut res } => {\n+                    tables.hats[region].disable_query_routes(&mut res);\n+                }\n                 UnregisterEntityResult::InfoUpdate { mut res } => {\n                     tables.hats[region].disable_query_routes(&mut res);\n "
+  },
+  {
+    "sha": "29297f53bd8c11e7ed2e353a2728b9dc46c57e3d",
+    "filename": "zenoh/src/net/routing/hat/mod.rs",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 0,
+    "changes": 2,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fmod.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fmod.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Fmod.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -443,6 +443,8 @@ pub(crate) trait HatInterestTrait {\n pub(crate) enum UnregisterEntityResult {\n     /// Indicates that the unregisration was a no-op (e.g. the entity has duplicates).\n     Noop,\n+    /// Indicates that the routes associated with `res` should be disabled.\n+    DisableRoutes { res: Arc<Resource> },\n     /// Indicates that the entity info changed (e.g. an update to queryable completeness).\n     InfoUpdate { res: Arc<Resource> },\n     /// Indicates that the last entity on the given [`Resource`] was unregistered."
+  },
+  {
+    "sha": "5b1ea5f1decda1a278bb2ccfc5cfc5f5d685e851",
+    "filename": "zenoh/src/net/routing/hat/router/queries.rs",
+    "status": "modified",
+    "additions": 1,
+    "deletions": 1,
+    "changes": 2,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Frouter%2Fqueries.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Frouter%2Fqueries.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Frouting%2Fhat%2Frouter%2Fqueries.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -484,7 +484,7 @@ impl HatQueriesTrait for Hat {\n         match new_info {\n             Some(new_info) => {\n                 if new_info == old_info {\n-                    Noop\n+                    DisableRoutes { res }\n                 } else {\n                     InfoUpdate { res }\n                 }"
+  },
+  {
+    "sha": "f6a5da9d0019ffb5dd85d983ac71f6d4ce81bdda",
+    "filename": "zenoh/src/net/tests/regions/adminspace.rs",
+    "status": "modified",
+    "additions": 10,
+    "deletions": 2,
+    "changes": 12,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fadminspace.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fadminspace.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fadminspace.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -19,7 +19,10 @@ use std::collections::HashSet;\n use zenoh_buffers::buffer::SplitBuffer;\n use zenoh_protocol::{\n     core::{Region, WhatAmI},\n-    network::interest::{InterestMode, InterestOptions},\n+    network::{\n+        declare::queryable::ext::QueryableInfoType,\n+        interest::{InterestMode, InterestOptions},\n+    },\n     zenoh::{PushBody, ResponseBody},\n };\n \n@@ -60,7 +63,12 @@ fn test_sourced_entities_and_interests(mode: WhatAmI) {\n \n     for (prefix, face) in [(\"g\", &g), (\"s\", &s), (\"c\", &c), (\"p\", &p)] {\n         face.declare_subscriber(None, 1, format!(\"{prefix}/subscriber\"));\n-        face.declare_queryable(None, 1, format!(\"{prefix}/queryable\"));\n+        face.declare_queryable(\n+            None,\n+            1,\n+            format!(\"{prefix}/queryable\"),\n+            QueryableInfoType::DEFAULT,\n+        );\n         face.declare_token(None, 1, format!(\"{prefix}/token\"));\n         face.interest(\n             1,"
+  },
+  {
+    "sha": "7f21764b5167d852e58644752b77da91aac624c1",
+    "filename": "zenoh/src/net/tests/regions/declare.rs",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 2,
+    "changes": 5,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fdeclare.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fdeclare.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fdeclare.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -16,7 +16,7 @@\n \n use zenoh_protocol::{\n     core::{Bound, Region, WhatAmI, WireExpr},\n-    network::Mapping,\n+    network::{declare::queryable::ext::QueryableInfoType, Mapping},\n };\n \n use super::{\n@@ -315,9 +315,10 @@ fn test_duplicate_queryable_undeclaration() {\n             suffix: \"\".into(),\n             mapping: Mapping::Sender,\n         },\n+        QueryableInfoType::DEFAULT,\n     );\n \n-    c0.declare_queryable(None, 2, \"k\");\n+    c0.declare_queryable(None, 2, \"k\", QueryableInfoType::DEFAULT);\n \n     c0.undeclare_queryable(1);\n "
+  },
+  {
+    "sha": "2b563c973934e8401d7ff3665008b0ca6c558bb3",
+    "filename": "zenoh/src/net/tests/regions/forwarding.rs",
+    "status": "modified",
+    "additions": 117,
+    "deletions": 15,
+    "changes": 132,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fforwarding.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fforwarding.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fforwarding.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -18,6 +18,7 @@\n use zenoh_protocol::{\n     core::{Bound, Region, Reliability, WhatAmI, WireExpr},\n     network::{\n+        declare::queryable::ext::QueryableInfoType,\n         interest::{InterestMode, InterestOptions},\n         Mapping, Push,\n     },\n@@ -111,8 +112,8 @@ fn test_p2p_inter_subregion_query_routing() {\n \n     let ke = \"k\";\n \n-    p0.declare_queryable(None, 1, ke);\n-    p1.declare_queryable(None, 1, ke);\n+    p0.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n+    p1.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n \n     p0.query(1, ke);\n     p1.query(1, ke);\n@@ -249,8 +250,8 @@ fn test_r2r_inter_subregion_query_routing() {\n \n     let ke = \"k\";\n \n-    r0s.declare_queryable(None, 1, ke);\n-    r1s.declare_queryable(None, 1, ke);\n+    r0s.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n+    r1s.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     r0s.query(1, ke);\n@@ -323,8 +324,8 @@ fn test_c2c_inter_subregion_query_routing() {\n \n     let ke = \"k\";\n \n-    c0.declare_queryable(None, 1, ke);\n-    c1.declare_queryable(None, 1, ke);\n+    c0.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n+    c1.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n \n     c0.query(1, ke);\n     c1.query(1, ke);\n@@ -491,7 +492,7 @@ fn test_multiple_gateways_query_routing_r2p_downstream() {\n \n     let ke = \"k\";\n \n-    ps.declare_queryable(None, 1, ke);\n+    ps.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     rs.query(1, ke);\n@@ -667,7 +668,7 @@ fn test_multiple_gateways_query_routing_r2r_downstream() {\n \n     let ke = \"k\";\n \n-    ss.declare_queryable(None, 1, ke);\n+    ss.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ns.query(1, ke);\n@@ -934,7 +935,7 @@ fn test_multiple_gateways_query_routing_p2r_upstream() {\n \n     let ke = \"k\";\n \n-    rs.declare_queryable(None, 1, ke);\n+    rs.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     // The peer routes the query upstream unconditionally without having sent an interest.\n@@ -1021,7 +1022,7 @@ fn test_multiple_gateways_query_routing_p2r_upstream_with_interest() {\n \n     let ke = \"k\";\n \n-    rs.declare_queryable(None, 1, ke);\n+    rs.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ps.interest(\n@@ -1201,7 +1202,7 @@ fn test_multiple_gateways_query_routing_r2r_upstream() {\n \n     let ke = \"k\";\n \n-    ns.declare_queryable(None, 1, ke);\n+    ns.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ss.query(1, ke);\n@@ -1394,7 +1395,7 @@ fn test_multiple_gateways_query_routing_p2p_downstream() {\n \n     let ke = \"k\";\n \n-    ss.declare_queryable(None, 1, ke);\n+    ss.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ns.query(1, ke);\n@@ -1693,7 +1694,7 @@ fn test_multiple_gateways_query_routing_p2p_upstream() {\n \n     let ke = \"k\";\n \n-    ns.declare_queryable(None, 1, ke);\n+    ns.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ss.query(1, ke);\n@@ -1790,7 +1791,7 @@ fn test_multiple_gateways_query_routing_p2p_upstream_with_interest() {\n \n     let ke = \"k\";\n \n-    ns.declare_queryable(None, 1, ke);\n+    ns.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     ss.interest(\n@@ -1985,7 +1986,7 @@ fn test_multiple_gateways_query_routing_r2r_upstream_gateway_source() {\n \n     let ke = \"k\";\n \n-    ns.declare_queryable(None, 1, ke);\n+    ns.declare_queryable(None, 1, ke, QueryableInfoType::DEFAULT);\n     bi_fwd_all();\n \n     g1s.query(1, ke);\n@@ -2046,3 +2047,104 @@ fn test_push_message_consumption() {\n         \"the push message should not be modified as `consume` is false\"\n     );\n }\n+\n+/// Test that query routes in router networks are disabled even if queryable info doesn't change upon some queryable undeclaration.\n+#[test]\n+fn test_complete_queryable_failover() {\n+    let r0 = HarnessBuilder::new()\n+        .mode(WhatAmI::Router)\n+        .subregions([Region::Local])\n+        .start_runtime(true)\n+        .build();\n+\n+    let r1 = HarnessBuilder::new()\n+        .mode(WhatAmI::Router)\n+        .subregions([Region::Local])\n+        .start_runtime(true)\n+        .build();\n+\n+    let r2 = HarnessBuilder::new()\n+        .mode(WhatAmI::Router)\n+        .subregions([Region::Local])\n+        .start_runtime(true)\n+        .build();\n+\n+    let mut r0_r1 = Connection {\n+        a: &r0,\n+        a2b: FaceDef::default().mode(WhatAmI::Router),\n+        b: &r1,\n+        b2a: FaceDef::default().mode(WhatAmI::Router),\n+    }\n+    .establish();\n+\n+    let mut r0_r2 = Connection {\n+        a: &r0,\n+        a2b: FaceDef::default().mode(WhatAmI::Router),\n+        b: &r2,\n+        b2a: FaceDef::default().mode(WhatAmI::Router),\n+    }\n+    .establish();\n+\n+    let mut bi_fwd_all = || {\n+        EstablishedConnection::bi_fwd_many_unbounded([&mut r0_r1, &mut r0_r2]);\n+        assert!(r0_r1.is_bi_complete());\n+        assert!(r0_r2.is_bi_complete());\n+    };\n+\n+    bi_fwd_all();\n+\n+    let s0 = r0.new_session();\n+    let s1 = r1.new_session();\n+    let s2 = r2.new_session();\n+\n+    let ke = \"k\";\n+\n+    s1.declare_queryable(\n+        None,\n+        1,\n+        ke,\n+        QueryableInfoType {\n+            complete: true,\n+            distance: 0,\n+        },\n+    );\n+\n+    s2.declare_queryable(\n+        None,\n+        1,\n+        ke,\n+        QueryableInfoType {\n+            complete: true,\n+            distance: 0,\n+        },\n+    );\n+\n+    bi_fwd_all();\n+\n+    s0.query(1, ke);\n+\n+    bi_fwd_all();\n+\n+    let is_reqs1_empty = s1.recorder().requests().is_empty();\n+    let is_reqs2_empty = s2.recorder().requests().is_empty();\n+\n+    assert!(\n+        is_reqs1_empty || is_reqs2_empty,\n+        \"exactly one queryable should receive the query\"\n+    );\n+\n+    if !is_reqs1_empty {\n+        s1.undeclare_queryable(1);\n+    } else {\n+        s2.undeclare_queryable(1);\n+    }\n+\n+    bi_fwd_all();\n+\n+    s0.query(2, ke);\n+\n+    bi_fwd_all();\n+\n+    assert_eq!(r0_r1.a2b.recorder().requests().len(), 1);\n+    assert_eq!(r0_r2.a2b.recorder().requests().len(), 1);\n+}"
+  },
+  {
+    "sha": "29d82a22aa7134e3cb86cea06011b106a69d3c03",
+    "filename": "zenoh/src/net/tests/regions/interest.rs",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 2,
+    "changes": 4,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Finterest.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Finterest.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Finterest.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -17,7 +17,7 @@\n use zenoh_protocol::{\n     core::{Bound, Region, WhatAmI},\n     network::{\n-        declare::{DeclareToken, TokenId},\n+        declare::{queryable::ext::QueryableInfoType, DeclareToken, TokenId},\n         interest::{InterestMode, InterestOptions},\n     },\n };\n@@ -233,7 +233,7 @@ fn test_current_future_interest_propagation_on_open(north: WhatAmI, south: WhatA\n     assert_eq!(n.recorder().interests().len(), 1);\n     assert_eq!(s.recorder().queryables().len(), 0);\n \n-    n.declare_queryable(Some(42), 1999, \"k\");\n+    n.declare_queryable(Some(42), 1999, \"k\", QueryableInfoType::DEFAULT);\n \n     assert_eq!(s.recorder().queryables().len(), 1);\n }"
+  },
+  {
+    "sha": "0acceb456a84e18b3390a68da565b3153c8a0261",
+    "filename": "zenoh/src/net/tests/regions/mod.rs",
+    "status": "modified",
+    "additions": 3,
+    "deletions": 3,
+    "changes": 6,
+    "blob_url": "https://github.com/eclipse-zenoh/zenoh/blob/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fmod.rs",
+    "raw_url": "https://github.com/eclipse-zenoh/zenoh/raw/4d4b7c452b8d6e8e881c707dc92d742e6ed6744e/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fmod.rs",
+    "contents_url": "https://api.github.com/repos/eclipse-zenoh/zenoh/contents/zenoh%2Fsrc%2Fnet%2Ftests%2Fregions%2Fmod.rs?ref=4d4b7c452b8d6e8e881c707dc92d742e6ed6744e",
+    "patch": "@@ -43,7 +43,7 @@ use zenoh_protocol::{\n     network::{\n         declare::{\n             common::ext::WireExprType,\n-            queryable::{QueryableId, UndeclareQueryable},\n+            queryable::{ext::QueryableInfoType, QueryableId, UndeclareQueryable},\n             subscriber::{SubscriberId, UndeclareSubscriber},\n             token::{TokenId, UndeclareToken},\n             DeclareQueryable, DeclareSubscriber, DeclareToken,\n@@ -601,8 +601,8 @@ impl MockFace {\n         interest_id: Option<InterestId>,\n         id: QueryableId,\n         wire_expr: impl Into<WireExpr<'static>>,\n+        info: QueryableInfoType,\n     ) {\n-        use zenoh_protocol::network::declare::queryable::ext::QueryableInfoType;\n         self.face.send_declare(&mut Declare {\n             interest_id,\n             ext_qos: ext::QoSType::DECLARE,\n@@ -611,7 +611,7 @@ impl MockFace {\n             body: DeclareBody::DeclareQueryable(DeclareQueryable {\n                 id,\n                 wire_expr: wire_expr.into(),\n-                ext_info: QueryableInfoType::DEFAULT,\n+                ext_info: info,\n             }),\n         });\n     }"
+  }
+]

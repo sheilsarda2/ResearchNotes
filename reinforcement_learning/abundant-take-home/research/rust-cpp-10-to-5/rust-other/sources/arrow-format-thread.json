@@ -1,0 +1,62 @@
+{
+  "thread": {
+    "from": "Dewey Dunnington <de...@gmail.com>",
+    "gravatar": "cef045d3624a73b03ac30affb9f61fef",
+    "subject": "Re: IPC representation of dictionary-encoded extension types",
+    "message-id": "<CAN040pb0avXLj53jX6-WvyCk3vVTVECXtUxVd20OQGFhVZtNGA@mail.gmail.com>",
+    "mid": "4xj0yrl2vn0lbrv39p3dvd28okvkjxyz",
+    "epoch": 1776179278,
+    "list": "<dev.arrow.apache.org>",
+    "list_raw": "<dev.arrow.apache.org>",
+    "private": false,
+    "in-reply-to": "<bc6c1eb2-2b7b-4264-9c83-9ed0dd3d7259@python.org>",
+    "body": "Hi Antoine,\n\nOption 1 seems reasonable to me...given that we got 10 years out of\nthe current specification without anybody noticing, I bet we can get\nanother 10 out of KeyValueMetadata on the dictionary encoding :)\n\nIf there are no objections I can put together a PR for this (may take\nme a few weeks).\n\nCheers,\n\n-dewey\n\nOn Tue, Apr 14, 2026 at 2:53\u202fAM Antoine Pitrou <an...@python.org> wrote:\n>\n>\n> Hi Dewey,\n>\n> That's an interesting finding. Indeed, the IPC serialization of data\n> types (the Schema table) is currently not able to distinguish between\n> those two cases, simply because the dictionary type is not represented\n> separately from its value type.\n>\n> I think there are two possible ways to improve this:\n>\n>\n> 1. An additional field in the DictionaryEncoding table that allows\n> specifying custom KeyValue metadata for the dictionary value type.\n>\n> Pros:\n> - easy to implement\n> - gracefully degrades to legacy readers that will happily deserialize\n> the storage type.\n>\n> Cons:\n> - does not fully solve the general problem for more complex nestings of\n> dictionary and extension types (e.g. an extension type with a dictionary\n> storage type with extension values).\n>\n>\n> 2. A new Dictionary table that participates in the Type union, where the\n> dictionary index type would be serialized in Field::children[0] and the\n> value type in Field::children[1].\n>\n> Pros:\n> - fully general, as it allows to represent arbitrary nestings of\n> dictionary and extension types.\n>\n> Cons:\n> - implementation is more involved\n> - legacy readers will not understand this and error out on the\n> unrecognized type\n> - writers will have to decide whether to use the new or the old way of\n> representing dictionaries (the old way being preferable for compatibility).\n>\n>\n> I would say we probably don't need 2) and can live with 1). But, of\n> course, perhaps in 5 years we will regret this decision :-D\n>\n> Regards\n>\n> Antoine.\n>\n>\n> Le 10/04/2026 \u00e0 17:16, Dewey Dunnington a \u00e9crit :\n> > Hi all,\n> >\n> > In implementing dictionary decoding for nanoarrow's IPC reader [1] I\n> > discovered that it is not possible to represent a dictionary-encoded\n> > extension type in the IPC schema serialization. I've filed an issue\n> > with the details at [2]...the summary is that a Dictionary with\n> > Extension values is exported identically to a Extension with\n> > Dictionary storage, which usually leads to an error on read (because\n> > no extension types actually support dictionary storage types, except\n> > maybe arrow.opaque because it can have arbitrary storage). I was also\n> > reminded that arrow-rs can't represent dictionary-encoded extension\n> > values at all [3].\n> >\n> > Given that there are a number of canonical extension types now, I\n> > wonder if there should be a more clear route to roundtripping\n> > dictionary-encoded extension types over IPC (either by making this\n> > possible to represent in IPC or by making it clear that extension type\n> > implementations must handle dictionary encoded storage). Somewhere in\n> > the middle would be handling the error on deserialization (i.e., if\n> > the extension type in the registry doesn't support dictionary encoded\n> > storage, fall back to a dictionary with extension values).\n> >\n> > Cheers,\n> >\n> > -dewey\n> >\n> > [1] https://github.com/apache/arrow-nanoarrow/pull/861\n> > [2] https://github.com/apache/arrow/issues/49704\n> > [3] https://github.com/apache/arrow-rs/issues/7982\n>\n",
+    "attachments": [],
+    "id": "4xj0yrl2vn0lbrv39p3dvd28okvkjxyz",
+    "children": [
+      {
+        "tid": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+        "mid": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+        "message-id": "<CAH4123b0RzNbGbxb2nEJONU7tG4RQUMu58c-uT4briho6wMkrg@mail.gmail.com>",
+        "subject": "Re: IPC representation of dictionary-encoded extension types",
+        "from": "Matt Topol <zo...@gmail.com>",
+        "id": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+        "epoch": 1776179916,
+        "children": [],
+        "irt": "<CAN040pb0avXLj53jX6-WvyCk3vVTVECXtUxVd20OQGFhVZtNGA@mail.gmail.com>",
+        "list_raw": "<dev.arrow.apache.org>"
+      }
+    ]
+  },
+  "emails": [
+    {
+      "from": "Dewey Dunnington <de...@gmail.com>",
+      "gravatar": "cef045d3624a73b03ac30affb9f61fef",
+      "subject": "Re: IPC representation of dictionary-encoded extension types",
+      "message-id": "<CAN040pb0avXLj53jX6-WvyCk3vVTVECXtUxVd20OQGFhVZtNGA@mail.gmail.com>",
+      "mid": "4xj0yrl2vn0lbrv39p3dvd28okvkjxyz",
+      "epoch": 1776179278,
+      "list": "<dev.arrow.apache.org>",
+      "list_raw": "<dev.arrow.apache.org>",
+      "private": false,
+      "in-reply-to": "<bc6c1eb2-2b7b-4264-9c83-9ed0dd3d7259@python.org>",
+      "body": "Hi Antoine,\n\nOption 1 seems reasonable to me...given that we got 10 years out of\nthe current specification without anybody noticing, I bet we can get\nanother 10 out of KeyValueMetadata on the dictionary encoding :)\n\nIf there are no objections I can put together a PR for this (may take\nme a few weeks).\n\nCheers,\n\n-dewey\n\nOn Tue, Apr 14, 2026 at 2:53\u202fAM Antoine Pitrou <an...@python.org> wrote:\n>\n>\n> Hi Dewey,\n>\n> That's an interesting finding. Indeed, the IPC serialization of data\n> types (the Schema table) is currently not able to distinguish between\n> those two cases, simply because the dictionary type is not represented\n> separately from its value type.\n>\n> I think there are two possible ways to improve this:\n>\n>\n> 1. An additional field in the DictionaryEncoding table that allows\n> specifying custom KeyValue metadata for the dictionary value type.\n>\n> Pros:\n> - easy to implement\n> - gracefully degrades to legacy readers that will happily deserialize\n> the storage type.\n>\n> Cons:\n> - does not fully solve the general problem for more complex nestings of\n> dictionary and extension types (e.g. an extension type with a dictionary\n> storage type with extension values).\n>\n>\n> 2. A new Dictionary table that participates in the Type union, where the\n> dictionary index type would be serialized in Field::children[0] and the\n> value type in Field::children[1].\n>\n> Pros:\n> - fully general, as it allows to represent arbitrary nestings of\n> dictionary and extension types.\n>\n> Cons:\n> - implementation is more involved\n> - legacy readers will not understand this and error out on the\n> unrecognized type\n> - writers will have to decide whether to use the new or the old way of\n> representing dictionaries (the old way being preferable for compatibility).\n>\n>\n> I would say we probably don't need 2) and can live with 1). But, of\n> course, perhaps in 5 years we will regret this decision :-D\n>\n> Regards\n>\n> Antoine.\n>\n>\n> Le 10/04/2026 \u00e0 17:16, Dewey Dunnington a \u00e9crit :\n> > Hi all,\n> >\n> > In implementing dictionary decoding for nanoarrow's IPC reader [1] I\n> > discovered that it is not possible to represent a dictionary-encoded\n> > extension type in the IPC schema serialization. I've filed an issue\n> > with the details at [2]...the summary is that a Dictionary with\n> > Extension values is exported identically to a Extension with\n> > Dictionary storage, which usually leads to an error on read (because\n> > no extension types actually support dictionary storage types, except\n> > maybe arrow.opaque because it can have arbitrary storage). I was also\n> > reminded that arrow-rs can't represent dictionary-encoded extension\n> > values at all [3].\n> >\n> > Given that there are a number of canonical extension types now, I\n> > wonder if there should be a more clear route to roundtripping\n> > dictionary-encoded extension types over IPC (either by making this\n> > possible to represent in IPC or by making it clear that extension type\n> > implementations must handle dictionary encoded storage). Somewhere in\n> > the middle would be handling the error on deserialization (i.e., if\n> > the extension type in the registry doesn't support dictionary encoded\n> > storage, fall back to a dictionary with extension values).\n> >\n> > Cheers,\n> >\n> > -dewey\n> >\n> > [1] https://github.com/apache/arrow-nanoarrow/pull/861\n> > [2] https://github.com/apache/arrow/issues/49704\n> > [3] https://github.com/apache/arrow-rs/issues/7982\n>\n",
+      "attachments": [],
+      "id": "4xj0yrl2vn0lbrv39p3dvd28okvkjxyz",
+      "children": [
+        {
+          "tid": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+          "mid": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+          "message-id": "<CAH4123b0RzNbGbxb2nEJONU7tG4RQUMu58c-uT4briho6wMkrg@mail.gmail.com>",
+          "subject": "Re: IPC representation of dictionary-encoded extension types",
+          "from": "Matt Topol <zo...@gmail.com>",
+          "id": "v5b304g0zwypjyhwwdpfvgrgdvgkw1xm",
+          "epoch": 1776179916,
+          "children": [],
+          "irt": "<CAN040pb0avXLj53jX6-WvyCk3vVTVECXtUxVd20OQGFhVZtNGA@mail.gmail.com>",
+          "list_raw": "<dev.arrow.apache.org>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "checked_at_utc": "2026-09-13T09:57:07.822600+00:00",
+  "repository": "https://github.com/rerun-io/rerun",
+  "commit": "ddd684110e1f200ee13ba482ab42689b78dd0551",
+  "source_version": "0.38.0-alpha.1+dev",
+  "container_image": "rust:1.98.1-bookworm",
+  "architecture": "aarch64",
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "env": {
+    "RUSTUP_TOOLCHAIN": "1.98.1",
+    "CARGO_TARGET_DIR": "/target",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_PROFILE_DEV_OPT_LEVEL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0"
+  },
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "re_entity_db",
+    "--test",
+    "demand_time_selection",
+    "--config",
+    "profile.dev.package.\"*\".opt-level=0",
+    "--",
+    "--nocapture"
+  ],
+  "integration_test_path": "crates/store/re_entity_db/tests/demand_time_selection.rs",
+  "cargo_exit_code": 101,
+  "status": "CONFIRMED current-main behavioral failure; build completed",
+  "controls": {
+    "unfiltered_temporal_rows": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20
+    ],
+    "unfiltered_static_rows": 1,
+    "disjoint_temporal_rows": [],
+    "disjoint_static_rows": 1,
+    "source_unchanged": true
+  },
+  "selected_range": [
+    4,
+    7
+  ],
+  "actual_temporal_rows": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20
+  ],
+  "expected_temporal_rows": [
+    4,
+    6
+  ],
+  "actual_static_rows": 1,
+  "test_runtime_seconds": 0.01,
+  "runtime_state": "completed; no running container or tool session",
+  "volumes_retained": [
+    "abundant-rerun-cargo",
+    "abundant-rerun-target"
+  ],
+  "formatting": "rustfmt absent in image; not run",
+  "initial_repro_authoring_error": "redundant .into() in Chunk::builder caused type ambiguity; fixed before completed final execution; no upstream implementation changed"
+}

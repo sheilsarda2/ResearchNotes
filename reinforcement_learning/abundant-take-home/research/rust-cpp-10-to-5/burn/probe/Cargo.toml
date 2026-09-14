@@ -1,0 +1,11 @@
+[package]
+name = "burn-store-scope-probe"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+
+[dependencies]
+burn-core = { path = "../../../cache/burn-review/crates/burn-core", default-features = false, features = ["std", "flex"] }
+burn-store = { path = "../../../cache/burn-review/crates/burn-store", default-features = false, features = ["std", "pytorch", "safetensors"] }
+serde_json = "1"

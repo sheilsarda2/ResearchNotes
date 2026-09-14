@@ -1,0 +1,138 @@
+{
+  "fetched_at": "2026-09-13T10:13:00.310915+00:00",
+  "endpoint": "repos/pola-rs/polars/issues/28400",
+  "data": [
+    {
+      "url": "https://api.github.com/repos/pola-rs/polars/issues/28400",
+      "repository_url": "https://api.github.com/repos/pola-rs/polars",
+      "labels_url": "https://api.github.com/repos/pola-rs/polars/issues/28400/labels{/name}",
+      "comments_url": "https://api.github.com/repos/pola-rs/polars/issues/28400/comments",
+      "events_url": "https://api.github.com/repos/pola-rs/polars/issues/28400/events",
+      "html_url": "https://github.com/pola-rs/polars/issues/28400",
+      "id": 4903075084,
+      "node_id": "I_kwDOD7gq788AAAABJD79DA",
+      "number": 28400,
+      "title": "parquet scan/reads fail over HTTP for small files hosted with miniserve",
+      "user": {
+        "login": "wahsmail",
+        "id": 24307882,
+        "node_id": "MDQ6VXNlcjI0MzA3ODgy",
+        "avatar_url": "https://avatars.githubusercontent.com/u/24307882?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wahsmail",
+        "html_url": "https://github.com/wahsmail",
+        "followers_url": "https://api.github.com/users/wahsmail/followers",
+        "following_url": "https://api.github.com/users/wahsmail/following{/other_user}",
+        "gists_url": "https://api.github.com/users/wahsmail/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/wahsmail/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/wahsmail/subscriptions",
+        "organizations_url": "https://api.github.com/users/wahsmail/orgs",
+        "repos_url": "https://api.github.com/users/wahsmail/repos",
+        "events_url": "https://api.github.com/users/wahsmail/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/wahsmail/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "labels": [
+        {
+          "id": 2058875254,
+          "node_id": "MDU6TGFiZWwyMDU4ODc1MjU0",
+          "url": "https://api.github.com/repos/pola-rs/polars/labels/bug",
+          "name": "bug",
+          "color": "E99695",
+          "default": true,
+          "description": "Something isn't working",
+          "archived_at": null,
+          "archived_by": null
+        },
+        {
+          "id": 2355548729,
+          "node_id": "MDU6TGFiZWwyMzU1NTQ4NzI5",
+          "url": "https://api.github.com/repos/pola-rs/polars/labels/python",
+          "name": "python",
+          "color": "0052cc",
+          "default": false,
+          "description": "Related to Python Polars",
+          "archived_at": null,
+          "archived_by": null
+        },
+        {
+          "id": 6401969570,
+          "node_id": "LA_kwDOD7gq788AAAABfZZNog",
+          "url": "https://api.github.com/repos/pola-rs/polars/labels/P-medium",
+          "name": "P-medium",
+          "color": "FBCA04",
+          "default": false,
+          "description": "Priority: medium",
+          "archived_at": null,
+          "archived_by": null
+        },
+        {
+          "id": 6458720082,
+          "node_id": "LA_kwDOD7gq788AAAABgPg_Ug",
+          "url": "https://api.github.com/repos/pola-rs/polars/labels/A-io-parquet",
+          "name": "A-io-parquet",
+          "color": "D4C5F9",
+          "default": false,
+          "description": "Area: reading/writing Parquet files",
+          "archived_at": null,
+          "archived_by": null
+        },
+        {
+          "id": 7211929439,
+          "node_id": "LA_kwDOD7gq788AAAABrd1PXw",
+          "url": "https://api.github.com/repos/pola-rs/polars/labels/upstream%20issue",
+          "name": "upstream issue",
+          "color": "FEFBD9",
+          "default": false,
+          "description": "",
+          "archived_at": null,
+          "archived_by": null
+        }
+      ],
+      "state": "open",
+      "locked": false,
+      "assignees": [],
+      "milestone": null,
+      "comments": 4,
+      "created_at": "2026-07-16T14:32:41Z",
+      "updated_at": "2026-07-17T08:57:07Z",
+      "closed_at": null,
+      "assignee": null,
+      "author_association": "NONE",
+      "issue_field_values": [],
+      "type": null,
+      "active_lock_reason": null,
+      "sub_issues_summary": {
+        "total": 0,
+        "completed": 0,
+        "percent_completed": 0
+      },
+      "issue_dependencies_summary": {
+        "blocked_by": 0,
+        "total_blocked_by": 0,
+        "blocking": 0,
+        "total_blocking": 0
+      },
+      "body": "### Checks\n\n- [x] I have checked that this issue has not already been reported.\n- [x] I have confirmed this bug exists on the [latest version](https://pypi.org/project/polars/) of Polars.\n\n### Reproducible example\n\nThe below is run with `uv run --script script.py` and requires miniserve 0.29.0 on path `cargo install miniserve --version 0.29.0 --locked`. Tested on miniserve 0.35.0 as well\n\n```python\n# /// script\n# requires-python = \">=3.11\"\n# dependencies = [\n#     \"polars==1.42.1\",\n# ]\n# ///\n# Requires miniserve 0.29.0: cargo install miniserve --version 0.29.0 --locked\n\nfrom pathlib import Path\nfrom socket import socket\nfrom subprocess import DEVNULL, Popen\nfrom tempfile import TemporaryDirectory\nfrom time import sleep\n\nimport polars as pl\n\n# pl.show_versions()\n\nwith TemporaryDirectory() as directory:\n    root = Path(directory)\n    for name, rows in [('small', 3), ('large', 1_000_000)]:\n        path = root / f'{name}.parquet'\n        pl.DataFrame({'value': range(rows)}).write_parquet(path, compression='uncompressed')\n        # print(f'{name}: {path.stat().st_size:,} bytes', flush=True)\n\n    with socket() as sock:\n        sock.bind(('127.0.0.1', 0))\n        port = sock.getsockname()[1]\n\n    server = Popen(\n        ['miniserve', '--interfaces', '127.0.0.1', '--port', str(port), directory],\n        stdout=DEVNULL,\n        stderr=DEVNULL,\n    )\n    try:\n        sleep(0.5)\n        for name in ('small', 'large'):\n            url = f'http://127.0.0.1:{port}/{name}.parquet'\n            try:\n                result = pl.read_parquet(url).select(pl.len())\n                print(f'{name}: {result.item():,} rows', flush=True)\n            except OSError as error:\n                print(f'{name}: {error}', flush=True)\n    finally:\n        server.kill()\n        server.wait()\n```\n\n\n### Log output\n\n```shell\nfor just the small file read:\n\n\n_init_credential_provider_builder(): credential_provider_init = None\nasync thread count: 32\nblocking thread count: 512\npolars-stream: updating graph state\nupdating io-sink[single-file[parquet]], before: [Blocked] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 90ns)\nupdating in-memory-source, before: [] [Ready]\nupdating in-memory-source, after: [] [Ready] (took 4.27\u00b5s)\nupdating io-sink[single-file[parquet]], before: [Ready] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 50ns)\npolars-stream: running in-memory-source in subgraph\npolars-stream: running io-sink[single-file[parquet]] in subgraph\nupload_chunk_size: 33554432\ntotal memory: 3021.033 GiB (3243809173504 bytes)\nupload_concurrency: 256\nio-sink[single-file[parquet]]: start_single_file_sink_pipeline: file_writer_starter: parquet, takeable_rows_provider: TakeableRowsProvider { max_size: NonZeroRowCountAndSize { num_rows: 122880, num_bytes: 18446744073709551615 }, byte_size_min_rows: 16384, allow_non_max_size: false }, inflight_morsel_limit: 104, upload_chunk_size: 33554432, upload_concurrency: 256, io_metrics: false, build_sinked_path_info_list: false\npolars-stream: done running graph phase\npolars-stream: updating graph state\nupdating io-sink[single-file[parquet]], before: [Ready] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 70ns)\nupdating in-memory-source, before: [] [Ready]\nupdating in-memory-source, after: [] [Done] (took 390ns)\nupdating io-sink[single-file[parquet]], before: [Done] []\nio-sink[single-file[parquet]]: Join on task_handle (recv PortState::Done)\nio-sink[single-file[parquet]]: Statistics: total_size: RowCountAndSize { num_rows: 3, num_bytes: 24 }\nupdating io-sink[single-file[parquet]], after: [Done] [] (took 4.016866ms)\nupdating in-memory-source, before: [] [Done]\nupdating in-memory-source, after: [] [Done] (took 80ns)\n_init_credential_provider_builder(): credential_provider_init = None\npolars-stream: updating graph state\nupdating io-sink[single-file[parquet]], before: [Blocked] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 90ns)\nupdating in-memory-source, before: [] [Ready]\nupdating in-memory-source, after: [] [Ready] (took 120ns)\nupdating io-sink[single-file[parquet]], before: [Ready] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 30ns)\npolars-stream: running io-sink[single-file[parquet]] in subgraph\npolars-stream: running in-memory-source in subgraph\nio-sink[single-file[parquet]]: start_single_file_sink_pipeline: file_writer_starter: parquet, takeable_rows_provider: TakeableRowsProvider { max_size: NonZeroRowCountAndSize { num_rows: 122880, num_bytes: 18446744073709551615 }, byte_size_min_rows: 16384, allow_non_max_size: false }, inflight_morsel_limit: 104, upload_chunk_size: 33554432, upload_concurrency: 256, io_metrics: false, build_sinked_path_info_list: false\npolars-stream: done running graph phase\npolars-stream: updating graph state\nupdating io-sink[single-file[parquet]], before: [Ready] []\nupdating io-sink[single-file[parquet]], after: [Ready] [] (took 70ns)\nupdating in-memory-source, before: [] [Ready]\nupdating in-memory-source, after: [] [Done] (took 410ns)\nupdating io-sink[single-file[parquet]], before: [Done] []\nio-sink[single-file[parquet]]: Join on task_handle (recv PortState::Done)\nio-sink[single-file[parquet]]: Statistics: total_size: RowCountAndSize { num_rows: 1000000, num_bytes: 8000000 }\nupdating io-sink[single-file[parquet]], after: [Done] [] (took 6.09934ms)\nupdating in-memory-source, before: [] [Done]\nupdating in-memory-source, after: [] [Done] (took 90ns)\n_init_credential_provider_builder(): credential_provider_init = None\nsourcing parquet scan file schema from: 'http://127.0.0.1:59341/small.parquet'\n[dns_cache] ttl: 5s\nasync download_chunk_size_random_access: 8388608\n[InFlightConcurrency]: initial_byte_budget: 109051904, floor_byte_budget: 8388608, request_budget: 512\n[InFlightConcurrency]: spawn control loop: control_interval: 100ms\n[PolarsObjectStore]: got error: Operation not supported: Range request not supported by , will rebuild store and retry\n[dns_cache] ttl: 5s\n[InFlightConcurrency]: observed first RTT sample: 2 ms, for 0 bytes\n```\n\n### Issue description\n\nWith Polars 1.42.1, read_parquet fails to read small parquet files over HTTP with miniserve, where large ones succeed, because of an `object-store` error. Its requested byte range covers the entire file and the server returns the complete representation with 200 OK, which `object-store` doesn't seem to handle gracefully. The same server returns 206 Partial Content for a true subrange of a larger file, which Polars reads successfully.\n\nI'm not sure if this is a miniserve issue but it seems like reasonable behavior and it would be good to support this situation for compatibility.\n\n### Expected behavior\n\nExpected:\n```\nsmall: 3 rows\nlarge: 1,000,000 rows\n```\n\nActual:\n```\nsmall: object-store error: Operation not supported: Range request not supported by  (path: http://127.0.0.1:34037/small.parquet)\nlarge: 1,000,000 rows\n```\n\n### Installed versions\n\n<details>\n\n```\n--------Version info---------\nPolars:              1.42.1\nIndex type:          UInt32\nPlatform:            Linux-5.14.0-570.58.1.el9_6.x86_64-x86_64-with-glibc2.34\nPython:              3.12.11 (main, Sep  2 2025, 14:20:58) [Clang 20.1.4 ]\nRuntime:             rt32\n\n----Optional dependencies----\nAzure CLI            <not installed>\nadbc_driver_manager  <not installed>\naltair               <not installed>\nazure.identity       <not installed>\nboto3                <not installed>\ncloudpickle          <not installed>\nconnectorx           <not installed>\ndeltalake            <not installed>\nfastexcel            <not installed>\nfsspec               <not installed>\ngevent               <not installed>\ngoogle.auth          <not installed>\ngreat_tables         <not installed>\nmatplotlib           <not installed>\nnumpy                <not installed>\nopenpyxl             <not installed>\npandas               <not installed>\npolars_cloud         <not installed>\npyarrow              <not installed>\npydantic             <not installed>\npyiceberg            <not installed>\nsqlalchemy           <not installed>\ntorch                <not installed>\nxlsx2csv             <not installed>\nxlsxwriter           <not installed>\n```\n\n</details>\n",
+      "closed_by": null,
+      "reactions": {
+        "url": "https://api.github.com/repos/pola-rs/polars/issues/28400/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "timeline_url": "https://api.github.com/repos/pola-rs/polars/issues/28400/timeline",
+      "performed_via_github_app": null,
+      "state_reason": null,
+      "pinned_comment": null
+    }
+  ]
+}

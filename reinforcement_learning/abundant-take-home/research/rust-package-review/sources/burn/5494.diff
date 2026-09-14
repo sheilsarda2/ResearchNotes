@@ -1,0 +1,333 @@
+diff --git a/crates/burn-pack/src/lib.rs b/crates/burn-pack/src/lib.rs
+index 18ebf24b67..9f872a7296 100644
+--- a/crates/burn-pack/src/lib.rs
++++ b/crates/burn-pack/src/lib.rs
+@@ -106,7 +106,8 @@
+ //!
+ //! ## Feature Flags
+ //!
+-//! - `std`: Enables file I/O ([`Reader::from_file`] / [`Writer::write_to_file`]) (default)
++//! - `std`: Enables file I/O ([`Reader::from_file`], [`Reader::from_file_exact`],
++//!   [`Writer::write_to_file`], and [`Writer::write_to_file_atomic`]) (default)
+ 
+ extern crate alloc;
+ 
+diff --git a/crates/burn-pack/src/reader.rs b/crates/burn-pack/src/reader.rs
+index cc252ec4b2..323a28ddee 100644
+--- a/crates/burn-pack/src/reader.rs
++++ b/crates/burn-pack/src/reader.rs
+@@ -66,7 +66,23 @@ impl Reader {
+             path.to_path_buf()
+         };
+ 
+-        let mut file = File::open(&path).map_err(io_err)?;
++        Self::from_resolved_file(&path)
++    }
++
++    /// Load a pack from a file using the exact path provided.
++    ///
++    /// Unlike [`from_file`](Self::from_file), this never appends [`crate::EXTENSION`] when the
++    /// requested path has no extension and does not probe for a fallback path. It is useful when
++    /// a higher-level caller has already applied its own path policy.
++    #[cfg(feature = "std")]
++    pub fn from_file_exact<P: AsRef<Path>>(path: P) -> Result<Self, Error> {
++        Self::from_resolved_file(path.as_ref())
++    }
++
++    #[cfg(feature = "std")]
++    fn from_resolved_file(path: &Path) -> Result<Self, Error> {
++        let mut file = File::open(path)
++            .map_err(|e| Error::IoError(format!("cannot open '{}': {e}", path.display())))?;
+ 
+         let file_size = file.metadata().map_err(io_err)?.len();
+         if file_size > MAX_FILE_SIZE {
+@@ -83,7 +99,7 @@ impl Reader {
+         file.read_exact(&mut metadata_bytes).map_err(io_err)?;
+         let metadata = parse_metadata(&metadata_bytes)?;
+ 
+-        let source = Source::File(Bytes::from_file(path.as_path(), file_size, 0));
++        let source = Source::File(Bytes::from_file(path, file_size, 0));
+         Self::assemble(&header, metadata, source, file_size as usize)
+     }
+ 
+diff --git a/crates/burn-pack/src/writer.rs b/crates/burn-pack/src/writer.rs
+index a4eac36ede..57a6eff294 100644
+--- a/crates/burn-pack/src/writer.rs
++++ b/crates/burn-pack/src/writer.rs
+@@ -51,6 +51,9 @@ pub struct Writer {
+     pub(crate) metadata: BTreeMap<String, String>,
+     /// Typed scalars keyed by name
+     pub(crate) scalars: BTreeMap<String, Scalar>,
++    /// Automatically append the canonical extension to extensionless file paths.
++    #[cfg(feature = "std")]
++    auto_extension: bool,
+ }
+ 
+ impl Writer {
+@@ -60,6 +63,8 @@ impl Writer {
+             tensors,
+             metadata: BTreeMap::new(),
+             scalars: BTreeMap::new(),
++            #[cfg(feature = "std")]
++            auto_extension: true,
+         }
+     }
+ 
+@@ -75,6 +80,18 @@ impl Writer {
+         self
+     }
+ 
++    /// Enable or disable automatic extension appending for file writes.
++    ///
++    /// When enabled (the default), [`write_to_file`](Self::write_to_file) and
++    /// [`write_to_file_atomic`](Self::write_to_file_atomic) append the canonical
++    /// [`crate::EXTENSION`] when the requested path has no extension. When disabled,
++    /// both methods use the requested path exactly as provided.
++    #[cfg(feature = "std")]
++    pub fn auto_extension(mut self, enable: bool) -> Self {
++        self.auto_extension = enable;
++        self
++    }
++
+     /// Calculate the total size needed for the burnpack data.
+     ///
+     /// This is useful when you want to pre-allocate a buffer for `write_into()`.
+@@ -137,7 +154,8 @@ impl Writer {
+ 
+     /// Write directly to a file, replacing its contents in place.
+     ///
+-    /// If `path` has no extension, the canonical [`crate::EXTENSION`] (`.bpk`) is appended.
++    /// By default, the canonical [`crate::EXTENSION`] (`.bpk`) is appended when `path` has no
++    /// extension. Use [`auto_extension(false)`](Self::auto_extension) to preserve the path.
+     ///
+     /// The file is truncated as soon as writing starts, so a failure partway through leaves it
+     /// truncated. That only matters when a tensor's bytes can fail to materialize, which for
+@@ -146,7 +164,7 @@ impl Writer {
+     /// [`write_to_file_atomic`](Self::write_to_file_atomic) instead.
+     #[cfg(feature = "std")]
+     pub fn write_to_file<P: AsRef<Path>>(self, path: P) -> Result<(), Error> {
+-        let path = Self::resolve_path(path.as_ref());
++        let path = self.resolve_path(path.as_ref());
+         let layout = self.plan()?;
+ 
+         let file = File::create(&path)
+@@ -158,7 +176,8 @@ impl Writer {
+ 
+     /// Write to a file without ever leaving a partial one at `path`.
+     ///
+-    /// If `path` has no extension, the canonical [`crate::EXTENSION`] (`.bpk`) is appended.
++    /// By default, the canonical [`crate::EXTENSION`] (`.bpk`) is appended when `path` has no
++    /// extension. Use [`auto_extension(false)`](Self::auto_extension) to preserve the path.
+     ///
+     /// The container is built in a scratch sibling of `path` and renamed into place only once
+     /// every byte is on disk, so `path` either ends up holding a complete container or is left
+@@ -196,7 +215,7 @@ impl Writer {
+     ///   writer is running.
+     #[cfg(feature = "std")]
+     pub fn write_to_file_atomic<P: AsRef<Path>>(self, path: P) -> Result<(), Error> {
+-        let path = Self::resolve_path(path.as_ref());
++        let path = self.resolve_path(path.as_ref());
+         let layout = self.plan()?;
+         let (scratch, mut sink) = ScratchFile::create(&path)?;
+ 
+@@ -205,10 +224,10 @@ impl Writer {
+         scratch.persist(sink, &path)
+     }
+ 
+-    /// Append the canonical extension when the caller left one off.
++    /// Apply the configured extension policy to a requested path.
+     #[cfg(feature = "std")]
+-    fn resolve_path(path: &Path) -> std::path::PathBuf {
+-        if path.extension().is_none() {
++    fn resolve_path(&self, path: &Path) -> std::path::PathBuf {
++        if self.auto_extension && path.extension().is_none() {
+             path.with_extension(crate::EXTENSION)
+         } else {
+             path.to_path_buf()
+diff --git a/crates/burn-pack/tests/lazy_writer.rs b/crates/burn-pack/tests/lazy_writer.rs
+index 3a221b8bb9..945f672682 100644
+--- a/crates/burn-pack/tests/lazy_writer.rs
++++ b/crates/burn-pack/tests/lazy_writer.rs
+@@ -240,6 +240,25 @@ fn a_plan_time_rejection_creates_no_file() {
+     );
+ }
+ 
++#[test]
++fn an_atomic_write_can_preserve_an_extensionless_path() {
++    let dir = tempfile::tempdir().unwrap();
++    let dest = dir.path().join("model");
++
++    let log = Log::default();
++    Writer::new(deferred_tensors(entries(&log)))
++        .auto_extension(false)
++        .write_to_file_atomic(&dest)
++        .unwrap();
++
++    assert!(dest.exists(), "the exact requested path should exist");
++    assert!(
++        !dir.path().join("model.bpk").exists(),
++        "disabling auto-extension must not create a second path"
++    );
++    assert!(Reader::from_file_exact(&dest).is_ok());
++}
++
+ /// A deferred provider runs during the write, so its failure has to leave the destination as
+ /// it was rather than truncated. Failing on the *last* tensor means the earlier ones were
+ /// already streamed out, which is exactly the case a plain `File::create` would corrupt.
+diff --git a/crates/burn-pack/tests/round_trip.rs b/crates/burn-pack/tests/round_trip.rs
+index bcf475d2aa..bfcd35ab03 100644
+--- a/crates/burn-pack/tests/round_trip.rs
++++ b/crates/burn-pack/tests/round_trip.rs
+@@ -280,6 +280,38 @@ fn extensionless_path_appends_bpk() {
+     assert_eq!(tensors[0].param_id, Some(7));
+ }
+ 
++#[test]
++fn extensionless_path_can_be_preserved() {
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("model");
++
++    Writer::new(vec![f32_tensor("weight", &[1.0, 2.0], &[2], None)])
++        .auto_extension(false)
++        .write_to_file(&path)
++        .unwrap();
++
++    assert!(path.exists(), "the exact requested path should exist");
++    assert!(
++        !path.with_extension("bpk").exists(),
++        "the canonical extension should not be appended"
++    );
++    assert!(Reader::from_file_exact(&path).is_ok());
++}
++
++#[test]
++fn exact_reader_does_not_fall_back_to_bpk() {
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("model");
++
++    Writer::new(vec![f32_tensor("weight", &[1.0], &[1], None)])
++        .write_to_file(&path)
++        .unwrap();
++
++    assert!(path.with_extension("bpk").exists());
++    assert!(Reader::from_file(&path).is_ok());
++    assert!(Reader::from_file_exact(&path).is_err());
++}
++
+ #[test]
+ fn typed_scalars_round_trip() {
+     let packed = Writer::new(vec![f32_tensor("w", &[1.0], &[1], None)])
+diff --git a/crates/burn-store/src/burnpack.rs b/crates/burn-store/src/burnpack.rs
+index 65524e9ef1..8ff2e0c9e2 100644
+--- a/crates/burn-store/src/burnpack.rs
++++ b/crates/burn-store/src/burnpack.rs
+@@ -10,6 +10,8 @@ use alloc::format;
+ use alloc::string::String;
+ use alloc::vec::Vec;
+ use burn_core::tensor::Bytes;
++#[cfg(feature = "std")]
++use burn_pack::EXTENSION;
+ use burn_pack::{Error as PackError, Reader, Tensor as PackTensor, Writer};
+ 
+ /// Store mode for BurnpackStore
+@@ -326,9 +328,9 @@ impl BurnpackStore {
+             return path.to_path_buf();
+         }
+ 
+-        // No extension, append .bpk
++        // No extension, append the canonical burnpack extension.
+         let mut new_path = path.to_path_buf();
+-        new_path.set_extension("bpk");
++        new_path.set_extension(EXTENSION);
+         new_path
+     }
+ 
+@@ -339,7 +341,9 @@ impl BurnpackStore {
+                 #[cfg(feature = "std")]
+                 StoreMode::File(path) => {
+                     let final_path = self.process_path(path);
+-                    Reader::from_file(&final_path)?
++                    // The store has already applied its own extension policy. Loading the exact
++                    // resolved path prevents `auto_extension(false)` from falling back to `.bpk`.
++                    Reader::from_file_exact(&final_path)?
+                 }
+                 StoreMode::Bytes(Some(bytes)) => Reader::from_bytes(bytes.clone())?,
+                 StoreMode::Bytes(None) => {
+@@ -393,7 +397,11 @@ impl ModuleStore for BurnpackStore {
+                 }
+                 // Atomic: tensors materialize mid-write, so a device readback that
+                 // fails partway must not truncate whatever was already at this path.
+-                writer.write_to_file_atomic(&final_path)?;
++                // The store already applied its own auto-extension policy above. Disable
++                // the writer's default so an explicitly extensionless path stays exact.
++                writer
++                    .auto_extension(false)
++                    .write_to_file_atomic(&final_path)?;
+             }
+             StoreMode::Bytes(_) => {
+                 // Generate and store the bytes
+diff --git a/crates/burn-store/tests/burnpack_store.rs b/crates/burn-store/tests/burnpack_store.rs
+index 1cdd7545b8..8b446e046e 100644
+--- a/crates/burn-store/tests/burnpack_store.rs
++++ b/crates/burn-store/tests/burnpack_store.rs
+@@ -69,6 +69,60 @@ fn file_mode_round_trips_a_module() {
+     assert_eq!(first_weight(&loaded), first_weight(&model));
+ }
+ 
++#[test]
++fn file_mode_can_preserve_an_extensionless_path() {
++    let device = Device::default();
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("model");
++
++    let model = TestModel::new(&device);
++    model
++        .save_into(&mut BurnpackStore::from_file(&path).auto_extension(false))
++        .unwrap();
++
++    assert!(path.exists(), "the exact requested path should be used");
++    assert!(
++        !dir.path().join("model.bpk").exists(),
++        "the writer must not re-append the extension"
++    );
++
++    let original = std::fs::read(&path).unwrap();
++    assert!(
++        TestModel::new(&device)
++            .save_into(&mut BurnpackStore::from_file(&path).auto_extension(false))
++            .is_err(),
++        "overwrite protection should check the exact path"
++    );
++    assert_eq!(std::fs::read(&path).unwrap(), original);
++
++    let mut loaded = TestModel::new(&device);
++    loaded
++        .load_from(&mut BurnpackStore::from_file(&path).auto_extension(false))
++        .unwrap();
++    assert_eq!(first_weight(&loaded), first_weight(&model));
++}
++
++#[test]
++fn disabled_extension_does_not_fall_back_when_loading() {
++    let device = Device::default();
++    let dir = tempfile::tempdir().unwrap();
++    let path = dir.path().join("model");
++
++    TestModel::new(&device)
++        .save_into(&mut BurnpackStore::from_file(&path))
++        .unwrap();
++    assert!(path.with_extension("bpk").exists());
++    assert!(!path.exists());
++
++    let mut loaded = TestModel::new(&device);
++    assert!(
++        loaded
++            .load_from(&mut BurnpackStore::from_file(&path).auto_extension(false))
++            .is_err(),
++        "loading with auto-extension disabled should use the exact path"
++    );
++}
++
+ /// `overwrite` is the store's own policy, layered above a writer that always replaces. Pin
+ /// both directions, including that a refused save leaves the previous container alone.
+ #[test]

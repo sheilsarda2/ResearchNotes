@@ -1,0 +1,87 @@
+{
+  "recorded_at": "2026-09-13T10:16:20.527057+00:00",
+  "platform": "macOS arm64, host Apple clang++, C++17; no Docker execution",
+  "source_pins": {
+    "ericniebler/range-v3": "108f93c279c8f9cec175dac361084983d0176e99",
+    "Tencent/rapidjson": "24b5e7a8b27f42fa16b96fc70aade9106cf7102f",
+    "CLIUtils/CLI11": "c1cfe00d2f3d862aecfe6e69ec810414d5f4c906",
+    "assimp/assimp": "d3714526e658cab55e171e0548bc4cf30c230ac8"
+  },
+  "range-v3": {
+    "issue": 1737,
+    "probe": "range-nth-upstream.cpp",
+    "compile": [
+      "clang++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-I",
+      "range-v3/include",
+      "range-nth-upstream.cpp",
+      "-o",
+      "range-nth-upstream"
+    ],
+    "run": [
+      "./range-nth-upstream"
+    ],
+    "observed": "AddressSanitizer stack-buffer-underflow, READ of size 8, nth_element.hpp:219",
+    "log": "range-nth-upstream.log",
+    "positive_controls_executed": false,
+    "limitation": "Original shell invocation printed saved log after command and thus returned 0; actual failing process exit was not separately captured. ASan explicitly reports ABORTING."
+  },
+  "rapidjson": {
+    "issue": 2296,
+    "probe": "rapid-required.cpp",
+    "compile": [
+      "clang++",
+      "-std=c++17",
+      "-O0",
+      "-g",
+      "-I",
+      "rapidjson/include",
+      "rapid-required.cpp",
+      "-o",
+      "rapid-required"
+    ],
+    "run": [
+      "./rapid-required"
+    ],
+    "observed": "2 wrong accepts, 4 expected accepts/rejections",
+    "exit_code": 0,
+    "log": "rapid-required.log",
+    "log_provenance": "Transcript output saved after execution; program is an observation probe, not assert-based verifier."
+  },
+  "CLI11": {
+    "issue": 1450,
+    "probe": "cli-help.cpp",
+    "compile": [
+      "clang++",
+      "-std=c++17",
+      "-O0",
+      "-I",
+      "CLI11/include",
+      "cli-help.cpp",
+      "-o",
+      "cli-help"
+    ],
+    "run": [
+      "./cli-help",
+      "subc1",
+      "subc2",
+      "--help"
+    ],
+    "observed": "First subcommand (parent) help instead of Nested subcommand help",
+    "exit_code": 0,
+    "log": "cli-help.log",
+    "log_provenance": "Transcript output saved after execution. Compilation emits a standard-library deprecated wstring_convert warning.",
+    "positive_controls_executed": false
+  },
+  "assimp": {
+    "issue": 5234,
+    "status": "source fetched; CMake configure failed due to omitted sparse cmake-modules; no build launched or import probe executed",
+    "source": "assimp",
+    "build_directory": "assimp-build",
+    "configure_log": "assimp-configure.log"
+  }
+}

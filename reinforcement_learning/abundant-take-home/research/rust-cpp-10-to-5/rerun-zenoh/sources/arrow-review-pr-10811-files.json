@@ -1,0 +1,26 @@
+[
+  {
+    "sha": "da30217431599f041d8944a150ff03ff3461ab1e",
+    "filename": "arrow-integration-test/src/field.rs",
+    "status": "modified",
+    "additions": 11,
+    "deletions": 1,
+    "changes": 12,
+    "blob_url": "https://github.com/apache/arrow-rs/blob/1135e6263d0c50b645d2a0927d8c1601665ac0d4/arrow-integration-test%2Fsrc%2Ffield.rs",
+    "raw_url": "https://github.com/apache/arrow-rs/raw/1135e6263d0c50b645d2a0927d8c1601665ac0d4/arrow-integration-test%2Fsrc%2Ffield.rs",
+    "contents_url": "https://api.github.com/repos/apache/arrow-rs/contents/arrow-integration-test%2Fsrc%2Ffield.rs?ref=1135e6263d0c50b645d2a0927d8c1601665ac0d4",
+    "patch": "@@ -306,7 +306,7 @@ pub fn field_to_json(field: &Field) -> serde_json::Value {\n         _ => vec![],\n     };\n \n-    match field.data_type() {\n+    let mut json = match field.data_type() {\n         DataType::Dictionary(index_type, value_type) => {\n             #[expect(deprecated)]\n             let dict_id = field.dict_id().unwrap();\n@@ -328,7 +328,17 @@ pub fn field_to_json(field: &Field) -> serde_json::Value {\n             \"type\": data_type_to_json(field.data_type()),\n             \"children\": children\n         }),\n+    };\n+\n+    if !field.metadata().is_empty() {\n+        json[\"metadata\"] = field\n+            .metadata()\n+            .iter()\n+            .map(|(key, value)| (key.clone(), value.clone()))\n+            .collect();\n     }\n+\n+    json\n }\n \n #[cfg(test)]"
+  },
+  {
+    "sha": "28e67c851ce367935844a95625f3e7b6e902a15d",
+    "filename": "arrow-integration-test/src/schema.rs",
+    "status": "modified",
+    "additions": 41,
+    "deletions": 0,
+    "changes": 41,
+    "blob_url": "https://github.com/apache/arrow-rs/blob/1135e6263d0c50b645d2a0927d8c1601665ac0d4/arrow-integration-test%2Fsrc%2Fschema.rs",
+    "raw_url": "https://github.com/apache/arrow-rs/raw/1135e6263d0c50b645d2a0927d8c1601665ac0d4/arrow-integration-test%2Fsrc%2Fschema.rs",
+    "contents_url": "https://api.github.com/repos/apache/arrow-rs/contents/arrow-integration-test%2Fsrc%2Fschema.rs?ref=1135e6263d0c50b645d2a0927d8c1601665ac0d4",
+    "patch": "@@ -728,4 +728,45 @@ mod tests {\n         let schema = schema_from_json(&value).unwrap();\n         assert!(schema.metadata.is_empty());\n     }\n+\n+    #[test]\n+    fn field_metadata_json() {\n+        let schema = Schema::new(vec![\n+            Field::new(\"field\", DataType::Utf8, false)\n+                .with_metadata(HashMap::from([(\"key\".to_string(), \"value\".to_string())])),\n+        ]);\n+\n+        let json = schema_to_json(&schema);\n+\n+        assert_eq!(\n+            json[\"fields\"][0][\"metadata\"],\n+            serde_json::json!({\"key\": \"value\"})\n+        );\n+        assert_eq!(schema_from_json(&json).unwrap(), schema);\n+    }\n+\n+    #[test]\n+    fn dictionary_field_metadata_json() {\n+        #[expect(deprecated)]\n+        let field = Field::new_dict(\n+            \"dictionary\",\n+            DataType::Dictionary(Box::new(DataType::Int32), Box::new(DataType::Utf8)),\n+            true,\n+            42,\n+            false,\n+        )\n+        .with_metadata(HashMap::from([(\n+            \"dictionary_key\".to_string(),\n+            \"dictionary_value\".to_string(),\n+        )]));\n+        let schema = Schema::new(vec![field]);\n+\n+        let json = schema_to_json(&schema);\n+\n+        assert_eq!(\n+            json[\"fields\"][0][\"metadata\"],\n+            serde_json::json!({\"dictionary_key\": \"dictionary_value\"})\n+        );\n+        assert_eq!(schema_from_json(&json).unwrap(), schema);\n+    }\n }"
+  }
+]

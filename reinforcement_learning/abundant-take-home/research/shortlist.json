@@ -1,0 +1,663 @@
+{
+  "created_at": "2026-09-13T07:20:04.377747+00:00",
+  "family": "Pinned Python, Rust and C++ engineering tasks",
+  "stage": "ready for model screening; headroom and horizon unmeasured",
+  "tasks": [
+    {
+      "id": "huey-sqlite-leases",
+      "project": "Huey",
+      "objective": "Recover interrupted jobs with fenced SQLite leases",
+      "status": "harbor_verified",
+      "path": "candidates/huey-sqlite-leases",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-01-oracle/huey-sqlite-leases__3c4tism/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-01-nop/huey-sqlite-leases__AX7rvUj/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "7b9d4c48cebae8c2302561ce8f8a57e668037fceb7a76d340b6d828353856ec7",
+        "oracle": "0fb3da57743c5f8db52acd3e6f37d0e1a511086d83f392a985096aed8b965b0e"
+      },
+      "validated_task_sha256": "12f9f5b9cd909af46f31c91b456079b74b2191c3ded559abe45b715c8cb598a7",
+      "validated_harbor_task_checksum": "1dadeed0982f11064451935b9041f49fcfbe179e0b6dc09f3b51f695e04e53b1",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 193,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "oracle_tests_passed": 193,
+      "impact_review": {
+        "status": "downgraded; exact SQLite demand unestablished",
+        "evidence": "research/demand-audit-huey-leases.md"
+      }
+    },
+    {
+      "id": "huey-sqlite-outbox",
+      "project": "Huey",
+      "objective": "Publish committed application work through a transactional outbox",
+      "status": "harbor_verified",
+      "path": "candidates/huey-sqlite-outbox",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-02-oracle/huey-sqlite-outbox__QLHLnhV/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-02-nop/huey-sqlite-outbox__w6AgZQb/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "7532c5d9cc6d8580714ac652219483601590bc312fcff65b49e07060ad89175e",
+        "nop": "ba084d17ea4cb2de6af92fa7f468e451e8861e548a261bc30fcdd79113b736d8"
+      },
+      "validated_task_sha256": "ec65622a70ac849c4d72edf42479a67f176556fb79511526ee0331dd4dba7c98",
+      "validated_harbor_task_checksum": "bf0649dcf5f6ac4d9e0cd0693ddb8dad5ba2421b2e7ef38b3ef88939c13d77f1",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 192,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "oracle_tests_passed": 192,
+      "impact_review": {
+        "status": "exclude from impact-prioritized recommendations pending direct demand",
+        "evidence": "research/demand-audit-huey-outbox.md"
+      }
+    },
+    {
+      "id": "huey-deadletter-redrive",
+      "project": "Huey",
+      "objective": "Archive terminal failures and atomically redrive them",
+      "status": "harbor_verified",
+      "path": "candidates/huey-deadletter-redrive",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "nop": "research/validation/jobs/screen-final-v1-03-nop/huey-deadletter-redrive__kc4Poz9/result.json",
+        "oracle": "research/validation/jobs/screen-final-v1-03-oracle/huey-deadletter-redrive__UVcFyRp/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "6a6f561e3a7380b9ca8a509e4d8ac3c43028e964c35b10d93bd7113cedcc4862",
+        "oracle": "ee915fda5e071832b86b26807fb2be3105a9412923e6bfaf2e836d2b61065d31"
+      },
+      "validated_task_sha256": "8654d48165727b63adff0ad73f03b198782e87c4c564b67600a2bdf3464c992f",
+      "validated_harbor_task_checksum": "dda15f13005a1d2b038fb640faedc481eb187ddaef07d3f8b574336543a00126",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 195,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "oracle_tests_passed": 195,
+      "impact_review": {
+        "status": "exclude from impact-prioritized recommendations pending direct demand",
+        "evidence": "research/demand-audit-huey-redrive.md"
+      }
+    },
+    {
+      "id": "sqlite-utils-resumable-import",
+      "project": "sqlite-utils",
+      "objective": "Resume NDJSON ingestion with atomic data and checkpoints",
+      "status": "harbor_verified",
+      "path": "candidates/sqlite-utils-resumable-import",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-04-oracle/sqlite-utils-resumable-import__JUjRUW8/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-04-nop/sqlite-utils-resumable-import__24BjJKW/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "0e134bcdecfb7e0d5413fa4e0babfb7b584d665b07a8016c82f4e5fa432cb4a2",
+        "nop": "d909c34854b0b4b595dace0ff5f35c41b027540b2af636f112709998104dcfe3"
+      },
+      "validated_task_sha256": "24bf7793105d8afb0f7f2b18e95ed2554f120c30e566fef1717418aa86aac67c",
+      "validated_harbor_task_checksum": "67ce9edd05c09201ba817a79690ce4f35769ee4e20261ca51b5332c14cfa56a9",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 182,
+        "outcomes": {
+          "passed": 182,
+          "failed": 0,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 1
+      },
+      "oracle_tests_passed": 182,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "sqlite-utils-relational-merge",
+      "project": "sqlite-utils",
+      "objective": "Merge related tables with key remapping and atomic rollback",
+      "status": "harbor_verified",
+      "path": "candidates/sqlite-utils-relational-merge",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-05-oracle/sqlite-utils-relational-merge__KTVGeaX/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-05-nop/sqlite-utils-relational-merge__RkpWxx2/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "de13b2bb8357dbdd09a7c99b113f90f5a4a8a4ba0d20df1de79379130ff9c069",
+        "nop": "6cebea7f06336487fa4051482f8fa1b116e96c23784db924a4373ba498f579f1"
+      },
+      "validated_task_sha256": "06dcca8fa50830fcc30686498ae059e2c1a7c3c5830377a26bd44c5427e9efe2",
+      "validated_harbor_task_checksum": "fee85cb7be6ed409dbdbb9294c39f8d466ebdd8015617a7b7e46014d7b98c4e7",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 149,
+        "outcomes": {
+          "passed": 149,
+          "failed": 0,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 1
+      },
+      "oracle_tests_passed": 149,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "sqlite-utils-schema-plan",
+      "project": "sqlite-utils",
+      "objective": "Apply dependency-preserving schema plans atomically",
+      "status": "harbor_verified",
+      "path": "candidates/sqlite-utils-schema-plan",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-06-oracle/sqlite-utils-schema-plan__cV5gDzE/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-06-nop/sqlite-utils-schema-plan__cEhHohB/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "2b2abf0bdc4fae87c7e0beae4a1df59ded2c0161d5ac99cadaab56b726470ca5",
+        "nop": "31eb5cf589238214a4853de2f2172991555b870dc3f0ac6ac7c5fbf1d9d4458f"
+      },
+      "validated_task_sha256": "3fb14f0488024151a46dbdf8552c53e1a4d69412b2d3a71df93bed5f33122de2",
+      "validated_harbor_task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 332,
+        "outcomes": {
+          "passed": 332,
+          "failed": 0,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 1
+      },
+      "oracle_tests_passed": 332,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "luigi-generation-target",
+      "project": "Luigi",
+      "objective": "Publish coherent multi-file generations with pinned readers",
+      "status": "harbor_verified",
+      "path": "candidates/luigi-generation-target",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v2-01-oracle/luigi-generation-target__TT8yfBW/result.json",
+        "nop": "research/validation/jobs/screen-final-v2-01-nop/luigi-generation-target__igYqwdR/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "5a99d23e701eac1465c6bf0fb3176e2d350407f8ffdcd26cb4a36b14f838b5e4",
+        "oracle": "d92650ef963a359e70e6d87ae11518791c2a8b27b5c4f48c6dc94fe5085ff55e"
+      },
+      "validated_task_sha256": "a851b17fd5bf7cb9462b9128bc36aeedcede432dbee2cce7796bb457a078530e",
+      "validated_harbor_task_checksum": "38e96eee424a85cde604fcd77cf11adfd6d541302f53e1c065990a9967c86170",
+      "oracle_diagnostics": {},
+      "oracle_tests_passed": 57,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "luigi-checkpoint-task",
+      "project": "Luigi",
+      "objective": "Resume explicit task phases after process interruption",
+      "status": "harbor_verified",
+      "path": "candidates/luigi-checkpoint-task",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v2-02-oracle/luigi-checkpoint-task__44rbJiq/result.json",
+        "nop": "research/validation/jobs/screen-final-v2-02-nop/luigi-checkpoint-task__NWrRBnB/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "5401d6ac8585f2324973294b944fec5ed91a84e7e55ef11b29ab651ae043c61b",
+        "oracle": "96b50f415d681d956a0a6c35a4457583c825d7b7190df8bd48d26904e0b77db1"
+      },
+      "validated_task_sha256": "ff8d3fc4075beb1d720c598beb41f97dacda881cce6f87bd9fda9fda6748a13b",
+      "validated_harbor_task_checksum": "bc3d38a0bc83ef20d03024f5f74bc8ca95566d6a50983bef26f56343e238118a",
+      "oracle_diagnostics": {},
+      "oracle_tests_passed": 50,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "diskcache-online-reshard",
+      "project": "DiskCache",
+      "objective": "Reshard persistent cache with durable progress and topology cutover",
+      "status": "harbor_verified",
+      "path": "candidates/diskcache-online-reshard",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "nop": "research/validation/jobs/screen-final-v2-03-nop/diskcache-online-reshard__oQoUsRj/result.json",
+        "oracle": "research/validation/jobs/screen-final-v2-03-oracle/diskcache-online-reshard__2uiLbm8/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "613c391a163f889dd31ab2f6f5a5d05ae617b8323a179ac87c575b0f68672863",
+        "oracle": "74a54fb016c33058920dcd6a8d1571cf893b90d845cc21fa48ff93a7b675b144"
+      },
+      "validated_task_sha256": "c1133d6e30a2b923873ffe7bb603fce9e9af73eac85e2aa2812bd89139ed826f",
+      "validated_harbor_task_checksum": "d6421620f2a88ad3835b5d802f98815faa871ce7f2edaa39fbc6729b5b4bd095",
+      "oracle_diagnostics": {},
+      "oracle_tests_passed": 45,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "diskcache-snapshot-restore",
+      "project": "DiskCache",
+      "objective": "Create and restore verified consistent sharded cache snapshots",
+      "status": "harbor_verified",
+      "path": "candidates/diskcache-snapshot-restore",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-07-oracle/diskcache-snapshot-restore__jocqJco/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-07-nop/diskcache-snapshot-restore__enLNWgN/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "467eb22364e9c28d775223f630d213752defdcccf4c8c9d56d5788bfd791536a",
+        "nop": "e4d3eef2abfd47ffd4f784c8d924ebe8a5f2f30ab7c9d81d7273958444038347"
+      },
+      "validated_task_sha256": "8c9884f6c04860cd21bd7e94ae2137777702044601d45440edcb9bb8dfb36964",
+      "validated_harbor_task_checksum": "3c1ece7e25dddeb96e87760923e2415a07a7b06c6dcbc1c09e89ccade222ca0c",
+      "oracle_diagnostics": {
+        "passed": true,
+        "tests": 159,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "oracle_tests_passed": 159,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "burn-scoped-checkpoint-remap",
+      "path": "candidates/burn-scoped-checkpoint-remap",
+      "validated_task_sha256": "e811e03ba3776947dfe6a51ce0e68d89884a2af02d57a0b5c7193cbf46d6a2a8",
+      "validated_harbor_task_checksum": "32f732021476a68a94ed08b7e65accf0cc0a20ebe505c5cff5491fc9a231c045",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-burn-final-v1-01-oracle/burn-scoped-checkpoint-remap__db4wggh/result.json",
+        "nop": "research/validation/jobs/rust-cpp-burn-final-v1-01-nop/burn-scoped-checkpoint-remap__iG9ZF2z/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "81211af2e82d474f4ea9c3672941d15299a67b903c1ea24cbdd1b2bf8833cc21",
+        "nop": "1f83b93af75bcb2b0477b6a0ba0c71a8fc71a55a6d16c143cafcb7d9413a28df"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "passed": 24,
+        "expected": 24,
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "Burn",
+      "objective": "Apply different numeric index policies to different checkpoint prefixes",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/burn/findings.md"
+      },
+      "oracle_tests_passed": 24
+    },
+    {
+      "id": "rerun-selected-time-export",
+      "path": "candidates/rerun-selected-time-export",
+      "validated_task_sha256": "ab11706eb881d851e2dc5d183571b2ce9286d433668d61998bcc4dd2d7244f65",
+      "validated_harbor_task_checksum": "0856aaffd5e553fa13af91e58ab6fc1d91e5c9bcbfa05b0d5e7627010bc6496b",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-rerun-final-v1-01-oracle/rerun-selected-time-export__3bacQZn/result.json",
+        "nop": "research/validation/jobs/rust-cpp-rerun-final-v1-01-nop/rerun-selected-time-export__4EezXtp/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "14d0132e03b947436b940a61dc7d7e867125888bd8ff31c9a0931d58c036980e",
+        "nop": "2bf990d60a9a3928b27b591b254b950a4472e09455b15af94f03f00a15c6f848"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "--offline",
+          "-p",
+          "re_entity_db",
+          "--test",
+          "selected_time_export",
+          "--test",
+          "clear",
+          "--config",
+          "profile.dev.package.\"*\".opt-level=0",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 18.01541188400006,
+        "expected_tests": 10,
+        "observed_passed_tests": [
+          "clears",
+          "clears_respect_index_order",
+          "deterministic_varied_chunks_match_row_predicate",
+          "disjoint_interior_gap_and_full_coverage",
+          "fractional_selection_keeps_existing_floor_ceil_conversion",
+          "multiple_chunks_entities_static_rows_and_absent_timeline",
+          "sorted_closed_interval_and_point_boundaries",
+          "sparse_empty_lists_and_secondary_timelines_stay_aligned",
+          "store_information_and_blueprint_activation_survive_selection",
+          "unsorted_duplicate_times_keep_every_matching_row"
+        ],
+        "test_summaries": [
+          [
+            "ok",
+            "2",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          [
+            "ok",
+            "8",
+            "0",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "Rerun",
+      "objective": "Export exactly the selected time rows while preserving aligned recording data",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/rerun-zenoh/findings.md"
+      },
+      "oracle_tests_passed": 10
+    },
+    {
+      "id": "zenoh-queryable-completeness",
+      "path": "candidates/zenoh-queryable-completeness",
+      "validated_task_sha256": "e0c99f62943ba4975f8ad445296a311c31a55b43c5b62dd9b97a69ed29fbb879",
+      "validated_harbor_task_checksum": "dd15a1d155710fe8bef2c35b3c6afbb3a02f9ae0d3da7257551ec98cf74a95d4",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-zenoh-final-v1-01-oracle/zenoh-queryable-completeness__jN2VNYE/result.json",
+        "nop": "research/validation/jobs/rust-cpp-zenoh-final-v1-01-nop/zenoh-queryable-completeness__NdxR3Qj/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "db6b5f04495ce13dab23bd9fa67dc27f025e28c72a2682ed4cb797703636ee93",
+        "nop": "e09b78c9448d68f0b381cef0f3286fdf183c9e414d2406a68b80ec6573c73493"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "reward": 1,
+        "clean_exit_code": 0,
+        "checks": [
+          {
+            "check": "completeness",
+            "exit_code": 0,
+            "seconds": 21.864000883993867,
+            "expected_tests": [
+              "complete_then_incomplete",
+              "homogeneous_and_empty_controls",
+              "incomplete_churn_preserves_complete_siblings",
+              "incomplete_then_complete",
+              "undeclare_and_redeclare_complete_queryables",
+              "wildcard_same_expression_and_unrelated_key"
+            ],
+            "observed_tests": {
+              "complete_then_incomplete": "ok",
+              "homogeneous_and_empty_controls": "ok",
+              "incomplete_churn_preserves_complete_siblings": "ok",
+              "incomplete_then_complete": "ok",
+              "undeclare_and_redeclare_complete_queryables": "ok",
+              "wildcard_same_expression_and_unrelated_key": "ok"
+            },
+            "passed": true
+          },
+          {
+            "check": "upstream_queryable",
+            "exit_code": 0,
+            "seconds": 5.090839877993858,
+            "expected_tests": [
+              "test_queryable_same_session"
+            ],
+            "observed_tests": {
+              "test_queryable_same_session": "ok"
+            },
+            "passed": true
+          }
+        ]
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "Zenoh",
+      "objective": "Preserve aggregate completeness across shared-session queryable declarations and teardown",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/rerun-zenoh/findings.md"
+      },
+      "oracle_tests_passed": 7
+    },
+    {
+      "id": "object-store-full-range-response",
+      "path": "candidates/object-store-full-range-response",
+      "validated_task_sha256": "301ba52ee7d124b3e1a6023df049234f0aee09dd57c1434656424c3a5729de37",
+      "validated_harbor_task_checksum": "32c1b968d49e9572fd8c3bf695bd5262ae25b15017280c2cb396bdd4d39fe2d2",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-object-store-final-v1-01-oracle/object-store-full-range-response__B5nedLN/result.json",
+        "nop": "research/validation/jobs/rust-cpp-object-store-final-v1-01-nop/object-store-full-range-response__8LaG4tU/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "5f6fa40fd4c3c93f3b58c34811b2efaa7a2d39ebe43e8c5ac04f0bce085ebe59",
+        "nop": "2db12d0490361dcc582ab997737eb76097adce3ca121e2e180984b19d060bae2"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "command": [
+          "cargo",
+          "test",
+          "--offline",
+          "--locked",
+          "--features",
+          "http",
+          "--test",
+          "harbor_full_range_response",
+          "--test",
+          "get_range_file",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit_code": 0,
+        "clean_exit_code": 0,
+        "seconds": 26.563223595003365,
+        "expected_summaries": [
+          [
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            11,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "observed_summaries": [
+          [
+            3,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            11,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "object_store",
+      "objective": "Accept whole-object HTTP 200 range responses while preserving subrange validation and retries",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/rust-other/findings.md"
+      },
+      "oracle_tests_passed": 14
+    },
+    {
+      "id": "rapidjson-schema-property-membership",
+      "path": "candidates/rapidjson-schema-property-membership",
+      "validated_task_sha256": "ee2ac3eae9c5b26bf004c290e90d9fef21343353992fbf4b3544e92da2a804e9",
+      "validated_harbor_task_checksum": "c8a5f4fd1ecc131d2370b8e25fee4e22a1f414fa59950ea696ce12eac885b229",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-rapidjson-final-v1-01-oracle/rapidjson-schema-property-member__Yanbaf4/result.json",
+        "nop": "research/validation/jobs/rust-cpp-rapidjson-final-v1-01-nop/rapidjson-schema-property-member__Ws2QYwD/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "580050b09fb4aada3c94dc641ccb119b944a55a257382bd6b7fd3fd1f5cdeee0",
+        "nop": "01c031ba0f8d597b6c3f1e79f6aff13aa421637a7cf5be6ffce593a016a193cb"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "compile-independent": {
+          "exit_code": 0,
+          "seconds": 2.169462083998951
+        },
+        "independent": {
+          "exit_code": 0,
+          "seconds": 0.005324750003637746,
+          "cases": 49,
+          "checks": 309,
+          "failed": 0
+        },
+        "compile-upstream": {
+          "exit_code": 0,
+          "seconds": 34.448422807996394
+        },
+        "upstream": {
+          "exit_code": 0,
+          "seconds": 0.04872770800284343,
+          "expected_names": [
+            "Object_AdditionalPropertiesBoolean",
+            "Object_AdditionalPropertiesObject",
+            "Object_PatternProperties",
+            "Object_PatternProperties_AdditionalPropertiesBoolean",
+            "Object_PatternProperties_AdditionalPropertiesObject",
+            "Object_PatternProperties_ErrorConflict",
+            "Object_Properties",
+            "Object_PropertiesRange",
+            "Object_Properties_PatternProperties",
+            "Object_PropertyDependencies",
+            "Object_Required",
+            "Object_Required_PassWithDefault",
+            "Object_SchemaDependencies"
+          ],
+          "observed_names": [
+            "Object_AdditionalPropertiesBoolean",
+            "Object_AdditionalPropertiesObject",
+            "Object_PatternProperties",
+            "Object_PatternProperties_AdditionalPropertiesBoolean",
+            "Object_PatternProperties_AdditionalPropertiesObject",
+            "Object_PatternProperties_ErrorConflict",
+            "Object_Properties",
+            "Object_PropertiesRange",
+            "Object_Properties_PatternProperties",
+            "Object_PropertyDependencies",
+            "Object_Required",
+            "Object_Required_PassWithDefault",
+            "Object_SchemaDependencies"
+          ],
+          "collected": 13
+        },
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "RapidJSON",
+      "objective": "Distinguish required/dependency names from declared properties during schema validation",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/cpp/findings.md"
+      },
+      "oracle_upstream_tests_passed": 13,
+      "oracle_independent_checks_passed": 309,
+      "oracle_independent_fixtures": 49
+    }
+  ],
+  "expanded_at": "2026-09-13T10:46:59.386896+00:00"
+}

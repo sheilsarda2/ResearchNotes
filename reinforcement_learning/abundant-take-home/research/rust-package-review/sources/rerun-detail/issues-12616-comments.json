@@ -1,0 +1,52 @@
+{
+  "url": "https://api.github.com/repos/rerun-io/rerun/issues/12616/comments",
+  "data": [
+    {
+      "url": "https://api.github.com/repos/rerun-io/rerun/issues/comments/5386869830",
+      "html_url": "https://github.com/rerun-io/rerun/issues/12616#issuecomment-5386869830",
+      "issue_url": "https://api.github.com/repos/rerun-io/rerun/issues/12616",
+      "id": 5386869830,
+      "node_id": "IC_kwDOHJFhi88AAAABQRUcRg",
+      "user": {
+        "login": "promiseeuler",
+        "id": 95595405,
+        "node_id": "U_kgDOBbKrjQ",
+        "avatar_url": "https://avatars.githubusercontent.com/u/95595405?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/promiseeuler",
+        "html_url": "https://github.com/promiseeuler",
+        "followers_url": "https://api.github.com/users/promiseeuler/followers",
+        "following_url": "https://api.github.com/users/promiseeuler/following{/other_user}",
+        "gists_url": "https://api.github.com/users/promiseeuler/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/promiseeuler/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/promiseeuler/subscriptions",
+        "organizations_url": "https://api.github.com/users/promiseeuler/orgs",
+        "repos_url": "https://api.github.com/users/promiseeuler/repos",
+        "events_url": "https://api.github.com/users/promiseeuler/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/promiseeuler/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "created_at": "2026-08-23T15:46:21Z",
+      "updated_at": "2026-08-23T15:46:21Z",
+      "body": "I reproduced the reported `url()` output while using `rerun-sdk==0.35.0`, but the bind host itself does not appear to be ignored:\n\n```text\nversion=0.35.0\nhost=0.0.0.0\nurl=rerun+http://127.0.0.1:<port>\n```\n\n`Server.host()` reports `0.0.0.0`, and the current implementation passes that address through `ServerArgs` to `ServerBuilder::with_address`. The returned URL deliberately substitutes loopback when the bound IP is unspecified because `0.0.0.0` is not a connectable destination.\n\nThis suggests the server is listening on the requested interfaces, while `url()` is exposing a local connectable address. If the intended use case is advertising the server to another machine, an explicit advertised-host option or clearer `url()` documentation may be the missing behavior rather than a binding fix.\n\nDisclosure: I used an LLM-assisted workflow to investigate this and manually verified the released SDK output and current binding path.",
+      "author_association": "NONE",
+      "pin": null,
+      "reactions": {
+        "url": "https://api.github.com/repos/rerun-io/rerun/issues/comments/5386869830/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "performed_via_github_app": null,
+      "minimized": null
+    }
+  ]
+}

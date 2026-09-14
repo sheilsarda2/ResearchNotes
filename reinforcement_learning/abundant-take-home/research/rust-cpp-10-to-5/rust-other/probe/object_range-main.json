@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-09-13T10:14:26.383947+00:00",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--network",
+    "none",
+    "-v",
+    "abundant-rust-other-target:/target:ro",
+    "rust:1.98.1-bookworm",
+    "/target/debug/object_range"
+  ],
+  "seconds": 0.19108150000000002,
+  "exit_code": 101,
+  "stdout": "{\"cases\":[{\"body\":\"hello world!\",\"case\":\"plain\",\"ok\":true,\"range\":\"0..12\"},{\"body\":\"hello world\",\"case\":\"partial206\",\"ok\":true,\"range\":\"0..11\"},{\"body\":\"hello world!\",\"case\":\"full206\",\"ok\":true,\"range\":\"0..12\"},{\"case\":\"full200\",\"error\":\"Operation not supported: Range request not supported by full200\",\"ok\":false},{\"case\":\"ignored_partial200\",\"error\":\"Operation not supported: Range request not supported by ignored_partial200\",\"ok\":false}]}\n",
+  "stderr": "\nthread 'main' (1) panicked at src/bin/object_range.rs:38:5:\n200 full-object range response is sufficient\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+}
