@@ -1,0 +1,204 @@
+{
+  "task_id": "py-xarray-zarr-align-chunks",
+  "language": "python",
+  "form": "A",
+  "created_at": "2026-09-13",
+  "upstream": {
+    "repo": "https://github.com/pydata/xarray",
+    "base_commit": "d21d79e91646c883a2daff8faeb7f948080e73ed",
+    "base_commit_date": "2025-06-04T21:33:59+02:00",
+    "base_commit_note": "first (only) parent of the squash-merge 15ed8e5256317e9ef8e81c8e074c8816d0e7fa1e of PR #10336",
+    "license": "Apache-2.0",
+    "source_archive_sha256": "d5f5ccf8bf9b39ad06fdec874684ad113a969f12864531d4fde8a78f25d06572",
+    "archive_method": "git archive --format=tar.gz of the base commit from the blobless clone research/cache/v2/pydata__xarray; no .git, no solution, no hidden tests (xarray/backends/chunks.py and xarray/tests/test_backends_chunks.py absent)"
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/pydata/xarray/pull/10336",
+    "composed_with": "https://github.com/pydata/xarray/pull/10516",
+    "composition_note": "PR #10516 (merged 2025-09-08, closes #10501) fixes #10336: Dataset.to_zarr never forwarded align_chunks, build_grid_chunks mis-handled chunk_size >= size, and the kwarg was renamed nd_var_chunks -> nd_v_chunks. Its non-test changes were ported onto the #10336 base (xarray/backends/chunks.py taken verbatim from 40c27d19d169ccf1c469255c6c6da327f5822d01; intervening diffs were ruff-only); its tests are included in the hidden set. Without it the single-writer-per-chunk oracle fails on Datasets.",
+    "merged_at": "2025-06-05T16:57:17Z",
+    "merged_at_followup": "2025-09-08T22:42:54Z",
+    "gold_patch": {
+      "files": 5,
+      "additions": 372,
+      "deletions": 89,
+      "non_test_non_doc": true,
+      "doc_files_also_in_patch": [
+        "doc/whats-new.rst"
+      ],
+      "sha256": "1c22bf84702baa83c5275313ce6ecf05f54b2ca492bbf552e9d81983309e0177"
+    },
+    "hidden_tests": {
+      "upstream": [
+        "xarray/tests/test_backends_chunks.py (post-#10516 version, 18 cases)",
+        "xarray/tests/test_backends.py hunks: 2 message regex updates, TestDataArrayToZarr.test_dataarray_to_zarr_align_chunks_true, TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true"
+      ],
+      "upstream_modification": "test_dataarray_to_zarr_align_chunks_true upstream calls skip_if_zarr_format_3(tmp_store), which skips unconditionally under zarr-python 3; replaced with the class's ZipStore-only skip so the test actually runs (tmp_path and Dict variants); the ZipStore variant is deselected.",
+      "authored": "xarray/tests/test_zarr_align_crosscheck.py (51 cases)"
+    }
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "zarr-python 3.0.8 reads every written store directly (values, chunks, shape, dtype, dimension metadata); NumPy eager writes are the value oracle; an instrumented zarr MemoryStore counts set() per chunk key to prove each Zarr chunk is written by exactly one Dask task; spec-derived property checks on the alignment helpers (boundary alignment, size bound, idempotence).",
+    "groups": {
+      "pr_tests_chunks": {
+        "count": 18,
+        "independent_of_pr_tests": false
+      },
+      "pr_tests_backends": {
+        "count": 16,
+        "independent_of_pr_tests": false
+      },
+      "crosscheck": {
+        "count": 51,
+        "independent_of_pr_tests": true,
+        "note": "no case or expected value shared with the PR tests; reference reader is zarr-python, not xarray"
+      },
+      "upstream_regression": {
+        "count": 950,
+        "independent_of_pr_tests": true,
+        "note": "pre-existing upstream zarr tests restored from pristine; 120 node ids that skip or xfail under the pinned wheels are deselected"
+      }
+    },
+    "zarrs_rust_reader": "not included: building zarrs_tools needs a Rust toolchain and ~10 min of network fetches; zarr-python is the spec reference implementation and suffices for values/chunks/metadata",
+    "reward_rule": "all four groups pass with exact counts, zero skips/xfails, anti-cheat clean, import probe resolves to the submitted package"
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "Both PRs are public since 2025 and described in the xarray 2025.06.0 and 2025.09 release notes; nothing in pydata/xarray merged in 2026 is feature-scale on the zarr/encoding/indexing theme (see STATUS.md). The hidden set adds 51 authored differential cases and un-skips an upstream test that never ran under zarr-python 3, so a memorised gold still has to satisfy checks that were never public."
+  },
+  "horizon": {
+    "proxy": "5 source files, +372/-89 non-test lines, 3 subsystems (new xarray.backends.chunks algorithm module; zarr backend write path incl. region/append offsets and safe_chunks relocation; Dataset/DataArray/backends.api signature plumbing with docstrings)",
+    "hypothesis_steps": ">75",
+    "measured": null,
+    "why_hard": "the alignment policy must reproduce exact chunk tuples for offset regions while respecting a size bound and idempotence; the option must reach the store through the Dataset path; region offsets and append offsets must be folded into the grid; safe_chunks validation must be relocated without changing its rules; 950 upstream zarr tests must keep passing"
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/pydata/xarray/issues/9914 (feature request, 20 comments, 2024-12)",
+      "https://github.com/pydata/xarray/issues/10501 (silent data loss on append with dask, 2025-07)",
+      "https://github.com/pydata/xarray/issues/8882 (referenced prior corruption report)",
+      "https://github.com/pydata/xarray/pull/10336 (whats-new 2025.06.0: 'Data corruption issues arising from misaligned Dask and Zarr chunks can now be prevented using the new align_chunks parameter')",
+      "https://github.com/pydata/xarray/pull/10516 (whats-new bug fix: align_chunks not passed through Dataset.to_zarr)"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "test_backends_chunks.py::test_build_grid_chunks (7 params: exact tuples)",
+      "instruction_ref": "Public interface 3, build_grid_chunks definition and its Examples sentence"
+    },
+    {
+      "assertion": "test_backends_chunks.py::test_align_nd_chunks (2 params)",
+      "instruction_ref": "Alignment contract, last paragraph ('align_nd_chunks applies the same contract... == ((3, 3, 2),) ... ((2, 4), (3, 2))')"
+    },
+    {
+      "assertion": "test_backends_chunks.py::test_grid_rechunk (9 params: exact aligned chunk tuples)",
+      "instruction_ref": "Alignment contract bullets 1-5 and the 'Worked examples' paragraph, which lists every parametrised case"
+    },
+    {
+      "assertion": "TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[tmp_path|Dict]: DataArray.to_zarr(align_chunks=True, encoding chunks (3,) over dask (2,1,1)) roundtrips identical",
+      "instruction_ref": "Public interface 1; Behaviour bullet 3 ('data equals what an eager write ... would produce'); Behaviour bullet 4 (formats 2 and 3)"
+    },
+    {
+      "assertion": "TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2|3 x tmp_path|ZipStore|Dict]: Dataset path forwards align_chunks; mode='w' with encoding chunks (3,3) larger than a 2x2 array; then region='auto' rewrite",
+      "instruction_ref": "Public interface 1 ('a value passed to Dataset.to_zarr must reach the Zarr store'); Alignment contract ('When the whole written range lies inside a single Zarr chunk ... one chunk'); Behaviour bullet 1 (region='auto' resolution) and bullet 4"
+    },
+    {
+      "assertion": "ZarrBase.test_chunk_encoding_with_dask[3] (x3 stores): ValueError matching 'would overlap multiple Dask chunks'",
+      "instruction_ref": "Error contract, first sentence (message start, capitalised Zarr and Dask)"
+    },
+    {
+      "assertion": "TestZarrRegionAuto::test_zarr_append_chunk_partial[2|3]: ValueError matching 'Specified Zarr chunks'",
+      "instruction_ref": "Error contract, first sentence"
+    },
+    {
+      "assertion": "crosscheck::test_fresh_write_values_and_layout_via_zarr_python (14): zarr-python read equals eager NumPy values; arr.chunks == encoding chunks; dims metadata; every chunk key set exactly once",
+      "instruction_ref": "Behaviour bullet 3 (requested chunk shape, eager equality, 'Each Zarr chunk is written by exactly one task ... no chunk key is set more than once')"
+    },
+    {
+      "assertion": "crosscheck::test_fresh_write_matches_eager_numpy_write (14): lazy aligned write equals eager write in values, chunks, shape, dtype, chunk key set",
+      "instruction_ref": "Behaviour bullet 3"
+    },
+    {
+      "assertion": "crosscheck::test_unsafe_unaligned_write_is_left_alone: align_chunks=False, safe_chunks=False writes caller's chunking (overlapping chunk writes observed)",
+      "instruction_ref": "Behaviour bullet 5 ('align_chunks=False ... safe_chunks=False, where the caller's chunking is written as-is')"
+    },
+    {
+      "assertion": "crosscheck::test_safe_chunks_error_names_the_remedy: message starts with 'Specified Zarr chunks', contains 'would overlap multiple Dask chunks', 'align_chunks=True' and the quoted variable name",
+      "instruction_ref": "Error contract, first two sentences"
+    },
+    {
+      "assertion": "crosscheck::test_align_chunks_overrides_safe_chunks: safe_chunks=True, align_chunks=True does not raise and writes correct values",
+      "instruction_ref": "Behaviour bullet 2"
+    },
+    {
+      "assertion": "crosscheck::test_align_chunks_default_is_false_and_validation_unchanged",
+      "instruction_ref": "Public interface 1 (default False); Behaviour bullet 5; Error contract ('existing rules ... unchanged')"
+    },
+    {
+      "assertion": "crosscheck::test_region_write_only_touches_region (10): offset regions, values outside region untouched, chunk grid preserved, single writer per chunk",
+      "instruction_ref": "Behaviour bullet 1 (region offsets) and bullet 3 ('data outside the written region is untouched and the array shape and chunk grid are preserved')"
+    },
+    {
+      "assertion": "crosscheck::test_region_auto_dataset_with_mixed_variables (2): Dataset with 2-D and 1-D variables, region='auto'",
+      "instruction_ref": "Behaviour bullet 4 ('Datasets with several variables of different dimensionality'); bullet 1 (region='auto')"
+    },
+    {
+      "assertion": "crosscheck::test_append_dim_with_alignment (2): append offset folded into the grid; chunks (4,) kept; concatenated values",
+      "instruction_ref": "Behaviour bullet 1 ('the offset introduced by append_dim included') and bullet 3"
+    },
+    {
+      "assertion": "crosscheck::test_build_grid_chunks_contract: sum, first piece formula, interior pieces == chunk_size, region None == slice(0, size)",
+      "instruction_ref": "Public interface 3, build_grid_chunks definition"
+    },
+    {
+      "assertion": "crosscheck::test_grid_rechunk_contract (150 seeded cases): sum preserved, interior boundaries on grid, max(chunks) <= max(chunk_size, max original), values untouched, returns Variable",
+      "instruction_ref": "Alignment contract bullets 1-3; grid_rechunk definition ('Values are never modified')"
+    },
+    {
+      "assertion": "crosscheck::test_grid_rechunk_preserves_already_aligned_chunks (150 seeded cases)",
+      "instruction_ref": "Alignment contract bullet 4"
+    },
+    {
+      "assertion": "crosscheck::test_grid_rechunk_numpy_variable_is_returned_unchanged",
+      "instruction_ref": "grid_rechunk definition ('A variable without chunks ... is returned unchanged')"
+    },
+    {
+      "assertion": "crosscheck::test_align_nd_chunks_contract: boundary property on 60 random N-D cases; ValueError on length mismatch and on total mismatch",
+      "instruction_ref": "align_nd_chunks definition (Raise ValueError if ...); Alignment contract bullet 2"
+    },
+    {
+      "assertion": "upstream_regression (950 cases from test_backends.py zarr selection)",
+      "instruction_ref": "Environment and scope, last sentence ('Existing zarr backend behaviour ... must keep passing the upstream test_backends.py zarr tests')"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "host": "not built yet (authoring phase: no Docker builds); estimates in STATUS.md",
+    "oracle_wall_seconds": 97,
+    "env_setup_seconds": 60,
+    "verifier_seconds": 34,
+    "nop_wall_seconds": 42
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "py-xarray-zarr-align-chunks-oracle-20260913T111111Z",
+      "nop": "py-xarray-zarr-align-chunks-nop-20260913T111111Z"
+    },
+    "local_simulation": "see STATUS.md",
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

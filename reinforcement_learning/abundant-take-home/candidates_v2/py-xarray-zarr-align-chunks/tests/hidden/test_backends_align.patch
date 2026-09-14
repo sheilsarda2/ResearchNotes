@@ -1,0 +1,108 @@
+diff --git a/xarray/tests/test_backends.py b/xarray/tests/test_backends.py
+index f6e5a8e3..ac0c8b73 100644
+--- a/xarray/tests/test_backends.py
++++ b/xarray/tests/test_backends.py
+@@ -2612,7 +2612,7 @@ class ZarrBase(CFEncodedBase):
+         # but intermediate unaligned chunks are bad
+         badenc = ds.chunk({"x": (3, 5, 3, 1)})
+         badenc.var1.encoding["chunks"] = (3,)
+-        with pytest.raises(ValueError, match=r"would overlap multiple dask chunks"):
++        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             with self.roundtrip(badenc) as actual:
+                 pass
+ 
+@@ -5731,6 +5731,30 @@ class TestDataArrayToZarr:
+         with open_dataarray(tmp_store, engine="zarr") as loaded_da:
+             assert_identical(original_da, loaded_da)
+ 
++    @requires_dask
++    def test_dataarray_to_zarr_align_chunks_true(self, tmp_store) -> None:
++        # TODO: Improve data integrity checks when using Dask.
++        #   Detecting automatic alignment issues in Dask can be tricky,
++        #   as unintended misalignment might lead to subtle data corruption.
++        #   For now, ensure that the parameter is present, but explore
++        #   more robust verification methods to confirm data consistency.
++
++        # upstream passed ``tmp_store`` as the skip reason, which skipped this
++        # test unconditionally under zarr-python 3; only the ZipStore reopen
++        # limitation is a real one.
++        self.skip_if_zarr_python_3_and_zip_store(tmp_store)
++        arr = DataArray(
++            np.arange(4), dims=["a"], coords={"a": np.arange(4)}, name="foo"
++        ).chunk(a=(2, 1, 1))
++
++        arr.to_zarr(
++            tmp_store,
++            align_chunks=True,
++            encoding={"foo": {"chunks": (3,)}},
++        )
++        with open_dataarray(tmp_store, engine="zarr") as loaded_da:
++            assert_identical(arr, loaded_da)
++
+ 
+ @requires_scipy_or_netCDF4
+ def test_no_warning_from_dask_effective_get() -> None:
+@@ -6468,7 +6492,7 @@ class TestZarrRegionAuto:
+                 )
+ 
+             # chunking with dask sidesteps the encoding check, so we need a different check
+-            with pytest.raises(ValueError, match="Specified zarr chunks"):
++            with pytest.raises(ValueError, match="Specified Zarr chunks"):
+                 self.save(
+                     target,
+                     da2.chunk({"x": 1, "y": 1, "time": 1}),
+@@ -6736,6 +6760,54 @@ class TestZarrRegionAuto:
+             chunk = chunk.chunk()
+             self.save(store, chunk.chunk(), region=region)
+ 
++    @requires_dask
++    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
++        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
++        # but for datasets
++        with self.create_zarr_target() as store:
++            ds = (
++                DataArray(
++                    np.arange(4).reshape((2, 2)),
++                    dims=["a", "b"],
++                    coords={
++                        "a": np.arange(2),
++                        "b": np.arange(2),
++                    },
++                )
++                .chunk(a=(1, 1), b=(1, 1))
++                .to_dataset(name="foo")
++            )
++
++            self.save(
++                store,
++                ds,
++                align_chunks=True,
++                encoding={"foo": {"chunks": (3, 3)}},
++                mode="w",
++            )
++            assert_identical(ds, xr.open_zarr(store))
++
++            ds = (
++                DataArray(
++                    np.arange(4, 8).reshape((2, 2)),
++                    dims=["a", "b"],
++                    coords={
++                        "a": np.arange(2),
++                        "b": np.arange(2),
++                    },
++                )
++                .chunk(a=(1, 1), b=(1, 1))
++                .to_dataset(name="foo")
++            )
++
++            self.save(
++                store,
++                ds,
++                align_chunks=True,
++                region="auto",
++            )
++            assert_identical(ds, xr.open_zarr(store))
++
+ 
+ @requires_h5netcdf
+ @requires_fsspec

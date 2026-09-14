@@ -1,0 +1,103 @@
+{
+  "task": "py-xarray-zarr-align-chunks",
+  "reward": 1,
+  "build": {
+    "status": "ok",
+    "steps": [
+      "submission package present at /workspace/repo/xarray",
+      "restored conftest.py, pyproject.toml, setup.py, properties/ and xarray/tests from pristine",
+      "anti-cheat checks passed",
+      "installed hidden tests (test_backends_chunks.py, test_zarr_align_crosscheck.py, test_backends.py hunks)",
+      "import probe ok"
+    ],
+    "import_probe": [
+      "/workspace/repo/xarray/__init__.py",
+      "2025.6.0",
+      "3.0.8"
+    ]
+  },
+  "anti_cheat": {
+    "status": "ok",
+    "checks": [
+      {
+        "check": "no conftest.py inside package",
+        "hits": []
+      },
+      {
+        "check": "no .pth/.so/.pyd/sitecustomize files",
+        "hits": []
+      },
+      {
+        "check": "no new harness-tampering patterns vs pristine",
+        "grown": {}
+      },
+      {
+        "check": "xarray/testing unchanged",
+        "ok": true
+      }
+    ]
+  },
+  "groups": {
+    "pr_tests_chunks": {
+      "collected": 18,
+      "passed": 18,
+      "failed": 0,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [],
+      "skipped_ids": [],
+      "exit_code": 0,
+      "seconds": 1.8,
+      "expected": 18,
+      "ok": true
+    },
+    "pr_tests_backends": {
+      "collected": 16,
+      "passed": 16,
+      "failed": 0,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [],
+      "skipped_ids": [],
+      "exit_code": 0,
+      "seconds": 2.9,
+      "expected": 16,
+      "ok": true
+    },
+    "crosscheck": {
+      "collected": 51,
+      "passed": 51,
+      "failed": 0,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [],
+      "skipped_ids": [],
+      "exit_code": 0,
+      "seconds": 2.1,
+      "expected": 51,
+      "ok": true
+    },
+    "upstream_regression": {
+      "collected": 950,
+      "passed": 950,
+      "failed": 0,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [],
+      "skipped_ids": [],
+      "exit_code": 0,
+      "seconds": 16.0,
+      "expected": 950,
+      "ok": true
+    }
+  },
+  "independent_of_pr_tests": [
+    "crosscheck"
+  ],
+  "started": "2026-09-13T11:12:22Z",
+  "finished": "2026-09-13T11:12:46Z"
+}

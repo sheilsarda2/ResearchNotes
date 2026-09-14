@@ -1,0 +1,1188 @@
+$ /usr/local/bin/python -m pytest -q -p no:cacheprovider --timeout=900 -W ignore::pytest.PytestCacheWarning --junitxml=/logs/verifier/crosscheck.xml xarray/tests/test_zarr_align_crosscheck.py
+FFFFFFFFFFFFFFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFFFFFFFF                      [100%]
+=================================== FAILURES ===================================
+_____ test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v2] _____
+
+shape = (10,), dchunks = ((3, 3, 3, 1),), enc = (4,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_____ test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v3] _____
+
+shape = (10,), dchunks = ((3, 3, 3, 1),), enc = (4,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_____ test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v2] _____
+
+shape = (13,), dchunks = ((5, 5, 3),), enc = (2,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_____ test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v3] _____
+
+shape = (13,), dchunks = ((5, 5, 3),), enc = (2,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+____ test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v2] ____
+
+shape = (7,), dchunks = ((1, 1, 1, 1, 1, 1, ...),), enc = (3,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+____ test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v3] ____
+
+shape = (7,), dchunks = ((1, 1, 1, 1, 1, 1, ...),), enc = (3,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_ test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v2] _
+
+shape = (9,), dchunks = ((2, 7),), enc = (20,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_ test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v3] _
+
+shape = (9,), dchunks = ((2, 7),), enc = (20,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_______ test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v2] ________
+
+shape = (8, 9), dchunks = ((3, 5), (4, 4, 1)), enc = (5, 3), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_______ test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v3] ________
+
+shape = (8, 9), dchunks = ((3, 5), (4, 4, 1)), enc = (5, 3), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_ test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v2] _
+
+shape = (6, 6), dchunks = ((1, 1, 1, 1, 1, 1), (2, 2, 2)), enc = (4, 4)
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_ test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v3] _
+
+shape = (6, 6), dchunks = ((1, 1, 1, 1, 1, 1), (2, 2, 2)), enc = (4, 4)
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+__________ test_fresh_write_values_and_layout_via_zarr_python[3d-v2] ___________
+
+shape = (5, 4, 6), dchunks = ((2, 3), (1, 3), (4, 2)), enc = (3, 2, 5)
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+__________ test_fresh_write_values_and_layout_via_zarr_python[3d-v3] ___________
+
+shape = (5, 4, 6), dchunks = ((2, 3), (1, 3), (4, 2)), enc = (3, 2, 5)
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_values_and_layout_via_zarr_python(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        store, fmt = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:113: TypeError
+_________ test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v2] _________
+
+shape = (10,), dchunks = ((3, 3, 3, 1),), enc = (4,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+_________ test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v3] _________
+
+shape = (10,), dchunks = ((3, 3, 3, 1),), enc = (4,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+_________ test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v2] _________
+
+shape = (13,), dchunks = ((5, 5, 3),), enc = (2,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+_________ test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v3] _________
+
+shape = (13,), dchunks = ((5, 5, 3),), enc = (2,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+________ test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v2] ________
+
+shape = (7,), dchunks = ((1, 1, 1, 1, 1, 1, ...),), enc = (3,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+________ test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v3] ________
+
+shape = (7,), dchunks = ((1, 1, 1, 1, 1, 1, ...),), enc = (3,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+___ test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v2] ____
+
+shape = (9,), dchunks = ((2, 7),), enc = (20,), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+___ test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v3] ____
+
+shape = (9,), dchunks = ((2, 7),), enc = (20,), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+___________ test_fresh_write_matches_eager_numpy_write[2d-mixed-v2] ____________
+
+shape = (8, 9), dchunks = ((3, 5), (4, 4, 1)), enc = (5, 3), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+___________ test_fresh_write_matches_eager_numpy_write[2d-mixed-v3] ____________
+
+shape = (8, 9), dchunks = ((3, 5), (4, 4, 1)), enc = (5, 3), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+____ test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v2] _____
+
+shape = (6, 6), dchunks = ((1, 1, 1, 1, 1, 1), (2, 2, 2)), enc = (4, 4)
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+____ test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v3] _____
+
+shape = (6, 6), dchunks = ((1, 1, 1, 1, 1, 1), (2, 2, 2)), enc = (4, 4)
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+______________ test_fresh_write_matches_eager_numpy_write[3d-v2] _______________
+
+shape = (5, 4, 6), dchunks = ((2, 3), (1, 3), (4, 2)), enc = (3, 2, 5)
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+______________ test_fresh_write_matches_eager_numpy_write[3d-v3] _______________
+
+shape = (5, 4, 6), dchunks = ((2, 3), (1, 3), (4, 2)), enc = (3, 2, 5)
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, dchunks, enc", FRESH_CASES)
+    def test_fresh_write_matches_eager_numpy_write(shape, dchunks, enc, zarr_format):
+        ds, expected = make_dataset(shape, dchunks)
+        lazy_store, fmt = store_for(zarr_format)
+        eager_store, _ = store_for(zarr_format)
+        with dask.config.set(scheduler="synchronous"):
+>           ds.to_zarr(lazy_store, mode="w", align_chunks=True, encoding={"v": {"chunks": enc}}, **fmt)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:136: TypeError
+___________________ test_safe_chunks_error_names_the_remedy ____________________
+
+    def test_safe_chunks_error_names_the_remedy():
+        ds, _ = make_dataset((10,), ((3, 3, 3, 1),))
+        store, fmt = store_for(3)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks") as info:
+>           ds.to_zarr(store, mode="w", encoding={"v": {"chunks": (4,)}}, **fmt)
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (4,), var_chunks = ((3, 3, 3, 1),), ndim = 1, name = 'v'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w'
+shape = (10,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(4,) for variable named 'v' would overlap multiple dask chunks ((3, 3, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_safe_chunks_error_names_the_remedy():
+        ds, _ = make_dataset((10,), ((3, 3, 3, 1),))
+        store, fmt = store_for(3)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks") as info:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(4,) for variable named 'v' would overlap multiple dask chunks ((3, 3, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:168: AssertionError
+___________________ test_align_chunks_overrides_safe_chunks ____________________
+
+    def test_align_chunks_overrides_safe_chunks():
+        ds, expected = make_dataset((10,), ((3, 3, 3, 1),))
+        store, fmt = store_for(3)
+>       ds.to_zarr(store, mode="w", safe_chunks=True, align_chunks=True, encoding={"v": {"chunks": (4,)}}, **fmt)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:178: TypeError
+_________ test_align_chunks_default_is_false_and_validation_unchanged __________
+
+    def test_align_chunks_default_is_false_and_validation_unchanged():
+        ds, _ = make_dataset((10,), ((3, 3, 3, 1),))
+        store, fmt = store_for(3)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           ds.to_zarr(store, mode="w", encoding={"v": {"chunks": (4,)}}, **fmt)
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:186: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (4,), var_chunks = ((3, 3, 3, 1),), ndim = 1, name = 'v'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w'
+shape = (10,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(4,) for variable named 'v' would overlap multiple dask chunks ((3, 3, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+    def test_align_chunks_default_is_false_and_validation_unchanged():
+        ds, _ = make_dataset((10,), ((3, 3, 3, 1),))
+        store, fmt = store_for(3)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(4,) for variable named 'v' would overlap multiple dask chunks ((3, 3, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:185: AssertionError
+__________ test_region_write_only_touches_region[1d-offset-region-v2] __________
+
+shape = (20,), zchunks = (4,), region = (slice(3, 15, None),)
+dchunks = ((5, 5, 2),), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+__________ test_region_write_only_touches_region[1d-offset-region-v3] __________
+
+shape = (20,), zchunks = (4,), region = (slice(3, 15, None),)
+dchunks = ((5, 5, 2),), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+_____ test_region_write_only_touches_region[1d-full-region-misaligned-v2] ______
+
+shape = (20,), zchunks = (4,), region = (slice(0, 20, None),)
+dchunks = ((3, 3, 3, 3, 3, 3, ...),), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+_____ test_region_write_only_touches_region[1d-full-region-misaligned-v3] ______
+
+shape = (20,), zchunks = (4,), region = (slice(0, 20, None),)
+dchunks = ((3, 3, 3, 3, 3, 3, ...),), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+_____ test_region_write_only_touches_region[1d-region-inside-one-chunk-v2] _____
+
+shape = (20,), zchunks = (6,), region = (slice(7, 9, None),)
+dchunks = ((1, 1),), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+_____ test_region_write_only_touches_region[1d-region-inside-one-chunk-v3] _____
+
+shape = (20,), zchunks = (6,), region = (slice(7, 9, None),)
+dchunks = ((1, 1),), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+__________ test_region_write_only_touches_region[2d-offset-region-v2] __________
+
+shape = (12, 10), zchunks = (5, 4)
+region = (slice(2, 11, None), slice(1, 10, None)), dchunks = ((4, 5), (2, 2, 5))
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+__________ test_region_write_only_touches_region[2d-offset-region-v3] __________
+
+shape = (12, 10), zchunks = (5, 4)
+region = (slice(2, 11, None), slice(1, 10, None)), dchunks = ((4, 5), (2, 2, 5))
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+______________ test_region_write_only_touches_region[2d-ones-v2] _______________
+
+shape = (9, 9), zchunks = (3, 3)
+region = (slice(1, 9, None), slice(0, 4, None))
+dchunks = ((1, 1, 1, 1, 1, 1, ...), (3, 1)), zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+______________ test_region_write_only_touches_region[2d-ones-v3] _______________
+
+shape = (9, 9), zchunks = (3, 3)
+region = (slice(1, 9, None), slice(0, 4, None))
+dchunks = ((1, 1, 1, 1, 1, 1, ...), (3, 1)), zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    @pytest.mark.parametrize("shape, zchunks, region, dchunks", REGION_CASES)
+    def test_region_write_only_touches_region(shape, zchunks, region, dchunks, zarr_format):
+        dims = tuple(f"d{i}" for i in range(len(shape)))
+        base = np.zeros(shape, dtype="int64") - 1
+        coords = {d: np.arange(n) for d, n in zip(dims, shape, strict=True)}
+        full = xr.Dataset({"v": (dims, base)}, coords=coords)
+        store, fmt = store_for(zarr_format)
+        full.to_zarr(store, mode="w", encoding={"v": {"chunks": zchunks}}, **fmt)
+        store.set_counts.clear()
+    
+        piece_shape = tuple(r.stop - r.start for r in region)
+        piece_vals = (np.arange(np.prod(piece_shape)) + 100).reshape(piece_shape).astype("int64")
+        piece = xr.Dataset(
+            {"v": (dims, piece_vals)},
+            coords={d: np.arange(r.start, r.stop) for d, r in zip(dims, region, strict=True)},
+        ).chunk(dict(zip(dims, dchunks, strict=True)))
+    
+        with dask.config.set(scheduler="synchronous"):
+>           piece.to_zarr(store, region=dict(zip(dims, region, strict=True)), align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:226: TypeError
+______________ test_region_auto_dataset_with_mixed_variables[v2] _______________
+
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    def test_region_auto_dataset_with_mixed_variables(zarr_format):
+        """The Dataset code path (not just DataArray) must honour align_chunks,
+        including variables that do not span every dimension."""
+        x = np.arange(12)
+        y = np.arange(5)
+        ds = xr.Dataset(
+            {
+                "a": (("x", "y"), np.zeros((12, 5), dtype="float64")),
+                "b": ("x", np.zeros(12, dtype="float64")),
+            },
+            coords={"x": x, "y": y},
+        )
+        store, fmt = store_for(zarr_format)
+        ds.to_zarr(store, mode="w", encoding={"a": {"chunks": (4, 5)}, "b": {"chunks": (4,)}}, **fmt)
+        store.set_counts.clear()
+    
+        sub = ds.isel(x=slice(2, 11)).copy()
+        sub["a"].values[:] = 7.5
+        sub["b"].values[:] = 2.5
+        sub = sub.chunk({"x": (2, 3, 4), "y": (5,)})
+        with dask.config.set(scheduler="synchronous"):
+>           sub.to_zarr(store, region="auto", align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:259: TypeError
+______________ test_region_auto_dataset_with_mixed_variables[v3] _______________
+
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    def test_region_auto_dataset_with_mixed_variables(zarr_format):
+        """The Dataset code path (not just DataArray) must honour align_chunks,
+        including variables that do not span every dimension."""
+        x = np.arange(12)
+        y = np.arange(5)
+        ds = xr.Dataset(
+            {
+                "a": (("x", "y"), np.zeros((12, 5), dtype="float64")),
+                "b": ("x", np.zeros(12, dtype="float64")),
+            },
+            coords={"x": x, "y": y},
+        )
+        store, fmt = store_for(zarr_format)
+        ds.to_zarr(store, mode="w", encoding={"a": {"chunks": (4, 5)}, "b": {"chunks": (4,)}}, **fmt)
+        store.set_counts.clear()
+    
+        sub = ds.isel(x=slice(2, 11)).copy()
+        sub["a"].values[:] = 7.5
+        sub["b"].values[:] = 2.5
+        sub = sub.chunk({"x": (2, 3, 4), "y": (5,)})
+        with dask.config.set(scheduler="synchronous"):
+>           sub.to_zarr(store, region="auto", align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:259: TypeError
+______________________ test_append_dim_with_alignment[v2] ______________________
+
+zarr_format = 2
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    def test_append_dim_with_alignment(zarr_format):
+        ds0, d0 = make_dataset((7,), ((7,),), dims=("t",))
+        store, fmt = store_for(zarr_format)
+        ds0.to_zarr(store, mode="w", encoding={"v": {"chunks": (4,)}}, **fmt)
+        store.set_counts.clear()
+    
+        ds1, d1 = make_dataset((9,), ((2, 2, 2, 3),), offset=100, dims=("t",))
+        ds1 = ds1.assign_coords(t=np.arange(7, 16))
+        with dask.config.set(scheduler="synchronous"):
+>           ds1.to_zarr(store, append_dim="t", align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:284: TypeError
+______________________ test_append_dim_with_alignment[v3] ______________________
+
+zarr_format = 3
+
+    @pytest.mark.parametrize("zarr_format", [2, 3], ids=["v2", "v3"])
+    def test_append_dim_with_alignment(zarr_format):
+        ds0, d0 = make_dataset((7,), ((7,),), dims=("t",))
+        store, fmt = store_for(zarr_format)
+        ds0.to_zarr(store, mode="w", encoding={"v": {"chunks": (4,)}}, **fmt)
+        store.set_counts.clear()
+    
+        ds1, d1 = make_dataset((9,), ((2, 2, 2, 3),), offset=100, dims=("t",))
+        ds1 = ds1.assign_coords(t=np.arange(7, 16))
+        with dask.config.set(scheduler="synchronous"):
+>           ds1.to_zarr(store, append_dim="t", align_chunks=True)
+E           TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:284: TypeError
+_______________________ test_build_grid_chunks_contract ________________________
+
+    def test_build_grid_chunks_contract():
+>       from xarray.backends.chunks import build_grid_chunks
+E       ModuleNotFoundError: No module named 'xarray.backends.chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:323: ModuleNotFoundError
+__________________________ test_grid_rechunk_contract __________________________
+
+    def test_grid_rechunk_contract():
+>       from xarray.backends.chunks import grid_rechunk
+E       ModuleNotFoundError: No module named 'xarray.backends.chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:341: ModuleNotFoundError
+______________ test_grid_rechunk_preserves_already_aligned_chunks ______________
+
+    def test_grid_rechunk_preserves_already_aligned_chunks():
+>       from xarray.backends.chunks import grid_rechunk
+E       ModuleNotFoundError: No module named 'xarray.backends.chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:362: ModuleNotFoundError
+____________ test_grid_rechunk_numpy_variable_is_returned_unchanged ____________
+
+    def test_grid_rechunk_numpy_variable_is_returned_unchanged():
+>       from xarray.backends.chunks import grid_rechunk
+E       ModuleNotFoundError: No module named 'xarray.backends.chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:382: ModuleNotFoundError
+________________________ test_align_nd_chunks_contract _________________________
+
+    def test_align_nd_chunks_contract():
+>       from xarray.backends.chunks import align_nd_chunks
+E       ModuleNotFoundError: No module named 'xarray.backends.chunks'
+
+/workspace/repo/xarray/tests/test_zarr_align_crosscheck.py:391: ModuleNotFoundError
+-------------- generated xml file: /logs/verifier/crosscheck.xml ---------------
+=========================== short test summary info ============================
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[3d-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[3d-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-mixed-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-mixed-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[3d-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[3d-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_safe_chunks_error_names_the_remedy
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_align_chunks_overrides_safe_chunks
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_align_chunks_default_is_false_and_validation_unchanged
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-offset-region-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-offset-region-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-full-region-misaligned-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-full-region-misaligned-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-region-inside-one-chunk-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-region-inside-one-chunk-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-offset-region-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-offset-region-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-ones-v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-ones-v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_auto_dataset_with_mixed_variables[v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_region_auto_dataset_with_mixed_variables[v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_append_dim_with_alignment[v2]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_append_dim_with_alignment[v3]
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_build_grid_chunks_contract
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_grid_rechunk_contract
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_grid_rechunk_preserves_already_aligned_chunks
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_grid_rechunk_numpy_variable_is_returned_unchanged
+FAILED xarray/tests/test_zarr_align_crosscheck.py::test_align_nd_chunks_contract
+50 failed, 1 passed in 1.06s

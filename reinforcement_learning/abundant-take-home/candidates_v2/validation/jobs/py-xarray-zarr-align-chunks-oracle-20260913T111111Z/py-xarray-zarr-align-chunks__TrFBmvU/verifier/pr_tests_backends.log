@@ -1,0 +1,10 @@
+$ /usr/local/bin/python -m pytest -q -p no:cacheprovider --timeout=900 -W ignore::pytest.PytestCacheWarning --junitxml=/logs/verifier/pr_tests_backends.xml xarray/tests/test_backends.py -k align_chunks_true or test_chunk_encoding_with_dask or test_zarr_append_chunk_partial --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[ZipStore]
+................                                                         [100%]
+=============================== warnings summary ===============================
+xarray/tests/test_backends.py: 39 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/api/asynchronous.py:213: UserWarning: Consolidated metadata is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+----------- generated xml file: /logs/verifier/pr_tests_backends.xml -----------
+16 passed, 2288 deselected, 39 warnings in 1.82s

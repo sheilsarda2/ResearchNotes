@@ -1,0 +1,2580 @@
+$ /usr/local/bin/python -m pytest -q -p no:cacheprovider --timeout=900 -W ignore::pytest.PytestCacheWarning --junitxml=/logs/verifier/upstream_regression.xml xarray/tests/test_backends.py -k TestZarrDictStore or TestZarrDirectoryStore or TestZarrWriteEmpty or TestZarrRegionAuto or TestDataArrayToZarr or TestInstrumentedZarrStore or test_zarr or zarr --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[ZipStore] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_compute_false[Dict] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_compute_false[ZipStore] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_compute_false[tmp_path] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_coord_name_clash[ZipStore] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_no_name[ZipStore] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_with_name[ZipStore] --deselect xarray/tests/test_backends.py::TestDataArrayToZarr::test_open_dataarray_options[ZipStore] --deselect xarray/tests/test_backends.py::TestNCZarr::test_raise_writing_to_nczarr[a] --deselect xarray/tests/test_backends.py::TestNCZarr::test_raise_writing_to_nczarr[r+] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_append_string_length_mismatch_raises[3-S] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_append_string_length_mismatch_raises[3-U] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_append_string_length_mismatch_works[2-S] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_append_string_length_mismatch_works[2-U] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_coordinate_variables_after_iris_roundtrip[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_coordinate_variables_after_iris_roundtrip[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_dimension_names[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_drop_encoding[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_drop_encoding[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_hidden_zarr_keys[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_bytes_with_fill_value[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_bytes_with_fill_value[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_endian[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_example_1_netcdf[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_example_1_netcdf[3] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_with_chunkstore[2] --deselect xarray/tests/test_backends.py::TestZarrDictStore::test_with_chunkstore[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_append_string_length_mismatch_raises[3-S] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_append_string_length_mismatch_raises[3-U] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_append_string_length_mismatch_works[2-S] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_append_string_length_mismatch_works[2-U] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_coordinate_variables_after_iris_roundtrip[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_coordinate_variables_after_iris_roundtrip[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_dimension_names[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_drop_encoding[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_drop_encoding[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_hidden_zarr_keys[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_bytes_with_fill_value[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_bytes_with_fill_value[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_endian[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_example_1_netcdf[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_example_1_netcdf[3] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_with_chunkstore[2] --deselect xarray/tests/test_backends.py::TestZarrDirectoryStore::test_with_chunkstore[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_append_string_length_mismatch_raises[3-S] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_append_string_length_mismatch_raises[3-U] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_append_string_length_mismatch_works[2-S] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_append_string_length_mismatch_works[2-U] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_coordinate_variables_after_iris_roundtrip[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_coordinate_variables_after_iris_roundtrip[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_dimension_names[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_drop_encoding[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_drop_encoding[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_hidden_zarr_keys[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_bytes_with_fill_value[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_bytes_with_fill_value[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_endian[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_example_1_netcdf[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_example_1_netcdf[3] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[2-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype0-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype0-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype1-create_bad_unsigned_masked_scaled_data-create_bad_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype1-create_masked_and_scaled_data-create_encoded_masked_and_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype1-create_signed_masked_scaled_data-create_encoded_signed_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_false_masked_scaled_data-create_encoded_unsigned_false_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_mask_and_scale[3-dtype1-create_unsigned_masked_scaled_data-create_encoded_unsigned_masked_scaled_data] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_with_chunkstore[2] --deselect xarray/tests/test_backends.py::TestZarrWriteEmpty::test_with_chunkstore[3] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-False-5-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-False-5-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-False-None-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-False-None-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-True-5-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-True-5-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-True-None-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-1-True-None-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-False-5-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-False-5-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-False-None-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-False-None-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-True-5-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-True-5-None] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-True-None-5] --deselect xarray/tests/test_backends.py::test_open_mfdataset_manyfiles[zarr-20-True-None-None] --deselect xarray/tests/test_backends.py::test_zarr_storage_options -n 4
+bringing up nodes...
+bringing up nodes...
+
+........................................................................ [  7%]
+..................................................F..................... [ 15%]
+........................................................................ [ 22%]
+........................F............................................... [ 30%]
+........................................................................ [ 37%]
+..............................................F................F........ [ 45%]
+............................................................F.F......... [ 53%]
+.F..............................F....................................... [ 60%]
+........................................................................ [ 68%]
+.....................................................................F.. [ 75%]
+........................................................................ [ 83%]
+........................................F............................... [ 90%]
+..........................................................F.......F...F. [ 98%]
+FF..F.........                                                           [100%]
+=================================== FAILURES ===================================
+______________ TestZarrDictStore.test_chunk_encoding_with_dask[2] ______________
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrDictStore object at 0xffff462ee390>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrDictStore object at 0xffff462ee390>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+___________ TestZarrDirectoryStore.test_chunk_encoding_with_dask[2] ____________
+[gw3] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrDirectoryStore object at 0xffff587cd490>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrDirectoryStore object at 0xffff587cd490>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+_____________ TestZarrWriteEmpty.test_chunk_encoding_with_dask[2] ______________
+[gw2] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrWriteEmpty object at 0xffff3ff894f0>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrWriteEmpty object at 0xffff3ff894f0>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+_____________ TestZarrRegionAuto.test_zarr_append_chunk_partial[2] _____________
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe4e60>
+
+    @requires_dask
+    def test_zarr_append_chunk_partial(self):
+        t_coords = np.array([np.datetime64("2020-01-01").astype("datetime64[ns]")])
+        data = np.ones((10, 10))
+    
+        da = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": t_coords},
+            name="foo",
+        )
+        new_time = np.array([np.datetime64("2021-01-01").astype("datetime64[ns]")])
+        da2 = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": new_time},
+            name="foo",
+        )
+    
+        with self.create_zarr_target() as target:
+            self.save(target, da, mode="w", encoding={"foo": {"chunks": (5, 5, 1)}})
+    
+            with pytest.raises(ValueError, match="encoding was provided"):
+                self.save(
+                    target,
+                    da2,
+                    append_dim="time",
+                    mode="a",
+                    encoding={"foo": {"chunks": (1, 1, 1)}},
+                )
+    
+            # chunking with dask sidesteps the encoding check, so we need a different check
+            with pytest.raises(ValueError, match="Specified Zarr chunks"):
+>               self.save(
+                    target,
+                    da2.chunk({"x": 1, "y": 1, "time": 1}),
+                    append_dim="time",
+                    mode="a",
+                )
+
+/workspace/repo/xarray/tests/test_backends.py:6496: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/repo/xarray/tests/test_backends.py:6364: in save
+    ds.to_zarr(target, **kwargs)
+/workspace/repo/xarray/core/dataarray.py:4440: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (5, 5, 1)
+var_chunks = ((1,), (1, 1, 1, 1, 1, 1, ...), (1, 1, 1, 1, 1, 1, ...)), ndim = 3
+name = 'foo', safe_chunks = True
+region = (slice(1, None, None), slice(None, None, None), slice(None, None, None))
+mode = 'a', shape = (2, 10, 10)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(5, 5, 1) for variable named 'foo' would overlap multiple dask chunks ((1,), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1)) on the region (slice(1, None, None), slice(None, None, None), slice(None, None, None)). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe4e60>
+
+    @requires_dask
+    def test_zarr_append_chunk_partial(self):
+        t_coords = np.array([np.datetime64("2020-01-01").astype("datetime64[ns]")])
+        data = np.ones((10, 10))
+    
+        da = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": t_coords},
+            name="foo",
+        )
+        new_time = np.array([np.datetime64("2021-01-01").astype("datetime64[ns]")])
+        da2 = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": new_time},
+            name="foo",
+        )
+    
+        with self.create_zarr_target() as target:
+            self.save(target, da, mode="w", encoding={"foo": {"chunks": (5, 5, 1)}})
+    
+            with pytest.raises(ValueError, match="encoding was provided"):
+                self.save(
+                    target,
+                    da2,
+                    append_dim="time",
+                    mode="a",
+                    encoding={"foo": {"chunks": (1, 1, 1)}},
+                )
+    
+            # chunking with dask sidesteps the encoding check, so we need a different check
+>           with pytest.raises(ValueError, match="Specified Zarr chunks"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E            Regex: 'Specified Zarr chunks'
+E            Input: "Specified zarr chunks encoding['chunks']=(5, 5, 1) for variable named 'foo' would overlap multiple dask chunks ((1,), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1)) on the region (slice(1, None, None), slice(None, None, None), slice(None, None, None)). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:6495: AssertionError
+____ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[2-tmp_path] _____
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe6210>
+tmp_store = PosixPath('/tmp/pytest-of-root/pytest-2/popen-gw1/test_dataset_to_zarr_align_chu0')
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe6210>
+target = '/tmp/tmp_wb3nha2/temp-58.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+____ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[2-ZipStore] _____
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe6300>
+tmp_store = ZipStore('zip:///tmp/pytest-of-root/pytest-2/popen-gw1/test_dataset_to_zarr_align_chu1/store.zip')
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe6300>
+target = '/tmp/tmplqt8b5kj/temp-59.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+______ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[2-Dict] _______
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fc1a00>
+tmp_store = {}
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fc1a00>
+target = '/tmp/tmpjbgpfo9c/temp-60.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+______________ TestZarrDictStore.test_chunk_encoding_with_dask[3] ______________
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrDictStore object at 0xffff462ee480>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrDictStore object at 0xffff462ee480>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+___________ TestZarrDirectoryStore.test_chunk_encoding_with_dask[3] ____________
+[gw0] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrDirectoryStore object at 0xffff58605490>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrDirectoryStore object at 0xffff58605490>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+_____________ TestZarrWriteEmpty.test_chunk_encoding_with_dask[3] ______________
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrWriteEmpty object at 0xffff4539d4c0>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+        with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+>           with self.roundtrip(badenc) as actual:
+                 ^^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/repo/xarray/tests/test_backends.py:2616: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/workspace/repo/xarray/tests/test_backends.py:2349: in roundtrip
+    self.save(data, store_target, **save_kwargs)
+/workspace/repo/xarray/tests/test_backends.py:2331: in save
+    return dataset.to_zarr(store=store_target, **kwargs, **self.version_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/workspace/repo/xarray/core/dataset.py:2278: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (3,), var_chunks = ((3, 5, 3, 1),), ndim = 1, name = 'var1'
+safe_chunks = True, region = (slice(None, None, None),), mode = 'w-'
+shape = (12,)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrWriteEmpty object at 0xffff4539d4c0>
+
+    @requires_dask
+    @pytest.mark.skipif(
+        ON_WINDOWS,
+        reason="Very flaky on Windows CI. Can re-enable assuming it starts consistently passing.",
+    )
+    def test_chunk_encoding_with_dask(self) -> None:
+        # These datasets DO have dask chunks. Need to check for various
+        # interactions between dask and zarr chunks
+        ds = xr.DataArray((np.arange(12)), dims="x", name="var1").to_dataset()
+    
+        # - no encoding specified -
+        # zarr automatically gets chunk information from dask chunks
+        ds_chunk4 = ds.chunk({"x": 4})
+        with self.roundtrip(ds_chunk4) as actual:
+            assert (4,) == actual["var1"].encoding["chunks"]
+    
+        # should fail if dask_chunks are irregular...
+        ds_chunk_irreg = ds.chunk({"x": (5, 4, 3)})
+        with pytest.raises(ValueError, match=r"uniform chunk sizes."):
+            with self.roundtrip(ds_chunk_irreg) as actual:
+                pass
+    
+        # should fail if encoding["chunks"] clashes with dask_chunks
+        badenc = ds.chunk({"x": 4})
+        badenc.var1.encoding["chunks"] = (6,)
+        with pytest.raises(ValueError, match=r"named 'var1' would overlap"):
+            with self.roundtrip(badenc) as actual:
+                pass
+    
+        # unless...
+        with self.roundtrip(badenc, save_kwargs={"safe_chunks": False}) as actual:
+            # don't actually check equality because the data could be corrupted
+            pass
+    
+        # if dask chunks (4) are an integer multiple of zarr chunks (2) it should not fail...
+        goodenc = ds.chunk({"x": 4})
+        goodenc.var1.encoding["chunks"] = (2,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # if initial dask chunks are aligned, size of last dask chunk doesn't matter
+        goodenc = ds.chunk({"x": (3, 3, 6)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        goodenc = ds.chunk({"x": (3, 6, 3)})
+        goodenc.var1.encoding["chunks"] = (3,)
+        with self.roundtrip(goodenc) as actual:
+            pass
+    
+        # ... also if the last chunk is irregular
+        ds_chunk_irreg = ds.chunk({"x": (5, 5, 2)})
+        with self.roundtrip(ds_chunk_irreg) as actual:
+            assert (5,) == actual["var1"].encoding["chunks"]
+        # re-save Zarr arrays
+        with self.roundtrip(ds_chunk_irreg) as original:
+            with self.roundtrip(original) as actual:
+                assert_identical(original, actual)
+    
+        # but intermediate unaligned chunks are bad
+        badenc = ds.chunk({"x": (3, 5, 3, 1)})
+        badenc.var1.encoding["chunks"] = (3,)
+>       with pytest.raises(ValueError, match=r"would overlap multiple Dask chunks"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'would overlap multiple Dask chunks'
+E        Input: "Specified zarr chunks encoding['chunks']=(3,) for variable named 'var1' would overlap multiple dask chunks ((3, 5, 3, 1),) on the region (slice(None, None, None),). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:2615: AssertionError
+_____________ TestZarrRegionAuto.test_zarr_append_chunk_partial[3] _____________
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe4f20>
+
+    @requires_dask
+    def test_zarr_append_chunk_partial(self):
+        t_coords = np.array([np.datetime64("2020-01-01").astype("datetime64[ns]")])
+        data = np.ones((10, 10))
+    
+        da = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": t_coords},
+            name="foo",
+        )
+        new_time = np.array([np.datetime64("2021-01-01").astype("datetime64[ns]")])
+        da2 = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": new_time},
+            name="foo",
+        )
+    
+        with self.create_zarr_target() as target:
+            self.save(target, da, mode="w", encoding={"foo": {"chunks": (5, 5, 1)}})
+    
+            with pytest.raises(ValueError, match="encoding was provided"):
+                self.save(
+                    target,
+                    da2,
+                    append_dim="time",
+                    mode="a",
+                    encoding={"foo": {"chunks": (1, 1, 1)}},
+                )
+    
+            # chunking with dask sidesteps the encoding check, so we need a different check
+            with pytest.raises(ValueError, match="Specified Zarr chunks"):
+>               self.save(
+                    target,
+                    da2.chunk({"x": 1, "y": 1, "time": 1}),
+                    append_dim="time",
+                    mode="a",
+                )
+
+/workspace/repo/xarray/tests/test_backends.py:6496: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/repo/xarray/tests/test_backends.py:6364: in save
+    ds.to_zarr(target, **kwargs)
+/workspace/repo/xarray/core/dataarray.py:4440: in to_zarr
+    return to_zarr(  # type: ignore[call-overload,misc]
+/workspace/repo/xarray/backends/api.py:2239: in to_zarr
+    dump_to_store(dataset, zstore, writer, encoding=encoding)
+/workspace/repo/xarray/backends/api.py:1975: in dump_to_store
+    store.store(variables, attrs, check_encoding, writer, unlimited_dims=unlimited_dims)
+/workspace/repo/xarray/backends/zarr.py:1051: in store
+    self.set_variables(
+/workspace/repo/xarray/backends/zarr.py:1215: in set_variables
+    encoding = extract_zarr_variable_encoding(
+/workspace/repo/xarray/backends/zarr.py:491: in extract_zarr_variable_encoding
+    chunks = _determine_zarr_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+enc_chunks = (5, 5, 1)
+var_chunks = ((1,), (1, 1, 1, 1, 1, 1, ...), (1, 1, 1, 1, 1, 1, ...)), ndim = 3
+name = 'foo', safe_chunks = True
+region = (slice(1, None, None), slice(None, None, None), slice(None, None, None))
+mode = 'a', shape = (2, 10, 10)
+
+    def _determine_zarr_chunks(
+        enc_chunks, var_chunks, ndim, name, safe_chunks, region, mode, shape
+    ):
+        """
+        Given encoding chunks (possibly None or []) and variable chunks
+        (possibly None or []).
+        """
+    
+        # zarr chunk spec:
+        # chunks : int or tuple of ints, optional
+        #   Chunk shape. If not provided, will be guessed from shape and dtype.
+    
+        # if there are no chunks in encoding and the variable data is a numpy
+        # array, then we let zarr use its own heuristics to pick the chunks
+        if not var_chunks and not enc_chunks:
+            return None
+    
+        # if there are no chunks in encoding but there are dask chunks, we try to
+        # use the same chunks in zarr
+        # However, zarr chunks needs to be uniform for each array
+        # https://zarr-specs.readthedocs.io/en/latest/v2/v2.0.html#chunks
+        # while dask chunks can be variable sized
+        # https://dask.pydata.org/en/latest/array-design.html#chunks
+        if var_chunks and not enc_chunks:
+            if any(len(set(chunks[:-1])) > 1 for chunks in var_chunks):
+                raise ValueError(
+                    "Zarr requires uniform chunk sizes except for final chunk. "
+                    f"Variable named {name!r} has incompatible dask chunks: {var_chunks!r}. "
+                    "Consider rechunking using `chunk()`."
+                )
+            if any((chunks[0] < chunks[-1]) for chunks in var_chunks):
+                raise ValueError(
+                    "Final chunk of Zarr array must be the same size or smaller "
+                    f"than the first. Variable named {name!r} has incompatible Dask chunks {var_chunks!r}."
+                    "Consider either rechunking using `chunk()` or instead deleting "
+                    "or modifying `encoding['chunks']`."
+                )
+            # return the first chunk for each dimension
+            return tuple(chunk[0] for chunk in var_chunks)
+    
+        # from here on, we are dealing with user-specified chunks in encoding
+        # zarr allows chunks to be an integer, in which case it uses the same chunk
+        # size on each dimension.
+        # Here we re-implement this expansion ourselves. That makes the logic of
+        # checking chunk compatibility easier
+    
+        if isinstance(enc_chunks, integer_types):
+            enc_chunks_tuple = ndim * (enc_chunks,)
+        else:
+            enc_chunks_tuple = tuple(enc_chunks)
+    
+        if len(enc_chunks_tuple) != ndim:
+            # throw away encoding chunks, start over
+            return _determine_zarr_chunks(
+                None, var_chunks, ndim, name, safe_chunks, region, mode, shape
+            )
+    
+        for x in enc_chunks_tuple:
+            if not isinstance(x, int):
+                raise TypeError(
+                    "zarr chunk sizes specified in `encoding['chunks']` "
+                    "must be an int or a tuple of ints. "
+                    f"Instead found encoding['chunks']={enc_chunks_tuple!r} "
+                    f"for variable named {name!r}."
+                )
+    
+        # if there are chunks in encoding and the variable data is a numpy array,
+        # we use the specified chunks
+        if not var_chunks:
+            return enc_chunks_tuple
+    
+        # the hard case
+        # DESIGN CHOICE: do not allow multiple dask chunks on a single zarr chunk
+        # this avoids the need to get involved in zarr synchronization / locking
+        # From zarr docs:
+        #  "If each worker in a parallel computation is writing to a
+        #   separate region of the array, and if region boundaries are perfectly aligned
+        #   with chunk boundaries, then no synchronization is required."
+        # TODO: incorporate synchronizer to allow writes from multiple dask
+        # threads
+    
+        # If it is possible to write on partial chunks then it is not necessary to check
+        # the last one contained on the region
+        allow_partial_chunks = mode != "r+"
+    
+        base_error = (
+            f"Specified zarr chunks encoding['chunks']={enc_chunks_tuple!r} for "
+            f"variable named {name!r} would overlap multiple dask chunks {var_chunks!r} "
+            f"on the region {region}. "
+            f"Writing this array in parallel with dask could lead to corrupted data. "
+            f"Consider either rechunking using `chunk()`, deleting "
+            f"or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+        )
+    
+        for zchunk, dchunks, interval, size in zip(
+            enc_chunks_tuple, var_chunks, region, shape, strict=True
+        ):
+            if not safe_chunks:
+                continue
+    
+            for dchunk in dchunks[1:-1]:
+                if dchunk % zchunk:
+>                   raise ValueError(base_error)
+E                   ValueError: Specified zarr chunks encoding['chunks']=(5, 5, 1) for variable named 'foo' would overlap multiple dask chunks ((1,), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1)) on the region (slice(1, None, None), slice(None, None, None), slice(None, None, None)). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`.
+
+/workspace/repo/xarray/backends/zarr.py:333: ValueError
+
+During handling of the above exception, another exception occurred:
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe4f20>
+
+    @requires_dask
+    def test_zarr_append_chunk_partial(self):
+        t_coords = np.array([np.datetime64("2020-01-01").astype("datetime64[ns]")])
+        data = np.ones((10, 10))
+    
+        da = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": t_coords},
+            name="foo",
+        )
+        new_time = np.array([np.datetime64("2021-01-01").astype("datetime64[ns]")])
+        da2 = xr.DataArray(
+            data.reshape((-1, 10, 10)),
+            dims=["time", "x", "y"],
+            coords={"time": new_time},
+            name="foo",
+        )
+    
+        with self.create_zarr_target() as target:
+            self.save(target, da, mode="w", encoding={"foo": {"chunks": (5, 5, 1)}})
+    
+            with pytest.raises(ValueError, match="encoding was provided"):
+                self.save(
+                    target,
+                    da2,
+                    append_dim="time",
+                    mode="a",
+                    encoding={"foo": {"chunks": (1, 1, 1)}},
+                )
+    
+            # chunking with dask sidesteps the encoding check, so we need a different check
+>           with pytest.raises(ValueError, match="Specified Zarr chunks"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E            Regex: 'Specified Zarr chunks'
+E            Input: "Specified zarr chunks encoding['chunks']=(5, 5, 1) for variable named 'foo' would overlap multiple dask chunks ((1,), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1), (1, 1, 1, 1, 1, 1, 1, 1, 1, 1)) on the region (slice(1, None, None), slice(None, None, None), slice(None, None, None)). Writing this array in parallel with dask could lead to corrupted data. Consider either rechunking using `chunk()`, deleting or modifying `encoding['chunks']`, or specify `safe_chunks=False`."
+
+/workspace/repo/xarray/tests/test_backends.py:6495: AssertionError
+____ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[3-tmp_path] _____
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fd10a0>
+tmp_store = PosixPath('/tmp/pytest-of-root/pytest-2/popen-gw1/test_dataset_to_zarr_align_chu3')
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fd10a0>
+target = '/tmp/tmpz9nct8jb/temp-213.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+______ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[3-Dict] _______
+[gw0] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff58761700>
+tmp_store = {}
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff58761700>
+target = '/tmp/tmpd4zdcr2l/temp-189.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+____ TestZarrRegionAuto.test_dataset_to_zarr_align_chunks_true[3-ZipStore] _____
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe56d0>
+tmp_store = ZipStore('zip:///tmp/pytest-of-root/pytest-2/popen-gw1/test_dataset_to_zarr_align_chu4/store.zip')
+
+    @requires_dask
+    def test_dataset_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # This test is a replica of the one in `test_dataarray_to_zarr_align_chunks_true`
+        # but for datasets
+        with self.create_zarr_target() as store:
+            ds = (
+                DataArray(
+                    np.arange(4).reshape((2, 2)),
+                    dims=["a", "b"],
+                    coords={
+                        "a": np.arange(2),
+                        "b": np.arange(2),
+                    },
+                )
+                .chunk(a=(1, 1), b=(1, 1))
+                .to_dataset(name="foo")
+            )
+    
+>           self.save(
+                store,
+                ds,
+                align_chunks=True,
+                encoding={"foo": {"chunks": (3, 3)}},
+                mode="w",
+            )
+
+/workspace/repo/xarray/tests/test_backends.py:6781: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xarray.tests.test_backends.TestZarrRegionAuto object at 0xffff44fe56d0>
+target = '/tmp/tmpmtst7ddr/temp-214.zarr'
+ds = <xarray.Dataset> Size: 64B
+Dimensions:  (a: 2, b: 2)
+Coordinates:
+  * a        (a) int64 16B 0 1
+  * b        (b) int64 16B 0 1
+Data variables:
+    foo      (a, b) int64 32B dask.array<chunksize=(1, 1), meta=np.ndarray>
+kwargs = {'align_chunks': True, 'encoding': {'foo': {'chunks': (3, 3)}}, 'mode': 'w'}
+
+    def save(self, target, ds, **kwargs):
+>       ds.to_zarr(target, **kwargs)
+E       TypeError: Dataset.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:6364: TypeError
+______ TestDataArrayToZarr.test_dataarray_to_zarr_align_chunks_true[Dict] ______
+[gw3] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestDataArrayToZarr object at 0xffff58396f60>
+tmp_store = {}
+
+    @requires_dask
+    def test_dataarray_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # TODO: Improve data integrity checks when using Dask.
+        #   Detecting automatic alignment issues in Dask can be tricky,
+        #   as unintended misalignment might lead to subtle data corruption.
+        #   For now, ensure that the parameter is present, but explore
+        #   more robust verification methods to confirm data consistency.
+    
+        # upstream passed ``tmp_store`` as the skip reason, which skipped this
+        # test unconditionally under zarr-python 3; only the ZipStore reopen
+        # limitation is a real one.
+        self.skip_if_zarr_python_3_and_zip_store(tmp_store)
+        arr = DataArray(
+            np.arange(4), dims=["a"], coords={"a": np.arange(4)}, name="foo"
+        ).chunk(a=(2, 1, 1))
+    
+>       arr.to_zarr(
+            tmp_store,
+            align_chunks=True,
+            encoding={"foo": {"chunks": (3,)}},
+        )
+E       TypeError: DataArray.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:5750: TypeError
+____ TestDataArrayToZarr.test_dataarray_to_zarr_align_chunks_true[tmp_path] ____
+[gw1] linux -- Python 3.12.11 /usr/local/bin/python
+
+self = <xarray.tests.test_backends.TestDataArrayToZarr object at 0xffff44fd2ae0>
+tmp_store = PosixPath('/tmp/pytest-of-root/pytest-2/popen-gw1/test_dataarray_to_zarr_align_c0')
+
+    @requires_dask
+    def test_dataarray_to_zarr_align_chunks_true(self, tmp_store) -> None:
+        # TODO: Improve data integrity checks when using Dask.
+        #   Detecting automatic alignment issues in Dask can be tricky,
+        #   as unintended misalignment might lead to subtle data corruption.
+        #   For now, ensure that the parameter is present, but explore
+        #   more robust verification methods to confirm data consistency.
+    
+        # upstream passed ``tmp_store`` as the skip reason, which skipped this
+        # test unconditionally under zarr-python 3; only the ZipStore reopen
+        # limitation is a real one.
+        self.skip_if_zarr_python_3_and_zip_store(tmp_store)
+        arr = DataArray(
+            np.arange(4), dims=["a"], coords={"a": np.arange(4)}, name="foo"
+        ).chunk(a=(2, 1, 1))
+    
+>       arr.to_zarr(
+            tmp_store,
+            align_chunks=True,
+            encoding={"foo": {"chunks": (3,)}},
+        )
+E       TypeError: DataArray.to_zarr() got an unexpected keyword argument 'align_chunks'
+
+/workspace/repo/xarray/tests/test_backends.py:5750: TypeError
+=============================== warnings summary ===============================
+xarray/tests/test_backends.py: 731 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/api/asynchronous.py:213: UserWarning: Consolidated metadata is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    warnings.warn(
+
+xarray/tests/test_backends.py: 924 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/codecs/vlen_utf8.py:44: UserWarning: The codec `vlen-utf8` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    return cls(**configuration_parsed)
+
+xarray/tests/test_backends.py: 176 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `<U1` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py: 48 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `StringDType()` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py: 213 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/codecs/vlen_utf8.py:99: UserWarning: The codec `vlen-bytes` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    return cls(**configuration_parsed)
+
+xarray/tests/test_backends.py: 11 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `|S4` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py::TestZarrDictStore::test_roundtrip_string_data[3]
+xarray/tests/test_backends.py::TestZarrDirectoryStore::test_roundtrip_string_data[3]
+xarray/tests/test_backends.py::TestZarrWriteEmpty::test_roundtrip_string_data[3]
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `<U4` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py::TestZarrDictStore::test_zero_dimensional_variable[3]
+xarray/tests/test_backends.py::TestZarrDirectoryStore::test_zero_dimensional_variable[3]
+xarray/tests/test_backends.py::TestZarrWriteEmpty::test_zero_dimensional_variable[3]
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `|S6` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py::TestZarrDictStore::test_zero_dimensional_variable[3]
+xarray/tests/test_backends.py::TestZarrDirectoryStore::test_zero_dimensional_variable[3]
+xarray/tests/test_backends.py::TestZarrWriteEmpty::test_zero_dimensional_variable[3]
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `<U6` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py: 33 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `<U2` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+xarray/tests/test_backends.py: 33 warnings
+  /usr/local/lib/python3.12/site-packages/zarr/core/array.py:4282: UserWarning: The dtype `|S2` is currently not part in the Zarr format 3 specification. It may not be supported by other zarr implementations and may change in the future.
+    meta = AsyncArray._create_metadata_v3(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---------- generated xml file: /logs/verifier/upstream_regression.xml ----------
+=========================== short test summary info ============================
+FAILED xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[2]
+FAILED xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[2]
+FAILED xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[2]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[2]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-tmp_path]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-ZipStore]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-Dict]
+FAILED xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[3]
+FAILED xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[3]
+FAILED xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[3]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[3]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-tmp_path]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-Dict]
+FAILED xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-ZipStore]
+FAILED xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[Dict]
+FAILED xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[tmp_path]
+16 failed, 934 passed, 2178 warnings in 16.87s

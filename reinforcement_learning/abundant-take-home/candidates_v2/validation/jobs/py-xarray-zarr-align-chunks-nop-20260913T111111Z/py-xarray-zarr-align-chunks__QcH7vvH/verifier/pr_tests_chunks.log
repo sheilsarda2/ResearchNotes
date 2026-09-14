@@ -1,0 +1,18 @@
+$ /usr/local/bin/python -m pytest -q -p no:cacheprovider --timeout=900 -W ignore::pytest.PytestCacheWarning --junitxml=/logs/verifier/pr_tests_chunks.xml xarray/tests/test_backends_chunks.py
+
+==================================== ERRORS ====================================
+____________ ERROR collecting xarray/tests/test_backends_chunks.py _____________
+ImportError while importing test module '/workspace/repo/xarray/tests/test_backends_chunks.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/local/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+xarray/tests/test_backends_chunks.py:5: in <module>
+    from xarray.backends.chunks import align_nd_chunks, build_grid_chunks, grid_rechunk
+E   ModuleNotFoundError: No module named 'xarray.backends.chunks'
+------------ generated xml file: /logs/verifier/pr_tests_chunks.xml ------------
+=========================== short test summary info ============================
+ERROR xarray/tests/test_backends_chunks.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.29s

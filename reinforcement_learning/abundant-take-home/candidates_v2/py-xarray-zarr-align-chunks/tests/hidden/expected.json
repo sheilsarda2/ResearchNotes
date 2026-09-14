@@ -1,0 +1,12 @@
+{
+  "_comment": "Exact collected/passed counts per group, measured on the composite gold patch (PR #10336 + #10516) with the pinned wheels. Any skip, xfail, error or count drift fails the group.",
+  "pr_tests_chunks": 18,
+  "pr_tests_backends": 16,
+  "crosscheck": 51,
+  "upstream_regression": 950,
+  "regression_keyword": "TestZarrDictStore or TestZarrDirectoryStore or TestZarrWriteEmpty or TestZarrRegionAuto or TestDataArrayToZarr or TestInstrumentedZarrStore or test_zarr or zarr",
+  "focused_keyword": "align_chunks_true or test_chunk_encoding_with_dask or test_zarr_append_chunk_partial",
+  "focused_deselect": ["xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[ZipStore]"],
+  "independent_of_pr_tests": ["crosscheck"],
+  "measured_on": "macOS arm64, Python 3.12.13, 2026-09-13; re-measure in the Linux verifier image during the build phase"
+}

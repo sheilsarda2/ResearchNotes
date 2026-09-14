@@ -1,0 +1,180 @@
+{
+  "task": "py-xarray-zarr-align-chunks",
+  "reward": 0,
+  "build": {
+    "status": "ok",
+    "steps": [
+      "submission package present at /workspace/repo/xarray",
+      "restored conftest.py, pyproject.toml, setup.py, properties/ and xarray/tests from pristine",
+      "anti-cheat checks passed",
+      "installed hidden tests (test_backends_chunks.py, test_zarr_align_crosscheck.py, test_backends.py hunks)",
+      "import probe ok"
+    ],
+    "import_probe": [
+      "/workspace/repo/xarray/__init__.py",
+      "2025.6.0",
+      "3.0.8"
+    ]
+  },
+  "anti_cheat": {
+    "status": "ok",
+    "checks": [
+      {
+        "check": "no conftest.py inside package",
+        "hits": []
+      },
+      {
+        "check": "no .pth/.so/.pyd/sitecustomize files",
+        "hits": []
+      },
+      {
+        "check": "no new harness-tampering patterns vs pristine",
+        "grown": {}
+      },
+      {
+        "check": "xarray/testing unchanged",
+        "ok": true
+      }
+    ]
+  },
+  "groups": {
+    "pr_tests_chunks": {
+      "collected": 1,
+      "passed": 0,
+      "failed": 0,
+      "error": 1,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [
+        "::xarray.tests.test_backends_chunks"
+      ],
+      "skipped_ids": [],
+      "exit_code": 2,
+      "seconds": 1.1,
+      "expected": 18,
+      "ok": false
+    },
+    "pr_tests_backends": {
+      "collected": 16,
+      "passed": 0,
+      "failed": 16,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [
+        "xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[2]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-tmp_path]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-ZipStore]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-Dict]",
+        "xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[3]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-tmp_path]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-ZipStore]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-Dict]",
+        "xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[tmp_path]",
+        "xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[Dict]"
+      ],
+      "skipped_ids": [],
+      "exit_code": 1,
+      "seconds": 4.4,
+      "expected": 16,
+      "ok": false
+    },
+    "crosscheck": {
+      "collected": 51,
+      "passed": 1,
+      "failed": 50,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-3s-into-4s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-5s-into-2s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-ones-into-3s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[1d-enc-bigger-than-array-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-mixed-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[2d-ones-and-2s-into-4s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[3d-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_values_and_layout_via_zarr_python[3d-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-3s-into-4s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-5s-into-2s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-ones-into-3s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[1d-enc-bigger-than-array-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-mixed-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-mixed-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[2d-ones-and-2s-into-4s-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[3d-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_fresh_write_matches_eager_numpy_write[3d-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_safe_chunks_error_names_the_remedy",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_align_chunks_overrides_safe_chunks",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_align_chunks_default_is_false_and_validation_unchanged",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-offset-region-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-offset-region-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-full-region-misaligned-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-full-region-misaligned-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-region-inside-one-chunk-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[1d-region-inside-one-chunk-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-offset-region-v2]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-offset-region-v3]",
+        "xarray/tests/test_zarr_align_crosscheck.py::test_region_write_only_touches_region[2d-ones-v2]"
+      ],
+      "skipped_ids": [],
+      "exit_code": 1,
+      "seconds": 2.0,
+      "expected": 51,
+      "ok": false
+    },
+    "upstream_regression": {
+      "collected": 950,
+      "passed": 934,
+      "failed": 16,
+      "error": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "failed_ids": [
+        "xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[2]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[2]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-tmp_path]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-ZipStore]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[2-Dict]",
+        "xarray/tests/test_backends.py::TestZarrDictStore::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrDirectoryStore::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrWriteEmpty::test_chunk_encoding_with_dask[3]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_zarr_append_chunk_partial[3]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-tmp_path]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-Dict]",
+        "xarray/tests/test_backends.py::TestZarrRegionAuto::test_dataset_to_zarr_align_chunks_true[3-ZipStore]",
+        "xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[Dict]",
+        "xarray/tests/test_backends.py::TestDataArrayToZarr::test_dataarray_to_zarr_align_chunks_true[tmp_path]"
+      ],
+      "skipped_ids": [],
+      "exit_code": 1,
+      "seconds": 17.8,
+      "expected": 950,
+      "ok": false
+    }
+  },
+  "independent_of_pr_tests": [
+    "crosscheck"
+  ],
+  "started": "2026-09-13T11:13:02Z",
+  "finished": "2026-09-13T11:13:28Z"
+}
