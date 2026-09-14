@@ -289,6 +289,17 @@ class SharedWaitWatchdogTests(unittest.TestCase):
         self.shared['participants']['waiting']['control'] = str(self.root/'jobs/other.control.json')
         self.assertIsNone(self.round_wait())
 
+    def test_missing_result_priority_overrides_raw_round_wait(self):
+        own, other = self.interleaving()
+        policy=self.shared['interleaving']
+        policy['first_sweep']=dict(version=1,enabled=True,
+            scope={k:c['job'] for k,c in policy['cells'].items()},
+            completed={k:0 if k==own[0] else 1 for k in policy['cells']},settled_receipts={})
+        self.assertIsNone(self.round_wait(), 'Missing first result is eligible despite its previous start')
+        policy['first_sweep']['completed'][own[0]]=1
+        policy['first_sweep']['completed'][other]=0
+        self.assertEqual(self.round_wait(),'interleaving: prioritizing missing first results')
+
     def test_held_other_cell_cannot_mask_an_eligible_idle_worker(self):
         _, other = self.interleaving()
         self.shared['interleaving']['held_cells'] = {other: dict(job='other', reason='revision')}

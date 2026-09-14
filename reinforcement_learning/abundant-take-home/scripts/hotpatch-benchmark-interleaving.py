@@ -12,7 +12,7 @@ from benchmark_shared_admission import process_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ['scripts/benchmark_interleaving.py', 'scripts/benchmark_shared_admission.py',
-           'scripts/harbor-resource-runner.py']
+           'scripts/harbor-resource-runner.py', 'scripts/benchmark_coverage_priority.py']
 
 
 def payload(expected):
@@ -42,19 +42,28 @@ try:
         install_runtime()
         _result['reviewed_runtime_installed_for_future_agents'] = True
     import benchmark_interleaving as rounds
+    import benchmark_coverage_priority
     # Refresh functions in the original module namespace, retaining its live
     # registry and existing acquire closures. Reloading would lose queue state.
     import ast
     source = root / 'scripts/benchmark_interleaving.py'
     tree = ast.parse(source.read_text())
     functions = [node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))]
+    if _expected.get('priority_only'):
+        assert getattr(jobs[0], '_benchmark_interleaving_registered', False)
+        assert rounds.TRIALS
+        functions = [node for node in functions if node.name in {'held_cell_keys', 'wait_reason'}]
+        assert len(functions) == 2
     exec(compile(ast.Module(body=functions, type_ignores=[]), str(source), 'exec'), rounds.__dict__)
     from benchmark_interleaving import install, register
-    new_method = runpy.run_path(str(root / 'scripts/benchmark_shared_admission.py'))['SharedAdmission'].try_acquire
-    # Old acquire frames call this method on each poll, so they also see the fix.
-    SharedAdmission.try_acquire = new_method
-    install(Admission, admission.shared)
-    _result['registered_configs'] = register(jobs[0], admission.shared)
+    if not _expected.get('priority_only'):
+        new_method = runpy.run_path(str(root / 'scripts/benchmark_shared_admission.py'))['SharedAdmission'].try_acquire
+        # Old acquire frames call this method on each poll, so they also see the fix.
+        SharedAdmission.try_acquire = new_method
+        install(Admission, admission.shared)
+        _result['registered_configs'] = register(jobs[0], admission.shared)
+    else:
+        _result['priority_only'] = True
     import benchmark_interleaving as rounds
     _result['registered_names'] = len(rounds.TRIALS)
     _result['module_id'] = id(rounds)
@@ -85,6 +94,7 @@ def main():
     parser.add_argument('--shared', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--runtime-proof', type=Path)
+    parser.add_argument('--priority-only', action='store_true')
     parser.add_argument('--apply', action='store_true')
     args = parser.parse_args()
     assert process_identity(args.pid) == args.identity, 'PID identity changed'
@@ -97,7 +107,8 @@ def main():
     script = ack.with_suffix('.py')
     expected = dict(pid=args.pid, identity=args.identity, job=args.job,
                     shared=str(args.shared.resolve()), root=str(ROOT), ack=str(ack),
-                    source_sha256=sources, runtime_proof=bool(args.runtime_proof))
+                    source_sha256=sources, runtime_proof=bool(args.runtime_proof),
+                    priority_only=args.priority_only)
     script.write_text(payload(expected))
     if not args.apply:
         print(json.dumps(dict(prepared=str(script), **expected)))

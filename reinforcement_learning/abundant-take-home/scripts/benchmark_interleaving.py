@@ -151,6 +151,12 @@ def wait_reason(name, state):
                   if k not in held and counts[k] < cell['target']]
     if counts[key] >= policy['cells'][key]['target']:
         return 'interleaving: primary dispatch target reached'
+    from benchmark_coverage_priority import priority_decision
+    priority, coverage_wait = priority_decision(state, key, held)
+    if coverage_wait:
+        return coverage_wait
+    if priority:
+        return None
     if unfinished and counts[key] > min(unfinished):
         return 'interleaving: waiting for remaining cells in round'
     return None

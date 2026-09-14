@@ -107,6 +107,8 @@ def confirmed_interleaving_wait(process, participant, shared, job_name):
     nor the shared state timestamp must advance while all its cells are ahead.
     This establishes an admission barrier, not general worker health.
     """
+    from benchmark_interleaving import held_cell_keys
+    from benchmark_coverage_priority import priority_decision
     if not isinstance(job_name, str) or not re.fullmatch(r'[\w-]+', job_name):
         return None
     try:
@@ -122,7 +124,7 @@ def confirmed_interleaving_wait(process, participant, shared, job_name):
         if not cells or set(cells) != set(counts):
             return None
         held = held_cell_keys(policy)
-        own_pending, pending, own_held = [], [], []
+        own_pending, pending, own_held, own_keys = [], [], [], []
         for key, cell in cells.items():
             target, count = cell['target'], counts[key]
             if (type(target) is not int or type(count) is not int or
@@ -137,6 +139,13 @@ def confirmed_interleaving_wait(process, participant, shared, job_name):
                 pending.append(count)
                 if cell['job'] == job_name:
                     own_pending.append(count)
+                    own_keys.append(key)
+        if policy.get('first_sweep') and own_keys:
+            decisions = [priority_decision(shared, key, held) for key in own_keys]
+            if any(priority for priority, _ in decisions):
+                return None
+            if all(reason for _, reason in decisions):
+                return decisions[0][1]
         if own_pending and min(own_pending) > min(pending):
             return 'interleaving: waiting for remaining cells in round'
         if own_held and not own_pending:
