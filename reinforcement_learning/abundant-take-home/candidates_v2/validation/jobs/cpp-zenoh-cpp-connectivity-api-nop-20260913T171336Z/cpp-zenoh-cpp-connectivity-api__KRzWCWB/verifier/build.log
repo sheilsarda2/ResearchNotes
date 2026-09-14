@@ -1,0 +1,587 @@
+[ 10%] Built target details_zenohpico
+[ 10%] Built target closures_zenohpico
+[ 12%] Built target warnings_zenohpico
+[ 15%] Built target bytes_zenohpico
+[ 25%] Built target advanced_pub_sub_zenohpico
+[ 25%] Building CXX object tests/CMakeFiles/connectivity_zenohpico.dir/universal/network/connectivity.cxx.o
+[ 25%] Built target serialization_zenohpico
+[ 25%] Built target cancellation_zenohpico
+[ 35%] Built target liveliness_zenohpico
+[ 35%] Built target pub_sub_zenohpico
+[ 35%] Built target keyexpr_zenohpico
+[ 48%] Built target source_info_zenohpico
+[ 46%] Built target config_zenohpico
+[ 48%] Built target queryable_get_zenohpico
+[ 53%] Built target batching_zenohpico
+[ 51%] Built target tasks_zenohpico
+[ 51%] Building CXX object tests/CMakeFiles/parity_dump_zenohc.dir/verifier/parity_dump.cxx.o
+[ 58%] Built target closures_zenohc
+[ 58%] Built target bytes_zenohc
+[ 64%] Built target serialization_zenohc
+[ 61%] Built target details_zenohc
+[ 66%] Built target advanced_pub_sub_zenohc
+[ 69%] Built target cancellation_zenohc
+[ 71%] Built target keyexpr_zenohc
+[ 71%] Building CXX object tests/CMakeFiles/connectivity_zenohc.dir/universal/network/connectivity.cxx.o
+[ 74%] Built target liveliness_zenohc
+[ 76%] Built target pub_sub_zenohc
+[ 79%] Built target queryable_get_zenohc
+[ 82%] Built target source_info_zenohc
+[ 87%] Built target config_zenohc
+[ 89%] Built target shm_api_zenohc
+[ 92%] Built target warnings_zenohc
+[ 92%] Building CXX object tests/CMakeFiles/interop_optional_zenohc.dir/verifier/interop_optional.cxx.o
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transports_and_links()':
+/work/repo/tests/universal/network/connectivity.cxx:137:26: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  137 |     auto transports = s1.get_transports();
+      |                          ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:141:21: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  141 |     auto links = s1.get_links();
+      |                     ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_links_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:152:18: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  152 |     auto t1 = s1.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:153:18: error: 'std::tuple_element<1, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  153 |     auto t2 = s2.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:158:21: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  158 |     auto links = s1.get_links(std::move(t1[0]));
+      |                     ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:162:16: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  162 |     links = s1.get_links(std::move(t2[0]));
+      |                ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events()':
+/work/repo/tests/universal/network/connectivity.cxx:173:14: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  173 |     Session::TransportEventsListenerOptions tel_opts_1;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:174:5: error: 'tel_opts_1' was not declared in this scope
+  174 |     tel_opts_1.history = false;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:175:24: error: 'class zenoh::Session' has no member named 'declare_transport_events_listener'
+  175 |     auto listener = s1.declare_transport_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:176:19: error: 'TransportEvent' has not been declared
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                   ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:176:62: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                                                              ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:176:76: error: request for member 'get_transport' in 'e', which is of non-class type 'int'
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                                                                            ^~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events_history()':
+/work/repo/tests/universal/network/connectivity.cxx:211:14: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  211 |     Session::TransportEventsListenerOptions tel_opts_2;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:212:5: error: 'tel_opts_2' was not declared in this scope
+  212 |     tel_opts_2.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:213:24: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_transport_events_listener'
+  213 |     auto listener = s1.declare_transport_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:214:19: error: 'TransportEvent' has not been declared
+  214 |         [&events](TransportEvent& e) { events.push_back(e.get_kind()); }, closures::none, std::move(tel_opts_2));
+      |                   ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:214:59: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  214 |         [&events](TransportEvent& e) { events.push_back(e.get_kind()); }, closures::none, std::move(tel_opts_2));
+      |                                                           ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events_background()':
+/work/repo/tests/universal/network/connectivity.cxx:229:8: error: 'class zenoh::Session' has no member named 'declare_background_transport_events_listener'
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:229:63: error: 'TransportEvent' has not been declared
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |                                                               ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:229:103: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                                       ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events()':
+/work/repo/tests/universal/network/connectivity.cxx:246:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  246 |     Session::LinkEventsListenerOptions lel_opts_1;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:247:5: error: 'lel_opts_1' was not declared in this scope
+  247 |     lel_opts_1.history = false;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:248:24: error: 'class zenoh::Session' has no member named 'declare_link_events_listener'
+  248 |     auto listener = s1.declare_link_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:249:19: error: 'LinkEvent' has not been declared
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                   ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:249:57: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                                                         ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:249:71: error: request for member 'get_link' in 'e', which is of non-class type 'int'
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                                                                       ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_history()':
+/work/repo/tests/universal/network/connectivity.cxx:284:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  284 |     Session::LinkEventsListenerOptions lel_opts_2;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:285:5: error: 'lel_opts_2' was not declared in this scope
+  285 |     lel_opts_2.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:286:24: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:286:63: error: 'LinkEvent' has not been declared
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                               ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:286:98: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                                  ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_background()':
+/work/repo/tests/universal/network/connectivity.cxx:302:8: error: 'class zenoh::Session' has no member named 'declare_background_link_events_listener'
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:302:58: error: 'LinkEvent' has not been declared
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                          ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:302:93: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                             ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:318:18: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  318 |     auto t1 = s1.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:319:18: error: 'std::tuple_element<1, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  319 |     auto t2 = s2.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:325:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  325 |     Session::LinkEventsListenerOptions lel_opts_3;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:326:5: error: 'lel_opts_3' was not declared in this scope
+  326 |     lel_opts_3.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:328:25: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:328:65: error: 'LinkEvent' has not been declared
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                                                                 ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:328:101: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                                                                                                     ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:338:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  338 |     Session::LinkEventsListenerOptions lel_opts_4;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:339:5: error: 'lel_opts_4' was not declared in this scope
+  339 |     lel_opts_4.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:341:25: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:341:65: error: 'LinkEvent' has not been declared
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                                                                 ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:341:101: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                                                                                                     ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transports_and_links()':
+/work/repo/tests/universal/network/connectivity.cxx:137:26: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  137 |     auto transports = s1.get_transports();
+      |                          ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:141:21: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  141 |     auto links = s1.get_links();
+      |                     ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_links_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:152:18: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  152 |     auto t1 = s1.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:153:18: error: 'std::tuple_element<1, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  153 |     auto t2 = s2.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:158:21: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  158 |     auto links = s1.get_links(std::move(t1[0]));
+      |                     ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:162:16: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_links'
+  162 |     links = s1.get_links(std::move(t2[0]));
+      |                ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events()':
+/work/repo/tests/universal/network/connectivity.cxx:173:14: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  173 |     Session::TransportEventsListenerOptions tel_opts_1;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:174:5: error: 'tel_opts_1' was not declared in this scope
+  174 |     tel_opts_1.history = false;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:175:24: error: 'class zenoh::Session' has no member named 'declare_transport_events_listener'
+  175 |     auto listener = s1.declare_transport_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:176:19: error: 'TransportEvent' has not been declared
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                   ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:176:62: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                                                              ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:176:76: error: request for member 'get_transport' in 'e', which is of non-class type 'int'
+  176 |         [&events](TransportEvent& e) { events.emplace_back(e.get_kind(), e.get_transport().get_zid()); },
+      |                                                                            ^~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events_history()':
+/work/repo/tests/universal/network/connectivity.cxx:211:14: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  211 |     Session::TransportEventsListenerOptions tel_opts_2;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:212:5: error: 'tel_opts_2' was not declared in this scope
+  212 |     tel_opts_2.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:213:24: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_transport_events_listener'
+  213 |     auto listener = s1.declare_transport_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:214:19: error: 'TransportEvent' has not been declared
+  214 |         [&events](TransportEvent& e) { events.push_back(e.get_kind()); }, closures::none, std::move(tel_opts_2));
+      |                   ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:214:59: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  214 |         [&events](TransportEvent& e) { events.push_back(e.get_kind()); }, closures::none, std::move(tel_opts_2));
+      |                                                           ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_transport_events_background()':
+/work/repo/tests/universal/network/connectivity.cxx:229:8: error: 'class zenoh::Session' has no member named 'declare_background_transport_events_listener'
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:229:63: error: 'TransportEvent' has not been declared
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |                                                               ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:229:103: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  229 |     s1.declare_background_transport_events_listener([&events](TransportEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                                       ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:85:41: error: 'Transport' does not name a type
+   85 | static std::string transport_json(const Transport& t) {
+      |                                         ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events()':
+/work/repo/tests/universal/network/connectivity.cxx:246:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  246 |     Session::LinkEventsListenerOptions lel_opts_1;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'std::string transport_json(const int&)':
+/work/repo/tests/verifier/parity_dump.cxx:87:30: error: request for member 'get_zid' in 't', which is of non-class type 'const int'
+   87 |     o << "{\"zid\":" << js(t.get_zid().to_string()) << ",\"whatami\":" << js(std::string(whatami_as_str(t.get_whatami())))
+      |                              ^~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:87:107: error: request for member 'get_whatami' in 't', which is of non-class type 'const int'
+   87 |     o << "{\"zid\":" << js(t.get_zid().to_string()) << ",\"whatami\":" << js(std::string(whatami_as_str(t.get_whatami())))
+      |                                                                                                           ^~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:88:31: error: request for member 'is_qos' in 't', which is of non-class type 'const int'
+   88 |       << ",\"is_qos\":" << (t.is_qos() ? "true" : "false") << ",\"is_multicast\":" << (t.is_multicast() ? "true" : "false");
+      |                               ^~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:88:90: error: request for member 'is_multicast' in 't', which is of non-class type 'const int'
+   88 |       << ",\"is_qos\":" << (t.is_qos() ? "true" : "false") << ",\"is_multicast\":" << (t.is_multicast() ? "true" : "false");
+      |                                                                                          ^~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:90:31: error: request for member 'is_shm' in 't', which is of non-class type 'const int'
+   90 |     o << ",\"is_shm\":" << (t.is_shm() ? "true" : "false");
+      |                               ^~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: At global scope:
+/work/repo/tests/verifier/parity_dump.cxx:96:36: error: 'Link' does not name a type
+   96 | static std::string link_json(const Link& l) {
+      |                                    ^~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'std::string link_json(const int&)':
+/work/repo/tests/verifier/parity_dump.cxx:98:30: error: request for member 'get_zid' in 'l', which is of non-class type 'const int'
+   98 |     o << "{\"zid\":" << js(l.get_zid().to_string()) << ",\"src\":" << js(l.get_src()) << ",\"dst\":" << js(l.get_dst())
+      |                              ^~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:98:76: error: request for member 'get_src' in 'l', which is of non-class type 'const int'
+   98 |     o << "{\"zid\":" << js(l.get_zid().to_string()) << ",\"src\":" << js(l.get_src()) << ",\"dst\":" << js(l.get_dst())
+      |                                                                            ^~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:98:110: error: request for member 'get_dst' in 'l', which is of non-class type 'const int'
+   98 |     o << "{\"zid\":" << js(l.get_zid().to_string()) << ",\"src\":" << js(l.get_src()) << ",\"dst\":" << js(l.get_dst())
+      |                                                                                                              ^~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:99:36: error: request for member 'get_group' in 'l', which is of non-class type 'const int'
+   99 |       << ",\"group\":" << opt_js(l.get_group()) << ",\"auth_identifier\":" << opt_js(l.get_auth_identifier())
+      |                                    ^~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:99:88: error: request for member 'get_auth_identifier' in 'l', which is of non-class type 'const int'
+   99 |       << ",\"group\":" << opt_js(l.get_group()) << ",\"auth_identifier\":" << opt_js(l.get_auth_identifier())
+      |                                                                                        ^~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:100:49: error: request for member 'get_mtu' in 'l', which is of non-class type 'const int'
+  100 |       << ",\"mtu\":" << static_cast<unsigned>(l.get_mtu()) << ",\"is_streamed\":" << (l.is_streamed() ? "true" : "false")
+      |                                                 ^~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:100:89: error: request for member 'is_streamed' in 'l', which is of non-class type 'const int'
+  100 |       << ",\"mtu\":" << static_cast<unsigned>(l.get_mtu()) << ",\"is_streamed\":" << (l.is_streamed() ? "true" : "false")
+      |                                                                                         ^~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:103:28: error: request for member 'get_interfaces' in 'l', which is of non-class type 'const int'
+  103 |     for (const auto& i : l.get_interfaces()) {
+      |                            ^~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:109:17: error: request for member 'get_priorities' in 'l', which is of non-class type 'const int'
+  109 |     auto pr = l.get_priorities();
+      |                 ^~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:115:18: error: request for member 'get_reliability' in 'l', which is of non-class type 'const int'
+  115 |     auto rel = l.get_reliability();
+      |                  ^~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:247:5: error: 'lel_opts_1' was not declared in this scope
+  247 |     lel_opts_1.history = false;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:248:24: error: 'class zenoh::Session' has no member named 'declare_link_events_listener'
+  248 |     auto listener = s1.declare_link_events_listener(
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:249:19: error: 'LinkEvent' has not been declared
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                   ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:249:57: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                                                         ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:249:71: error: request for member 'get_link' in 'e', which is of non-class type 'int'
+  249 |         [&events](LinkEvent& e) { events.emplace_back(e.get_kind(), e.get_link().get_zid()); }, closures::none,
+      |                                                                       ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_history()':
+/work/repo/tests/universal/network/connectivity.cxx:284:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  284 |     Session::LinkEventsListenerOptions lel_opts_2;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'int main()':
+/work/repo/tests/verifier/parity_dump.cxx:136:17: error: 'Transport' was not declared in this scope
+  136 |     std::vector<Transport> transports;
+      |                 ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:285:5: error: 'lel_opts_2' was not declared in this scope
+  285 |     lel_opts_2.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:136:26: error: template argument 1 is invalid
+  136 |     std::vector<Transport> transports;
+      |                          ^
+/work/repo/tests/verifier/parity_dump.cxx:136:26: error: template argument 2 is invalid
+/work/repo/tests/universal/network/connectivity.cxx:286:24: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In lambda function:
+/work/repo/tests/verifier/parity_dump.cxx:139:34: error: 'class zenoh::Session' has no member named 'get_transports'
+  139 |             transports = session.get_transports();
+      |                                  ^~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:286:63: error: 'LinkEvent' has not been declared
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                               ^~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:140:32: error: request for member 'empty' in 'transports', which is of non-class type 'int'
+  140 |             return !transports.empty();
+      |                                ^~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:286:98: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  286 |     auto listener = s1.declare_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                                  ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'int main()':
+/work/repo/tests/verifier/parity_dump.cxx:143:26: error: 'class zenoh::Session' has no member named 'get_links'
+  143 |     auto links = session.get_links();
+      |                          ^~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:146:21: error: request for member 'empty' in 'transports', which is of non-class type 'int'
+  146 |     if (!transports.empty()) {
+      |                     ^~~~~
+/work/repo/tests/verifier/parity_dump.cxx:147:18: error: expected ';' before 'copy'
+  147 |         Transport copy(transports[0]);  // exercises the copy constructor; get_links consumes its argument
+      |                  ^~~~~
+      |                  ;
+/work/repo/tests/verifier/parity_dump.cxx:148:40: error: 'class zenoh::Session' has no member named 'get_links'
+  148 |         links_filtered_count = session.get_links(std::move(copy)).size();
+      |                                        ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_background()':
+/work/repo/tests/universal/network/connectivity.cxx:302:8: error: 'class zenoh::Session' has no member named 'declare_background_link_events_listener'
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:302:58: error: 'LinkEvent' has not been declared
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                          ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:302:93: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  302 |     s1.declare_background_link_events_listener([&events](LinkEvent& e) { events.push_back(e.get_kind()); },
+      |                                                                                             ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:318:18: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  318 |     auto t1 = s1.get_transports();
+      |                  ^~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:148:60: error: 'copy' was not declared in this scope; did you mean 'std::copy'?
+  148 |         links_filtered_count = session.get_links(std::move(copy)).size();
+      |                                                            ^~~~
+      |                                                            std::copy
+/work/repo/tests/universal/network/connectivity.cxx:319:18: error: 'std::tuple_element<1, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'get_transports'
+  319 |     auto t2 = s2.get_transports();
+      |                  ^~~~~~~~~~~~~~
+In file included from /usr/include/c++/12/algorithm:73,
+                 from /work/repo/include/zenoh/api/ext/session_ext.hxx:18,
+                 from /work/repo/include/zenoh/api.hxx:48,
+                 from /work/repo/include/zenoh.hxx:19,
+                 from /work/repo/tests/verifier/parity_dump.cxx:24:
+/usr/include/c++/12/pstl/glue_algorithm_defs.h:134:1: note: 'std::copy' declared here
+  134 | copy(_ExecutionPolicy&& __exec, _ForwardIterator1 __first, _ForwardIterator1 __last, _ForwardIterator2 __result);
+      | ^~~~
+/work/repo/tests/universal/network/connectivity.cxx:325:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  325 |     Session::LinkEventsListenerOptions lel_opts_3;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:159:18: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  159 |         Session::LinkEventsListenerOptions opts;
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:326:5: error: 'lel_opts_3' was not declared in this scope
+  326 |     lel_opts_3.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:160:9: error: 'opts' was not declared in this scope
+  160 |         opts.history = true;
+      |         ^~~~
+/work/repo/tests/universal/network/connectivity.cxx:328:25: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:161:33: error: 'class zenoh::Session' has no member named 'declare_link_events_listener'
+  161 |         auto listener = session.declare_link_events_listener(
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:328:65: error: 'LinkEvent' has not been declared
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                                                                 ^~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:162:17: error: 'LinkEvent' has not been declared
+  162 |             [&](LinkEvent& e) {
+      |                 ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:328:101: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  328 |     auto listener1 = s1.declare_link_events_listener([&events1](LinkEvent& e) { events1.push_back(e.get_kind()); },
+      |                                                                                                     ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In lambda function:
+/work/repo/tests/verifier/parity_dump.cxx:165:56: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  165 |                     got = "{\"kind\":" + js(kind_str(e.get_kind())) + ",\"link\":" + link_json(e.get_link()) + "}";
+      |                                                        ^~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In function 'void test_link_events_filtered()':
+/work/repo/tests/universal/network/connectivity.cxx:338:14: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  338 |     Session::LinkEventsListenerOptions lel_opts_4;
+      |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:165:98: error: request for member 'get_link' in 'e', which is of non-class type 'int'
+  165 |                     got = "{\"kind\":" + js(kind_str(e.get_kind())) + ",\"link\":" + link_json(e.get_link()) + "}";
+      |                                                                                                  ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'int main()':
+/work/repo/tests/verifier/parity_dump.cxx:180:21: error: request for member 'empty' in 'transports', which is of non-class type 'int'
+  180 |     if (!transports.empty()) {
+      |                     ^~~~~
+/work/repo/tests/verifier/parity_dump.cxx:184:18: error: 'LinkEventsListenerOptions' is not a member of 'zenoh::Session'
+  184 |         Session::LinkEventsListenerOptions opts;
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:339:5: error: 'lel_opts_4' was not declared in this scope
+  339 |     lel_opts_4.history = true;
+      |     ^~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:341:25: error: 'std::tuple_element<0, std::pair<zenoh::Session, zenoh::Session> >::type' {aka 'class zenoh::Session'} has no member named 'declare_link_events_listener'
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx:341:65: error: 'LinkEvent' has not been declared
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                                                                 ^~~~~~~~~
+/work/repo/tests/universal/network/connectivity.cxx: In lambda function:
+/work/repo/tests/universal/network/connectivity.cxx:341:101: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  341 |     auto listener2 = s1.declare_link_events_listener([&events2](LinkEvent& e) { events2.push_back(e.get_kind()); },
+      |                                                                                                     ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:185:9: error: 'opts' was not declared in this scope
+  185 |         opts.history = true;
+      |         ^~~~
+/work/repo/tests/verifier/parity_dump.cxx:186:46: error: invalid types 'int[int]' for array subscript
+  186 |         opts.transport = Transport(transports[0]);
+      |                                              ^
+/work/repo/tests/verifier/parity_dump.cxx:187:33: error: 'class zenoh::Session' has no member named 'declare_link_events_listener'
+  187 |         auto listener = session.declare_link_events_listener(
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:188:17: error: 'LinkEvent' has not been declared
+  188 |             [&](LinkEvent& e) {
+      |                 ^~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In lambda function:
+/work/repo/tests/verifier/parity_dump.cxx:189:23: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  189 |                 if (e.get_kind() == Z_SAMPLE_KIND_PUT) {
+      |                       ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'int main()':
+/work/repo/tests/verifier/parity_dump.cxx:210:18: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  210 |         Session::TransportEventsListenerOptions opts;
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:211:9: error: 'opts' was not declared in this scope
+  211 |         opts.history = true;
+      |         ^~~~
+/work/repo/tests/verifier/parity_dump.cxx:212:33: error: 'class zenoh::Session' has no member named 'declare_transport_events_listener'
+  212 |         auto listener = session.declare_transport_events_listener(
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:213:17: error: 'TransportEvent' has not been declared
+  213 |             [&](TransportEvent& e) {
+      |                 ^~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In lambda function:
+/work/repo/tests/verifier/parity_dump.cxx:216:56: error: request for member 'get_kind' in 'e', which is of non-class type 'int'
+  216 |                     got = "{\"kind\":" + js(kind_str(e.get_kind())) + ",\"transport\":" + transport_json(e.get_transport()) + "}";
+      |                                                        ^~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:216:108: error: request for member 'get_transport' in 'e', which is of non-class type 'int'
+  216 |                     got = "{\"kind\":" + js(kind_str(e.get_kind())) + ",\"transport\":" + transport_json(e.get_transport()) + "}";
+      |                                                                                                            ^~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx: In function 'int main()':
+/work/repo/tests/verifier/parity_dump.cxx:235:18: error: 'TransportEventsListenerOptions' is not a member of 'zenoh::Session'
+  235 |         Session::TransportEventsListenerOptions opts;
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:236:9: error: 'opts' was not declared in this scope
+  236 |         opts.history = true;
+      |         ^~~~
+/work/repo/tests/verifier/parity_dump.cxx:237:17: error: 'class zenoh::Session' has no member named 'declare_background_transport_events_listener'
+  237 |         session.declare_background_transport_events_listener(
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:238:17: error: 'TransportEvent' has not been declared
+  238 |             [&](TransportEvent&) {
+      |                 ^~~~~~~~~~~~~~
+/work/repo/tests/verifier/parity_dump.cxx:250:39: error: request for member 'size' in 'transports', which is of non-class type 'int'
+  250 |     for (size_t i = 0; i < transports.size(); ++i) {
+      |                                       ^~~~
+/work/repo/tests/verifier/parity_dump.cxx:252:39: error: invalid types 'int[size_t {aka long unsigned int}]' for array subscript
+  252 |         o << transport_json(transports[i]);
+      |                                       ^
+gmake[3]: *** [tests/CMakeFiles/connectivity_zenohpico.dir/build.make:76: tests/CMakeFiles/connectivity_zenohpico.dir/universal/network/connectivity.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/connectivity_zenohpico.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:687: tests/CMakeFiles/connectivity_zenohpico.dir/all] Error 2
+/work/repo/tests/verifier/interop_optional.cxx: In function 'int main()':
+/work/repo/tests/verifier/interop_optional.cxx:64:17: error: 'LinkEventsListener' was not declared in this scope
+   64 |     check_empty<LinkEventsListener<TestHandler>>("LinkEventsListener");
+      |                 ^~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx:64:5: error: parse error in template argument list
+   64 |     check_empty<LinkEventsListener<TestHandler>>("LinkEventsListener");
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx:64:47: error: invalid operands of types '<unresolved overloaded function type>' and 'const char [19]' to binary 'operator>'
+   64 |     check_empty<LinkEventsListener<TestHandler>>("LinkEventsListener");
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+      |     |                                            |
+      |     <unresolved overloaded function type>        const char [19]
+/work/repo/tests/verifier/interop_optional.cxx:65:17: error: 'TransportEventsListener' was not declared in this scope; did you mean 'z_transport_events_listener_take'?
+   65 |     check_empty<TransportEventsListener<TestHandler>>("TransportEventsListener");
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~
+      |                 z_transport_events_listener_take
+/work/repo/tests/verifier/interop_optional.cxx:65:5: error: parse error in template argument list
+   65 |     check_empty<TransportEventsListener<TestHandler>>("TransportEventsListener");
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx:65:52: error: invalid operands of types '<unresolved overloaded function type>' and 'const char [24]' to binary 'operator>'
+   65 |     check_empty<TransportEventsListener<TestHandler>>("TransportEventsListener");
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     |                                                 |
+      |     <unresolved overloaded function type>             const char [24]
+/work/repo/tests/verifier/interop_optional.cxx:84:38: error: template argument 1 is invalid
+   84 |     std::optional<LinkEventsListener<TestHandler>> ll = LinkEventsListener<TestHandler>(
+      |                                      ^~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx:84:49: error: expected unqualified-id before '>' token
+   84 |     std::optional<LinkEventsListener<TestHandler>> ll = LinkEventsListener<TestHandler>(
+      |                                                 ^~
+/work/repo/tests/verifier/interop_optional.cxx:85:63: error: expected primary-expression before ',' token
+   85 |         session.declare_link_events_listener([](LinkEvent&) {}, closures::none), make_handler(session, ke));
+      |                                                               ^
+/work/repo/tests/verifier/interop_optional.cxx:86:21: error: 'll' was not declared in this scope; did you mean 'ml'?
+   86 |     check_populated(ll, "LinkEventsListener");
+      |                     ^~
+      |                     ml
+/work/repo/tests/verifier/interop_optional.cxx:88:43: error: template argument 1 is invalid
+   88 |     std::optional<TransportEventsListener<TestHandler>> tl = TransportEventsListener<TestHandler>(
+      |                                           ^~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx:88:54: error: expected unqualified-id before '>' token
+   88 |     std::optional<TransportEventsListener<TestHandler>> tl = TransportEventsListener<TestHandler>(
+      |                                                      ^~
+/work/repo/tests/verifier/interop_optional.cxx:89:73: error: expected primary-expression before ',' token
+   89 |         session.declare_transport_events_listener([](TransportEvent&) {}, closures::none), make_handler(session, ke));
+      |                                                                         ^
+/work/repo/tests/verifier/interop_optional.cxx:90:21: error: 'tl' was not declared in this scope; did you mean 'ml'?
+   90 |     check_populated(tl, "TransportEventsListener");
+      |                     ^~
+      |                     ml
+gmake[3]: *** [tests/CMakeFiles/connectivity_zenohc.dir/build.make:76: tests/CMakeFiles/connectivity_zenohc.dir/universal/network/connectivity.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/connectivity_zenohc.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:661: tests/CMakeFiles/connectivity_zenohc.dir/all] Error 2
+gmake[3]: *** [tests/CMakeFiles/parity_dump_zenohc.dir/build.make:76: tests/CMakeFiles/parity_dump_zenohc.dir/verifier/parity_dump.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/parity_dump_zenohc.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:1181: tests/CMakeFiles/parity_dump_zenohc.dir/all] Error 2
+gmake[3]: *** [tests/CMakeFiles/interop_optional_zenohc.dir/build.make:76: tests/CMakeFiles/interop_optional_zenohc.dir/verifier/interop_optional.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/interop_optional_zenohc.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:1155: tests/CMakeFiles/interop_optional_zenohc.dir/all] Error 2
+gmake[2]: Target 'tests/CMakeFiles/tests.dir/all' not remade because of errors.
+gmake[1]: *** [CMakeFiles/Makefile2:247: tests/CMakeFiles/tests.dir/rule] Error 2
+gmake[1]: Target 'tests' not remade because of errors.
+gmake: *** [Makefile:199: tests] Error 2

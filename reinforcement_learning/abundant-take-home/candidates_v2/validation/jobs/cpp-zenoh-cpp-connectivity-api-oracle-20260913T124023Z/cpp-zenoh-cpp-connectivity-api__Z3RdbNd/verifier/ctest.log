@@ -1,0 +1,352 @@
+UpdateCTestConfiguration  from :/work/repo/build/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/work/repo/build/DartConfiguration.tcl
+Test project /work/repo/build
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: test_bytes_zenohc
+
+1: Test command: /work/repo/build/tests/bytes_zenohc
+1: Working Directory: /work/repo/build/tests
+1: Test timeout computed to be: 300
+ 1/32 Test  #1: test_bytes_zenohc .................   Passed    0.10 sec
+test 2
+      Start  2: test_bytes_zenohpico
+
+2: Test command: /work/repo/build/tests/bytes_zenohpico
+2: Working Directory: /work/repo/build/tests
+2: Test timeout computed to be: 300
+ 2/32 Test  #2: test_bytes_zenohpico ..............   Passed    0.00 sec
+test 3
+      Start  3: test_closures_zenohc
+
+3: Test command: /work/repo/build/tests/closures_zenohc
+3: Working Directory: /work/repo/build/tests
+3: Test timeout computed to be: 300
+ 3/32 Test  #3: test_closures_zenohc ..............   Passed    0.00 sec
+test 4
+      Start  4: test_closures_zenohpico
+
+4: Test command: /work/repo/build/tests/closures_zenohpico
+4: Working Directory: /work/repo/build/tests
+4: Test timeout computed to be: 300
+ 4/32 Test  #4: test_closures_zenohpico ...........   Passed    0.00 sec
+test 5
+      Start  5: test_details_zenohc
+
+5: Test command: /work/repo/build/tests/details_zenohc
+5: Working Directory: /work/repo/build/tests
+5: Test timeout computed to be: 300
+ 5/32 Test  #5: test_details_zenohc ...............   Passed    0.00 sec
+test 6
+      Start  6: test_details_zenohpico
+
+6: Test command: /work/repo/build/tests/details_zenohpico
+6: Working Directory: /work/repo/build/tests
+6: Test timeout computed to be: 300
+ 6/32 Test  #6: test_details_zenohpico ............   Passed    0.00 sec
+test 7
+      Start  7: test_serialization_zenohc
+
+7: Test command: /work/repo/build/tests/serialization_zenohc
+7: Working Directory: /work/repo/build/tests
+7: Test timeout computed to be: 300
+ 7/32 Test  #7: test_serialization_zenohc .........   Passed    0.01 sec
+test 8
+      Start  8: test_serialization_zenohpico
+
+8: Test command: /work/repo/build/tests/serialization_zenohpico
+8: Working Directory: /work/repo/build/tests
+8: Test timeout computed to be: 300
+ 8/32 Test  #8: test_serialization_zenohpico ......   Passed    0.00 sec
+test 9
+      Start  9: test_advanced_pub_sub_zenohc
+
+9: Test command: /work/repo/build/tests/advanced_pub_sub_zenohc
+9: Working Directory: /work/repo/build/tests
+9: Test timeout computed to be: 300
+ 9/32 Test  #9: test_advanced_pub_sub_zenohc ......   Passed   16.16 sec
+test 10
+      Start 10: test_advanced_pub_sub_zenohpico
+
+10: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/advanced_pub_sub_zenohpico" "main"
+10: Working Directory: /work/repo/build/tests
+10: Test timeout computed to be: 300
+10: ------------------ Running test /work/repo/build/tests/advanced_pub_sub_zenohpico (router tcp/127.0.0.1:27447) -------------------
+10/32 Test #10: test_advanced_pub_sub_zenohpico ...   Passed   23.43 sec
+test 11
+      Start 11: test_cancellation_zenohc
+
+11: Test command: /work/repo/build/tests/cancellation_zenohc
+11: Working Directory: /work/repo/build/tests
+11: Test timeout computed to be: 300
+11: test_get
+11: Check cancel removes callbacks
+11: Check cancel blocks until callback is finished
+11: Check cancelled token does not send a query
+11: test_querier_get
+11: Check cancel removes callbacks
+11: Check cancel blocks until callback is finished
+11: Check cancelled token does not send a query
+11: test_liveliness_get
+11: Check cancel blocks until callback is finished
+11: Check cancelled token does not send a query
+11/32 Test #11: test_cancellation_zenohc ..........   Passed   22.13 sec
+test 12
+      Start 12: test_cancellation_zenohpico
+
+12: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/cancellation_zenohpico" "main"
+12: Working Directory: /work/repo/build/tests
+12: Test timeout computed to be: 300
+12: ------------------ Running test /work/repo/build/tests/cancellation_zenohpico (router tcp/127.0.0.1:27447) -------------------
+12: test_get
+12: Check cancel removes callbacks
+12: Check cancel blocks until callback is finished
+12: Check cancelled token does not send a query
+12: test_querier_get
+12: Check cancel removes callbacks
+12: Check cancel blocks until callback is finished
+12: Check cancelled token does not send a query
+12: test_liveliness_get
+12: Check cancel blocks until callback is finished
+12: Check cancelled token does not send a query
+12/32 Test #12: test_cancellation_zenohpico .......   Passed   36.69 sec
+test 13
+      Start 13: test_connectivity_zenohc
+
+13: Test command: /work/repo/build/tests/connectivity_zenohc
+13: Working Directory: /work/repo/build/tests
+13: Test timeout computed to be: 300
+13: [2m2026-09-13T12:44:51.891878Z[0m [31mERROR[0m rx-2 ThreadId(09) [2mzenoh::api::admin[0m[2m:[0m Unable to publish link event: session closed
+13: === test_info_zid ===
+13: PASS
+13: 
+13: === test_transports_and_links ===
+13: PASS
+13: 
+13: === test_links_filtered ===
+13: PASS
+13: 
+13: === test_transport_events ===
+13: PASS
+13: 
+13: === test_transport_events_history ===
+13: PASS
+13: 
+13: === test_transport_events_background ===
+13: PASS
+13: 
+13: === test_link_events ===
+13: PASS
+13: 
+13: === test_link_events_history ===
+13: PASS
+13: 
+13: === test_link_events_background ===
+13: PASS
+13: 
+13: === test_link_events_filtered ===
+13: PASS
+13: 
+13: All connectivity tests passed!
+13/32 Test #13: test_connectivity_zenohc ..........   Passed   32.12 sec
+test 14
+      Start 14: test_connectivity_zenohpico
+
+14: Test command: /work/repo/build/tests/connectivity_zenohpico
+14: Working Directory: /work/repo/build/tests
+14: Test timeout computed to be: 300
+14: === test_info_zid ===
+14: PASS
+14: 
+14: === test_transports_and_links ===
+14: PASS
+14: 
+14: === test_links_filtered ===
+14: PASS
+14: 
+14: === test_transport_events ===
+14: PASS
+14: 
+14: === test_transport_events_history ===
+14: PASS
+14: 
+14: === test_transport_events_background ===
+14: PASS
+14: 
+14: === test_link_events ===
+14: PASS
+14: 
+14: === test_link_events_history ===
+14: PASS
+14: 
+14: === test_link_events_background ===
+14: PASS
+14: 
+14: === test_link_events_filtered ===
+14: PASS
+14: 
+14: All connectivity tests passed!
+14/32 Test #14: test_connectivity_zenohpico .......   Passed   56.68 sec
+test 15
+      Start 15: test_keyexpr_zenohc
+
+15: Test command: /work/repo/build/tests/keyexpr_zenohc
+15: Working Directory: /work/repo/build/tests
+15: Test timeout computed to be: 300
+15/32 Test #15: test_keyexpr_zenohc ...............   Passed    0.01 sec
+test 16
+      Start 16: test_keyexpr_zenohpico
+
+16: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/keyexpr_zenohpico" "main"
+16: Working Directory: /work/repo/build/tests
+16: Test timeout computed to be: 300
+16: ------------------ Running test /work/repo/build/tests/keyexpr_zenohpico (router tcp/127.0.0.1:27447) -------------------
+16/32 Test #16: test_keyexpr_zenohpico ............   Passed    3.35 sec
+test 17
+      Start 17: test_liveliness_zenohc
+
+17: Test command: /work/repo/build/tests/liveliness_zenohc
+17: Working Directory: /work/repo/build/tests
+17: Test timeout computed to be: 300
+17/32 Test #17: test_liveliness_zenohc ............   Passed    6.02 sec
+test 18
+      Start 18: test_liveliness_zenohpico
+
+18: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/liveliness_zenohpico" "main"
+18: Working Directory: /work/repo/build/tests
+18: Test timeout computed to be: 300
+18: ------------------ Running test /work/repo/build/tests/liveliness_zenohpico (router tcp/127.0.0.1:27447) -------------------
+18/32 Test #18: test_liveliness_zenohpico .........   Passed   16.68 sec
+test 19
+      Start 19: test_pub_sub_zenohc
+
+19: Test command: /work/repo/build/tests/pub_sub_zenohc
+19: Working Directory: /work/repo/build/tests
+19: Test timeout computed to be: 300
+19/32 Test #19: test_pub_sub_zenohc ...............   Passed   36.13 sec
+test 20
+      Start 20: test_pub_sub_zenohpico
+
+20: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/pub_sub_zenohpico" "main"
+20: Working Directory: /work/repo/build/tests
+20: Test timeout computed to be: 300
+20: ------------------ Running test /work/repo/build/tests/pub_sub_zenohpico (router tcp/127.0.0.1:27447) -------------------
+20/32 Test #20: test_pub_sub_zenohpico ............   Passed   30.02 sec
+test 21
+      Start 21: test_queryable_get_zenohc
+
+21: Test command: /work/repo/build/tests/queryable_get_zenohc
+21: Working Directory: /work/repo/build/tests
+21: Test timeout computed to be: 300
+21/32 Test #21: test_queryable_get_zenohc .........   Passed    5.02 sec
+test 22
+      Start 22: test_queryable_get_zenohpico
+
+22: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/queryable_get_zenohpico" "main"
+22: Working Directory: /work/repo/build/tests
+22: Test timeout computed to be: 300
+22: ------------------ Running test /work/repo/build/tests/queryable_get_zenohpico (router tcp/127.0.0.1:27447) -------------------
+22/32 Test #22: test_queryable_get_zenohpico ......   Passed   20.01 sec
+test 23
+      Start 23: test_source_info_zenohc
+
+23: Test command: /work/repo/build/tests/source_info_zenohc
+23: Working Directory: /work/repo/build/tests
+23: Test timeout computed to be: 300
+23: Test source info: pub_sub
+23: Test source info: put_sub
+23: Test source info: query_reply
+23: Test source info: querier_reply
+23/32 Test #23: test_source_info_zenohc ...........   Passed   16.06 sec
+test 24
+      Start 24: test_source_info_zenohpico
+
+24: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/source_info_zenohpico" "main"
+24: Working Directory: /work/repo/build/tests
+24: Test timeout computed to be: 300
+24: ------------------ Running test /work/repo/build/tests/source_info_zenohpico (router tcp/127.0.0.1:27447) -------------------
+24: Test source info: pub_sub
+24: Test source info: put_sub
+24: Test source info: query_reply
+24: Test source info: querier_reply
+24/32 Test #24: test_source_info_zenohpico ........   Passed   33.30 sec
+test 25
+      Start 25: test_config_zenohc
+
+25: Test command: /work/repo/build/tests/config_zenohc
+25: Working Directory: /work/repo/build/tests
+25: Test timeout computed to be: 300
+25/32 Test #25: test_config_zenohc ................   Passed    0.00 sec
+test 26
+      Start 26: test_shm_api_zenohc
+
+26: Test command: /work/repo/build/tests/shm_api_zenohc
+26: Working Directory: /work/repo/build/tests
+26: Test timeout computed to be: 300
+26/32 Test #26: test_shm_api_zenohc ...............   Passed    0.13 sec
+test 27
+      Start 27: test_config_zenohpico
+
+27: Test command: /work/repo/build/tests/config_zenohpico
+27: Working Directory: /work/repo/build/tests
+27: Test timeout computed to be: 300
+27/32 Test #27: test_config_zenohpico .............   Passed    0.00 sec
+test 28
+      Start 28: test_batching_zenohpico
+
+28: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/batching_zenohpico" "main"
+28: Working Directory: /work/repo/build/tests
+28: Test timeout computed to be: 300
+28: ------------------ Running test /work/repo/build/tests/batching_zenohpico (router tcp/127.0.0.1:27447) -------------------
+28/32 Test #28: test_batching_zenohpico ...........   Passed   10.01 sec
+test 29
+      Start 29: test_tasks_zenohpico
+
+29: Test command: /usr/bin/bash "/work/repo/build/tests/run_with_router.sh" "/work/repo/build/tests/tasks_zenohpico" "main"
+29: Working Directory: /work/repo/build/tests
+29: Test timeout computed to be: 300
+29: ------------------ Running test /work/repo/build/tests/tasks_zenohpico (router tcp/127.0.0.1:27447) -------------------
+29: Test tasks auto start: all
+29: Test tasks auto start: individual
+29/32 Test #29: test_tasks_zenohpico ..............   Passed    6.78 sec
+test 30
+      Start 30: test_warnings_zenohc
+
+30: Test command: /work/repo/build/tests/warnings_zenohc
+30: Working Directory: /work/repo/build/tests
+30: Test timeout computed to be: 300
+30/32 Test #30: test_warnings_zenohc ..............   Passed    0.00 sec
+test 31
+      Start 31: test_warnings_zenohpico
+
+31: Test command: /work/repo/build/tests/warnings_zenohpico
+31: Working Directory: /work/repo/build/tests
+31: Test timeout computed to be: 300
+31/32 Test #31: test_warnings_zenohpico ...........   Passed    0.00 sec
+test 32
+      Start 32: test_interop_optional_zenohc
+
+32: Test command: /work/repo/build/tests/interop_optional_zenohc
+32: Working Directory: /work/repo/build/tests
+32: Test timeout computed to be: 300
+32: empty optional<Subscriber>: PASS
+32: empty optional<Queryable>: PASS
+32: empty optional<MatchingListener>: PASS
+32: empty optional<LinkEventsListener>: PASS
+32: empty optional<TransportEventsListener>: PASS
+32: populated optional<Subscriber>: PASS
+32: populated optional<Queryable>: PASS
+32: populated optional<MatchingListener>: PASS
+32: populated optional<LinkEventsListener>: PASS
+32: populated optional<TransportEventsListener>: PASS
+32: All interop_optional checks passed!
+32/32 Test #32: test_interop_optional_zenohc ......   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 32
+
+Total Test time (real) = 370.90 sec

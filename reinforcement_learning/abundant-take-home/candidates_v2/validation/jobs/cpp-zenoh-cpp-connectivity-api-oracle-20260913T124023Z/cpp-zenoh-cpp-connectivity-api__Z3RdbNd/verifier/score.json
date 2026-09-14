@@ -1,0 +1,317 @@
+{
+ "ctest_exit_code": 0,
+ "groups": {
+  "anti_cheat": {
+   "ok": true,
+   "report": "anti_cheat.json"
+  },
+  "authored": {
+   "expected": 1,
+   "ok": true,
+   "passed": 1,
+   "tests": {
+    "test_interop_optional_zenohc": true
+   }
+  },
+  "build": {
+   "log": "build.log",
+   "ok": true
+  },
+  "parity": {
+   "checks": [
+    {
+     "check": "cpp_dump_parses",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "py_dump_parses",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "cpp_own_zid_differs_from_py",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "transport_count_1",
+     "detail": "cpp=1 py=1",
+     "ok": true
+    },
+    {
+     "check": "link_count_1",
+     "detail": "cpp=1 py=1",
+     "ok": true
+    },
+    {
+     "check": "transport0.zid",
+     "detail": "71829c578a9d4e12ca33a474d3c9ce21 vs 71829c578a9d4e12ca33a474d3c9ce21",
+     "ok": true
+    },
+    {
+     "check": "transport0.whatami_router",
+     "detail": "router vs router",
+     "ok": true
+    },
+    {
+     "check": "transport0.is_qos",
+     "detail": "True vs True",
+     "ok": true
+    },
+    {
+     "check": "transport0.is_multicast",
+     "detail": "False vs False",
+     "ok": true
+    },
+    {
+     "check": "link0.zid",
+     "detail": "71829c578a9d4e12ca33a474d3c9ce21 vs 71829c578a9d4e12ca33a474d3c9ce21 (transport 71829c578a9d4e12ca33a474d3c9ce21)",
+     "ok": true
+    },
+    {
+     "check": "link0.dst_is_router",
+     "detail": "tcp/127.0.0.1:27447 vs tcp/127.0.0.1:27447",
+     "ok": true
+    },
+    {
+     "check": "link0.src_prefix",
+     "detail": "tcp/127.0.0.1:57512 vs tcp/127.0.0.1:57528",
+     "ok": true
+    },
+    {
+     "check": "link0.group_none",
+     "detail": "None vs None",
+     "ok": true
+    },
+    {
+     "check": "link0.auth_identifier_none",
+     "detail": "None vs None",
+     "ok": true
+    },
+    {
+     "check": "link0.mtu",
+     "detail": "65480 vs 65480",
+     "ok": true
+    },
+    {
+     "check": "link0.is_streamed",
+     "detail": "True vs True",
+     "ok": true
+    },
+    {
+     "check": "link0.interfaces",
+     "detail": "['lo'] vs ['lo']",
+     "ok": true
+    },
+    {
+     "check": "link0.priorities",
+     "detail": "[0, 7] vs [0, 7]",
+     "ok": true
+    },
+    {
+     "check": "link0.reliability",
+     "detail": "'reliable' vs 'reliable'",
+     "ok": true
+    },
+    {
+     "check": "link0.is_streamed_true",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "cpp_links_filtered_equals_links",
+     "detail": "1 vs 1",
+     "ok": true
+    },
+    {
+     "check": "link_event_present",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "link_event.kind_put",
+     "detail": "put vs put",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.zid",
+     "detail": "71829c578a9d4e12ca33a474d3c9ce21 vs 71829c578a9d4e12ca33a474d3c9ce21 (transport 71829c578a9d4e12ca33a474d3c9ce21)",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.dst_is_router",
+     "detail": "tcp/127.0.0.1:27447 vs tcp/127.0.0.1:27447",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.src_prefix",
+     "detail": "tcp/127.0.0.1:57512 vs tcp/127.0.0.1:57528",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.group_none",
+     "detail": "None vs None",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.auth_identifier_none",
+     "detail": "None vs None",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.mtu",
+     "detail": "65480 vs 65480",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.is_streamed",
+     "detail": "True vs True",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.interfaces",
+     "detail": "['lo'] vs ['lo']",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.priorities",
+     "detail": "[0, 7] vs [0, 7]",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.reliability",
+     "detail": "'reliable' vs 'reliable'",
+     "ok": true
+    },
+    {
+     "check": "link_event.link.is_streamed_true",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "transport_event_present",
+     "detail": "",
+     "ok": true
+    },
+    {
+     "check": "transport_event.kind_put",
+     "detail": "put vs put",
+     "ok": true
+    },
+    {
+     "check": "transport_event.transport.zid",
+     "detail": "71829c578a9d4e12ca33a474d3c9ce21 vs 71829c578a9d4e12ca33a474d3c9ce21",
+     "ok": true
+    },
+    {
+     "check": "transport_event.transport.whatami_router",
+     "detail": "router vs router",
+     "ok": true
+    },
+    {
+     "check": "transport_event.transport.is_qos",
+     "detail": "True vs True",
+     "ok": true
+    },
+    {
+     "check": "transport_event.transport.is_multicast",
+     "detail": "False vs False",
+     "ok": true
+    },
+    {
+     "check": "cpp_link_event_filtered_by_transport",
+     "detail": "1",
+     "ok": true
+    },
+    {
+     "check": "cpp_background_listener_fired",
+     "detail": "1",
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "report": "parity_result.json"
+  },
+  "pr_tests": {
+   "expected": 2,
+   "markers": {
+    "test_connectivity_zenohc": {
+     "all_passed_line": true,
+     "ok": true,
+     "passes": 10,
+     "sub_tests": 10
+    },
+    "test_connectivity_zenohpico": {
+     "all_passed_line": true,
+     "ok": true,
+     "passes": 10,
+     "sub_tests": 10
+    }
+   },
+   "ok": true,
+   "passed": 2,
+   "tests": {
+    "test_connectivity_zenohc": true,
+    "test_connectivity_zenohpico": true
+   }
+  },
+  "registered_tests": {
+   "expected_count": 32,
+   "ok": true,
+   "registered_count": 32
+  },
+  "regression_zenohc": {
+   "expected": 14,
+   "ok": true,
+   "passed": 14,
+   "tests": {
+    "test_advanced_pub_sub_zenohc": true,
+    "test_bytes_zenohc": true,
+    "test_cancellation_zenohc": true,
+    "test_closures_zenohc": true,
+    "test_config_zenohc": true,
+    "test_details_zenohc": true,
+    "test_keyexpr_zenohc": true,
+    "test_liveliness_zenohc": true,
+    "test_pub_sub_zenohc": true,
+    "test_queryable_get_zenohc": true,
+    "test_serialization_zenohc": true,
+    "test_shm_api_zenohc": true,
+    "test_source_info_zenohc": true,
+    "test_warnings_zenohc": true
+   }
+  },
+  "regression_zenohpico": {
+   "expected": 15,
+   "ok": true,
+   "passed": 15,
+   "tests": {
+    "test_advanced_pub_sub_zenohpico": true,
+    "test_batching_zenohpico": true,
+    "test_bytes_zenohpico": true,
+    "test_cancellation_zenohpico": true,
+    "test_closures_zenohpico": true,
+    "test_config_zenohpico": true,
+    "test_details_zenohpico": true,
+    "test_keyexpr_zenohpico": true,
+    "test_liveliness_zenohpico": true,
+    "test_pub_sub_zenohpico": true,
+    "test_queryable_get_zenohpico": true,
+    "test_serialization_zenohpico": true,
+    "test_source_info_zenohpico": true,
+    "test_tasks_zenohpico": true,
+    "test_warnings_zenohpico": true
+   }
+  },
+  "router": {
+   "alive_after_run": true,
+   "ok": true
+  }
+ },
+ "junit_error": null,
+ "reward": 1,
+ "tests_expected": 32,
+ "tests_passed": 32,
+ "tests_reported": 32
+}

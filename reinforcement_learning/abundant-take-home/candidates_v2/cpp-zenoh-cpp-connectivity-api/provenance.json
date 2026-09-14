@@ -1,0 +1,255 @@
+{
+  "task_id": "cpp-zenoh-cpp-connectivity-api",
+  "language": "cpp",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/eclipse-zenoh/zenoh-cpp",
+    "base_commit": "0dd5f5a98faffdd53ab0816eb892b521c3965f41",
+    "base_commit_date": "2026-03-13T10:19:23Z",
+    "base_commit_subject": "CMake: fix absolute include install dir (#702)",
+    "license": "EPL-2.0 OR Apache-2.0",
+    "submodules": {
+      "note": "The task tree pins both submodules at the merge commit's SHAs, not the base commit's. zenoh-c base pin ee5125bb already contains the C connectivity API (zenoh-c #1171, merged 2026-03-11); it is two commits behind the merge pin (#1219 sync with zenoh, #1220 enum defaults). zenoh-pico base pin d5ae9d9b (2026-02-06) predates zenoh-pico's connectivity API (#1183), so the merge pin is required for the pico backend. The submodule bump is therefore excluded from the gold patch and provided in the environment. zenoh-c #1265 'create transport from fields' (2026-04-10) is not an ancestor of the pin and is not required.",
+      "zenoh-c": {
+        "base_pin": "ee5125bbb41691d12f67b1393ab3f0468f6fa683",
+        "task_pin": "8fd05be3584673db10d5c8cfd0510bf550bbe53c",
+        "task_pin_date": "2026-03-12T16:33:36+01:00",
+        "zenoh_rust_rev": "a688d70fda556b5e28581c7ab3c21235d6e5ee89",
+        "version": "1.7.2-dev",
+        "rust_toolchain": "1.93.0"
+      },
+      "zenoh-pico": {
+        "base_pin": "d5ae9d9bbdc0a917f130aa99990344354d51b3a9",
+        "task_pin": "b8f785621a0d0bf5e3ab461843d3303045fab9bf",
+        "task_pin_date": "2026-03-12T16:58:41+01:00",
+        "version": "1.7.2"
+      }
+    }
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "f79b45acc02a426286526f817138116e48c691c50ed083ccd5279efea02f367e",
+    "clean_git_archive": true,
+    "contents": "git archive of base commit + git archive of zenoh-c@8fd05be3 under zenoh-c/ + git archive of zenoh-pico@b8f78562 under zenoh-pico/; 955 files (186 + 210 + 559), no .git, no tests from the PR, no solution; the 186 zenoh-cpp blobs verified equal to the base commit tree",
+    "duplicate": "tests/upstream.tar.gz (identical bytes; verifier build context)",
+    "previous_sha256": "83182a0b65933bb7030b04e5f14b28b121e8692d41847ae3b796c4c775ea1a0f (defective: carried 955 AppleDouble ._* members from a macOS bsdtar re-pack; rewritten 2026-09-13 with the same 955 real members, see STATUS.md validation log)"
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/eclipse-zenoh/zenoh-cpp/pull/750",
+    "title": "connectivity api",
+    "author": "milyin",
+    "merged_at": "2026-03-13T11:13:14Z",
+    "merge_commit": "9b6391d5a3bbb86a9eb2f2f15032fff68acde801",
+    "issue": "https://github.com/eclipse-zenoh/zenoh-cpp/issues/749",
+    "upstream_lineage": [
+      "https://github.com/eclipse-zenoh/zenoh/pull/2301",
+      "https://github.com/eclipse-zenoh/zenoh-c/pull/1171",
+      "https://github.com/eclipse-zenoh/zenoh-python/pull/684"
+    ],
+    "full_pr": {
+      "files": 31,
+      "additions": 1569,
+      "deletions": 55
+    },
+    "gold_patch": {
+      "path": "solution/changes.patch",
+      "sha256": "301bdcabbda1e0b6b09010edf678feefab7009c07c15176dcd77b8b08af113e8",
+      "files": 27,
+      "additions": 1182,
+      "deletions": 51,
+      "include_files": 20,
+      "excluded": [
+        "tests/CMakeLists.txt",
+        "tests/universal/network/connectivity.cxx",
+        "zenoh-c (submodule bump)",
+        "zenoh-pico (submodule bump)"
+      ],
+      "git_apply_check": "OK against the worktree at base and against the plain (no .git) staged tree"
+    }
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "zenoh-python 1.8.0 (eclipse-zenoh wheel, hash-pinned) connecting to zenohd 1.8.0 (release build for the *-unknown-linux-gnu target, sha256-pinned per architecture) as the parity peer; plus PR tests (tests/universal/network/connectivity.cxx for zenoh-c and zenoh-pico) and the full upstream regression suites run as router clients; plus one authored test (interop_optional).",
+    "groups": [
+      "anti_cheat",
+      "build",
+      "router",
+      "registered_tests",
+      "pr_tests",
+      "regression_zenohc",
+      "regression_zenohpico",
+      "authored",
+      "parity"
+    ],
+    "exact_counts": {
+      "ctest_tests": 32,
+      "connectivity_subtests_per_backend": 10,
+      "parity_checks": "all in compare_parity.py"
+    }
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "PR merged 2026-03-13; sibling bindings (Rust 2026-01-14, zenoh-c 2026-03-11, zenoh-python 2026-03-11) are public and structurally similar, so a model that knows zenoh-c's connectivity API has a head start on names but still has to produce the C++ RAII/closure/channel plumbing for six new types, twelve Session methods and the optional-fix. Not interface-shifted."
+  },
+  "horizon": {
+    "proxy": "20 header files touched, +1182/-51 non-test lines; 6 new Owned types, 2 listener templates with interop overloads, 4 closure trampolines, 8 Session methods + 2 option structs, 6 pre-existing bug fixes; two backends and a strict -Werror build",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/eclipse-zenoh/zenoh-cpp/issues/749 (release item: implement connectivity API)",
+      "https://github.com/eclipse-zenoh/zenoh/issues/692 (original feature request implemented by zenoh #2301)",
+      "https://github.com/eclipse-zenoh/zenoh-python/pull/684 (same feature landed in Python two days earlier)"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "connectivity.cxx test_info_zid: router session lists peer in get_peers_z_id, peer lists router in get_routers_z_id",
+      "instruction_ref": "Existing session info"
+    },
+    {
+      "assertion": "connectivity.cxx test_transports_and_links: get_transports().size()==1 with zid == peer zid; get_links().size()==1 with zid == peer zid",
+      "instruction_ref": "Session additions: get_transports/get_links semantics; Transport::get_zid; Link::get_zid"
+    },
+    {
+      "assertion": "connectivity.cxx test_links_filtered: get_links(own transport) -> 1 link; get_links(transport from other session) -> empty; argument passed as rvalue Transport",
+      "instruction_ref": "get_links(t) filters by transport identity, foreign transport yields empty; signature std::optional<Transport>; consumed argument"
+    },
+    {
+      "assertion": "connectivity.cxx test_transport_events / test_link_events: history=false -> no events before connect, PUT with peer zid after connect, DELETE after s2.close() (zenoh-c)",
+      "instruction_ref": "Semantics bullet on PUT/DELETE and history=false"
+    },
+    {
+      "assertion": "connectivity.cxx *_history: history=true -> exactly one immediate PUT",
+      "instruction_ref": "Semantics bullet on history=true"
+    },
+    {
+      "assertion": "connectivity.cxx *_background: declare_background_* fires PUT for a new connection with no handle",
+      "instruction_ref": "declare_background_* variants"
+    },
+    {
+      "assertion": "connectivity.cxx test_link_events_filtered: LinkEventsListenerOptions.transport = own -> >=1 PUT; = foreign -> none",
+      "instruction_ref": "LinkEventsListenerOptions::transport filtering bullet"
+    },
+    {
+      "assertion": "connectivity.cxx: Session::TransportEventsListenerOptions / LinkEventsListenerOptions with fields history, transport; passed by rvalue; closures::none accepted; std::move(listener).undeclare()",
+      "instruction_ref": "Session additions code block; callbacks bullet; Listener<void>::undeclare &&"
+    },
+    {
+      "assertion": "connectivity.cxx: TransportEvent::get_kind/get_transport, LinkEvent::get_kind/get_link, SampleKind PUT/DELETE",
+      "instruction_ref": "TransportEvent and LinkEvent section"
+    },
+    {
+      "assertion": "connectivity_zenohpico builds and passes (peer+peer, no DELETE on pico)",
+      "instruction_ref": "Both backends section; grading item 2 (peer for zenoh-pico)"
+    },
+    {
+      "assertion": "regression: all upstream tests pass unchanged; warnings target -Werror for both backends",
+      "instruction_ref": "Both backends, strict warnings; grading item 1"
+    },
+    {
+      "assertion": "interop_optional: as_moved_c_ptr(std::optional<X>&) empty -> (nullptr,nullptr); populated -> non-null pair for Subscriber, Queryable (FifoChannel variants), MatchingListener, LinkEventsListener, TransportEventsListener (built from the callback form with Listener<Handler>(Listener<void>&&, Handler) and a channels::FifoHandler<Sample> handler, because zenoh-c 8fd05be3 has no fifo/ring channel for MatchingStatus/LinkEvent/TransportEvent)",
+      "instruction_ref": "Bug fixes in existing headers; Listener<Handler> constructed from Listener<void>&& plus a handler; interop overloads bullet; grading item 3"
+    },
+    {
+      "assertion": "parity: transports[0].{zid,whatami,is_qos,is_multicast} equal to zenoh-python; whatami == 'router'",
+      "instruction_ref": "Transport table; grading item 4 (Id::to_string hex, whatami_as_str)"
+    },
+    {
+      "assertion": "parity: links[0].{zid,dst,mtu,is_streamed,interfaces,priorities,reliability} equal; src prefix tcp/127.0.0.1:; group and auth_identifier nullopt on both sides",
+      "instruction_ref": "Link table and nullopt mapping sentence; grading item 4"
+    },
+    {
+      "assertion": "parity: get_links(Transport copy).size() == get_links().size()",
+      "instruction_ref": "Transport copyable; get_links(t) semantics; grading item 4"
+    },
+    {
+      "assertion": "parity: callback link listener with history=true yields a PUT LinkEvent whose link equals links[0]; callback transport listener with history=true yields PUT for transports[0]; callback link listener filtered by transports[0] fires; background transport listener with history fires",
+      "instruction_ref": "history=true bullet; callback variant; background variant; grading item 4"
+    },
+    {
+      "assertion": "anti_cheat: include/ contains only regular .hxx files, no symlinks, token counts <= pristine",
+      "instruction_ref": "Only include/ is transferred ... rejected before any test runs"
+    }
+  ],
+  "build": {
+    "agent_image_gb": 3.19,
+    "verifier_image_gb": 3.46,
+    "build_minutes": 2.3,
+    "verifier_minutes": 6.4,
+    "host": "Docker Desktop 29.5.3 on Apple Silicon (arm64 VM, 18 vCPU, 8.3 GB), Harbor 0.15.0, concurrent Harbor builds of other tasks on the host",
+    "estimates": {
+      "agent_image_gb": "4-6",
+      "verifier_image_gb": "5-7",
+      "agent_build_minutes": "20-35 (zenoh-c Debug cargo build dominates)",
+      "verifier_build_minutes": "25-40",
+      "verifier_run_minutes": "12-25 (sleep-heavy upstream network tests, 32 ctest entries, serial)"
+    },
+    "oracle_wall_seconds": 793,
+    "env_setup_seconds": 201,
+    "verifier_seconds": 586,
+    "nop_wall_seconds": 300,
+    "nop_verifier_seconds": 275.5,
+    "notes": "build_minutes = oracle environment_setup (agent image build + start) of the passing run; verifier_minutes = verifier image build + test.sh of the passing run (test.sh alone 6 min 13 s: ~1 min clean-room build of 33 targets, 32 ctest entries serial 6.3 min incl. connectivity_zenohpico 60 s, parity < 5 s). Cold, uncached image builds measured in run 2: agent 2.7 min, verifier ~2.7 min; the zenoh-c Debug cargo build is fast on this host. Image sizes from local rebuilds of the same Dockerfiles."
+  },
+  "pins": {
+    "base_image": "rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57",
+    "uv_image": "ghcr.io/astral-sh/uv:0.12.13@sha256:b485bd65cc2cf1c9a93b3554012c9c3778cf7b1b5fd3d3096ce9e1226c97e1e6",
+    "python": {
+      "x86_64": "cpython 3.8.20 via uv (only x86_64 Linux wheel of zenoh-python 1.8.0 is cp38-cp38)",
+      "aarch64": "cpython 3.11 via uv (cp39-abi3 wheel)"
+    },
+    "zenoh_python": {
+      "version": "1.8.0",
+      "wheels_sha256": {
+        "cp38-cp38-manylinux_2_17_x86_64": "3293189039f5ba013881bca2102277a12988d7fbd9755eb15d8844fdca120355",
+        "cp39-abi3-manylinux_2_28_aarch64": "1aca875fd5aa38284cf7161964241a73b4e4090a48385c35a6d8e6169cc8e88a"
+      }
+    },
+    "zenohd": {
+      "version": "1.8.0",
+      "tag_commit": "c5f4ac7bacc687e95d01741031b46dbaf02415ce",
+      "assets_sha256": {
+        "x86_64-unknown-linux-gnu-standalone.zip": "bc5a816d49ba0b0a1e9479bef20ee1ebdcb67d21ec78e1cf1b48fd3e4c4cfd60",
+        "aarch64-unknown-linux-gnu-standalone.zip": "78d884068d76843f191e692734b25fb4d70648b4fa14f91c0c82b2b6a2427485"
+      },
+      "note": "release zenohd is built without the shared-memory feature; SHM payloads between clients fall back to wire copies, which the upstream tests tolerate (they compare payload bytes) The gnu binaries need glibc >= 2.30 (aarch64) / 2.34 (x86_64) plus libgcc_s; bookworm ships glibc 2.36.",
+      "rejected_assets_sha256": {
+        "x86_64-unknown-linux-musl-standalone.zip": "45390a3431d459f6439c545bb58420d5da7820de8e9fae81ea89711b3599dd97",
+        "aarch64-unknown-linux-musl-standalone.zip": "429de04215acffb4ae183f28fbea075b39550a1053f5e852d9cfecc16bb321b9",
+        "why": "not static: PT_INTERP /lib/ld-musl-<arch>.so.1 and NEEDED libgcc_s.so.1 (musl flavour); exec fails on Debian with 'required file not found'"
+      }
+    }
+  },
+  "verifier_harness_modifications": {
+    "tests/CMakeLists.txt": "PR #750 version plus include_directories(tests/) and two verifier-only targets (interop_optional ctest entry, parity_dump_zenohc executable)",
+    "tests/run_with_router.sh": "replaced by an offline wrapper that waits for the already-running zenohd and execs the test binary (no clone/build, no sleeps)",
+    "upstream network tests": "Config::create_default() -> test_config() (client of ZENOH_TEST_ROUTER, scouting off) in tests/universal/network/*.cxx except connectivity.cxx, tests/zenohpico/network/*.cxx and tests/zenohc/shm_api.cxx; bodies unchanged. Needed because the verifier container has only loopback and no multicast discovery.",
+    "tests/verifier/interop_optional.cxx": "handler-bearing MatchingListener/LinkEventsListener/TransportEventsListener are constructed from their callback form plus a FifoHandler<Sample>; the channel variants cannot be instantiated for these types with zenoh-c 8fd05be3 (no z_fifo_channel_{matching_status,link_event,transport_event}_new), and upstream's Publisher::declare_matching_listener(Channel) is itself uncompilable at the base commit",
+    "tests/verifier/parity_dump.cxx": "link-event history probe uses the callback listener (condition variable, 10 s deadline) instead of a FifoChannel listener, same JSON output"
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "cpp-zenoh-cpp-connectivity-api-oracle-20260913T171336Z",
+      "nop": "cpp-zenoh-cpp-connectivity-api-nop-20260913T171336Z"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_groups": "all 9 groups ok, ctest 32/32, connectivity markers 10/10 per backend, parity 42/42 checks",
+    "nop_groups": "build=false (connectivity_zenohc, connectivity_zenohpico, interop_optional_zenohc, parity_dump_zenohc fail to compile against pristine headers), pr_tests/authored/parity=false, regression_zenohc 14/14 and regression_zenohpico 15/15 still pass, ctest rc 8, 29/32",
+    "previous_attempts": [
+      "*-20260913T115504Z: agent image build failed (AppleDouble members in upstream.tar.gz)",
+      "oracle-20260913T120334Z: reward 0, zenohd musl asset not executable on Debian + harness channel assumptions"
+    ],
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

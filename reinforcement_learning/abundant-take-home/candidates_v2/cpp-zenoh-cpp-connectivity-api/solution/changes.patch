@@ -1,0 +1,1704 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+new file mode 100644
+index 00000000..caf1d5b1
+--- /dev/null
++++ b/CLAUDE.md
+@@ -0,0 +1,13 @@
++## Build project
++
++1) Install zenoh-c and zenoh-pico to ~/local with unstable api and shared memory enabled in debug variant
++
++./scripts/install_from_git.sh ~/local TRUE TRUE TRUE Debug
++
++2) Build tests and examples
++
++mkdir build
++cd build
++cmake .. -DZENOHCXX_ZENOHC=ON -DZENOHCXX_ZENOHPICO=ON -DCMAKE_INSTALL_PREFIX=~/local -DCMAKE_BUILD_TYPE=Debug
++cmake --build . --target tests
++cmake --build . --target examples
+diff --git a/docs/api.rst b/docs/api.rst
+index d8f6fa96..bda2c535 100644
+--- a/docs/api.rst
++++ b/docs/api.rst
+@@ -28,6 +28,8 @@ API Reference
+    publish_subscribe
+    query_reply
+    matching
++   liveliness
++   connectivity
+    channels
+    cancellation
+    interop
+diff --git a/docs/commons.rst b/docs/commons.rst
+index f7781529..d59bb19d 100644
+--- a/docs/commons.rst
++++ b/docs/commons.rst
+@@ -32,9 +32,13 @@ Enum types are C++ - style typedefs for corrresponding enums of `zenoh-c`_ / `ze
+ .. doxygentypedef:: zenoh::QueryTarget
+ 
+ .. doxygentypedef:: zenoh::WhatAmI
+-    
++
++.. doxygentypedef:: zenoh::What
++
+ .. doxygentypedef:: zenoh::Locality
+ 
++.. doxygentypedef:: zenoh::ReplyKeyExpr
++
+ .. doxygenfunction:: whatami_as_str
+ 
+ .. _zenoh-c: https://zenoh-c.readthedocs.io
+@@ -78,6 +82,9 @@ Sample
+ 
+ Bytes
+ ------
++.. doxygenstruct:: zenoh::Slice
++   :members:
++
+ .. doxygenclass:: zenoh::Bytes
+    :members:
+    :membergroups: Constructors Operators Methods
+diff --git a/docs/connectivity.rst b/docs/connectivity.rst
+new file mode 100644
+index 00000000..0d445537
+--- /dev/null
++++ b/docs/connectivity.rst
+@@ -0,0 +1,62 @@
++..
++.. Copyright (c) 2026 ZettaScale Technology
++..
++.. This program and the accompanying materials are made available under the
++.. terms of the Eclipse Public License 2.0 which is available at
++.. http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++.. which is available at https://www.apache.org/licenses/LICENSE-2.0.
++..
++.. SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++..
++.. Contributors:
++..   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++..
++
++Connectivity
++============
++
++.. warning:: This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++
++Classes for monitoring connectivity events at the transport and link levels.
++Transport events notify about connections being opened or closed to remote zenoh nodes.
++Link events notify about individual data links being added or removed within a transport.
++
++Current transports and links can be retrieved via :cpp:func:`Session::get_transports` and
++:cpp:func:`Session::get_links`.
++
++Transport events listeners are declared via :cpp:func:`Session::declare_transport_events_listener`.
++Link events listeners are declared via :cpp:func:`Session::declare_link_events_listener`.
++
++Both listener types accept an options struct with a ``history`` field. When ``history`` is set to ``true``,
++the listener will immediately receive events for transports or links that were already established
++before the listener was declared, in addition to future events.
++
++Transport
++---------
++
++.. doxygenclass:: zenoh::Transport
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::TransportEvent
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::TransportEventsListener
++   :members:
++   :membergroups: Constructors Operators Methods
++
++Link
++----
++
++.. doxygenclass:: zenoh::Link
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::LinkEvent
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::LinkEventsListener
++   :members:
++   :membergroups: Constructors Operators Methods
+diff --git a/docs/liveliness.rst b/docs/liveliness.rst
+new file mode 100644
+index 00000000..6f613c9a
+--- /dev/null
++++ b/docs/liveliness.rst
+@@ -0,0 +1,28 @@
++..
++.. Copyright (c) 2024 ZettaScale Technology
++..
++.. This program and the accompanying materials are made available under the
++.. terms of the Eclipse Public License 2.0 which is available at
++.. http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++.. which is available at https://www.apache.org/licenses/LICENSE-2.0.
++..
++.. SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++..
++.. Contributors:
++..   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++..
++
++Liveliness
++==========
++
++A liveliness token can be used to provide the network with information about connectivity to its
++declarer. When constructed, a PUT sample will be received by liveliness subscribers on intersecting key
++expressions. A DELETE on the token's key expression will be received by subscribers if the token is
++destroyed, or if connectivity between the subscriber and the token's creator is lost.
++
++Liveliness tokens are declared via ``Session::liveliness_declare_token``. Liveliness subscribers
++and queries are also available on the ``Session`` class (``liveliness_declare_subscriber``, ``liveliness_get``).
++
++.. doxygenclass:: zenoh::LivelinessToken
++   :members:
++   :membergroups: Constructors Operators Methods
+diff --git a/docs/shared_memory.rst b/docs/shared_memory.rst
+index 444341a4..9cc2282f 100644
+--- a/docs/shared_memory.rst
++++ b/docs/shared_memory.rst
+@@ -39,14 +39,41 @@ Shared Memory
+    :members:
+    :membergroups: Constructors Operators Methods
+ 
++.. doxygenclass:: zenoh::ShmProvider
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::SharedShmProvider
++   :members:
++   :membergroups: Constructors Operators Methods
++
+ .. doxygenclass:: zenoh::CppShmProvider
+    :members:
+    :membergroups: Constructors Operators Methods
+ 
++.. doxygenclass:: zenoh::ShmProviderAsyncInterface
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::CppShmProviderBackendIface
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::CppShmProviderBackend
++   :members:
++   :membergroups: Constructors Operators Methods
++
++.. doxygenclass:: zenoh::CppShmProviderBackendThreadsafe
++   :members:
++   :membergroups: Constructors Operators Methods
++
+ .. doxygenclass:: zenoh::PrecomputedLayout
+    :members:
+    :membergroups: Constructors Operators Methods
+ 
++.. doxygenstruct:: zenoh::PrecomputedLayoutAsyncInterface
++   :members:
++
+ .. doxygenclass:: zenoh::MemoryLayout
+    :members:
+    :membergroups: Constructors Operators Methods
+diff --git a/examples/universal/z_info.cxx b/examples/universal/z_info.cxx
+index f31d1774..4c34c2ee 100644
+--- a/examples/universal/z_info.cxx
++++ b/examples/universal/z_info.cxx
+@@ -13,6 +13,7 @@
+ #include <stdio.h>
+ 
+ #include <iostream>
++#include <thread>
+ 
+ #include "../getargs.hxx"
+ #include "zenoh.hxx"
+@@ -25,7 +26,6 @@ int _main(int argc, char** argv) {
+     std::cout << "Opening session...\n";
+     auto session = Session::open(std::move(config));
+ 
+-#if defined(ZENOHCXX_ZENOHC) && defined(Z_FEATURE_UNSTABLE_API)
+     std::cout << "own id: " << session.get_zid() << std::endl;
+ 
+     std::cout << "routers ids:\n";
+@@ -37,6 +37,85 @@ int _main(int argc, char** argv) {
+     for (const auto zid : session.get_peers_z_id()) {
+         std::cout << zid << "\n";
+     }
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++    std::cout << "\ntransports:\n";
++    for (const auto& transport : session.get_transports()) {
++        std::cout << "  Transport\n";
++        std::cout << "    zid: " << transport.get_zid() << "\n";
++        std::cout << "    whatami: " << whatami_as_str(transport.get_whatami()) << "\n";
++        std::cout << "    is_qos: " << (transport.is_qos() ? "true" : "false") << "\n";
++        std::cout << "    is_multicast: " << (transport.is_multicast() ? "true" : "false") << "\n";
++    }
++
++    std::cout << "\nlinks:\n";
++    for (const auto& link : session.get_links()) {
++        std::cout << "  Link\n";
++        std::cout << "    zid: " << link.get_zid() << "\n";
++        std::cout << "    src: " << link.get_src() << "\n";
++        std::cout << "    dst: " << link.get_dst() << "\n";
++        auto group = link.get_group();
++        if (group.has_value()) {
++            std::cout << "    group: " << group.value() << "\n";
++        }
++        auto auth_id = link.get_auth_identifier();
++        if (auth_id.has_value()) {
++            std::cout << "    auth_identifier: " << auth_id.value() << "\n";
++        }
++        std::cout << "    mtu: " << link.get_mtu() << "\n";
++        std::cout << "    is_streamed: " << (link.is_streamed() ? "true" : "false") << "\n";
++        auto interfaces = link.get_interfaces();
++        if (!interfaces.empty()) {
++            std::cout << "    interfaces: [";
++            for (size_t i = 0; i < interfaces.size(); i++) {
++                if (i > 0) std::cout << ", ";
++                std::cout << interfaces[i];
++            }
++            std::cout << "]\n";
++        }
++        auto priorities = link.get_priorities();
++        if (priorities.has_value()) {
++            std::cout << "    priorities: [" << static_cast<int>(priorities.value().first) << ", "
++                      << static_cast<int>(priorities.value().second) << "]\n";
++        }
++        auto reliability = link.get_reliability();
++        if (reliability.has_value()) {
++            std::cout << "    reliability: " << static_cast<int>(reliability.value()) << "\n";
++        }
++    }
++
++    std::cout << "\nConnectivity events (Press CTRL-C to quit):\n";
++
++    session.declare_background_transport_events_listener(
++        [](TransportEvent& event) {
++            if (event.get_kind() == Z_SAMPLE_KIND_PUT) {
++                std::cout << "[Transport Event] Opened:\n";
++            } else {
++                std::cout << "[Transport Event] Closed:\n";
++            }
++            const auto& transport = event.get_transport();
++            std::cout << "    zid: " << transport.get_zid() << "\n";
++            std::cout << "    whatami: " << whatami_as_str(transport.get_whatami()) << "\n";
++        },
++        []() {});
++
++    auto link_listener = session.declare_link_events_listener(
++        [](LinkEvent& event) {
++            if (event.get_kind() == Z_SAMPLE_KIND_PUT) {
++                std::cout << "[Link Event] Added:\n";
++            } else {
++                std::cout << "[Link Event] Removed:\n";
++            }
++            const auto& link = event.get_link();
++            std::cout << "    zid: " << link.get_zid() << "\n";
++            std::cout << "    src: " << link.get_src() << "\n";
++            std::cout << "    dst: " << link.get_dst() << "\n";
++        },
++        []() {});
++
++    while (true) {
++        std::this_thread::sleep_for(std::chrono::seconds(1));
++    }
+ #endif
+     return 0;
+ }
+diff --git a/include/zenoh/api.hxx b/include/zenoh/api.hxx
+index c24c1648..234510ec 100644
+--- a/include/zenoh/api.hxx
++++ b/include/zenoh/api.hxx
+@@ -36,6 +36,14 @@
+ #include "api/session.hxx"
+ #include "api/subscriber.hxx"
+ #include "api/timestamp.hxx"
++#if defined(Z_FEATURE_UNSTABLE_API)
++#include "api/link.hxx"
++#include "api/link_event.hxx"
++#include "api/link_events_listener.hxx"
++#include "api/transport.hxx"
++#include "api/transport_event.hxx"
++#include "api/transport_events_listener.hxx"
++#endif
+ #if (defined(ZENOHCXX_ZENOHC) || Z_FEATURE_QUERY == 1)
+ #include "api/querier.hxx"
+ #endif
+diff --git a/include/zenoh/api/config.hxx b/include/zenoh/api/config.hxx
+index 7d2c50a4..30a180a4 100644
+--- a/include/zenoh/api/config.hxx
++++ b/include/zenoh/api/config.hxx
+@@ -69,7 +69,7 @@ class Config : public Owned<::z_owned_config_t> {
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+     /// @return the ``Config`` object.
+-    /// @note Zenoh-pico only.
++    /// @note Zenoh-c only.
+     static Config from_env(ZResult* err = nullptr) {
+         Config c(zenoh::detail::null_object);
+         __ZENOH_RESULT_CHECK(::zc_config_from_env(&c._0), err, "Failed to create config from environment variable");
+diff --git a/include/zenoh/api/enums.hxx b/include/zenoh/api/enums.hxx
+index 4f81a476..355e7b21 100644
+--- a/include/zenoh/api/enums.hxx
++++ b/include/zenoh/api/enums.hxx
+@@ -18,7 +18,7 @@
+ 
+ namespace zenoh {
+ 
+-/// ``zenoh::Sample`` kind values.
++/// `zenoh::Sample` kind values.
+ ///
+ /// Values:
+ ///
+@@ -96,9 +96,9 @@ typedef ::z_whatami_t WhatAmI;
+ /// @brief Flag indicating type of Zenoh entities to scout for.
+ typedef ::z_what_t What;
+ 
+-/// @brief Get a human-readable representation of the given ``zenoh::WhatAmI``
++/// @brief Get a human-readable representation of the given `zenoh::WhatAmI`
+ /// flag.
+-/// @param whatami the ``zenoh::WhatAmI`` flag.
++/// @param whatami the `zenoh::WhatAmI` flag.
+ /// @return a string representation of the given flag.
+ inline std::string_view whatami_as_str(WhatAmI whatami) {
+     ::z_view_string_t str_out;
+diff --git a/include/zenoh/api/ext/advanced_subscriber.hxx b/include/zenoh/api/ext/advanced_subscriber.hxx
+index 0d5e22d1..a84d6a20 100644
+--- a/include/zenoh/api/ext/advanced_subscriber.hxx
++++ b/include/zenoh/api/ext/advanced_subscriber.hxx
+@@ -41,7 +41,7 @@ class AdvancedSubscriberBase : public Owned<::ze_owned_advanced_subscriber_t> {
+     /// @param on_drop the callable that will be called once sample miss listener is destroyed or undeclared.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+-    /// @return a ``SampleMissListener`` object.
++    /// @return a `SampleMissListener` object.
+     template <class C, class D>
+     [[nodiscard]] SampleMissListener<void> declare_sample_miss_listener(C&& on_miss_detected, D&& on_drop,
+                                                                         zenoh::ZResult* err = nullptr) const {
+@@ -99,7 +99,7 @@ class AdvancedSubscriberBase : public Owned<::ze_owned_advanced_subscriber_t> {
+     /// @param options options to pass to listener declaration.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+-    /// @return a ``zenoh::Subscriber`` object.
++    /// @return a `zenoh::Subscriber` object.
+     template <class C, class D>
+     [[nodiscard]] zenoh::Subscriber<void> detect_publishers(
+         C&& on_sample, D&& on_drop,
+@@ -159,13 +159,13 @@ class AdvancedSubscriberBase : public Owned<::ze_owned_advanced_subscriber_t> {
+ 
+     /// @brief  Declares a liveliness token listener for matching publishers detection. Only advanced publishers,
+     /// enabling publisher detection can be detected.
+-    /// @tparam Channel the type of channel used to create stream of data (see ``zenoh::channels::FifoChannel`` or
+-    /// ``zenoh::channels::RingChannel``).
++    /// @tparam Channel the type of channel used to create stream of data (see `zenoh::channels::FifoChannel` or
++    /// `zenoh::channels::RingChannel`).
+     /// @param channel an instance of channel.
+     /// @param options options to pass to subscriber declaration.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+-    /// @return a ``Subscriber`` object.
++    /// @return a `Subscriber` object.
+     template <class Channel>
+     [[nodiscard]] zenoh::Subscriber<typename Channel::template HandlerType<Sample>> detect_publishers(
+         Channel channel,
+@@ -308,7 +308,7 @@ auto as_moved_c_ptr(zenoh::ext::AdvancedSubscriber<Handler>& s) {
+ /// Will return a pair of null pointers if option is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<zenoh::ext::AdvancedSubscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {
+-    if (!s.has_value()) {
++    if (s.has_value()) {
+         return as_moved_c_ptr(s.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/ext/miss.hxx b/include/zenoh/api/ext/miss.hxx
+index b53eac5c..ddb9fd1c 100644
+--- a/include/zenoh/api/ext/miss.hxx
++++ b/include/zenoh/api/ext/miss.hxx
+@@ -145,7 +145,7 @@ auto as_moved_c_ptr(zenoh::ext::SampleMissListener<Handler>& m) {
+ /// Will return a pair of null pointers if option is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<zenoh::ext::SampleMissListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {
+-    if (!m.has_value()) {
++    if (m.has_value()) {
+         return as_moved_c_ptr(m.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/ext/querying_subscriber.hxx b/include/zenoh/api/ext/querying_subscriber.hxx
+index 889de185..1ae12cd2 100644
+--- a/include/zenoh/api/ext/querying_subscriber.hxx
++++ b/include/zenoh/api/ext/querying_subscriber.hxx
+@@ -174,7 +174,7 @@ auto as_moved_c_ptr(zenoh::ext::QueryingSubscriber<Handler>& s) {
+ /// Will return a pair of null pointers if option is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<zenoh::ext::QueryingSubscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {
+-    if (!s.has_value()) {
++    if (s.has_value()) {
+         return as_moved_c_ptr(s.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/ext/serialization.hxx b/include/zenoh/api/ext/serialization.hxx
+index 7ac81b6f..2075364a 100644
+--- a/include/zenoh/api/ext/serialization.hxx
++++ b/include/zenoh/api/ext/serialization.hxx
+@@ -38,8 +38,8 @@ namespace zenoh {
+ namespace ext {
+ 
+ /// @brief A Zenoh data serializer used for incremental serialization of several values.
+-/// I.e. data produced by subsequent calls to ``Serializer::serialize`` can be read by corresponding calls to
+-/// ``Deserializer::deserialize`` in the same order (or alternatively by a single call to ``deserialize``
++/// I.e. data produced by subsequent calls to `Serializer::serialize` can be read by corresponding calls to
++/// `Deserializer::deserialize` in the same order (or alternatively by a single call to `deserialize`
+ /// into tuple of serialized types).
+ class Serializer : public Owned<::ze_owned_serializer_t> {
+    public:
+@@ -50,15 +50,15 @@ class Serializer : public Owned<::ze_owned_serializer_t> {
+ 
+     /// @name Methods
+ 
+-    /// @brief Serialize specified value and append it to the underlying ``Bytes``.
++    /// @brief Serialize specified value and append it to the underlying `Bytes`.
+     /// @param value value to serialize.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception
+     /// will be thrown in case of error.
+     template <class T>
+     void serialize(const T& value, ZResult* err = nullptr);
+ 
+-    /// @brief Finalize serialization and return the underlying ``Bytes`` object.
+-    /// @return underlying ``Bytes`` object.
++    /// @brief Finalize serialization and return the underlying `Bytes` object.
++    /// @return underlying `Bytes` object.
+     Bytes finish() && {
+         Bytes b;
+         ::ze_serializer_finish(interop::as_moved_c_ptr(*this), interop::as_owned_c_ptr(b));
+@@ -67,8 +67,8 @@ class Serializer : public Owned<::ze_owned_serializer_t> {
+ };
+ 
+ /// @brief A Zenoh data deserializer used for incremental deserialization of several values.
+-/// I.e. data produced by subsequent calls to ``Serializer::serialize`` can be read by corresponding calls to
+-/// ``Deserializer::deserialize`` in the same order (or alternatively by a single call to ``serialize``
++/// I.e. data produced by subsequent calls to `Serializer::serialize` can be read by corresponding calls to
++/// `Deserializer::deserialize` in the same order (or alternatively by a single call to `serialize`
+ /// into tuple of serialized types).
+ class Deserializer : public Copyable<::ze_deserializer_t> {
+    public:
+@@ -88,11 +88,11 @@ class Deserializer : public Copyable<::ze_deserializer_t> {
+     T deserialize(zenoh::ZResult* err = nullptr);
+ 
+     /// @brief Checks if deserializer has parsed all the data.
+-    /// @return ``true`` if there is no more data to parse, ``false`` otherwise.
++    /// @return `true` if there is no more data to parse, `false` otherwise.
+     bool is_done() const { return ::ze_deserializer_is_done(&this->_0); }
+ };
+ 
+-/// @brief Serialize a single value into ``Bytes``.
++/// @brief Serialize a single value into `Bytes`.
+ /// @param value value to serialize.
+ /// @param err if not null, the result code will be written to this location, otherwise ZException exception
+ /// will be thrown in case of error.
+@@ -104,7 +104,7 @@ zenoh::Bytes serialize(const T& value, ZResult* err = nullptr) {
+     return std::move(s).finish();
+ }
+ 
+-/// @brief Deserialize ``Bytes`` corresponding to a single serialized value.
++/// @brief Deserialize `Bytes` corresponding to a single serialized value.
+ /// @param bytes data to deserialize.
+ /// @param err if not null, the result code will be written to this location, otherwise ZException exception
+ /// will be thrown in case of error.
+diff --git a/include/zenoh/api/hello.hxx b/include/zenoh/api/hello.hxx
+index 78b4dc26..65a672b3 100644
+--- a/include/zenoh/api/hello.hxx
++++ b/include/zenoh/api/hello.hxx
+@@ -22,18 +22,18 @@
+ #include "interop.hxx"
+ 
+ namespace zenoh {
+-/// ``Hello`` message returned by a zenoh entity as a reply to a "scout"
++/// `Hello` message returned by a zenoh entity as a reply to a "scout"
+ /// message.
+ class Hello : public Owned<::z_owned_hello_t> {
+    public:
+     /// @name Methods
+ 
+-    /// @brief Get ``Id`` of the entity.
+-    /// @return ``Id`` of the entity.
++    /// @brief Get `Id` of the entity.
++    /// @return `Id` of the entity.
+     Id get_id() const { return interop::into_copyable_cpp_obj<Id>(::z_hello_zid(interop::as_loaned_c_ptr(*this))); };
+ 
+     /// @brief Get the type of the entity.
+-    /// @return ``zenoh::WhatAmI`` of the entity.
++    /// @return `zenoh::WhatAmI` of the entity.
+     WhatAmI get_whatami() const { return ::z_hello_whatami(interop::as_loaned_c_ptr(*this)); }
+ 
+     /// @brief Get the array of locators of the entity.
+diff --git a/include/zenoh/api/keyexpr.hxx b/include/zenoh/api/keyexpr.hxx
+index 997ca231..dbc74c3f 100644
+--- a/include/zenoh/api/keyexpr.hxx
++++ b/include/zenoh/api/keyexpr.hxx
+@@ -22,7 +22,7 @@ namespace zenoh {
+ 
+ /// @brief A Zenoh <a href="https://zenoh.io/docs/manual/abstractions/#key-expression"> key expression </a>.
+ ///
+-/// Key expression can be registered in the ``zenoh::Session`` object with ``zenoh::Session::declare_keyexpr`` method.
++/// Key expression can be registered in the `zenoh::Session` object with `zenoh::Session::declare_keyexpr` method.
+ /// The unique id is internally assinged to the key expression string in this case. This allows to reduce bandwith usage
+ /// when transporting key expressions.
+ 
+@@ -36,7 +36,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+     /// @brief Create a new instance from a string.
+     ///
+     /// @param key_expr string representing key expression.
+-    /// @param autocanonize if ``true`` the key_expr will be autocanonized, prior to constructing key expression.
++    /// @param autocanonize if `true` the key_expr will be autocanonized, prior to constructing key expression.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+     KeyExpr(std::string_view key_expr, bool autocanonize = true, ZResult* err = nullptr) : Owned(nullptr) {
+@@ -53,7 +53,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+     /// @brief Create a new instance from a string.
+     ///
+     /// @param key_expr string representing key expression.
+-    /// @param autocanonize if ``true`` the key_expr will be autocanonized, prior to constructing key expression.
++    /// @param autocanonize if `true` the key_expr will be autocanonized, prior to constructing key expression.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+     KeyExpr(const std::string& key_expr, bool autocanonize = true, ZResult* err = nullptr)
+@@ -62,7 +62,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+     /// @brief Create a new instance from a null-terminated string.
+     ///
+     /// @param key_expr null-terminated string representing key expression.
+-    /// @param autocanonize if ``true`` the key_expr will be autocanonized, prior to constructing key expression.
++    /// @param autocanonize if `true` the key_expr will be autocanonized, prior to constructing key expression.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+     KeyExpr(const char* key_expr, bool autocanonize = true, ZResult* err = nullptr)
+@@ -86,10 +86,10 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+                                 ::z_string_len(::z_loan(s)));
+     }
+ 
+-    /// @brief Check if a given ``KeyExpr`` includes the other.
+-    /// @param other the ``KeyExpr`` to compare with
+-    /// @return ``true`` if current key expression includes ``other``, i.e. contains every key belonging to the
+-    /// ``other``.
++    /// @brief Check if a given `KeyExpr` includes the other.
++    /// @param other the `KeyExpr` to compare with
++    /// @return `true` if current key expression includes `other`, i.e. contains every key belonging to the
++    /// `other`.
+     bool includes(const KeyExpr& other) {
+         return ::z_keyexpr_includes(interop::as_loaned_c_ptr(*this), interop::as_loaned_c_ptr(other));
+     }
+@@ -108,7 +108,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+     }
+ 
+     /// @brief Construct new key expression by joining it with another one.
+-    /// @param other the ``KeyExpr`` to append.
++    /// @param other the `KeyExpr` to append.
+     /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
+     /// thrown in case of error.
+     KeyExpr join(const KeyExpr& other, ZResult* err = nullptr) const {
+@@ -124,7 +124,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+ 
+     /// @brief Check if 2 key expressions intersect.
+     ///
+-    /// @return ``true`` if there is at least one non-empty key that is contained in both key expressions, ``false``
++    /// @return `true` if there is at least one non-empty key that is contained in both key expressions, `false`
+     /// otherwise.
+     bool intersects(const KeyExpr& other) const {
+         return ::z_keyexpr_intersects(interop::as_loaned_c_ptr(*this), interop::as_loaned_c_ptr(other));
+@@ -154,37 +154,37 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+ 
+     /// @brief Key expression to string equality relation.
+     /// @param other a string to compare with.
+-    /// @return ``true`` if the key expression string representation is equal to other, ``false`` otherwise.
++    /// @return `true` if the key expression string representation is equal to other, `false` otherwise.
+     bool operator==(std::string_view other) const { return as_string_view() == other; }
+ 
+     /// @brief Key expression to string inequality relation.
+     /// @param other a string to compare with.
+-    /// @return ``false`` if the key expression string representation is equal to other, ``true`` otherwise.
++    /// @return `false` if the key expression string representation is equal to other, `true` otherwise.
+     bool operator!=(std::string_view other) const { return !((*this) == other); }
+ 
+     /// @brief Key expression to string equality relation.
+     /// @param other a string to compare with.
+-    /// @return ``true`` if the key expression string representation is equal to other, ``false`` otherwise.
++    /// @return `true` if the key expression string representation is equal to other, `false` otherwise.
+     bool operator==(const std::string& other) const { return as_string_view() == other; }
+ 
+     /// @brief Key expression to string inequality relation.
+     /// @param other a string to compare with.
+-    /// @return ``false`` if the key expression string representation is equal to other, ``true`` otherwise.
++    /// @return `false` if the key expression string representation is equal to other, `true` otherwise.
+     bool operator!=(const std::string& other) const { return !((*this) == other); }
+ 
+     /// @brief Key expression to string equality relation.
+     /// @param other a null-terminated string to compare with.
+-    /// @return ``true`` if the key expression string representation is equal to other, ``false`` otherwise.
++    /// @return `true` if the key expression string representation is equal to other, `false` otherwise.
+     bool operator==(const char* other) const { return as_string_view() == other; }
+ 
+     /// @brief Key expression to string inequality relation.
+     /// @param other a null-terminated string to compare with.
+-    /// @return ``false`` if the key expression string representation is equal to other, ``true`` otherwise.
++    /// @return `false` if the key expression string representation is equal to other, `true` otherwise.
+     bool operator!=(const char* other) const { return !((*this) == other); }
+ 
+     /// @brief Equality relation.
+     /// @param other a key expression to compare with.
+-    /// @return ``true`` if both key expressions are equal (i.e. they represent the same set of resources), ``false``
++    /// @return `true` if both key expressions are equal (i.e. they represent the same set of resources), `false`
+     /// otherwise.
+     bool operator==(const KeyExpr& other) const {
+         return ::z_keyexpr_equals(interop::as_loaned_c_ptr(*this), interop::as_loaned_c_ptr(other));
+@@ -192,7 +192,7 @@ class KeyExpr : public Owned<::z_owned_keyexpr_t> {
+ 
+     /// @brief Inequality relation.
+     /// @param other a key expression to compare with.
+-    /// @return ``false`` if both key expressions are equal (i.e. they represent the same set of resources), ``true``
++    /// @return `false` if both key expressions are equal (i.e. they represent the same set of resources), `true`
+     /// otherwise.
+     bool operator!=(const KeyExpr& other) const { return !(*this == other); }
+ 
+diff --git a/include/zenoh/api/link.hxx b/include/zenoh/api/link.hxx
+new file mode 100644
+index 00000000..0e6fa459
+--- /dev/null
++++ b/include/zenoh/api/link.hxx
+@@ -0,0 +1,149 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include <optional>
++#include <string>
++#include <utility>
++#include <vector>
++
++#include "../zenohc.hxx"
++#include "base.hxx"
++#include "enums.hxx"
++#include "id.hxx"
++#include "interop.hxx"
++
++namespace zenoh {
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief Represents a data link to a remote zenoh node over a specific protocol.
++class Link : public Owned<::z_owned_link_t> {
++   public:
++    /// @name Methods
++
++    /// @brief Get the Zenoh ID of the remote node.
++    /// @return `Id` of the remote node.
++    Id get_zid() const { return interop::into_copyable_cpp_obj<Id>(::z_link_zid(interop::as_loaned_c_ptr(*this))); }
++
++    /// @brief Get the source address of the link.
++    /// @return source address string.
++    std::string get_src() const {
++        ::z_owned_string_t str_out;
++        ::z_link_src(interop::as_loaned_c_ptr(*this), &str_out);
++        std::string result(::z_string_data(::z_loan(str_out)), ::z_string_len(::z_loan(str_out)));
++        ::z_drop(::z_move(str_out));
++        return result;
++    }
++
++    /// @brief Get the destination address of the link.
++    /// @return destination address string.
++    std::string get_dst() const {
++        ::z_owned_string_t str_out;
++        ::z_link_dst(interop::as_loaned_c_ptr(*this), &str_out);
++        std::string result(::z_string_data(::z_loan(str_out)), ::z_string_len(::z_loan(str_out)));
++        ::z_drop(::z_move(str_out));
++        return result;
++    }
++
++    /// @brief Get the group of the link.
++    /// @return group string or `std::nullopt` if not available.
++    std::optional<std::string> get_group() const {
++        ::z_owned_string_t str_out;
++        ::z_link_group(interop::as_loaned_c_ptr(*this), &str_out);
++        std::string result(::z_string_data(::z_loan(str_out)), ::z_string_len(::z_loan(str_out)));
++        ::z_drop(::z_move(str_out));
++        if (result.empty()) return std::nullopt;
++        return result;
++    }
++
++    /// @brief Get the authentication identifier of the link.
++    /// @return authentication identifier string or `std::nullopt` if not available.
++    std::optional<std::string> get_auth_identifier() const {
++        ::z_owned_string_t str_out;
++        ::z_link_auth_identifier(interop::as_loaned_c_ptr(*this), &str_out);
++        std::string result(::z_string_data(::z_loan(str_out)), ::z_string_len(::z_loan(str_out)));
++        ::z_drop(::z_move(str_out));
++        if (result.empty()) return std::nullopt;
++        return result;
++    }
++
++    /// @brief Get the MTU (Maximum Transmission Unit) of the link.
++    /// @return MTU value.
++    uint16_t get_mtu() const { return ::z_link_mtu(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Check if the link is streamed.
++    /// @return `true` if the link is streamed, `false` otherwise.
++    bool is_streamed() const { return ::z_link_is_streamed(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Get the network interfaces associated with this link.
++    /// @return vector of interface names.
++    std::vector<std::string> get_interfaces() const {
++        ::z_owned_string_array_t interfaces_out;
++        ::z_link_interfaces(interop::as_loaned_c_ptr(*this), &interfaces_out);
++        auto loaned = ::z_loan(interfaces_out);
++        std::vector<std::string> result;
++        result.reserve(::z_string_array_len(loaned));
++        for (size_t i = 0; i < ::z_string_array_len(loaned); i++) {
++            auto s = ::z_string_array_get(loaned, i);
++            result.emplace_back(::z_string_data(s), ::z_string_len(s));
++        }
++        ::z_drop(::z_move(interfaces_out));
++        return result;
++    }
++
++    /// @brief Get the priority range supported by this link.
++    /// @return pair of (min, max) priority values or `std::nullopt` if not available.
++    std::optional<std::pair<uint8_t, uint8_t>> get_priorities() const {
++        uint8_t min_val, max_val;
++        if (::z_link_priorities(interop::as_loaned_c_ptr(*this), &min_val, &max_val)) {
++            return std::make_pair(min_val, max_val);
++        }
++        return std::nullopt;
++    }
++
++    /// @brief Get the reliability of this link.
++    /// @return reliability value or `std::nullopt` if not available.
++    std::optional<Reliability> get_reliability() const {
++        Reliability reliability;
++        if (::z_link_reliability(interop::as_loaned_c_ptr(*this), &reliability)) {
++            return reliability;
++        }
++        return std::nullopt;
++    }
++
++    /// @brief Copy constructor.
++    Link(const Link& other) : Owned(nullptr) { ::z_link_clone(&this->_0, interop::as_loaned_c_ptr(other)); }
++
++    /// @brief Move constructor.
++    Link(Link&& other) = default;
++
++    /// @name Operators
++
++    /// @brief Assignment operator.
++    Link& operator=(const Link& other) {
++        if (this != &other) {
++            ::z_drop(z_move(this->_0));
++            ::z_link_clone(&this->_0, interop::as_loaned_c_ptr(other));
++        }
++        return *this;
++    }
++
++    /// @brief Move assignment operator.
++    Link& operator=(Link&& other) = default;
++};
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/api/link_event.hxx b/include/zenoh/api/link_event.hxx
+new file mode 100644
+index 00000000..e1b821a1
+--- /dev/null
++++ b/include/zenoh/api/link_event.hxx
+@@ -0,0 +1,45 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include "../zenohc.hxx"
++#include "base.hxx"
++#include "enums.hxx"
++#include "interop.hxx"
++#include "link.hxx"
++
++namespace zenoh {
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief Represents a link connectivity event (link added or removed).
++class LinkEvent : public Owned<::z_owned_link_event_t> {
++   public:
++    /// @name Methods
++
++    /// @brief Get the kind of this event.
++    /// @return `SampleKind::Z_SAMPLE_KIND_PUT` for link added, `SampleKind::Z_SAMPLE_KIND_DELETE` for link
++    /// removed.
++    SampleKind get_kind() const { return ::z_link_event_kind(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Get the link associated with this event.
++    /// @return reference to the `Link`.
++    const Link& get_link() const {
++        return interop::as_owned_cpp_ref<Link>(::z_link_event_link(interop::as_loaned_c_ptr(*this)));
++    }
++};
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/api/link_events_listener.hxx b/include/zenoh/api/link_events_listener.hxx
+new file mode 100644
+index 00000000..9329a24e
+--- /dev/null
++++ b/include/zenoh/api/link_events_listener.hxx
+@@ -0,0 +1,137 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include <utility>
++
++#include "base.hxx"
++#include "interop.hxx"
++
++namespace zenoh {
++
++class Session;
++
++namespace detail {
++class LinkEventsListenerBase : public Owned<::z_owned_link_events_listener_t> {
++   protected:
++    LinkEventsListenerBase(zenoh::detail::null_object_t) : Owned(nullptr) {}
++    LinkEventsListenerBase(::z_owned_link_events_listener_t* l) : Owned(l) {}
++    friend struct interop::detail::Converter;
++};
++}  // namespace detail
++
++template <class Handler>
++class LinkEventsListener;
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief A callback-only link events listener.
++template <>
++class LinkEventsListener<void> : public detail::LinkEventsListenerBase {
++   protected:
++    using LinkEventsListenerBase::LinkEventsListenerBase;
++    friend struct interop::detail::Converter;
++
++   public:
++    /// @name Methods
++
++    /// @brief Undeclare link events listener.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    void undeclare(ZResult* err = nullptr) && {
++        __ZENOH_RESULT_CHECK(::z_undeclare_link_events_listener(interop::as_moved_c_ptr(*this)), err,
++                             "Failed to undeclare link events listener");
++    }
++};
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief A Zenoh link events listener.
++///
++/// Constructed by ``Session::declare_link_events_listener`` method.
++/// @tparam Handler streaming handler exposing data. If `void`, no handler access is provided and instead data is being
++/// processed inside the callback.
++template <class Handler>
++class LinkEventsListener : public detail::LinkEventsListenerBase {
++    Handler _handler;
++
++   public:
++    /// @name Constructors
++
++    /// @brief Construct stream link events listener from callback listener and handler.
++    ///
++    /// @param l callback link events listener, that should expose data to the handler in its callback.
++    /// @param handler handler to access data exposed by `l`.
++    LinkEventsListener(LinkEventsListener<void>&& l, Handler handler)
++        : LinkEventsListenerBase(interop::as_owned_c_ptr(l)), _handler(std::move(handler)) {}
++
++    /// @name Methods
++
++    /// @brief Undeclare link events listener, and return its handler.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    Handler undeclare(ZResult* err = nullptr) && {
++        __ZENOH_RESULT_CHECK(::z_undeclare_link_events_listener(::z_move(this->_0)), err,
++                             "Failed to undeclare link events listener");
++        return std::move(this->_handler);
++    }
++
++    /// @brief Return the handler to link events data stream.
++    const Handler& handler() const { return _handler; };
++    friend class Session;
++};
++
++namespace interop {
++/// @brief Return a pair of pointers to owned zenoh-c representations of link events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_owned_c_ptr(LinkEventsListener<Handler>& l) {
++    return std::make_pair(as_owned_c_ptr(static_cast<zenoh::detail::LinkEventsListenerBase&>(l)),
++                          as_owned_c_ptr(const_cast<Handler&>(l.handler())));
++}
++
++/// @brief Return a pair of pointers to owned zenoh-c representations of link events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_owned_c_ptr(const LinkEventsListener<Handler>& l) {
++    return std::make_pair(as_owned_c_ptr(static_cast<const zenoh::detail::LinkEventsListenerBase&>(l)),
++                          as_owned_c_ptr(l.handler()));
++}
++
++/// @brief Return a pair of pointers to moved zenoh-c representations of link events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_moved_c_ptr(LinkEventsListener<Handler>& l) {
++    return std::make_pair(as_moved_c_ptr(static_cast<zenoh::detail::LinkEventsListenerBase&>(l)),
++                          as_moved_c_ptr(const_cast<Handler&>(l.handler())));
++}
++
++/// @brief Return a pair of pointers to moved zenoh-c representations of link events listener and its callback.
++/// Will return a pair of null pointers if option is empty.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_moved_c_ptr(std::optional<LinkEventsListener<Handler>>& l) -> decltype(as_moved_c_ptr(l.value())) {
++    if (l.has_value()) {
++        return as_moved_c_ptr(l.value());
++    } else {
++        return {};
++    }
++}
++
++/// @brief Move link events listener and its handler to a pair containing corresponding zenoh-c structs.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto move_to_c_obj(LinkEventsListener<Handler>&& l) {
++    return std::make_pair(move_to_c_obj(std::move(static_cast<zenoh::detail::LinkEventsListenerBase&>(l))),
++                          move_to_c_obj(std::move(const_cast<Handler&>(l))));
++}
++}  // namespace interop
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/api/matching.hxx b/include/zenoh/api/matching.hxx
+index b1578fd8..84b81d00 100644
+--- a/include/zenoh/api/matching.hxx
++++ b/include/zenoh/api/matching.hxx
+@@ -74,7 +74,6 @@ class MatchingListener<void> : public detail::MatchingListenerBase {
+ ///
+ /// A listener that sends notifications when the [`MatchingStatus`] of a corresponding Zenoh entity changes.
+ /// Dropping the corresponding Zenoh entity, disables the matching listener.
+-/// @note Zenoh-c only.
+ template <class Handler>
+ class MatchingListener : public detail::MatchingListenerBase {
+     Handler _handler;
+@@ -134,7 +133,7 @@ auto as_moved_c_ptr(MatchingListener<Handler>& m) {
+ /// Will return a pair of null pointers if option is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<MatchingListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {
+-    if (!m.has_value()) {
++    if (m.has_value()) {
+         return as_moved_c_ptr(m.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/queryable.hxx b/include/zenoh/api/queryable.hxx
+index 38af1a9b..25d2b585 100644
+--- a/include/zenoh/api/queryable.hxx
++++ b/include/zenoh/api/queryable.hxx
+@@ -150,7 +150,7 @@ auto as_moved_c_ptr(Queryable<Handler>& q) {
+ /// Will return a pair of null pointers if optional is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<Queryable<Handler>>& q) -> decltype(as_moved_c_ptr(q.value())) {
+-    if (!q.has_value()) {
++    if (q.has_value()) {
+         return as_moved_c_ptr(q.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/session.hxx b/include/zenoh/api/session.hxx
+index b8513863..dba39a4d 100644
+--- a/include/zenoh/api/session.hxx
++++ b/include/zenoh/api/session.hxx
+@@ -32,6 +32,10 @@
+ #include "source_info.hxx"
+ #endif
+ #include "subscriber.hxx"
++#if defined(Z_FEATURE_UNSTABLE_API)
++#include "link_events_listener.hxx"
++#include "transport_events_listener.hxx"
++#endif
+ #include "timestamp.hxx"
+ #if (defined(ZENOHCXX_ZENOHC) || Z_FEATURE_QUERY == 1)
+ #include "querier.hxx"
+@@ -62,7 +66,7 @@ enum class ShmProviderNotReadyState {
+ 
+ /// A Zenoh session.
+ class Session : public Owned<::z_owned_session_t> {
+-    Session(zenoh::detail::null_object_t) : Owned(nullptr){};
++    Session(zenoh::detail::null_object_t) : Owned(nullptr) {}
+ 
+    public:
+     /// @brief Options to be passed when opening a ``Session``.
+@@ -905,6 +909,293 @@ class Session : public Owned<::z_owned_session_t> {
+                              "Failed to fetch peer Ids");
+         return out;
+     }
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Fetches all transports of this session.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a vector of all transports.
++    std::vector<Transport> get_transports(ZResult* err = nullptr) const {
++        std::vector<Transport> out;
++        auto f = [&out](Transport& transport) { out.push_back(std::move(transport)); };
++        typedef decltype(f) F;
++        ::z_owned_closure_transport_t c_closure;
++        using ClosureType = typename detail::closures::Closure<F, closures::None, void, Transport&>;
++        auto closure = ClosureType::into_context(std::forward<F>(f), closures::none);
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_transport_call, detail::closures::_zenoh_on_drop, closure);
++        __ZENOH_RESULT_CHECK(::z_info_transports(interop::as_loaned_c_ptr(*this), ::z_move(c_closure)), err,
++                             "Failed to fetch transports");
++        return out;
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Fetches all links of this session.
++    /// @param transport if provided, only links for this transport will be returned.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a vector of all links.
++    std::vector<Link> get_links(std::optional<Transport> transport = {}, ZResult* err = nullptr) const {
++        std::vector<Link> out;
++        auto f = [&out](Link& link) { out.push_back(std::move(link)); };
++        typedef decltype(f) F;
++        ::z_owned_closure_link_t c_closure;
++        using ClosureType = typename detail::closures::Closure<F, closures::None, void, Link&>;
++        auto closure = ClosureType::into_context(std::forward<F>(f), closures::none);
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_link_call, detail::closures::_zenoh_on_drop, closure);
++        ::z_info_links_options_t opts;
++        ::z_info_links_options_default(&opts);
++        if (transport.has_value()) {
++            opts.transport = interop::as_moved_c_ptr(transport.value());
++        }
++        __ZENOH_RESULT_CHECK(::z_info_links(interop::as_loaned_c_ptr(*this), ::z_move(c_closure), &opts), err,
++                             "Failed to fetch links");
++        return out;
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Options to pass to ``Session::declare_transport_events_listener``.
++    struct TransportEventsListenerOptions {
++       public:
++        /// @name Fields
++
++        /// If true, listener will receive events for transports that were already established before its declaration.
++        bool history = false;
++
++        /// @name Methods
++
++        /// @brief Create default option settings.
++        static TransportEventsListenerOptions create_default() { return {}; }
++
++       private:
++        friend struct interop::detail::Converter;
++        ::z_transport_events_listener_options_t to_c_opts() {
++            ::z_transport_events_listener_options_t opts;
++            ::z_transport_events_listener_options_default(&opts);
++            opts.history = this->history;
++            return opts;
++        }
++    };
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a transport events listener.
++    /// @param on_event the callable that will be called each time a transport event occurs.
++    /// @param on_drop the callable that will be called once listener is destroyed or undeclared.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a ``TransportEventsListener`` object.
++    template <class C, class D>
++    [[nodiscard]] TransportEventsListener<void> declare_transport_events_listener(
++        C&& on_event, D&& on_drop,
++        TransportEventsListenerOptions&& options = TransportEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        static_assert(std::is_invocable_r<void, C, TransportEvent&>::value,
++                      "on_event should be callable with the following signature: void on_event(zenoh::TransportEvent& "
++                      "event)");
++        static_assert(std::is_invocable_r<void, D>::value,
++                      "on_drop should be callable with the following signature: void on_drop()");
++        ::z_owned_closure_transport_event_t c_closure;
++        using Cval = std::remove_reference_t<C>;
++        using Dval = std::remove_reference_t<D>;
++        using ClosureType = typename detail::closures::Closure<Cval, Dval, void, TransportEvent&>;
++        auto closure = ClosureType::into_context(std::forward<C>(on_event), std::forward<D>(on_drop));
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_transport_event_call, detail::closures::_zenoh_on_drop,
++                    closure);
++        ::z_transport_events_listener_options_t opts = interop::detail::Converter::to_c_opts(options);
++        TransportEventsListener<void> l = interop::detail::null<TransportEventsListener<void>>();
++        ZResult res = ::z_declare_transport_events_listener(interop::as_loaned_c_ptr(*this), interop::as_owned_c_ptr(l),
++                                                            ::z_move(c_closure), &opts);
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare transport events listener");
++        return l;
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a background transport events listener. The listener callback will be run in the background
++    /// until the corresponding session is closed or destroyed.
++    /// @param on_event the callable that will be called each time a transport event occurs.
++    /// @param on_drop the callable that will be called once listener is destroyed or undeclared.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    template <class C, class D>
++    void declare_background_transport_events_listener(
++        C&& on_event, D&& on_drop,
++        TransportEventsListenerOptions&& options = TransportEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        static_assert(std::is_invocable_r<void, C, TransportEvent&>::value,
++                      "on_event should be callable with the following signature: void on_event(zenoh::TransportEvent& "
++                      "event)");
++        static_assert(std::is_invocable_r<void, D>::value,
++                      "on_drop should be callable with the following signature: void on_drop()");
++        ::z_owned_closure_transport_event_t c_closure;
++        using Cval = std::remove_reference_t<C>;
++        using Dval = std::remove_reference_t<D>;
++        using ClosureType = typename detail::closures::Closure<Cval, Dval, void, TransportEvent&>;
++        auto closure = ClosureType::into_context(std::forward<C>(on_event), std::forward<D>(on_drop));
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_transport_event_call, detail::closures::_zenoh_on_drop,
++                    closure);
++        ::z_transport_events_listener_options_t opts = interop::detail::Converter::to_c_opts(options);
++        ZResult res = ::z_declare_background_transport_events_listener(interop::as_loaned_c_ptr(*this),
++                                                                       ::z_move(c_closure), &opts);
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare background transport events listener");
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a transport events listener with a channel.
++    /// @tparam Channel the type of channel used to create stream of data.
++    /// @param channel an instance of channel.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a ``TransportEventsListener`` object.
++    template <class Channel>
++    [[nodiscard]] TransportEventsListener<typename Channel::template HandlerType<TransportEvent>>
++    declare_transport_events_listener(
++        Channel channel, TransportEventsListenerOptions&& options = TransportEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        auto cb_handler_pair = channel.template into_cb_handler_pair<TransportEvent>();
++        ::z_transport_events_listener_options_t opts = interop::detail::Converter::to_c_opts(options);
++        TransportEventsListener<void> l = interop::detail::null<TransportEventsListener<void>>();
++        ZResult res = ::z_declare_transport_events_listener(interop::as_loaned_c_ptr(*this), interop::as_owned_c_ptr(l),
++                                                            ::z_move(cb_handler_pair.first), &opts);
++        if (res != Z_OK && err == nullptr) {
++            ::z_drop(interop::as_moved_c_ptr(cb_handler_pair.second));
++        }
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare transport events listener");
++        return TransportEventsListener<typename Channel::template HandlerType<TransportEvent>>(
++            std::move(l), std::move(cb_handler_pair.second));
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Options to pass to ``Session::declare_link_events_listener``.
++    struct LinkEventsListenerOptions {
++       public:
++        /// @name Fields
++
++        /// If true, listener will receive events for links that were already established before its declaration.
++        bool history = false;
++
++        /// An optional transport to filter link events for.
++        std::optional<Transport> transport = {};
++
++        /// @name Methods
++
++        /// @brief Create default option settings.
++        static LinkEventsListenerOptions create_default() { return {}; }
++
++       private:
++        friend struct interop::detail::Converter;
++        ::z_link_events_listener_options_t to_c_opts() {
++            ::z_link_events_listener_options_t opts;
++            ::z_link_events_listener_options_default(&opts);
++            opts.history = this->history;
++            if (this->transport.has_value()) {
++                opts.transport = interop::as_moved_c_ptr(this->transport.value());
++            }
++            return opts;
++        }
++    };
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a link events listener.
++    /// @param on_event the callable that will be called each time a link event occurs.
++    /// @param on_drop the callable that will be called once listener is destroyed or undeclared.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a ``LinkEventsListener`` object.
++    template <class C, class D>
++    [[nodiscard]] LinkEventsListener<void> declare_link_events_listener(
++        C&& on_event, D&& on_drop, LinkEventsListenerOptions&& options = LinkEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        static_assert(
++            std::is_invocable_r<void, C, LinkEvent&>::value,
++            "on_event should be callable with the following signature: void on_event(zenoh::LinkEvent& event)");
++        static_assert(std::is_invocable_r<void, D>::value,
++                      "on_drop should be callable with the following signature: void on_drop()");
++        ::z_owned_closure_link_event_t c_closure;
++        using Cval = std::remove_reference_t<C>;
++        using Dval = std::remove_reference_t<D>;
++        using ClosureType = typename detail::closures::Closure<Cval, Dval, void, LinkEvent&>;
++        auto closure = ClosureType::into_context(std::forward<C>(on_event), std::forward<D>(on_drop));
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_link_event_call, detail::closures::_zenoh_on_drop, closure);
++        LinkEventsListenerOptions opts_copy = std::move(options);
++        ::z_link_events_listener_options_t opts = interop::detail::Converter::to_c_opts(opts_copy);
++        LinkEventsListener<void> l = interop::detail::null<LinkEventsListener<void>>();
++        ZResult res = ::z_declare_link_events_listener(interop::as_loaned_c_ptr(*this), interop::as_owned_c_ptr(l),
++                                                       ::z_move(c_closure), &opts);
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare link events listener");
++        return l;
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a background link events listener. The listener callback will be run in the background
++    /// until the corresponding session is closed or destroyed.
++    /// @param on_event the callable that will be called each time a link event occurs.
++    /// @param on_drop the callable that will be called once listener is destroyed or undeclared.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    template <class C, class D>
++    void declare_background_link_events_listener(
++        C&& on_event, D&& on_drop, LinkEventsListenerOptions&& options = LinkEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        static_assert(
++            std::is_invocable_r<void, C, LinkEvent&>::value,
++            "on_event should be callable with the following signature: void on_event(zenoh::LinkEvent& event)");
++        static_assert(std::is_invocable_r<void, D>::value,
++                      "on_drop should be callable with the following signature: void on_drop()");
++        ::z_owned_closure_link_event_t c_closure;
++        using Cval = std::remove_reference_t<C>;
++        using Dval = std::remove_reference_t<D>;
++        using ClosureType = typename detail::closures::Closure<Cval, Dval, void, LinkEvent&>;
++        auto closure = ClosureType::into_context(std::forward<C>(on_event), std::forward<D>(on_drop));
++        ::z_closure(&c_closure, detail::closures::_zenoh_on_link_event_call, detail::closures::_zenoh_on_drop, closure);
++        LinkEventsListenerOptions opts_copy = std::move(options);
++        ::z_link_events_listener_options_t opts = interop::detail::Converter::to_c_opts(opts_copy);
++        ZResult res =
++            ::z_declare_background_link_events_listener(interop::as_loaned_c_ptr(*this), ::z_move(c_closure), &opts);
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare background link events listener");
++    }
++
++    /// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future
++    /// release.
++    /// @brief Declare a link events listener with a channel.
++    /// @tparam Channel the type of channel used to create stream of data.
++    /// @param channel an instance of channel.
++    /// @param options options to pass to listener declaration.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    /// @return a ``LinkEventsListener`` object.
++    template <class Channel>
++    [[nodiscard]] LinkEventsListener<typename Channel::template HandlerType<LinkEvent>> declare_link_events_listener(
++        Channel channel, LinkEventsListenerOptions&& options = LinkEventsListenerOptions::create_default(),
++        ZResult* err = nullptr) const {
++        auto cb_handler_pair = channel.template into_cb_handler_pair<LinkEvent>();
++        LinkEventsListenerOptions opts_copy = std::move(options);
++        ::z_link_events_listener_options_t opts = interop::detail::Converter::to_c_opts(opts_copy);
++        LinkEventsListener<void> l = interop::detail::null<LinkEventsListener<void>>();
++        ZResult res = ::z_declare_link_events_listener(interop::as_loaned_c_ptr(*this), interop::as_owned_c_ptr(l),
++                                                       ::z_move(cb_handler_pair.first), &opts);
++        if (res != Z_OK && err == nullptr) {
++            ::z_drop(interop::as_moved_c_ptr(cb_handler_pair.second));
++        }
++        __ZENOH_RESULT_CHECK(res, err, "Failed to declare link events listener");
++        return LinkEventsListener<typename Channel::template HandlerType<LinkEvent>>(std::move(l),
++                                                                                     std::move(cb_handler_pair.second));
++    }
++#endif
++
+ #if defined(ZENOHCXX_ZENOHPICO)
+ #if Z_FEATURE_MULTI_THREAD == 1
+     /// @brief Start a separate task to read from the network and process the messages as soon as they are received.
+diff --git a/include/zenoh/api/subscriber.hxx b/include/zenoh/api/subscriber.hxx
+index f3c4bdc0..2908f2c8 100644
+--- a/include/zenoh/api/subscriber.hxx
++++ b/include/zenoh/api/subscriber.hxx
+@@ -150,7 +150,7 @@ auto as_moved_c_ptr(Subscriber<Handler>& s) {
+ /// Will return a pair of null pointers if option is empty.
+ template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
+ auto as_moved_c_ptr(std::optional<Subscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {
+-    if (!s.has_value()) {
++    if (s.has_value()) {
+         return as_moved_c_ptr(s.value());
+     } else {
+         return {};
+diff --git a/include/zenoh/api/transport.hxx b/include/zenoh/api/transport.hxx
+new file mode 100644
+index 00000000..bcbbf124
+--- /dev/null
++++ b/include/zenoh/api/transport.hxx
+@@ -0,0 +1,80 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include "../zenohc.hxx"
++#include "base.hxx"
++#include "enums.hxx"
++#include "id.hxx"
++#include "interop.hxx"
++
++namespace zenoh {
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief Represents a connection to a remote zenoh node.
++class Transport : public Owned<::z_owned_transport_t> {
++   public:
++    /// @name Methods
++
++    /// @brief Get the Zenoh ID of the remote node.
++    /// @return `Id` of the remote node.
++    Id get_zid() const {
++        return interop::into_copyable_cpp_obj<Id>(::z_transport_zid(interop::as_loaned_c_ptr(*this)));
++    }
++
++    /// @brief Get the type of the remote node.
++    /// @return `zenoh::WhatAmI` of the remote node.
++    WhatAmI get_whatami() const { return ::z_transport_whatami(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Check if the transport supports QoS.
++    /// @return `true` if QoS is supported, `false` otherwise.
++    bool is_qos() const { return ::z_transport_is_qos(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Check if the transport is multicast.
++    /// @return `true` if the transport is multicast, `false` otherwise.
++    bool is_multicast() const { return ::z_transport_is_multicast(interop::as_loaned_c_ptr(*this)); }
++
++#if defined(Z_FEATURE_SHARED_MEMORY)
++    /// @brief Check if the transport supports shared memory.
++    /// @return `true` if shared memory is supported, `false` otherwise.
++    bool is_shm() const { return ::z_transport_is_shm(interop::as_loaned_c_ptr(*this)); }
++#endif
++
++    /// @brief Copy constructor.
++    Transport(const Transport& other) : Owned(nullptr) {
++        ::z_transport_clone(&this->_0, interop::as_loaned_c_ptr(other));
++    }
++
++    /// @brief Move constructor.
++    Transport(Transport&& other) = default;
++
++    /// @name Operators
++
++    /// @brief Assignment operator.
++    Transport& operator=(const Transport& other) {
++        if (this != &other) {
++            ::z_drop(z_move(this->_0));
++            ::z_transport_clone(&this->_0, interop::as_loaned_c_ptr(other));
++        }
++        return *this;
++    }
++
++    /// @brief Move assignment operator.
++    Transport& operator=(Transport&& other) = default;
++};
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/api/transport_event.hxx b/include/zenoh/api/transport_event.hxx
+new file mode 100644
+index 00000000..d9f8fe15
+--- /dev/null
++++ b/include/zenoh/api/transport_event.hxx
+@@ -0,0 +1,45 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include "../zenohc.hxx"
++#include "base.hxx"
++#include "enums.hxx"
++#include "interop.hxx"
++#include "transport.hxx"
++
++namespace zenoh {
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief Represents a transport connectivity event (transport opened or closed).
++class TransportEvent : public Owned<::z_owned_transport_event_t> {
++   public:
++    /// @name Methods
++
++    /// @brief Get the kind of this event.
++    /// @return `SampleKind::Z_SAMPLE_KIND_PUT` for transport opened, `SampleKind::Z_SAMPLE_KIND_DELETE` for
++    /// transport closed.
++    SampleKind get_kind() const { return ::z_transport_event_kind(interop::as_loaned_c_ptr(*this)); }
++
++    /// @brief Get the transport associated with this event.
++    /// @return reference to the `Transport`.
++    const Transport& get_transport() const {
++        return interop::as_owned_cpp_ref<Transport>(::z_transport_event_transport(interop::as_loaned_c_ptr(*this)));
++    }
++};
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/api/transport_events_listener.hxx b/include/zenoh/api/transport_events_listener.hxx
+new file mode 100644
+index 00000000..234257fd
+--- /dev/null
++++ b/include/zenoh/api/transport_events_listener.hxx
+@@ -0,0 +1,137 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++
++#pragma once
++
++#if defined(Z_FEATURE_UNSTABLE_API)
++
++#include <utility>
++
++#include "base.hxx"
++#include "interop.hxx"
++
++namespace zenoh {
++
++class Session;
++
++namespace detail {
++class TransportEventsListenerBase : public Owned<::z_owned_transport_events_listener_t> {
++   protected:
++    TransportEventsListenerBase(zenoh::detail::null_object_t) : Owned(nullptr) {}
++    TransportEventsListenerBase(::z_owned_transport_events_listener_t* l) : Owned(l) {}
++    friend struct interop::detail::Converter;
++};
++}  // namespace detail
++
++template <class Handler>
++class TransportEventsListener;
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief A callback-only transport events listener.
++template <>
++class TransportEventsListener<void> : public detail::TransportEventsListenerBase {
++   protected:
++    using TransportEventsListenerBase::TransportEventsListenerBase;
++    friend struct interop::detail::Converter;
++
++   public:
++    /// @name Methods
++
++    /// @brief Undeclare transport events listener.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    void undeclare(ZResult* err = nullptr) && {
++        __ZENOH_RESULT_CHECK(::z_undeclare_transport_events_listener(interop::as_moved_c_ptr(*this)), err,
++                             "Failed to undeclare transport events listener");
++    }
++};
++
++/// @warning This API has been marked as unstable: it works as advertised, but it may be changed in a future release.
++/// @brief A Zenoh transport events listener.
++///
++/// Constructed by ``Session::declare_transport_events_listener`` method.
++/// @tparam Handler streaming handler exposing data. If `void`, no handler access is provided and instead data is being
++/// processed inside the callback.
++template <class Handler>
++class TransportEventsListener : public detail::TransportEventsListenerBase {
++    Handler _handler;
++
++   public:
++    /// @name Constructors
++
++    /// @brief Construct stream transport events listener from callback listener and handler.
++    ///
++    /// @param l callback transport events listener, that should expose data to the handler in its callback.
++    /// @param handler handler to access data exposed by `l`.
++    TransportEventsListener(TransportEventsListener<void>&& l, Handler handler)
++        : TransportEventsListenerBase(interop::as_owned_c_ptr(l)), _handler(std::move(handler)) {}
++
++    /// @name Methods
++
++    /// @brief Undeclare transport events listener, and return its handler.
++    /// @param err if not null, the result code will be written to this location, otherwise ZException exception will be
++    /// thrown in case of error.
++    Handler undeclare(ZResult* err = nullptr) && {
++        __ZENOH_RESULT_CHECK(::z_undeclare_transport_events_listener(::z_move(this->_0)), err,
++                             "Failed to undeclare transport events listener");
++        return std::move(this->_handler);
++    }
++
++    /// @brief Return the handler to transport events data stream.
++    const Handler& handler() const { return _handler; };
++    friend class Session;
++};
++
++namespace interop {
++/// @brief Return a pair of pointers to owned zenoh-c representations of transport events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_owned_c_ptr(TransportEventsListener<Handler>& l) {
++    return std::make_pair(as_owned_c_ptr(static_cast<zenoh::detail::TransportEventsListenerBase&>(l)),
++                          as_owned_c_ptr(const_cast<Handler&>(l.handler())));
++}
++
++/// @brief Return a pair of pointers to owned zenoh-c representations of transport events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_owned_c_ptr(const TransportEventsListener<Handler>& l) {
++    return std::make_pair(as_owned_c_ptr(static_cast<const zenoh::detail::TransportEventsListenerBase&>(l)),
++                          as_owned_c_ptr(l.handler()));
++}
++
++/// @brief Return a pair of pointers to moved zenoh-c representations of transport events listener and its callback.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_moved_c_ptr(TransportEventsListener<Handler>& l) {
++    return std::make_pair(as_moved_c_ptr(static_cast<zenoh::detail::TransportEventsListenerBase&>(l)),
++                          as_moved_c_ptr(const_cast<Handler&>(l.handler())));
++}
++
++/// @brief Return a pair of pointers to moved zenoh-c representations of transport events listener and its callback.
++/// Will return a pair of null pointers if option is empty.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto as_moved_c_ptr(std::optional<TransportEventsListener<Handler>>& l) -> decltype(as_moved_c_ptr(l.value())) {
++    if (l.has_value()) {
++        return as_moved_c_ptr(l.value());
++    } else {
++        return {};
++    }
++}
++
++/// @brief Move transport events listener and its handler to a pair containing corresponding zenoh-c structs.
++template <class Handler, typename = std::enable_if_t<!std::is_same_v<Handler, void>>>
++auto move_to_c_obj(TransportEventsListener<Handler>&& l) {
++    return std::make_pair(move_to_c_obj(std::move(static_cast<zenoh::detail::TransportEventsListenerBase&>(l))),
++                          move_to_c_obj(std::move(const_cast<Handler&>(l))));
++}
++}  // namespace interop
++
++}  // namespace zenoh
++#endif
+diff --git a/include/zenoh/detail/closures_concrete.hxx b/include/zenoh/detail/closures_concrete.hxx
+index ebe53e03..3f6b96db 100644
+--- a/include/zenoh/detail/closures_concrete.hxx
++++ b/include/zenoh/detail/closures_concrete.hxx
+@@ -16,9 +16,17 @@
+ #include "../api/hello.hxx"
+ #include "../api/id.hxx"
+ #include "../api/interop.hxx"
++#if defined(Z_FEATURE_UNSTABLE_API)
++#include "../api/link.hxx"
++#include "../api/link_event.hxx"
++#endif
+ #include "../api/query.hxx"
+ #include "../api/reply.hxx"
+ #include "../api/sample.hxx"
++#if defined(Z_FEATURE_UNSTABLE_API)
++#include "../api/transport.hxx"
++#include "../api/transport_event.hxx"
++#endif
+ #include "../zenohc.hxx"
+ #include "closures.hxx"
+ 
+@@ -46,5 +54,19 @@ inline void _zenoh_on_id_call(const ::z_id_t* z_id, void* context) {
+ inline void _zenoh_on_hello_call(::z_loaned_hello_t* hello, void* context) {
+     IClosure<void, Hello&>::call_from_context(context, interop::as_owned_cpp_ref<Hello>(hello));
+ }
++#if defined(Z_FEATURE_UNSTABLE_API)
++inline void _zenoh_on_transport_call(::z_loaned_transport_t* transport, void* context) {
++    IClosure<void, Transport&>::call_from_context(context, interop::as_owned_cpp_ref<Transport>(transport));
++}
++inline void _zenoh_on_link_call(::z_loaned_link_t* link, void* context) {
++    IClosure<void, Link&>::call_from_context(context, interop::as_owned_cpp_ref<Link>(link));
++}
++inline void _zenoh_on_transport_event_call(::z_loaned_transport_event_t* event, void* context) {
++    IClosure<void, TransportEvent&>::call_from_context(context, interop::as_owned_cpp_ref<TransportEvent>(event));
++}
++inline void _zenoh_on_link_event_call(::z_loaned_link_event_t* event, void* context) {
++    IClosure<void, LinkEvent&>::call_from_context(context, interop::as_owned_cpp_ref<LinkEvent>(event));
++}
++#endif
+ }
+ }  // namespace zenoh::detail::closures

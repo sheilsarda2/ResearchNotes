@@ -1,0 +1,396 @@
+[  5%] Built target details_zenohpico
+[  7%] Built target warnings_zenohpico
+[ 10%] Built target closures_zenohpico
+[ 15%] Built target bytes_zenohpico
+[ 17%] Built target advanced_pub_sub_zenohpico
+[ 20%] Built target cancellation_zenohpico
+[ 23%] Built target serialization_zenohpico
+[ 25%] Building CXX object tests/CMakeFiles/connectivity_zenohpico.dir/universal/network/connectivity.cxx.o
+[ 28%] Built target keyexpr_zenohpico
+[ 33%] Built target liveliness_zenohpico
+[ 35%] Built target pub_sub_zenohpico
+[ 41%] Built target queryable_get_zenohpico
+[ 43%] Built target config_zenohpico
+[ 48%] Built target source_info_zenohpico
+[ 51%] Building CXX object tests/CMakeFiles/parity_dump_zenohc.dir/verifier/parity_dump.cxx.o
+[ 51%] Built target batching_zenohpico
+[ 53%] Built target tasks_zenohpico
+[ 58%] Built target bytes_zenohc
+[ 56%] Built target closures_zenohc
+[ 61%] Built target serialization_zenohc
+[ 64%] Built target details_zenohc
+[ 69%] Built target cancellation_zenohc
+[ 66%] Built target advanced_pub_sub_zenohc
+[ 71%] Built target keyexpr_zenohc
+[ 71%] Building CXX object tests/CMakeFiles/connectivity_zenohc.dir/universal/network/connectivity.cxx.o
+[ 74%] Built target liveliness_zenohc
+[ 76%] Built target pub_sub_zenohc
+[ 79%] Built target queryable_get_zenohc
+[ 82%] Built target source_info_zenohc
+[ 87%] Built target config_zenohc
+[ 89%] Built target shm_api_zenohc
+[ 92%] Built target warnings_zenohc
+[ 92%] Building CXX object tests/CMakeFiles/interop_optional_zenohc.dir/verifier/interop_optional.cxx.o
+In file included from /work/repo/include/zenoh/api.hxx:17,
+                 from /work/repo/include/zenoh.hxx:19,
+                 from /work/repo/tests/verifier/parity_dump.cxx:24:
+/work/repo/include/zenoh/api/channels.hxx: In instantiation of 'class zenoh::channels::FifoHandler<zenoh::LinkEvent>':
+/work/repo/include/zenoh/api/link_events_listener.hxx:67:13:   required from 'class zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >'
+/work/repo/tests/verifier/parity_dump.cxx:156:61:   required from here
+/work/repo/include/zenoh/api/channels.hxx:113:7: error: no type named 'handler_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::LinkEvent>'
+  113 | class FifoHandler : public Owned<typename detail::FifoHandlerData<T>::handler_type> {
+      |       ^~~~~~~~~~~
+In file included from /work/repo/include/zenoh/api.hxx:36:
+/work/repo/include/zenoh/api/session.hxx: In instantiation of 'zenoh::LinkEventsListener<typename Channel::HandlerType<zenoh::LinkEvent> > zenoh::Session::declare_link_events_listener(Channel, LinkEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::LinkEvent> = zenoh::channels::FifoHandler<zenoh::LinkEvent>; zenoh::ZResult = signed char]':
+/work/repo/tests/verifier/parity_dump.cxx:156:61:   required from here
+/work/repo/include/zenoh/api/session.hxx:1184:80: error: no matching function for call to 'zenoh::channels::FifoChannel::into_cb_handler_pair<zenoh::LinkEvent>()'
+ 1184 |         auto cb_handler_pair = channel.template into_cb_handler_pair<LinkEvent>();
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note: candidate: 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const'
+  210 |     std::pair<typename detail::FifoHandlerData<T>::closure_type, HandlerType<T>> into_cb_handler_pair() const {
+      |                                                                                  ^~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/channels.hxx: In substitution of 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const [with T = zenoh::LinkEvent]':
+/work/repo/include/zenoh/api/session.hxx:1184:80:   required from 'zenoh::LinkEventsListener<typename Channel::HandlerType<zenoh::LinkEvent> > zenoh::Session::declare_link_events_listener(Channel, LinkEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::LinkEvent> = zenoh::channels::FifoHandler<zenoh::LinkEvent>; zenoh::ZResult = signed char]'
+/work/repo/tests/verifier/parity_dump.cxx:156:61:   required from here
+/work/repo/include/zenoh/api/channels.hxx:210:82: error: no type named 'closure_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::LinkEvent>'
+In file included from /work/repo/include/zenoh/api.hxx:17,
+                 from /work/repo/include/zenoh.hxx:19,
+                 from /work/repo/tests/verifier/interop_optional.cxx:16:
+/work/repo/include/zenoh/api/channels.hxx: In instantiation of 'class zenoh::channels::FifoHandler<zenoh::MatchingStatus>':
+/work/repo/include/zenoh/api/matching.hxx:79:13:   required from 'class zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >'
+/usr/include/c++/12/type_traits:1274:4:   required from 'struct std::__is_trivially_copy_constructible_impl<zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >, true>'
+/usr/include/c++/12/type_traits:1279:12:   required from 'struct std::is_trivially_copy_constructible<zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> > >'
+/usr/include/c++/12/type_traits:3225:43:   required from 'constexpr const bool std::is_trivially_copy_constructible_v<zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> > >'
+/usr/include/c++/12/optional:705:11:   required from 'class std::optional<zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> > >'
+/work/repo/tests/verifier/interop_optional.cxx:64:76:   required from here
+/work/repo/include/zenoh/api/channels.hxx:113:7: error: no type named 'handler_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::MatchingStatus>'
+  113 | class FifoHandler : public Owned<typename detail::FifoHandlerData<T>::handler_type> {
+      |       ^~~~~~~~~~~
+/work/repo/include/zenoh/api/channels.hxx: In instantiation of 'class zenoh::channels::FifoHandler<zenoh::LinkEvent>':
+/work/repo/include/zenoh/api/link_events_listener.hxx:67:13:   required from 'class zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >'
+/usr/include/c++/12/type_traits:1274:4:   required from 'struct std::__is_trivially_copy_constructible_impl<zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >, true>'
+/usr/include/c++/12/type_traits:1279:12:   required from 'struct std::is_trivially_copy_constructible<zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> > >'
+/usr/include/c++/12/type_traits:3225:43:   required from 'constexpr const bool std::is_trivially_copy_constructible_v<zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> > >'
+/usr/include/c++/12/optional:705:11:   required from 'class std::optional<zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> > >'
+/work/repo/tests/verifier/interop_optional.cxx:69:73:   required from here
+/work/repo/include/zenoh/api/channels.hxx:113:7: error: no type named 'handler_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::LinkEvent>'
+/work/repo/include/zenoh/api/channels.hxx: In instantiation of 'class zenoh::channels::FifoHandler<zenoh::TransportEvent>':
+/work/repo/include/zenoh/api/transport_events_listener.hxx:67:13:   required from 'class zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> >'
+/usr/include/c++/12/type_traits:1274:4:   required from 'struct std::__is_trivially_copy_constructible_impl<zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> >, true>'
+/usr/include/c++/12/type_traits:1279:12:   required from 'struct std::is_trivially_copy_constructible<zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> > >'
+/usr/include/c++/12/type_traits:3225:43:   required from 'constexpr const bool std::is_trivially_copy_constructible_v<zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> > >'
+/usr/include/c++/12/optional:705:11:   required from 'class std::optional<zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> > >'
+/work/repo/tests/verifier/interop_optional.cxx:73:83:   required from here
+/work/repo/include/zenoh/api/channels.hxx:113:7: error: no type named 'handler_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::TransportEvent>'
+gmake[3]: *** [tests/CMakeFiles/parity_dump_zenohc.dir/build.make:76: tests/CMakeFiles/parity_dump_zenohc.dir/verifier/parity_dump.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/parity_dump_zenohc.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:1181: tests/CMakeFiles/parity_dump_zenohc.dir/all] Error 2
+In file included from /work/repo/include/zenoh/api/publisher.hxx:27,
+                 from /work/repo/include/zenoh/api.hxx:29:
+/work/repo/include/zenoh/api/matching.hxx: In instantiation of 'auto zenoh::interop::as_moved_c_ptr(zenoh::MatchingListener<Handler>&) [with Handler = zenoh::channels::FifoHandler<zenoh::MatchingStatus>; <template-parameter-1-2> = void]':
+/work/repo/include/zenoh/api/matching.hxx:135:92:   required by substitution of 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(m.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::MatchingListener<Handler> >&) [with Handler = zenoh::channels::FifoHandler<zenoh::MatchingStatus>; <template-parameter-1-2> = void]'
+/work/repo/tests/verifier/interop_optional.cxx:27:37:   required from 'void check_empty(const char*) [with T = zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >]'
+/work/repo/tests/verifier/interop_optional.cxx:47:73:   required from here
+/work/repo/include/zenoh/api/matching.hxx:129:41: error: no matching function for call to 'as_moved_c_ptr(zenoh::channels::FifoHandler<zenoh::MatchingStatus>&)'
+  129 |                           as_moved_c_ptr(const_cast<Handler&>(m.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /work/repo/include/zenoh/api/bytes.hxx:20,
+                 from /work/repo/include/zenoh/api.hxx:16:
+/work/repo/include/zenoh/api/interop.hxx:99:7: note: candidate: 'template<class OwnedType> auto* zenoh::interop::as_moved_c_ptr(zenoh::Owned<OwnedType>&)'
+   99 | auto* as_moved_c_ptr(Owned<OwnedType>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:99:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/matching.hxx:129:41: note:   'zenoh::channels::FifoHandler<zenoh::MatchingStatus>' is not derived from 'zenoh::Owned<OwnedType>'
+  129 |                           as_moved_c_ptr(const_cast<Handler&>(m.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note: candidate: 'template<class OwnedCppObj> auto* zenoh::interop::as_moved_c_ptr(std::optional<_Tp>&)'
+  106 | auto* as_moved_c_ptr(std::optional<OwnedCppObj>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/matching.hxx:129:41: note:   'zenoh::channels::FifoHandler<zenoh::MatchingStatus>' is not derived from 'std::optional<_Tp>'
+  129 |                           as_moved_c_ptr(const_cast<Handler&>(m.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::MatchingListener<Handler>&)'
+  127 | auto as_moved_c_ptr(MatchingListener<Handler>& m) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/matching.hxx:129:41: note:   'zenoh::channels::FifoHandler<zenoh::MatchingStatus>' is not derived from 'zenoh::MatchingListener<Handler>'
+  129 |                           as_moved_c_ptr(const_cast<Handler&>(m.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /work/repo/tests/verifier/interop_optional.cxx:22:
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_empty(const char*) [with T = zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >]':
+/work/repo/tests/verifier/interop_optional.cxx:47:73:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:28:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_matching_listener_t*' (maybe you meant to use '->' ?)
+   28 |     assert(p.first == nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:29:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_matching_listener_t*' (maybe you meant to use '->' ?)
+   29 |     assert(p.second == nullptr);
+      |            ~~^~~~~~
+In file included from /work/repo/include/zenoh/api/session.hxx:36,
+                 from /work/repo/include/zenoh/api.hxx:36:
+/work/repo/include/zenoh/api/link_events_listener.hxx: In instantiation of 'auto zenoh::interop::as_moved_c_ptr(zenoh::LinkEventsListener<Handler>&) [with Handler = zenoh::channels::FifoHandler<zenoh::LinkEvent>; <template-parameter-1-2> = void]':
+/work/repo/include/zenoh/api/link_events_listener.hxx:120:94:   required by substitution of 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(l.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::LinkEventsListener<Handler> >&) [with Handler = zenoh::channels::FifoHandler<zenoh::LinkEvent>; <template-parameter-1-2> = void]'
+/work/repo/tests/verifier/interop_optional.cxx:27:37:   required from 'void check_empty(const char*) [with T = zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >]'
+/work/repo/tests/verifier/interop_optional.cxx:49:70:   required from here
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: error: no matching function for call to 'as_moved_c_ptr(zenoh::channels::FifoHandler<zenoh::LinkEvent>&)'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:99:7: note: candidate: 'template<class OwnedType> auto* zenoh::interop::as_moved_c_ptr(zenoh::Owned<OwnedType>&)'
+   99 | auto* as_moved_c_ptr(Owned<OwnedType>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:99:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'zenoh::Owned<OwnedType>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note: candidate: 'template<class OwnedCppObj> auto* zenoh::interop::as_moved_c_ptr(std::optional<_Tp>&)'
+  106 | auto* as_moved_c_ptr(std::optional<OwnedCppObj>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'std::optional<_Tp>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::MatchingListener<Handler>&)'
+  127 | auto as_moved_c_ptr(MatchingListener<Handler>& m) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'zenoh::MatchingListener<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:135:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(m.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::MatchingListener<Handler> >&)'
+  135 | auto as_moved_c_ptr(std::optional<MatchingListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:135:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'std::optional<zenoh::MatchingListener<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /work/repo/include/zenoh/api.hxx:32:
+/work/repo/include/zenoh/api/queryable.hxx:144:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::Queryable<Handler>&)'
+  144 | auto as_moved_c_ptr(Queryable<Handler>& q) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:144:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'zenoh::Queryable<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:152:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(q.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::Queryable<Handler> >&)'
+  152 | auto as_moved_c_ptr(std::optional<Queryable<Handler>>& q) -> decltype(as_moved_c_ptr(q.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:152:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'std::optional<zenoh::Queryable<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /work/repo/include/zenoh/api/session.hxx:34:
+/work/repo/include/zenoh/api/subscriber.hxx:144:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::Subscriber<Handler>&)'
+  144 | auto as_moved_c_ptr(Subscriber<Handler>& s) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:144:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'zenoh::Subscriber<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:152:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(s.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::Subscriber<Handler> >&)'
+  152 | auto as_moved_c_ptr(std::optional<Subscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:152:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'std::optional<zenoh::Subscriber<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:112:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::LinkEventsListener<Handler>&)'
+  112 | auto as_moved_c_ptr(LinkEventsListener<Handler>& l) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:112:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/link_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::LinkEvent>' is not derived from 'zenoh::LinkEventsListener<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_empty(const char*) [with T = zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >]':
+/work/repo/tests/verifier/interop_optional.cxx:49:70:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:28:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_link_events_listener_t*' (maybe you meant to use '->' ?)
+   28 |     assert(p.first == nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:29:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_link_events_listener_t*' (maybe you meant to use '->' ?)
+   29 |     assert(p.second == nullptr);
+      |            ~~^~~~~~
+In file included from /work/repo/include/zenoh/api/session.hxx:37:
+/work/repo/include/zenoh/api/transport_events_listener.hxx: In instantiation of 'auto zenoh::interop::as_moved_c_ptr(zenoh::TransportEventsListener<Handler>&) [with Handler = zenoh::channels::FifoHandler<zenoh::TransportEvent>; <template-parameter-1-2> = void]':
+/work/repo/include/zenoh/api/transport_events_listener.hxx:120:99:   required by substitution of 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(l.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::TransportEventsListener<Handler> >&) [with Handler = zenoh::channels::FifoHandler<zenoh::TransportEvent>; <template-parameter-1-2> = void]'
+/work/repo/tests/verifier/interop_optional.cxx:27:37:   required from 'void check_empty(const char*) [with T = zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> >]'
+/work/repo/tests/verifier/interop_optional.cxx:50:80:   required from here
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: error: no matching function for call to 'as_moved_c_ptr(zenoh::channels::FifoHandler<zenoh::TransportEvent>&)'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:99:7: note: candidate: 'template<class OwnedType> auto* zenoh::interop::as_moved_c_ptr(zenoh::Owned<OwnedType>&)'
+   99 | auto* as_moved_c_ptr(Owned<OwnedType>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:99:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::Owned<OwnedType>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note: candidate: 'template<class OwnedCppObj> auto* zenoh::interop::as_moved_c_ptr(std::optional<_Tp>&)'
+  106 | auto* as_moved_c_ptr(std::optional<OwnedCppObj>& cpp_obj) {
+      |       ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/interop.hxx:106:7: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'std::optional<_Tp>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::MatchingListener<Handler>&)'
+  127 | auto as_moved_c_ptr(MatchingListener<Handler>& m) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:127:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::MatchingListener<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:135:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(m.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::MatchingListener<Handler> >&)'
+  135 | auto as_moved_c_ptr(std::optional<MatchingListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:135:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'std::optional<zenoh::MatchingListener<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:144:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::Queryable<Handler>&)'
+  144 | auto as_moved_c_ptr(Queryable<Handler>& q) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:144:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::Queryable<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:152:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(q.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::Queryable<Handler> >&)'
+  152 | auto as_moved_c_ptr(std::optional<Queryable<Handler>>& q) -> decltype(as_moved_c_ptr(q.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/queryable.hxx:152:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'std::optional<zenoh::Queryable<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:144:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::Subscriber<Handler>&)'
+  144 | auto as_moved_c_ptr(Subscriber<Handler>& s) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:144:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::Subscriber<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:152:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(s.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::Subscriber<Handler> >&)'
+  152 | auto as_moved_c_ptr(std::optional<Subscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/subscriber.hxx:152:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'std::optional<zenoh::Subscriber<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:112:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::LinkEventsListener<Handler>&)'
+  112 | auto as_moved_c_ptr(LinkEventsListener<Handler>& l) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:112:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::LinkEventsListener<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:120:6: note: candidate: 'template<class Handler, class> decltype (zenoh::interop::as_moved_c_ptr(l.value())) zenoh::interop::as_moved_c_ptr(std::optional<zenoh::LinkEventsListener<Handler> >&)'
+  120 | auto as_moved_c_ptr(std::optional<LinkEventsListener<Handler>>& l) -> decltype(as_moved_c_ptr(l.value())) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/link_events_listener.hxx:120:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'std::optional<zenoh::LinkEventsListener<Handler> >'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/transport_events_listener.hxx:112:6: note: candidate: 'template<class Handler, class> auto zenoh::interop::as_moved_c_ptr(zenoh::TransportEventsListener<Handler>&)'
+  112 | auto as_moved_c_ptr(TransportEventsListener<Handler>& l) {
+      |      ^~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/transport_events_listener.hxx:112:6: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/transport_events_listener.hxx:114:41: note:   'zenoh::channels::FifoHandler<zenoh::TransportEvent>' is not derived from 'zenoh::TransportEventsListener<Handler>'
+  114 |                           as_moved_c_ptr(const_cast<Handler&>(l.handler())));
+      |                           ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_empty(const char*) [with T = zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> >]':
+/work/repo/tests/verifier/interop_optional.cxx:50:80:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:28:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_transport_events_listener_t*' (maybe you meant to use '->' ?)
+   28 |     assert(p.first == nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:29:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_transport_events_listener_t*' (maybe you meant to use '->' ?)
+   29 |     assert(p.second == nullptr);
+      |            ~~^~~~~~
+/work/repo/include/zenoh/api/publisher.hxx: In instantiation of 'zenoh::MatchingListener<typename Channel::HandlerType<zenoh::MatchingStatus> > zenoh::Publisher::declare_matching_listener(Channel, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::MatchingStatus> = zenoh::channels::FifoHandler<zenoh::MatchingStatus>; zenoh::ZResult = signed char]':
+/work/repo/tests/verifier/interop_optional.cxx:65:38:   required from here
+/work/repo/include/zenoh/api/publisher.hxx:195:82: error: cannot convert 'z_moved_closure_query_t*' to 'z_moved_closure_matching_status_t*'
+  195 |             interop::as_loaned_c_ptr(*this), interop::as_owned_c_ptr(m), ::z_move(cb_handler_pair.first));
+      |                                                                          ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+      |                                                                                  |
+      |                                                                                  z_moved_closure_query_t*
+In file included from /opt/zenoh/include/zenoh.h:29,
+                 from /work/repo/include/zenoh/api/../detail/../zenohc.hxx:14,
+                 from /work/repo/include/zenoh/api/../detail/availability_checks.hxx:18,
+                 from /work/repo/include/zenoh/api/base.hxx:21,
+                 from /work/repo/include/zenoh/api/bytes.hxx:18:
+/opt/zenoh/include/zenoh_commons.h:4938:92: note:   initializing argument 3 of 'z_result_t z_publisher_declare_matching_listener(const z_loaned_publisher_t*, z_owned_matching_listener_t*, z_moved_closure_matching_status_t*)'
+ 4938 |                                                  struct z_moved_closure_matching_status_t *callback);
+      |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+/work/repo/include/zenoh/api/publisher.hxx:200:16: error: no matching function for call to 'zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >::MatchingListener(std::remove_reference<zenoh::MatchingListener<void>&>::type, std::remove_reference<zenoh::channels::FifoHandler<zenoh::Query>&>::type)'
+  200 |         return MatchingListener<typename Channel::template HandlerType<MatchingStatus>>(
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  201 |             std::move(m), std::move(cb_handler_pair.second));
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:90:5: note: candidate: 'zenoh::MatchingListener<Handler>::MatchingListener(zenoh::MatchingListener<void>&&, Handler) [with Handler = zenoh::channels::FifoHandler<zenoh::MatchingStatus>]'
+   90 |     MatchingListener(MatchingListener<void>&& m, Handler handler)
+      |     ^~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:90:58: note:   no known conversion for argument 2 from 'FifoHandler<zenoh::Query>' to 'FifoHandler<zenoh::MatchingStatus>'
+   90 |     MatchingListener(MatchingListener<void>&& m, Handler handler)
+      |                                                  ~~~~~~~~^~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:78:7: note: candidate: 'zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >::MatchingListener(zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >&&)'
+   78 | class MatchingListener : public detail::MatchingListenerBase {
+      |       ^~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/matching.hxx:78:7: note:   candidate expects 1 argument, 2 provided
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_populated(std::optional<_Tp>&, const char*) [with T = zenoh::MatchingListener<zenoh::channels::FifoHandler<zenoh::MatchingStatus> >]':
+/work/repo/tests/verifier/interop_optional.cxx:66:20:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:37:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_matching_listener_t*' (maybe you meant to use '->' ?)
+   37 |     assert(p.first != nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:38:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_matching_listener_t*' (maybe you meant to use '->' ?)
+   38 |     assert(p.second != nullptr);
+      |            ~~^~~~~~
+/work/repo/include/zenoh/api/session.hxx: In instantiation of 'zenoh::LinkEventsListener<typename Channel::HandlerType<zenoh::LinkEvent> > zenoh::Session::declare_link_events_listener(Channel, LinkEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::LinkEvent> = zenoh::channels::FifoHandler<zenoh::LinkEvent>; zenoh::ZResult = signed char]':
+/work/repo/tests/verifier/interop_optional.cxx:70:45:   required from here
+/work/repo/include/zenoh/api/session.hxx:1184:80: error: no matching function for call to 'zenoh::channels::FifoChannel::into_cb_handler_pair<zenoh::LinkEvent>()'
+ 1184 |         auto cb_handler_pair = channel.template into_cb_handler_pair<LinkEvent>();
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note: candidate: 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const'
+  210 |     std::pair<typename detail::FifoHandlerData<T>::closure_type, HandlerType<T>> into_cb_handler_pair() const {
+      |                                                                                  ^~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/channels.hxx: In substitution of 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const [with T = zenoh::LinkEvent]':
+/work/repo/include/zenoh/api/session.hxx:1184:80:   required from 'zenoh::LinkEventsListener<typename Channel::HandlerType<zenoh::LinkEvent> > zenoh::Session::declare_link_events_listener(Channel, LinkEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::LinkEvent> = zenoh::channels::FifoHandler<zenoh::LinkEvent>; zenoh::ZResult = signed char]'
+/work/repo/tests/verifier/interop_optional.cxx:70:45:   required from here
+/work/repo/include/zenoh/api/channels.hxx:210:82: error: no type named 'closure_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::LinkEvent>'
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_populated(std::optional<_Tp>&, const char*) [with T = zenoh::LinkEventsListener<zenoh::channels::FifoHandler<zenoh::LinkEvent> >]':
+/work/repo/tests/verifier/interop_optional.cxx:71:20:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:37:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_link_events_listener_t*' (maybe you meant to use '->' ?)
+   37 |     assert(p.first != nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:38:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_link_events_listener_t*' (maybe you meant to use '->' ?)
+   38 |     assert(p.second != nullptr);
+      |            ~~^~~~~~
+/work/repo/include/zenoh/api/session.hxx: In instantiation of 'zenoh::TransportEventsListener<typename Channel::HandlerType<zenoh::TransportEvent> > zenoh::Session::declare_transport_events_listener(Channel, TransportEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::TransportEvent> = zenoh::channels::FifoHandler<zenoh::TransportEvent>; zenoh::ZResult = signed char]':
+/work/repo/tests/verifier/interop_optional.cxx:74:50:   required from here
+/work/repo/include/zenoh/api/session.hxx:1063:85: error: no matching function for call to 'zenoh::channels::FifoChannel::into_cb_handler_pair<zenoh::TransportEvent>()'
+ 1063 |         auto cb_handler_pair = channel.template into_cb_handler_pair<TransportEvent>();
+      |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note: candidate: 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const'
+  210 |     std::pair<typename detail::FifoHandlerData<T>::closure_type, HandlerType<T>> into_cb_handler_pair() const {
+      |                                                                                  ^~~~~~~~~~~~~~~~~~~~
+/work/repo/include/zenoh/api/channels.hxx:210:82: note:   template argument deduction/substitution failed:
+/work/repo/include/zenoh/api/channels.hxx: In substitution of 'template<class T> std::pair<typename zenoh::channels::detail::FifoHandlerData<T>::closure_type, zenoh::channels::FifoHandler<T> > zenoh::channels::FifoChannel::into_cb_handler_pair() const [with T = zenoh::TransportEvent]':
+/work/repo/include/zenoh/api/session.hxx:1063:85:   required from 'zenoh::TransportEventsListener<typename Channel::HandlerType<zenoh::TransportEvent> > zenoh::Session::declare_transport_events_listener(Channel, TransportEventsListenerOptions&&, zenoh::ZResult*) const [with Channel = zenoh::channels::FifoChannel; typename Channel::HandlerType<zenoh::TransportEvent> = zenoh::channels::FifoHandler<zenoh::TransportEvent>; zenoh::ZResult = signed char]'
+/work/repo/tests/verifier/interop_optional.cxx:74:50:   required from here
+/work/repo/include/zenoh/api/channels.hxx:210:82: error: no type named 'closure_type' in 'struct zenoh::channels::detail::FifoHandlerData<zenoh::TransportEvent>'
+/work/repo/tests/verifier/interop_optional.cxx: In instantiation of 'void check_populated(std::optional<_Tp>&, const char*) [with T = zenoh::TransportEventsListener<zenoh::channels::FifoHandler<zenoh::TransportEvent> >]':
+/work/repo/tests/verifier/interop_optional.cxx:75:20:   required from here
+/work/repo/tests/verifier/interop_optional.cxx:37:14: error: request for member 'first' in 'p', which is of pointer type 'z_moved_transport_events_listener_t*' (maybe you meant to use '->' ?)
+   37 |     assert(p.first != nullptr);
+      |            ~~^~~~~
+/work/repo/tests/verifier/interop_optional.cxx:38:14: error: request for member 'second' in 'p', which is of pointer type 'z_moved_transport_events_listener_t*' (maybe you meant to use '->' ?)
+   38 |     assert(p.second != nullptr);
+      |            ~~^~~~~~
+gmake[3]: *** [tests/CMakeFiles/interop_optional_zenohc.dir/build.make:76: tests/CMakeFiles/interop_optional_zenohc.dir/verifier/interop_optional.cxx.o] Error 1
+gmake[3]: Target 'tests/CMakeFiles/interop_optional_zenohc.dir/build' not remade because of errors.
+gmake[2]: *** [CMakeFiles/Makefile2:1155: tests/CMakeFiles/interop_optional_zenohc.dir/all] Error 2
+[ 92%] Linking CXX executable connectivity_zenohpico
+[ 94%] Linking CXX executable connectivity_zenohc
+[ 94%] Built target connectivity_zenohpico
+[ 94%] Built target tests_zenohpico
+[ 94%] Built target connectivity_zenohc
+gmake[2]: Target 'tests/CMakeFiles/tests.dir/all' not remade because of errors.
+gmake[1]: *** [CMakeFiles/Makefile2:247: tests/CMakeFiles/tests.dir/rule] Error 2
+gmake[1]: Target 'tests' not remade because of errors.
+gmake: *** [Makefile:199: tests] Error 2
