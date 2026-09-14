@@ -99,7 +99,46 @@ def stale_idle_runner(paused, memory_blocked, active, containers, finished, idle
     return not (paused or memory_blocked or active or containers or finished) and idle_seconds >= 300
 
 
-def confirmed_shared_wait(process, shared_control, shared, now=None):
+def confirmed_interleaving_wait(process, participant, shared, job_name):
+    """Prove the current round policy prevents this primary job from admitting.
+
+    The priority loop runs before the resource heartbeat. Neither that heartbeat
+    nor the shared state timestamp must advance while all its cells are ahead.
+    This establishes an admission barrier, not general worker health.
+    """
+    if not isinstance(job_name, str) or not re.fullmatch(r'[\w-]+', job_name):
+        return None
+    try:
+        if (process_identity(process['pid']) != process['identity'] or
+                participant.get('trials') != {} or
+                Path(participant['control']).resolve() != ROOT/'jobs'/f'{job_name}.control.json'):
+            return None
+        policy = shared.get('interleaving') or {}
+        # Repair jobs deliberately bypass primary round accounting.
+        if policy.get('version') != 1 or policy.get('campaigns', []).count(job_name) != 1:
+            return None
+        cells, counts = policy['cells'], policy['counts']
+        if not cells or set(cells) != set(counts):
+            return None
+        own_pending, pending = [], []
+        for key, cell in cells.items():
+            target, count = cell['target'], counts[key]
+            if (type(target) is not int or type(count) is not int or
+                    target <= 0 or not 0 <= count <= target or
+                    key != json.dumps([cell['task'], cell['model'], cell['effort']], separators=(',', ':'))):
+                return None
+            if count < target:
+                pending.append(count)
+                if cell['job'] == job_name:
+                    own_pending.append(count)
+        if own_pending and min(own_pending) > min(pending):
+            return 'interleaving: waiting for remaining cells in round'
+    except (KeyError, TypeError, ValueError, AttributeError, OSError):
+        return None
+    return None
+
+
+def confirmed_shared_wait(process, shared_control, shared, now=None, *, job_name=None):
     """Recognize a live runner waiting on the shared pool, not a stalled queue."""
     participants = shared.get('participants', {})
     matches = [p for p in participants.values()
@@ -110,6 +149,9 @@ def confirmed_shared_wait(process, shared_control, shared, now=None):
     control_path = Path(participant['control']).resolve()
     if not control_path.is_relative_to(ROOT / 'jobs'):
         return None
+    round_wait = confirmed_interleaving_wait(process, participant, shared, job_name)
+    if round_wait:
+        return round_wait
     resources = read(control_path.with_suffix('.resources.json'))
     # The admission loop keeps writing while Docker inventory is collected.
     # Sample after reading its newest timestamp, not at the cycle's start.
@@ -288,7 +330,7 @@ def cycle(base, state, apply):
         owned = running_under(containers, ROOT/'jobs'/name)
         job_control = read(ROOT/'jobs'/f'{name}.control.json') or control
         gated = bool(memory_block_reason(job_control, snapshot) or memory_block_reason(shared_control, snapshot))
-        shared_wait = confirmed_shared_wait(process, shared_control, shared)
+        shared_wait = confirmed_shared_wait(process, shared_control, shared, job_name=name)
         if shared_wait:
             report['admission_waits'][name] = shared_wait
         finished = bool(read(ROOT/'jobs'/name/'result.json').get('finished_at'))
@@ -310,7 +352,7 @@ def cycle(base, state, apply):
                         latest = read(shared_path.with_suffix('.state.json'))
                         claims = [p for p in latest.get('participants', {}).values()
                                   if p['pid'] == process['pid'] and p['identity'] == process['identity'] and p['trials']]
-                        shared_wait = confirmed_shared_wait(process, read(shared_path), latest)
+                        shared_wait = confirmed_shared_wait(process, read(shared_path), latest, job_name=name)
                         if shared_wait:
                             idle.pop(name, None)
                             report['admission_waits'][name] = shared_wait

@@ -199,7 +199,7 @@ class SharedWaitWatchdogTests(unittest.TestCase):
         self.shared['participants']['waiting']['trials'].pop('trial-0')
         self.assertIsNone(watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared))
 
-    def cycle(self, *, inventory_delay=False):
+    def cycle(self, *, inventory_delay=False, before_signal=None):
         documents = {'benchmark-user-plan.json': {'active_full_campaign': self.base},
                      self.base + '.plan.json': {'jobs': [{'name': self.base}]},
                      self.base + '.summary.json': {'status': 'running'},
@@ -208,8 +208,12 @@ class SharedWaitWatchdogTests(unittest.TestCase):
             (self.root / 'jobs' / name).write_text(json.dumps(value))
         state = {'runner_idle_since': {} if inventory_delay else {self.base: time.time() - 400}}
         clock = [time.time()]
+        inventory_calls = [0]
 
         def containers(_directory):
+            inventory_calls[0] += 1
+            if before_signal and inventory_calls[0] == 2:
+                before_signal()
             if inventory_delay:
                 self.resources['updated_at'] = datetime.fromtimestamp(clock[0] + 1, timezone.utc).isoformat()
                 self.shared['updated_at'] = clock[0] + 1
@@ -248,6 +252,98 @@ class SharedWaitWatchdogTests(unittest.TestCase):
         report, state, signal_call = self.cycle()
         signal_call.assert_called_once_with(self.process, signal.SIGINT)
         self.assertIn({'restarted_empty_runner': self.base}, report['actions'])
+
+    def interleaving(self):
+        own = [json.dumps(['own-task', f'model-{i}', 'medium'], separators=(',', ':')) for i in range(9)]
+        other = json.dumps(['other-task', 'model-0', 'medium'], separators=(',', ':'))
+        cells = {key: dict(task=json.loads(key)[0], model=json.loads(key)[1], effort='medium',
+                           job=self.base if key in own else 'other', target=20) for key in [*own, other]}
+        self.shared['interleaving'] = dict(version=1, campaigns=[self.base, 'other'],
+                                           cells=cells, counts={key: 1 if key in own else 0 for key in cells}, receipts={})
+        self.shared['updated_at'] = time.time() - 1000
+        self.shared['participants']['other']['trials'] = {}
+        self.resources.update(updated_at='2020-01-01T00:00:00Z', admission_wait_reason=None)
+        self.save()
+        return own, other
+
+    def round_wait(self, *, identity='waiting', job_name=None):
+        with patch.object(watchdog, 'process_identity', return_value=identity):
+            return watchdog.confirmed_shared_wait(self.process, self.shared_control, self.shared,
+                                                  job_name=self.base if job_name is None else job_name)
+
+    def test_round_barrier_needs_no_admission_heartbeat_and_uses_all_unfinished_cells(self):
+        own, other = self.interleaving()
+        self.control.with_suffix('.resources.json').unlink()
+        self.assertEqual(self.round_wait(), 'interleaving: waiting for remaining cells in round')
+        self.shared['interleaving']['counts'][own[0]] = 0
+        self.assertIsNone(self.round_wait())
+        self.shared['interleaving']['counts'][own[0]] = 20
+        self.assertEqual(self.round_wait(), 'interleaving: waiting for remaining cells in round')
+        self.shared['interleaving']['counts'][other] = 1
+        self.assertIsNone(self.round_wait())
+
+    def test_round_wait_is_bound_to_live_primary_identity_and_control(self):
+        self.interleaving()
+        self.assertIsNone(self.round_wait(identity='reused-pid'))
+        self.assertIsNone(self.round_wait(job_name=self.base + '-repair-000'))
+        self.shared['participants']['waiting']['control'] = str(self.root/'jobs/other.control.json')
+        self.assertIsNone(self.round_wait())
+
+    def test_round_wait_does_not_cover_repairs_unregistered_or_completed_jobs(self):
+        own, _ = self.interleaving()
+        policy = self.shared['interleaving']
+        policy['campaigns'].remove(self.base)
+        self.assertIsNone(self.round_wait())
+        policy['campaigns'].append(self.base)
+        for key in own:
+            policy['counts'][key] = 20
+        self.assertIsNone(self.round_wait())
+        self.shared['participants']['waiting']['trials'] = {'already-admitted': {}}
+        self.assertIsNone(self.round_wait())
+
+    def test_malformed_or_inconsistent_round_policy_is_not_a_health_signal(self):
+        own, _ = self.interleaving()
+        original = json.loads(json.dumps(self.shared['interleaving']))
+        for change in ('missing-count', 'negative-count', 'boolean-count', 'zero-target',
+                       'different-cell-key', 'no-owned-cell', 'unknown-version'):
+            with self.subTest(change=change):
+                policy = self.shared['interleaving'] = json.loads(json.dumps(original))
+                if change == 'missing-count': del policy['counts'][own[0]]
+                if change == 'negative-count': policy['counts'][own[0]] = -1
+                if change == 'boolean-count': policy['counts'][own[0]] = True
+                if change == 'zero-target': policy['cells'][own[0]]['target'] = 0
+                if change == 'different-cell-key': policy['cells'][own[0]]['model'] = 'different'
+                if change == 'no-owned-cell':
+                    for key in own: policy['cells'][key]['job'] = 'other'
+                if change == 'unknown-version': policy['version'] = 2
+                self.assertIsNone(self.round_wait())
+
+    def test_round_waiting_empty_runner_is_not_signalled_after_300_seconds(self):
+        self.interleaving()
+        report, state, signal_call = self.cycle()
+        signal_call.assert_not_called()
+        self.assertEqual(report['admission_waits'][self.base], 'interleaving: waiting for remaining cells in round')
+        self.assertNotIn(self.base, state['runner_idle_since'])
+
+    def test_newly_eligible_empty_runner_retains_idle_recovery(self):
+        own, _ = self.interleaving()
+        self.shared['interleaving']['counts'][own[0]] = 0
+        self.save()
+        report, state, signal_call = self.cycle()
+        signal_call.assert_called_once_with(self.process, signal.SIGINT)
+        self.assertIn({'restarted_empty_runner': self.base}, report['actions'])
+
+    def test_round_policy_is_rechecked_under_lock_before_signalling(self):
+        own, _ = self.interleaving()
+        self.shared['interleaving']['counts'][own[0]] = 0
+        self.save()
+        def becomes_blocked():
+            self.shared['interleaving']['counts'][own[0]] = 1
+            self.save()
+        report, state, signal_call = self.cycle(before_signal=becomes_blocked)
+        signal_call.assert_not_called()
+        self.assertEqual(report['admission_waits'][self.base], 'interleaving: waiting for remaining cells in round')
+        self.assertNotIn(self.base, state['runner_idle_since'])
 
 
 if __name__ == '__main__':
