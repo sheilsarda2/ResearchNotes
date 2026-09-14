@@ -1,0 +1,56 @@
+{
+  "mode": "startup-timeout",
+  "guarded": true,
+  "started_at": "2026-09-13T18:22:54.671699+00:00",
+  "elapsed_sec": 16.664577673998792,
+  "trial_name": "deadline-test-startup-time-24b18f72",
+  "reward": 1.0,
+  "exception": "AgentTimeoutError",
+  "phase_boundaries": [
+    {
+      "method": "_sync_agent_output",
+      "unix_ns": 1789323776521402628,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_collect_artifacts",
+      "unix_ns": 1789323776858330795,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_run_verifier",
+      "unix_ns": 1789323777130535461,
+      "host_exec_client_pids": []
+    }
+  ],
+  "surviving_host_exec_client_pids": [],
+  "assertions": {
+    "verifier_reward_expected": true,
+    "no_surviving_host_exec_clients": true,
+    "expected_agent_outcome": true,
+    "verifier_execution_expected": true,
+    "startup_timeout_spawned_no_writer": true,
+    "no_delayed_writes": true,
+    "artifact_stable_during_verifier": true,
+    "no_host_exec_clients_at_collection_or_verifier": true,
+    "cleanup_proof_expected": true,
+    "cleanup_preceded_collection_and_verification": true,
+    "all_executions_proved_quiescent": true
+  },
+  "passed": true,
+  "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-01/startup-timeout/trials/deadline-test-startup-time-24b18f72/result.json",
+  "result_sha256": "0b4c8330cd73ff306bb2756f094903d33f07c0c0583c22b5e4db6ad9f5ef872d",
+  "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-final-01/startup-timeout/trials/deadline-test-startup-time-24b18f72/verifier/deadline-checks.json",
+  "verifier_checks": {
+    "verifier_started_unix_ns": 1789323777392072628,
+    "before": {},
+    "after": {},
+    "late_files": [],
+    "ready_files": [],
+    "checks": {
+      "startup_timeout_spawned_no_writer": true,
+      "no_delayed_writes": true,
+      "artifact_stable_during_verifier": true
+    }
+  }
+}

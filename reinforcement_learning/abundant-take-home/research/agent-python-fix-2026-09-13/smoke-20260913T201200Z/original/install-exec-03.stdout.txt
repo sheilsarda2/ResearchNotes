@@ -1,0 +1,67 @@
+no checksums to verify
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+
+To add $HOME/.local/bin to your PATH, either restart your shell or run:
+
+    source $HOME/.local/bin/env (sh, bash, zsh)
+    source $HOME/.local/bin/env.fish (fish)
+This is mini-swe-agent version 2.4.6.
+Check the v2 migration guide at https://klieret.short.gy/mini-v2-migration
+Loading global config from '/root/.config/mini-swe-agent/.env'
+                                                                                
+ Usage: mini-swe-agent [OPTIONS]                                                
+                                                                                
+ Run mini-SWE-agent in your local environment.                                  
+                                                                                
+                                                                                
+ More information about the usage:                                              
+ https://mini-swe-agent.com/latest/usage/mini/                                  
+                                                                                
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --model               -m      <str>    Model to use                          │
+│ --task                -t      <str>    Task/problem statement                │
+│ --yolo                -y               Run without confirmation              │
+│ --cost-limit          -l      <float>  Cost limit. Set to 0 to disable.      │
+│ --config              -c      <str>    Path to config files, filenames, or   │
+│                                        key-value pairs.                      │
+│                                        IMPORTANT: If you set this option,    │
+│                                        the default config file will not be   │
+│                                        used. So you need to explicitly set   │
+│                                        it e.g., with -c mini.yaml <other     │
+│                                        options>                              │
+│                                        Multiple configs will be recursively  │
+│                                        merged.                               │
+│                                        Examples:                             │
+│                                        -c model.model_kwargs.temperature=0   │
+│                                        You forgot to add the default config  │
+│                                        file! See above.                      │
+│                                        -c mini.yaml -c                       │
+│                                        model.model_kwargs.temperature=0.5    │
+│                                        -c swebench.yaml agent.mode=yolo      │
+│                                        [default:                             │
+│                                        /root/.local/share/uv/tools/mini-swe… │
+│ --output              -o      <path>   Output trajectory file                │
+│                                        [default:                             │
+│                                        /root/.config/mini-swe-agent/last_mi… │
+│ --install-completion                   Install completion for the current    │
+│                                        shell.                                │
+│ --show-completion                      Show completion for the current       │
+│                                        shell, to copy it or customize the    │
+│                                        installation.                         │
+│ --help                                 Show this message and exit.           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Advanced ───────────────────────────────────────────────────────────────────╮
+│ --model-class              <str>  Model class to use (e.g., 'litellm' or     │
+│                                   'minisweagent.models.litellm_model.Litell… │
+│ --agent-class              <str>  Agent class to use (e.g., 'interactive' or │
+│                                   'minisweagent.agents.interactive.Interact… │
+│ --environment-class        <str>  Environment class to use (e.g., 'local' or │
+│                                   'minisweagent.environments.local.LocalEnv… │
+│ --exit-immediately                Exit immediately when the agent wants to   │
+│                                   finish instead of prompting.               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+

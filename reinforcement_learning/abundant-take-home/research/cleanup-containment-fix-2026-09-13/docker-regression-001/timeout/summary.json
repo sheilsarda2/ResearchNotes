@@ -1,0 +1,92 @@
+{
+  "mode": "timeout",
+  "guarded": true,
+  "started_at": "2026-09-13T21:59:13.836242+00:00",
+  "elapsed_sec": 15.128707173000294,
+  "trial_name": "deadline-test-timeout-94c718b7",
+  "reward": 1.0,
+  "exception": "AgentTimeoutError",
+  "phase_boundaries": [
+    {
+      "method": "_sync_agent_output",
+      "unix_ns": 1789336756039901344,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_collect_artifacts",
+      "unix_ns": 1789336756191477010,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_run_verifier",
+      "unix_ns": 1789336756352315177,
+      "host_exec_client_pids": []
+    }
+  ],
+  "surviving_host_exec_client_pids": [],
+  "assertions": {
+    "verifier_reward_expected": true,
+    "no_surviving_host_exec_clients": true,
+    "expected_agent_outcome": true,
+    "verifier_execution_expected": true,
+    "all_writer_types_started": true,
+    "no_delayed_writes": true,
+    "artifact_stable_during_verifier": true,
+    "no_host_exec_clients_at_collection_or_verifier": true,
+    "cleanup_proof_expected": true,
+    "cleanup_preceded_collection_and_verification": true,
+    "all_executions_proved_quiescent": true,
+    "execution_proof_present": true
+  },
+  "passed": true,
+  "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-001/timeout/trials/deadline-test-timeout-94c718b7/result.json",
+  "result_sha256": "ca9b9ab939ced5c92f39822b98a28e96e4c36cdfad4f3c29f6067621759a241c",
+  "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/cleanup-containment-fix-2026-09-13/docker-regression-001/timeout/trials/deadline-test-timeout-94c718b7/verifier/deadline-checks.json",
+  "verifier_checks": {
+    "verifier_started_unix_ns": 1789336756517204469,
+    "before": {
+      "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+      "child.progress": "265eb1052019d85e53b4c8552c0729cef8dc8c39fd0a25218a1d674a5fb4c4df",
+      "child.ready": "9815944805657ee69aa732dc1dc0a1dbd185d7685cd3c373db19338ec9a4abde",
+      "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+      "daemon.progress": "ccd4b3ac735351b8895928dccc2215528ae62f5b372c10ffbc90d2bdb374c5b8",
+      "daemon.ready": "30ab568bd6de2696e434219cea47959e3c991d8570bab329c4df7e2c0b5677a8",
+      "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+      "new-session.progress": "7dbf868a668a7595fd6e9b5d1071166695b7e4ec57a504e1b4d1570b4562f55d",
+      "new-session.ready": "011aa3dfd52757481e3de0a2df294d96cc5836502f15dc97c777b46509afa94e",
+      "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+      "parent.ready": "5a6a6bd66826c13a9a1ac7492a7f13d22636476209851f5203b704a63d408573",
+      "agent/child-trajectory.json": "265eb1052019d85e53b4c8552c0729cef8dc8c39fd0a25218a1d674a5fb4c4df",
+      "agent/daemon-trajectory.json": "ccd4b3ac735351b8895928dccc2215528ae62f5b372c10ffbc90d2bdb374c5b8",
+      "agent/new-session-trajectory.json": "7dbf868a668a7595fd6e9b5d1071166695b7e4ec57a504e1b4d1570b4562f55d"
+    },
+    "after": {
+      "child.pid": "0b918943df0962bc7a1824c0555a389347b4febdc7cf9d1254406d80ce44e3f9",
+      "child.progress": "265eb1052019d85e53b4c8552c0729cef8dc8c39fd0a25218a1d674a5fb4c4df",
+      "child.ready": "9815944805657ee69aa732dc1dc0a1dbd185d7685cd3c373db19338ec9a4abde",
+      "daemon.pid": "44cb730c420480a0477b505ae68af508fb90f96cf0ec54c6ad16949dd427f13a",
+      "daemon.progress": "ccd4b3ac735351b8895928dccc2215528ae62f5b372c10ffbc90d2bdb374c5b8",
+      "daemon.ready": "30ab568bd6de2696e434219cea47959e3c991d8570bab329c4df7e2c0b5677a8",
+      "new-session.pid": "d59eced1ded07f84c145592f65bdf854358e009c5cd705f5215bf18697fed103",
+      "new-session.progress": "7dbf868a668a7595fd6e9b5d1071166695b7e4ec57a504e1b4d1570b4562f55d",
+      "new-session.ready": "011aa3dfd52757481e3de0a2df294d96cc5836502f15dc97c777b46509afa94e",
+      "parent.pid": "aea92132c4cbeb263e6ac2bf6c183b5d81737f179f21efdc5863739672f0f470",
+      "parent.ready": "5a6a6bd66826c13a9a1ac7492a7f13d22636476209851f5203b704a63d408573",
+      "agent/child-trajectory.json": "265eb1052019d85e53b4c8552c0729cef8dc8c39fd0a25218a1d674a5fb4c4df",
+      "agent/daemon-trajectory.json": "ccd4b3ac735351b8895928dccc2215528ae62f5b372c10ffbc90d2bdb374c5b8",
+      "agent/new-session-trajectory.json": "7dbf868a668a7595fd6e9b5d1071166695b7e4ec57a504e1b4d1570b4562f55d"
+    },
+    "late_files": [],
+    "ready_files": [
+      "child.ready",
+      "daemon.ready",
+      "new-session.ready",
+      "parent.ready"
+    ],
+    "checks": {
+      "all_writer_types_started": true,
+      "no_delayed_writes": true,
+      "artifact_stable_during_verifier": true
+    }
+  }
+}

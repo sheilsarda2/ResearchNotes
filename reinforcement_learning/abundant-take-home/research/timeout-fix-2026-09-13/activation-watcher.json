@@ -1,0 +1,65 @@
+{
+  "created_at": "2026-09-13T18:25:52.705778+00:00",
+  "watcher_pid": 15715,
+  "apply": true,
+  "runner": {
+    "pid": 19811,
+    "start_ticks": "53199",
+    "campaign": "candidates-top5-efforts-3-20260913T161409Z"
+  },
+  "supervisors": [
+    {
+      "pid": 41043,
+      "start_ticks": "700995",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z"
+    },
+    {
+      "pid": 52222,
+      "start_ticks": "799512",
+      "campaign": "candidates-top5-efforts-256-20260913T175721Z"
+    }
+  ],
+  "validation_sha256": "3ae38698798894a7a7ce4ee8ed2f9e5d9cf19ee87adba368862e388fb921008d",
+  "workload_sha256": {
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "scripts/run-sonnet-confirmation.py": "766efa4e62745e205187c2e13c9489c3693b66401de9869633a6ceba9037778b",
+    "scripts/harbor-resource-runner.py": "d4a4143fe1b827cc09097248940410e82a48d0f51a1600410ea2f1d4d9745d10",
+    "scripts/harbor-benchmark-runner.py": "cb698d71d8fc4f294610369a005552a577160427baf8757538de14faa648ad12",
+    "scripts/benchmark_shared_admission.py": "20adc7876d0dad4bcca1824549f0021d1c9d91497f04f4bd7525321037cd0a85",
+    "scripts/run-candidate-screen.py": "540d7a813479ab677f5b0a481ffdf2261a0ca02e136f421e7be2e419b61def25",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z.plan.json": "9cfa3b695fc1eb47df4f8a9d1b81101d6b85808ad62ede42e2dfc835f85cb1a1",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z.config.json": "305298826553ab067e6e39f504c780802d728acc530af7cebe39472aa97fe559",
+    "jobs/candidates-top5-efforts-256-20260913T175721Z.plan.json": "56dd0d5397b2fcc062595092e7cb670eb232f64d3bb15f1369751d72cd37c2b2",
+    "jobs/candidates-top5-efforts-256-20260913T175721Z.config.json": "d40f81e92af0417ef6a41bc4dd29d809f27c2e22cba07764edf6f701f0791543"
+  },
+  "events": [
+    {
+      "supervisor_restarted": {
+        "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+        "old_pid": 41043,
+        "new_pid": 15766,
+        "ready_at": "2026-09-13T18:25:57.346926+00:00"
+      }
+    },
+    {
+      "supervisor_restarted": {
+        "campaign": "candidates-top5-efforts-256-20260913T175721Z",
+        "old_pid": 52222,
+        "new_pid": 15839,
+        "ready_at": "2026-09-13T18:25:58.647255+00:00"
+      }
+    }
+  ],
+  "drain": {
+    "active_trials": 26,
+    "running_trial_containers": 25,
+    "resource_status_fresh": true,
+    "old_runner_alive": true,
+    "ready": false
+  },
+  "status": "blocked",
+  "updated_at": "2026-09-13T18:27:39.760122+00:00",
+  "error_type": "RuntimeError",
+  "reason": "Approved launchers, campaign plans, or configs changed"
+}

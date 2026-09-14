@@ -1,0 +1,10 @@
+{
+  "return_code": 0,
+  "elapsed_sec": 2.683703584001705,
+  "user": null,
+  "cwd": null,
+  "environment_variable_names": [
+    "LITELLM_LOCAL_MODEL_COST_MAP"
+  ],
+  "command": "set -euo pipefail; source \"$HOME/.local/bin/env\"; \"$(uv tool dir)/mini-swe-agent/bin/python\" -c 'import importlib.metadata, json, os, platform, sys, traceback\ndata = {'\"'\"'python'\"'\"': platform.python_version(), '\"'\"'executable'\"'\"': sys.executable,\n        '\"'\"'packages'\"'\"': {name: importlib.metadata.version(name)\n                     for name in ('\"'\"'mini-swe-agent'\"'\"', '\"'\"'litellm'\"'\"', '\"'\"'typing-extensions'\"'\"')},\n        '\"'\"'api_key_present'\"'\"': any(k.endswith('\"'\"'_API_KEY'\"'\"') and v for k, v in os.environ.items())}\ntry:\n    from typing import NotRequired\n    data['\"'\"'typing_not_required_imported'\"'\"'] = True\nexcept ImportError:\n    data['\"'\"'typing_not_required_imported'\"'\"'] = False\ntry:\n    import litellm\n    from minisweagent.models.litellm_model import LitellmModel\n    data['\"'\"'model_module_imported'\"'\"'] = True\nexcept Exception as error:\n    data.update(model_module_imported=False, error_type=type(error).__name__,\n                error=str(error), traceback=traceback.format_exc())\nprint('\"'\"'RUNTIME_SMOKE_JSON='\"'\"' + json.dumps(data, sort_keys=True))\n'"
+}

@@ -1,0 +1,22 @@
+test_existing_same_group_timeout_keeps_fast_cleanup (__main__.DrainTests.test_existing_same_group_timeout_keeps_fast_cleanup) ... ok
+test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups (__main__.DrainTests.test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups) ... FAIL
+test_install_is_checked_idempotent_and_preserves_environment_configuration (__main__.DrainTests.test_install_is_checked_idempotent_and_preserves_environment_configuration) ... ok
+test_no_output_timeout_returns_empty_text (__main__.DrainTests.test_no_output_timeout_returns_empty_text) ... ok
+test_normal_background_service_is_not_killed_by_tool_wrapper (__main__.DrainTests.test_normal_background_service_is_not_killed_by_tool_wrapper) ... ok
+test_normal_command_keeps_stdout_stderr_and_exit_status (__main__.DrainTests.test_normal_command_keeps_stdout_stderr_and_exit_status) ... ok
+test_original_hangs_until_outer_guard_deadline (__main__.DrainTests.test_original_hangs_until_outer_guard_deadline) ... ok
+test_partial_utf8_is_preserved_with_original_replacement_decoding (__main__.DrainTests.test_partial_utf8_is_preserved_with_original_replacement_decoding) ... ok
+test_recorded_upstream_default_tool_timeout_is_unchanged (__main__.DrainTests.test_recorded_upstream_default_tool_timeout_is_unchanged) ... ok
+
+======================================================================
+FAIL: test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups (__main__.DrainTests.test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 185, in test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups
+    self.assertEqual(result['stdout'].count('holder-ready-\u2603\n'), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 9 tests in 8.426s
+
+FAILED (failures=1)

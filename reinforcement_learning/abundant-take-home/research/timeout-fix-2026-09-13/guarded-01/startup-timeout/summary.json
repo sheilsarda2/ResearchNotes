@@ -1,0 +1,56 @@
+{
+  "mode": "startup-timeout",
+  "guarded": true,
+  "started_at": "2026-09-13T18:19:48.992828+00:00",
+  "elapsed_sec": 15.343167006999465,
+  "trial_name": "deadline-test-startup-time-1d025fb9",
+  "reward": 1.0,
+  "exception": "AgentTimeoutError",
+  "phase_boundaries": [
+    {
+      "method": "_sync_agent_output",
+      "unix_ns": 1789323590701205083,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_collect_artifacts",
+      "unix_ns": 1789323590898320708,
+      "host_exec_client_pids": []
+    },
+    {
+      "method": "_run_verifier",
+      "unix_ns": 1789323591126500959,
+      "host_exec_client_pids": []
+    }
+  ],
+  "surviving_host_exec_client_pids": [],
+  "assertions": {
+    "verifier_reward_expected": true,
+    "no_surviving_host_exec_clients": true,
+    "expected_agent_outcome": true,
+    "verifier_execution_expected": true,
+    "startup_timeout_spawned_no_writer": true,
+    "no_delayed_writes": true,
+    "artifact_stable_during_verifier": true,
+    "no_host_exec_clients_at_collection_or_verifier": true,
+    "cleanup_proof_expected": true,
+    "cleanup_preceded_collection_and_verification": true,
+    "all_executions_proved_quiescent": true
+  },
+  "passed": true,
+  "result_path": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-01/startup-timeout/trials/deadline-test-startup-time-1d025fb9/result.json",
+  "result_sha256": "2103dc5e81357604e0d48ca4ddbfcc09b66eb0b427c90d63068fc18fe199529e",
+  "verifier_evidence": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/timeout-fix-2026-09-13/guarded-01/startup-timeout/trials/deadline-test-startup-time-1d025fb9/verifier/deadline-checks.json",
+  "verifier_checks": {
+    "verifier_started_unix_ns": 1789323591391853792,
+    "before": {},
+    "after": {},
+    "late_files": [],
+    "ready_files": [],
+    "checks": {
+      "startup_timeout_spawned_no_writer": true,
+      "no_delayed_writes": true,
+      "artifact_stable_during_verifier": true
+    }
+  }
+}

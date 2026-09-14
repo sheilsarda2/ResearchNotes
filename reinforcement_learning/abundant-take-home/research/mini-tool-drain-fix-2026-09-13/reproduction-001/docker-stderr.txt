@@ -1,0 +1,58 @@
+test_existing_same_group_timeout_keeps_fast_cleanup (__main__.DrainTests) ... ok
+test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups (__main__.DrainTests) ... FAIL
+test_install_is_checked_idempotent_and_preserves_environment_configuration (__main__.DrainTests) ... ok
+test_no_output_timeout_returns_empty_text (__main__.DrainTests) ... FAIL
+test_normal_background_service_is_not_killed_by_tool_wrapper (__main__.DrainTests) ... FAIL
+test_normal_command_keeps_stdout_stderr_and_exit_status (__main__.DrainTests) ... ok
+test_original_hangs_until_outer_guard_deadline (__main__.DrainTests) ... FAIL
+test_partial_utf8_is_preserved_with_original_replacement_decoding (__main__.DrainTests) ... FAIL
+
+======================================================================
+FAIL: test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups (__main__.DrainTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 180, in test_fixed_preserves_partial_output_without_duplicates_and_leaves_other_groups
+    self.assertEqual(result['exception'], 'TimeoutExpired')
+AssertionError: None != 'TimeoutExpired'
+
+======================================================================
+FAIL: test_no_output_timeout_returns_empty_text (__main__.DrainTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 194, in test_no_output_timeout_returns_empty_text
+    self.assertEqual(result['exception'], 'TimeoutExpired')
+AssertionError: None != 'TimeoutExpired'
+
+======================================================================
+FAIL: test_normal_background_service_is_not_killed_by_tool_wrapper (__main__.DrainTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 215, in test_normal_background_service_is_not_killed_by_tool_wrapper
+    self.assertEqual(result['returncode'], 0)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_original_hangs_until_outer_guard_deadline (__main__.DrainTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 173, in test_original_hangs_until_outer_guard_deadline
+    self.assertEqual(process.returncode, 124)
+AssertionError: 0 != 124
+
+======================================================================
+FAIL: test_partial_utf8_is_preserved_with_original_replacement_decoding (__main__.DrainTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/proof/source/test_mini_tool_cleanup.py", line 200, in test_partial_utf8_is_preserved_with_original_replacement_decoding
+    self.assertEqual(result['stdout'], 'partial-\ufffd')
+AssertionError: 'Traceback (most recent call last):\n  Fil[246 chars]\'\n' != 'partial-�'
++ partial-�- Traceback (most recent call last):
+-   File "/proof/cases/fixed-partial-utf8/payload.py", line 19, in <module>
+-     subprocess.Popen([sys.executable, '-u', __file__, str(root), mode, 'holder'], **options)
+- TypeError: Popen.__init__() got an unexpected keyword argument 'process_group'
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.982s
+
+FAILED (failures=5)

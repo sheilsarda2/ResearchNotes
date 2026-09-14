@@ -1,0 +1,52 @@
+{
+  "created_at": "2026-09-13T18:26:57.228075+00:00",
+  "watcher_pid": 18418,
+  "apply": true,
+  "runner": {
+    "pid": 52265,
+    "start_ticks": "799725",
+    "campaign": "candidates-v2-top9-efforts-256-20260913T181833Z"
+  },
+  "supervisors": [
+    {
+      "pid": 52244,
+      "start_ticks": "799645",
+      "campaign": "candidates-v2-top9-efforts-256-20260913T181833Z"
+    }
+  ],
+  "validation_sha256": "3ae38698798894a7a7ce4ee8ed2f9e5d9cf19ee87adba368862e388fb921008d",
+  "workload_sha256": {
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/run-sonnet-confirmation.py": "766efa4e62745e205187c2e13c9489c3693b66401de9869633a6ceba9037778b",
+    "scripts/candidate-bench.py": "0fc6bbf2f4ddeabb4083a057c6ab28efdd4eb73e0aa58a4debae590bccea0fca",
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "scripts/run-candidate-screen.py": "540d7a813479ab677f5b0a481ffdf2261a0ca02e136f421e7be2e419b61def25",
+    "scripts/harbor-resource-runner.py": "d4a4143fe1b827cc09097248940410e82a48d0f51a1600410ea2f1d4d9745d10",
+    "scripts/benchmark_shared_admission.py": "20adc7876d0dad4bcca1824549f0021d1c9d91497f04f4bd7525321037cd0a85",
+    "scripts/harbor-benchmark-runner.py": "cb698d71d8fc4f294610369a005552a577160427baf8757538de14faa648ad12",
+    "jobs/candidates-v2-top9-efforts-256-20260913T181833Z.plan.json": "aa447e08f74e37aa960b1fecf06be7d648d5e754c3d14b09a080832a046b3659",
+    "jobs/candidates-v2-top9-efforts-256-20260913T181833Z.config.json": "3dd59a686db94d784595ebb6706d49860584294ad911a7d3eb4b9012cfb5e232"
+  },
+  "events": [
+    {
+      "supervisor_restarted": {
+        "campaign": "candidates-v2-top9-efforts-256-20260913T181833Z",
+        "old_pid": 52244,
+        "new_pid": 18452,
+        "ready_at": "2026-09-13T18:26:59.890678+00:00"
+      }
+    }
+  ],
+  "drain": {
+    "active_trials": 0,
+    "running_trial_containers": 0,
+    "resource_status_fresh": true,
+    "old_runner_alive": true,
+    "basis": "pre_admission_empty",
+    "ready": true
+  },
+  "status": "blocked",
+  "updated_at": "2026-09-13T18:27:40.945856+00:00",
+  "error_type": "RuntimeError",
+  "reason": "Approved launchers, campaign plans, or configs changed"
+}

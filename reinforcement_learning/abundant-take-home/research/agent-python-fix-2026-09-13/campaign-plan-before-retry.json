@@ -1,0 +1,450 @@
+{
+  "created_at": "2026-09-13T18:33:03.496807+00:00",
+  "tasks": [
+    {
+      "id": "luigi-generation-target",
+      "project": "Luigi",
+      "objective": "Publish coherent multi-file generations with pinned readers",
+      "status": "harbor_verified",
+      "path": "candidates/luigi-generation-target",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v2-01-oracle/luigi-generation-target__TT8yfBW/result.json",
+        "nop": "research/validation/jobs/screen-final-v2-01-nop/luigi-generation-target__igYqwdR/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "5a99d23e701eac1465c6bf0fb3176e2d350407f8ffdcd26cb4a36b14f838b5e4",
+        "oracle": "d92650ef963a359e70e6d87ae11518791c2a8b27b5c4f48c6dc94fe5085ff55e"
+      },
+      "validated_task_sha256": "a851b17fd5bf7cb9462b9128bc36aeedcede432dbee2cce7796bb457a078530e",
+      "validated_harbor_task_checksum": "38e96eee424a85cde604fcd77cf11adfd6d541302f53e1c065990a9967c86170",
+      "oracle_diagnostics": {},
+      "oracle_tests_passed": 57,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "rs-burn-store-pytorch-reader",
+      "path": "candidates_v2/rs-burn-store-pytorch-reader",
+      "task_sha256": "37048ba91be950cdec57b92ba44353fcf339291b9ea25fc3d0cb30ae12b12639",
+      "harbor_task_checksum": "fc1d7ed23e7cd6eae273856ba4ff4baa26d2883a87f4a1f46bfb450aa20d588d",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "6c57fdb4290e1006011c91569575c6bb1c689d4991eaa6f66eeb3c8bed73e9d8",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/rs-burn-store-pytorch-reader-oracle-20260913T115541Z/rs-burn-store-pytorch-reader__6rcMmZs/result.json",
+        "nop": "candidates_v2/validation/jobs/rs-burn-store-pytorch-reader-nop-20260913T115541Z/rs-burn-store-pytorch-reader__qM6rFxF/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "e8651ce5864f2af29b0efd61fbb1a7d7277a7d4af752ce93f6fe88ad129e254d",
+        "nop": "29b08be789d69260a596ca6241e6d23938712435cb59993f5653c0740aacdc0f"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "build",
+        "anticheat",
+        "pytorch_unit",
+        "safetensors_unit",
+        "integration",
+        "pytorch_tests_crate",
+        "fixture_matrix",
+        "reject_cases"
+      ]
+    },
+    {
+      "id": "burn-scoped-checkpoint-remap",
+      "path": "candidates/burn-scoped-checkpoint-remap",
+      "validated_task_sha256": "e811e03ba3776947dfe6a51ce0e68d89884a2af02d57a0b5c7193cbf46d6a2a8",
+      "validated_harbor_task_checksum": "32f732021476a68a94ed08b7e65accf0cc0a20ebe505c5cff5491fc9a231c045",
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/rust-cpp-burn-final-v1-01-oracle/burn-scoped-checkpoint-remap__db4wggh/result.json",
+        "nop": "research/validation/jobs/rust-cpp-burn-final-v1-01-nop/burn-scoped-checkpoint-remap__iG9ZF2z/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "81211af2e82d474f4ea9c3672941d15299a67b903c1ea24cbdd1b2bf8833cc21",
+        "nop": "1f83b93af75bcb2b0477b6a0ba0c71a8fc71a55a6d16c143cafcb7d9413a28df"
+      },
+      "oracle_verified": true,
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "passed": 24,
+        "expected": 24,
+        "reward": 1
+      },
+      "nop_verified": true,
+      "status": "harbor_verified",
+      "project": "Burn",
+      "objective": "Apply different numeric index policies to different checkpoint prefixes",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "impact_review": {
+        "status": "selected from ten current Rust/C++ candidates; natural difficulty unmeasured",
+        "evidence": "research/rust-cpp-10-to-5/burn/findings.md"
+      },
+      "oracle_tests_passed": 24
+    },
+    {
+      "id": "rs-zenoh-timestamp-instrumentation",
+      "path": "candidates_v2/rs-zenoh-timestamp-instrumentation",
+      "task_sha256": "0517780dbb86b66a81ee6ac192e23355388aa6b1550a7bbcd40bb71335285818",
+      "harbor_task_checksum": "7f4937d40e0450861d6af5bad1c6fd7f81dd7d8e5e84cbd171fe8c395b5f694e",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "085acc870a5c326e42726b4df52e567830a9f5a67dd0091701aad8987592b38f",
+      "files_newer_than_validation": [
+        "provenance.json",
+        "STATUS.md"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/rs-zenoh-timestamp-instrumentation-oracle-20260913T164927Z/rs-zenoh-timestamp-instrumentati__LggvdAS/result.json",
+        "nop": "candidates_v2/validation/jobs/rs-zenoh-timestamp-instrumentation-nop-20260913T170741Z/rs-zenoh-timestamp-instrumentati__cHeStMd/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "4fad5f058962fb0f6e6b164c04d10185bcf3dbdcd4132d49c3352c27a5da7ec6",
+        "nop": "27a4631375a4a1e6670875d156ccf164534af75a81bde6a798541cbfc4afffbd"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anti_cheat",
+        "build_a",
+        "build_b",
+        "lib_test_names",
+        "hidden_pr_tests",
+        "interop_gold",
+        "parity_python",
+        "zenoh_ext",
+        "upstream_regressions"
+      ]
+    },
+    {
+      "id": "sqlite-utils-schema-plan",
+      "project": "sqlite-utils",
+      "objective": "Apply dependency-preserving schema plans atomically",
+      "status": "harbor_verified",
+      "path": "candidates/sqlite-utils-schema-plan",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-06-oracle/sqlite-utils-schema-plan__cV5gDzE/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-06-nop/sqlite-utils-schema-plan__cEhHohB/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "2b2abf0bdc4fae87c7e0beae4a1df59ded2c0161d5ac99cadaab56b726470ca5",
+        "nop": "31eb5cf589238214a4853de2f2172991555b870dc3f0ac6ac7c5fbf1d9d4458f"
+      },
+      "validated_task_sha256": "3fb14f0488024151a46dbdf8552c53e1a4d69412b2d3a71df93bed5f33122de2",
+      "validated_harbor_task_checksum": "9a553a3a42062bfe4341f5eb26df1e1a5ab53681b22b3ab88a7c0d6a10f3d672",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 332,
+        "outcomes": {
+          "passed": 332,
+          "failed": 0,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 1
+      },
+      "oracle_tests_passed": 332,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "rs-burn-onnx-rnn-runtime-weights",
+      "path": "candidates_v2/rs-burn-onnx-rnn-runtime-weights",
+      "task_sha256": "7a36689eb396fd1c55ce52291bc34cecf82113977e7fab4e3a0c818a2511bd74",
+      "harbor_task_checksum": "3a22d00d6ec4f5c8b865c11b53eab1f1d7fd616f121445017183c8e182dbffed",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "4fc5ec3eda91d690bda181449bb2cca4649bafee790df093c182d10a7ed2e194",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/rs-burn-onnx-rnn-runtime-weights-oracle-20260913T121743Z/rs-burn-onnx-rnn-runtime-weights__jovYVCf/result.json",
+        "nop": "candidates_v2/validation/jobs/rs-burn-onnx-rnn-runtime-weights-nop-20260913T121743Z/rs-burn-onnx-rnn-runtime-weights__7LpvScR/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "88b9c14a0acf41840fcbc86d4d57e9533e1270fc8453369a3460f07df68ba980",
+        "nop": "a08cdc292ef4c9167fffda7edae7e4887307bd2359773c0138f45754a3538137"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anticheat",
+        "build",
+        "official",
+        "onnx_ir",
+        "onnx_tests",
+        "rejects"
+      ]
+    },
+    {
+      "id": "diskcache-online-reshard",
+      "project": "DiskCache",
+      "objective": "Reshard persistent cache with durable progress and topology cutover",
+      "status": "harbor_verified",
+      "path": "candidates/diskcache-online-reshard",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "nop": "research/validation/jobs/screen-final-v2-03-nop/diskcache-online-reshard__oQoUsRj/result.json",
+        "oracle": "research/validation/jobs/screen-final-v2-03-oracle/diskcache-online-reshard__2uiLbm8/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "613c391a163f889dd31ab2f6f5a5d05ae617b8323a179ac87c575b0f68672863",
+        "oracle": "74a54fb016c33058920dcd6a8d1571cf893b90d845cc21fa48ff93a7b675b144"
+      },
+      "validated_task_sha256": "c1133d6e30a2b923873ffe7bb603fce9e9af73eac85e2aa2812bd89139ed826f",
+      "validated_harbor_task_checksum": "d6421620f2a88ad3835b5d802f98815faa871ce7f2edaa39fbc6729b5b4bd095",
+      "oracle_diagnostics": {},
+      "oracle_tests_passed": 45,
+      "impact_review": {
+        "status": "not audited against the later demand-matching requirement"
+      }
+    },
+    {
+      "id": "cpp-foxglove-sdk-parameter-handler",
+      "path": "candidates_v2/cpp-foxglove-sdk-parameter-handler",
+      "task_sha256": "a4dd5376dfd3e419c04ef2244efc0afdfa4609f0b62d1df86c03d400c233d3d0",
+      "harbor_task_checksum": "0467d296c0515fd242069ded911d31a65f92191590e7c6b016d15184833085bd",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "bcef4350e225bb5c5a2c7c3fccc6e0ce43dea610b6082b6475286755cd8b9f79",
+      "files_newer_than_validation": [
+        "provenance.json",
+        "STATUS.md"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-oracle-20260913T134931Z/cpp-foxglove-sdk-parameter-handl__bjWJRWw/result.json",
+        "nop": "candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T134931Z/cpp-foxglove-sdk-parameter-handl__7RHGL7R/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "c63d10745edd8f6309bc358dee4bf42da015ed02d526bbb0eef701ca225c9fc8",
+        "nop": "4d59ee7fe871c1ac04d763909304d3e4d6f22b968585194724112bdaa30c24f8"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anti_cheat",
+        "restore",
+        "build_lib",
+        "build_tests",
+        "build_example",
+        "build_all",
+        "header_in_sync",
+        "deprecation_marked",
+        "pr_tests",
+        "regressions",
+        "c_unit_tests",
+        "api_validation",
+        "parity_cpp",
+        "parity_c"
+      ]
+    },
+    {
+      "id": "huey-sqlite-leases",
+      "project": "Huey",
+      "objective": "Recover interrupted jobs with fenced SQLite leases",
+      "status": "harbor_verified",
+      "path": "candidates/huey-sqlite-leases",
+      "model_headroom": "unmeasured",
+      "agent_horizon": "unmeasured",
+      "oracle_verified": true,
+      "nop_verified": true,
+      "validation_evidence": {
+        "oracle": "research/validation/jobs/screen-final-v1-01-oracle/huey-sqlite-leases__3c4tism/result.json",
+        "nop": "research/validation/jobs/screen-final-v1-01-nop/huey-sqlite-leases__AX7rvUj/result.json"
+      },
+      "validation_result_sha256": {
+        "nop": "7b9d4c48cebae8c2302561ce8f8a57e668037fceb7a76d340b6d828353856ec7",
+        "oracle": "0fb3da57743c5f8db52acd3e6f37d0e1a511086d83f392a985096aed8b965b0e"
+      },
+      "validated_task_sha256": "12f9f5b9cd909af46f31c91b456079b74b2191c3ded559abe45b715c8cb598a7",
+      "validated_harbor_task_checksum": "1dadeed0982f11064451935b9041f49fcfbe179e0b6dc09f3b51f695e04e53b1",
+      "oracle_diagnostics": {
+        "exit_code": 0,
+        "collected": 193,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "oracle_tests_passed": 193,
+      "impact_review": {
+        "status": "downgraded; exact SQLite demand unestablished",
+        "evidence": "research/demand-audit-huey-leases.md"
+      }
+    },
+    {
+      "id": "py-zarr-python-cast-value-scale-offset",
+      "path": "candidates_v2/py-zarr-python-cast-value-scale-offset",
+      "task_sha256": "acbbd645345dc10bf7374047e5f346d7e08c9b4cd1e9c4c6a79f253d7d8bc218",
+      "harbor_task_checksum": "b5e75f842bcc98fafb0e340a282b8cdd265f28f815323915608b989cd51a58b6",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "6af10d2ff163da8f51e23599eaf8be1145de83b464788c9ef8ca97f236de4a2c",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/py-zarr-python-cast-value-scale-offset-oracle-20260913T111859Z/py-zarr-python-cast-value-scale__Aq5V63Z/result.json",
+        "nop": "candidates_v2/validation/jobs/py-zarr-python-cast-value-scale-offset-nop-20260913T111859Z/py-zarr-python-cast-value-scale__DyWYCtV/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "79b5053e11ec5373ef264570bd3ebbee90f0317cd6b36502decab3304d1e5847",
+        "nop": "6efeb116800800f3a1500909112d80050e6a407a200cbfe5ceedc978adad37d4"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anti_cheat",
+        "cast_value_matrix",
+        "foreign_metadata",
+        "import",
+        "pr_tests",
+        "scale_offset_reference",
+        "submission",
+        "upstream"
+      ]
+    },
+    {
+      "id": "cpp-zenoh-cpp-connectivity-api",
+      "path": "candidates_v2/cpp-zenoh-cpp-connectivity-api",
+      "task_sha256": "d3e90630116cda1e8d34bc0b1192c7d7cc80b9907fc53208433771e9c950733e",
+      "harbor_task_checksum": "334fd9a44f0bfdd2b6080101c3afb6e3b2bf59b596d721f30368cd145cfae863",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "dd88b09431cacdacd42123a547f2e5f534768287bdff29817231b40e32fd948a",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/cpp-zenoh-cpp-connectivity-api-oracle-20260913T171336Z/cpp-zenoh-cpp-connectivity-api__iADPGG6/result.json",
+        "nop": "candidates_v2/validation/jobs/cpp-zenoh-cpp-connectivity-api-nop-20260913T171336Z/cpp-zenoh-cpp-connectivity-api__KRzWCWB/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "47801943fd3171c7fd56965552b42c70cc3198b88d7da7e1da6c153c0f1cd964",
+        "nop": "63eac2e7a6bc2fbc97e7c553a2873850fd83245a2763a92f299d4ff15885136d"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anti_cheat",
+        "authored",
+        "build",
+        "parity",
+        "pr_tests",
+        "registered_tests",
+        "regression_zenohc",
+        "regression_zenohpico",
+        "router"
+      ]
+    },
+    {
+      "id": "cpp-rosbag2-mixed-serialization-playback",
+      "path": "candidates_v2/cpp-rosbag2-mixed-serialization-playback",
+      "task_sha256": "1bb6663d4ad206b5d023e849f839dc782fdfa5b9d839eae17a42b82fbd280675",
+      "harbor_task_checksum": "fd3a449cc4ee1ff59a118d368c1cc6336567929b8dc6f7acd319a1da4c15f307",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "c9fbfcadb481bb158fc0ac47e6c69ade4824346f4f3718e8f80f3919787767aa",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/cpp-rosbag2-mixed-serialization-playback-oracle-20260913T174120Z/cpp-rosbag2-mixed-serialization__H3Wezks/result.json",
+        "nop": "candidates_v2/validation/jobs/cpp-rosbag2-mixed-serialization-playback-nop-20260913T174120Z/cpp-rosbag2-mixed-serialization__b48WWVV/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "eb5569529f0963b73afea37b2848d4bcae6cc0b5ad82ac19e32ad0d83e03b6f8",
+        "nop": "2359cf0157d9c434b524836c53f0d5e671a6b52859314d860437cc4175fdb05d"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "anticheat",
+        "build",
+        "cli_play",
+        "differential",
+        "gtests",
+        "overlay"
+      ]
+    },
+    {
+      "id": "py-rosbags-rosbag2-storage-writers",
+      "path": "candidates_v2/py-rosbags-rosbag2-storage-writers",
+      "task_sha256": "dc5033cd563686b9f3fa7d9d8d8a58df195f241d35e91a9aee1632f6c8257e89",
+      "harbor_task_checksum": "3214ee3c62dbd0cc1a89210195375dedc1725039f90072f6315ed06c73f50fa7",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "c8592704a1588bd1566c034bb17be602d6382d668ac84011c60fa6f6d2d2eb03",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/py-rosbags-rosbag2-storage-writers-oracle-20260913T110727Z/py-rosbags-rosbag2-storage-write__EkuAr8a/result.json",
+        "nop": "candidates_v2/validation/jobs/py-rosbags-rosbag2-storage-writers-nop-20260913T110727Z/py-rosbags-rosbag2-storage-write__efjdwFC/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "e4d7944ffe05639c2fa376b83cdd1fd8361e4b811925e69e8c502b69eea659f0",
+        "nop": "b82b31e9a2b67667311bd5783206a89e7a8061a6f66a5ba88edbadb8f4bcae16"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "upstream_feature",
+        "upstream_regression",
+        "hidden_mcap_differential",
+        "hidden_sqlite3_differential",
+        "fixture_read_regression"
+      ]
+    },
+    {
+      "id": "rs-rerun-chunk-optimizer",
+      "path": "candidates_v2/rs-rerun-chunk-optimizer",
+      "task_sha256": "905b3077fa7ca9bb5e7f7c4c8b42c3ae2ecd2076b2c521e24ba7946d1fdc8975",
+      "harbor_task_checksum": "3c297f74680e17351c0c33998ac2f3847a829d92683db5d4a8386641478f07ff",
+      "validation_basis": "saved_controls_with_metadata_updates",
+      "historical_validation_checksum": "c60f1dd70d0661aff97127ae19c5a2cfaee426f4d3c21db4977b323b8af0b073",
+      "files_newer_than_validation": [
+        "provenance.json"
+      ],
+      "validation_evidence": {
+        "oracle": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-oracle-20260913T121513Z/rs-rerun-chunk-optimizer__BndqJmr/result.json",
+        "nop": "candidates_v2/validation/jobs/rs-rerun-chunk-optimizer-nop-20260913T121513Z/rs-rerun-chunk-optimizer__qpTicVH/result.json"
+      },
+      "validation_result_sha256": {
+        "oracle": "b11c62e4a7c641e3c848840311b16547fbedb434febc63ac257d0cedc6555587",
+        "nop": "1d97054a8bcddb4b83a281f353fa520bdacae835b6f6b745af6be3fec138ff3d"
+      },
+      "check_format": "verifier_groups",
+      "expected_verifier_groups": [
+        "upstream_regression",
+        "pr_tests",
+        "contract_tests"
+      ]
+    }
+  ],
+  "models": [
+    "fable-5-1",
+    "opus-5",
+    "sonnet-5"
+  ],
+  "efforts": [
+    "medium",
+    "high",
+    "max"
+  ],
+  "attempts": 20,
+  "workers": 32,
+  "target": 2520,
+  "after_summary": null,
+  "harbor_version": "0.15.0",
+  "agent_version": "2.4.6",
+  "jobs": [
+    {
+      "name": "candidates-all14-efforts-20-20260913T183301Z",
+      "config": "jobs/candidates-all14-efforts-20-20260913T183301Z.config.json",
+      "sha256": "bc15169bde31a02f6f2ca128e27a73e43a048543e4b19e7db897cb13eb98aac5"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "created_at": "2026-09-13T18:28:17.252490+00:00",
+  "watcher_pid": 22472,
+  "apply": true,
+  "runner": {
+    "pid": 19811,
+    "start_ticks": "53199",
+    "campaign": "candidates-top5-efforts-3-20260913T161409Z"
+  },
+  "supervisors": [
+    {
+      "pid": 15766,
+      "start_ticks": "843526",
+      "campaign": "candidates-top5-efforts-3-20260913T161409Z"
+    },
+    {
+      "pid": 15839,
+      "start_ticks": "843959",
+      "campaign": "candidates-top5-efforts-256-20260913T175721Z"
+    }
+  ],
+  "validation_sha256": "3ae38698798894a7a7ce4ee8ed2f9e5d9cf19ee87adba368862e388fb921008d",
+  "workload_sha256": {
+    "scripts/harbor-resource-runner.py": "8a164a39c944a868f7fcabd95c8d9baafaeaa7a81ca34f95c3eebb278ec00fda",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/run-candidate-screen.py": "540d7a813479ab677f5b0a481ffdf2261a0ca02e136f421e7be2e419b61def25",
+    "scripts/harbor-benchmark-runner.py": "cb698d71d8fc4f294610369a005552a577160427baf8757538de14faa648ad12",
+    "scripts/run-sonnet-confirmation.py": "766efa4e62745e205187c2e13c9489c3693b66401de9869633a6ceba9037778b",
+    "scripts/benchmark_shared_admission.py": "20adc7876d0dad4bcca1824549f0021d1c9d91497f04f4bd7525321037cd0a85",
+    "scripts/candidate-bench.py": "0fc6bbf2f4ddeabb4083a057c6ab28efdd4eb73e0aa58a4debae590bccea0fca",
+    "scripts/benchmark_networks.py": "8ac0e74c101031e155ce94913eb8ca0508a4604bf17ac47261923befab093878",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z.plan.json": "9cfa3b695fc1eb47df4f8a9d1b81101d6b85808ad62ede42e2dfc835f85cb1a1",
+    "jobs/candidates-top5-efforts-3-20260913T161409Z.config.json": "305298826553ab067e6e39f504c780802d728acc530af7cebe39472aa97fe559",
+    "jobs/candidates-top5-efforts-256-20260913T175721Z.plan.json": "56dd0d5397b2fcc062595092e7cb670eb232f64d3bb15f1369751d72cd37c2b2",
+    "jobs/candidates-top5-efforts-256-20260913T175721Z.config.json": "d40f81e92af0417ef6a41bc4dd29d809f27c2e22cba07764edf6f701f0791543"
+  },
+  "events": [
+    {
+      "supervisor_restarted": {
+        "campaign": "candidates-top5-efforts-3-20260913T161409Z",
+        "old_pid": 15766,
+        "new_pid": 22588,
+        "ready_at": "2026-09-13T18:28:21.004786+00:00"
+      }
+    },
+    {
+      "supervisor_restarted": {
+        "campaign": "candidates-top5-efforts-256-20260913T175721Z",
+        "old_pid": 15839,
+        "new_pid": 22656,
+        "ready_at": "2026-09-13T18:28:22.037448+00:00"
+      }
+    }
+  ],
+  "drain": {
+    "active_trials": 23,
+    "running_trial_containers": 23,
+    "resource_status_fresh": true,
+    "old_runner_alive": true,
+    "basis": "admission_status_and_daemon",
+    "ready": false
+  },
+  "status": "blocked",
+  "updated_at": "2026-09-13T18:31:04.384651+00:00",
+  "error_type": "RuntimeError",
+  "reason": "Admission control changed; automatic activation withheld"
+}

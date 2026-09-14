@@ -1,0 +1,10 @@
+{
+  "return_code": 1,
+  "elapsed_sec": 3.451438127000074,
+  "user": null,
+  "cwd": null,
+  "environment_variable_names": [
+    "LITELLM_LOCAL_MODEL_COST_MAP"
+  ],
+  "command": "set -o pipefail; set -euo pipefail; . \"$HOME/.local/bin/env\"; benchmark_tool_dir=\"$(uv tool dir)\"; \"$benchmark_tool_dir/mini-swe-agent/bin/python\" -c 'import importlib.metadata, json, platform, sys\nfrom minisweagent.models.litellm_model import LitellmModel\nassert platform.python_version() == \"3.12.11\", \"Unexpected agent Python version\"\npackages = {name: importlib.metadata.version(name) for name in\n            (\"mini-swe-agent\", \"litellm\", \"anthropic\", \"openai\", \"pydantic\")}\nprint(\"BENCHMARK_AGENT_RUNTIME=\" + json.dumps({\"python\": platform.python_version(),\n      \"executable\": sys.executable, \"packages\": packages, \"litellm_import_ok\": True}))\n'"
+}
