@@ -1,0 +1,23 @@
+# Slide edits
+
+The revised deck adds an executive summary before the previous 18 slides. The result data, chart categories, four quotations and existing evidence references are preserved. Notes use direct prose and retain the distinctions between first counted results, repeat trials, corrected saved-submission regrades and service interruptions.
+
+1. **Executive summary.** Added the three sample recommendations, the 11 × 3 × 3 population, 76 passes, 64 successes above 75 assistant turns, the sample-specific 18/18 and 5/9 results, service caveat, audited self-verification failures and need for repeated trials.
+2. **Software integration across modules.** Replaced the broad contract-preservation framing and rhetorical question with concrete implementation work. Expanded the turn-count label to name assistant turns.
+3. **Feature requirements across three languages.** Replaced a rhetorical title and abstract closing statement with the specified behavior agents must preserve across modules.
+4. **Passes in the first result grid.** Used a direct title and explicit service-interruption subtitle. All 11 coverage rows remain unchanged.
+5. **Results by model and effort (1 of 2).** Shortened the title and explained separate repeat records. The first 54 result cells, timeout codes and service markers remain unchanged.
+6. **Results by model and effort (2 of 2).** Applied the same wording changes. The remaining 45 result cells remain unchanged.
+7. **C++: API and playback integration.** Replaced reward jargon with failure descriptions. Preserved the distinction between the valid warning failure, ambiguous writer assertion and unresolved upstream segfault.
+8. **Python: persistence and format contracts.** Replaced the abstract learning-headroom phrase with the observed absence of failures in nine Rosbags attempts. Retained Diskcache and Luigi service/timeout distinctions and the Zarr failure interpretation.
+9. **Rust: runtime behavior and regression failures.** Named the observed work and failures. Replaced lazy loading prose with reading checkpoint data on demand and distinguished Burn functionality from its source restriction.
+10. **64 of 76 successes exceeded 75 assistant turns.** Put the measured finding in the title. Clarified the successful-trial median and limits of turn counts. The 11 native chart values and embedded worksheet data remain unchanged.
+11. **Recommended Harbor samples.** Replaced the question-style selection frame with the recommendation. Named median turns on success, clarified the sample-specific model results and kept corrected Zenoh regrades separate from counted trials.
+12. **Rerun: incorrect chunk layout.** Named the layout error, changed decorative separators to commas and described the five failed feature checks. Preserved the quotation, [6,2] versus [4,4] layouts, trial statistics and absence of an established data-loss or sole-cause finding.
+13. **Zenoh: Sonnet used the wrong public type.** Named the public-type failure and its effect on downstream compilation. Preserved the quotation, historical v3 scores, corrected regrade outcomes, zero new model calls and limits of the extra verifier coverage.
+14. **Burn: parser failures and a source restriction.** Replaced a self-grading pass description with verifier outcomes. Distinguished parser functionality from the source restriction and used the actual 76–323-turn range instead of an abstract claim about task depth.
+15. **Failure review and test corrections.** Named NUL defaults and corrected hidden tests. Attributed the all-strings requirement to the task, identified SQLite as a held candidate outside the 11-task grid and separated revised tasks from saved-submission regrades.
+16. **Self-verification failures in SWE-Marathon.** Used a direct finding title and connected local checks to feature requirements. Preserved the exact quotation, paper URL, published population and paper-era limitation. Corrected joined words and numbers in the notes.
+17. **Pilot findings and measurement limits.** Replaced rhetorical headings with observed completions and measurements still needed. Used “first counted results,” retained service confounds and stated limits on model ranking, effort attribution, human time and training gains.
+18. **Scaling to 1,000 accepted tasks.** Replaced arrows and plus signs with ordinary prose. Kept the proposal distinct from measured yield or budget and preserved the proposed 25, 100 and 1,000-task stages.
+19. **Task pack and next experiment.** Described retained evidence and the next repeated-trial study directly. Changed the provider statement to the historical observation that usage limits interrupted the sweep.
