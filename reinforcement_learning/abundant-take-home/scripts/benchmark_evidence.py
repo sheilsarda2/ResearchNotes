@@ -384,6 +384,13 @@ def collect_evidence(trial_dir: Path, expected_snapshot: dict | None = None,
     model_run = bool(_label(agent_config.get("model_name")))
     incomplete_native = phases["agent_execution"]["started_at"] is not None and (
         native_state != "present" or native_totals["instance_cost"] is None)
+    # Mini increments api_calls before model.query(), then saves the assistant
+    # response and its cost only after that query returns. A terminal provider
+    # error can therefore leave known totals but an unanswered logical query.
+    # This counter does not count the provider retries inside one query.
+    native_calls = native_totals["api_calls"]
+    unanswered_native_query = (native_state == "present" and isinstance(native_calls, int)
+                               and native_calls > len(assistant))
     native_turns = len(assistant) if native_state == "present" else None
     atif_turns = len(atif_steps) if atif_state == "present" else None
     frozen = compare_snapshot(trial_dir, expected_snapshot) if expected_snapshot is not None else None
@@ -419,8 +426,8 @@ def collect_evidence(trial_dir: Path, expected_snapshot: dict | None = None,
                    "native_turns_with_timestamp": sum(_time(_dict(row.get("extra")).get("timestamp")) is not None for row in assistant)},
         "usage": {"result": usage, "atif_final": atif_totals, "native_final": native_totals,
                   "native_responses": _native_usage(assistant),
-                  "usage_censored": model_run and (interrupted or incomplete_native),
-                  "provider_charge_may_be_missing": model_run and (interrupted or incomplete_native)},
+                  "usage_censored": model_run and (interrupted or incomplete_native or unanswered_native_query),
+                  "provider_charge_may_be_missing": model_run and (interrupted or incomplete_native or unanswered_native_query)},
         "budget": {"deadline_at": _iso(deadline), "deadline_source": deadline_source,
                    "native_at_or_before_deadline": _native_usage(before) if deadline else None,
                    "native_after_deadline": _native_usage(after) if deadline else None,

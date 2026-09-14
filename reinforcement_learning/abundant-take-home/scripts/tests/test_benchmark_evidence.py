@@ -163,6 +163,65 @@ class EvidenceTests(unittest.TestCase):
         with self.assertRaises(evidence.EvidenceError):
             evidence.collect_evidence(self.root, deadline_at="2026-01-01T00:00:29")
 
+    def completed_query_fixture(self):
+        self.fixture()
+        result = json.loads((self.root / "result.json").read_text())
+        result["exception_info"] = None
+        result["agent_result"] = {"n_input_tokens": 600, "n_cache_tokens": 400,
+                                  "n_output_tokens": 200, "cost_usd": 5.0}
+        self.put("result.json", result)
+        native = json.loads((self.root / "agent/mini-swe-agent.trajectory.json").read_text())
+        response = native["messages"][0]
+        response["extra"]["response"]["usage"]["cache_read_input_tokens"] = 20
+        native["messages"] = [response for _ in range(20)]
+        native["info"].update(exit_status="Submitted", model_stats={"instance_cost": 5.0, "api_calls": 20})
+        self.put("agent/mini-swe-agent.trajectory.json", native)
+        atif = json.loads((self.root / "agent/trajectory.json").read_text())
+        atif["steps"] = [atif["steps"][1] for _ in range(20)]
+        atif["final_metrics"] = {"total_prompt_tokens": 600, "total_cached_tokens": 400,
+                                 "total_completion_tokens": 200, "total_cost_usd": 5.0}
+        self.put("agent/trajectory.json", atif)
+        return native, result
+
+    def test_unanswered_native_query_censors_usage_without_losing_known_totals(self):
+        native, result = self.completed_query_fixture()
+        result["exception_info"] = {"exception_type": "NonZeroAgentExitCodeError"}
+        self.put("result.json", result)
+        native["info"]["exit_status"] = "BadGatewayError"
+        self.put("agent/mini-swe-agent.trajectory.json", native)
+        baseline = evidence.collect_evidence(self.root)
+        # Mini's failure path increments the query count but saves no response.
+        native["info"]["model_stats"]["api_calls"] = 21
+        self.put("agent/mini-swe-agent.trajectory.json", native)
+        before = evidence.snapshot_paths(self.root, evidence.INPUT_PATHS)
+        collected = evidence.collect_evidence(self.root)
+        self.assertTrue(collected["usage"]["usage_censored"])
+        self.assertTrue(collected["usage"]["provider_charge_may_be_missing"])
+        self.assertEqual(collected["counts"]["native_assistant_turns"], 20)
+        self.assertEqual(collected["usage"]["native_final"], {"instance_cost": 5.0, "api_calls": 21})
+        for key in ("result", "atif_final", "native_responses"):
+            self.assertEqual(collected["usage"][key], baseline["usage"][key])
+        for key in ("outcome", "counts", "budget", "completeness", "lifecycle"):
+            self.assertEqual(collected[key], baseline[key])
+        self.assertEqual(before, evidence.snapshot_paths(self.root, evidence.INPUT_PATHS))
+
+    def test_completed_queries_remain_uncensored_after_recovered_retries(self):
+        self.completed_query_fixture()
+        (self.root / "agent/mini-swe-agent.txt").write_text("Retrying after BadGatewayError\n")
+        collected = evidence.collect_evidence(self.root)
+        self.assertFalse(collected["usage"]["usage_censored"])
+        self.assertFalse(collected["usage"]["provider_charge_may_be_missing"])
+
+    def test_unknown_or_invalid_query_counter_does_not_invent_an_unanswered_query(self):
+        native, _ = self.completed_query_fixture()
+        for value in (None, True, "21", 21.5, -1, 19):
+            with self.subTest(value=value):
+                native["info"]["model_stats"]["api_calls"] = value
+                self.put("agent/mini-swe-agent.trajectory.json", native)
+                collected = evidence.collect_evidence(self.root)
+                self.assertFalse(collected["usage"]["usage_censored"])
+                self.assertFalse(collected["usage"]["provider_charge_may_be_missing"])
+
     def test_absent_timestamps_are_unclassified_not_before_deadline(self):
         self.fixture()
         native_path = self.root / "agent/mini-swe-agent.trajectory.json"
