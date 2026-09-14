@@ -1,0 +1,92 @@
+{
+  "cases": [
+    {
+      "case": "reference",
+      "collected": 331,
+      "expected_outcome_observed": true,
+      "failed": 0,
+      "passed": 331,
+      "reward": 1
+    },
+    {
+      "case": "nop",
+      "collected": 331,
+      "expected_outcome_observed": true,
+      "failed": 118,
+      "passed": 213,
+      "reward": 0
+    },
+    {
+      "case": "saved-sonnet-max",
+      "collected": 331,
+      "expected_outcome_observed": true,
+      "failed": 1,
+      "passed": 330,
+      "reward": 0
+    }
+  ],
+  "changed_task_files": [
+    "tests/test_schema_plan.py"
+  ],
+  "checked_at": "2026-09-14T05:03:00.602825+00:00",
+  "deleted_parameter": {
+    "t": {
+      "rename": {
+        "v": ""
+      }
+    }
+  },
+  "diagnostic": {
+    "admitted_at": "2026-09-14T05:01:26.591432+00:00",
+    "all_containers_removed": true,
+    "claim": "sqlite-verifier-v2-diagnostic-50153",
+    "claim_released": true,
+    "claim_released_at": "2026-09-14T05:01:33.844816+00:00",
+    "finished_at": "2026-09-14T05:01:33.892893+00:00",
+    "inputs_unchanged": true,
+    "pid": 50153,
+    "process_identity": "4600479"
+  },
+  "diagnostic_result_sha256": "42cb2f9c7032fd8ccefe7bb12ac241e93bc199086e156b4e8855e3c88347153c",
+  "digest_format": "SHA256 of UTF-8 JSON map of relative file path to file SHA256, sort_keys=True, separators=(comma,colon)",
+  "exact_patch_sha256": "b2981b9e026922a27182d6883d020c06cbaae5379fab275b20bf9b6878341532",
+  "final_test_sha256": "94f1e7f96d8eeb6bf33e839f1bea10a0b44c818329baa1a23cc29eeced8c5029",
+  "input_manifest_sha256": "659c767d40ef19af3a723a3344b2dd1c1cc3f3e5c4688ee3a2d2304a3db5bc3e",
+  "instruction_sha256": "1cfa3e08c059d8e927291d3fa4ee8e8e50aede1c07ff2d6514a4f1b5c84d98cd",
+  "limitations": [
+    "Diagnostic overlays revised tests on pinned cached image; new image build and campaign promotion remain separate.",
+    "Later automatically numbered bad parameter IDs shift by one; original and v2 runs must remain versioned separately."
+  ],
+  "model_calls": 0,
+  "original_tree_digest": "251f39fab984f996fc133f1734b6c0cbc0dcea2eac17bbcd26917c8260552dea",
+  "revision_tree_digest": "821e4804acf21950d2bc45d928751644d541657ab6934c08af6d0682c40c50e2",
+  "saved_remaining_failure": [
+    "test_default_values_are_literals[a\\x00b]"
+  ],
+  "saved_sources": {
+    "GnfPeSr": {
+      "result_sha256": "871dc72db4fef5eb3c3d7baf375aa7f889174d77a690a37d01aa917e26b6c7f4",
+      "snapshot_sha256": "a542bc01bdc4edffd55ad0dd9719f70ab061efb1efd300018cb5d87663fcd5b2",
+      "submission_tree_digest": "6278024977cf7c3299fe98554970f0775f45f6f8c7115b9f5c7143be8979558a"
+    }
+  },
+  "sqlite_runtime_contract_check": {
+    "empty_identifier_accepted": true,
+    "sqlite_version": "3.40.1",
+    "value_preserved": true
+  },
+  "status": "validated",
+  "supplied_preservation": {
+    "changed": [],
+    "checked_files": 36,
+    "commit": "c1ae968"
+  },
+  "task_toml_sha256": "18858530c97d35708263641d2feff9f0290e804f81f5063fbb7c6eabb5ab30a6",
+  "tool_sha256": {
+    "research/sqlite-verifier-fix-2026-09-14/validate_revision.py": "da6dcffc0f76199a8a8c078f0935cb98b2a5d1ac3cc99186dbaaedec910938b3",
+    "scripts/benchmark_interleaving.py": "8f22613c808398b69f1e40e0c69c8d7567de3c17874b03db5c7fd80f6e976827",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6"
+  },
+  "unchanged_task_files": 30
+}

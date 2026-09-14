@@ -1,0 +1,149 @@
+{
+  "task_id": "sqlite-utils-schema-plan",
+  "created_at": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/simonw/sqlite-utils",
+    "commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "commit_date": "2026-09-01T21:44:52-07:00",
+    "version": "4.2.1",
+    "license": "Apache-2.0",
+    "source_archive_sha256": "e4dabb4ddb41e8b7cddd56fccc26b020f816d8c8eff1db4fcc4dc8bb1c14c307",
+    "archive_method": "git archive --format=tar.gz at exact commit, including original LICENSE/tests, excluding history and task solutions"
+  },
+  "original_contribution": "Integrated Database.transform_schema and CLI coordinating native column dependency rewrites, lossless column-definition rebuilds, explicit typed conversion, stable snapshot dry-run reports, whole-plan atomicity and preservation of row identity and dependent object behavior.",
+  "sources": [
+    {
+      "url": "https://github.com/simonw/sqlite-utils/tree/85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+      "checked_at": "2026-09-13",
+      "use": "Exact current-main source; git ls-remote rechecked during final construction."
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/issues/849",
+      "checked_at": "2026-09-13",
+      "use": "Reported transform documentation mismatch; researched previously and linked by current PR854."
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/pull/854",
+      "checked_at": "2026-09-13",
+      "use": "Open Sep6 documentation-only PR; its author reports trigger deletion and stale dependent-view references on current main. Independent audit fetched the sole documentation-file patch; it did not rerun those reported reproductions."
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/pull/703",
+      "checked_at": "2026-09-13",
+      "use": "Open January2026 public incoming-FK rename solution; overlapping behavior is disclosed, not claimed as novel."
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/pull/499",
+      "checked_at": "2026-09-13",
+      "use": "Prior public FTS trigger recreation proposal; trigger preservation alone is not the original contribution."
+    },
+    {
+      "url": "https://www.sqlite.org/lang_altertable.html",
+      "checked_at": "2026-09-13",
+      "use": "Native dependency-aware column rename, DROP restrictions and recommended rebuild ordering. No custom view/trigger parser required."
+    },
+    {
+      "url": "https://www.sqlite.org/isolation.html",
+      "checked_at": "2026-09-13",
+      "use": "SQLite snapshot, transaction and writer locking semantics; primary research source."
+    },
+    {
+      "url": "https://www.sqlite.org/releaselog/3_53_0.html",
+      "checked_at": "2026-09-13",
+      "use": "SQLite3.53.0 released2026-04-09 adds native ALTER support for NOT NULL and CHECK constraints; disclose newer-runtime partial functionality."
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/pull/861",
+      "checked_at": "2026-09-13",
+      "use": "September13 additional transform documentation correction; independent API file inspection confirms one documentation line changed, not a feature implementation."
+    }
+  ],
+  "public_solution_overlap": {
+    "exact_solution_found": false,
+    "prior_art": "Native SQLite ALTER already solves ordinary dependency-aware renames. Open PR703 solves an incoming-FK transform case. PR499 attempts FTS trigger recreation, and PR854 documents current trigger deletion and stale view references. This task composes native operations with actual table rebuilds, literal/default/conversion semantics, dependency preservation, isolated data-validating preview, and atomic multi-table outcomes; none of those narrow fixes alone is the task.",
+    "audit_limit": "Pinned source, relevant current issue/PR pages and source behavior were inspected. No exhaustive absence claim across forks or unpublished solutions.",
+    "runtime_qualification": "SQLite3.53.0 already adds native NOT NULL/CHECK alteration. This frozen task uses the recorded SQLite3.40.1 verifier runtime, so nullability handling is partly older-runtime compatibility. The original contribution is the composed transformation/validation contract; current native rename and constraint alteration are not claimed as new."
+  },
+  "contract_scope": {
+    "supported": "Main-schema ordinary rowid tables; primary/composite keys unchanged but renameable; self/cyclic/composite FKs and their actions/deferrability; native-accepted rename/drop dependency rewrites; type/default/nullability/order/STRICT rebuilds; quoted identifiers; literal defaults; hidden rowids and AUTOINCREMENT; indexes/triggers/views; read-only dry-run snapshots.",
+    "excluded": "Selected generated/virtual/WITHOUT ROWID tables or tables shadowing every hidden rowid alias; primary-key type/nullability changes; calls within existing transactions; TEMP/attached schemas; custom functions/collations; ambiguous dependencies rejected by native SQLite. No guarantee of bounded memory or performance on arbitrarily large databases.",
+    "reason": "Keep a complete useful composed operation while preserving native SQLite semantics. Requiring an arbitrary general SQL parser or promising all virtual-table modules would manufacture additional complexity."
+  },
+  "verifier": {
+    "new_contract_cases": 119,
+    "fixed_upstream_regressions": 213,
+    "upstream_test_files": [
+      "tests/test_atomic.py",
+      "tests/test_transform.py",
+      "tests/test_create_table_parser.py",
+      "tests/test_foreign_keys.py"
+    ],
+    "fixture": "tests/conftest.py",
+    "copy_commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "upstream_copies_are_hidden_and_fixed": true,
+    "hypothesis_seed": 130926,
+    "llm_grading": false,
+    "behavioral_evidence": "Combined changes across related tables; trigger/index/view writes after migration; typed conversions and rollback; preserved rowids/high-water marks; composite/cyclic deferrable FKs; exact dry-run/reality reports; source bytes including WAL unchanged during readonly preview; busy writer failure; process death after first rebuild with hot-journal recovery; supported connection modes and pragma restoration."
+  },
+  "horizon": {
+    "status": "unmeasured hypothesis",
+    "model_runs": 0,
+    "model_headroom_established": false,
+    "hypothesis": "Sustained work may arise from coordinating native rename/drop stages, lossless existing column definitions, explicit data conversion, full-table copy identity, dependent object recreation, sequence state, transaction settings, dry-run snapshots and CLI/API behavior. A rename-only patch or ordinary transform wrapper fails concrete composed behavior. Neither test count nor patch length measures agent steps; >=75 steps remains unvalidated."
+  },
+  "construction": {
+    "patch_sha256": "3fe90b8452891507bf208a2c07d40d010e389c820160f590668ba39817b09867",
+    "verifier_sha256": "8672ffa7b22d104754c349f866ec4e058517f47a4108151fbb54a78d3c4fa1ab",
+    "local_validation": "332 passed on Python3.12.13; construction/local-oracle.log",
+    "container": {
+      "image": "abundant-candidate-sqlite-schema-plan:85b1be1",
+      "network": "none",
+      "cpus": 2,
+      "memory_mb": 4096,
+      "python": "3.12.11",
+      "sqlite": "3.40.1",
+      "architecture": "aarch64"
+    },
+    "oracle": {
+      "exit_code": 0,
+      "collected": 332,
+      "outcomes": {
+        "passed": 332,
+        "failed": 0,
+        "skipped": 0,
+        "xfail": 0
+      },
+      "reward": 1
+    },
+    "noop": {
+      "exit_code": 1,
+      "collected": 332,
+      "outcomes": {
+        "passed": 213,
+        "failed": 119,
+        "skipped": 0,
+        "xfail": 0
+      },
+      "reward": 0
+    },
+    "evidence": [
+      "construction/docker-build.log",
+      "construction/runtime.json",
+      "construction/container-oracle.log",
+      "construction/container-oracle/results.xml",
+      "construction/container-oracle/diagnostics.json",
+      "construction/container-noop.log",
+      "construction/container-noop/results.xml",
+      "construction/container-noop/diagnostics.json"
+    ],
+    "harbor_validation": "Current accepted Harbor oracle/nop results and exact revision bindings are maintained in ../../research/shortlist.json; local construction runs below remain historical evidence."
+  },
+  "freshness_audit": {
+    "checked_at": "2026-09-13",
+    "report": "../../research/independent-freshness-audit.md",
+    "primary_responses": "../../research/sources/independent-freshness-pr-details.json",
+    "runtime_unchanged": true,
+    "model_headroom": "unmeasured"
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}

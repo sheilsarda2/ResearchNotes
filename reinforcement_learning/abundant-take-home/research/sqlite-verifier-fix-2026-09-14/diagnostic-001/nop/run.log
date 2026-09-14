@@ -1,0 +1,1319 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF [ 21%]
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.......................... [ 43%]
+........................................................................ [ 65%]
+........................................................................ [ 87%]
+...........................................                              [100%]
+=================================== FAILURES ===================================
+_________________ test_composed_graph_preserves_real_behavior __________________
+/tests/test_schema_plan.py:73: in test_composed_graph_preserves_real_behavior
+    preview=apply(db, plan, dry_run=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5990>>, 'transform_schema', None)
+______________ test_simultaneous_swaps_quoted_names_and_literals _______________
+/tests/test_schema_plan.py:114: in test_simultaneous_swaps_quoted_names_and_literals
+    apply(db, {'odd table':{'rename':{'a':'b','b':'a','quote"col':'semi;colon'},'column_order':['b','quote"col']}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5c60>>, 'transform_schema', None)
+_______________ test_incoming_fk_and_trigger_on_unplanned_table ________________
+/tests/test_schema_plan.py:129: in test_incoming_fk_and_trigger_on_unplanned_table
+    apply(db, {'p':{'rename':{'id':'key','val':'value'},'not_null':{'val':True}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+________________ test_cycle_composite_fk_and_actions_preserved _________________
+/tests/test_schema_plan.py:146: in test_cycle_composite_fk_and_actions_preserved
+    apply(db, {'a':{'rename':{'x':'key'},'column_order':['y']},'b':{'rename':{'ax':'ref'},'column_order':['ay']}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec7c0>>, 'transform_schema', None)
+_ test_hidden_rowids[v TEXT-INSERT INTO t(rowid,v) VALUES(-4,'x'),(42,'y')-expected0] _
+/tests/test_schema_plan.py:161: in test_hidden_rowids
+    apply(db, {'t':{'column_order':[]}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+_ test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1] _
+/tests/test_schema_plan.py:161: in test_hidden_rowids
+    apply(db, {'t':{'column_order':[]}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+_ test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2] _
+/tests/test_schema_plan.py:161: in test_hidden_rowids
+    apply(db, {'t':{'column_order':[]}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+_ test_hidden_rowids[x TEXT, y INTEGER, PRIMARY KEY(x,y)-INSERT INTO t(rowid,x,y) VALUES(122,'a',3)-expected3] _
+/tests/test_schema_plan.py:161: in test_hidden_rowids
+    apply(db, {'t':{'column_order':[]}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+___________ test_empty_autoincrement_highwater_and_unrelated_objects ___________
+/tests/test_schema_plan.py:171: in test_empty_autoincrement_highwater_and_unrelated_objects
+    apply(db, {'t':{'types':{'v':'BLOB'},'strict':True}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee200>>, 'transform_schema', None)
+_______________ test_explicit_conversion[INTEGER-  +1.20e2 -120] _______________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+___________________ test_explicit_conversion[integer--None] ____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b4e50>>, 'transform_schema', None)
+_________________ test_explicit_conversion[INTEGER- \t -None] __________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff885517b0>>, 'transform_schema', None)
+___________________ test_explicit_conversion[INTEGER--2--2] ____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+___________________ test_explicit_conversion[INTEGER-3.0-3] ____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+__ test_explicit_conversion[INTEGER-9223372036854775807-9223372036854775807] ___
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+_ test_explicit_conversion[INTEGER--9223372036854775808--9223372036854775808] __
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+________________ test_explicit_conversion[REAL- .125e+2 -12.5] _________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced030>>, 'transform_schema', None)
+_____________________ test_explicit_conversion[REAL--None] _____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec9a0>>, 'transform_schema', None)
+_____________________ test_explicit_conversion[REAL-2-2.0] _____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec220>>, 'transform_schema', None)
+___________________ test_explicit_conversion[REAL-2.75-2.75] ___________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee980>>, 'transform_schema', None)
+______________ test_explicit_conversion[TEXT-caf\xc3\xa9-caf\xe9] ______________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ceed40>>, 'transform_schema', None)
+_____________________ test_explicit_conversion[TEXT-12-12] _____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5b70>>, 'transform_schema', None)
+____________________ test_explicit_conversion[TEXT-1.5-1.5] ____________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b62f0>>, 'transform_schema', None)
+___________________ test_explicit_conversion[TEXT-NULL-NULL] ___________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff88a464d0>>, 'transform_schema', None)
+______________ test_explicit_conversion[BLOB-caf\xe9-caf\xc3\xa9] ______________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee980>>, 'transform_schema', None)
+_______________ test_explicit_conversion[BLOB-\x00\xff-\x00\xff] _______________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec220>>, 'transform_schema', None)
+_________________ test_explicit_conversion[INTEGER-None-None] __________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec9a0>>, 'transform_schema', None)
+___________________ test_explicit_conversion[REAL-None-None] ___________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced030>>, 'transform_schema', None)
+___________________ test_explicit_conversion[TEXT-None-None] ___________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+___________________ test_explicit_conversion[BLOB-None-None] ___________________
+/tests/test_schema_plan.py:188: in test_explicit_conversion
+    apply(db, {'t':{'types':{'v':target}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-3.2] __________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-1e99] _________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+_ test_conversion_failure_rolls_back_prior_table[INTEGER-9223372036854775808] __
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee2f0>>, 'transform_schema', None)
+__________ test_conversion_failure_rolls_back_prior_table[INTEGER-12] __________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-0x10] _________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b4e50>>, 'transform_schema', None)
+________ test_conversion_failure_rolls_back_prior_table[INTEGER-1_000] _________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff885517b0>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-NaN] __________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-inf] __________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+_________ test_conversion_failure_rolls_back_prior_table[INTEGER-1.25] _________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+___________ test_conversion_failure_rolls_back_prior_table[REAL-NaN] ___________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+________ test_conversion_failure_rolls_back_prior_table[REAL-Infinity] _________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced030>>, 'transform_schema', None)
+__________ test_conversion_failure_rolls_back_prior_table[REAL-1e999] __________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec9a0>>, 'transform_schema', None)
+___________ test_conversion_failure_rolls_back_prior_table[REAL-12] ____________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec220>>, 'transform_schema', None)
+______ test_conversion_failure_rolls_back_prior_table[REAL-\uff11\uff12] _______
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee980>>, 'transform_schema', None)
+__________ test_conversion_failure_rolls_back_prior_table[TEXT-\xff] ___________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ceee30>>, 'transform_schema', None)
+___________ test_conversion_failure_rolls_back_prior_table[BLOB-12] ____________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7d30>>, 'transform_schema', None)
+___________ test_conversion_failure_rolls_back_prior_table[BLOB-1.2] ___________
+/tests/test_schema_plan.py:202: in test_conversion_failure_rolls_back_prior_table
+    error_unchanged(db, {'a':{'rename':{'old':'new'}},'z':{'types':{'v':target}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5990>>, 'transform_schema', None)
+____________________ test_default_values_are_literals[NULL] ____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff88a464d0>>, 'transform_schema', None)
+____________________ test_default_values_are_literals[TRUE] ____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee980>>, 'transform_schema', None)
+_____________ test_default_values_are_literals[CURRENT_TIMESTAMP] ______________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec220>>, 'transform_schema', None)
+__________________ test_default_values_are_literals['quoted'] __________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec9a0>>, 'transform_schema', None)
+__________________ test_default_values_are_literals[foo(bar)] __________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced030>>, 'transform_schema', None)
+____________________ test_default_values_are_literals[a"b] _____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+___________________ test_default_values_are_literals[a\x00b] ___________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+_____________________ test_default_values_are_literals[12] _____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+____________________ test_default_values_are_literals[2.5] _____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+____________________ test_default_values_are_literals[True] ____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cef1f0>>, 'transform_schema', None)
+___________________ test_default_values_are_literals[False] ____________________
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+__________ test_original_defaults_collations_and_constraint_policies ___________
+/tests/test_schema_plan.py:223: in test_original_defaults_collations_and_constraint_policies
+    apply(db, {'t':{'defaults':{'old':None},'not_null':{'n':False},'column_order':['n']}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b4e50>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad0] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff885517b0>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad1] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cede40>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad2] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced8a0>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad3] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced300>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad4] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecf40>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad5] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced030>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad6] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec9a0>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad7] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec220>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad8] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee980>>, 'transform_schema', None)
+_____________________ test_plan_validation_is_atomic[bad9] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cef5b0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad10] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ceec50>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad11] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee7a0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad12] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec8b0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad13] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec7c0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad14] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced120>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad15] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced7b0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad16] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced990>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad17] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cedb70>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad18] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cefa60>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad19] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cef970>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad20] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad21] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff88a466b0>>, 'transform_schema', None)
+____________________ test_plan_validation_is_atomic[bad22] _____________________
+/tests/test_schema_plan.py:244: in test_plan_validation_is_atomic
+    error_unchanged(db,bad)
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5c60>>, 'transform_schema', None)
+_ test_unsupported_selected_schema_rejected[CREATE TABLE t(k INTEGER PRIMARY KEY) WITHOUT ROWID] _
+/tests/test_schema_plan.py:254: in test_unsupported_selected_schema_rejected
+    db=Database(memory=True);db.execute(create);error_unchanged(db,{'t':{}})
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cefa60>>, 'transform_schema', None)
+_ test_unsupported_selected_schema_rejected[CREATE TABLE t(x INTEGER, y INTEGER GENERATED ALWAYS AS(x+1))] _
+/tests/test_schema_plan.py:254: in test_unsupported_selected_schema_rejected
+    db=Database(memory=True);db.execute(create);error_unchanged(db,{'t':{}})
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cedb70>>, 'transform_schema', None)
+_ test_unsupported_selected_schema_rejected[CREATE TABLE t(rowid TEXT,_rowid_ TEXT,oid TEXT)] _
+/tests/test_schema_plan.py:254: in test_unsupported_selected_schema_rejected
+    db=Database(memory=True);db.execute(create);error_unchanged(db,{'t':{}})
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced990>>, 'transform_schema', None)
+_ test_unsupported_selected_schema_rejected[CREATE VIRTUAL TABLE t USING fts5(v)] _
+/tests/test_schema_plan.py:254: in test_unsupported_selected_schema_rejected
+    db=Database(memory=True);db.execute(create);error_unchanged(db,{'t':{}})
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced7b0>>, 'transform_schema', None)
+_ test_drop_dependency_rejected_without_losing_prior_changes[CREATE VIEW v AS SELECT gone FROM z] _
+/tests/test_schema_plan.py:265: in test_drop_dependency_rejected_without_losing_prior_changes
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'drop':['gone']}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced120>>, 'transform_schema', None)
+_ test_drop_dependency_rejected_without_losing_prior_changes[CREATE INDEX ix ON z(gone)] _
+/tests/test_schema_plan.py:265: in test_drop_dependency_rejected_without_losing_prior_changes
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'drop':['gone']}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec7c0>>, 'transform_schema', None)
+_ test_drop_dependency_rejected_without_losing_prior_changes[CREATE INDEX ix ON z(length(gone)) WHERE gone IS NOT NULL] _
+/tests/test_schema_plan.py:265: in test_drop_dependency_rejected_without_losing_prior_changes
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'drop':['gone']}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec8b0>>, 'transform_schema', None)
+_ test_drop_dependency_rejected_without_losing_prior_changes[CREATE TRIGGER tr AFTER INSERT ON z BEGIN SELECT NEW.gone; END] _
+/tests/test_schema_plan.py:265: in test_drop_dependency_rejected_without_losing_prior_changes
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'drop':['gone']}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee7a0>>, 'transform_schema', None)
+_ test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE] _
+/tests/test_schema_plan.py:275: in test_constraint_conversion_does_not_discard_or_replace
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'types':{'v':'INTEGER'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ceec50>>, 'transform_schema', None)
+_ test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE] _
+/tests/test_schema_plan.py:275: in test_constraint_conversion_does_not_discard_or_replace
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'types':{'v':'INTEGER'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff88552980>>, 'transform_schema', None)
+_____ test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)] _____
+/tests/test_schema_plan.py:275: in test_constraint_conversion_does_not_discard_or_replace
+    error_unchanged(db,{'a':{'rename':{'old':'new'}},'z':{'types':{'v':'INTEGER'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87de8400>>, 'transform_schema', None)
+__________ test_unique_index_failure_after_copy_rolls_back_everything __________
+/tests/test_schema_plan.py:281: in test_unique_index_failure_after_copy_rolls_back_everything
+    error_unchanged(db,{'a':{'rename':{'v':'value'}},'z':{'types':{'v':'INTEGER'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cefd30>>, 'transform_schema', None)
+___________________ test_not_null_default_does_not_fill_null ___________________
+/tests/test_schema_plan.py:286: in test_not_null_default_does_not_fill_null
+    error_unchanged(db,{'t':{'not_null':{'v':True},'defaults':{'v':'fallback'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee7a0>>, 'transform_schema', None)
+__________________ test_existing_invalid_foreign_key_rejected __________________
+/tests/test_schema_plan.py:291: in test_existing_invalid_foreign_key_rejected
+    error_unchanged(db,{'p':{}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec8b0>>, 'transform_schema', None)
+__________________ test_conversion_invalidates_fk_rolls_back ___________________
+/tests/test_schema_plan.py:296: in test_conversion_invalidates_fk_rolls_back
+    error_unchanged(db,{'t':{'types':{'f':'INTEGER'}}})
+/tests/test_schema_plan.py:31: in error_unchanged
+    apply(db, plan, **kwargs)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec7c0>>, 'transform_schema', None)
+________ test_caller_transaction_never_committed_or_rolled_back[False] _________
+/tests/test_schema_plan.py:303: in test_caller_transaction_never_committed_or_rolled_back
+    with pytest.raises(TransformError):apply(db,{'t':{'rename':{'v':'w'}}},dry_run=dry_run)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced120>>, 'transform_schema', None)
+_________ test_caller_transaction_never_committed_or_rolled_back[True] _________
+/tests/test_schema_plan.py:303: in test_caller_transaction_never_committed_or_rolled_back
+    with pytest.raises(TransformError):apply(db,{'t':{'rename':{'v':'w'}}},dry_run=dry_run)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced7b0>>, 'transform_schema', None)
+________________ test_connection_settings_restored[False-0-0-0] ________________
+/tests/test_schema_plan.py:316: in test_connection_settings_restored
+    else:apply(db,plan)
+         ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced990>>, 'transform_schema', None)
+________________ test_connection_settings_restored[False-1-0-1] ________________
+/tests/test_schema_plan.py:316: in test_connection_settings_restored
+    else:apply(db,plan)
+         ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cedb70>>, 'transform_schema', None)
+________________ test_connection_settings_restored[False-0-1-1] ________________
+/tests/test_schema_plan.py:316: in test_connection_settings_restored
+    else:apply(db,plan)
+         ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cefa60>>, 'transform_schema', None)
+________________ test_connection_settings_restored[False-1-1-0] ________________
+/tests/test_schema_plan.py:316: in test_connection_settings_restored
+    else:apply(db,plan)
+         ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee110>>, 'transform_schema', None)
+________________ test_connection_settings_restored[True-0-0-0] _________________
+/tests/test_schema_plan.py:315: in test_connection_settings_restored
+    with pytest.raises(TransformError):apply(db,plan)
+                                       ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7d30>>, 'transform_schema', None)
+________________ test_connection_settings_restored[True-1-0-1] _________________
+/tests/test_schema_plan.py:315: in test_connection_settings_restored
+    with pytest.raises(TransformError):apply(db,plan)
+                                       ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87de86d0>>, 'transform_schema', None)
+________________ test_connection_settings_restored[True-0-1-1] _________________
+/tests/test_schema_plan.py:315: in test_connection_settings_restored
+    with pytest.raises(TransformError):apply(db,plan)
+                                       ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b7790>>, 'transform_schema', None)
+________________ test_connection_settings_restored[True-1-1-0] _________________
+/tests/test_schema_plan.py:315: in test_connection_settings_restored
+    with pytest.raises(TransformError):apply(db,plan)
+                                       ^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff880b5c60>>, 'transform_schema', None)
+_________________ test_dry_run_readonly_file_and_wal_snapshot __________________
+/tests/test_schema_plan.py:327: in test_dry_run_readonly_file_and_wal_snapshot
+    preview=apply(reader,{'t':{'types':{'v':'INTEGER'}}},dry_run=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cefa60>>, 'transform_schema', None)
+_____________ test_concurrent_writer_busy_leaves_schema_unchanged ______________
+/tests/test_schema_plan.py:340: in test_concurrent_writer_busy_leaves_schema_unchanged
+    with pytest.raises((TransformError,sqlite3.OperationalError)):apply(db,{'t':{'rename':{'v':'w'}}})
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cef790>>, 'transform_schema', None)
+___________ test_deterministic_late_authorization_failure_rolls_back ___________
+/tests/test_schema_plan.py:352: in test_deterministic_late_authorization_failure_rolls_back
+    with pytest.raises(TransformError):apply(db,{'a':{'rename':{'old':'new'}},'z':{'rename':{'old':'new'}}})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ceee30>>, 'transform_schema', None)
+___________________ test_cli_json_preview_execute_and_error ____________________
+/tests/test_schema_plan.py:363: in test_cli_json_preview_execute_and_error
+    assert preview.exit_code==0,preview.output
+E   AssertionError: Usage: cli query [OPTIONS] PATH SQL
+E     Try 'cli query --help' for help.
+E     
+E     Error: No such option '--dry-run'.
+E     
+E   assert 2 == 0
+E    +  where 2 = <Result SystemExit(2)>.exit_code
+________ test_supported_connection_modes_finish_transaction[None-False] ________
+/tests/test_schema_plan.py:386: in test_supported_connection_modes_finish_transaction
+    with pytest.raises(TransformError):apply(db,{"t":{"types":{"v":"INTEGER"}}})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cee3e0>>, 'transform_schema', None)
+________ test_supported_connection_modes_finish_transaction[None-True] _________
+/tests/test_schema_plan.py:383: in test_supported_connection_modes_finish_transaction
+    apply(db, {"t":{"rename":{"v":"w"}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cedb70>>, 'transform_schema', None)
+______ test_supported_connection_modes_finish_transaction[DEFERRED-False] ______
+/tests/test_schema_plan.py:386: in test_supported_connection_modes_finish_transaction
+    with pytest.raises(TransformError):apply(db,{"t":{"types":{"v":"INTEGER"}}})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced990>>, 'transform_schema', None)
+______ test_supported_connection_modes_finish_transaction[DEFERRED-True] _______
+/tests/test_schema_plan.py:383: in test_supported_connection_modes_finish_transaction
+    apply(db, {"t":{"rename":{"v":"w"}}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87ced7b0>>, 'transform_schema', None)
+_____ test_process_death_between_table_changes_recovers_all_original_state _____
+/tests/test_schema_plan.py:410: in test_process_death_between_table_changes_recovers_all_original_state
+    assert result.returncode==73, result.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 5, in <module>
+E     AssertionError: missing feature
+E     
+E   assert 1 == 73
+E    +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport os, sqlite3, sys\nfrom sqlite_utils import Database\nd...stderr='Traceback (most recent call last):\n  File "<string>", line 5, in <module>\nAssertionError: missing feature\n').returncode
+________ test_constraint_keyword_column_does_not_hide_table_constraint _________
+/tests/test_schema_plan.py:420: in test_constraint_keyword_column_does_not_hide_table_constraint
+    apply(db,{"t":{"column_order":["v"]}})
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cecc70>>, 'transform_schema', None)
+_________________ test_mapping_api_and_dry_run_error_settings __________________
+/tests/test_schema_plan.py:432: in test_mapping_api_and_dry_run_error_settings
+    apply(db,plan)
+/tests/test_schema_plan.py:16: in apply
+    assert callable(getattr(db, 'transform_schema', None)), 'Database.transform_schema is missing'
+E   AssertionError: Database.transform_schema is missing
+E   assert False
+E    +  where False = callable(None)
+E    +    where None = getattr(<Database <sqlite3.Connection object at 0xffff87cec5e0>>, 'transform_schema', None)
+=========================== short test summary info ============================
+FAILED ../../tests/test_schema_plan.py::test_composed_graph_preserves_real_behavior
+FAILED ../../tests/test_schema_plan.py::test_simultaneous_swaps_quoted_names_and_literals
+FAILED ../../tests/test_schema_plan.py::test_incoming_fk_and_trigger_on_unplanned_table
+FAILED ../../tests/test_schema_plan.py::test_cycle_composite_fk_and_actions_preserved
+FAILED ../../tests/test_schema_plan.py::test_hidden_rowids[v TEXT-INSERT INTO t(rowid,v) VALUES(-4,'x'),(42,'y')-expected0]
+FAILED ../../tests/test_schema_plan.py::test_hidden_rowids[rowid TEXT, v TEXT-INSERT INTO t(_rowid_,rowid,v) VALUES(61,'named','x')-expected1]
+FAILED ../../tests/test_schema_plan.py::test_hidden_rowids[id INTEGER PRIMARY KEY DESC, v TEXT-INSERT INTO t(rowid,id,v) VALUES(91,4,'x')-expected2]
+FAILED ../../tests/test_schema_plan.py::test_hidden_rowids[x TEXT, y INTEGER, PRIMARY KEY(x,y)-INSERT INTO t(rowid,x,y) VALUES(122,'a',3)-expected3]
+FAILED ../../tests/test_schema_plan.py::test_empty_autoincrement_highwater_and_unrelated_objects
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER-  +1.20e2 -120]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[integer--None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER- \t -None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER--2--2]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER-3.0-3]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER-9223372036854775807-9223372036854775807]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER--9223372036854775808--9223372036854775808]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[REAL- .125e+2 -12.5]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[REAL--None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[REAL-2-2.0]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[REAL-2.75-2.75]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[TEXT-caf\xc3\xa9-caf\xe9]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[TEXT-12-12]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[TEXT-1.5-1.5]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[TEXT-NULL-NULL]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[BLOB-caf\xe9-caf\xc3\xa9]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[BLOB-\x00\xff-\x00\xff]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[INTEGER-None-None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[REAL-None-None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[TEXT-None-None]
+FAILED ../../tests/test_schema_plan.py::test_explicit_conversion[BLOB-None-None]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-3.2]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-1e99]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-9223372036854775808]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-12]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-0x10]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-1_000]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-NaN]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-inf]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[INTEGER-1.25]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[REAL-NaN]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[REAL-Infinity]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[REAL-1e999]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[REAL-12]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[REAL-\uff11\uff12]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[TEXT-\xff]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[BLOB-12]
+FAILED ../../tests/test_schema_plan.py::test_conversion_failure_rolls_back_prior_table[BLOB-1.2]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[NULL]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[TRUE]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[CURRENT_TIMESTAMP]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals['quoted']
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[foo(bar)]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[a"b]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[a\x00b]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[12]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[2.5]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[True]
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[False]
+FAILED ../../tests/test_schema_plan.py::test_original_defaults_collations_and_constraint_policies
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad0]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad1]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad2]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad3]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad4]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad5]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad6]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad7]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad8]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad9]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad10]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad11]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad12]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad13]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad14]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad15]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad16]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad17]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad18]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad19]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad20]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad21]
+FAILED ../../tests/test_schema_plan.py::test_plan_validation_is_atomic[bad22]
+FAILED ../../tests/test_schema_plan.py::test_unsupported_selected_schema_rejected[CREATE TABLE t(k INTEGER PRIMARY KEY) WITHOUT ROWID]
+FAILED ../../tests/test_schema_plan.py::test_unsupported_selected_schema_rejected[CREATE TABLE t(x INTEGER, y INTEGER GENERATED ALWAYS AS(x+1))]
+FAILED ../../tests/test_schema_plan.py::test_unsupported_selected_schema_rejected[CREATE TABLE t(rowid TEXT,_rowid_ TEXT,oid TEXT)]
+FAILED ../../tests/test_schema_plan.py::test_unsupported_selected_schema_rejected[CREATE VIRTUAL TABLE t USING fts5(v)]
+FAILED ../../tests/test_schema_plan.py::test_drop_dependency_rejected_without_losing_prior_changes[CREATE VIEW v AS SELECT gone FROM z]
+FAILED ../../tests/test_schema_plan.py::test_drop_dependency_rejected_without_losing_prior_changes[CREATE INDEX ix ON z(gone)]
+FAILED ../../tests/test_schema_plan.py::test_drop_dependency_rejected_without_losing_prior_changes[CREATE INDEX ix ON z(length(gone)) WHERE gone IS NOT NULL]
+FAILED ../../tests/test_schema_plan.py::test_drop_dependency_rejected_without_losing_prior_changes[CREATE TRIGGER tr AFTER INSERT ON z BEGIN SELECT NEW.gone; END]
+FAILED ../../tests/test_schema_plan.py::test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT IGNORE]
+FAILED ../../tests/test_schema_plan.py::test_constraint_conversion_does_not_discard_or_replace[UNIQUE ON CONFLICT REPLACE]
+FAILED ../../tests/test_schema_plan.py::test_constraint_conversion_does_not_discard_or_replace[CHECK(v < 2)]
+FAILED ../../tests/test_schema_plan.py::test_unique_index_failure_after_copy_rolls_back_everything
+FAILED ../../tests/test_schema_plan.py::test_not_null_default_does_not_fill_null
+FAILED ../../tests/test_schema_plan.py::test_existing_invalid_foreign_key_rejected
+FAILED ../../tests/test_schema_plan.py::test_conversion_invalidates_fk_rolls_back
+FAILED ../../tests/test_schema_plan.py::test_caller_transaction_never_committed_or_rolled_back[False]
+FAILED ../../tests/test_schema_plan.py::test_caller_transaction_never_committed_or_rolled_back[True]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[False-0-0-0]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[False-1-0-1]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[False-0-1-1]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[False-1-1-0]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[True-0-0-0]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[True-1-0-1]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[True-0-1-1]
+FAILED ../../tests/test_schema_plan.py::test_connection_settings_restored[True-1-1-0]
+FAILED ../../tests/test_schema_plan.py::test_dry_run_readonly_file_and_wal_snapshot
+FAILED ../../tests/test_schema_plan.py::test_concurrent_writer_busy_leaves_schema_unchanged
+FAILED ../../tests/test_schema_plan.py::test_deterministic_late_authorization_failure_rolls_back
+FAILED ../../tests/test_schema_plan.py::test_cli_json_preview_execute_and_error
+FAILED ../../tests/test_schema_plan.py::test_supported_connection_modes_finish_transaction[None-False]
+FAILED ../../tests/test_schema_plan.py::test_supported_connection_modes_finish_transaction[None-True]
+FAILED ../../tests/test_schema_plan.py::test_supported_connection_modes_finish_transaction[DEFERRED-False]
+FAILED ../../tests/test_schema_plan.py::test_supported_connection_modes_finish_transaction[DEFERRED-True]
+FAILED ../../tests/test_schema_plan.py::test_process_death_between_table_changes_recovers_all_original_state
+FAILED ../../tests/test_schema_plan.py::test_constraint_keyword_column_does_not_hide_table_constraint
+FAILED ../../tests/test_schema_plan.py::test_mapping_api_and_dry_run_error_settings
+118 failed, 213 passed in 1.47s

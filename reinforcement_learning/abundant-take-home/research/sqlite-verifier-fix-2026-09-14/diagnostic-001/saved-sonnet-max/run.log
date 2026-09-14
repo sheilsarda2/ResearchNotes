@@ -1,0 +1,36 @@
+.....................................................F.................. [ 21%]
+........................................................................ [ 43%]
+........................................................................ [ 65%]
+........................................................................ [ 87%]
+...........................................                              [100%]
+=================================== FAILURES ===================================
+___________________ test_default_values_are_literals[a\x00b] ___________________
+sqlite_utils/schema_transform.py:751: in _rebuild_table
+    db.execute(create_sql)
+sqlite_utils/db.py:967: in execute
+    cursor = self.conn.execute(sql)
+             ^^^^^^^^^^^^^^^^^^^^^^
+E   sqlite3.ProgrammingError: the query contains a null character
+
+The above exception was the direct cause of the following exception:
+/tests/test_schema_plan.py:208: in test_default_values_are_literals
+    apply(db, {'t':{'defaults':{'v':literal}}})
+/tests/test_schema_plan.py:17: in apply
+    return db.transform_schema(plan, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite_utils/db.py:2116: in transform_schema
+    return _transform_schema(self, plan, dry_run=dry_run)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite_utils/schema_transform.py:998: in transform_schema
+    return _run(db, plan)
+           ^^^^^^^^^^^^^^
+sqlite_utils/schema_transform.py:945: in _run
+    _apply_rebuilds(db, table_plans)
+sqlite_utils/schema_transform.py:851: in _apply_rebuilds
+    _rebuild_table(db, plan)
+sqlite_utils/schema_transform.py:753: in _rebuild_table
+    raise TransformError(
+E   sqlite_utils.db.TransformError: Could not rebuild table 't': the query contains a null character
+=========================== short test summary info ============================
+FAILED ../../tests/test_schema_plan.py::test_default_values_are_literals[a\x00b]
+1 failed, 330 passed in 0.77s

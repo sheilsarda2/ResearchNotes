@@ -1,0 +1,11 @@
+--- a/tests/test_schema_plan.py
++++ b/tests/test_schema_plan.py
+@@ -231,7 +231,7 @@
+ 
+ 
+ @pytest.mark.parametrize('bad',[{},[],{'missing':{}},{'t':{'typo':{}}},{'T':{},'t':{}},
+- {'t':{'rename':{'v':'id'}}},{'t':{'rename':{'v':''}}},{'t':{'rename':{'v':12}}},
++ {'t':{'rename':{'v':'id'}}},{'t':{'rename':{'v':12}}},
+  {'t':{'types':{'v':'NUMERIC'}}},{'t':{'types':{'v':[]}}},{'t':{'types':{'id':'INTEGER'}}},
+  {'t':{'not_null':{'id':True}}},{'t':{'not_null':{'v':1}}},{'t':{'strict':1}},
+  {'t':{'defaults':{'v':{}}}},{'t':{'defaults':{'v':float('inf')}}},{'t':{'drop':['v','V']}},
