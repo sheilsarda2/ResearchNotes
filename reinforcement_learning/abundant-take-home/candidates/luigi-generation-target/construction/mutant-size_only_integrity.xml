@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="8" time="0.087" timestamp="2026-09-13T00:27:37.944157-07:00" hostname="Mac.hsd1.ca.comcast.net"><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[bytes]" time="0.004"><failure message="assert not True&#10; +  where True = exists()&#10; +    where exists = &lt;luigi.generation_target.LocalGenerationTarget object at 0x108d9b0b0&gt;.exists">target = &lt;luigi.generation_target.LocalGenerationTarget object at 0x108d9b0b0&gt;
+damage = 'bytes'
+
+    @pytest.mark.parametrize("damage", ["bytes", "missing", "manifest", "bool_size", "version", "duplicate_json", "mapping"])
+    def test_corruption_never_completes(target, damage):
+        publish(target)
+        with target.snapshot() as snapshot:
+            member_path = Path(snapshot.path("rows"))
+            manifest_path = Path(snapshot.manifest_path)
+            manifest = snapshot.manifest
+        if damage == "bytes":
+            member_path.write_bytes(b"omega")  # same length as alpha; size-only checks are inadequate.
+        elif damage == "missing":
+            member_path.unlink()
+        elif damage == "manifest":
+            manifest_path.write_text("{")
+        elif damage == "duplicate_json":
+            manifest_path.write_text('{"version":1,"version":1}')
+        elif damage == "bool_size":
+            manifest["members"]["rows"]["size"] = True
+            manifest_path.write_text(json.dumps(manifest))
+        elif damage == "version":
+            manifest["version"] = 99
+            manifest_path.write_text(json.dumps(manifest))
+        else:
+            target = luigi.LocalGenerationTarget(target.path, {"rows": "different", "metadata": "metadata.json"})
+&gt;       assert not target.exists()
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = &lt;luigi.generation_target.LocalGenerationTarget object at 0x108d9b0b0&gt;.exists
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:423: AssertionError</failure></testcase><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[missing]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[manifest]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[bool_size]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[version]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[duplicate_json]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_corruption_never_completes[mapping]" time="0.003" /><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_snapshot_revalidates_member_after_opening" time="0.003"><failure message="Failed: DID NOT RAISE &lt;class 'luigi.generation_target.GenerationIntegrityError'&gt;">target = &lt;luigi.generation_target.LocalGenerationTarget object at 0x1092e4290&gt;
+
+    def test_snapshot_revalidates_member_after_opening(target):
+        publish(target)
+        with target.snapshot() as snapshot:
+            Path(snapshot.path("rows")).write_bytes(b"omega")
+&gt;           with pytest.raises(luigi.GenerationIntegrityError, match="rows|rows.bin"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE &lt;class 'luigi.generation_target.GenerationIntegrityError'&gt;
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:432: Failed</failure></testcase></testsuite></testsuites>

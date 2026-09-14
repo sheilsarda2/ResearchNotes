@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.214" timestamp="2026-09-13T08:09:13.911364+00:00" hostname="fc8ca5690bc7"><testcase classname="test_generation_target" name="test_unrelated_io_errors_propagate" time="0.078"><failure message="AssertionError: ('', 'Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 14, in &lt;module&gt;&#10;  AssertionError: unreadable pointer was treated as absence or success&#10;  ')&#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport hashlib, json, os, sys\nimport luigi\nt = luigi.LocalG...st):\n  File &quot;&lt;string&gt;&quot;, line 14, in &lt;module&gt;\nAssertionError: unreadable pointer was treated as absence or success\n').returncode">target = &lt;luigi.generation_target.LocalGenerationTarget object at 0xffff81c533b0&gt;
+
+    def test_unrelated_io_errors_propagate(target):
+        # Use an OS permission boundary, independent of the Python file-opening API.
+        with tempfile.TemporaryDirectory(prefix="generation-permission-") as directory:
+            protected = luigi.LocalGenerationTarget(Path(directory) / "store", MEMBERS)
+            publish(protected)
+            root = Path(directory)
+            root.chmod(0o777)
+            for path in root.rglob("*"):
+                path.chmod(0o777 if path.is_dir() else 0o666)
+            pointer = Path(protected.path) / "CURRENT"
+            pointer.chmod(0)
+            code = PRELUDE + """
+    try:
+        t.exists()
+    except PermissionError:
+        print("permission propagated")
+    else:
+        raise AssertionError("unreadable pointer was treated as absence or success")
+    """
+            credentials = {"user": 65534, "group": 65534, "extra_groups": []} if os.geteuid() == 0 else {}
+            try:
+                result = subprocess.run([sys.executable, "-c", code, protected.path],
+                                        capture_output=True, text=True, timeout=20,
+                                        env=os.environ.copy(), **credentials)
+&gt;               assert result.returncode == 0, (result.stdout, result.stderr)
+E               AssertionError: ('', 'Traceback (most recent call last):
+E                   File "&lt;string&gt;", line 14, in &lt;module&gt;
+E                 AssertionError: unreadable pointer was treated as absence or success
+E                 ')
+E               assert 1 == 0
+E                +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport hashlib, json, os, sys\nimport luigi\nt = luigi.LocalG...st):\n  File "&lt;string&gt;", line 14, in &lt;module&gt;\nAssertionError: unreadable pointer was treated as absence or success\n').returncode
+
+/tests/test_generation_target.py:509: AssertionError</failure></testcase></testsuite></testsuites>

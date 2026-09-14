@@ -1,0 +1,83 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______________ test_snapshot_pins_survive_publication_and_prune _______________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x10b10d130>
+
+    def test_snapshot_pins_survive_publication_and_prune(target):
+        first = publish(target, b"old")
+        snapshot = target.snapshot()
+        old_path = snapshot.path("rows")
+        second = publish(target, b"middle")
+        third = publish(target, b"latest")
+        assert second in target.prune(keep=0)
+        assert first not in target.prune(keep=0)
+>       with snapshot.open("rows", "rb") as stream:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:292: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+luigi/generation_target.py:460: in open
+    path = self.path(name)
+           ^^^^^^^^^^^^^^^
+luigi/generation_target.py:455: in path
+    return _member_path(os.path.join(self.directory, "data"), self.target._members[name])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+luigi/generation_target.py:103: in _member_path
+    _directory(base)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = '/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-155/test_snapshot_pins_survive_pub0/store/generations/7d2d579892b7447c9c018ccf2c3d7f7f/data'
+create = False
+
+    def _directory(path, create=False):
+        if create:
+            try:
+                os.mkdir(path)
+            except FileExistsError:
+                pass
+>       if not stat.S_ISDIR(os.lstat(path).st_mode):
+                            ^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-155/test_snapshot_pins_survive_pub0/store/generations/7d2d579892b7447c9c018ccf2c3d7f7f/data'
+
+luigi/generation_target.py:42: FileNotFoundError
+__________________ test_reader_pin_released_by_process_death ___________________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x10abf7c50>
+
+    def test_reader_pin_released_by_process_death(target):
+        old = publish(target)
+        code = PRELUDE + '''
+    s = t.snapshot()
+    print(s.generation, flush=True)
+    sys.stdin.readline()
+    '''
+        p = child(code, target.path)
+        try:
+            assert line(p) == old
+            publish(target, b"new")
+>           assert old not in target.prune(keep=0)
+E           AssertionError: assert '9380833449764a4db8230bc4263716da' not in ['9380833449764a4db8230bc4263716da']
+E            +  where ['9380833449764a4db8230bc4263716da'] = prune(keep=0)
+E            +    where prune = <luigi.generation_target.LocalGenerationTarget object at 0x10abf7c50>.prune
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:322: AssertionError
+=============================== warnings summary ===============================
+luigi/__init__.py:156
+  /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/cache/luigi-generation-target-work/luigi/__init__.py:156: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/luigi-generation-target/construction/mutant-reader_pins_removed.xml -
+=========================== short test summary info ============================
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_snapshot_pins_survive_publication_and_prune
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_reader_pin_released_by_process_death
+2 failed, 46 deselected, 1 warning in 0.16s

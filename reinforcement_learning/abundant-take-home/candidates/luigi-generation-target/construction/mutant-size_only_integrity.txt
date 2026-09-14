@@ -1,0 +1,68 @@
+F......F                                                                 [100%]
+=================================== FAILURES ===================================
+____________________ test_corruption_never_completes[bytes] ____________________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x108d9b0b0>
+damage = 'bytes'
+
+    @pytest.mark.parametrize("damage", ["bytes", "missing", "manifest", "bool_size", "version", "duplicate_json", "mapping"])
+    def test_corruption_never_completes(target, damage):
+        publish(target)
+        with target.snapshot() as snapshot:
+            member_path = Path(snapshot.path("rows"))
+            manifest_path = Path(snapshot.manifest_path)
+            manifest = snapshot.manifest
+        if damage == "bytes":
+            member_path.write_bytes(b"omega")  # same length as alpha; size-only checks are inadequate.
+        elif damage == "missing":
+            member_path.unlink()
+        elif damage == "manifest":
+            manifest_path.write_text("{")
+        elif damage == "duplicate_json":
+            manifest_path.write_text('{"version":1,"version":1}')
+        elif damage == "bool_size":
+            manifest["members"]["rows"]["size"] = True
+            manifest_path.write_text(json.dumps(manifest))
+        elif damage == "version":
+            manifest["version"] = 99
+            manifest_path.write_text(json.dumps(manifest))
+        else:
+            target = luigi.LocalGenerationTarget(target.path, {"rows": "different", "metadata": "metadata.json"})
+>       assert not target.exists()
+E       assert not True
+E        +  where True = exists()
+E        +    where exists = <luigi.generation_target.LocalGenerationTarget object at 0x108d9b0b0>.exists
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:423: AssertionError
+________________ test_snapshot_revalidates_member_after_opening ________________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x1092e4290>
+
+    def test_snapshot_revalidates_member_after_opening(target):
+        publish(target)
+        with target.snapshot() as snapshot:
+            Path(snapshot.path("rows")).write_bytes(b"omega")
+>           with pytest.raises(luigi.GenerationIntegrityError, match="rows|rows.bin"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE <class 'luigi.generation_target.GenerationIntegrityError'>
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:432: Failed
+=============================== warnings summary ===============================
+luigi/__init__.py:156
+  /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/cache/luigi-generation-target-work/luigi/__init__.py:156: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/luigi-generation-target/construction/mutant-size_only_integrity.xml -
+=========================== short test summary info ============================
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_corruption_never_completes[bytes]
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_snapshot_revalidates_member_after_opening
+2 failed, 6 passed, 40 deselected, 1 warning in 0.09s

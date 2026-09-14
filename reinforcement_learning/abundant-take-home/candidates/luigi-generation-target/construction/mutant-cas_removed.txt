@@ -1,0 +1,61 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________________ test_explicit_none_and_stale_compare_and_swap _________________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x1070c25a0>
+
+    def test_explicit_none_and_stale_compare_and_swap(target):
+        first = publish(target, expected=None)
+>       with pytest.raises(luigi.GenerationConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'luigi.generation_target.GenerationConflictError'>
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:226: Failed
+_______________ test_two_process_writers_capture_same_generation _______________
+
+target = <luigi.generation_target.LocalGenerationTarget object at 0x107223fe0>
+
+    def test_two_process_writers_capture_same_generation(target):
+        publish(target)
+        code = PRELUDE + '''
+    try:
+        with t.write() as w:
+            fill(w, sys.argv[2].encode())
+            print("READY", flush=True)
+            sys.stdin.readline()
+        print("COMMITTED", flush=True)
+    except luigi.GenerationConflictError:
+        print("CONFLICT", flush=True)
+    '''
+        processes = [child(code, target.path, label) for label in ("winner", "loser")]
+        try:
+            assert [line(p) for p in processes] == ["READY", "READY"]
+            processes[0].stdin.write("go\n"); processes[0].stdin.flush()
+            assert line(processes[0]) == "COMMITTED"
+            processes[1].stdin.write("go\n"); processes[1].stdin.flush()
+>           assert line(processes[1]) == "CONFLICT"
+E           AssertionError: assert 'COMMITTED' == 'CONFLICT'
+E             
+E             - CONFLICT
+E             + COMMITTED
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:274: AssertionError
+=============================== warnings summary ===============================
+luigi/__init__.py:156
+  /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/cache/luigi-generation-target-work/luigi/__init__.py:156: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/luigi-generation-target/construction/mutant-cas_removed.xml -
+=========================== short test summary info ============================
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_explicit_none_and_stale_compare_and_swap
+FAILED ../../../candidates/luigi-generation-target/tests/test_generation_target.py::test_two_process_writers_capture_same_generation
+2 failed, 46 deselected, 1 warning in 0.17s

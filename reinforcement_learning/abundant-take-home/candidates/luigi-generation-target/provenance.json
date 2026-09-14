@@ -1,0 +1,179 @@
+{
+  "task_id": "luigi-generation-target",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/spotify/luigi",
+    "commit": "715f65c4a56a908ef0a1df4df6fc33b8420e2e6c",
+    "commit_date": "2026-07-18",
+    "license": "Apache-2.0"
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "01870f93d481d0126ec57ef5b04a31f64abc70c5b6603ac40778e73837d68758",
+    "clean_git_archive": true
+  },
+  "golden_patch": {
+    "path": "solution/changes.patch",
+    "sha256": "3d3384b439ac9b8d53b80d2ccc269f7a090b1caff0dae283ba873b80278652ab",
+    "files": [
+      "luigi/__init__.py",
+      "luigi/generation_target.py",
+      "doc/tasks.rst",
+      "doc/local_generations.rst"
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/doc/tasks.rst#L55-L62",
+      "checked": "2026-09-13",
+      "finding": "Upstream documents loss of atomicity with multiple targets."
+    },
+    {
+      "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/local_target.py#L34-L43",
+      "checked": "2026-09-13",
+      "finding": "Local atomic writer replaces one file."
+    },
+    {
+      "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/target.py#L269-L304",
+      "checked": "2026-09-13",
+      "finding": "Existing temporary_path stages one target; no immutable generations, pins, integrity manifests or CAS publication."
+    }
+  ],
+  "original_contribution": "New opt-in collection target with immutable generations, integrity manifests, explicit publication boundary, captured-base CAS, pinned snapshots, process-death-safe staging leases and retention/pruning, integrated with real Luigi task completion and consumers.",
+  "public_solution_overlap": {
+    "assessment": "Existing per-file and directory staging are adjacent prior art. No matching full contract found in bounded source/documentation/web and issue searches; not a universal absence claim. Expanded GitHub issue search was rate limited.",
+    "research_details": "../../research/workflow-sources.json"
+  },
+  "validation": {
+    "docker_image": "abundant-luigi-generation-target:dev",
+    "python": "3.12.11",
+    "network": "none during verifier",
+    "limits": {
+      "cpus": 2,
+      "memory": "4g"
+    },
+    "oracle": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "untouched_baseline": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 48,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "mutants": [
+      {
+        "mutant": "cas_removed",
+        "exit_code": 1,
+        "tests": 2,
+        "failures": 2,
+        "errors": 0
+      },
+      {
+        "mutant": "size_only_integrity",
+        "exit_code": 1,
+        "tests": 8,
+        "failures": 2,
+        "errors": 0
+      },
+      {
+        "mutant": "reader_pins_removed",
+        "exit_code": 1,
+        "tests": 2,
+        "failures": 2,
+        "errors": 0
+      }
+    ],
+    "harbor_oracle_nop": "Pending parent integration; direct Docker oracle and baseline completed.",
+    "pre_measurement_audit_construction": {
+      "oracle": {
+        "tests": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1,
+        "report": "construction/docker-oracle/results.xml"
+      },
+      "untouched_baseline": {
+        "tests": 57,
+        "failures": 0,
+        "errors": 48,
+        "skipped": 0,
+        "reward": 0,
+        "report": "construction/docker-baseline/results.xml"
+      }
+    }
+  },
+  "horizon": {
+    "at_least_75_steps": "hypothesis only",
+    "basis": "Interacting state publication, cross-process CAS, integrity validation, pin lifecycle, retention and crash recovery; not inferred solely from code length.",
+    "measured_model_headroom": null,
+    "paid_model_trials_run": false
+  },
+  "limitations": [
+    "POSIX local filesystem scope; no network filesystem or Windows guarantee.",
+    "Callers must close snapshots or exit their process; automatic GC cleanup is not required.",
+    "No guarantee against adversarial concurrent directory-entry replacement between syscalls.",
+    "A failed publication call may already have committed if failure follows atomic CURRENT replacement, as explicitly documented."
+  ],
+  "measurement_audit": {
+    "date": "2026-09-13",
+    "report": "construction/measurement-audit/report.md",
+    "results": "construction/measurement-audit/results.json",
+    "changes": [
+      "Replaced os.open-only monkeypatching with actual POSIX mode-bit denial. A separate reader drops root credentials when necessary, so imported os.open aliases, builtins.open and pathlib readers encounter the same permission boundary.",
+      "No public requirements or golden source changed."
+    ],
+    "current_oracle": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "current_untouched_baseline": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 48,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "valid_variants": {
+      "open-alias": {
+        "tests": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/open-alias/results.xml",
+        "reward": 1
+      },
+      "pathlib-reader": {
+        "tests": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/pathlib-reader/results.xml",
+        "reward": 1
+      }
+    },
+    "affected_negative_controls": {
+      "mutant-swallow-permission": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/mutant-swallow-permission/results.xml"
+      }
+    }
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}

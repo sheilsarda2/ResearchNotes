@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-13",
+  "status": "complete",
+  "scope": "Verifier false-negative audit; no golden source changes or paid model runs.",
+  "runtime": "Fresh Python 3.12.11 Docker containers, network none, 2 CPUs, 4 GiB RAM.",
+  "changes": [
+    "Replaced os.open-only monkeypatching with actual POSIX mode-bit denial. A separate reader drops root credentials when necessary, so imported os.open aliases, builtins.open and pathlib readers encounter the same permission boundary.",
+    "No public requirements or golden source changed."
+  ],
+  "results": {
+    "baseline": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 48,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "mutant-swallow-permission": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/mutant-swallow-permission/results.xml"
+    },
+    "open-alias": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/open-alias/results.xml",
+      "reward": 1
+    },
+    "oracle": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "pathlib-reader": {
+      "tests": 57,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/pathlib-reader/results.xml",
+      "reward": 1
+    }
+  },
+  "artifact_sha256": {
+    "instruction.md": "5ab4ed2b26a4708a6e23c4e80219f5ee9451b5f1fb8ea9ffc9a0f4144bf9ac6f",
+    "tests/test.sh": "8458ef2846c60aa5e09316f75e06f9f177fe5f320bfef56ae41c638b9a4a4173",
+    "tests/test_generation_target.py": "3bdb67dfdc3536dd381697a9040d36284e5bbc500d1ab8e0985716057bbaa6e4"
+  },
+  "whole_task_frozen_after_this_report": true
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.164" timestamp="2026-09-13T00:27:37.508764-07:00" hostname="Mac.hsd1.ca.comcast.net"><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_explicit_none_and_stale_compare_and_swap" time="0.005"><failure message="Failed: DID NOT RAISE &lt;class 'luigi.generation_target.GenerationConflictError'&gt;">target = &lt;luigi.generation_target.LocalGenerationTarget object at 0x1070c25a0&gt;
+
+    def test_explicit_none_and_stale_compare_and_swap(target):
+        first = publish(target, expected=None)
+&gt;       with pytest.raises(luigi.GenerationConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'luigi.generation_target.GenerationConflictError'&gt;
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:226: Failed</failure></testcase><testcase classname="candidates.luigi-generation-target.tests.test_generation_target" name="test_two_process_writers_capture_same_generation" time="0.086"><failure message="AssertionError: assert 'COMMITTED' == 'CONFLICT'&#10;  &#10;  - CONFLICT&#10;  + COMMITTED">target = &lt;luigi.generation_target.LocalGenerationTarget object at 0x107223fe0&gt;
+
+    def test_two_process_writers_capture_same_generation(target):
+        publish(target)
+        code = PRELUDE + '''
+    try:
+        with t.write() as w:
+            fill(w, sys.argv[2].encode())
+            print("READY", flush=True)
+            sys.stdin.readline()
+        print("COMMITTED", flush=True)
+    except luigi.GenerationConflictError:
+        print("CONFLICT", flush=True)
+    '''
+        processes = [child(code, target.path, label) for label in ("winner", "loser")]
+        try:
+            assert [line(p) for p in processes] == ["READY", "READY"]
+            processes[0].stdin.write("go\n"); processes[0].stdin.flush()
+            assert line(processes[0]) == "COMMITTED"
+            processes[1].stdin.write("go\n"); processes[1].stdin.flush()
+&gt;           assert line(processes[1]) == "CONFLICT"
+E           AssertionError: assert 'COMMITTED' == 'CONFLICT'
+E             
+E             - CONFLICT
+E             + COMMITTED
+
+../../../candidates/luigi-generation-target/tests/test_generation_target.py:274: AssertionError</failure></testcase></testsuite></testsuites>
