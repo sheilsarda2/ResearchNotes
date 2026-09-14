@@ -1,0 +1,175 @@
+   Compiling zenoh-protocol v1.9.0 (/workspace/build/commons/zenoh-protocol)
+   Compiling zenoh v1.9.0 (/workspace/build/zenoh)
+   Compiling zenoh-codec v1.9.0 (/workspace/build/commons/zenoh-codec)
+   Compiling zenoh-config v1.9.0 (/workspace/build/commons/zenoh-config)
+   Compiling zenoh-link-commons v1.9.0 (/workspace/build/io/zenoh-link-commons)
+   Compiling zenoh-plugin-trait v1.9.0 (/workspace/build/plugins/zenoh-plugin-trait)
+   Compiling zenoh-link-quic_datagram v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic_datagram)
+   Compiling zenoh-link-unixsock_stream v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-unixsock_stream)
+   Compiling zenoh-link-udp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-udp)
+   Compiling zenoh-link-quic v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-quic)
+   Compiling zenoh-link-tls v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tls)
+   Compiling zenoh-link-ws v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-ws)
+   Compiling zenoh-link-tcp v1.9.0 (/workspace/build/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link v1.9.0 (/workspace/build/io/zenoh-link)
+   Compiling zenoh-transport v1.9.0 (/workspace/build/io/zenoh-transport)
+   Compiling zenoh-test v1.9.0 (/workspace/build/commons/zenoh-test)
+error[E0432]: unresolved import `zenoh::timestamp_stack`
+  --> zenoh/tests/ts_interop.rs:25:5
+   |
+25 |     timestamp_stack::{
+   |     ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `zenoh`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/ts_interop.rs:312:10
+    |
+310 |       ztimeout!(publisher
+    |  _______________-
+311 | |         .put("one")
+312 | |         .timestamp_instrumentation(instr(true, false, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/ts_interop.rs:323:10
+    |
+321 |       ztimeout!(publisher
+    |  _______________-
+322 | |         .put("two")
+323 | |         .timestamp_instrumentation(instr(true, true, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/ts_interop.rs:340:10
+    |
+338 |       ztimeout!(publisher
+    |  _______________-
+339 | |         .delete()
+340 | |         .timestamp_instrumentation(instr(false, true, false)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderDelete>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:378:24
+    |
+378 |     let stack = sample.timestamp_stack().expect("stack from reference peer");
+    |                        ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+378 -     let stack = sample.timestamp_stack().expect("stack from reference peer");
+378 +     let stack = sample.timestamp().expect("stack from reference peer");
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:408:24
+    |
+408 |     let stack = sample.timestamp_stack().expect("stack with custom record");
+    |                        ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+408 -     let stack = sample.timestamp_stack().expect("stack with custom record");
+408 +     let stack = sample.timestamp().expect("stack with custom record");
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:434:20
+    |
+434 |     assert!(sample.timestamp_stack().is_none());
+    |                    ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+434 -     assert!(sample.timestamp_stack().is_none());
+434 +     assert!(sample.timestamp().is_none());
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `PublicationBuilder<P, T>` in the current scope
+   --> zenoh/tests/ts_interop.rs:460:10
+    |
+458 |       ztimeout!(publisher
+    |  _______________-
+459 | |         .put("payload")
+460 | |         .timestamp_instrumentation(instr(true, true, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:463:24
+    |
+463 |     let stack = sample.timestamp_stack().expect("routed stack");
+    |                        ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+463 -     let stack = sample.timestamp_stack().expect("routed stack");
+463 +     let stack = sample.timestamp().expect("routed stack");
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:480:10
+    |
+478 |       let replies = ztimeout!(client1
+    |  _____________________________-
+479 | |         .get(ke)
+480 | |         .timestamp_instrumentation(instr(true, true, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+   --> zenoh/tests/ts_interop.rs:483:24
+    |
+483 |     let qstack = query.timestamp_stack().expect("routed query stack");
+    |                        ^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:630:10
+    |
+628 |       let replies = ztimeout!(session
+    |  _____________________________-
+629 | |         .get(ke)
+630 | |         .timestamp_instrumentation(instr(true, false, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for reference `&Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:656:47
+    |
+656 |     assert!(reply.result().expect("ok reply").timestamp_stack().is_none());
+    |                                               ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+656 -     assert!(reply.result().expect("ok reply").timestamp_stack().is_none());
+656 +     assert!(reply.result().expect("ok reply").timestamp().is_none());
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:675:10
+    |
+673 |       let replies = ztimeout!(session2
+    |  _____________________________-
+674 | |         .get(&ke_err)
+675 | |         .timestamp_instrumentation(instr(true, false, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+   --> zenoh/tests/ts_interop.rs:712:24
+    |
+712 |     let qstack = query.timestamp_stack().expect("query stack from reference peer");
+    |                        ^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+
+Some errors have detailed explanations: E0432, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (test "ts_interop") due to 15 previous errors
+warning: build failed, waiting for other jobs to finish...

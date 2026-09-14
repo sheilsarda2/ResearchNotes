@@ -1,0 +1,27 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.47s
+     Running tests/advanced.rs (target/debug/deps/advanced-4dacc2b32e53faa9)
+
+running 11 tests
+test advanced_subscriber_does_not_prevent_session_to_be_closed_when_dropped ... ok
+test advanced_subscriber_is_closed_with_the_session ... ok
+test test_advanced_history ... ok
+test test_advanced_retransmission ... ok
+test test_advanced_retransmission_heartbeat ... ok
+test test_advanced_retransmission_periodic ... ok
+test test_advanced_retransmission_sample_miss ... ok
+test test_advanced_sample_miss ... ok
+test test_callback_drop_on_undeclare_advanced_sample_miss_listener ... [2m2026-09-13T16:26:06.642405Z[0m [31mERROR[0m rx-0 ThreadId(23) [2mzenoh::api::handlers::fifo[0m[2m:[0m [3merror[0m[2m=[0msending on a closed channel
+ok
+test test_callback_drop_on_undeclare_advanced_subscriber ... ok
+test test_callback_drop_on_undeclare_advanced_subscriber_local ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 295.43s
+
+     Running tests/ts_advanced.rs (target/debug/deps/ts_advanced-a9efb538c551c6dc)
+
+running 2 tests
+test advanced_publisher_put_carries_timestamp_stack ... ok
+test advanced_publisher_put_without_instrumentation_has_no_stack ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.04s
+

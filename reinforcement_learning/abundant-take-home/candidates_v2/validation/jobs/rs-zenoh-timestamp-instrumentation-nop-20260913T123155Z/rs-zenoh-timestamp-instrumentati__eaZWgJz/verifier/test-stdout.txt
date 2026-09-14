@@ -1,0 +1,85 @@
+[verifier 0s] anti-cheat scan of transferred sources
+[verifier 0s] overlaying submitted src/ dirs onto the pristine tree
+[verifier 0s] build A: zenoh + zenoh-codec test targets
+    |  _______________-
+459 | |         .put("payload")
+460 | |         .timestamp_instrumentation(instr(true, true, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:463:24
+    |
+463 |     let stack = sample.timestamp_stack().expect("routed stack");
+    |                        ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+463 -     let stack = sample.timestamp_stack().expect("routed stack");
+463 +     let stack = sample.timestamp().expect("routed stack");
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:480:10
+    |
+478 |       let replies = ztimeout!(client1
+    |  _____________________________-
+479 | |         .get(ke)
+480 | |         .timestamp_instrumentation(instr(true, true, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+   --> zenoh/tests/ts_interop.rs:483:24
+    |
+483 |     let qstack = query.timestamp_stack().expect("routed query stack");
+    |                        ^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:630:10
+    |
+628 |       let replies = ztimeout!(session
+    |  _____________________________-
+629 | |         .get(ke)
+630 | |         .timestamp_instrumentation(instr(true, false, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for reference `&Sample` in the current scope
+   --> zenoh/tests/ts_interop.rs:656:47
+    |
+656 |     assert!(reply.result().expect("ok reply").timestamp_stack().is_none());
+    |                                               ^^^^^^^^^^^^^^^
+    |
+help: there is a method `timestamp` with a similar name
+    |
+656 -     assert!(reply.result().expect("ok reply").timestamp_stack().is_none());
+656 +     assert!(reply.result().expect("ok reply").timestamp().is_none());
+    |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+   --> zenoh/tests/ts_interop.rs:675:10
+    |
+673 |       let replies = ztimeout!(session2
+    |  _____________________________-
+674 | |         .get(&ke_err)
+675 | |         .timestamp_instrumentation(instr(true, false, true)))
+    | |         -^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+    | |_________|
+    |
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+   --> zenoh/tests/ts_interop.rs:712:24
+    |
+712 |     let qstack = query.timestamp_stack().expect("query stack from reference peer");
+    |                        ^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+
+Some errors have detailed explanations: E0432, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (test "ts_interop") due to 15 previous errors
+warning: build failed, waiting for other jobs to finish...
+{"reward": 0, "missing_groups": [], "failed_groups": ["build_a", "build_b", "lib_test_names", "hidden_pr_tests", "interop_gold", "parity_python", "zenoh_ext", "upstream_regressions"]}
+0

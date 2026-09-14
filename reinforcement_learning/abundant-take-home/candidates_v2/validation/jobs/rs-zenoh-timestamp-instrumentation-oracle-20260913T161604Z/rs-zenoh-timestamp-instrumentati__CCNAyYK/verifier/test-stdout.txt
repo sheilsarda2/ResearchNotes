@@ -1,0 +1,132 @@
+[verifier 0s] anti-cheat scan of transferred sources
+[verifier 0s] overlaying submitted src/ dirs onto the pristine tree
+[verifier 0s] build A: zenoh + zenoh-codec test targets
+[verifier 32s] build B: zenoh-ext test targets
+[verifier 49s] checking that every pristine in-crate test still exists
+[verifier 49s] running group hidden_pr_tests
+[verifier 148s] running group interop_gold
+[verifier 164s] running group parity_python
+[verifier 173s] running group zenoh_ext
+{
+ "binaries": {
+  "advanced": {
+   "passed": 11,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "ts_advanced": {
+   "passed": 2,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  }
+ },
+ "failed_tests": [],
+ "excluded_tests": [
+  "test_advanced_late_joiner"
+ ],
+ "exit_code": 0,
+ "problems": [
+  "advanced: pristine tests not passed: ['test_callback_drop_on_undeclare_advanced_sample_miss_listener']"
+ ],
+ "ok": false
+}
+[verifier 471s] running group upstream_regressions
+{
+ "binaries": {
+  "zenoh": {
+   "passed": 101,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "adminspace": {
+   "passed": 5,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "attachments": {
+   "passed": 2,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "matching": {
+   "passed": 24,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "qos": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "queryable": {
+   "passed": 1,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "routing": {
+   "passed": 6,
+   "failed": 0,
+   "ignored": 2,
+   "status": "ok"
+  },
+  "session": {
+   "passed": 8,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "source_info": {
+   "passed": 4,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "unicity": {
+   "passed": 2,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "zenoh_codec": {
+   "passed": 0,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  },
+  "codec": {
+   "passed": 53,
+   "failed": 0,
+   "ignored": 0,
+   "status": "ok"
+  }
+ },
+ "failed_tests": [],
+ "excluded_tests": [
+  "test_adminspace_read",
+  "qos_pubsub",
+  "qos_pubsub_overwrite_config",
+  "test_accept_replies",
+  "test_queryable_different_sessions",
+  "gossip",
+  "three_node_combination",
+  "zenoh_session_multicast"
+ ],
+ "exit_code": 0,
+ "problems": [
+  "zenoh: pristine tests not passed: ['tests::link_weights::test_link_weights_diamond', 'tests::link_weights::test_link_weights_hexagon', 'tests::link_weights::test_link_weights_info_diamond_routers', 'tests::link_weights::test_link_weights_triangle', 'tests::link_weights::test_link_weights_update_diamond', 'tests::link_weights::test_link_weights_update_hexagon']",
+  "adminspace: pristine tests not passed: ['test_adminspace_ronly', 'test_adminspace_wonly', 'test_adminspace_write']",
+  "routing: pristine tests not passed: ['router_linkstate', 'two_node_combination']",
+  "codec: pristine tests not passed: ['codec_extension']"
+ ],
+ "ok": false
+}
+{"reward": 0, "missing_groups": [], "failed_groups": ["zenoh_ext", "upstream_regressions"]}
+0

@@ -1,0 +1,85 @@
+[verifier 0s] anti-cheat scan of transferred sources
+[verifier 0s] overlaying submitted src/ dirs onto the pristine tree
+[verifier 0s] build A: zenoh + zenoh-codec test targets
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `SessionGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1347:43
+     |
+1347 |     let replies = ztimeout!(peer1.get(ke).timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `SessionGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1351:10
+     |
+1350 |       let ts_stack = query
+     |  ____________________-
+1351 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1388:57
+     |
+1388 |         ztimeout!(zenoh::open(zenoh::Config::default()).with_timestamp_callback(cb)).unwrap();
+     |                                                         ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<zenoh::Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1431:50
+     |
+1431 |     let session1 = ztimeout!(zenoh::open(config).with_timestamp_callback(cb_query)).unwrap();
+     |                                                  ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<zenoh::Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1445:51
+     |
+1445 |     let session2 = ztimeout!(zenoh::open(config2).with_timestamp_callback(cb_reply)).unwrap();
+     |                                                   ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<zenoh::Config>`
+
+error[E0599]: no method named `with_timestamp_callback` found for struct `OpenBuilder<TryIntoConfig>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1519:57
+     |
+1519 |         ztimeout!(zenoh::open(zenoh::Config::default()).with_timestamp_callback(cb)).unwrap();
+     |                                                         ^^^^^^^^^^^^^^^^^^^^^^^ method not found in `OpenBuilder<zenoh::Config>`
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `QuerierGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1562:43
+     |
+1562 |     let replies = ztimeout!(querier.get().timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `QuerierGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1566:10
+     |
+1565 |       let ts_stack = query
+     |  ____________________-
+1566 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+error[E0599]: no method named `timestamp_instrumentation` found for struct `QuerierGetBuilder<'a, 'b, Handler>` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1594:43
+     |
+1594 |     let replies = ztimeout!(querier.get().timestamp_instrumentation(instr)).unwrap();
+     |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ method not found in `QuerierGetBuilder<'_, '_, DefaultHandler>`
+
+error[E0599]: no method named `timestamp_stack` found for struct `zenoh::query::Query` in the current scope
+    --> zenoh/tests/timestamp_instrumentation.rs:1598:10
+     |
+1597 |       let ts_stack = query
+     |  ____________________-
+1598 | |         .timestamp_stack()
+     | |         -^^^^^^^^^^^^^^^ method not found in `zenoh::query::Query`
+     | |_________|
+     |
+
+Some errors have detailed explanations: E0432, E0433, E0599.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (test "timestamp_instrumentation") due to 77 previous errors
+warning: build failed, waiting for other jobs to finish...
+{"reward": 0, "missing_groups": [], "failed_groups": ["build_a", "build_b", "lib_test_names", "hidden_pr_tests", "interop_gold", "parity_python", "zenoh_ext", "upstream_regressions"]}
+0

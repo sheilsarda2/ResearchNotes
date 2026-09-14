@@ -1,0 +1,22 @@
+warning: function `assert_custom_record` is never used
+   --> zenoh/tests/ts_interop.rs:251:4
+    |
+251 | fn assert_custom_record(r: &Value, point: &str, hex: &str) {
+    |    ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `zenoh` (test "ts_interop") generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running tests/ts_interop.rs (target/debug/deps/ts_interop-e8983a3df89ac43b)
+
+running 6 tests
+test interop_agent_queryable_gold_get ... ok
+test interop_agent_router_between_gold_clients ... ok
+test interop_agent_sub_decodes_gold_send ... ok
+test interop_gold_queryable_agent_get ... ok
+test interop_gold_router_between_agent_clients ... ok
+test interop_gold_sub_decodes_agent_send ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 14.93s
+

@@ -1,0 +1,548 @@
+   Compiling zenoh v1.9.0 (/workspace/build/zenoh)
+error[E0432]: unresolved import `zenoh_protocol::network::timestamp_stack`
+   --> zenoh/src/api/builders/reply.rs:302:50
+    |
+302 |                     use zenoh_protocol::network::timestamp_stack::{
+    |                                                  ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0432]: unresolved import `zenoh_protocol::network::timestamp_stack`
+   --> zenoh/src/api/queryable.rs:627:46
+    |
+627 |                 use zenoh_protocol::network::timestamp_stack::{interception_point, TsStackType};
+    |                                              ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0432]: unresolved import `zenoh_protocol::network::timestamp_stack`
+    --> zenoh/src/api/session.rs:2561:42
+     |
+2561 |             use zenoh_protocol::network::timestamp_stack::{
+     |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0432]: unresolved import `zenoh_protocol::network::timestamp_stack`
+    --> zenoh/src/api/session.rs:2794:42
+     |
+2794 |             use zenoh_protocol::network::timestamp_stack::{
+     |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0432]: unresolved import `zenoh_protocol::network::timestamp_stack`
+  --> zenoh/src/api/timestamp_stack.rs:16:14
+   |
+16 |     network::timestamp_stack::{interception_point, Interception, TsStackType},
+   |              ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:2618:46
+     |
+2618 |                     zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+     |                                              ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:2851:46
+     |
+2851 |                     zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+     |                                              ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:3356:42
+     |
+3356 |                 zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+     |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:3378:42
+     |
+3378 |                 zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+     |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:3422:42
+     |
+3422 |                 zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+     |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/timestamp_stack.rs:435:70
+    |
+435 |         if ts_stack.ts_stack.stack.len() >= zenoh_protocol::network::timestamp_stack::MAX_STACK_SIZE
+    |                                                                      ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:331:50
+    |
+331 |                         zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
+    |                                                  ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:367:50
+    |
+367 |                         zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
+    |                                                  ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:336:58
+    |
+336 | ...                   zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
+    |                                                ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:613:54
+    |
+613 | ...                   zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
+    |                                                ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/runtime/adminspace.rs:393:42
+    |
+393 |                 zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+    |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/net/runtime/adminspace.rs:493:42
+    |
+493 |                 zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
+    |                                          ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/sample.rs:370:38
+    |
+370 |             zenoh_protocol::network::timestamp_stack::TimestampStack,
+    |                                      ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing one of these modules
+    |
+ 16 + use crate::api::timestamp_stack;
+    |
+ 16 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+370 -             zenoh_protocol::network::timestamp_stack::TimestampStack,
+370 +             timestamp_stack::TimestampStack,
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/sample.rs:418:41
+    |
+418 |         Option<zenoh_protocol::network::timestamp_stack::TimestampStack>,
+    |                                         ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing one of these modules
+    |
+ 16 + use crate::api::timestamp_stack;
+    |
+ 16 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+418 -         Option<zenoh_protocol::network::timestamp_stack::TimestampStack>,
+418 +         Option<timestamp_stack::TimestampStack>,
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/session.rs:561:38
+    |
+561 |             zenoh_protocol::network::timestamp_stack::TimestampStack,
+    |                                      ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing one of these modules
+    |
+ 14 + use crate::api::timestamp_stack;
+    |
+ 14 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+561 -             zenoh_protocol::network::timestamp_stack::TimestampStack,
+561 +             timestamp_stack::TimestampStack,
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:2598:46
+     |
+2598 |                     zenoh_protocol::network::timestamp_stack::TimestampStack,
+     |                                              ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+     |
+help: consider importing one of these modules
+     |
+  14 + use crate::api::timestamp_stack;
+     |
+  14 + use crate::timestamp_stack;
+     |
+help: if you import `timestamp_stack`, refer to it directly
+     |
+2598 -                     zenoh_protocol::network::timestamp_stack::TimestampStack,
+2598 +                     timestamp_stack::TimestampStack,
+     |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+    --> zenoh/src/api/session.rs:2991:38
+     |
+2991 |             zenoh_protocol::network::timestamp_stack::TimestampStack,
+     |                                      ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+     |
+help: consider importing one of these modules
+     |
+  14 + use crate::api::timestamp_stack;
+     |
+  14 + use crate::timestamp_stack;
+     |
+help: if you import `timestamp_stack`, refer to it directly
+     |
+2991 -             zenoh_protocol::network::timestamp_stack::TimestampStack,
+2991 +             timestamp_stack::TimestampStack,
+     |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/timestamp_stack.rs:453:40
+    |
+453 | impl TryFrom<&zenoh_protocol::network::timestamp_stack::TimestampStack> for TimestampStack {
+    |                                        ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing this module
+    |
+ 14 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+453 - impl TryFrom<&zenoh_protocol::network::timestamp_stack::TimestampStack> for TimestampStack {
+453 + impl TryFrom<&timestamp_stack::TimestampStack> for TimestampStack {
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/timestamp_stack.rs:457:39
+    |
+457 |         ts: &zenoh_protocol::network::timestamp_stack::TimestampStack,
+    |                                       ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing this module
+    |
+ 14 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+457 -         ts: &zenoh_protocol::network::timestamp_stack::TimestampStack,
+457 +         ts: &timestamp_stack::TimestampStack,
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/timestamp_stack.rs:503:57
+    |
+503 | impl From<&TimestampStack> for zenoh_protocol::network::timestamp_stack::TimestampStack {
+    |                                                         ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing this module
+    |
+ 14 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+503 - impl From<&TimestampStack> for zenoh_protocol::network::timestamp_stack::TimestampStack {
+503 + impl From<&TimestampStack> for timestamp_stack::TimestampStack {
+    |
+
+error[E0433]: cannot find `timestamp_stack` in `network`
+   --> zenoh/src/api/timestamp_stack.rs:505:34
+    |
+505 |         zenoh_protocol::network::timestamp_stack::TimestampStack {
+    |                                  ^^^^^^^^^^^^^^^ could not find `timestamp_stack` in `network`
+    |
+help: consider importing this module
+    |
+ 14 + use crate::timestamp_stack;
+    |
+help: if you import `timestamp_stack`, refer to it directly
+    |
+505 -         zenoh_protocol::network::timestamp_stack::TimestampStack {
+505 +         timestamp_stack::TimestampStack {
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Response` has no field named `ext_ts_stack`
+   --> zenoh/src/api/builders/reply.rs:291:13
+    |
+291 |             ext_ts_stack: None,
+    |             ^^^^^^^^^^^^ `zenoh_protocol::network::Response` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Response`
+   --> zenoh/src/api/builders/reply.rs:296:22
+    |
+296 |             response.ext_ts_stack = self
+    |                      ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+296 -             response.ext_ts_stack = self
+296 +             response.ext_tstamp = self
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Response` has no field named `ext_ts_stack`
+   --> zenoh/src/api/queryable.rs:621:13
+    |
+621 |             ext_ts_stack: None,
+    |             ^^^^^^^^^^^^ `zenoh_protocol::network::Response` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Response`
+   --> zenoh/src/api/queryable.rs:626:22
+    |
+626 |             response.ext_ts_stack = self.inner.query_ts_stack.as_ref().and_then(|ts_stack| {
+    |                      ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+626 -             response.ext_ts_stack = self.inner.query_ts_stack.as_ref().and_then(|ts_stack| {
+626 +             response.ext_tstamp = self.inner.query_ts_stack.as_ref().and_then(|ts_stack| {
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Push`
+    --> zenoh/src/api/session.rs:2578:18
+     |
+2578 |             push.ext_ts_stack = ext_ts_stack;
+     |                  ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+2578 -             push.ext_ts_stack = ext_ts_stack;
+2578 +             push.ext_tstamp = ext_ts_stack;
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Push`
+    --> zenoh/src/api/session.rs:2616:31
+     |
+2616 |                     &mut push.ext_ts_stack,
+     |                               ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+2616 -                     &mut push.ext_ts_stack,
+2616 +                     &mut push.ext_tstamp,
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Push`
+    --> zenoh/src/api/session.rs:2622:40
+     |
+2622 |             let timestamp_stack = push.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone());
+     |                                        ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+2622 -             let timestamp_stack = push.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone());
+2622 +             let timestamp_stack = push.ext_tstamp.as_ref().map(|ts| ts.ts_stack.clone());
+     |
+
+error[E0560]: struct `zenoh_protocol::network::Request` has no field named `ext_ts_stack`
+    --> zenoh/src/api/session.rs:2841:17
+     |
+2841 |                 ext_ts_stack: ext_ts_stack.clone(),
+     |                 ^^^^^^^^^^^^ `zenoh_protocol::network::Request` does not have this field
+     |
+     = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+    --> zenoh/src/api/session.rs:3354:26
+     |
+3354 |                 &mut msg.ext_ts_stack,
+     |                          ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3354 -                 &mut msg.ext_ts_stack,
+3354 +                 &mut msg.ext_tstamp,
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+    --> zenoh/src/api/session.rs:3366:17
+     |
+3366 |             msg.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone()),
+     |                 ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3366 -             msg.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone()),
+3366 +             msg.ext_tstamp.as_ref().map(|ts| ts.ts_stack.clone()),
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+    --> zenoh/src/api/session.rs:3376:26
+     |
+3376 |                 &mut msg.ext_ts_stack,
+     |                          ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3376 -                 &mut msg.ext_ts_stack,
+3376 +                 &mut msg.ext_tstamp,
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+    --> zenoh/src/api/session.rs:3403:48
+     |
+3403 | ...                   mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+     |                                          ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3403 -                             mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+3403 +                             mem::take(&mut msg.ext_tstamp).map(|ts| ts.ts_stack),
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Response`
+    --> zenoh/src/api/session.rs:3420:26
+     |
+3420 |                 &mut msg.ext_ts_stack,
+     |                          ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3420 -                 &mut msg.ext_ts_stack,
+3420 +                 &mut msg.ext_tstamp,
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Response`
+    --> zenoh/src/api/session.rs:3440:54
+     |
+3440 | ...                   timestamp_stack: msg.ext_ts_stack.as_ref().and_then(|ts| {
+     |                                            ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3440 -                                 timestamp_stack: msg.ext_ts_stack.as_ref().and_then(|ts| {
+3440 +                                 timestamp_stack: msg.ext_tstamp.as_ref().and_then(|ts| {
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Response`
+    --> zenoh/src/api/session.rs:3496:52
+     |
+3496 | ...                   mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+     |                                          ^^^^^^^^^^^^ unknown field
+     |
+help: a field with a similar name exists
+     |
+3496 -                                 mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+3496 +                                 mem::take(&mut msg.ext_tstamp).map(|ts| ts.ts_stack),
+     |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:329:34
+    |
+329 |                         &mut msg.ext_ts_stack,
+    |                                  ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+329 -                         &mut msg.ext_ts_stack,
+329 +                         &mut msg.ext_tstamp,
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Push` has no field named `ext_ts_stack`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:358:21
+    |
+358 |                     ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                     ^^^^^^^^^^^^ `zenoh_protocol::network::Push` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:358:39
+    |
+358 |                     ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                                       ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+358 -                     ext_ts_stack: msg.ext_ts_stack.clone(),
+358 +                     ext_ts_stack: msg.ext_tstamp.clone(),
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `zenoh_protocol::network::Push`
+   --> zenoh/src/net/routing/dispatcher/pubsub.rs:365:35
+    |
+365 |                         &mut push.ext_ts_stack,
+    |                                   ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+365 -                         &mut push.ext_ts_stack,
+365 +                         &mut push.ext_tstamp,
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Request` has no field named `ext_ts_stack`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:326:29
+    |
+326 | ...                   ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                       ^^^^^^^^^^^^ `zenoh_protocol::network::Request` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:326:47
+    |
+326 | ...                   ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                                         ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+326 -                             ext_ts_stack: msg.ext_ts_stack.clone(),
+326 +                             ext_ts_stack: msg.ext_tstamp.clone(),
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:334:42
+    |
+334 | ...                   &mut msg.ext_ts_stack,
+    |                                ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+334 -                                 &mut msg.ext_ts_stack,
+334 +                                 &mut msg.ext_tstamp,
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Response` has no field named `ext_ts_stack`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:499:21
+    |
+499 |                     ext_ts_stack: None,
+    |                     ^^^^^^^^^^^^ `zenoh_protocol::network::Response` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Response`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:611:38
+    |
+611 | ...                   &mut msg.ext_ts_stack,
+    |                                ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+611 -                             &mut msg.ext_ts_stack,
+611 +                             &mut msg.ext_tstamp,
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+   --> zenoh/src/net/runtime/adminspace.rs:391:26
+    |
+391 |                 &mut msg.ext_ts_stack,
+    |                          ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+391 -                 &mut msg.ext_ts_stack,
+391 +                 &mut msg.ext_tstamp,
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/runtime/adminspace.rs:491:26
+    |
+491 |                 &mut msg.ext_ts_stack,
+    |                          ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+491 -                 &mut msg.ext_ts_stack,
+491 +                 &mut msg.ext_tstamp,
+    |
+
+Some errors have detailed explanations: E0432, E0433, E0560, E0609.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (lib) due to 52 previous errors

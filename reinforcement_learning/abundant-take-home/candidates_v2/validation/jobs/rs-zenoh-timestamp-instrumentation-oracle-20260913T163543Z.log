@@ -1,0 +1,262 @@
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:677 in run_forever                           │
+│                                                                              │
+│    674 │   │   self._run_forever_setup()                                     │
+│    675 │   │   try:                                                          │
+│    676 │   │   │   while True:                                               │
+│ ❱  677 │   │   │   │   self._run_once()                                      │
+│    678 │   │   │   │   if self._stopping:                                    │
+│    679 │   │   │   │   │   break                                             │
+│    680 │   │   finally:                                                      │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:2018 in _run_once                            │
+│                                                                              │
+│   2015 │   │   │   elif timeout < 0:                                         │
+│   2016 │   │   │   │   timeout = 0                                           │
+│   2017 │   │                                                                 │
+│ ❱ 2018 │   │   event_list = self._selector.select(timeout)                   │
+│   2019 │   │   self._process_events(event_list)                              │
+│   2020 │   │   # Needed to break cycles when an exception occurs.            │
+│   2021 │   │   event_list = None                                             │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/selectors.py:548 in select                                          │
+│                                                                              │
+│   545 │   │   │   max_ev = self._max_events or 1                             │
+│   546 │   │   │   ready = []                                                 │
+│   547 │   │   │   try:                                                       │
+│ ❱ 548 │   │   │   │   kev_list = self._selector.control(None, max_ev,        │
+│       timeout)                                                               │
+│   549 │   │   │   except InterruptedError:                                   │
+│   550 │   │   │   │   return ready                                           │
+│   551                                                                        │
+│                                                                              │
+│ /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packa │
+│ ges/harbor/cli/jobs.py:295 in _handle_sigterm                                │
+│                                                                              │
+│    292                                                                       │
+│    293                                                                       │
+│    294 def _handle_sigterm(signum, frame):                                   │
+│ ❱  295 │   raise KeyboardInterrupt                                           │
+│    296                                                                       │
+│    297                                                                       │
+│    298 def start(                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:205 in run                                       │
+│                                                                              │
+│   202 │   │   │   "asyncio.run() cannot be called from a running event       │
+│       loop")                                                                 │
+│   203 │                                                                      │
+│   204 │   with Runner(debug=debug, loop_factory=loop_factory) as runner:     │
+│ ❱ 205 │   │   return runner.run(main)                                        │
+│   206                                                                        │
+│   207                                                                        │
+│   208 def _cancel_all_tasks(loop):                                           │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:128 in run                                       │
+│                                                                              │
+│   125 │   │                                                                  │
+│   126 │   │   self._interrupt_count = 0                                      │
+│   127 │   │   try:                                                           │
+│ ❱ 128 │   │   │   return self._loop.run_until_complete(task)                 │
+│   129 │   │   except exceptions.CancelledError:                              │
+│   130 │   │   │   if self._interrupt_count > 0:                              │
+│   131 │   │   │   │   uncancel = getattr(task, "uncancel", None)             │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:706 in run_until_complete                    │
+│                                                                              │
+│    703 │   │                                                                 │
+│    704 │   │   future.add_done_callback(_run_until_complete_cb)              │
+│    705 │   │   try:                                                          │
+│ ❱  706 │   │   │   self.run_forever()                                        │
+│    707 │   │   except:                                                       │
+│    708 │   │   │   if new_task and future.done() and not future.cancelled(): │
+│    709 │   │   │   │   # The coroutine raised a BaseException. Consume the   │
+│        exception                                                             │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:681 in run_forever                           │
+│                                                                              │
+│    678 │   │   │   │   if self._stopping:                                    │
+│    679 │   │   │   │   │   break                                             │
+│    680 │   │   finally:                                                      │
+│ ❱  681 │   │   │   self._run_forever_cleanup()                               │
+│    682 │                                                                     │
+│    683 │   def run_until_complete(self, future):                             │
+│    684 │   │   """Run until the Future is done.                              │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:656 in _run_forever_cleanup                  │
+│                                                                              │
+│    653 │   │                                                                 │
+│    654 │   │   events._set_running_loop(self)                                │
+│    655 │                                                                     │
+│ ❱  656 │   def _run_forever_cleanup(self):                                   │
+│    657 │   │   """Clean up after an event loop finishes the looping over     │
+│        events.                                                               │
+│    658 │   │                                                                 │
+│    659 │   │   This method exists so that custom event loop subclasses       │
+│        (e.g., event loops                                                    │
+│                                                                              │
+│ /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packa │
+│ ges/harbor/cli/jobs.py:295 in _handle_sigterm                                │
+│                                                                              │
+│    292                                                                       │
+│    293                                                                       │
+│    294 def _handle_sigterm(signum, frame):                                   │
+│ ❱  295 │   raise KeyboardInterrupt                                           │
+│    296                                                                       │
+│    297                                                                       │
+│    298 def start(                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:72 in close                                      │
+│                                                                              │
+│    69 │   │   │   return                                                     │
+│    70 │   │   try:                                                           │
+│    71 │   │   │   loop = self._loop                                          │
+│ ❱  72 │   │   │   _cancel_all_tasks(loop)                                    │
+│    73 │   │   │   loop.run_until_complete(loop.shutdown_asyncgens())         │
+│    74 │   │   │   loop.run_until_complete(                                   │
+│    75 │   │   │   │                                                          │
+│       loop.shutdown_default_executor(constants.THREAD_JOIN_TIMEOUT))         │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:216 in _cancel_all_tasks                         │
+│                                                                              │
+│   213 │   for task in to_cancel:                                             │
+│   214 │   │   task.cancel()                                                  │
+│   215 │                                                                      │
+│ ❱ 216 │   loop.run_until_complete(tasks.gather(*to_cancel,                   │
+│       return_exceptions=True))                                               │
+│   217 │                                                                      │
+│   218 │   for task in to_cancel:                                             │
+│   219 │   │   if task.cancelled():                                           │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:695 in run_until_complete                    │
+│                                                                              │
+│    692 │   │   Return the Future's result, or raise its exception.           │
+│    693 │   │   """                                                           │
+│    694 │   │   self._check_closed()                                          │
+│ ❱  695 │   │   self._check_running()                                         │
+│    696 │   │                                                                 │
+│    697 │   │   new_task = not futures.isfuture(future)                       │
+│    698 │   │   future = tasks.ensure_future(future, loop=self)               │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/base_events.py:631 in _check_running                        │
+│                                                                              │
+│    628 │                                                                     │
+│    629 │   def _check_running(self):                                         │
+│    630 │   │   if self.is_running():                                         │
+│ ❱  631 │   │   │   raise RuntimeError('This event loop is already running')  │
+│    632 │   │   if events._get_running_loop() is not None:                    │
+│    633 │   │   │   raise RuntimeError(                                       │
+│    634 │   │   │   │   'Cannot run the event loop while another loop is      │
+│        running')                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: This event loop is already running
+
+During handling of the above exception, another exception occurred:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packa │
+│ ges/harbor/cli/jobs.py:1458 in start                                         │
+│                                                                              │
+│   1455 │   # `_run_job` itself prints the summary + invokes the upload       │
+│        finalize                                                              │
+│   1456 │   # (when --upload is set) so everything stays on one event loop.   │
+│        See                                                                   │
+│   1457 │   # the long comment in `HarborHubUploadPlugin.on_job_end` for why  │
+│        this matters.                                                         │
+│ ❱ 1458 │   job, job_result = run_async(_run_job())                           │
+│   1459 │                                                                     │
+│   1460 │   if export_traces:                                                 │
+│   1461 │   │   from harbor.utils.traces_utils import export_traces as        │
+│        _export_traces                                                        │
+│                                                                              │
+│ /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packa │
+│ ges/harbor/cli/utils.py:24 in run_async                                      │
+│                                                                              │
+│    21 │   """                                                                │
+│    22 │   if sys.platform == "win32":                                        │
+│    23 │   │   return asyncio.run(coro,                                       │
+│       loop_factory=asyncio.ProactorEventLoop)                                │
+│ ❱  24 │   return asyncio.run(coro)                                           │
+│    25                                                                        │
+│    26                                                                        │
+│    27 def parse_kwargs(kwargs_list: list[str] | None) -> dict[str, Any]:     │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:204 in run                                       │
+│                                                                              │
+│   201 │   │   raise RuntimeError(                                            │
+│   202 │   │   │   "asyncio.run() cannot be called from a running event       │
+│       loop")                                                                 │
+│   203 │                                                                      │
+│ ❱ 204 │   with Runner(debug=debug, loop_factory=loop_factory) as runner:     │
+│   205 │   │   return runner.run(main)                                        │
+│   206                                                                        │
+│   207                                                                        │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:64 in __exit__                                   │
+│                                                                              │
+│    61 │   │   return self                                                    │
+│    62 │                                                                      │
+│    63 │   def __exit__(self, exc_type, exc_val, exc_tb):                     │
+│ ❱  64 │   │   self.close()                                                   │
+│    65 │                                                                      │
+│    66 │   def close(self):                                                   │
+│    67 │   │   """Shutdown and close event loop."""                           │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/runners.py:79 in close                                      │
+│                                                                              │
+│    76 │   │   finally:                                                       │
+│    77 │   │   │   if self._set_event_loop:                                   │
+│    78 │   │   │   │   events.set_event_loop(None)                            │
+│ ❱  79 │   │   │   loop.close()                                               │
+│    80 │   │   │   self._loop = None                                          │
+│    81 │   │   │   self._state = _State.CLOSED                                │
+│    82                                                                        │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/unix_events.py:71 in close                                  │
+│                                                                              │
+│    68 │   │   │   self._watcher = _ThreadedChildWatcher()                    │
+│    69 │                                                                      │
+│    70 │   def close(self):                                                   │
+│ ❱  71 │   │   super().close()                                                │
+│    72 │   │   if not sys.is_finalizing():                                    │
+│    73 │   │   │   for sig in list(self._signal_handlers):                    │
+│    74 │   │   │   │   self.remove_signal_handler(sig)                        │
+│                                                                              │
+│ /Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/py │
+│ thon3.14/asyncio/selector_events.py:101 in close                             │
+│                                                                              │
+│     98 │                                                                     │
+│     99 │   def close(self):                                                  │
+│    100 │   │   if self.is_running():                                         │
+│ ❱  101 │   │   │   raise RuntimeError("Cannot close a running event loop")   │
+│    102 │   │   if self.is_closed():                                          │
+│    103 │   │   │   return                                                    │
+│    104 │   │   self._close_self_pipe()                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: Cannot close a running event loop

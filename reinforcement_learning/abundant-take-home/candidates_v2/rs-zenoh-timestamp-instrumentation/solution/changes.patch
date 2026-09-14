@@ -1,0 +1,2915 @@
+diff --git a/commons/zenoh-codec/fuzz/src/samples.rs b/commons/zenoh-codec/fuzz/src/samples.rs
+index 8e7954fe..fc7dc8ba 100644
+--- a/commons/zenoh-codec/fuzz/src/samples.rs
++++ b/commons/zenoh-codec/fuzz/src/samples.rs
+@@ -90,6 +90,7 @@ pub(crate) fn sample_request_network_message() -> NetworkMessage {
+         ext_target: QueryTarget::DEFAULT,
+         ext_budget: None,
+         ext_timeout: None,
++        ext_ts_stack: None,
+         payload: RequestBody::from(Query::default()),
+     };
+     NetworkBody::Request(request).into()
+@@ -112,6 +113,7 @@ pub(crate) fn sample_response_network_message() -> NetworkMessage {
+         ext_qos: zenoh_protocol::network::response::ext::QoSType::DEFAULT,
+         ext_tstamp: None,
+         ext_respid: None,
++        ext_ts_stack: None,
+     };
+     NetworkBody::Response(response).into()
+ }
+diff --git a/commons/zenoh-codec/src/network/mod.rs b/commons/zenoh-codec/src/network/mod.rs
+index 0aef98d1..7e01f557 100644
+--- a/commons/zenoh-codec/src/network/mod.rs
++++ b/commons/zenoh-codec/src/network/mod.rs
+@@ -17,6 +17,7 @@ mod oam;
+ mod push;
+ mod request;
+ mod response;
++mod timestamp_stack;
+ 
+ use zenoh_buffers::{
+     reader::{BacktrackableReader, DidntRead, Reader},
+diff --git a/commons/zenoh-codec/src/network/push.rs b/commons/zenoh-codec/src/network/push.rs
+index b2145560..7ca91e0b 100644
+--- a/commons/zenoh-codec/src/network/push.rs
++++ b/commons/zenoh-codec/src/network/push.rs
+@@ -41,6 +41,7 @@ where
+             ext_qos,
+             ext_tstamp,
+             ext_nodeid,
++            ext_ts_stack,
+             payload,
+         } = x;
+ 
+@@ -48,7 +49,8 @@ where
+         let mut header = id::PUSH;
+         let mut n_exts = ((ext_qos != &ext::QoSType::DEFAULT) as u8)
+             + (ext_tstamp.is_some() as u8)
+-            + ((ext_nodeid != &ext::NodeIdType::DEFAULT) as u8);
++            + ((ext_nodeid != &ext::NodeIdType::DEFAULT) as u8)
++            + (ext_ts_stack.is_some() as u8);
+         if n_exts != 0 {
+             header |= flag::Z;
+         }
+@@ -76,6 +78,10 @@ where
+             n_exts -= 1;
+             self.write(&mut *writer, (*ext_nodeid, n_exts != 0))?;
+         }
++        if let Some(ts_stack) = ext_ts_stack.as_ref() {
++            n_exts -= 1;
++            self.write(&mut *writer, (ts_stack, n_exts != 0))?;
++        }
+         // Payload
+         self.write(&mut *writer, payload)?;
+ 
+@@ -121,6 +127,7 @@ where
+         let mut ext_qos = ext::QoSType::DEFAULT;
+         let mut ext_tstamp = None;
+         let mut ext_nodeid = ext::NodeIdType::DEFAULT;
++        let mut ext_ts_stack = None;
+ 
+         let mut has_ext = imsg::has_flag(self.header, flag::Z);
+         while has_ext {
+@@ -142,6 +149,11 @@ where
+                     ext_nodeid = nid;
+                     has_ext = ext;
+                 }
++                ext::TsStack::ID => {
++                    let (ts, ext): (ext::TsStackType, bool) = eodec.read(&mut *reader)?;
++                    ext_ts_stack = Some(ts);
++                    has_ext = ext;
++                }
+                 _ => {
+                     has_ext = extension::skip(reader, "Push", ext)?;
+                 }
+@@ -157,6 +169,7 @@ where
+             ext_qos,
+             ext_tstamp,
+             ext_nodeid,
++            ext_ts_stack,
+         })
+     }
+ }
+diff --git a/commons/zenoh-codec/src/network/request.rs b/commons/zenoh-codec/src/network/request.rs
+index 16cbfed2..dca6ac7e 100644
+--- a/commons/zenoh-codec/src/network/request.rs
++++ b/commons/zenoh-codec/src/network/request.rs
+@@ -84,6 +84,7 @@ where
+             ext_target,
+             ext_budget,
+             ext_timeout,
++            ext_ts_stack,
+             payload,
+         } = x;
+ 
+@@ -94,7 +95,8 @@ where
+             + ((ext_target != &ext::QueryTarget::DEFAULT) as u8)
+             + (ext_budget.is_some() as u8)
+             + (ext_timeout.is_some() as u8)
+-            + ((ext_nodeid != &ext::NodeIdType::DEFAULT) as u8);
++            + ((ext_nodeid != &ext::NodeIdType::DEFAULT) as u8)
++            + (ext_ts_stack.is_some() as u8);
+         if n_exts != 0 {
+             header |= flag::Z;
+         }
+@@ -137,6 +139,10 @@ where
+             n_exts -= 1;
+             self.write(&mut *writer, (*ext_nodeid, n_exts != 0))?;
+         }
++        if let Some(ts_stack) = ext_ts_stack.as_ref() {
++            n_exts -= 1;
++            self.write(&mut *writer, (ts_stack, n_exts != 0))?;
++        }
+ 
+         // Payload
+         self.write(&mut *writer, payload)?;
+@@ -187,6 +193,7 @@ where
+         let mut ext_target = ext::QueryTarget::DEFAULT;
+         let mut ext_limit = None;
+         let mut ext_timeout = None;
++        let mut ext_ts_stack = None;
+ 
+         let mut has_ext = imsg::has_flag(self.header, flag::Z);
+         while has_ext {
+@@ -223,6 +230,11 @@ where
+                     ext_timeout = Some(ext::TimeoutType::from_millis(to.value));
+                     has_ext = ext;
+                 }
++                ext::TsStack::ID => {
++                    let (ts, ext): (ext::TsStackType, bool) = eodec.read(&mut *reader)?;
++                    ext_ts_stack = Some(ts);
++                    has_ext = ext;
++                }
+                 _ => {
+                     has_ext = extension::skip(reader, "Request", ext)?;
+                 }
+@@ -242,6 +254,7 @@ where
+             ext_target,
+             ext_budget: ext_limit,
+             ext_timeout,
++            ext_ts_stack,
+         })
+     }
+ }
+diff --git a/commons/zenoh-codec/src/network/response.rs b/commons/zenoh-codec/src/network/response.rs
+index d94316de..4fcedff2 100644
+--- a/commons/zenoh-codec/src/network/response.rs
++++ b/commons/zenoh-codec/src/network/response.rs
+@@ -45,13 +45,15 @@ where
+             ext_qos,
+             ext_tstamp,
+             ext_respid,
++            ext_ts_stack,
+         } = x;
+ 
+         // Header
+         let mut header = id::RESPONSE;
+         let mut n_exts = ((ext_qos != &ext::QoSType::DEFAULT) as u8)
+             + (ext_tstamp.is_some() as u8)
+-            + (ext_respid.is_some() as u8);
++            + (ext_respid.is_some() as u8)
++            + (ext_ts_stack.is_some() as u8);
+         if n_exts != 0 {
+             header |= flag::Z;
+         }
+@@ -80,6 +82,10 @@ where
+             n_exts -= 1;
+             self.write(&mut *writer, (ri, n_exts != 0))?;
+         }
++        if let Some(ts_stack) = ext_ts_stack.as_ref() {
++            n_exts -= 1;
++            self.write(&mut *writer, (ts_stack, n_exts != 0))?;
++        }
+ 
+         // Payload
+         self.write(&mut *writer, payload)?;
+@@ -127,6 +133,7 @@ where
+         let mut ext_qos = ext::QoSType::DEFAULT;
+         let mut ext_tstamp = None;
+         let mut ext_respid = None;
++        let mut ext_ts_stack = None;
+ 
+         let mut has_ext = imsg::has_flag(self.header, flag::Z);
+         while has_ext {
+@@ -148,6 +155,11 @@ where
+                     ext_respid = Some(t);
+                     has_ext = ext;
+                 }
++                ext::TsStack::ID => {
++                    let (ts, ext): (ext::TsStackType, bool) = eodec.read(&mut *reader)?;
++                    ext_ts_stack = Some(ts);
++                    has_ext = ext;
++                }
+                 _ => {
+                     has_ext = extension::skip(reader, "Response", ext)?;
+                 }
+@@ -164,6 +176,7 @@ where
+             ext_qos,
+             ext_tstamp,
+             ext_respid,
++            ext_ts_stack,
+         })
+     }
+ }
+diff --git a/commons/zenoh-codec/src/network/timestamp_stack.rs b/commons/zenoh-codec/src/network/timestamp_stack.rs
+new file mode 100644
+index 00000000..db82e59e
+--- /dev/null
++++ b/commons/zenoh-codec/src/network/timestamp_stack.rs
+@@ -0,0 +1,156 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++//
++use alloc::vec::Vec;
++
++use zenoh_buffers::{
++    reader::{DidntRead, Reader},
++    writer::{DidntWrite, Writer},
++};
++use zenoh_protocol::{
++    common::ZExtZBufHeader,
++    network::timestamp_stack::{Interception, TimestampStack, TsStackType},
++};
++
++use crate::{LCodec, RCodec, WCodec, Zenoh080, Zenoh080Header};
++
++// Interception
++impl LCodec<&Interception> for Zenoh080 {
++    fn w_len(self, x: &Interception) -> usize {
++        1 + self.w_len(&x.timestamp[..])
++    }
++}
++
++impl<W> WCodec<&Interception, &mut W> for Zenoh080
++where
++    W: Writer,
++{
++    type Output = Result<(), DidntWrite>;
++
++    fn write(self, writer: &mut W, x: &Interception) -> Self::Output {
++        self.write(&mut *writer, x.flags)?;
++        self.write(&mut *writer, &x.timestamp[..])
++    }
++}
++
++impl<R> RCodec<Interception, &mut R> for Zenoh080
++where
++    R: Reader,
++{
++    type Error = DidntRead;
++
++    fn read(self, reader: &mut R) -> Result<Interception, Self::Error> {
++        let flags: u8 = self.read(&mut *reader)?;
++        let timestamp: Vec<u8> = self.read(&mut *reader)?;
++        Ok(Interception { flags, timestamp })
++    }
++}
++
++// TimestampStack
++impl LCodec<&TimestampStack> for Zenoh080 {
++    fn w_len(self, x: &TimestampStack) -> usize {
++        let mut len = 1; // conf_flags
++        len += self.w_len(x.stack.len());
++        for i in &x.stack {
++            len += self.w_len(i);
++        }
++        len
++    }
++}
++
++impl<W> WCodec<&TimestampStack, &mut W> for Zenoh080
++where
++    W: Writer,
++{
++    type Output = Result<(), DidntWrite>;
++
++    fn write(self, writer: &mut W, x: &TimestampStack) -> Self::Output {
++        self.write(&mut *writer, x.conf_flags)?;
++        self.write(&mut *writer, x.stack.len())?;
++        for i in &x.stack {
++            self.write(&mut *writer, i)?;
++        }
++        Ok(())
++    }
++}
++
++impl<R> RCodec<TimestampStack, &mut R> for Zenoh080
++where
++    R: Reader,
++{
++    type Error = DidntRead;
++
++    fn read(self, reader: &mut R) -> Result<TimestampStack, Self::Error> {
++        let conf_flags: u8 = self.read(&mut *reader)?;
++        if conf_flags == 0 {
++            // empty conf_flags is invalid
++            return Err(DidntRead);
++        }
++        let count: usize = self.read(&mut *reader)?;
++        if count > zenoh_protocol::network::timestamp_stack::MAX_STACK_SIZE {
++            return Err(DidntRead);
++        }
++        let mut stack: Vec<Interception> = Vec::with_capacity(count);
++        for _ in 0..count {
++            stack.push(self.read(&mut *reader)?);
++        }
++        Ok(TimestampStack { conf_flags, stack })
++    }
++}
++
++// TsStackType extension wrapper
++impl<const ID: u8> LCodec<&TsStackType<{ ID }>> for Zenoh080 {
++    fn w_len(self, x: &TsStackType<{ ID }>) -> usize {
++        self.w_len(&x.ts_stack)
++    }
++}
++
++impl<W, const ID: u8> WCodec<(&TsStackType<{ ID }>, bool), &mut W> for Zenoh080
++where
++    W: Writer,
++{
++    type Output = Result<(), DidntWrite>;
++
++    fn write(self, writer: &mut W, x: (&TsStackType<{ ID }>, bool)) -> Self::Output {
++        let (x, more) = x;
++        let header: ZExtZBufHeader<{ ID }> = ZExtZBufHeader::new(self.w_len(x));
++        self.write(&mut *writer, (&header, more))?;
++        self.write(&mut *writer, &x.ts_stack)
++    }
++}
++
++impl<R, const ID: u8> RCodec<(TsStackType<{ ID }>, bool), &mut R> for Zenoh080
++where
++    R: Reader,
++{
++    type Error = DidntRead;
++
++    fn read(self, reader: &mut R) -> Result<(TsStackType<{ ID }>, bool), Self::Error> {
++        let header: u8 = self.read(&mut *reader)?;
++        let codec = Zenoh080Header::new(header);
++        codec.read(reader)
++    }
++}
++
++impl<R, const ID: u8> RCodec<(TsStackType<{ ID }>, bool), &mut R> for Zenoh080Header
++where
++    R: Reader,
++{
++    type Error = DidntRead;
++
++    fn read(self, reader: &mut R) -> Result<(TsStackType<{ ID }>, bool), Self::Error> {
++        let (_, more): (ZExtZBufHeader<{ ID }>, bool) = self.read(&mut *reader)?;
++        let ts_stack: TimestampStack = self.codec.read(&mut *reader)?;
++        Ok((TsStackType { ts_stack }, more))
++    }
++}
+diff --git a/commons/zenoh-protocol/src/network/mod.rs b/commons/zenoh-protocol/src/network/mod.rs
+index 2e373d91..c7ea7e02 100644
+--- a/commons/zenoh-protocol/src/network/mod.rs
++++ b/commons/zenoh-protocol/src/network/mod.rs
+@@ -17,6 +17,7 @@ pub mod oam;
+ pub mod push;
+ pub mod request;
+ pub mod response;
++pub mod timestamp_stack;
+ 
+ use core::fmt;
+ 
+diff --git a/commons/zenoh-protocol/src/network/push.rs b/commons/zenoh-protocol/src/network/push.rs
+index 83084576..1700eb2e 100644
+--- a/commons/zenoh-protocol/src/network/push.rs
++++ b/commons/zenoh-protocol/src/network/push.rs
+@@ -48,6 +48,7 @@ pub struct Push {
+     pub ext_qos: ext::QoSType,
+     pub ext_tstamp: Option<ext::TimestampType>,
+     pub ext_nodeid: ext::NodeIdType,
++    pub ext_ts_stack: Option<ext::TsStackType>,
+     pub payload: PushBody,
+ }
+ 
+@@ -62,6 +63,9 @@ pub mod ext {
+ 
+     pub type NodeId = zextz64!(0x3, true);
+     pub type NodeIdType = crate::network::ext::NodeIdType<{ NodeId::ID }>;
++
++    pub type TsStack = zextzbuf!(0x7, false);
++    pub type TsStackType = crate::network::timestamp_stack::TsStackType<{ TsStack::ID }>;
+ }
+ 
+ impl Push {
+@@ -85,6 +89,7 @@ impl Push {
+         let ext_qos = ext::QoSType::rand();
+         let ext_tstamp = rng.gen_bool(0.5).then(ext::TimestampType::rand);
+         let ext_nodeid = ext::NodeIdType::rand();
++        let ext_ts_stack = rng.gen_bool(0.5).then(ext::TsStackType::rand);
+ 
+         Self {
+             wire_expr,
+@@ -92,6 +97,7 @@ impl Push {
+             ext_tstamp,
+             ext_qos,
+             ext_nodeid,
++            ext_ts_stack,
+         }
+     }
+ }
+@@ -103,6 +109,7 @@ impl From<PushBody> for Push {
+             ext_qos: ext::QoSType::DEFAULT,
+             ext_tstamp: None,
+             ext_nodeid: ext::NodeIdType::DEFAULT,
++            ext_ts_stack: None,
+             payload: value,
+         }
+     }
+diff --git a/commons/zenoh-protocol/src/network/request.rs b/commons/zenoh-protocol/src/network/request.rs
+index 35ca968d..012ca364 100644
+--- a/commons/zenoh-protocol/src/network/request.rs
++++ b/commons/zenoh-protocol/src/network/request.rs
+@@ -63,6 +63,7 @@ pub struct Request {
+     pub ext_target: ext::QueryTarget,
+     pub ext_budget: Option<ext::BudgetType>,
+     pub ext_timeout: Option<ext::TimeoutType>,
++    pub ext_ts_stack: Option<ext::TsStackType>,
+     pub payload: RequestBody,
+ }
+ 
+@@ -129,6 +130,9 @@ pub mod ext {
+     // The timeout of the request
+     pub type Timeout = zextz64!(0x6, false);
+     pub type TimeoutType = Duration;
++
++    pub type TsStack = zextzbuf!(0x7, false);
++    pub type TsStackType = crate::network::timestamp_stack::TsStackType<{ TsStack::ID }>;
+ }
+ 
+ impl Request {
+@@ -166,6 +170,7 @@ impl Request {
+         } else {
+             None
+         };
++        let ext_ts_stack = rng.gen_bool(0.5).then(ext::TsStackType::rand);
+ 
+         Self {
+             wire_expr,
+@@ -177,6 +182,7 @@ impl Request {
+             ext_target,
+             ext_budget,
+             ext_timeout,
++            ext_ts_stack,
+         }
+     }
+ }
+diff --git a/commons/zenoh-protocol/src/network/response.rs b/commons/zenoh-protocol/src/network/response.rs
+index 4666caa0..4dd9d61f 100644
+--- a/commons/zenoh-protocol/src/network/response.rs
++++ b/commons/zenoh-protocol/src/network/response.rs
+@@ -56,6 +56,7 @@ pub struct Response {
+     pub ext_qos: ext::QoSType,
+     pub ext_tstamp: Option<ext::TimestampType>,
+     pub ext_respid: Option<ext::ResponderIdType>,
++    pub ext_ts_stack: Option<ext::TsStackType>,
+ }
+ 
+ pub mod ext {
+@@ -68,6 +69,9 @@ pub mod ext {
+ 
+     pub type ResponderId = zextzbuf!(0x3, false);
+     pub type ResponderIdType = crate::network::ext::EntityGlobalIdType<{ ResponderId::ID }>;
++
++    pub type TsStack = zextzbuf!(0x7, false);
++    pub type TsStackType = crate::network::timestamp_stack::TsStackType<{ TsStack::ID }>;
+ }
+ 
+ impl Response {
+@@ -95,6 +99,7 @@ impl Response {
+         let ext_qos = ext::QoSType::rand();
+         let ext_tstamp = rng.gen_bool(0.5).then(ext::TimestampType::rand);
+         let ext_respid = rng.gen_bool(0.5).then(ext::ResponderIdType::rand);
++        let ext_ts_stack = rng.gen_bool(0.5).then(ext::TsStackType::rand);
+ 
+         Self {
+             rid,
+@@ -103,6 +108,7 @@ impl Response {
+             ext_qos,
+             ext_tstamp,
+             ext_respid,
++            ext_ts_stack,
+         }
+     }
+ }
+diff --git a/commons/zenoh-protocol/src/network/timestamp_stack.rs b/commons/zenoh-protocol/src/network/timestamp_stack.rs
+new file mode 100644
+index 00000000..eef5d064
+--- /dev/null
++++ b/commons/zenoh-protocol/src/network/timestamp_stack.rs
+@@ -0,0 +1,121 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++//
++use alloc::vec::Vec;
++
++pub const MAX_STACK_SIZE: usize = 255;
++
++/// Zenoh extension wrapper for the timestamp stack.
++///
++/// The `const ID: u8` parameter encodes the extension's wire ID, ensuring
++/// type-safety across different message contexts.
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct TsStackType<const ID: u8> {
++    pub ts_stack: TimestampStack,
++}
++
++impl<const ID: u8> TsStackType<{ ID }> {
++    #[cfg(feature = "test")]
++    #[doc(hidden)]
++    pub fn rand() -> Self {
++        use rand::Rng;
++        let mut rng = rand::thread_rng();
++
++        let conf_flags: u8 = rng.gen_range(1..=7);
++        let n: usize = rng.gen_range(0..=3);
++        let mut stack = Vec::with_capacity(n);
++        let points = [
++            interception_point::SEND,
++            interception_point::ROUTE,
++            interception_point::RECEIVE,
++        ];
++        for _ in 0..n {
++            let point = points[rng.gen_range(0..points.len())];
++            let is_custom = rng.gen_bool(0.5);
++            let flags = point
++                | if is_custom {
++                    interception_point::IS_CUSTOM_TS
++                } else {
++                    0
++                };
++            let ts_len: usize = rng.gen_range(0..=16);
++            let timestamp: Vec<u8> = (0..ts_len).map(|_| rng.gen()).collect();
++            stack.push(Interception { flags, timestamp });
++        }
++
++        Self {
++            ts_stack: TimestampStack { conf_flags, stack },
++        }
++    }
++}
++
++/// Bitmask flags indicating which interception points are activated in a timestamp stack.
++pub mod interception_point {
++    pub const SEND: u8 = 0b0000_0001;
++    pub const ROUTE: u8 = 0b0000_0010;
++    pub const RECEIVE: u8 = 0b0000_0100;
++
++    /// Bit 7 of the `Interception.flags` field: set when the timestamp was produced by a
++    /// user-defined callback (custom format), cleared when it is a standard UHLC timestamp.
++    pub const IS_CUSTOM_TS: u8 = 0b1000_0000;
++}
++
++/// A single interception record containing the interception point identifier,
++/// timestamp format flag, and raw timestamp bytes.
++///
++/// ```text
++/// Flags:
++/// - U:     User-defined               If U==1 then the timestamp format is user-defined;
++///                                     otherwise it is a standard UHLC timestamp.
++/// - X:     Reserved                   Must be 0.
++/// - point: Interception point         0b001=SEND, 0b010=ROUTE, 0b100=RECEIVE.
++///
++///  7 6 5 4 3 2 1 0
++/// +-+-+-+-+-+-+-+-+
++/// |U|X|X|X|X|point|
++/// +---------------+
++/// ~   timestamp   ~
++/// +---------------+
++/// ```
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct Interception {
++    /// Bitfield: interception point id + timestamp format.
++    pub flags: u8,
++    /// Raw timestamp bytes (format defined by `flags`).
++    pub timestamp: Vec<u8>,
++}
++
++/// A stack of interception timestamps carried as a message extension.
++///
++/// ```text
++/// Flags:
++/// - S: Send            If S==1 then the send interception point is activated.
++/// - R: Route           If R==1 then the route interception point is activated.
++/// - E: Receive         If E==1 then the receive interception point is activated.
++/// - X: Reserved
++///  7 6 5 4 3 2 1 0
++/// +-+-+-+-+-+-+-+-+
++/// |X|X|X|X|X|E|R|S|
++/// +---------------+
++/// ~  count: zint   ~
++/// +---------------+
++/// ~ [Interception] ~
++/// +---------------+
++/// ```
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct TimestampStack {
++    /// Bitmask of which interception points are activated.
++    pub conf_flags: u8,
++    /// Ordered list of interceptions collected along the message path.
++    pub stack: Vec<Interception>,
++}
+diff --git a/zenoh-ext/src/advanced_publisher.rs b/zenoh-ext/src/advanced_publisher.rs
+index 408c0f1b..01549ed8 100644
+--- a/zenoh-ext/src/advanced_publisher.rs
++++ b/zenoh-ext/src/advanced_publisher.rs
+@@ -26,7 +26,10 @@ use zenoh::{
+     internal::{
+         bail,
+         runtime::ZRuntime,
+-        traits::{EncodingBuilderTrait, QoSBuilderTrait, TimestampBuilderTrait},
++        traits::{
++            EncodingBuilderTrait, QoSBuilderTrait, TimestampBuilderTrait,
++            TimestampInstrumentationBuilderTrait,
++        },
+         TerminatableTask,
+     },
+     key_expr::{keyexpr, KeyExpr},
+@@ -770,6 +773,23 @@ impl<P> TimestampBuilderTrait for AdvancedPublicationBuilder<'_, P> {
+     }
+ }
+ 
++#[zenoh_macros::internal_trait]
++#[zenoh_macros::unstable]
++impl<P> TimestampInstrumentationBuilderTrait for AdvancedPublicationBuilder<'_, P> {
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<
++        TS: Into<Option<zenoh::timestamp_stack::TimestampInstrumentation>>,
++    >(
++        self,
++        instrumentation: TS,
++    ) -> Self {
++        Self {
++            builder: self.builder.timestamp_instrumentation(instrumentation),
++            ..self
++        }
++    }
++}
++
+ #[zenoh_macros::unstable]
+ impl<P> Resolvable for AdvancedPublicationBuilder<'_, P> {
+     type To = ZResult<()>;
+diff --git a/zenoh/src/api/admin.rs b/zenoh/src/api/admin.rs
+index 49795337..6fdfd99b 100644
+--- a/zenoh/src/api/admin.rs
++++ b/zenoh/src/api/admin.rs
+@@ -226,6 +226,8 @@ pub(crate) fn init(session: WeakSession) {
+                 #[cfg(feature = "unstable")]
+                 None,
+                 None,
++                #[cfg(feature = "unstable")]
++                None,
+             ) {
+                 if e.downcast_ref::<SessionClosedError>().is_none() {
+                     tracing::error!("Unable to publish transport event: {}", e);
+@@ -282,6 +284,8 @@ pub(crate) fn init(session: WeakSession) {
+                     #[cfg(feature = "unstable")]
+                     None,
+                     None,
++                    #[cfg(feature = "unstable")]
++                    None,
+                 ) {
+                     if e.downcast_ref::<SessionClosedError>().is_none() {
+                         tracing::error!("Unable to publish link event: {}", e);
+diff --git a/zenoh/src/api/builders/publisher.rs b/zenoh/src/api/builders/publisher.rs
+index fc7c5f7a..9b36c28f 100644
+--- a/zenoh/src/api/builders/publisher.rs
++++ b/zenoh/src/api/builders/publisher.rs
+@@ -20,10 +20,13 @@ use zenoh_protocol::core::Reliability;
+ 
+ #[cfg(feature = "unstable")]
+ use crate::api::sample::SourceInfo;
++#[cfg(feature = "unstable")]
++use crate::api::timestamp_stack::TimestampInstrumentation;
+ use crate::{
+     api::{
+         builders::sample::{
+             EncodingBuilderTrait, QoSBuilderTrait, SampleBuilderTrait, TimestampBuilderTrait,
++            TimestampInstrumentationBuilderTrait,
+         },
+         bytes::{OptionZBytes, ZBytes},
+         cancellation::SyncGroup,
+@@ -103,6 +106,8 @@ pub struct PublicationBuilder<P, T> {
+     #[cfg(feature = "unstable")]
+     pub(crate) source_info: Option<SourceInfo>,
+     pub(crate) attachment: Option<ZBytes>,
++    #[cfg(feature = "unstable")]
++    pub(crate) timestamp_instrumentation: Option<TimestampInstrumentation>,
+ }
+ 
+ #[zenoh_macros::internal_trait]
+@@ -210,6 +215,20 @@ impl<P, T> SampleBuilderTrait for PublicationBuilder<P, T> {
+     }
+ }
+ 
++#[zenoh_macros::internal_trait]
++impl<P, T> TimestampInstrumentationBuilderTrait for PublicationBuilder<P, T> {
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<TS: Into<Option<TimestampInstrumentation>>>(
++        self,
++        instrumentation: TS,
++    ) -> Self {
++        Self {
++            timestamp_instrumentation: instrumentation.into(),
++            ..self
++        }
++    }
++}
++
+ #[zenoh_macros::internal_trait]
+ impl<P, T> TimestampBuilderTrait for PublicationBuilder<P, T> {
+     /// Sets an optional timestamp to be sent along with the publication.
+@@ -244,6 +263,8 @@ impl Wait for PublicationBuilder<PublisherBuilder<'_, '_>, PublicationBuilderPut
+             #[cfg(feature = "unstable")]
+             self.source_info,
+             self.attachment,
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )
+     }
+ }
+@@ -267,6 +288,8 @@ impl Wait for PublicationBuilder<PublisherBuilder<'_, '_>, PublicationBuilderDel
+             #[cfg(feature = "unstable")]
+             self.source_info,
+             self.attachment,
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )
+     }
+ }
+@@ -506,6 +529,8 @@ impl Wait for PublicationBuilder<&Publisher<'_>, PublicationBuilderPut> {
+             #[cfg(feature = "unstable")]
+             self.source_info,
+             self.attachment,
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )
+     }
+ }
+@@ -527,6 +552,8 @@ impl Wait for PublicationBuilder<&Publisher<'_>, PublicationBuilderDelete> {
+             #[cfg(feature = "unstable")]
+             self.source_info,
+             self.attachment,
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )
+     }
+ }
+diff --git a/zenoh/src/api/builders/querier.rs b/zenoh/src/api/builders/querier.rs
+index c138dece..8fe0288e 100644
+--- a/zenoh/src/api/builders/querier.rs
++++ b/zenoh/src/api/builders/querier.rs
+@@ -28,9 +28,13 @@ use super::sample::QoSBuilderTrait;
+ use crate::api::cancellation::CancellationTokenBuilderTrait;
+ #[cfg(feature = "unstable")]
+ use crate::api::sample::SourceInfo;
++#[cfg(feature = "unstable")]
++use crate::api::timestamp_stack::TimestampInstrumentation;
+ use crate::{
+     api::{
+-        builders::sample::{EncodingBuilderTrait, SampleBuilderTrait},
++        builders::sample::{
++            EncodingBuilderTrait, SampleBuilderTrait, TimestampInstrumentationBuilderTrait,
++        },
+         bytes::ZBytes,
+         cancellation::SyncGroup,
+         encoding::Encoding,
+@@ -244,6 +248,8 @@ pub struct QuerierGetBuilder<'a, 'b, Handler> {
+     #[cfg(feature = "unstable")]
+     pub(crate) source_info: Option<SourceInfo>,
+     #[cfg(feature = "unstable")]
++    pub(crate) timestamp_instrumentation: Option<TimestampInstrumentation>,
++    #[cfg(feature = "unstable")]
+     pub(crate) cancellation_token: Option<crate::api::cancellation::CancellationToken>,
+ }
+ 
+@@ -312,6 +318,20 @@ impl<Handler> SampleBuilderTrait for QuerierGetBuilder<'_, '_, Handler> {
+     }
+ }
+ 
++#[zenoh_macros::internal_trait]
++impl<Handler> TimestampInstrumentationBuilderTrait for QuerierGetBuilder<'_, '_, Handler> {
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<TS: Into<Option<TimestampInstrumentation>>>(
++        self,
++        instrumentation: TS,
++    ) -> Self {
++        Self {
++            timestamp_instrumentation: instrumentation.into(),
++            ..self
++        }
++    }
++}
++
+ #[zenoh_macros::internal_trait]
+ impl<Handler> EncodingBuilderTrait for QuerierGetBuilder<'_, '_, Handler> {
+     /// Set the [`Encoding`]
+@@ -424,6 +444,8 @@ impl<'a, 'b> QuerierGetBuilder<'a, 'b, DefaultHandler> {
+             attachment,
+             #[cfg(feature = "unstable")]
+             source_info,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation,
+             handler: _,
+             #[cfg(feature = "unstable")]
+             cancellation_token,
+@@ -435,6 +457,8 @@ impl<'a, 'b> QuerierGetBuilder<'a, 'b, DefaultHandler> {
+             attachment,
+             #[cfg(feature = "unstable")]
+             source_info,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation,
+             handler,
+             #[cfg(feature = "unstable")]
+             cancellation_token,
+@@ -503,6 +527,8 @@ where
+             self.cancellation_token,
+             Some(self.querier.id),
+             self.querier.callback_sync_group.notifier(),
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )?;
+         Ok(receiver)
+     }
+diff --git a/zenoh/src/api/builders/query.rs b/zenoh/src/api/builders/query.rs
+index 287742ea..2bfb64e2 100644
+--- a/zenoh/src/api/builders/query.rs
++++ b/zenoh/src/api/builders/query.rs
+@@ -24,9 +24,14 @@ use zenoh_result::ZResult;
+ use crate::api::cancellation::CancellationTokenBuilderTrait;
+ #[cfg(feature = "unstable")]
+ use crate::api::sample::SourceInfo;
++#[cfg(feature = "unstable")]
++use crate::api::timestamp_stack::TimestampInstrumentation;
+ use crate::{
+     api::{
+-        builders::sample::{EncodingBuilderTrait, QoSBuilderTrait, SampleBuilderTrait},
++        builders::sample::{
++            EncodingBuilderTrait, QoSBuilderTrait, SampleBuilderTrait,
++            TimestampInstrumentationBuilderTrait,
++        },
+         bytes::ZBytes,
+         encoding::Encoding,
+         handlers::{locked, Callback, DefaultHandler, IntoHandler},
+@@ -79,6 +84,8 @@ pub struct SessionGetBuilder<'a, 'b, Handler> {
+     #[cfg(feature = "unstable")]
+     pub(crate) source_info: Option<SourceInfo>,
+     #[cfg(feature = "unstable")]
++    pub(crate) timestamp_instrumentation: Option<TimestampInstrumentation>,
++    #[cfg(feature = "unstable")]
+     pub(crate) cancellation_token: Option<crate::api::cancellation::CancellationToken>,
+ }
+ 
+@@ -104,6 +111,20 @@ impl<Handler> SampleBuilderTrait for SessionGetBuilder<'_, '_, Handler> {
+     }
+ }
+ 
++#[zenoh_macros::internal_trait]
++impl<Handler> TimestampInstrumentationBuilderTrait for SessionGetBuilder<'_, '_, Handler> {
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<TS: Into<Option<TimestampInstrumentation>>>(
++        self,
++        instrumentation: TS,
++    ) -> Self {
++        Self {
++            timestamp_instrumentation: instrumentation.into(),
++            ..self
++        }
++    }
++}
++
+ #[zenoh_macros::internal_trait]
+ impl<Handler> QoSBuilderTrait for SessionGetBuilder<'_, '_, Handler> {
+     /// Changes the [`CongestionControl`](crate::qos::CongestionControl) to apply when routing the request.
+@@ -264,6 +285,8 @@ impl<'a, 'b> SessionGetBuilder<'a, 'b, DefaultHandler> {
+             attachment,
+             #[cfg(feature = "unstable")]
+             source_info,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation,
+             handler: _,
+             #[cfg(feature = "unstable")]
+             cancellation_token,
+@@ -280,6 +303,8 @@ impl<'a, 'b> SessionGetBuilder<'a, 'b, DefaultHandler> {
+             attachment,
+             #[cfg(feature = "unstable")]
+             source_info,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation,
+             handler,
+             #[cfg(feature = "unstable")]
+             cancellation_token,
+@@ -405,6 +430,8 @@ where
+             self.cancellation_token,
+             None,
+             None,
++            #[cfg(feature = "unstable")]
++            self.timestamp_instrumentation,
+         )?;
+         Ok(receiver)
+     }
+diff --git a/zenoh/src/api/builders/reply.rs b/zenoh/src/api/builders/reply.rs
+index b16144a1..c8eefa58 100644
+--- a/zenoh/src/api/builders/reply.rs
++++ b/zenoh/src/api/builders/reply.rs
+@@ -267,7 +267,7 @@ impl Resolvable for ReplyErrBuilder<'_> {
+ 
+ impl Wait for ReplyErrBuilder<'_> {
+     fn wait(self) -> <Self as Resolvable>::To {
+-        self.query.inner.primitives.send_response(&mut Response {
++        let mut response = Response {
+             rid: self.query.inner.qid,
+             wire_expr: WireExpr {
+                 scope: 0,
+@@ -288,7 +288,33 @@ impl Wait for ReplyErrBuilder<'_> {
+                 zid: self.query.inner.zid,
+                 eid: self.query.eid,
+             }),
+-        });
++            ext_ts_stack: None,
++        };
++        #[cfg(feature = "unstable")]
++        {
++            let weak_rt = self.query.inner.runtime.clone();
++            response.ext_ts_stack = self
++                .query
++                .inner
++                .query_ts_stack
++                .as_ref()
++                .and_then(|ts_stack| {
++                    use zenoh_protocol::network::timestamp_stack::{
++                        interception_point, TsStackType,
++                    };
++                    let mut ext_ts_stack = Some(TsStackType {
++                        ts_stack: (ts_stack).into(),
++                    });
++                    let upgrade = weak_rt.clone();
++                    crate::api::timestamp_stack::push_ts_interception(
++                        &mut ext_ts_stack,
++                        move || upgrade.and_then(|r| r.upgrade()).map(|dr| dr.get_inner()),
++                        interception_point::SEND,
++                    );
++                    ext_ts_stack
++                });
++        }
++        self.query.inner.primitives.send_response(&mut response);
+         Ok(())
+     }
+ }
+diff --git a/zenoh/src/api/builders/sample.rs b/zenoh/src/api/builders/sample.rs
+index b530e809..42b20780 100644
+--- a/zenoh/src/api/builders/sample.rs
++++ b/zenoh/src/api/builders/sample.rs
+@@ -19,6 +19,8 @@ use zenoh_protocol::core::CongestionControl;
+ #[cfg(feature = "unstable")]
+ use zenoh_protocol::core::Reliability;
+ 
++#[cfg(feature = "unstable")]
++use crate::api::timestamp_stack::TimestampInstrumentation;
+ use crate::api::{
+     bytes::{OptionZBytes, ZBytes},
+     encoding::Encoding,
+@@ -58,6 +60,18 @@ pub trait SampleBuilderTrait {
+     fn attachment<T: Into<OptionZBytes>>(self, attachment: T) -> Self;
+ }
+ 
++pub trait TimestampInstrumentationBuilderTrait {
++    /// Sets the timestamp stack instrumentation to be sent along with the publication.
++    ///
++    /// The timestamp stack carries interception records (Send, Route, Receive)
++    /// collected along the message's path through the network.
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<TS: Into<Option<TimestampInstrumentation>>>(
++        self,
++        instrumentation: TS,
++    ) -> Self;
++}
++
+ pub trait EncodingBuilderTrait {
+     /// Set the [`Encoding`]
+     fn encoding<T: Into<Encoding>>(self, encoding: T) -> Self;
+@@ -111,6 +125,8 @@ impl SampleBuilder<SampleBuilderPut> {
+                 #[cfg(feature = "unstable")]
+                 source_info: None,
+                 attachment: None,
++                #[cfg(feature = "unstable")]
++                timestamp_stack: None,
+             },
+             _t: PhantomData::<SampleBuilderPut>,
+         }
+@@ -143,6 +159,8 @@ impl SampleBuilder<SampleBuilderDelete> {
+                 #[cfg(feature = "unstable")]
+                 source_info: None,
+                 attachment: None,
++                #[cfg(feature = "unstable")]
++                timestamp_stack: None,
+             },
+             _t: PhantomData::<SampleBuilderDelete>,
+         }
+@@ -226,6 +244,25 @@ impl<T> SampleBuilderTrait for SampleBuilder<T> {
+     }
+ }
+ 
++#[zenoh_macros::internal_trait]
++impl<T> TimestampInstrumentationBuilderTrait for SampleBuilder<T> {
++    #[zenoh_macros::unstable]
++    fn timestamp_instrumentation<TS: Into<Option<TimestampInstrumentation>>>(
++        self,
++        instrumentation: TS,
++    ) -> Self {
++        Self {
++            sample: Sample {
++                timestamp_stack: instrumentation
++                    .into()
++                    .map(crate::api::timestamp_stack::TimestampStack::new),
++                ..self.sample
++            },
++            _t: PhantomData::<T>,
++        }
++    }
++}
++
+ #[zenoh_macros::internal_trait]
+ impl<T> QoSBuilderTrait for SampleBuilder<T> {
+     /// Changes the [`CongestionControl`](crate::qos::CongestionControl) to apply when routing the data/publication/sample.
+@@ -334,6 +371,8 @@ impl From<&PublicationBuilder<&Publisher<'_>, PublicationBuilderPut>> for Sample
+             #[cfg(feature = "unstable")]
+             source_info: builder.source_info.clone(),
+             attachment: builder.attachment.clone(),
++            #[cfg(feature = "unstable")]
++            timestamp_stack: None,
+         }
+     }
+ }
+@@ -357,6 +396,8 @@ impl From<&PublicationBuilder<&Publisher<'_>, PublicationBuilderDelete>> for Sam
+             #[cfg(feature = "unstable")]
+             source_info: builder.source_info.clone(),
+             attachment: builder.attachment.clone(),
++            #[cfg(feature = "unstable")]
++            timestamp_stack: None,
+         }
+     }
+ }
+diff --git a/zenoh/src/api/builders/session.rs b/zenoh/src/api/builders/session.rs
+index 824d66ff..5bb7982e 100644
+--- a/zenoh/src/api/builders/session.rs
++++ b/zenoh/src/api/builders/session.rs
+@@ -29,6 +29,8 @@ use zenoh_shm::api::client_storage::ShmClientStorage;
+ use crate::api::session::Session;
+ #[cfg(feature = "internal")]
+ use crate::net::runtime::DynamicRuntime;
++#[cfg(feature = "unstable")]
++use crate::{api::timestamp_stack::GetTimestampCallback, timestamp_stack::TimestampContext};
+ 
+ /// A builder returned by [`crate::open`] used to open a zenoh [`Session`].
+ ///
+@@ -49,6 +51,8 @@ where
+     config: TryIntoConfig,
+     #[cfg(feature = "shared-memory")]
+     shm_clients: Option<Arc<ShmClientStorage>>,
++    #[cfg(feature = "unstable")]
++    timestamp_callback: Option<GetTimestampCallback>,
+ }
+ 
+ impl<TryIntoConfig> fmt::Debug for OpenBuilder<TryIntoConfig>
+@@ -61,6 +65,11 @@ where
+         debug.field("config", &"..");
+         #[cfg(feature = "shared-memory")]
+         debug.field("shm_clients", &self.shm_clients.as_ref().map(|_| ".."));
++        #[cfg(feature = "unstable")]
++        debug.field(
++            "timestamp_callback",
++            &self.timestamp_callback.as_ref().map(|_| ".."),
++        );
+         debug.finish()
+     }
+ }
+@@ -75,6 +84,8 @@ where
+             config,
+             #[cfg(feature = "shared-memory")]
+             shm_clients: None,
++            #[cfg(feature = "unstable")]
++            timestamp_callback: None,
+         }
+     }
+ }
+@@ -91,6 +102,28 @@ where
+     }
+ }
+ 
++#[cfg(feature = "unstable")]
++impl<TryIntoConfig> OpenBuilder<TryIntoConfig>
++where
++    TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
++    <TryIntoConfig as std::convert::TryInto<crate::config::Config>>::Error: std::fmt::Debug,
++{
++    /// Set a custom timestamp callback for timestamp stack instrumentation.
++    ///
++    /// The callback will be called at each interception point (Send, Route, Receive)
++    /// when the timestamp stack feature is activated.
++    ///
++    /// If no callback is provided, the default UHLC timestamp generation will be used.
++    #[zenoh_macros::unstable]
++    pub fn with_timestamp_callback<F: Fn(TimestampContext) -> Vec<u8> + Send + Sync + 'static>(
++        mut self,
++        cb: F,
++    ) -> Self {
++        self.timestamp_callback = Some(Box::new(cb));
++        self
++    }
++}
++
+ impl<TryIntoConfig> Resolvable for OpenBuilder<TryIntoConfig>
+ where
+     TryIntoConfig: std::convert::TryInto<crate::config::Config> + Send + 'static,
+@@ -113,6 +146,8 @@ where
+             config,
+             #[cfg(feature = "shared-memory")]
+             self.shm_clients,
++            #[cfg(feature = "unstable")]
++            self.timestamp_callback,
+         )
+         .wait()
+     }
+diff --git a/zenoh/src/api/mod.rs b/zenoh/src/api/mod.rs
+index 1ef00f71..df8f825d 100644
+--- a/zenoh/src/api/mod.rs
++++ b/zenoh/src/api/mod.rs
+@@ -39,3 +39,5 @@ pub(crate) mod scouting;
+ pub(crate) mod selector;
+ pub(crate) mod session;
+ pub(crate) mod subscriber;
++#[cfg(feature = "unstable")]
++pub(crate) mod timestamp_stack;
+diff --git a/zenoh/src/api/publisher.rs b/zenoh/src/api/publisher.rs
+index 53b01123..4a181127 100644
+--- a/zenoh/src/api/publisher.rs
++++ b/zenoh/src/api/publisher.rs
+@@ -269,6 +269,8 @@ impl<'a> Publisher<'a> {
+             #[cfg(feature = "unstable")]
+             source_info: None,
+             attachment: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+ 
+@@ -296,6 +298,8 @@ impl<'a> Publisher<'a> {
+             #[cfg(feature = "unstable")]
+             source_info: None,
+             attachment: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+ 
+@@ -506,6 +510,8 @@ impl Sink<Sample> for Publisher<'_> {
+             #[cfg(feature = "unstable")]
+             None,
+             attachment,
++            #[cfg(feature = "unstable")]
++            None,
+         )
+     }
+ 
+diff --git a/zenoh/src/api/querier.rs b/zenoh/src/api/querier.rs
+index 2d475fd3..5f6b46a8 100644
+--- a/zenoh/src/api/querier.rs
++++ b/zenoh/src/api/querier.rs
+@@ -175,6 +175,8 @@ impl<'a> Querier<'a> {
+             handler: DefaultHandler::default(),
+             #[cfg(feature = "unstable")]
+             cancellation_token: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+ 
+diff --git a/zenoh/src/api/query.rs b/zenoh/src/api/query.rs
+index d2fa16f3..40fe832c 100644
+--- a/zenoh/src/api/query.rs
++++ b/zenoh/src/api/query.rs
+@@ -101,6 +101,8 @@ impl Default for QueryConsolidation {
+ pub struct ReplyError {
+     pub(crate) payload: ZBytes,
+     pub(crate) encoding: Encoding,
++    #[cfg(feature = "unstable")]
++    pub(crate) timestamp_stack: Option<crate::api::timestamp_stack::TimestampStack>,
+ }
+ 
+ impl ReplyError {
+@@ -108,6 +110,8 @@ impl ReplyError {
+         Self {
+             payload: payload.into(),
+             encoding,
++            #[cfg(feature = "unstable")]
++            timestamp_stack: None,
+         }
+     }
+ 
+@@ -135,8 +139,20 @@ impl ReplyError {
+         ReplyError {
+             payload: ZBytes::new(),
+             encoding: Encoding::default(),
++            #[cfg(feature = "unstable")]
++            timestamp_stack: None,
+         }
+     }
++
++    /// Gets the timestamp stack of this ReplyError.
++    ///
++    /// The timestamp stack carries interception records (Send, Route, Receive)
++    /// collected along the message's path through the network.
++    #[zenoh_macros::unstable]
++    #[inline]
++    pub fn timestamp_stack(&self) -> Option<&crate::api::timestamp_stack::TimestampStack> {
++        self.timestamp_stack.as_ref()
++    }
+ }
+ 
+ impl Display for ReplyError {
+diff --git a/zenoh/src/api/queryable.rs b/zenoh/src/api/queryable.rs
+index 29c7963b..6a7d74a4 100644
+--- a/zenoh/src/api/queryable.rs
++++ b/zenoh/src/api/queryable.rs
+@@ -33,6 +33,8 @@ use {zenoh_config::wrappers::EntityGlobalId, zenoh_protocol::core::EntityGlobalI
+ use crate::api::sample::SourceInfo;
+ #[zenoh_macros::internal]
+ use crate::net::primitives::DummyPrimitives;
++#[cfg(feature = "unstable")]
++use crate::net::runtime::WeakDynamicRuntime;
+ use crate::{
+     api::{
+         builders::reply::{ReplyBuilder, ReplyBuilderDelete, ReplyBuilderPut, ReplyErrBuilder},
+@@ -118,6 +120,10 @@ pub(crate) struct QueryInner {
+     #[cfg(feature = "unstable")]
+     pub(crate) source_info: Option<SourceInfo>,
+     pub(crate) primitives: ReplyPrimitives,
++    #[cfg(feature = "unstable")]
++    pub(crate) runtime: Option<WeakDynamicRuntime>,
++    #[cfg(feature = "unstable")]
++    pub(crate) query_ts_stack: Option<crate::api::timestamp_stack::TimestampStack>,
+ }
+ 
+ impl QueryInner {
+@@ -132,6 +138,10 @@ impl QueryInner {
+             #[cfg(feature = "unstable")]
+             source_info: None,
+             primitives: ReplyPrimitives::new_remote(None, Arc::new(DummyPrimitives)),
++            #[cfg(feature = "unstable")]
++            runtime: None,
++            #[cfg(feature = "unstable")]
++            query_ts_stack: None,
+         }
+     }
+ }
+@@ -344,6 +354,16 @@ impl Query {
+         self.inner.source_info.as_ref()
+     }
+ 
++    /// Gets the timestamp stack attached to this query.
++    ///
++    /// The timestamp stack carries interception records (Send, Route, Receive)
++    /// collected along the message's path through the network.
++    #[zenoh_macros::unstable]
++    #[inline]
++    pub fn timestamp_stack(&self) -> Option<&crate::api::timestamp_stack::TimestampStack> {
++        self.inner.query_ts_stack.as_ref()
++    }
++
+     /// Sends a reply in the form of [`Sample`] to this Query.
+     ///
+     /// This api is for internal use only.
+@@ -567,7 +587,7 @@ impl Query {
+         let ext_sinfo = None;
+         #[cfg(feature = "unstable")]
+         let ext_sinfo = sample.source_info.map(Into::into);
+-        self.inner.primitives.send_response(&mut Response {
++        let mut response = Response {
+             rid: self.inner.qid,
+             wire_expr: self.inner.primitives.keyexpr_to_wire(&sample.key_expr),
+             payload: ResponseBody::Reply(zenoh::Reply {
+@@ -598,7 +618,26 @@ impl Query {
+                 zid: self.inner.zid,
+                 eid: self.eid,
+             }),
+-        });
++            ext_ts_stack: None,
++        };
++        #[cfg(feature = "unstable")]
++        {
++            let weak_rt = self.inner.runtime.clone();
++            response.ext_ts_stack = self.inner.query_ts_stack.as_ref().and_then(|ts_stack| {
++                use zenoh_protocol::network::timestamp_stack::{interception_point, TsStackType};
++                let mut ext_ts_stack = Some(TsStackType {
++                    ts_stack: ts_stack.into(),
++                });
++                let upgrade = weak_rt.clone();
++                crate::api::timestamp_stack::push_ts_interception(
++                    &mut ext_ts_stack,
++                    move || upgrade.and_then(|r| r.upgrade()).map(|dr| dr.get_inner()),
++                    interception_point::SEND,
++                );
++                ext_ts_stack
++            });
++        }
++        self.inner.primitives.send_response(&mut response);
+         Ok(())
+     }
+ }
+diff --git a/zenoh/src/api/sample.rs b/zenoh/src/api/sample.rs
+index 2b9f369f..0f896bd7 100644
+--- a/zenoh/src/api/sample.rs
++++ b/zenoh/src/api/sample.rs
+@@ -250,6 +250,8 @@ pub struct Sample {
+     #[cfg(feature = "unstable")]
+     pub(crate) source_info: Option<SourceInfo>,
+     pub(crate) attachment: Option<ZBytes>,
++    #[cfg(feature = "unstable")]
++    pub(crate) timestamp_stack: Option<crate::api::timestamp_stack::TimestampStack>,
+ }
+ 
+ impl Sample {
+@@ -317,6 +319,16 @@ impl Sample {
+         self.source_info.as_ref()
+     }
+ 
++    /// Gets the optional timestamp stack attached to this sample.
++    ///
++    /// The timestamp stack carries interception records (Send, Route, Receive)
++    /// collected along the message's path through the network.
++    #[zenoh_macros::unstable]
++    #[inline]
++    pub fn timestamp_stack(&self) -> Option<&crate::api::timestamp_stack::TimestampStack> {
++        self.timestamp_stack.as_ref()
++    }
++
+     /// Gets the optional sample attachment as bytes.
+     #[inline]
+     pub fn attachment(&self) -> Option<&ZBytes> {
+@@ -344,6 +356,8 @@ impl Sample {
+             #[cfg(feature = "unstable")]
+             source_info: None,
+             attachment: None,
++            #[cfg(feature = "unstable")]
++            timestamp_stack: None,
+         }
+     }
+ 
+@@ -352,7 +366,13 @@ impl Sample {
+         qos: push::ext::QoSType,
+         body: &mut PushBody,
+         #[cfg(feature = "unstable")] reliability: Reliability,
++        #[cfg(feature = "unstable")] timestamp_stack: Option<
++            zenoh_protocol::network::timestamp_stack::TimestampStack,
++        >,
+     ) -> Self {
++        #[cfg(feature = "unstable")]
++        let timestamp_stack = timestamp_stack
++            .and_then(|ts| crate::api::timestamp_stack::TimestampStack::try_from(&ts).ok());
+         match body {
+             PushBody::Put(put) => Self {
+                 key_expr,
+@@ -366,6 +386,8 @@ impl Sample {
+                 #[cfg(feature = "unstable")]
+                 source_info: put.ext_sinfo.map(Into::into),
+                 attachment: mem::take(&mut put.ext_attachment).map(Into::into),
++                #[cfg(feature = "unstable")]
++                timestamp_stack,
+             },
+             PushBody::Del(del) => Self {
+                 key_expr,
+@@ -379,6 +401,8 @@ impl Sample {
+                 #[cfg(feature = "unstable")]
+                 source_info: del.ext_sinfo.map(Into::into),
+                 attachment: mem::take(&mut del.ext_attachment).map(Into::into),
++                #[cfg(feature = "unstable")]
++                timestamp_stack,
+             },
+         }
+     }
+@@ -391,6 +415,7 @@ impl CallbackParameter for Sample {
+         push::ext::QoSType,
+         &'a mut PushBody,
+         Reliability,
++        Option<zenoh_protocol::network::timestamp_stack::TimestampStack>,
+     );
+     #[cfg(not(feature = "unstable"))]
+     type Message<'a> = (KeyExpr<'static>, push::ext::QoSType, &'a mut PushBody);
+@@ -402,6 +427,8 @@ impl CallbackParameter for Sample {
+             msg.2,
+             #[cfg(feature = "unstable")]
+             msg.3,
++            #[cfg(feature = "unstable")]
++            msg.4,
+         )
+     }
+ }
+diff --git a/zenoh/src/api/session.rs b/zenoh/src/api/session.rs
+index 77f5654a..4c63465e 100644
+--- a/zenoh/src/api/session.rs
++++ b/zenoh/src/api/session.rs
+@@ -73,7 +73,12 @@ use super::{
+     connectivity,
+ };
+ #[cfg(feature = "unstable")]
+-use crate::api::{cancellation::CancellationToken, sample::SourceInfo, selector::ZenohParameters};
++use crate::api::timestamp_stack::TimestampInstrumentation;
++#[cfg(feature = "unstable")]
++use crate::api::{
++    cancellation::CancellationToken, sample::SourceInfo, selector::ZenohParameters,
++    timestamp_stack::GetTimestampCallback,
++};
+ #[cfg(feature = "internal")]
+ use crate::net::runtime::Runtime;
+ #[cfg(all(feature = "shared-memory", feature = "unstable"))]
+@@ -552,11 +557,20 @@ impl SubscriberCallbacks {
+         qos: push::ext::QoSType,
+         msg: &mut PushBody,
+         #[cfg(feature = "unstable")] reliability: Reliability,
++        #[cfg(feature = "unstable")] timestamp_stack: Option<
++            zenoh_protocol::network::timestamp_stack::TimestampStack,
++        >,
+     ) {
+         let zenoh_collections::single_or_vec::IntoIter { drain, last } = self.0.into_iter();
+         for (cb, key_expr) in drain {
+             #[cfg(feature = "unstable")]
+-            cb.call_with_message((key_expr, qos, &mut msg.clone(), reliability));
++            cb.call_with_message((
++                key_expr,
++                qos,
++                &mut msg.clone(),
++                reliability,
++                timestamp_stack.clone(),
++            ));
+             #[cfg(not(feature = "unstable"))]
+             cb.call_with_message((key_expr, qos, &mut msg.clone()));
+         }
+@@ -568,7 +582,7 @@ impl SubscriberCallbacks {
+                 msg = &mut msg_clone;
+             }
+             #[cfg(feature = "unstable")]
+-            cb.call_with_message((key_expr, qos, msg, reliability));
++            cb.call_with_message((key_expr, qos, msg, reliability, timestamp_stack));
+             #[cfg(not(feature = "unstable"))]
+             cb.call_with_message((key_expr, qos, msg));
+         }
+@@ -1337,6 +1351,8 @@ impl Session {
+             attachment: None,
+             #[cfg(feature = "unstable")]
+             source_info: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+ 
+@@ -1372,6 +1388,8 @@ impl Session {
+             attachment: None,
+             #[cfg(feature = "unstable")]
+             source_info: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+     /// Query data from the matching queryables in the system. This is a shortcut for declaring
+@@ -1422,6 +1440,8 @@ impl Session {
+             source_info: None,
+             #[cfg(feature = "unstable")]
+             cancellation_token: None,
++            #[cfg(feature = "unstable")]
++            timestamp_instrumentation: None,
+         }
+     }
+ }
+@@ -1431,6 +1451,7 @@ impl Session {
+     pub(super) fn new(
+         config: Config,
+         #[cfg(feature = "shared-memory")] shm_clients: Option<Arc<ShmClientStorage>>,
++        #[cfg(feature = "unstable")] timestamp_callback: Option<GetTimestampCallback>,
+     ) -> impl Resolve<ZResult<Session>> {
+         ResolveFuture::new(async move {
+             tracing::debug!("Config: {:?}", &config);
+@@ -1442,6 +1463,10 @@ impl Session {
+             {
+                 runtime = runtime.shm_clients(shm_clients);
+             }
++            #[cfg(feature = "unstable")]
++            {
++                runtime = runtime.timestamp_callback(timestamp_callback);
++            }
+             let mut runtime = runtime.build().await?;
+ 
+             let session = Self::init(
+@@ -2067,6 +2092,8 @@ impl Session {
+                             #[cfg(feature = "unstable")]
+                             source_info: None,
+                             attachment: None,
++                            #[cfg(feature = "unstable")]
++                            timestamp_stack: None,
+                         });
+                     }
+                 });
+@@ -2465,6 +2492,10 @@ impl Session {
+             msg,
+             #[cfg(feature = "unstable")]
+             reliability,
++            // NOTE: execute_subscriber_callbacks is currently only called for Liveliness subscribers,
++            // so there is no need to pass ext_ts_stack in its parameters.
++            #[cfg(feature = "unstable")]
++            None,
+         );
+     }
+ 
+@@ -2483,6 +2514,7 @@ impl Session {
+         timestamp: Option<uhlc::Timestamp>,
+         #[cfg(feature = "unstable")] source_info: Option<SourceInfo>,
+         attachment: Option<ZBytes>,
++        #[cfg(feature = "unstable")] timestamp_instrumentation: Option<TimestampInstrumentation>,
+     ) -> ZResult<()> {
+         trace!("write({:?}, [...])", key_expr);
+         let state = zread!(self.0.state);
+@@ -2524,6 +2556,27 @@ impl Session {
+                 }),
+             })
+         };
++        #[cfg(feature = "unstable")]
++        if let Some(instrumentation) = timestamp_instrumentation {
++            use zenoh_protocol::network::timestamp_stack::{
++                interception_point, TimestampStack, TsStackType,
++            };
++            let mut ext_ts_stack = Some(TsStackType {
++                ts_stack: TimestampStack {
++                    conf_flags: instrumentation.conf_flags(),
++                    stack: vec![],
++                },
++            });
++            {
++                let rt = self.0.runtime.get_inner();
++                crate::api::timestamp_stack::push_ts_interception(
++                    &mut ext_ts_stack,
++                    || Some(rt),
++                    interception_point::SEND,
++                );
++            }
++            push.ext_ts_stack = ext_ts_stack;
++        }
+         let has_local_callbacks = !callbacks.is_empty();
+         if destination != Locality::SessionLocal {
+             primitives.send_push_consume(
+@@ -2541,6 +2594,9 @@ impl Session {
+                 callbacks: SubscriberCallbacks,
+                 push: &mut Push,
+                 #[cfg(feature = "unstable")] reliability: Reliability,
++                #[cfg(feature = "unstable")] timestamp_stack: Option<
++                    zenoh_protocol::network::timestamp_stack::TimestampStack,
++                >,
+             ) {
+                 callbacks.call(
+                     true,
+@@ -2548,13 +2604,29 @@ impl Session {
+                     &mut push.payload,
+                     #[cfg(feature = "unstable")]
+                     reliability,
++                    #[cfg(feature = "unstable")]
++                    timestamp_stack,
+                 );
+             }
++
++            #[cfg(feature = "unstable")]
++            {
++                let rt = self.0.runtime.get_inner();
++                crate::api::timestamp_stack::push_ts_interception(
++                    &mut push.ext_ts_stack,
++                    || Some(rt),
++                    zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++                );
++            }
++            #[cfg(feature = "unstable")]
++            let timestamp_stack = push.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone());
+             call_local(
+                 callbacks,
+                 &mut push,
+                 #[cfg(feature = "unstable")]
+                 reliability,
++                #[cfg(feature = "unstable")]
++                timestamp_stack,
+             );
+         }
+         // ext_unknown is not touched by routing/callbacks, so it must be empty
+@@ -2635,6 +2707,7 @@ impl Session {
+         #[cfg(feature = "unstable")] cancellation_token: Option<CancellationToken>,
+         querier_id: Option<EntityId>,
+         querier_notifier: Option<SyncGroupNotifier>,
++        #[cfg(feature = "unstable")] timestamp_instrumentation: Option<TimestampInstrumentation>,
+     ) -> ZResult<()> {
+         tracing::trace!(
+             "get({}, {:?}, {:?})",
+@@ -2714,6 +2787,29 @@ impl Session {
+         );
+         drop(state);
+ 
++        #[cfg(not(feature = "unstable"))]
++        let ext_ts_stack = None;
++        #[cfg(feature = "unstable")]
++        let mut ext_ts_stack = timestamp_instrumentation.and_then(|instrumentation| {
++            use zenoh_protocol::network::timestamp_stack::{
++                interception_point, TimestampStack, TsStackType,
++            };
++            let mut ext_ts_stack = Some(TsStackType {
++                ts_stack: TimestampStack {
++                    conf_flags: instrumentation.conf_flags(),
++                    stack: vec![],
++                },
++            });
++            {
++                let rt = self.0.runtime.get_inner();
++                crate::api::timestamp_stack::push_ts_interception(
++                    &mut ext_ts_stack,
++                    || Some(rt),
++                    interception_point::SEND,
++                );
++            }
++            ext_ts_stack
++        });
+         if destination != Locality::SessionLocal {
+             let wexpr = key_expr.to_wire(self).to_owned();
+             let ext_attachment = attachment.clone().map(Into::into);
+@@ -2742,9 +2838,19 @@ impl Session {
+                     ext_attachment,
+                     ext_unknown: vec![],
+                 }),
++                ext_ts_stack: ext_ts_stack.clone(),
+             });
+         }
+         if destination != Locality::Remote {
++            #[cfg(feature = "unstable")]
++            {
++                let rt = self.0.runtime.get_inner();
++                crate::api::timestamp_stack::push_ts_interception(
++                    &mut ext_ts_stack,
++                    || Some(rt),
++                    zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++                );
++            }
+             self.handle_query(
+                 zread!(self.0.state),
+                 true,
+@@ -2763,6 +2869,8 @@ impl Session {
+                     payload: v.0.clone().into(),
+                 }),
+                 attachment,
++                #[cfg(feature = "unstable")]
++                ext_ts_stack.map(|ext| ext.ts_stack),
+             );
+         }
+         Ok(())
+@@ -2879,6 +2987,9 @@ impl Session {
+         #[cfg(feature = "unstable")] source_info: Option<SourceInfo>,
+         body: Option<QueryBodyType>,
+         attachment: Option<ZBytes>,
++        #[cfg(feature = "unstable")] timestamp_stack: Option<
++            zenoh_protocol::network::timestamp_stack::TimestampStack,
++        >,
+     ) {
+         let Ok(primitives) = state.primitives() else {
+             return;
+@@ -2899,6 +3010,11 @@ impl Session {
+ 
+         let zid = self.zid();
+ 
++        #[cfg(feature = "unstable")]
++        let query_ts_stack = timestamp_stack
++            .as_ref()
++            .and_then(|ts| crate::api::timestamp_stack::TimestampStack::try_from(ts).ok());
++
+         let query_inner = Arc::new(QueryInner {
+             key_expr: key_expr.clone().into_owned(),
+             parameters: parameters.to_owned().into(),
+@@ -2912,6 +3028,10 @@ impl Session {
+             } else {
+                 ReplyPrimitives::new_remote(Some(self.downgrade()), primitives.into_primitives())
+             },
++            #[cfg(feature = "unstable")]
++            runtime: Some(self.0.runtime.downgrade()),
++            #[cfg(feature = "unstable")]
++            query_ts_stack,
+         });
+         if !queryables.is_empty() {
+             let mut query = Query {
+@@ -3121,6 +3241,8 @@ impl Primitives for WeakSession {
+                                         #[cfg(feature = "unstable")]
+                                         source_info: None,
+                                         attachment: None,
++                                        #[cfg(feature = "unstable")]
++                                        timestamp_stack: None,
+                                     }),
+                                     #[cfg(feature = "unstable")]
+                                     replier_id: None,
+@@ -3225,17 +3347,37 @@ impl Primitives for WeakSession {
+         let callbacks =
+             state.subscriber_callbacks(false, SubscriberKind::Subscriber, &msg.wire_expr, false);
+         drop(state);
++        #[cfg(feature = "unstable")]
++        {
++            let rt = self.0.runtime.get_inner();
++            crate::api::timestamp_stack::push_ts_interception(
++                &mut msg.ext_ts_stack,
++                || Some(rt),
++                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++            );
++        }
+         callbacks.call(
+             consume,
+             msg.ext_qos,
+             &mut msg.payload,
+             #[cfg(feature = "unstable")]
+             _reliability,
++            #[cfg(feature = "unstable")]
++            msg.ext_ts_stack.as_ref().map(|ts| ts.ts_stack.clone()),
+         );
+     }
+ 
+     fn send_request(&self, msg: &mut Request) {
+         trace!("recv Request {:?}", msg);
++        #[cfg(feature = "unstable")]
++        {
++            let rt = self.0.runtime.get_inner();
++            crate::api::timestamp_stack::push_ts_interception(
++                &mut msg.ext_ts_stack,
++                || Some(rt),
++                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++            );
++        }
+         match &mut msg.payload {
+             RequestBody::Query(m) => {
+                 let state = zread!(self.0.state);
+@@ -3257,6 +3399,8 @@ impl Primitives for WeakSession {
+                             m.ext_sinfo.map(Into::into),
+                             mem::take(&mut m.ext_body),
+                             mem::take(&mut m.ext_attachment).map(Into::into),
++                            #[cfg(feature = "unstable")]
++                            mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+                         );
+                     }
+                     Err(err) => {
+@@ -3269,6 +3413,15 @@ impl Primitives for WeakSession {
+ 
+     fn send_response(&self, msg: &mut Response) {
+         trace!("recv Response {:?}", msg);
++        #[cfg(feature = "unstable")]
++        {
++            let rt = self.0.runtime.get_inner();
++            crate::api::timestamp_stack::push_ts_interception(
++                &mut msg.ext_ts_stack,
++                || Some(rt),
++                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++            );
++        }
+         match &mut msg.payload {
+             ResponseBody::Err(e) => {
+                 let mut state = zwrite!(self.0.state);
+@@ -3283,6 +3436,13 @@ impl Primitives for WeakSession {
+                             result: Err(ReplyError {
+                                 payload: mem::take(&mut e.payload).into(),
+                                 encoding: mem::take(&mut e.encoding).into(),
++                                #[cfg(feature = "unstable")]
++                                timestamp_stack: msg.ext_ts_stack.as_ref().and_then(|ts| {
++                                    crate::api::timestamp_stack::TimestampStack::try_from(
++                                        &ts.ts_stack,
++                                    )
++                                    .ok()
++                                }),
+                             }),
+                             #[cfg(feature = "unstable")]
+                             replier_id: mem::take(&mut msg.ext_respid).map(|rid| {
+@@ -3332,6 +3492,8 @@ impl Primitives for WeakSession {
+                                 &mut m.payload,
+                                 #[cfg(feature = "unstable")]
+                                 Reliability::Reliable,
++                                #[cfg(feature = "unstable")]
++                                mem::take(&mut msg.ext_ts_stack).map(|ts| ts.ts_stack),
+                             )),
+                             #[cfg(feature = "unstable")]
+                             replier_id: mem::take(&mut msg.ext_respid).map(|rid| {
+diff --git a/zenoh/src/api/timestamp_stack.rs b/zenoh/src/api/timestamp_stack.rs
+new file mode 100644
+index 00000000..85a9361e
+--- /dev/null
++++ b/zenoh/src/api/timestamp_stack.rs
+@@ -0,0 +1,533 @@
++//
++// Copyright (c) 2026 ZettaScale Technology
++//
++// This program and the accompanying materials are made available under the
++// terms of the Eclipse Public License 2.0 which is available at
++// http://www.eclipse.org/legal/epl-2.0, or the Apache License, Version 2.0
++// which is available at https://www.apache.org/licenses/LICENSE-2.0.
++//
++// SPDX-License-Identifier: EPL-2.0 OR Apache-2.0
++//
++// Contributors:
++//   ZettaScale Zenoh Team, <zenoh@zettascale.tech>
++//
++use zenoh_protocol::{
++    core::WhatAmI,
++    network::timestamp_stack::{interception_point, Interception, TsStackType},
++};
++
++use crate::{net::runtime::IRuntime, session::ZenohId};
++
++/// Context passed to the user-defined timestamp callback.
++///
++/// This struct provides the callback with information about the current Zenoh node.
++///
++/// The struct is `#[non_exhaustive]` to allow adding new fields in the future.
++#[non_exhaustive]
++#[zenoh_macros::unstable]
++pub struct TimestampContext {
++    /// The Zenoh ID of the current node.
++    pub zid: ZenohId,
++    /// The mode of the current node (router, peer, or client).
++    pub whatami: WhatAmI,
++}
++
++#[zenoh_macros::unstable]
++pub(crate) type GetTimestampCallback = Box<dyn Fn(TimestampContext) -> Vec<u8> + Send + Sync>;
++
++/// Identifies which interception point a timestamp record was captured at.
++///
++/// The three points represent the lifecycle of a message traveling through
++/// the Zenoh topology:
++///
++/// - [`Send`](InterceptionPoint::Send): triggered when the message leaves
++///   the publishing/replying application.
++/// - [`Route`](InterceptionPoint::Route): triggered at each intermediate
++///   node (router or peer) that forwards the message.
++/// - [`Receive`](InterceptionPoint::Receive): triggered when the message
++///   is delivered to the subscribing/querying application.
++///
++/// # Example
++///
++/// ```
++/// use std::convert::TryFrom;
++/// use zenoh::timestamp_stack::InterceptionPoint;
++///
++/// assert!(InterceptionPoint::try_from(1u8).is_ok());
++/// assert!(InterceptionPoint::try_from(0xFFu8).is_err());
++/// ```
++#[zenoh_macros::unstable]
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++pub enum InterceptionPoint {
++    /// Timestamp recorded when the message leaves the publishing or replying
++    /// node — the application layer's "send" side.
++    Send,
++    /// Timestamp recorded when the message passes through a routing node
++    /// (router or peer forwarding layer).
++    Route,
++    /// Timestamp recorded when the message arrives at a subscribing or
++    /// queryable node — the application layer's "receive" side.
++    Receive,
++}
++
++impl TryFrom<u8> for InterceptionPoint {
++    type Error = zenoh_result::Error;
++
++    fn try_from(value: u8) -> zenoh_result::ZResult<Self> {
++        match value & !interception_point::IS_CUSTOM_TS {
++            interception_point::SEND => Ok(Self::Send),
++            interception_point::RECEIVE => Ok(Self::Receive),
++            interception_point::ROUTE => Ok(Self::Route),
++            _ => bail!("Unknown interception point ID '{value}'"),
++        }
++    }
++}
++
++impl From<InterceptionPoint> for u8 {
++    fn from(value: InterceptionPoint) -> Self {
++        match value {
++            InterceptionPoint::Send => interception_point::SEND,
++            InterceptionPoint::Route => interception_point::ROUTE,
++            InterceptionPoint::Receive => interception_point::RECEIVE,
++        }
++    }
++}
++
++/// Builder for [`TimestampInstrumentation`] instances.
++///
++/// Collects which interception points should be instrumented and produces
++/// an immutable [`TimestampInstrumentation`] via [`build`](Self::build).
++///
++/// At least one interception point must be enabled; calling [`build`](Self::build)
++/// with none enabled returns an error.
++///
++/// # Example
++///
++/// ```
++/// use zenoh::timestamp_stack::{
++///     InterceptionPoint, TimestampInstrumentationBuilder,
++/// };
++///
++/// let instr = TimestampInstrumentationBuilder::new()
++///     .set_send(true)
++///     .set_route(true)
++///     .set_receive(true)
++///     .build()
++///     .unwrap();
++///
++/// assert!(instr.is_instrumented(InterceptionPoint::Send));
++/// assert!(instr.is_instrumented(InterceptionPoint::Route));
++/// assert!(instr.is_instrumented(InterceptionPoint::Receive));
++/// ```
++#[zenoh_macros::unstable]
++#[derive(Debug, Default, Clone, Copy)]
++pub struct TimestampInstrumentationBuilder {
++    conf_flags: u8,
++}
++
++#[zenoh_macros::unstable]
++impl TimestampInstrumentationBuilder {
++    /// Creates a new builder with no interception points enabled.
++    ///
++    /// At least one point must be enabled via [`set_send`](Self::set_send),
++    /// [`set_route`](Self::set_route), or [`set_receive`](Self::set_receive)
++    /// before calling [`build`](Self::build).
++    pub fn new() -> Self {
++        Self::default()
++    }
++
++    /// Enable or disable timestamp recording at the [`Send`](InterceptionPoint::Send)
++    /// interception point.
++    ///
++    /// The SEND point is triggered when a message is about to leave the
++    /// publishing or replying node.
++    pub fn set_send(self, enabled: bool) -> Self {
++        Self {
++            conf_flags: if enabled {
++                self.conf_flags | interception_point::SEND
++            } else {
++                self.conf_flags & !interception_point::SEND
++            },
++        }
++    }
++
++    /// Enable or disable timestamp recording at the [`Route`](InterceptionPoint::Route)
++    /// interception point.
++    ///
++    /// The ROUTE point is triggered on every intermediate node (router or peer)
++    /// that forwards the message through its routing layer.
++    pub fn set_route(self, enabled: bool) -> Self {
++        Self {
++            conf_flags: if enabled {
++                self.conf_flags | interception_point::ROUTE
++            } else {
++                self.conf_flags & !interception_point::ROUTE
++            },
++        }
++    }
++
++    /// Enable or disable timestamp recording at the [`Receive`](InterceptionPoint::Receive)
++    /// interception point.
++    ///
++    /// The RECEIVE point is triggered when a message is delivered to a
++    /// subscribing or queryable application.
++    pub fn set_receive(self, enabled: bool) -> Self {
++        Self {
++            conf_flags: if enabled {
++                self.conf_flags | interception_point::RECEIVE
++            } else {
++                self.conf_flags & !interception_point::RECEIVE
++            },
++        }
++    }
++
++    /// Consumes the builder and produces a [`TimestampInstrumentation`].
++    ///
++    /// Returns an error if no interception points were enabled.
++    pub fn build(self) -> zenoh_result::ZResult<TimestampInstrumentation> {
++        if self.conf_flags == 0 {
++            bail!("Invalid instrumentation config: at least one point must be active");
++        }
++        Ok(TimestampInstrumentation {
++            conf_flags: self.conf_flags,
++        })
++    }
++}
++
++/// A config for timestamp instrumentation. Build via [`TimestampInstrumentationBuilder`].
++#[zenoh_macros::unstable]
++#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
++pub struct TimestampInstrumentation {
++    conf_flags: u8,
++}
++
++#[zenoh_macros::unstable]
++impl TimestampInstrumentation {
++    /// Returns true if the [`InterceptionPoint`] is activated
++    #[zenoh_macros::unstable]
++    pub fn is_instrumented(&self, point: InterceptionPoint) -> bool {
++        self.conf_flags & u8::from(point) != 0
++    }
++
++    /// Returns the raw conf_flags bitmask.
++    pub(crate) fn conf_flags(&self) -> u8 {
++        self.conf_flags
++    }
++
++    /// Initialize from raw flags
++    pub(crate) fn try_from_flags(conf_flags: u8) -> zenoh_result::ZResult<Self> {
++        if conf_flags == 0 {
++            bail!("invalid instrumentation flags: at least one point must be active");
++        }
++        Ok(Self { conf_flags })
++    }
++}
++
++/// A timestamp measurement, either UHLC or the result of a custom user-defined callback.
++///
++/// The semantics depend on whether a [custom timestamp
++/// callback](crate::api::builders::session::OpenBuilder::with_timestamp_callback)
++/// was registered on the session that performed the measurement:
++///
++/// - **UHLC**: the default — a Zenoh UHLC hybrid logical clock timestamp.
++/// - **Custom**: arbitrary bytes produced by the user-defined callback.
++///
++/// # Example
++///
++/// ```
++/// use zenoh::timestamp_stack::InstrumentationTimestamp;
++///
++/// // InstrumentationTimestamp is usually constructed automatically.
++/// let ts = InstrumentationTimestamp::Custom(b"my_format".to_vec());
++/// // Pattern match to handle both variants:
++/// match &ts {
++///     InstrumentationTimestamp::UHLC(uhlc_ts) => println!("UHLC: {:?}", uhlc_ts),
++///     InstrumentationTimestamp::Custom(bytes) => println!("Custom({} bytes)", bytes.len()),
++/// }
++/// ```
++#[zenoh_macros::unstable]
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub enum InstrumentationTimestamp {
++    /// A Zenoh [UHLC] hybrid logical clock timestamp.
++    ///
++    /// [UHLC]: https://github.com/eclipse-zenoh/uhlc-rs
++    UHLC(uhlc::Timestamp),
++    /// A timestamp in a format defined by the user's [custom timestamp
++    /// callback](crate::api::builders::session::OpenBuilder::with_timestamp_callback).
++    Custom(Vec<u8>),
++}
++
++/// A single interception record in a timestamp stack.
++///
++/// Each record captures the [`InterceptionPoint`] where the measurement was
++/// taken and the [`InstrumentationTimestamp`] that was recorded. Records are
++/// obtained by iterating over [`TimestampStack::records`].
++///
++/// # Example
++///
++/// ```
++/// use zenoh::timestamp_stack::{
++///     InstrumentationTimestamp, InterceptionPoint,
++/// };
++///
++/// // Records are typically obtained from a received TimestampStack.
++/// // This shows how to inspect a hypothetical record:
++/// fn inspect(record: &zenoh::timestamp_stack::TimestampStackRecord) {
++///     println!("Point: {:?}", record.point());
++///     if record.is_custom() {
++///         println!("Custom timestamp: {:?}", record.timestamp());
++///     } else {
++///         println!("UHLC timestamp: {:?}", record.timestamp());
++///     }
++/// }
++/// ```
++#[zenoh_macros::unstable]
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct TimestampStackRecord {
++    point: InterceptionPoint,
++    timestamp: InstrumentationTimestamp,
++}
++
++impl TimestampStackRecord {
++    /// Which interception point this record was captured at.
++    #[zenoh_macros::unstable]
++    pub fn point(&self) -> InterceptionPoint {
++        self.point
++    }
++
++    /// Whether the timestamp was produced by a user-defined callback.
++    ///
++    /// Returns `true` when the timestamp was produced by a user-defined callback,
++    /// and `false` when the timestamp is a standard UHLC timestamp.
++    #[zenoh_macros::unstable]
++    pub fn is_custom(&self) -> bool {
++        matches!(self.timestamp, InstrumentationTimestamp::Custom(_))
++    }
++
++    /// Raw timestamp bytes (format defined by the wire protocol).
++    #[zenoh_macros::unstable]
++    pub fn timestamp(&self) -> &InstrumentationTimestamp {
++        &self.timestamp
++    }
++}
++
++/// The timestamp stack carried by a received message.
++///
++/// When timestamp instrumentation is enabled on a publication or query, the
++/// resulting message carries a [`TimestampStack`] that accumulates records at
++/// each interception point it passes through. The stack can be accessed from
++/// a [`Sample`] via [`Sample::timestamp_stack`] or from a [`Query`] via
++/// [`Query::timestamp_stack`].
++///
++/// Use [`instrumentation`](Self::instrumentation) to inspect which points were
++/// configured, and [`records`](Self::records) to iterate over the ordered list
++/// of timestamps collected along the message path.
++///
++/// # Example
++///
++/// ```no_run
++/// # #[tokio::main]
++/// # async fn main() {
++/// use zenoh::timestamp_stack::{
++///     InstrumentationTimestamp, InterceptionPoint, TimestampInstrumentationBuilder,
++/// };
++///
++/// let session = zenoh::open(zenoh::Config::default()).await.unwrap();
++/// let subscriber = session.declare_subscriber("key/expr").await.unwrap();
++/// let publisher = session.declare_publisher("key/expr").await.unwrap();
++///
++/// let instr = TimestampInstrumentationBuilder::new()
++///     .set_send(true)
++///     .set_receive(true)
++///     .build()
++///     .unwrap();
++///
++/// publisher
++///     .put("payload")
++///     .timestamp_instrumentation(instr)
++///     .await
++///     .unwrap();
++///
++/// let sample = subscriber.recv_async().await.unwrap();
++/// if let Some(stack) = sample.timestamp_stack() {
++///     // Check which points were configured
++///     let config = stack.instrumentation();
++///     assert!(config.is_instrumented(InterceptionPoint::Send));
++///
++///     // Iterate records in traversal order
++///     for record in stack.records() {
++///         match record.point() {
++///             InterceptionPoint::Send => println!("sent at {:?}", record.timestamp()),
++///             InterceptionPoint::Receive => println!("received at {:?}", record.timestamp()),
++///             _ => {}
++///         }
++///     }
++/// }
++/// # }
++/// ```
++///
++/// [`Sample`]: crate::sample::Sample
++/// [`Sample::timestamp_stack`]: crate::sample::Sample::timestamp_stack
++/// [`Query`]: crate::query::Query
++/// [`Query::timestamp_stack`]: crate::query::Query::timestamp_stack
++#[zenoh_macros::unstable]
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct TimestampStack {
++    instrumentation: TimestampInstrumentation,
++    records: Vec<TimestampStackRecord>,
++}
++
++#[zenoh_macros::unstable]
++impl TimestampStack {
++    /// Which interception points were configured for this message.
++    pub fn instrumentation(&self) -> TimestampInstrumentation {
++        self.instrumentation
++    }
++
++    /// The ordered list of interception records.
++    pub fn records(&self) -> &[TimestampStackRecord] {
++        &self.records
++    }
++
++    /// Create a new empty [`TimestampStack`](Self) with the given instrumentation config.
++    pub(crate) fn new(instrumentation: TimestampInstrumentation) -> Self {
++        Self {
++            instrumentation,
++            records: Vec::new(),
++        }
++    }
++}
++
++/// Push a timestamp interception record onto the stack if the corresponding
++/// `conf_flags` bit is set for this interception point.
++///
++/// This is a no-op if `ext_ts_stack` is `None`, if the flag is not present,
++/// or if `get_runtime` returns `None`.
++///
++/// The `get_runtime` closure is only invoked when `ext_ts_stack` is `Some`
++/// and the relevant `conf_flags` bit is set, avoiding unnecessary work
++/// (e.g. upgrading a weak runtime reference) in the common no-op case.
++#[cfg(feature = "unstable")]
++pub(crate) fn push_ts_interception<const ID: u8, T: IRuntime + ?Sized, R, F>(
++    ext_ts_stack: &mut Option<TsStackType<ID>>,
++    get_runtime: F,
++    point: u8,
++) where
++    R: std::ops::Deref<Target = T>,
++    F: FnOnce() -> Option<R>,
++{
++    let Some(ts_stack) = ext_ts_stack else {
++        return;
++    };
++    if ts_stack.ts_stack.conf_flags & point != 0 {
++        let Some(runtime) = get_runtime() else {
++            return;
++        };
++        let context = TimestampContext {
++            zid: runtime.zid(),
++            whatami: runtime.whatami(),
++        };
++        let (timestamp, is_custom) = runtime.get_ts_stack_timestamp(context);
++        if timestamp.is_empty() {
++            // Skip writing empty Vec
++            return;
++        }
++        if ts_stack.ts_stack.stack.len() >= zenoh_protocol::network::timestamp_stack::MAX_STACK_SIZE
++        {
++            // Avoid producing an invalid frame that will be rejected by the codec decoder.
++            return;
++        }
++        ts_stack.ts_stack.stack.push(Interception {
++            flags: point
++                | if is_custom {
++                    interception_point::IS_CUSTOM_TS
++                } else {
++                    0
++                },
++            timestamp,
++        });
++    }
++}
++
++#[cfg(feature = "unstable")]
++impl TryFrom<&zenoh_protocol::network::timestamp_stack::TimestampStack> for TimestampStack {
++    type Error = zenoh_result::Error;
++
++    fn try_from(
++        ts: &zenoh_protocol::network::timestamp_stack::TimestampStack,
++    ) -> zenoh_result::ZResult<Self> {
++        let mut instance = Self {
++            instrumentation: TimestampInstrumentation::try_from_flags(ts.conf_flags)?,
++            records: Vec::new(),
++        };
++        for record in &ts.stack {
++            // Skip unknown/malformed measurement configs
++            let point: InterceptionPoint = match record.flags.try_into() {
++                Ok(p) => p,
++                Err(_) => {
++                    // FIXME: find a way to hold unknown interception points
++                    //        (required for forward-compatibility)
++                    tracing::warn!(
++                        "Skipping instrumentation measurement with unknown or malformed instrumentation flags '{:b}'",
++                        record.flags
++                    );
++                    continue;
++                }
++            };
++            let is_custom = (record.flags & interception_point::IS_CUSTOM_TS) != 0;
++            let timestamp = match is_custom {
++                true => InstrumentationTimestamp::Custom(record.timestamp.clone()),
++                false => {
++                    use zenoh_buffers::reader::HasReader;
++                    use zenoh_codec::{RCodec, Zenoh080};
++
++                    let mut reader = (&record.timestamp).reader();
++                    let Ok(ts): Result<uhlc::Timestamp, _> = Zenoh080.read(&mut reader) else {
++                        tracing::warn!(
++                            "Skipping instrumentation measurement with malformed uhlc timestamp"
++                        );
++                        continue;
++                    };
++                    InstrumentationTimestamp::UHLC(ts)
++                }
++            };
++            instance
++                .records
++                .push(TimestampStackRecord { point, timestamp });
++        }
++        Ok(instance)
++    }
++}
++
++#[cfg(feature = "unstable")]
++impl From<&TimestampStack> for zenoh_protocol::network::timestamp_stack::TimestampStack {
++    fn from(value: &TimestampStack) -> Self {
++        zenoh_protocol::network::timestamp_stack::TimestampStack {
++            conf_flags: value.instrumentation.conf_flags,
++            stack: value
++                .records
++                .iter()
++                .map(|r| Interception {
++                    flags: u8::from(r.point)
++                        | if matches!(r.timestamp, InstrumentationTimestamp::Custom(_)) {
++                            interception_point::IS_CUSTOM_TS
++                        } else {
++                            0
++                        },
++                    timestamp: match &r.timestamp {
++                        InstrumentationTimestamp::UHLC(ts) => {
++                            use zenoh_codec::{WCodec, Zenoh080};
++
++                            let mut buf = Vec::new();
++                            Zenoh080
++                                .write(&mut buf, ts)
++                                .expect("serializing valid UHLC timestamp should not fail");
++                            buf
++                        }
++                        InstrumentationTimestamp::Custom(ts) => ts.clone(),
++                    },
++                })
++                .collect(),
++        }
++    }
++}
+diff --git a/zenoh/src/lib.rs b/zenoh/src/lib.rs
+index b5ff57b1..f58893b7 100644
+--- a/zenoh/src/lib.rs
++++ b/zenoh/src/lib.rs
+@@ -1035,6 +1035,7 @@ pub mod internal {
+     pub mod traits {
+         pub use crate::api::builders::sample::{
+             EncodingBuilderTrait, QoSBuilderTrait, SampleBuilderTrait, TimestampBuilderTrait,
++            TimestampInstrumentationBuilderTrait,
+         };
+     }
+     pub use zenoh_core::{zasynclock, zerror, zlock, zread, ztimeout, zwrite, ResolveFuture};
+@@ -1121,6 +1122,76 @@ pub mod shm {
+     pub use crate::net::runtime::ShmProviderState;
+ }
+ 
++/// Timestamp instrumentation for Zenoh messages.
++///
++/// Timestamp instrumentation allows you to track the temporal path of a message
++/// as it travels through the Zenoh topology. By enabling one or more
++/// *interception points*, timestamps are recorded at each matching node and
++/// accumulated into a **timestamp stack** carried alongside the message.
++///
++/// # Interception Points
++///
++/// | Point | Where recorded | Meaning |
++/// |-------|---------------|---------|
++/// | [`Send`](crate::timestamp_stack::InterceptionPoint::Send) | Data source | Message leaves the application |
++/// | [`Route`](crate::timestamp_stack::InterceptionPoint::Route) | Routing layer of any instance | Message transits the routing layer |
++/// | [`Receive`](crate::timestamp_stack::InterceptionPoint::Receive) | Data receiver | Message arrives at the application |
++///
++/// Records are appended in traversal order. For example, in a routed
++/// client→router→client topology with all three points enabled, a subscriber
++/// will receive a stack ordered: `Send → Route → Route → Route → Receive`.
++///
++/// # Timestamp Sources
++///
++/// By default, each interception point records a Zenoh [UHLC] timestamp.
++/// Alternatively, you can register a custom callback on the session via
++/// [`OpenBuilder::with_timestamp_callback`](crate::api::builders::session::OpenBuilder::with_timestamp_callback)
++/// to produce arbitrary timestamp formats.
++///
++/// # Usage
++///
++/// ```no_run
++/// # #[tokio::main]
++/// # async fn main() {
++/// use zenoh::timestamp_stack::{
++///     InstrumentationTimestamp, InterceptionPoint, TimestampInstrumentationBuilder,
++/// };
++///
++/// // Build an instrumentation config: record at send and receive.
++/// let instr = TimestampInstrumentationBuilder::new()
++///     .set_send(true)
++///     .set_receive(true)
++///     .build()
++///     .unwrap();
++///
++/// let session = zenoh::open(zenoh::Config::default()).await.unwrap();
++/// let publisher = session.declare_publisher("key/expr").await.unwrap();
++/// let subscriber = session.declare_subscriber("key/expr").await.unwrap();
++///
++/// publisher
++///     .put("payload")
++///     .timestamp_instrumentation(instr)
++///     .await
++///     .unwrap();
++///
++/// let sample = subscriber.recv_async().await.unwrap();
++/// if let Some(stack) = sample.timestamp_stack() {
++///     for record in stack.records() {
++///         println!("{:?} at {:?}", record.point(), record.timestamp());
++///     }
++/// }
++/// # }
++/// ```
++///
++/// [UHLC]: https://github.com/eclipse-zenoh/uhlc-rs
++#[zenoh_macros::unstable]
++pub mod timestamp_stack {
++    pub use crate::api::timestamp_stack::{
++        InstrumentationTimestamp, InterceptionPoint, TimestampContext, TimestampInstrumentation,
++        TimestampInstrumentationBuilder, TimestampStack, TimestampStackRecord,
++    };
++}
++
+ /// Functionality for interrupting queries.
+ #[zenoh_macros::unstable]
+ pub mod cancellation {
+diff --git a/zenoh/src/net/routing/dispatcher/pubsub.rs b/zenoh/src/net/routing/dispatcher/pubsub.rs
+index d1249d85..4f495da6 100644
+--- a/zenoh/src/net/routing/dispatcher/pubsub.rs
++++ b/zenoh/src/net/routing/dispatcher/pubsub.rs
+@@ -306,6 +306,10 @@ pub fn route_data(
+             let dir = route.iter().next().unwrap();
+ 
+             if inter_region_filter(dir) && rtables.egress_filter(src_face, &dir.dst_face) {
++                // Get the runtime to handle ext_ts_stack
++                #[cfg(feature = "unstable")]
++                let weak_runtime = rtables.data.runtime.clone();
++
+                 drop(rtables);
+                 let mut msg_clone;
+                 let mut msg = &mut *msg;
+@@ -318,6 +322,15 @@ pub fn route_data(
+                 msg.ext_nodeid = ext::NodeIdType {
+                     node_id: dir.node_id,
+                 };
++                #[cfg(feature = "unstable")]
++                {
++                    let weak = weak_runtime.clone();
++                    crate::api::timestamp_stack::push_ts_interception(
++                        &mut msg.ext_ts_stack,
++                        move || weak.and_then(|w| w.upgrade()).map(|rt| rt.state),
++                        zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
++                    );
++                }
+                 send_push(&dir.dst_face, msg, reliability);
+             }
+         } else {
+@@ -328,21 +341,33 @@ pub fn route_data(
+                 })
+                 .collect::<Vec<&Direction>>();
+ 
++            // Get the runtime to handle ext_ts_stack
++            #[cfg(feature = "unstable")]
++            let weak_runtime = rtables.data.runtime.clone();
++
+             drop(rtables);
++
+             for dir in dirs {
+-                send_push(
+-                    &dir.dst_face,
+-                    &mut Push {
+-                        wire_expr: dir.wire_expr.clone(),
+-                        ext_qos: msg.ext_qos,
+-                        ext_tstamp: None,
+-                        ext_nodeid: ext::NodeIdType {
+-                            node_id: dir.node_id,
+-                        },
+-                        payload: msg.payload.clone(),
++                let mut push = Push {
++                    wire_expr: dir.wire_expr.clone(),
++                    ext_qos: msg.ext_qos,
++                    ext_tstamp: None,
++                    ext_nodeid: ext::NodeIdType {
++                        node_id: dir.node_id,
+                     },
+-                    reliability,
+-                );
++                    ext_ts_stack: msg.ext_ts_stack.clone(),
++                    payload: msg.payload.clone(),
++                };
++                #[cfg(feature = "unstable")]
++                {
++                    let weak = weak_runtime.as_ref();
++                    crate::api::timestamp_stack::push_ts_interception(
++                        &mut push.ext_ts_stack,
++                        || weak.and_then(|w| w.upgrade()).map(|rt| rt.state),
++                        zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
++                    );
++                }
++                send_push(&dir.dst_face, &mut push, reliability);
+             }
+         }
+     }
+diff --git a/zenoh/src/net/routing/dispatcher/queries.rs b/zenoh/src/net/routing/dispatcher/queries.rs
+index e1a0549e..2fa3c490 100644
+--- a/zenoh/src/net/routing/dispatcher/queries.rs
++++ b/zenoh/src/net/routing/dispatcher/queries.rs
+@@ -49,7 +49,6 @@ use crate::net::routing::{
+     gateway::{get_or_set_route, node_id_as_source, QueryDirection, QueryTargetQabl, RouteBuilder},
+     hat::{DispatcherContext, SendDeclare, UnregisterEntityResult},
+ };
+-
+ #[derive(Clone)]
+ pub(crate) struct Query {
+     src_face: Arc<FaceState>,
+@@ -271,6 +270,9 @@ impl Face {
+                     .ext_timeout
+                     .unwrap_or(rtables.data.queries_default_timeout);
+ 
++                #[cfg(feature = "unstable")]
++                let weak_runtime = rtables.data.runtime.clone();
++
+                 drop(queries_lock);
+                 drop(rtables);
+ 
+@@ -321,9 +323,19 @@ impl Face {
+                             ext_target: msg.ext_target,
+                             ext_budget: msg.ext_budget,
+                             ext_timeout: msg.ext_timeout,
++                            ext_ts_stack: msg.ext_ts_stack.clone(),
+                             payload: msg.payload.clone(),
+                         };
+ 
++                        #[cfg(feature = "unstable")]
++                        {
++                            let weak = weak_runtime.clone();
++                            crate::api::timestamp_stack::push_ts_interception(
++                                &mut msg.ext_ts_stack,
++                                move || weak.and_then(|w| w.upgrade()).map(|rt| rt.state),
++                                zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
++                            );
++                        }
+                         if dir.dst_face.primitives.send_request(msg) {
+                             #[cfg(feature = "stats")]
+                             payload_observer.observe_payload(zenoh_stats::Tx, &dir.dst_face, msg);
+@@ -483,6 +495,8 @@ impl Timed for QueryCleanup {
+                     ext_qos: self.qos,
+                     ext_tstamp: None,
+                     ext_respid,
++                    // TODO: Maybe this should be set?
++                    ext_ts_stack: None,
+                 },
+             );
+             let queries_lock = zwrite!(self.tables.queries_lock);
+@@ -539,6 +553,8 @@ pub(crate) fn route_send_response(
+     msg: &mut Response,
+ ) {
+     let tables = zread!(tables_ref.tables);
++    #[cfg(feature = "unstable")]
++    let weak_runtime = tables.data.runtime.clone();
+     match tables
+         .data
+         .get_mapping(face, &msg.wire_expr.scope, msg.wire_expr.mapping)
+@@ -588,6 +604,15 @@ pub(crate) fn route_send_response(
+ 
+                     msg.rid = query.src_qid;
+                     msg.ext_qos = query.src_qos;
++                    #[cfg(feature = "unstable")]
++                    {
++                        let weak = weak_runtime.clone();
++                        crate::api::timestamp_stack::push_ts_interception(
++                            &mut msg.ext_ts_stack,
++                            move || weak.and_then(|w| w.upgrade()).map(|rt| rt.state),
++                            zenoh_protocol::network::timestamp_stack::interception_point::ROUTE,
++                        );
++                    }
+                     if query.src_face.primitives.send_response(msg) {
+                         #[cfg(feature = "stats")]
+                         payload_observer.observe_payload(zenoh_stats::Tx, &query.src_face, msg);
+diff --git a/zenoh/src/net/runtime/adminspace.rs b/zenoh/src/net/runtime/adminspace.rs
+index 10197a99..4a218e36 100644
+--- a/zenoh/src/net/runtime/adminspace.rs
++++ b/zenoh/src/net/runtime/adminspace.rs
+@@ -50,8 +50,6 @@ use zenoh_transport::{multicast::TransportMulticast, unicast::TransportUnicast,
+ use super::{routing::dispatcher::face::Face, Runtime};
+ #[cfg(all(feature = "plugins", feature = "runtime_plugins"))]
+ use crate::api::plugins::PluginsManager;
+-#[cfg(all(feature = "plugins", feature = "runtime_plugins"))]
+-use crate::internal::runtime::DynamicRuntime;
+ use crate::{
+     api::{
+         bytes::ZBytes,
+@@ -62,7 +60,7 @@ use crate::{
+     net::{
+         primitives::Primitives,
+         routing::{dispatcher::tables::Tables, gateway::Resource, hat::Sources},
+-        runtime::region,
++        runtime::{region, DynamicRuntime},
+     },
+     LONG_VERSION,
+ };
+@@ -386,6 +384,15 @@ impl Primitives for AdminSpace {
+ 
+     fn send_push_consume(&self, msg: &mut Push, _reliability: Reliability, _consume: bool) {
+         trace!("recv Push {:?}", msg);
++        #[cfg(feature = "unstable")]
++        {
++            let state = self.context.runtime.state.clone();
++            crate::api::timestamp_stack::push_ts_interception(
++                &mut msg.ext_ts_stack,
++                || Some(state),
++                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++            );
++        }
+         {
+             let conf = &self.context.runtime.state.config.lock();
+             if !conf.adminspace.permissions().write {
+@@ -477,6 +484,15 @@ impl Primitives for AdminSpace {
+ 
+     fn send_request(&self, msg: &mut Request) {
+         trace!("recv Request {:?}", msg);
++        #[cfg(feature = "unstable")]
++        {
++            let state = self.context.runtime.state.clone();
++            crate::api::timestamp_stack::push_ts_interception(
++                &mut msg.ext_ts_stack,
++                || Some(state),
++                zenoh_protocol::network::timestamp_stack::interception_point::RECEIVE,
++            );
++        }
+         match &mut msg.payload {
+             RequestBody::Query(query) => {
+                 let _span =
+@@ -522,6 +538,12 @@ impl Primitives for AdminSpace {
+                         #[cfg(feature = "unstable")]
+                         source_info: query.ext_sinfo.map(Into::into),
+                         primitives: ReplyPrimitives::new_remote(None, primitives),
++                        #[cfg(feature = "unstable")]
++                        runtime: Some(
++                            DynamicRuntime::from(self.context.runtime.clone()).downgrade(),
++                        ),
++                        #[cfg(feature = "unstable")]
++                        query_ts_stack: None,
+                     }),
+                     eid: self.queryable_id,
+                     value: mem::take(&mut query.ext_body)
+diff --git a/zenoh/src/net/runtime/mod.rs b/zenoh/src/net/runtime/mod.rs
+index 4a272ccd..0f27f834 100644
+--- a/zenoh/src/net/runtime/mod.rs
++++ b/zenoh/src/net/runtime/mod.rs
+@@ -24,6 +24,8 @@ mod region;
+ #[cfg(all(feature = "unstable", feature = "shared-memory"))]
+ use std::future::IntoFuture;
+ #[cfg(feature = "unstable")]
++use std::sync::OnceLock;
++#[cfg(feature = "unstable")]
+ #[cfg(feature = "plugins")]
+ use std::sync::{Mutex, MutexGuard};
+ use std::{
+@@ -87,6 +89,8 @@ use super::{
+ use crate::api::loader::{load_plugins, start_plugins};
+ #[cfg(feature = "plugins")]
+ use crate::api::plugins::PluginsManager;
++#[cfg(feature = "unstable")]
++use crate::api::timestamp_stack::{GetTimestampCallback, TimestampContext};
+ #[cfg(feature = "internal")]
+ use crate::session::CloseBuilder;
+ use crate::{
+@@ -171,6 +175,13 @@ pub(crate) struct RuntimeState {
+     transport_handlers: std::sync::RwLock<Vec<Arc<dyn TransportEventHandler>>>,
+     locators: std::sync::RwLock<Vec<Locator>>,
+     hlc: Option<Arc<HLC>>,
++    // TODO: lazy_hlc is added for timestamp instrumentation feature, in order to avoid breaking
++    // existing logic that relies on state of hlc Option to check if timestamping is enabled or
++    // not. Once ts_instrumentation is stabilized, hlc should be changed to use OnceLock instead.
++    #[cfg(feature = "unstable")]
++    lazy_hlc: OnceLock<Arc<HLC>>,
++    #[cfg(feature = "unstable")]
++    timestamp_callback: Option<GetTimestampCallback>,
+     task_controller: TaskController,
+     #[cfg(feature = "plugins")]
+     plugins_manager: Mutex<PluginsManager>,
+@@ -190,6 +201,10 @@ pub trait IRuntime: Send + Sync {
+     fn next_id(&self) -> u32;
+     fn is_closed(&self) -> bool;
+     fn new_timestamp(&self) -> Option<uhlc::Timestamp>;
++    /// Returns a timestamp for timestamp instrumentation. The boolean indicates whether the timestamp
++    /// is the result of a custom user-callback or a Zenoh UHLC timestamp.
++    #[cfg(feature = "unstable")]
++    fn get_ts_stack_timestamp(&self, context: TimestampContext) -> (Vec<u8>, bool);
+     fn get_locators(&self) -> Vec<Locator>;
+     fn get_zids(&self, whatami: WhatAmI) -> Box<dyn Iterator<Item = ZenohId> + Send + Sync>;
+     fn new_handler(&self, handler: Arc<dyn TransportEventHandler>);
+@@ -258,6 +273,28 @@ impl IRuntime for RuntimeState {
+         self.hlc.as_ref().map(|hlc| hlc.new_timestamp())
+     }
+ 
++    #[cfg(feature = "unstable")]
++    fn get_ts_stack_timestamp(&self, context: TimestampContext) -> (Vec<u8>, bool) {
++        if let Some(cb) = &self.timestamp_callback {
++            return (cb(context), true);
++        }
++
++        let hlc = self.hlc.as_ref().unwrap_or_else(|| {
++            self.lazy_hlc.get_or_init(|| {
++                Arc::new(HLCBuilder::new().with_id(uhlc::ID::from(self.zid)).build())
++            })
++        });
++
++        let ts = hlc.new_timestamp();
++
++        use zenoh_codec::{WCodec, Zenoh080};
++        let mut buf = Vec::new();
++        if Zenoh080.write(&mut buf, &ts).is_err() {
++            return (Vec::new(), false);
++        }
++        (buf, false)
++    }
++
+     fn get_locators(&self) -> Vec<Locator> {
+         self.locators.read().unwrap().clone()
+     }
+@@ -579,6 +616,7 @@ impl RuntimeState {
+     }
+ }
+ 
++#[derive(Clone)]
+ pub struct WeakRuntime {
+     state: Weak<RuntimeState>,
+ }
+@@ -603,6 +641,8 @@ pub struct RuntimeBuilder {
+     plugins_manager: Option<PluginsManager>,
+     #[cfg(feature = "shared-memory")]
+     shm_clients: Option<Arc<ShmClientStorage>>,
++    #[cfg(feature = "unstable")]
++    timestamp_callback: Option<GetTimestampCallback>,
+     #[cfg(test)]
+     subregions: Option<Vec<Region>>,
+     #[cfg(test)]
+@@ -639,6 +679,8 @@ impl RuntimeBuilder {
+             plugins_manager: None,
+             #[cfg(feature = "shared-memory")]
+             shm_clients: None,
++            #[cfg(feature = "unstable")]
++            timestamp_callback: None,
+             #[cfg(test)]
+             subregions: None,
+             #[cfg(test)]
+@@ -658,6 +700,12 @@ impl RuntimeBuilder {
+         self
+     }
+ 
++    #[cfg(feature = "unstable")]
++    pub fn timestamp_callback(mut self, cb: Option<GetTimestampCallback>) -> Self {
++        self.timestamp_callback = cb;
++        self
++    }
++
+     #[allow(dead_code)]
+     #[cfg(test)]
+     pub fn subregions(mut self, subregions: Vec<Region>) -> Self {
+@@ -679,6 +727,8 @@ impl RuntimeBuilder {
+             mut plugins_manager,
+             #[cfg(feature = "shared-memory")]
+             shm_clients,
++            #[cfg(feature = "unstable")]
++            timestamp_callback,
+             #[cfg(test)]
+             subregions,
+             #[cfg(test)]
+@@ -767,6 +817,10 @@ impl RuntimeBuilder {
+                 transport_handlers: std::sync::RwLock::new(vec![]),
+                 locators: std::sync::RwLock::new(vec![]),
+                 hlc,
++                #[cfg(feature = "unstable")]
++                lazy_hlc: OnceLock::new(),
++                #[cfg(feature = "unstable")]
++                timestamp_callback,
+                 task_controller: TaskController::default(),
+                 #[cfg(feature = "plugins")]
+                 plugins_manager: Mutex::new(plugins_manager),
+@@ -802,7 +856,7 @@ impl RuntimeBuilder {
+ 
+ #[derive(Clone)]
+ pub struct Runtime {
+-    state: Arc<RuntimeState>,
++    pub(crate) state: Arc<RuntimeState>,
+ }
+ 
+ impl fmt::Debug for Runtime {
+@@ -818,6 +872,16 @@ impl fmt::Debug for Runtime {
+ #[derive(Clone)]
+ pub struct DynamicRuntime(Arc<dyn IRuntime>);
+ 
++impl DynamicRuntime {
++    pub(crate) fn downgrade(&self) -> WeakDynamicRuntime {
++        WeakDynamicRuntime(Arc::downgrade(&self.0))
++    }
++
++    pub(crate) fn get_inner(&self) -> Arc<dyn IRuntime> {
++        self.0.clone()
++    }
++}
++
+ impl fmt::Debug for DynamicRuntime {
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+         f.debug_tuple("DynamicRuntime").field(&"..").finish()
+@@ -843,6 +907,15 @@ impl StructVersion for DynamicRuntime {
+ 
+ impl PluginStartArgs for DynamicRuntime {}
+ 
++#[derive(Clone)]
++pub struct WeakDynamicRuntime(pub(crate) Weak<dyn IRuntime>);
++
++impl WeakDynamicRuntime {
++    pub(crate) fn upgrade(&self) -> Option<DynamicRuntime> {
++        self.0.upgrade().map(DynamicRuntime)
++    }
++}
++
+ impl Runtime {
+     #[inline(always)]
+     pub(crate) fn manager(&self) -> &TransportManager {
+diff --git a/zenoh/src/net/tests/regions/mod.rs b/zenoh/src/net/tests/regions/mod.rs
+index 0acceb45..adcd5f99 100644
+--- a/zenoh/src/net/tests/regions/mod.rs
++++ b/zenoh/src/net/tests/regions/mod.rs
+@@ -504,6 +504,7 @@ impl MockFace {
+                 ext_qos: ext::QoSType::DEFAULT,
+                 ext_tstamp: None,
+                 ext_nodeid: NodeIdType::DEFAULT,
++                ext_ts_stack: None,
+                 payload: PushBody::Put(Put {
+                     payload: payload.into(),
+                     ..Default::default()
+@@ -524,6 +525,7 @@ impl MockFace {
+             ext_target: QueryTarget::DEFAULT,
+             ext_budget: None,
+             ext_timeout: None,
++            ext_ts_stack: None,
+             payload: RequestBody::Query(Query::default()),
+         });
+     }
+@@ -537,6 +539,7 @@ impl MockFace {
+                 ext_qos: ext::QoSType::DEFAULT,
+                 ext_tstamp: None,
+                 ext_nodeid: NodeIdType::DEFAULT,
++                ext_ts_stack: None,
+                 payload: PushBody::Del(Del::default()),
+             },
+             Reliability::BestEffort,
+diff --git a/zenoh/src/net/tests/tables.rs b/zenoh/src/net/tests/tables.rs
+index cf385f7a..e30842d2 100644
+--- a/zenoh/src/net/tests/tables.rs
++++ b/zenoh/src/net/tests/tables.rs
+@@ -683,6 +683,7 @@ fn test_response_wireexpr() {
+         ext_target: QueryTarget::All,
+         ext_budget: None,
+         ext_timeout: None,
++        ext_ts_stack: None,
+     });
+ 
+     route_send_response(
+@@ -703,6 +704,7 @@ fn test_response_wireexpr() {
+             ext_qos: zenoh_protocol::network::response::ext::QoSType::default(),
+             ext_tstamp: None,
+             ext_respid: None,
++            ext_ts_stack: None,
+         },
+     );
+     assert_eq!(
+@@ -749,6 +751,7 @@ fn test_response_wireexpr() {
+             ext_qos: zenoh_protocol::network::response::ext::QoSType::default(),
+             ext_tstamp: None,
+             ext_respid: None,
++            ext_ts_stack: None,
+         },
+     );
+     assert_eq!(
+diff --git a/zenoh/src/tests/query_reply.rs b/zenoh/src/tests/query_reply.rs
+index 42b3725e..ad91ed09 100644
+--- a/zenoh/src/tests/query_reply.rs
++++ b/zenoh/src/tests/query_reply.rs
+@@ -77,6 +77,10 @@ async fn test_reply_preserves_optimized_ke() {
+         #[cfg(feature = "unstable")]
+         source_info: None,
+         primitives: ReplyPrimitives::new_remote(Some(session.downgrade()), primitives.clone()),
++        #[cfg(feature = "unstable")]
++        runtime: None,
++        #[cfg(feature = "unstable")]
++        query_ts_stack: None,
+     };
+     let query = Query {
+         inner: Arc::new(query_inner),

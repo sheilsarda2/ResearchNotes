@@ -1,0 +1,57 @@
+[verifier 0s] anti-cheat scan of transferred sources
+[verifier 0s] overlaying submitted src/ dirs onto the pristine tree
+[verifier 0s] build A: zenoh + zenoh-codec test targets
+[verifier 31s] build B: zenoh-ext test targets
+[verifier 49s] checking that every pristine in-crate test still exists
+{
+ "expected_total": 0,
+ "actual_total": 0,
+ "missing": {}
+}
+[verifier 49s] running group hidden_pr_tests
+[verifier 149s] running group interop_gold
+[verifier 164s] running group parity_python
+{
+ "binaries": {
+  "ts_interop": {
+   "passed": 0,
+   "failed": 4,
+   "ignored": 0,
+   "status": "FAILED"
+  }
+ },
+ "failed_tests": [],
+ "problems": [
+  "ts_interop: expected 4 passed, got 0 passed / 4 failed / 0 ignored / status FAILED"
+ ],
+ "ok": false
+}
+[verifier 164s] running group zenoh_ext
+{
+ "binaries": {
+  "advanced": {
+   "passed": 11,
+   "failed": 1,
+   "ignored": 0,
+   "status": "FAILED"
+  },
+  "ts_advanced": {
+   "passed": 0,
+   "failed": 2,
+   "ignored": 0,
+   "status": "FAILED"
+  }
+ },
+ "failed_tests": [
+  "advanced_publisher_put_carries_timestamp_stack",
+  "advanced_publisher_put_without_instrumentation_has_no_stack",
+  "test_advanced_late_joiner"
+ ],
+ "problems": [
+  "ts_advanced: expected 2 passed, got 0 passed / 2 failed / 0 ignored / status FAILED"
+ ],
+ "ok": false
+}
+[verifier 263s] running group upstream_regressions
+{"reward": 0, "missing_groups": [], "failed_groups": ["lib_test_names", "parity_python", "zenoh_ext"]}
+0

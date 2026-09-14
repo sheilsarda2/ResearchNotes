@@ -1,0 +1,248 @@
+warning: function `assert_custom_record` is never used
+   --> zenoh/tests/ts_interop.rs:251:4
+    |
+251 | fn assert_custom_record(r: &Value, point: &str, hex: &str) {
+    |    ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `zenoh` (test "ts_interop") generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/ts_interop.rs (target/debug/deps/ts_interop-e8983a3df89ac43b)
+
+running 4 tests
+test pyparity_agent_queryable_python_get ... Traceback (most recent call last):
+  File "/tests/py_peer.py", line 19, in <module>
+    POINT = {
+            ^
+TypeError: unhashable type: 'builtins.InterceptionPoint'
+FAILED
+test pyparity_agent_sub_decodes_python_send ... Traceback (most recent call last):
+  File "/tests/py_peer.py", line 19, in <module>
+    POINT = {
+            ^
+TypeError: unhashable type: 'builtins.InterceptionPoint'
+FAILED
+test pyparity_python_queryable_agent_get ... Traceback (most recent call last):
+  File "/tests/py_peer.py", line 19, in <module>
+    POINT = {
+            ^
+TypeError: unhashable type: 'builtins.InterceptionPoint'
+FAILED
+test pyparity_python_sub_decodes_agent_send ... Traceback (most recent call last):
+  File "/tests/py_peer.py", line 19, in <module>
+    POINT = {
+            ^
+TypeError: unhashable type: 'builtins.InterceptionPoint'
+FAILED
+
+failures:
+
+---- pyparity_agent_queryable_python_get stdout ----
+
+thread 'pyparity_agent_queryable_python_get' (1514) panicked at zenoh/tests/ts_interop.rs:130:21:
+reference peer exited before emitting 'ready'
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:80:14
+   2: <ts_interop::Peer>::next_event
+             at ./tests/ts_interop.rs:130:21
+   3: spawn
+             at ./tests/ts_interop.rs:98:26
+   4: {async_fn#0}
+             at ./tests/ts_interop.rs:702:22
+   5: {async_block#0}
+             at ./tests/ts_interop.rs:795:83
+   6: poll<&mut dyn core::future::future::Future<Output=()>>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/future/future.rs:133:9
+   7: {closure#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:71
+   8: with_budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:167:5
+   9: budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:133:5
+  10: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:31
+  11: <tokio::runtime::context::blocking::BlockingRegionGuard>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/blocking.rs:66:14
+  12: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  13: tokio::runtime::context::runtime::enter_runtime::<<tokio::runtime::scheduler::multi_thread::MultiThread>::block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}, ()>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/runtime.rs:65:16
+  14: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  15: <tokio::runtime::runtime::Runtime>::block_on_inner::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:376:50
+  16: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:343:18
+  17: pyparity_agent_queryable_python_get
+             at ./tests/ts_interop.rs:795:88
+  18: ts_interop::pyparity_agent_queryable_python_get::{closure#0}
+             at ./tests/ts_interop.rs:794:47
+  19: <ts_interop::pyparity_agent_queryable_python_get::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+  20: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pyparity_agent_sub_decodes_python_send stdout ----
+
+thread 'pyparity_agent_sub_decodes_python_send' (1524) panicked at zenoh/tests/ts_interop.rs:130:21:
+reference peer exited before emitting 'ready'
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:80:14
+   2: <ts_interop::Peer>::next_event
+             at ./tests/ts_interop.rs:130:21
+   3: spawn
+             at ./tests/ts_interop.rs:98:26
+   4: {async_fn#0}
+             at ./tests/ts_interop.rs:365:18
+   5: {async_block#0}
+             at ./tests/ts_interop.rs:785:86
+   6: poll<&mut dyn core::future::future::Future<Output=()>>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/future/future.rs:133:9
+   7: {closure#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:71
+   8: with_budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:167:5
+   9: budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:133:5
+  10: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:31
+  11: <tokio::runtime::context::blocking::BlockingRegionGuard>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/blocking.rs:66:14
+  12: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  13: tokio::runtime::context::runtime::enter_runtime::<<tokio::runtime::scheduler::multi_thread::MultiThread>::block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}, ()>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/runtime.rs:65:16
+  14: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  15: <tokio::runtime::runtime::Runtime>::block_on_inner::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:376:50
+  16: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:343:18
+  17: pyparity_agent_sub_decodes_python_send
+             at ./tests/ts_interop.rs:785:91
+  18: ts_interop::pyparity_agent_sub_decodes_python_send::{closure#0}
+             at ./tests/ts_interop.rs:784:50
+  19: <ts_interop::pyparity_agent_sub_decodes_python_send::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+  20: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pyparity_python_queryable_agent_get stdout ----
+
+thread 'pyparity_python_queryable_agent_get' (1531) panicked at zenoh/tests/ts_interop.rs:130:21:
+reference peer exited before emitting 'ready'
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:80:14
+   2: <ts_interop::Peer>::next_event
+             at ./tests/ts_interop.rs:130:21
+   3: spawn
+             at ./tests/ts_interop.rs:98:26
+   4: {async_fn#0}
+             at ./tests/ts_interop.rs:617:21
+   5: {async_block#0}
+             at ./tests/ts_interop.rs:790:89
+   6: poll<&mut dyn core::future::future::Future<Output=()>>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/future/future.rs:133:9
+   7: {closure#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:71
+   8: with_budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:167:5
+   9: budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:133:5
+  10: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:31
+  11: <tokio::runtime::context::blocking::BlockingRegionGuard>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/blocking.rs:66:14
+  12: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  13: tokio::runtime::context::runtime::enter_runtime::<<tokio::runtime::scheduler::multi_thread::MultiThread>::block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}, ()>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/runtime.rs:65:16
+  14: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  15: <tokio::runtime::runtime::Runtime>::block_on_inner::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:376:50
+  16: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:343:18
+  17: pyparity_python_queryable_agent_get
+             at ./tests/ts_interop.rs:790:94
+  18: ts_interop::pyparity_python_queryable_agent_get::{closure#0}
+             at ./tests/ts_interop.rs:789:47
+  19: <ts_interop::pyparity_python_queryable_agent_get::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+  20: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pyparity_python_sub_decodes_agent_send stdout ----
+
+thread 'pyparity_python_sub_decodes_agent_send' (1538) panicked at zenoh/tests/ts_interop.rs:130:21:
+reference peer exited before emitting 'ready'
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/panicking.rs:80:14
+   2: <ts_interop::Peer>::next_event
+             at ./tests/ts_interop.rs:130:21
+   3: spawn
+             at ./tests/ts_interop.rs:98:26
+   4: {async_fn#0}
+             at ./tests/ts_interop.rs:298:20
+   5: {async_block#0}
+             at ./tests/ts_interop.rs:780:86
+   6: poll<&mut dyn core::future::future::Future<Output=()>>
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/future/future.rs:133:9
+   7: {closure#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:71
+   8: with_budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:167:5
+   9: budget<core::task::poll::Poll<()>, tokio::runtime::park::{impl#4}::block_on::{closure_env#0}<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/task/coop/mod.rs:133:5
+  10: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/park.rs:284:31
+  11: <tokio::runtime::context::blocking::BlockingRegionGuard>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/blocking.rs:66:14
+  12: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:92:22
+  13: tokio::runtime::context::runtime::enter_runtime::<<tokio::runtime::scheduler::multi_thread::MultiThread>::block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>::{closure#0}, ()>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/context/runtime.rs:65:16
+  14: <tokio::runtime::scheduler::multi_thread::MultiThread>::block_on::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/scheduler/multi_thread/mod.rs:91:9
+  15: <tokio::runtime::runtime::Runtime>::block_on_inner::<core::pin::Pin<&mut dyn core::future::future::Future<Output = ()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:376:50
+  16: block_on<core::pin::Pin<&mut dyn core::future::future::Future<Output=()>>>
+             at /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.1/src/runtime/runtime.rs:343:18
+  17: pyparity_python_sub_decodes_agent_send
+             at ./tests/ts_interop.rs:780:91
+  18: ts_interop::pyparity_python_sub_decodes_agent_send::{closure#0}
+             at ./tests/ts_interop.rs:779:50
+  19: <ts_interop::pyparity_python_sub_decodes_agent_send::{closure#0} as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+  20: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/8bab26f4f68e0e26f0bb7960be334d5b520ea452/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    pyparity_agent_queryable_python_get
+    pyparity_agent_sub_decodes_python_send
+    pyparity_python_queryable_agent_get
+    pyparity_python_sub_decodes_agent_send
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.10s
+
+error: test failed, to rerun pass `-p zenoh --test ts_interop`
+error: 1 target failed:
+    `-p zenoh --test ts_interop`

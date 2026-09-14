@@ -1,0 +1,85 @@
+[verifier 0s] anti-cheat scan of transferred sources
+[verifier 1s] overlaying submitted src/ dirs onto the pristine tree
+[verifier 1s] build A: zenoh + zenoh-codec test targets
+
+error[E0560]: struct `zenoh_protocol::network::Request` has no field named `ext_ts_stack`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:326:29
+    |
+326 | ...                   ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                       ^^^^^^^^^^^^ `zenoh_protocol::network::Request` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:326:47
+    |
+326 | ...                   ext_ts_stack: msg.ext_ts_stack.clone(),
+    |                                         ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+326 -                             ext_ts_stack: msg.ext_ts_stack.clone(),
+326 +                             ext_ts_stack: msg.ext_tstamp.clone(),
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:334:42
+    |
+334 | ...                   &mut msg.ext_ts_stack,
+    |                                ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+334 -                                 &mut msg.ext_ts_stack,
+334 +                                 &mut msg.ext_tstamp,
+    |
+
+error[E0560]: struct `zenoh_protocol::network::Response` has no field named `ext_ts_stack`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:499:21
+    |
+499 |                     ext_ts_stack: None,
+    |                     ^^^^^^^^^^^^ `zenoh_protocol::network::Response` does not have this field
+    |
+    = note: all struct fields are already assigned
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Response`
+   --> zenoh/src/net/routing/dispatcher/queries.rs:611:38
+    |
+611 | ...                   &mut msg.ext_ts_stack,
+    |                                ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+611 -                             &mut msg.ext_ts_stack,
+611 +                             &mut msg.ext_tstamp,
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Push`
+   --> zenoh/src/net/runtime/adminspace.rs:391:26
+    |
+391 |                 &mut msg.ext_ts_stack,
+    |                          ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+391 -                 &mut msg.ext_ts_stack,
+391 +                 &mut msg.ext_tstamp,
+    |
+
+error[E0609]: no field `ext_ts_stack` on type `&mut zenoh_protocol::network::Request`
+   --> zenoh/src/net/runtime/adminspace.rs:491:26
+    |
+491 |                 &mut msg.ext_ts_stack,
+    |                          ^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+491 -                 &mut msg.ext_ts_stack,
+491 +                 &mut msg.ext_tstamp,
+    |
+
+Some errors have detailed explanations: E0432, E0433, E0560, E0609.
+For more information about an error, try `rustc --explain E0432`.
+error: could not compile `zenoh` (lib) due to 52 previous errors
+{"reward": 0, "missing_groups": [], "failed_groups": ["build_a", "build_b", "lib_test_names", "hidden_pr_tests", "interop_gold", "parity_python", "zenoh_ext", "upstream_regressions"]}
+0

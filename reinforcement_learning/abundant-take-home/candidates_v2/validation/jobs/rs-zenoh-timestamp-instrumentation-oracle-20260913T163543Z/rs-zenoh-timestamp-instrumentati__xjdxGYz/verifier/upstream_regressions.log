@@ -1,0 +1,125 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running unittests src/lib.rs (target/debug/deps/zenoh-6b58e23279eb4691)
+
+running 101 tests
+test api::cancellation::test::concurrent_cancel ... ok
+test api::cancellation::test::concurrent_cancel_async ... ok
+test api::cancellation::test::concurrent_cancel_with_err ... ok
+test api::config::tests::insert_remove_json5_array_item ... ok
+test api::config::tests::runtime_try_insert_json5_array_item_rejects_non_plugin_keys ... ok
+test api::encoding::tests::hash ... ok
+test api::encoding::tests::test_default_encoding ... ok
+test api::encoding::tests::test_from_str ... ok
+test api::encoding::tests::test_schema ... ok
+test api::encoding::tests::test_to_string ... ok
+test api::info::tests::test_new_from_fields_equals_new_from_peer ... ok
+test api::key_expr::size_of_KeyExpr ... ok
+test api::publisher::tests::priority_from ... ok
+test api::publisher::tests::sample_kind_integrity_in_publication ... ok
+test api::publisher::tests::sample_kind_integrity_in_put_builder ... ok
+test api::selector::selector_accessors ... ok
+test net::protocol::network::tests::test_gossip_singlehop_linkstate_empty_links_not_overwritten ... ok
+test net::routing::dispatcher::local_resources::tests::test_aggregate ... ok
+test net::routing::dispatcher::local_resources::tests::test_simple ... ok
+test net::routing::dispatcher::region::region_indexes ... ok
+test net::tests::regions::adminspace::test_sourced_entities_and_interests::whatami_peer_expects ... ok
+test net::tests::regions::adminspace::test_sourced_entities_and_interests::whatami_router_expects ... ok
+test net::tests::regions::declare::test_against_invalid_token_propagation_to_source_north_router_region ... ok
+test net::tests::regions::declare::test_against_invalid_token_propagation_to_source_south_router_region ... ok
+test net::tests::regions::declare::test_client_token_repropagation ... ok
+test net::tests::regions::declare::test_duplicate_queryable_undeclaration ... ok
+test net::tests::regions::declare::test_multiple_gateways_r2r_token_propagation_downstream ... ok
+test net::tests::regions::declare::test_multiple_gateways_r2r_token_propagation_upstream ... ok
+test net::tests::regions::forwarding::test_c2c_inter_subregion_data_routing ... ok
+test net::tests::regions::forwarding::test_c2c_inter_subregion_query_routing ... ok
+test net::tests::regions::forwarding::test_complete_queryable_failover ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_p2p_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_p2p_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_p2p_upstream_with_interest ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_p2r_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_p2r_upstream_with_interest ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_r2p_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_r2r_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_r2r_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_data_routing_r2r_upstream_gateway_source ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_p2p_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_p2p_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_p2p_upstream_with_interest ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_p2r_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_p2r_upstream_with_interest ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_r2p_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_r2r_downstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_r2r_upstream ... ok
+test net::tests::regions::forwarding::test_multiple_gateways_query_routing_r2r_upstream_gateway_source ... ok
+test net::tests::regions::forwarding::test_p2p_inter_subregion_data_routing ... ok
+test net::tests::regions::forwarding::test_p2p_inter_subregion_query_routing ... ok
+test net::tests::regions::forwarding::test_push_message_consumption ... ok
+test net::tests::regions::forwarding::test_r2r_inter_subregion_data_routing ... ok
+test net::tests::regions::forwarding::test_r2r_inter_subregion_query_routing ... ok
+test net::tests::regions::interest::test_concurrent_current_future_interests::whatami_client_whatami_client_expects ... ok
+test net::tests::regions::interest::test_concurrent_current_future_interests::whatami_client_whatami_peer_expects ... ok
+test net::tests::regions::interest::test_concurrent_current_future_interests::whatami_peer_whatami_client_expects ... ok
+test net::tests::regions::interest::test_concurrent_current_future_interests::whatami_peer_whatami_peer_expects ... ok
+test net::tests::regions::interest::test_current_future_interest_propagation_on_open::whatami_client_whatami_client_expects ... ok
+test net::tests::regions::interest::test_current_future_interest_propagation_on_open::whatami_client_whatami_peer_expects ... ok
+test net::tests::regions::interest::test_current_future_interest_propagation_on_open::whatami_peer_whatami_client_expects ... ok
+test net::tests::regions::interest::test_current_future_interest_propagation_on_open::whatami_peer_whatami_peer_expects ... ok
+test net::tests::regions::interest::test_current_interest_finalization::whatami_client_expects ... ok
+test net::tests::regions::interest::test_current_interest_finalization::whatami_peer_expects ... ok
+test net::tests::regions::interest::test_current_interest_finalization::whatami_router_expects ... ok
+test net::tests::regions::interest::test_current_token_repropagation ... ok
+test net::tests::regions::interest::test_p2p_interest_routing_with_finalized_initial_interests ... ok
+test net::tests::regions::interest::test_p2p_interest_routing_with_unfinalized_initial_interests ... ok
+test net::tests::regions::oam::test_peer_singlehop_gossip_linkstate_propagation ... ok
+test net::tests::runtime::tests::test_state_weak_alive_with_runtime ... ok
+test net::tests::runtime::tests::test_state_weak_dead_after_close_and_drop ... ok
+test net::tests::runtime::tests::test_state_weak_dead_after_drop ... ok
+test net::tests::runtime::tests::test_state_weak_still_alive_after_close ... ok
+test net::tests::tables::base_test ... ok
+test net::tests::tables::big_key_expr ... ok
+test net::tests::tables::clean_test ... ok
+test net::tests::tables::client_test ... ok
+test net::tests::tables::get_best_key_test ... ok
+test net::tests::tables::match_test ... ok
+test net::tests::tables::multisub_test ... ok
+test net::tests::tables::test_response_wireexpr ... ok
+test tests::interceptor_cache::test_interceptors_cache_update_egress ... ok
+test tests::interceptor_cache::test_interceptors_cache_update_egress_then_ingress ... ok
+test tests::interceptor_cache::test_interceptors_cache_update_ingress ... ok
+test tests::link_weights::test_link_weights_diamond ... [2m2026-09-13T16:47:59.651402Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:47:59.651402Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:47:59.651410Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:47:59.651402Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:05.672293Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:05.672305Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:05.672281Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:05.672280Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+ok
+test tests::link_weights::test_link_weights_hexagon ... [2m2026-09-13T16:48:11.702912Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:11.702913Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:11.702913Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:11.702912Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:17.727005Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:17.727043Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:17.727006Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:17.727005Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+ok
+test tests::link_weights::test_link_weights_info_diamond_routers ... [2m2026-09-13T16:48:25.267137Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267221Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267178Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267182Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267203Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267136Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:25.267237Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+ok
+test tests::link_weights::test_link_weights_triangle ... [2m2026-09-13T16:48:32.807867Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807867Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807867Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807867Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807876Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807892Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:32.807944Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:35.842822Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:35.842822Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:35.842823Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
+[2m2026-09-13T16:48:35.842822Z[0m [31mERROR[0m [2mzenoh_task[0m[2m:[0m Failed to terminate the task
