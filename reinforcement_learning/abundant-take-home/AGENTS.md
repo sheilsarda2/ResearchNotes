@@ -23,3 +23,15 @@ supplied README; maintain session instructions in this new `AGENTS.md`.
 Before finishing changes, check that the supplied files still match their
 original committed contents. Only an explicit subsequent user instruction may
 override this restriction.
+
+# Repository GitHub account
+
+Use `git gh ...` for GitHub CLI operations on `sheilsarda/ResearchNotes`.
+The repository-local alias invokes `scripts/gh-researchnotes`, which uses
+`~/.config/gh-researchnotes` and clears inherited token overrides. Authenticate
+this profile as `sheilsarda`; keep the default `gh` profile on `sheilsarda2`.
+
+If the local alias is missing, invoke `scripts/gh-researchnotes` directly from
+this directory. Verify the owner profile with `git gh api user --jq .login`
+before publishing. Keep authentication credentials out of Git, and keep the
+existing SSH remote unchanged.

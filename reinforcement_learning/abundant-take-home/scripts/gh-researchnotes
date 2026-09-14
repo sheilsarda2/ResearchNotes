@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Use the ResearchNotes owner profile without switching the default gh account.
+set -euo pipefail
+
+unset GH_TOKEN GITHUB_TOKEN
+export GH_CONFIG_DIR="$HOME/.config/gh-researchnotes"
+export GH_HOST=github.com
+export GH_REPO=sheilsarda/ResearchNotes
+
+exec gh "$@"
