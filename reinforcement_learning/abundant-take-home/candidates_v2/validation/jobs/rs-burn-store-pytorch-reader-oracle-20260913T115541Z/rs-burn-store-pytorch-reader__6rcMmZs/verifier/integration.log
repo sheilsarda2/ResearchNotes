@@ -1,0 +1,51 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running tests/apply_dtype.rs (target/debug/deps/apply_dtype-9d1acb35f89342b3)
+
+running 8 tests
+test an_int_source_keeps_its_own_width ... ok
+test an_integer_source_still_loads_into_a_bool_parameter ... ok
+test a_wide_integer_source_is_refused_by_a_bool_parameter ... ok
+test a_float_parameter_still_keeps_the_sources_precision ... ok
+test float_data_is_refused_by_a_bool_parameter ... ok
+test float_data_is_refused_by_an_int_parameter ... ok
+test int_data_is_refused_by_a_float_parameter ... ok
+test the_bool_store_widths_are_accepted_by_a_bool_parameter ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/apply_unwind.rs (target/debug/deps/apply_unwind-ea67182cd33445c2)
+
+running 1 test
+test a_panic_inside_map_aborts_instead_of_double_dropping ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/burnpack_store.rs (target/debug/deps/burnpack_store-cbc30c3764a08edc)
+
+running 5 tests
+test disabled_extension_does_not_fall_back_when_loading ... ok
+test file_mode_round_trips_a_module ... ok
+test file_mode_can_preserve_an_extensionless_path ... ok
+test overwrite_guards_an_existing_file ... ok
+test saving_through_an_adapter_round_trips ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/direct_writer.rs (target/debug/deps/direct_writer-e0b84959ed5eb364)
+
+running 2 tests
+test a_quantized_tensor_writes_and_reads_back ... ok
+test tensors_write_and_read_back_without_a_module ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/safetensors_atomic_save.rs (target/debug/deps/safetensors_atomic_save-7702dff1f3668d97)
+
+running 4 tests
+test a_successful_save_lands_at_the_destination ... ok
+test a_save_keeps_the_permissions_of_the_checkpoint_it_replaces ... ok
+test a_failed_save_leaves_no_scratch_file_behind ... ok
+test a_failed_save_leaves_the_previous_file_intact ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

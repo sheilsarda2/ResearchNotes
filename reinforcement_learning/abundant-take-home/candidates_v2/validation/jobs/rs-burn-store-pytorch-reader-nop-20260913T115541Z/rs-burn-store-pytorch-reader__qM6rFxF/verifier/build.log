@@ -1,0 +1,147 @@
+   Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1340:41
+     |
+1340 |     let err = PytorchReader::new(&path).expect_err("big-endian files are not supported");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1350:65
+     |
+1350 |     let err = PytorchReader::with_top_level_key(&path, "epoch").expect_err("epoch is an int");
+     |                                                                 ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1369:41
+     |
+1369 |     let err = PytorchReader::new(&path).expect_err("truncated storage data must be rejected");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1450:41
+     |
+1450 |     let err = PytorchReader::new(&path).expect_err("absurd count must be rejected");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1502:41
+     |
+1502 |     let err = PytorchReader::new(&path).expect_err("unknown byteorder must be rejected");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1645:41
+     |
+1645 |     let err = PytorchReader::new(&path).expect_err("a header without the flag must be refused");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+error[E0277]: `PytorchReader` doesn't implement `Debug`
+    --> crates/burn-store/src/pytorch/tests/reader/mod.rs:1670:41
+     |
+1670 |     let err = PytorchReader::new(&path).expect_err("big-endian legacy files are refused");
+     |                                         ^^^^^^^^^^ the trait `Debug` is not implemented for `PytorchReader`
+     |
+     = note: add `#[derive(Debug)]` to `PytorchReader` or manually `impl Debug for PytorchReader`
+note: required by a bound in `std::result::Result::<T, E>::expect_err`
+    --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1293:4
+help: consider annotating `PytorchReader` with `#[derive(Debug)]`
+    -->  crates/burn-store/src/pytorch/reader.rs:203:1
+     |
+ 203 + #[derive(Debug)]
+ 204 | pub struct PytorchReader {
+     |
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `burn-store` (lib test) due to 7 previous errors
+warning: build failed, waiting for other jobs to finish...
+   Compiling fastrand v2.5.0
+   Compiling rustix v1.1.4
+   Compiling futures-lite v2.6.1
+   Compiling cubecl-environment v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling xattr v1.6.1
+   Compiling cubecl-common v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling tar v0.4.46
+   Compiling cubecl-ir v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling burn-std v0.22.0-pre.3 (/workspace/repo/crates/burn-std)
+   Compiling burn-pack v0.22.0-pre.3 (/workspace/repo/crates/burn-pack)
+   Compiling cubecl-runtime v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling cubecl-core v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling cubecl-std v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling cubecl v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+   Compiling burn-backend v0.22.0-pre.3 (/workspace/repo/crates/burn-backend)
+   Compiling burn-ir v0.22.0-pre.3 (/workspace/repo/crates/burn-ir)
+   Compiling burn-autodiff v0.22.0-pre.3 (/workspace/repo/crates/burn-autodiff)
+   Compiling burn-flex v0.22.0-pre.3 (/workspace/repo/crates/burn-flex)
+   Compiling burn-dispatch v0.22.0-pre.3 (/workspace/repo/crates/burn-dispatch)
+   Compiling burn-tensor v0.22.0-pre.3 (/workspace/repo/crates/burn-tensor)
+   Compiling burn-core v0.22.0-pre.3 (/workspace/repo/crates/burn-core)
+   Compiling burn-linalg v0.22.0-pre.3 (/workspace/repo/crates/burn-linalg)
+   Compiling burn-rl v0.22.0-pre.3 (/workspace/repo/crates/burn-rl)
+   Compiling burn-nn v0.22.0-pre.3 (/workspace/repo/crates/burn-nn)
+   Compiling burn-optim v0.22.0-pre.3 (/workspace/repo/crates/burn-optim)
+   Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+   Compiling burn v0.22.0-pre.3 (/workspace/repo/crates/burn)
+   Compiling pytorch-tests v0.22.0-pre.3 (/workspace/repo/crates/burn-store/pytorch-tests)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 35.64s
+  Executable unittests src/lib.rs (target/debug/deps/pytorch_tests-38258438482b2661)
+  Executable tests/test_mod.rs (target/debug/deps/test_mod-657db831c5880322)

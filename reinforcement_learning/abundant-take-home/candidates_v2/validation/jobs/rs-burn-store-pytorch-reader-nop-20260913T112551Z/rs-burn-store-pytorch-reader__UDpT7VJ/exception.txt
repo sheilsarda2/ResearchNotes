@@ -1,0 +1,982 @@
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment rs-burn-store-pytorch-reader. Command: docker compose --project-name rs-burn-store-pytorch-reader__udpt7vj --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/rs-burn-store-pytorch-reader/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1i1mn99g/rs-burn-store-pytorch-reader__UDpT7VJ-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpc4zcbbbp/docker-compose-mounts.json build. Return code: 1. Stdout:  Image rs-burn-store-pytorch-reader__udpt7vj-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 776B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.08kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.95.0-slim-bookworm@sha256:d7482085ff5b415f84dba5647ae71606650bdef00db7aeb69f4b3d170c3e4082
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/rust:1.95.0-slim-bookworm@sha256:d7482085ff5b415f84dba5647ae71606650bdef00db7aeb69f4b3d170c3e4082
+#5 resolve docker.io/library/rust:1.95.0-slim-bookworm@sha256:d7482085ff5b415f84dba5647ae71606650bdef00db7aeb69f4b3d170c3e4082 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [3/7] RUN apt-get update && apt-get install -y --no-install-recommends         ca-certificates git pkg-config cmake make g++ python3     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/7] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [5/7] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#9 CACHED
+
+#10 [2/7] RUN mkdir -p "/usr/local/cargo" && printf '[target.aarch64-unknown-linux-gnu]\nrustflags = ["-C", "target-feature=+fp16"]\n' >> "/usr/local/cargo/config.toml"
+#10 CACHED
+
+#11 [6/7] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+#11 CACHED
+
+#12 [7/7] RUN cargo --version && rustc --version     && cargo test --locked --no-run -p burn-store -p burn-pack -p pytorch-tests -p safetensors-tests     && du -sh /workspace/repo/target /usr/local/cargo/registry
+#12 0.125 cargo 1.95.0 (f2d3ce0bd 2026-03-21)
+#12 0.151 rustc 1.95.0 (59807616e 2026-04-14)
+#12 0.253     Updating git repository `https://github.com/tracel-ai/cubecl`
+#12 3.150     Updating crates.io index
+#12 3.151     Updating git repository `https://github.com/tracel-ai/cubek`
+#12 7.660     Updating git repository `https://github.com/pliron-org/pliron.git`
+#12 14.09     Updating git repository `https://github.com/tracel-ai/tracel-llvm.git`
+#12 15.57     Updating git repository `https://github.com/tracel-ai/tracel-rspirv.git`
+#12 17.55     Updating git submodule `https://github.com/KhronosGroup/SPIRV-Headers.git`
+#12 26.03  Downloading crates ...
+#12 26.28   Downloaded arrayvec v0.7.8
+#12 26.31   Downloaded approx v0.5.1
+#12 26.38   Downloaded data-encoding v2.11.1
+#12 26.39   Downloaded fallible-streaming-iterator v0.1.9
+#12 26.39   Downloaded event-listener-strategy v0.5.4
+#12 26.39   Downloaded dyn-clone v1.0.20
+#12 26.39   Downloaded adler2 v2.0.1
+#12 26.40   Downloaded darling_macro v0.20.11
+#12 26.42   Downloaded gemm-c32 v0.19.0
+#12 26.43   Downloaded dirs v6.0.0
+#12 26.43   Downloaded gemm-f16 v0.19.0
+#12 26.43   Downloaded anyhow v1.0.104
+#12 26.46   Downloaded form_urlencoded v1.2.2
+#12 26.46   Downloaded gemm-f32 v0.19.0
+#12 26.46   Downloaded futures-task v0.3.34
+#12 26.47   Downloaded filedescriptor v0.8.3
+#12 26.47   Downloaded dyn-stack-macros v0.1.3
+#12 26.47   Downloaded equivalent v1.0.2
+#12 26.47   Downloaded derive-new v0.7.0
+#12 26.47   Downloaded darling_macro v0.21.3
+#12 26.50   Downloaded errno v0.3.14
+#12 26.50   Downloaded equator v0.4.2
+#12 26.51   Downloaded document-features v0.2.12
+#12 26.51   Downloaded heck v0.5.0
+#12 26.51   Downloaded hex v0.4.3
+#12 26.51   Downloaded float-ord v0.3.2
+#12 26.51   Downloaded fixedbitset v0.4.2
+#12 26.51   Downloaded downcast-rs v2.0.2
+#12 26.51   Downloaded dlib v0.5.3
+#12 26.52   Downloaded crypto-common v0.1.7
+#12 26.52   Downloaded fnv v1.0.7
+#12 26.52   Downloaded gemm-c64 v0.19.0
+#12 26.52   Downloaded futures-macro v0.3.34
+#12 26.52   Downloaded futures-core v0.3.34
+#12 26.52   Downloaded embassy-futures v0.1.2
+#12 26.54   Downloaded gemm-f64 v0.19.0
+#12 26.54   Downloaded futures-io v0.3.34
+#12 26.54   Downloaded etcetera v0.11.0
+#12 26.54   Downloaded filetime v0.2.29
+#12 26.54   Downloaded equator-macro v0.4.2
+#12 26.54   Downloaded darling_macro v0.24.1
+#12 26.55   Downloaded fax v0.2.7
+#12 26.55   Downloaded divan-macros v0.1.21
+#12 26.55   Downloaded deranged v0.5.8
+#12 26.56   Downloaded foldhash v0.1.5
+#12 26.57   Downloaded fdeflate v0.3.7
+#12 26.57   Downloaded enumset v1.1.14
+#12 26.57   Downloaded dyn-stack v0.13.2
+#12 26.57   Downloaded digest v0.11.3
+#12 26.57   Downloaded gemm-common v0.19.0
+#12 26.58   Downloaded gemm v0.19.0
+#12 26.58   Downloaded generic-array v0.14.7
+#12 26.58   Downloaded csscolorparser v0.6.2
+#12 26.58   Downloaded float4 v0.2.0
+#12 26.58   Downloaded find-msvc-tools v0.1.11
+#12 26.58   Downloaded fastrand v2.5.0
+#12 26.58   Downloaded either v1.18.0
+#12 26.59   Downloaded futures-timer v3.0.4
+#12 26.59   Downloaded deflate64 v0.1.12
+#12 26.59   Downloaded inout v0.1.4
+#12 26.59   Downloaded inflections v1.1.1
+#12 26.59   Downloaded idna_adapter v1.2.2
+#12 26.59   Downloaded ident_case v1.0.1
+#12 26.59   Downloaded foldhash v0.2.0
+#12 26.59   Downloaded csv-core v0.1.13
+#12 26.60   Downloaded as-slice v0.2.1
+#12 26.60   Downloaded darling v0.21.3
+#12 26.60   Downloaded hybrid-array v0.4.14
+#12 26.60   Downloaded darling v0.20.11
+#12 26.60   Downloaded ctutils v0.4.2
+#12 26.61   Downloaded hmac v0.13.0
+#12 26.61   Downloaded hashlink v0.12.1
+#12 26.61   Downloaded gpu-allocator v0.28.0
+#12 26.61   Downloaded lebe v0.5.3
+#12 26.61   Downloaded darling v0.24.1
+#12 26.61   Downloaded getrandom v0.3.4
+#12 26.62   Downloaded half v2.7.1
+#12 26.62   Downloaded lazy_static v1.5.0
+#12 26.62   Downloaded lab v0.11.0
+#12 26.62   Downloaded itoa v1.0.18
+#12 26.62   Downloaded instability v0.3.13
+#12 26.62   Downloaded httparse v1.10.1
+#12 26.63   Downloaded kasuari v0.4.12
+#12 26.63   Downloaded flate2 v1.1.10
+#12 26.63   Downloaded icu_provider v2.3.1
+#12 26.63   Downloaded icu_normalizer_data v2.3.0
+#12 26.63   Downloaded icu_locale_core v2.3.0
+#12 26.64   Downloaded darling_core v0.21.3
+#12 26.64   Downloaded finl_unicode v1.4.0
+#12 26.64   Downloaded darling_core v0.20.11
+#12 26.64   Downloaded inout v0.2.2
+#12 26.64   Downloaded indoc v2.0.7
+#12 26.65   Downloaded khronos-egl v6.0.0
+#12 26.65   Downloaded hi_sparse_bitset v0.9.0
+#12 26.65   Downloaded libbz2-rs-sys v0.2.5
+#12 26.65   Downloaded libloading v0.8.9
+#12 26.65   Downloaded line-clipping v0.3.8
+#12 26.66   Downloaded liblzma v0.4.8
+#12 26.66   Downloaded linkme-impl v0.3.37
+#12 26.66   Downloaded libloading v0.9.0
+#12 26.66   Downloaded linkme v0.3.37
+#12 26.66   Downloaded indexmap v2.14.1
+#12 26.66   Downloaded llvm-sys v231.0.0
+#12 26.67   Downloaded maybe-rayon v0.1.1
+#12 26.67   Downloaded mac_address v1.1.8
+#12 26.67   Downloaded loop9 v0.1.5
+#12 26.67   Downloaded idna v1.1.0
+#12 26.67   Downloaded hashbrown v0.17.1
+#12 26.68   Downloaded hashbrown v0.15.5
+#12 26.68   Downloaded futures-util v0.3.34
+#12 26.68   Downloaded litrs v1.0.0
+#12 26.69   Downloaded litemap v0.8.3
+#12 26.69   Downloaded glow v0.17.0
+#12 26.69   Downloaded awint_macros v0.19.0
+#12 26.69   Downloaded arg_enum_proc_macro v0.3.4
+#12 26.69   Downloaded hashbrown v0.16.1
+#12 26.69   Downloaded memoffset v0.9.1
+#12 26.70   Downloaded memmap2 v0.9.11
+#12 26.70   Downloaded lock_api v0.4.14
+#12 26.70   Downloaded lru v0.18.3
+#12 26.70   Downloaded matrixmultiply v0.3.11
+#12 26.70   Downloaded gimli v0.32.3
+#12 26.71   Downloaded exr v1.74.2
+#12 26.71   Downloaded num-conv v0.2.2
+#12 26.71   Downloaded num-derive v0.4.2
+#12 26.72   Downloaded num_cpus v1.17.0
+#12 26.72   Downloaded num-integer v0.1.47
+#12 26.72   Downloaded num-complex v0.4.6
+#12 26.72   Downloaded no_std_io2 v0.9.4
+#12 26.72   Downloaded num_threads v0.1.7
+#12 26.72   Downloaded nu-ansi-term v0.50.3
+#12 26.73   Downloaded option-ext v0.2.0
+#12 26.73   Downloaded once_vec v0.4.0
+#12 26.73   Downloaded num-rational v0.4.2
+#12 26.73   Downloaded palette_derive v0.7.7
+#12 26.73   Downloaded parking v2.2.1
+#12 26.73   Downloaded palette_math v0.7.7
+#12 26.73   Downloaded nvml-wrapper-sys v0.9.1
+#12 26.73   Downloaded oneshot v0.2.1
+#12 26.74   Downloaded once_cell v1.21.4
+#12 26.74   Downloaded num-traits v0.2.19
+#12 26.74   Downloaded percent-encoding v2.3.2
+#12 26.74   Downloaded pbkdf2 v0.11.0
+#12 26.74   Downloaded pastey v0.1.1
+#12 26.74   Downloaded pbkdf2 v0.13.0
+#12 26.74   Downloaded paste v1.0.15
+#12 26.74   Downloaded pest_generator v2.9.0
+#12 26.75   Downloaded phf_generator v0.11.3
+#12 26.75   Downloaded phf_codegen v0.11.3
+#12 26.75   Downloaded pest_derive v2.9.0
+#12 26.75   Downloaded libm v0.2.16
+#12 26.75   Downloaded phf v0.11.3
+#12 26.75   Downloaded pest_meta v2.9.0
+#12 26.76   Downloaded cudarc v0.19.9
+#12 26.77   Downloaded icu_normalizer v2.3.0
+#12 26.77   Downloaded rand_chacha v0.3.1
+#12 26.78   Downloaded proc-macro2 v1.0.107
+#12 26.78   Downloaded ppmd-rust v1.4.1
+#12 26.78   Downloaded ratatui-macros v0.7.2
+#12 26.78   Downloaded rand_core v0.10.1
+#12 26.78   Downloaded ratatui-crossterm v0.1.2
+#12 26.78   Downloaded rand_core v0.6.4
+#12 26.78   Downloaded buildid v1.0.5
+#12 26.78   Downloaded portable-atomic-util v0.2.7
+#12 26.79   Downloaded miniz_oxide v0.9.1
+#12 26.79   Downloaded miniz_oxide v0.8.9
+#12 26.79   Downloaded mio v1.2.2
+#12 26.79   Downloaded nvml-wrapper v0.12.1
+#12 26.79   Downloaded ratatui-termina v0.1.0
+#12 26.80   Downloaded num-bigint v0.4.8
+#12 26.80   Downloaded ratatui-termwiz v0.1.2
+#12 26.80   Downloaded nom v8.0.0
+#12 26.80   Downloaded nom v7.1.3
+#12 26.81   Downloaded minimal-lexical v0.2.1
+#12 26.81   Downloaded moxcms v0.8.1
+#12 26.81   Downloaded lzma-rust2 v0.16.5
+#12 26.82   Downloaded ndarray v0.17.2
+#12 26.82   Downloaded cubecl-hip-sys v7.14.6085000
+#12 26.83   Downloaded nix v0.29.0
+#12 26.84   Downloaded object v0.37.3
+#12 26.84   Downloaded ndarray v0.16.1
+#12 26.85   Downloaded libc v0.2.189
+#12 26.87   Downloaded block-buffer v0.12.1
+#12 26.87   Downloaded relative-path v1.9.3
+#12 26.87   Downloaded recasting v0.2.3
+#12 26.87   Downloaded reborrow v0.5.5
+#12 26.88   Downloaded rawpointer v0.2.1
+#12 26.88   Downloaded raw-window-handle v0.6.2
+#12 26.88   Downloaded ravif v0.13.0
+#12 26.88   Downloaded palette v0.7.7
+#12 26.88   Downloaded by_address v1.2.1
+#12 26.89   Downloaded rand v0.10.2
+#12 26.89   Downloaded rand v0.8.8
+#12 26.89   Downloaded seq-macro v0.3.6
+#12 26.89   Downloaded ratatui v0.30.2
+#12 26.89   Downloaded rand_distr v0.6.0
+#12 26.89   Downloaded png v0.18.1
+#12 26.90   Downloaded sanitize-filename v0.6.0
+#12 26.90   Downloaded pulp v0.22.3
+#12 26.90   Downloaded pest v2.9.0
+#12 26.90   Downloaded qoi v0.4.1
+#12 26.90   Downloaded naga v30.0.1
+#12 26.92   Downloaded symlink v0.1.0
+#12 26.92   Downloaded strum v0.28.0
+#12 26.92   Downloaded sha2 v0.11.0
+#12 26.92   Downloaded subtle v2.6.1
+#12 26.92   Downloaded static_assertions v1.1.0
+#12 26.92   Downloaded strsim v0.11.1
+#12 26.92   Downloaded simd_helpers v0.1.0
+#12 26.92   Downloaded spin v0.12.3
+#12 26.93   Downloaded spirv v0.4.0+sdk-1.4.341.0
+#12 26.93   Downloaded ratatui-core v0.1.2
+#12 26.93   Downloaded deltae v0.3.2
+#12 26.94   Downloaded liblzma-sys v0.4.8
+#12 26.96   Downloaded byteorder-lite v0.1.0
+#12 26.96   Downloaded slotmap v1.1.1
+#12 26.96   Downloaded signal-hook v0.3.18
+#12 26.96   Downloaded sharded-slab v0.1.7
+#12 26.97   Downloaded slab v0.4.12
+#12 26.97   Downloaded signal-hook-registry v1.4.8
+#12 26.97   Downloaded simd-adler32 v0.3.10
+#12 26.97   Downloaded shlex v2.0.1
+#12 26.97   Downloaded sha2 v0.10.9
+#12 26.97   Downloaded portable-atomic v1.15.0
+#12 26.97   Downloaded serde_derive v1.0.229
+#12 26.98   Downloaded serde_core v1.0.229
+#12 26.98   Downloaded rstest v0.26.1
+#12 26.98   Downloaded stable_deref_trait v1.2.1
+#12 26.98   Downloaded pxfm v0.1.30
+#12 26.99   Downloaded siphasher v1.0.3
+#12 26.99   Downloaded signal-hook-mio v0.2.5
+#12 26.99   Downloaded sha1 v0.11.0
+#12 26.99   Downloaded sha1 v0.10.7
+#12 26.99   Downloaded cpubits v0.1.1
+#12 27.00   Downloaded semver v1.0.28
+#12 27.00   Downloaded safetensors v0.3.3
+#12 27.00   Downloaded ryu v1.0.23
+#12 27.00   Downloaded rustls-pki-types v1.15.1
+#12 27.00   Downloaded rustc-demangle v0.1.28
+#12 27.00   Downloaded linux-raw-sys v0.12.1
+#12 27.03   Downloaded cfg_aliases v0.2.2
+#12 27.04   Downloaded rmp v0.8.15
+#12 27.04   Downloaded bytesize v1.3.3
+#12 27.04   Downloaded regex v1.13.1
+#12 27.04   Downloaded ratatui-widgets v0.3.2
+#12 27.05   Downloaded rayon-core v1.13.0
+#12 27.05   Downloaded regex-automata v0.4.18
+#12 27.06   Downloaded terminal_size v0.4.4
+#12 27.06   Downloaded castaway v0.2.4
+#12 27.06   Downloaded rayon v1.12.0
+#12 27.06   Downloaded termios v0.3.3
+#12 27.06   Downloaded terminfo v0.9.0
+#12 27.07   Downloaded termcolor v1.4.1
+#12 27.07   Downloaded tempfile v3.27.0
+#12 27.07   Downloaded systemstat v0.2.7
+#12 27.07   Downloaded synstructure v0.13.2
+#12 27.07   Downloaded libsqlite3-sys v0.38.2
+#12 27.11   Downloaded color_quant v1.1.0
+#12 27.11   Downloaded rav1e v0.8.1
+#12 27.13   Downloaded cpufeatures v0.3.1
+#12 27.13   Downloaded ciborium-ll v0.2.2
+#12 27.13   Downloaded renderdoc-sys v1.1.0
+#12 27.13   Downloaded smallvec v1.16.0
+#12 27.13   Downloaded serde_bytes v0.11.19
+#12 27.13   Downloaded scopeguard v1.2.0
+#12 27.13   Downloaded same-file v1.0.6
+#12 27.14   Downloaded const-random v0.1.18
+#12 27.14   Downloaded safetensors v0.7.0
+#12 27.14   Downloaded rustversion v1.0.23
+#12 27.14   Downloaded rustc_version v0.4.1
+#12 27.14   Downloaded rustc-hash v2.1.3
+#12 27.14   Downloaded rustc-hash v1.1.0
+#12 27.14   Downloaded rgb v0.8.53
+#12 27.14   Downloaded constcat v0.6.1
+#12 27.14   Downloaded bit_field v0.10.3
+#12 27.14   Downloaded csv v1.4.0
+#12 27.15   Downloaded quote v1.0.47
+#12 27.15   Downloaded quick-error v2.0.1
+#12 27.15   Downloaded pulp-wasm-simd-flag v0.1.1
+#12 27.15   Downloaded profiling-procmacros v1.0.18
+#12 27.15   Downloaded condtype v1.3.0
+#12 27.16   Downloaded profiling v1.0.18
+#12 27.16   Downloaded presser v0.3.1
+#12 27.16   Downloaded ppv-lite86 v0.2.21
+#12 27.16   Downloaded pkg-config v0.3.34
+#12 27.16   Downloaded pin-project-lite v0.2.17
+#12 27.16   Downloaded phf_shared v0.11.3
+#12 27.16   Downloaded phf_macros v0.11.3
+#12 27.16   Downloaded bit-set v0.5.3
+#12 27.16   Downloaded memchr v2.8.3
+#12 27.16   Downloaded password-hash v0.4.2
+#12 27.17   Downloaded parking_lot_core v0.9.12
+#12 27.17   Downloaded parking_lot v0.12.5
+#12 27.17   Downloaded ordered-float v4.6.0
+#12 27.17   Downloaded block-buffer v0.10.4
+#12 27.17   Downloaded itertools v0.15.0
+#12 27.17   Downloaded constant_time_eq v0.1.5
+#12 27.17   Downloaded itertools v0.14.0
+#12 27.18   Downloaded noop_proc_macro v0.3.0
+#12 27.18   Downloaded new_debug_unreachable v1.0.6
+#12 27.18   Downloaded naga-types v30.0.1
+#12 27.18   Downloaded mutants v0.0.3
+#12 27.18   Downloaded moddef v0.3.0
+#12 27.18   Downloaded image v0.25.10
+#12 27.18   Downloaded log v0.4.34
+#12 27.18   Downloaded memmem v0.1.1
+#12 27.19   Downloaded macerator-macros v0.2.0
+#12 27.19   Downloaded atomic_float v1.1.0
+#12 27.19   Downloaded aligned-vec v0.6.4
+#12 27.19   Downloaded icu_properties v2.3.0
+#12 27.19   Downloaded const-random-macro v0.1.16
+#12 27.19   Downloaded darling_core v0.24.1
+#12 27.19   Downloaded hashbrown v0.13.2
+#12 27.19   Downloaded image-webp v0.2.4
+#12 27.20   Downloaded icu_collections v2.3.0
+#12 27.20   Downloaded fancy-regex v0.11.0
+#12 27.20   Downloaded divan v0.1.21
+#12 27.20   Downloaded derive_more-impl v2.1.1
+#12 27.20   Downloaded derive_more v2.1.1
+#12 27.21   Downloaded jobserver v0.1.35
+#12 27.21   Downloaded internment v0.8.6
+#12 27.21   Downloaded ciborium-io v0.2.2
+#12 27.21   Downloaded euclid v0.22.14
+#12 27.21   Downloaded imgref v1.12.3
+#12 27.21   Downloaded glob v0.3.4
+#12 27.21   Downloaded gif v0.14.2
+#12 27.21   Downloaded getrandom v0.4.3
+#12 27.22   Downloaded getrandom v0.2.17
+#12 27.22   Downloaded futures-lite v2.6.1
+#12 27.22   Downloaded event-listener v5.4.2
+#12 27.22   Downloaded displaydoc v0.2.7
+#12 27.22   Downloaded float8 v0.7.0
+#12 27.22   Downloaded fallible-iterator v0.3.0
+#12 27.22   Downloaded enumset_derive v0.15.0
+#12 27.22   Downloaded dirs-sys v0.5.0
+#12 27.22   Downloaded digest v0.10.7
+#12 27.28   Downloaded atomic v0.6.1
+#12 27.30   Downloaded const_fn v0.4.12
+#12 27.34   Downloaded rstest_macros v0.26.1
+#12 27.34   Downloaded rustls-webpki v0.103.15
+#12 27.34   Downloaded serde v1.0.229
+#12 27.34   Downloaded regex-lite v0.1.9
+#12 27.35   Downloaded clap_lex v1.1.0
+#12 27.35   Downloaded rusqlite v0.40.2
+#12 27.35   Downloaded raw-cpuid v11.6.0
+#12 27.35   Downloaded rustc_apfloat v0.2.3+llvm-462a31f5a5ab
+#12 27.36   Downloaded regex-syntax v0.8.11
+#12 27.36   Downloaded rustls v0.23.43
+#12 27.37   Downloaded rustix v1.1.4
+#12 27.38   Downloaded cpufeatures v0.2.17
+#12 27.38   Downloaded toml_writer v1.1.2+spec-1.1.0
+#12 27.38   Downloaded toml_parser v1.1.3+spec-1.1.0
+#12 27.38   Downloaded tokio-macros v2.7.2
+#12 27.38   Downloaded thread-tree v0.3.3
+#12 27.38   Downloaded thiserror-impl v2.0.20
+#12 27.39   Downloaded ring v0.17.14
+#12 27.41   Downloaded version_check v0.9.5
+#12 27.41   Downloaded v_frame v0.3.9
+#12 27.41   Downloaded utf8_iter v1.0.4
+#12 27.41   Downloaded serde_json v1.0.151
+#12 27.41   Downloaded unicode-truncate v2.0.1
+#12 27.41   Downloaded tracing-appender v0.2.5
+#12 27.41   Downloaded toml v1.1.4+spec-1.1.0
+#12 27.41   Downloaded toml_datetime v1.1.1+spec-1.1.0
+#12 27.41   Downloaded tinystr v0.8.4
+#12 27.42   Downloaded tiny-keccak v2.0.2
+#12 27.42   Downloaded time-macros v0.2.32
+#12 27.42   Downloaded variadics_please v2.0.0
+#12 27.42   Downloaded vtparse v0.6.2
+#12 27.42   Downloaded utf8-zero v0.8.1
+#12 27.42   Downloaded unicode-xid v0.2.6
+#12 27.42   Downloaded utf8parse v0.2.2
+#12 27.42   Downloaded utf8-chars v3.0.7
+#12 27.42   Downloaded untrusted v0.9.0
+#12 27.42   Downloaded tracing-core v0.1.36
+#12 27.42   Downloaded tracing-attributes v0.1.31
+#12 27.42   Downloaded uuid v1.26.0
+#12 27.43   Downloaded ureq-proto v0.6.1
+#12 27.43   Downloaded unicode-ident v1.0.24
+#12 27.43   Downloaded ucd-trie v0.1.7
+#12 27.43   Downloaded tynm v0.2.0
+#12 27.43   Downloaded async-channel v2.5.0
+#12 27.43   Downloaded anstyle v1.0.14
+#12 27.43   Downloaded tracing-log v0.2.0
+#12 27.43   Downloaded ahash v0.8.12
+#12 27.43   Downloaded syn v1.0.109
+#12 27.44   Downloaded syn v2.0.119
+#12 27.44   Downloaded wgpu-naga-bridge v30.0.1
+#12 27.44   Downloaded wezterm-input-types v0.1.0
+#12 27.44   Downloaded wezterm-dynamic-derive v0.1.1
+#12 27.45   Downloaded weezl v0.1.12
+#12 27.45   Downloaded walkdir v2.5.0
+#12 27.45   Downloaded termina v0.3.3
+#12 27.45   Downloaded tar v0.4.46
+#12 27.45   Downloaded wezterm-dynamic v0.2.1
+#12 27.45   Downloaded wezterm-color-types v0.3.0
+#12 27.45   Downloaded webpki-roots v0.26.11
+#12 27.45   Downloaded web-time v1.1.0
+#12 27.45   Downloaded wayland-sys v0.31.11
+#12 27.45   Downloaded wasm-bindgen-shared v0.2.127
+#12 27.45   Downloaded wasm-bindgen-macro v0.2.127
+#12 27.46   Downloaded crypto-common v0.2.2
+#12 27.46   Downloaded sysinfo v0.39.6
+#12 27.46   Downloaded thread_local v1.1.10
+#12 27.46   Downloaded termwiz v0.23.3
+#12 27.47   Downloaded syn v3.0.4
+#12 27.47   Downloaded thiserror-impl v1.0.69
+#12 27.47   Downloaded thiserror v2.0.20
+#12 27.48   Downloaded thiserror v1.0.69
+#12 27.48   Downloaded xxhash-rust v0.8.18
+#12 27.48   Downloaded writeable v0.6.4
+#12 27.48   Downloaded wrapcenum-derive v0.4.1
+#12 27.48   Downloaded tch v0.22.0
+#12 27.53   Downloaded url v2.5.8
+#12 27.53   Downloaded zune-core v0.5.3
+#12 27.53   Downloaded zune-inflate v0.2.54
+#12 27.53   Downloaded yoke v0.8.3
+#12 27.54   Downloaded wasm-bindgen-macro-support v0.2.127
+#12 27.54   Downloaded wgpu-types v30.0.1
+#12 27.54   Downloaded ureq v3.4.0
+#12 27.54   Downloaded webpki-roots v1.0.9
+#12 27.54   Downloaded vcpkg v0.2.15
+#12 27.56   Downloaded unicode-width v0.2.2
+#12 27.56   Downloaded wgpu-core v30.0.1
+#12 27.57   Downloaded tracing v0.1.44
+#12 27.58   Downloaded winnow v1.0.4
+#12 27.58   Downloaded wide v1.7.0
+#12 27.58   Downloaded time-core v0.1.9
+#12 27.58   Downloaded zerotrie v0.2.5
+#12 27.59   Downloaded zerocopy-derive v0.8.56
+#12 27.59   Downloaded xattr v1.6.1
+#12 27.59   Downloaded text_placeholder v0.5.1
+#12 27.59   Downloaded serde_spanned v1.1.1
+#12 27.59   Downloaded tracing-subscriber v0.3.23
+#12 27.59   Downloaded triple_arena v0.15.1
+#12 27.60   Downloaded proc-macro-crate v3.5.0
+#12 27.60   Downloaded ureq v2.12.1
+#12 27.60   Downloaded unsynn v0.3.0
+#12 27.60   Downloaded wezterm-blob-leases v0.1.1
+#12 27.60   Downloaded zerocopy v0.8.56
+#12 27.61   Downloaded typed-path v0.12.3
+#12 27.61   Downloaded unicode-segmentation v1.13.3
+#12 27.61   Downloaded typenum v1.20.1
+#12 27.62   Downloaded wezterm-bidi v0.2.3
+#12 27.62   Downloaded wasm-bindgen v0.2.127
+#12 27.62   Downloaded zstd-safe v7.2.4
+#12 27.62   Downloaded zerofrom-derive v0.1.7
+#12 27.62   Downloaded zstd-safe v5.0.2+zstd.1.5.2
+#12 27.62   Downloaded zstd v0.13.3
+#12 27.62   Downloaded zerofrom v0.1.8
+#12 27.62   Downloaded yoke-derive v0.8.2
+#12 27.62   Downloaded y4m v0.8.0
+#12 27.62   Downloaded tokio v1.53.1
+#12 27.64   Downloaded toml_edit v0.25.13+spec-1.1.0
+#12 27.64   Downloaded time v0.3.55
+#12 27.65   Downloaded tiff v0.11.3
+#12 27.65   Downloaded powerfmt v0.2.0
+#12 27.65   Downloaded potential_utf v0.1.6
+#12 27.65   Downloaded zstd-sys v2.0.16+zstd.1.5.7
+#12 27.69   Downloaded awint v0.19.0
+#12 27.69   Downloaded avif-serialize v0.8.9
+#12 27.69   Downloaded autocfg v1.5.1
+#12 27.72   Downloaded awint_internals v0.19.0
+#12 27.74   Downloaded bit-vec v0.6.3
+#12 27.76   Downloaded bit-vec v0.9.1
+#12 27.76   Downloaded base64ct v1.8.3
+#12 27.79   Downloaded byteorder v1.5.0
+#12 27.80   Downloaded convert_case v0.10.0
+#12 27.82   Downloaded cmov v0.5.4
+#12 27.82   Downloaded cfg-if v1.0.4
+#12 27.82   Downloaded cipher v0.5.2
+#12 27.84   Downloaded crunchy v0.2.4
+#12 27.87   Downloaded convert_case v0.11.0
+#12 27.88   Downloaded cipher v0.4.4
+#12 27.88   Downloaded bytemuck_derive v1.12.0
+#12 27.91   Downloaded bitflags v1.3.2
+#12 27.94   Downloaded crossbeam-deque v0.8.7
+#12 27.96   Downloaded constant_time_eq v0.4.2
+#12 28.05   Downloaded strum_macros v0.28.0
+#12 28.06   Downloaded wgpu-core-deps-windows-linux-android v30.0.1
+#12 28.09   Downloaded zerovec-derive v0.11.6
+#12 28.09   Downloaded zeroize v1.9.0
+#12 28.09   Downloaded aligned v0.4.3
+#12 28.10   Downloaded awint_ext v0.19.0
+#12 28.11   Downloaded awint_dag v0.19.0
+#12 28.12   Downloaded addr2line v0.25.1
+#12 28.12   Downloaded av1-grain v0.2.5
+#12 28.15   Downloaded concurrent-queue v2.5.0
+#12 28.16   Downloaded bit-set v0.10.0
+#12 28.17   Downloaded chacha20 v0.10.2
+#12 28.18   Downloaded built v0.8.1
+#12 28.22   Downloaded crossbeam-utils v0.8.22
+#12 28.22   Downloaded critical-section v1.2.0
+#12 28.22   Downloaded crc32fast v1.5.1
+#12 28.22   Downloaded colored v3.1.1
+#12 28.23   Downloaded bzip2 v0.4.4
+#12 28.26   Downloaded ciborium v0.2.2
+#12 28.27   Downloaded bzip2 v0.6.1
+#12 28.34   Downloaded crossbeam-epoch v0.9.20
+#12 28.37   Downloaded zstd v0.11.2+zstd.1.5.2
+#12 28.38   Downloaded hmac v0.12.1
+#12 28.39   Downloaded macerator v0.3.4
+#12 28.40   Downloaded rmp-serde v1.3.1
+#12 28.40   Downloaded textdistance v1.1.1
+#12 28.45   Downloaded awint_core v0.19.0
+#12 28.45   Downloaded allocator-api2 v0.2.21
+#12 28.47   Downloaded awint_macro_internals v0.19.0
+#12 28.48   Downloaded bitstream-io v4.10.0
+#12 28.50   Downloaded const-oid v0.10.2
+#12 28.55   Downloaded bytemuck v1.25.2
+#12 28.62   Downloaded zmij v1.0.23
+#12 28.71   Downloaded bon v3.10.0
+#12 28.71   Downloaded bitflags v2.13.1
+#12 28.71   Downloaded base64 v0.22.1
+#12 28.71   Downloaded codespan-reporting v0.13.1
+#12 28.78   Downloaded clap v4.6.6
+#12 28.83   Downloaded zopfli v0.8.3
+#12 28.83   Downloaded prettyplease v0.3.0
+#12 28.86   Downloaded zip v0.6.6
+#12 28.88   Downloaded backtrace v0.3.76
+#12 28.90   Downloaded compact_str v0.9.1
+#12 28.90   Downloaded bytes v1.12.1
+#12 28.94   Downloaded crossbeam-channel v0.5.16
+#12 29.00   Downloaded base64 v0.23.1
+#12 29.01   Downloaded bumpalo v3.20.3
+#12 29.01   Downloaded bon-macros v3.10.0
+#12 29.02   Downloaded aes v0.9.3
+#12 29.03   Downloaded zune-jpeg v0.5.15
+#12 29.04   Downloaded cc v1.4.4
+#12 29.07   Downloaded http v1.5.0
+#12 29.11   Downloaded combine v4.6.8
+#12 29.12   Downloaded aes v0.8.4
+#12 29.19   Downloaded zerovec v0.11.8
+#12 29.23   Downloaded crossterm v0.29.0
+#12 29.25   Downloaded zip v8.6.0
+#12 29.37   Downloaded clap_builder v4.6.6
+#12 29.38   Downloaded icu_properties_data v2.3.0
+#12 29.38   Downloaded aho-corasick v1.1.5
+#12 29.45   Downloaded wgpu v30.0.1
+#12 29.48   Downloaded zlib-rs v0.6.7
+#12 29.53   Downloaded torch-sys v0.22.0
+#12 29.77   Downloaded ash v0.38.0+1.3.281
+#12 29.79   Downloaded wgpu-hal v30.0.1
+#12 29.80   Downloaded av-scenechange v0.14.1
+#12 29.84   Downloaded bzip2-sys v0.1.13+1.0.8
+#12 30.15    Compiling unicode-ident v1.0.24
+#12 30.15    Compiling proc-macro2 v1.0.107
+#12 30.15    Compiling quote v1.0.47
+#12 30.15    Compiling serde_core v1.0.229
+#12 30.15    Compiling cfg-if v1.0.4
+#12 30.16    Compiling libc v0.2.189
+#12 30.16    Compiling autocfg v1.5.1
+#12 30.16    Compiling libm v0.2.16
+#12 30.16    Compiling serde v1.0.229
+#12 30.16    Compiling zerocopy v0.8.56
+#12 30.17    Compiling allocator-api2 v0.2.21
+#12 30.17    Compiling cfg_aliases v0.2.2
+#12 30.18    Compiling equivalent v1.0.2
+#12 30.18    Compiling version_check v0.9.5
+#12 30.18    Compiling crossbeam-utils v0.8.22
+#12 30.19    Compiling foldhash v0.2.0
+#12 30.19    Compiling find-msvc-tools v0.1.11
+#12 30.19    Compiling pin-project-lite v0.2.17
+#12 30.22    Compiling shlex v2.0.1
+#12 30.22    Compiling memchr v2.8.3
+#12 30.23    Compiling pkg-config v0.3.34
+#12 30.24    Compiling once_cell v1.21.4
+#12 30.33    Compiling rand_core v0.10.1
+#12 30.34    Compiling scopeguard v1.2.0
+#12 30.34    Compiling zmij v1.0.23
+#12 30.40    Compiling unicode-segmentation v1.13.3
+#12 30.41    Compiling lock_api v0.4.14
+#12 30.41    Compiling log v0.4.34
+#12 30.42    Compiling chacha20 v0.10.2
+#12 30.43    Compiling itoa v1.0.18
+#12 30.44    Compiling getrandom v0.4.3
+#12 30.51    Compiling parking v2.2.1
+#12 30.52    Compiling vcpkg v0.2.15
+#12 30.54    Compiling bytes v1.12.1
+#12 30.55    Compiling portable-atomic v1.15.0
+#12 30.56    Compiling unicode-xid v0.2.6
+#12 30.57    Compiling convert_case v0.10.0
+#12 30.57    Compiling ident_case v1.0.1
+#12 30.57    Compiling serde_json v1.0.151
+#12 30.58    Compiling num-traits v0.2.19
+#12 30.59    Compiling web-time v1.1.0
+#12 30.60    Compiling object v0.37.3
+#12 30.62    Compiling embassy-futures v0.1.2
+#12 30.62    Compiling parking_lot_core v0.9.12
+#12 30.62    Compiling futures-core v0.3.34
+#12 30.63    Compiling event-listener v5.4.2
+#12 30.63    Compiling adler2 v2.0.1
+#12 30.69    Compiling fastrand v2.5.0
+#12 30.70    Compiling ciborium-io v0.2.2
+#12 30.71    Compiling winnow v1.0.4
+#12 30.72    Compiling gimli v0.32.3
+#12 30.72    Compiling miniz_oxide v0.8.9
+#12 30.75    Compiling concurrent-queue v2.5.0
+#12 30.76    Compiling event-listener-strategy v0.5.4
+#12 30.76    Compiling tracing-core v0.1.36
+#12 30.78    Compiling cubecl-environment v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 30.81    Compiling rustc-demangle v0.1.28
+#12 30.82    Compiling toml_writer v1.1.2+spec-1.1.0
+#12 30.85    Compiling fallible-iterator v0.3.0
+#12 30.86    Compiling thiserror v2.0.20
+#12 30.91    Compiling toml_parser v1.1.3+spec-1.1.0
+#12 30.93    Compiling futures-io v0.3.34
+#12 30.94    Compiling fallible-streaming-iterator v0.1.9
+#12 30.97    Compiling async-channel v2.5.0
+#12 30.98    Compiling nom v8.0.0
+#12 30.99    Compiling jobserver v0.1.35
+#12 31.01    Compiling syn v3.0.4
+#12 31.02    Compiling syn v2.0.119
+#12 31.03    Compiling futures-lite v2.6.1
+#12 31.04    Compiling cubecl-common v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 31.06    Compiling etcetera v0.11.0
+#12 31.09    Compiling oneshot v0.2.1
+#12 31.10    Compiling paste v1.0.15
+#12 31.11    Compiling cc v1.4.4
+#12 31.16    Compiling rand v0.10.2
+#12 31.20    Compiling float4 v0.2.0
+#12 31.22    Compiling xxhash-rust v0.8.18
+#12 31.23    Compiling strsim v0.11.1
+#12 31.25    Compiling const_fn v0.4.12
+#12 31.26    Compiling either v1.18.0
+#12 31.41    Compiling ahash v0.8.12
+#12 31.42    Compiling hashbrown v0.17.1
+#12 31.50    Compiling recasting v0.2.3
+#12 31.51    Compiling rand_distr v0.6.0
+#12 31.57    Compiling triple_arena v0.15.1
+#12 31.58    Compiling fnv v1.0.7
+#12 31.59    Compiling data-encoding v2.11.1
+#12 31.67    Compiling uuid v1.26.0
+#12 31.77    Compiling bitflags v2.13.1
+#12 31.85    Compiling serde_spanned v1.1.1
+#12 31.87    Compiling toml_datetime v1.1.1+spec-1.1.0
+#12 31.92    Compiling addr2line v0.25.1
+#12 31.95    Compiling serde_bytes v0.11.19
+#12 31.95    Compiling awint_internals v0.19.0
+#12 31.97    Compiling hashbrown v0.16.1
+#12 32.05    Compiling toml v1.1.4+spec-1.1.0
+#12 32.08    Compiling awint_core v0.19.0
+#12 32.11    Compiling crossbeam-epoch v0.9.20
+#12 32.12    Compiling linkme-impl v0.3.37
+#12 32.14    Compiling rustc-hash v2.1.3
+#12 32.24    Compiling hashlink v0.12.1
+#12 32.26    Compiling aho-corasick v1.1.5
+#12 32.27    Compiling slotmap v1.1.1
+#12 32.35    Compiling awint_ext v0.19.0
+#12 32.44    Compiling rustc_apfloat v0.2.3+llvm-462a31f5a5ab
+#12 32.46    Compiling regex-syntax v0.8.11
+#12 32.47    Compiling libsqlite3-sys v0.38.2
+#12 32.52    Compiling linkme v0.3.37
+#12 32.56    Compiling awint_macro_internals v0.19.0
+#12 32.59    Compiling crossbeam-deque v0.8.7
+#12 32.75    Compiling indexmap v2.14.1
+#12 32.82    Compiling combine v4.6.8
+#12 32.84    Compiling convert_case v0.11.0
+#12 32.89    Compiling backtrace v0.3.76
+#12 33.07    Compiling tynm v0.2.0
+#12 33.08    Compiling bumpalo v3.20.3
+#12 33.10    Compiling arrayvec v0.7.8
+#12 33.11    Compiling mutants v0.0.3
+#12 33.12    Compiling prettyplease v0.3.0
+#12 33.14    Compiling rayon-core v1.13.0
+#12 33.26    Compiling darling_core v0.24.1
+#12 33.27    Compiling inflections v1.1.1
+#12 33.29    Compiling foldhash v0.1.5
+#12 33.31    Compiling utf8-chars v3.0.7
+#12 33.32    Compiling unsynn v0.3.0
+#12 33.36    Compiling hashbrown v0.15.5
+#12 33.47    Compiling itertools v0.15.0
+#12 33.50    Compiling spin v0.12.3
+#12 33.61    Compiling awint_macros v0.19.0
+#12 33.62    Compiling pulp v0.22.3
+#12 33.69    Compiling regex-automata v0.4.18
+#12 33.71    Compiling downcast-rs v2.0.2
+#12 33.81    Compiling once_vec v0.4.0
+#12 33.88    Compiling dyn-clone v1.0.20
+#12 33.89    Compiling variadics_please v2.0.0
+#12 33.91    Compiling awint v0.19.0
+#12 33.92    Compiling num-integer v0.1.47
+#12 33.94    Compiling cubecl-runtime v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 33.96    Compiling dyn-stack-macros v0.1.3
+#12 33.98    Compiling cubecl-macros v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 34.12    Compiling reborrow v0.5.5
+#12 34.14    Compiling pulp-wasm-simd-flag v0.1.1
+#12 34.15    Compiling futures-task v0.3.34
+#12 34.16    Compiling float-ord v0.3.2
+#12 34.18    Compiling rustix v1.1.4
+#12 34.19    Compiling slab v0.4.12
+#12 34.23    Compiling darling_core v0.21.3
+#12 34.24    Compiling raw-cpuid v11.6.0
+#12 34.27    Compiling buildid v1.0.5
+#12 34.29    Compiling linux-raw-sys v0.12.1
+#12 34.33    Compiling futures-util v0.3.34
+#12 34.43    Compiling rayon v1.12.0
+#12 34.50    Compiling seq-macro v0.3.6
+#12 34.51    Compiling serde_derive v1.0.229
+#12 34.57    Compiling bytemuck_derive v1.12.0
+#12 34.62    Compiling thiserror-impl v2.0.20
+#12 34.85    Compiling zerocopy-derive v0.8.56
+#12 34.93    Compiling derive-new v0.7.0
+#12 35.02    Compiling derive_more-impl v2.1.1
+#12 35.38    Compiling tracing-attributes v0.1.31
+#12 35.42    Compiling regex v1.13.1
+#12 35.48    Compiling byteorder v1.5.0
+#12 35.50    Compiling darling_macro v0.24.1
+#12 35.67    Compiling cubecl v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 35.68    Compiling bytemuck v1.25.2
+#12 35.78    Compiling darling_core v0.20.11
+#12 35.84    Compiling num-complex v0.4.6
+#12 35.84    Compiling wide v1.7.0
+#12 35.89    Compiling dyn-stack v0.13.2
+#12 35.91    Compiling typenum v1.20.1
+#12 35.94    Compiling semver v1.0.28
+#12 35.98    Compiling equator-macro v0.4.2
+#12 36.02    Compiling darling v0.24.1
+#12 36.03    Compiling pliron-derive v0.17.0 (https://github.com/pliron-org/pliron.git?rev=e23ff9faa16425f2bd995aa92d960dee6721f9aa#e23ff9fa)
+#12 36.06    Compiling cubecl-macros-internal v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 36.09    Compiling rustc_version v0.4.1
+#12 36.11    Compiling moddef v0.3.0
+#12 36.13    Compiling burn-dispatch v0.22.0-pre.3 (/workspace/repo/crates/burn-dispatch)
+#12 36.28    Compiling burn-backend-extension v0.22.0-pre.3 (/workspace/repo/crates/burn-backend-extension)
+#12 36.31    Compiling darling_macro v0.21.3
+#12 36.36    Compiling hybrid-array v0.4.14
+#12 36.39    Compiling macerator v0.3.4
+#12 36.40    Compiling cmov v0.5.4
+#12 36.46    Compiling zeroize v1.9.0
+#12 36.48    Compiling equator v0.4.2
+#12 36.48    Compiling tracing v0.1.44
+#12 36.52    Compiling ctutils v0.4.2
+#12 36.60    Compiling burn-derive v0.22.0-pre.3 (/workspace/repo/crates/burn-derive)
+#12 36.62    Compiling colored v3.1.1
+#12 36.66    Compiling aligned-vec v0.6.4
+#12 36.67    Compiling const-oid v0.10.2
+#12 36.69    Compiling crypto-common v0.2.2
+#12 36.69    Compiling block-buffer v0.12.1
+#12 36.76    Compiling zstd-sys v2.0.16+zstd.1.5.7
+#12 36.79    Compiling darling v0.21.3
+#12 36.80    Compiling cpufeatures v0.3.1
+#12 36.80    Compiling crc32fast v1.5.1
+#12 36.82    Compiling enumset_derive v0.15.0
+#12 36.83    Compiling zstd-safe v7.2.4
+#12 36.83    Compiling inout v0.2.2
+#12 36.89    Compiling num-conv v0.2.2
+#12 36.90    Compiling zlib-rs v0.6.7
+#12 36.94    Compiling deranged v0.5.8
+#12 36.95    Compiling time-core v0.1.9
+#12 37.14    Compiling digest v0.11.3
+#12 37.21    Compiling cipher v0.5.2
+#12 37.26    Compiling hmac v0.13.0
+#12 37.32    Compiling sha2 v0.11.0
+#12 37.33    Compiling cpubits v0.1.1
+#12 37.34    Compiling powerfmt v0.2.0
+#12 37.36    Compiling libbz2-rs-sys v0.2.5
+#12 37.37    Compiling simd-adler32 v0.3.10
+#12 37.40    Compiling smallvec v1.16.0
+#12 37.43    Compiling internment v0.8.6
+#12 37.45    Compiling darling_macro v0.20.11
+#12 37.48    Compiling zopfli v0.8.3
+#12 37.51    Compiling time v0.3.55
+#12 37.75    Compiling parking_lot v0.12.5
+#12 37.80    Compiling cubecl-zspace v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 37.84    Compiling enumset v1.1.14
+#12 37.87    Compiling darling v0.20.11
+#12 37.88    Compiling derive_more v2.1.1
+#12 37.90    Compiling lzma-rust2 v0.16.5
+#12 37.91    Compiling macerator-macros v0.2.0
+#12 37.94    Compiling bzip2 v0.6.1
+#12 37.98    Compiling aes v0.9.3
+#12 37.99    Compiling pbkdf2 v0.13.0
+#12 38.00    Compiling sha1 v0.11.0
+#12 38.03    Compiling xattr v1.6.1
+#12 38.04    Compiling tempfile v3.27.0
+#12 38.07    Compiling filetime v0.2.29
+#12 38.09    Compiling constant_time_eq v0.4.2
+#12 38.15    Compiling ppmd-rust v1.4.1
+#12 38.15    Compiling typed-path v0.12.3
+#12 38.17    Compiling deflate64 v0.1.12
+#12 38.18    Compiling tar v0.4.46
+#12 38.19    Compiling safetensors v0.7.0
+#12 38.22    Compiling memmap2 v0.9.11
+#12 38.23    Compiling half v2.7.1
+#12 38.27    Compiling textdistance v1.1.1
+#12 38.30    Compiling terminal_size v0.4.4
+#12 38.33    Compiling anstyle v1.0.14
+#12 38.34    Compiling clap_lex v1.1.0
+#12 38.35    Compiling divan-macros v0.1.21
+#12 38.36    Compiling condtype v1.3.0
+#12 38.36    Compiling regex-lite v0.1.9
+#12 38.38    Compiling safetensors-tests v0.22.0-pre.3 (/workspace/repo/crates/burn-store/safetensors-tests)
+#12 38.41    Compiling ciborium-ll v0.2.2
+#12 38.42    Compiling float8 v0.7.0
+#12 38.43    Compiling gemm-common v0.19.0
+#12 38.46    Compiling clap_builder v4.6.6
+#12 38.50    Compiling rusqlite v0.40.2
+#12 38.51    Compiling pytorch-tests v0.22.0-pre.3 (/workspace/repo/crates/burn-store/pytorch-tests)
+#12 38.52    Compiling ciborium v0.2.2
+#12 38.64    Compiling gemm-f32 v0.19.0
+#12 38.67    Compiling gemm-c64 v0.19.0
+#12 38.67    Compiling gemm-f64 v0.19.0
+#12 38.68    Compiling gemm-c32 v0.19.0
+#12 38.83    Compiling flate2 v1.1.10
+#12 38.83    Compiling hi_sparse_bitset v0.9.0
+#12 39.08    Compiling gemm-f16 v0.19.0
+#12 39.20    Compiling pliron v0.17.0 (https://github.com/pliron-org/pliron.git?rev=e23ff9faa16425f2bd995aa92d960dee6721f9aa#e23ff9fa)
+#12 39.70    Compiling gemm v0.19.0
+#12 39.74    Compiling clap v4.6.6
+#12 39.78    Compiling divan v0.1.21
+#12 40.10    Compiling burn-std v0.22.0-pre.3 (/workspace/repo/crates/burn-std)
+#12 40.55    Compiling zstd v0.13.3
+#12 40.61    Compiling zip v8.6.0
+#12 40.98    Compiling burn-pack v0.22.0-pre.3 (/workspace/repo/crates/burn-pack)
+#12 43.46    Compiling cubecl-ir v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 54.43    Compiling cubecl-core v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 55.84    Compiling cubecl-std v0.11.0-pre.3 (https://github.com/tracel-ai/cubecl?rev=2f81491f82b4c492b9d8ede5afe4557ef928e64f#2f81491f)
+#12 57.14    Compiling burn-backend v0.22.0-pre.3 (/workspace/repo/crates/burn-backend)
+#12 57.68    Compiling burn-ir v0.22.0-pre.3 (/workspace/repo/crates/burn-ir)
+#12 57.68    Compiling burn-autodiff v0.22.0-pre.3 (/workspace/repo/crates/burn-autodiff)
+#12 59.21    Compiling burn-flex v0.22.0-pre.3 (/workspace/repo/crates/burn-flex)
+#12 73.35    Compiling burn-tensor v0.22.0-pre.3 (/workspace/repo/crates/burn-tensor)
+#12 74.15    Compiling burn-core v0.22.0-pre.3 (/workspace/repo/crates/burn-core)
+#12 74.61    Compiling burn-linalg v0.22.0-pre.3 (/workspace/repo/crates/burn-linalg)
+#12 74.61    Compiling burn-store v0.22.0-pre.3 (/workspace/repo/crates/burn-store)
+#12 74.61    Compiling burn-optim v0.22.0-pre.3 (/workspace/repo/crates/burn-optim)
+#12 74.61    Compiling burn-rl v0.22.0-pre.3 (/workspace/repo/crates/burn-rl)
+#12 74.87    Compiling burn-nn v0.22.0-pre.3 (/workspace/repo/crates/burn-nn)
+#12 76.62    Compiling burn v0.22.0-pre.3 (/workspace/repo/crates/burn)
+#12 90.46 error: linking with `cc` failed: exit status: 1
+#12 90.46   |
+#12 90.46   = note:  "cc" "/workspace/repo/target/debug/deps/rustcw9VaJI/symbols.o" "<111 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*}.rlib" "/workspace/repo/target/debug/deps/{libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn-319be1fc87270375,libburn_optim-89f9356ce16a76a2,libburn_rl-5c14145fc13cfc79,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/deps/rustcw9VaJI/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/deps/test_mod-de23a569eb79a199" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+#12 90.46   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+#12 90.46   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+#12 90.46           compilation terminated.
+#12 90.46           
+#12 90.46 
+#12 90.71 error: could not compile `safetensors-tests` (test "test_mod") due to 1 previous error
+#12 90.71 warning: build failed, waiting for other jobs to finish...
+#12 93.31 error: linking with `cc` failed: exit status: 1
+#12 93.31   |
+#12 93.31   = note:  "cc" "/workspace/repo/target/debug/deps/rustcuqJuIG/symbols.o" "<85 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "/workspace/repo/target/debug/deps/{libtempfile-5d5be1ffa4dc1a7b,libfastrand-442b0b0ebb2b702f}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*}.rlib" "/workspace/repo/target/debug/deps/{libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/deps/rustcuqJuIG/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/deps/burnpack_store-aa9620679d561dcc" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+#12 93.31   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+#12 93.31   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+#12 93.31           compilation terminated.
+#12 93.31           
+#12 93.31 
+#12 93.49 error: could not compile `burn-store` (test "burnpack_store") due to 1 previous error
+#12 100.7 error: linking with `cc` failed: exit status: 1
+#12 100.7   |
+#12 100.7   = note:  "cc" "/workspace/repo/target/debug/deps/rustcBEkdju/symbols.o" "<220 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*}.rlib" "/workspace/repo/target/debug/deps/{libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn-319be1fc87270375,libburn_optim-89f9356ce16a76a2,libburn_rl-5c14145fc13cfc79,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/deps/rustcBEkdju/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/deps/test_mod-f8cb3bb3118facbc" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+#12 100.7   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+#12 100.7   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+#12 100.7           compilation terminated.
+#12 100.7           
+#12 100.7 
+#12 100.9 error: could not compile `pytorch-tests` (test "test_mod") due to 1 previous error
+#12 104.7 error: linking with `cc` failed: exit status: 1
+#12 104.7   |
+#12 104.7   = note:  "cc" "/workspace/repo/target/debug/examples/rustcpze1kI/symbols.o" "<79 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "/workspace/repo/target/debug/deps/{libtempfile-5d5be1ffa4dc1a7b,libfastrand-442b0b0ebb2b702f,libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/examples/rustcpze1kI/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/examples/half_precision-19c5afb4851b0522" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+#12 104.7   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+#12 104.7   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+#12 104.7           compilation terminated.
+#12 104.7           
+#12 104.7 
+#12 104.9 error: could not compile `burn-store` (example "half_precision") due to 1 previous error
+#12 109.7 error: linking with `cc` failed: exit status: 1
+#12 109.7   |
+#12 109.7   = note:  "cc" "/workspace/repo/target/debug/examples/rustcrkUngd/symbols.o" "<51 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "/workspace/repo/target/debug/deps/{libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/examples/rustcrkUngd/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/examples/burnpack_inspect-bd5388e800318631" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+#12 109.7   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+#12 109.7   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+#12 109.7           compilation terminated.
+#12 109.7           
+#12 109.7 
+#12 109.9 error: could not compile `burn-store` (example "burnpack_inspect") due to 1 previous error
+#12 ERROR: process "/bin/sh -c cargo --version && rustc --version     && cargo test --locked --no-run -p burn-store -p burn-pack -p pytorch-tests -p safetensors-tests     && du -sh /workspace/repo/target /usr/local/cargo/registry" did not complete successfully: cannot allocate memory
+------
+ > [7/7] RUN cargo --version && rustc --version     && cargo test --locked --no-run -p burn-store -p burn-pack -p pytorch-tests -p safetensors-tests     && du -sh /workspace/repo/target /usr/local/cargo/registry:
+104.9 error: could not compile `burn-store` (example "half_precision") due to 1 previous error
+109.7 error: linking with `cc` failed: exit status: 1
+109.7   |
+109.7   = note:  "cc" "/workspace/repo/target/debug/examples/rustcrkUngd/symbols.o" "<51 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "/workspace/repo/target/debug/deps/{libburn_store-b1cfda2b08458446,libtextdistance-cc752ac4cd56dd6f,libsafetensors-4656dec5f6450da6,libmemmap2-36ef1d61d0b2df4b,libtar-983ac6ec7c448d33,libxattr-b4faf7368e856c58,librustix-a3f9580529f936a0,liblinux_raw_sys-c2e556d85196a8ac,libfiletime-34c8baa63bbf0901,libzip-eb7ba709d942a46c,libzopfli-4c41c03cd70ba7f9,libsimd_adler32-520262cf29157772,libppmd_rust-bb67bd5d679b75f5,liblzma_rust2-d20d49125bd5bd4b,libsha2-a4f5c9ad3bc75d55,libzstd-dcc8146290f59b72,libzstd_safe-3d51b621689016d1,libzstd_sys-a1895fcc518dbeaf,libbzip2-b02746516f505809,liblibbz2_rs_sys-ce95e274053a3bbc,libdeflate64-6bdb0fc274c14ccd,libflate2-6ed5e78d0a62d280,libzlib_rs-4263dccf5884e8c9,libpbkdf2-4e7155057f7793b8,libtyped_path-05f3e81ad78dcb78,libtime-1111b0d0fa229da6,libpowerfmt-475f4b1303980075,libnum_conv-c98949ffb814b193,libderanged-51bc64a297ebf7b7,libtime_core-af6531a676805819,libcrc32fast-4986894ba0dea281,libaes-be67cf4907125f95,libcpubits-5622d14e94a2f4ff,libcipher-260f3a98ad7a3096,libinout-242b927dcf49d73b,libsha1-54d48c1600cc83b6,libcpufeatures-096061136f1bb10f,libhmac-1e8666c15628f9f2,libdigest-abe919837821155e,libctutils-90c1e4bf31bafe5f,libcmov-30315edb035883de,libconst_oid-41ae4e9fcc264dc1,libcrypto_common-4893e3bbebc744a6,libblock_buffer-8443ad1d94121546,libhybrid_array-2e8b5f34e9d75916,libtypenum-a7bebdc86a8c8b1a,libzeroize-4fa1f44268870bfc,libconstant_time_eq-fc7a24c4436f21a1,libburn_nn-19bc9f56f08b6089,libburn_linalg-d413ac061f790e4a,libburn_core-fb0f5892331f6560,libburn_pack-2894207ce027267a,libbyteorder-ff57b2f0d61f74c2,libregex-95a2fbb68749a741,libregex_automata-fa5e6dc97d781511,libaho_corasick-64ab2c6c419e24c0,libregex_syntax-2a3edbfe9051460d,libburn_tensor-d2415e064acc56d4,libcolored-b5923e82f88fbd6f,libburn_dispatch-0d774dff2a0ce773,libburn_flex-f86301b563557043,liblibm-57a7cb8d866b660e,libgemm-96bb1e33a233da63,libgemm_c32-ee2946d29b292d6f,libgemm_c64-a9b840d4863ab58d,libgemm_f64-66eded1d6912b8da,libgemm_f16-906b25b536e7559c,libgemm_f32-3f18ed3f1d287890,libgemm_common-7045727d4af725f8,libpulp-b90960724bffddac,libdyn_stack-5d56aa3ba188f5ab,libaligned_vec-d698a2d7170968af,libequator-b1b71a42813f755d,libmacerator-1f2ae066d2f5ff27,libmoddef-e9ba34cfc6132074,librayon-62c2b0f5183fc6ca,librayon_core-6510b96f2f94c467,libcrossbeam_deque-c1afcd8bdadb41c1,libcrossbeam_epoch-ff049d2c5c875799,libburn_ir-e6c11f2c708f5758,libburn_autodiff-a100658cf066e3db,libhashbrown-4e6359b5d4027706,libburn_backend-36d1d5c707e69e34,libcubecl-aaacf923fefada15,libcubecl_std-cdf22e11c4b25ba3,libcubecl_core-1f97e878d4474362,libcubecl_runtime-230e35bed522f1fa,libbuildid-e6304c586afe3c06,libfutures_util-811f8fe9d84e08cc,libfutures_task-8953f567a3a77deb,libcubecl_ir-df14b918cf27dab0,libnum_complex-8d6c42a92cecabc9,libitertools-083e05a5aad3ba90,libeither-8c02266a2d6787b5,libnum_integer-1a243429e9bd6f5b,libbumpalo-28d88c6646ac0bfe,libfloat_ord-27ce187f8ce5085c,libinternment-ad1d18d4bf3afb65,libhashbrown-74b30f33ffdfaaeb,libfoldhash-a2d9daadd0c78d89,libpliron-9b4e927e82a442c3,libutf8_chars-1991e8802bf185ba,libarrayvec-25755168b000b56a,libindexmap-20eaad9f424df646,librustc_hash-f847e3e18fc363b8,libawint-3512b74855925256,libawint_macro_internals-738a5ecc4d2d67b8,libtriple_arena-0039d167795a0b3c,librecasting-be5f874866815e53,libproc_macro2-0463edd0ad49bfc0,libunicode_ident-dc91196c05eb3798}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libproc_macro-*,librustc_literal_escaper-*}.rlib" "/workspace/repo/target/debug/deps/{libawint_ext-cdfaac416495f767,libawint_core-1bcded26880a5481,libawint_internals-d364f92d40282b80,libonce_vec-3870be3ba5497db6,libslotmap-ae325515011df384,librustc_apfloat-7d06801e837d4bd5,libdowncast_rs-33caf34c535dc42f,libhi_sparse_bitset-50800aca44a82b2b,libwide-03208f467513e222,libdyn_clone-5b987e8348edd4d3,libcombine-74292b77804dc5e4,liblinkme-bf69a170479cea57,libenumset-1997391753bf1b4c,libburn_std-51d4eea4e467e5b4,librand_distr-49f60ec5c4a38b14,libuuid-741f1eeabd069768,libahash-d0306507ce0cb62c,libthiserror-92ad97385d8c042b,libcubecl_zspace-44609a5c315b2e59,libcubecl_common-a25211416c96f2ab,libtynm-778f00c3c3f8d5e8,libnom-76ba541449f88565,libfloat8-33f78fe29d4c9213,libfloat4-34981e514d74d0a1,libxxhash_rust-61126be3efde2b0f,libderive_more-31714b32eb0b850c,libdata_encoding-14fb8163d1eca56d,libcubecl_environment-9c5ed88bb35ca490,libserde_json-1cf56ca2f0679d51,libmemchr-b6b86b0cf665e547,libitoa-0af1e33f5f65986f,libzmij-af968c1d66518302,libciborium-3513430862db39b1,libciborium_ll-752dc612329eec0b,libhalf-3f282baf54e23cc7,libnum_traits-dbd1f797b985177d,libzerocopy-99adb242b81e6355,libciborium_io-ed81da84cdf88fcb,libtoml-3933141ce0ceae66,libtoml_writer-16184a27de03736a,libtoml_parser-f6a458026fc3bc01,libwinnow-59473943b6bfb164,libserde_spanned-edea48988a1b9c2d,libtoml_datetime-f49529a596846d25,libfutures_lite-4d4ce26840f563a6,libfutures_io-76b7528e6a167fd1,libserde_bytes-08c953a6af07499c,libbytes-c598d51ad0a34485,liblog-38dd6bf9105d6f20,libtracing-ef6592db2b866462,libtracing_core-a43e413cb24e9791,libonce_cell-d96258ecd553ae48,libetcetera-dfdaf0832c7555d3,librusqlite-22ae5ad17cf12a26,libbitflags-5e2b99c384bc6307,libhashlink-f9e24d7730870f72,liblibsqlite3_sys-c776defd19f49e95,libfallible_streaming_iterator-8f3a549a5c2d1e40,libfallible_iterator-2c991aca0f6ed619,librand-5355e8b95b30b91b,libgetrandom-6ff29efa1e062010,libchacha20-a25e062fea6fcc38,librand_core-2602647702d744ed,liboneshot-8a8fb8eb7d1e35b0,libasync_channel-48e0d5a0d913d538,libfutures_core-45713cf62645193b,libevent_listener_strategy-773f5fe1ec736347,libevent_listener-4b65c839b8ba7e3f,libparking-c07dd0fd520fe2eb,libpin_project_lite-2debd72c93094d0e,libconcurrent_queue-46f69876427d6ac7,libcrossbeam_utils-c68fdcdbd5e9c585,libweb_time-a5e2fb42784f8cb9,libhashbrown-35ce04c484a696ff,libequivalent-c297297d577c3e13,libfoldhash-d31dacde83abdaa0,liballocator_api2-3aead79d8638140f,libbytemuck-f20aa6e9d987aff8,libparking_lot-be9f94c03ef8e89f,libparking_lot_core-6c89b7f6a7c2cc13,liblibc-0115549e63716f45,libcfg_if-85990eadcdb70879,libsmallvec-34c87c570e05ec00,libspin-bc12962e01793d1c,liblock_api-d6391bee50c2d354,libscopeguard-543fd4d03a19f58c,libportable_atomic-145c83708c92c9d1,libserde-e9875d4d18483d19,libserde_core-1f73298a9d2419b3}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/workspace/repo/target/debug/examples/rustcrkUngd/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "/workspace/repo/target/debug/build/libsqlite3-sys-fa18bc6aeba0902b/out" "-L" "/workspace/repo/target/debug/build/zstd-sys-01bd9f2a0983fedb/out" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/workspace/repo/target/debug/examples/burnpack_inspect-bd5388e800318631" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+109.7   = note: some arguments are omitted. use `--verbose` to show all linker arguments
+109.7   = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+109.7           compilation terminated.
+109.7           
+109.7 
+109.9 error: could not compile `burn-store` (example "burnpack_inspect") due to 1 previous error
+------
+Dockerfile:31
+
+--------------------
+
+  30 |     # fetched.
+
+  31 | >>> RUN cargo --version && rustc --version \
+
+  32 | >>>     && cargo test --locked --no-run -p burn-store -p burn-pack -p pytorch-tests -p safetensors-tests \
+
+  33 | >>>     && du -sh /workspace/repo/target /usr/local/cargo/registry
+
+  34 |     
+
+--------------------
+
+failed to solve: ResourceExhausted: process "/bin/sh -c cargo --version && rustc --version     && cargo test --locked --no-run -p burn-store -p burn-pack -p pytorch-tests -p safetensors-tests     && du -sh /workspace/repo/target /usr/local/cargo/registry" did not complete successfully: cannot allocate memory
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/nc5qjky2rxe9xal8pu5jv9tq2
+
+. Stderr: None. 
