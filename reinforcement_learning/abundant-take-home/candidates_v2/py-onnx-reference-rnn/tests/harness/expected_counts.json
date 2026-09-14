@@ -1,0 +1,16 @@
+{
+  "_comment": "Exact counts measured on the base commit c9f169adac34bd690bf0d628e9aae7fde3d4be85 with the pinned requirements (Python 3.12, numpy 2.5.3, onnxruntime 1.30.0, no torch). Re-measure after any pin change.",
+  "family_node_cases": 18,
+  "reference_evaluator_test": {
+    "collected": 463,
+    "passed": 459,
+    "skipped": 4,
+    "deselect_exact": ["tests/python/reference_evaluator_test.py::TestReferenceEvaluator::test_conv"],
+    "deselect_reason": "upstream test_conv drives onnxruntime with a Conv bias shape that onnxruntime 1.30.0 rejects; unrelated to the reference evaluator"
+  },
+  "backend_reference_test_cpu": {
+    "collected": 2052,
+    "passed": 2021,
+    "skipped": 31
+  }
+}

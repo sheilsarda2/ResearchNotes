@@ -1,0 +1,72 @@
+{
+    "schema_version": 1,
+    "created_at": "2026-09-13T11:04:08.792356Z",
+    "harbor": {
+        "version": "0.15.0",
+        "is_editable": false
+    },
+    "invocation": [
+        "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/bin/harbor",
+        "run",
+        "-p",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/py-onnx-reference-rnn",
+        "-a",
+        "oracle",
+        "-y",
+        "-n",
+        "1",
+        "-o",
+        "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs",
+        "--job-name",
+        "py-onnx-reference-rnn-oracle-20260913T110408Z"
+    ],
+    "n_concurrent_trials": 1,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "VerifierOutputParseError",
+            "RewardFileEmptyError",
+            "VerifierTimeoutError",
+            "AgentTimeoutError",
+            "RewardFileNotFoundError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "task": {
+                "name": "py-onnx-reference-rnn",
+                "type": "local",
+                "digest": "sha256:cad398f900fde2b9f8969af393b73ff0914c2be960991e0eb9f869eb2351a44d",
+                "path": "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/py-onnx-reference-rnn"
+            },
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "oracle",
+                "skills": [],
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {},
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "env": {},
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {},
+                "disable": false
+            }
+        }
+    ]
+}

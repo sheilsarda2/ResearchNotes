@@ -1,0 +1,64 @@
+[verifier] submission: /workspace/repo/onnx/reference present=true
+[verifier] anti-cheat ok=true
+[verifier] import ok=true
+[verifier] family harness (node tests + onnxruntime differential)
+/workspace/repo/onnx/backend/test/case/node/cast.py:203: RuntimeWarning: overflow encountered in cast
+  np_from = np_fp32.astype(from_np_dtype)
+/workspace/repo/onnx/backend/test/case/node/cast.py:295: RuntimeWarning: overflow encountered in cast
+  vals=np_fp32.astype(from_np_dtype),
+/workspace/repo/onnx/backend/test/case/node/cast.py:302: RuntimeWarning: overflow encountered in cast
+  vals=np_fp32.astype(from_np_dtype).astype(to_np_dtype),
+/workspace/repo/onnx/backend/test/case/node/castlike.py:203: RuntimeWarning: overflow encountered in cast
+  np_from = np_fp32.astype(from_np_dtype)
+/workspace/repo/onnx/backend/test/case/node/castlike.py:299: RuntimeWarning: overflow encountered in cast
+  vals=np_fp32.astype(from_np_dtype),
+/workspace/repo/onnx/backend/test/case/node/castlike.py:306: RuntimeWarning: overflow encountered in cast
+  vals=np_fp32.astype(from_np_dtype).astype(to_np_dtype),
+/workspace/repo/onnx/backend/test/case/node/lpnormalization.py:25: RuntimeWarning: invalid value encountered in divide
+  y = np.where(l2_norm_axis_0 == 0, 0, x / l2_norm_axis_0)
+/workspace/repo/onnx/backend/test/case/node/reduce_log_sum.py:97: RuntimeWarning: divide by zero encountered in log
+  reduced = np.log(zero)  # -inf
+/workspace/repo/onnx/backend/test/case/node/reduce_log_sum_exp.py:186: RuntimeWarning: divide by zero encountered in log
+  reduced = np.log(zero)  # -inf
+/workspace/repo/onnx/backend/test/case/node/reducemax.py:224: RuntimeWarning: divide by zero encountered in divide
+  reduced = -(one / zero)  # -inf
+/workspace/repo/onnx/backend/test/case/node/reducemin.py:227: RuntimeWarning: divide by zero encountered in divide
+  reduced = one / zero  # inf
+family_tests: PASS {'node_tests': '18/18', 'ort_node_models': '18/18', 'ort_generated': '164/164', 'dtype_float16': '18/18', 'dtype_float64': '18/18', 'error_cases': '6/6'} phase1=1.81s phase2=1.11s
+[verifier] upstream tests/python/reference_evaluator_test.py
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 15%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33ms[0m[33ms[0m[33ms[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 31%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33ms[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 46%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 62%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 77%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 93%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                          [100%][0m
+[32m[32m[1m459 passed[0m, [33m4 skipped[0m, [33m1 deselected[0m[32m in 0.93s[0m[0m
+run_pytest: PASS {"collected": 463, "outcomes": {"passed": 459, "failed": 0, "skipped": 4, "xfail": 0, "error": 0}}
+[verifier] upstream tests/python/backend_reference_test.py (cpu)
+  /workspace/repo/onnx/reference/ops/op_lp_normalization.py:18: RuntimeWarning: invalid value encountered in divide
+    result = np.where(norm == 0, 0, x / norm)
+
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_maxpool_2d_uint8_cpu
+  /usr/local/lib/python3.12/site-packages/numpy/lib/_arraypad_impl.py:148: RuntimeWarning: invalid value encountered in cast
+    padded[left_slice] = value_pair[0]
+
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_maxpool_2d_uint8_cpu
+  /usr/local/lib/python3.12/site-packages/numpy/lib/_arraypad_impl.py:152: RuntimeWarning: invalid value encountered in cast
+    padded[right_slice] = value_pair[1]
+
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_mod_float_edge_cases_fmod_0_float16_cpu
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_mod_float_edge_cases_fmod_0_float32_cpu
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_mod_float_edge_cases_fmod_0_float64_cpu
+  /workspace/repo/onnx/reference/ops/op_mod.py:16: RuntimeWarning: invalid value encountered in remainder
+    return (np.mod(a, b),)
+
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_reduce_log_sum_empty_set_expanded_cpu
+tests/python/backend_reference_test.py::OnnxBackendNodeModelTest::test_reduce_log_sum_exp_empty_set_expanded_cpu
+  /workspace/repo/onnx/reference/ops/op_log.py:13: RuntimeWarning: divide by zero encountered in log
+    return (np.log(x).astype(x.dtype),)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[33m[32m2021 passed[0m, [33m[1m31 skipped[0m, [33m[1m2052 deselected[0m, [33m[1m30 warnings[0m[33m in 4.18s[0m[0m
+run_pytest: PASS {"collected": 2052, "outcomes": {"passed": 2021, "failed": 0, "skipped": 31, "xfail": 0, "error": 0}}
+score: {"submission_present": true, "anti_cheat": true, "build_status": true, "dtype_float16": true, "dtype_float64": true, "error_cases": true, "node_tests": true, "ort_generated": true, "ort_node_models": true, "no_reference_backend_leak": true, "upstream_reference_evaluator_test": true, "upstream_backend_reference_test_cpu": true} reward 1

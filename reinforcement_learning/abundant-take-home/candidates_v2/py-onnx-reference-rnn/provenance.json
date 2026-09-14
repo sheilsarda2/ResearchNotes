@@ -1,0 +1,156 @@
+{
+  "task_id": "py-onnx-reference-rnn",
+  "language": "python",
+  "form": "B",
+  "upstream": {
+    "repo": "https://github.com/onnx/onnx",
+    "base_commit": "c9f169adac34bd690bf0d628e9aae7fde3d4be85",
+    "base_commit_date": "2026-09-12T19:51:08+02:00",
+    "base_commit_subject": "feat(version_converter): downgrade GroupNormalization from opset 21 (#8436)",
+    "version_number": "1.24.0 (development, default-domain opset 29)",
+    "license": "Apache-2.0",
+    "excised_commit": "33d858e99ca711c9beb02171dc0fd73caa5ed655 (local branch excised-rnn in research/cache/v2/onnx__onnx)",
+    "upstream_tar_gz_sha256": "f17b83626a5e5cf92d81dd136f8f5579080537a6c36425590c41a4af63f251b5",
+    "changes_patch_sha256": "dfb8202dfa34de159aea80179ec9e1fda38119d9f469371d5c2b44b373d2678b"
+  },
+  "feature": {
+    "kind": "excision",
+    "ref": "onnx/reference/ops/{op_rnn,op_lstm,op_gru}.py and their registration in onnx/reference/ops/_op_list.py (operators RNN, GRU, LSTM of the default domain)",
+    "merged_at": null,
+    "gold_patch": {
+      "files": 4,
+      "additions": 608,
+      "deletions": 0
+    },
+    "excision": {
+      "files": 10,
+      "deletions": 3269,
+      "insertions": 10,
+      "also_removed_from_agent_tree": [
+        "onnx/backend/test/case/node/{rnn,lstm,gru}.py (node-test generators; their RNNHelper/GRUHelper/LSTMHelper classes are numpy oracles)",
+        "tests/python/reference_evaluator_test.py::test_lstm_y_c (12 parametrizations; restored by the verifier)",
+        "docs/Operators.md '#### Examples' blocks and docs/TestCoverage.md sections for GRU/LSTM/RNN (they embed the generator code verbatim)"
+      ]
+    }
+  },
+  "oracle": {
+    "type": "conformance_corpus",
+    "reference": "ONNX backend node tests for the family (18 cases, expected outputs regenerated in the verifier from the pristine generators) plus onnxruntime 1.30.0 CPU as an independent numerical reference on the same 18 models and 200 generated models (layout=1 emulated by the spec's transposition, float64 compared against float32 execution), plus 6 error cases; upstream reference-evaluator regression suites (463 collected/459 passed and 2052 collected/2021 passed, exact) from pristine copies",
+    "secondary_types": [
+      "cross_impl_differential",
+      "pr_tests"
+    ]
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "The excised implementations are public in onnx/onnx main (reverse/bidirectional support landed in 2026; onnx 1.22.0 wheel ships only 12 of the 18 node cases). In-tree copies of the same math (node-test generators and generated docs examples) were removed from the agent image; the operator spec (onnx/defs/rnn/*.cc, docs/Operators.md, docs/Changelog.md) stays. A model may recall the upstream implementation; the differential over 200 generated attribute combinations still requires the recalled code to be complete and correct."
+  },
+  "horizon": {
+    "proxy": "3 operators x 3 directions x 2 layouts x optional-input matrix x output arity x 3 dtypes x opsets 7/14/22; 608 gold lines across 4 files in one subsystem; no local oracle in the agent image (node generators removed, onnxruntime absent)",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/onnx/onnx/tree/main/onnx/reference (reference evaluator is the spec's executable definition used by backend_reference_test.py)",
+      "onnx main added reverse/bidirectional node tests for RNN/GRU/LSTM in 2026 (test_*_reverse, test_*_bidirectional present at base commit, absent from the 1.22.0 wheel)",
+      "tests/python/reference_evaluator_test.py::test_lstm_y_c upstream regression test for Y_c with layouts and directions"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "load_op('', 'RNN'|'GRU'|'LSTM'[, version]) resolves; models importing opsets 7, 14, 22 evaluate",
+      "instruction_ref": "Public interface 1; Scope bullet 1"
+    },
+    {
+      "assertion": "18 official node tests match expected outputs at upstream tolerances (rtol 1e-3, atol 1e-7)",
+      "instruction_ref": "Deliverable bullet 4; What the verifier does 1; Equations; Direction and time ordering; Layout"
+    },
+    {
+      "assertion": "Reference equals onnxruntime on the 18 node models (rtol 1e-4, atol 1e-5)",
+      "instruction_ref": "What the verifier does 2; Types (dtype exact comparison tolerance)"
+    },
+    {
+      "assertion": "164 generated float32 combinations (direction x layout x B x initial_h x output subsets; LSTM initial_c x P; GRU linear_before_reset; RNN Affine with per-direction alpha/beta; explicit default activations; sequence_lens equal to seq_length; opsets 7 and 14) equal onnxruntime",
+      "instruction_ref": "Scope of attributes and inputs that the verifier exercises (all bullets); Equations; Attributes table"
+    },
+    {
+      "assertion": "Omitted optional inputs given as '' in the middle of the input list arrive as None and default to zeros",
+      "instruction_ref": "Class contract bullet 2; Inputs table 'default when absent'; Scope bullet 2"
+    },
+    {
+      "assertion": "Output tuple has len(node.output) entries; '' outputs occupy their slot; Y-only, Y_h-only, Y_c-only subsets work",
+      "instruction_ref": "Class contract bullet 3; Scope bullet 3"
+    },
+    {
+      "assertion": "Reverse direction keeps Y aligned with X's time axis; Y_h is the state after consuming X[0]",
+      "instruction_ref": "Direction and time ordering, 'reverse'"
+    },
+    {
+      "assertion": "Bidirectional uses index-0 parameters forward and index-1 parameters backward; Y[:,1] holds the backward pass",
+      "instruction_ref": "Direction and time ordering, 'bidirectional'; Inputs table direction-index sentence"
+    },
+    {
+      "assertion": "layout=1 outputs equal the transposed layout=0 results",
+      "instruction_ref": "Layout section; Outputs table"
+    },
+    {
+      "assertion": "float16 inputs give float16 outputs within rtol 2e-2 / atol 2e-3 of onnxruntime float16",
+      "instruction_ref": "Types; Scope dtype bullet"
+    },
+    {
+      "assertion": "float64 inputs give float64 outputs within rtol 1e-4 / atol 1e-5 of the float32 reference",
+      "instruction_ref": "Types; Scope dtype bullet"
+    },
+    {
+      "assertion": "Unknown direction string and W.shape[0] inconsistent with direction raise RuntimeError or ValueError",
+      "instruction_ref": "Error behavior; Direction and time ordering last bullet"
+    },
+    {
+      "assertion": "Upstream tests/python/reference_evaluator_test.py: 463 collected, 459 passed, 4 skipped (torch absent), test_conv deselected",
+      "instruction_ref": "Deliverable bullet 3; What the verifier does 4"
+    },
+    {
+      "assertion": "Upstream tests/python/backend_reference_test.py -k cpu: 2052 collected, 2021 passed, 31 skipped",
+      "instruction_ref": "Deliverable bullet 3; What the verifier does 4"
+    },
+    {
+      "assertion": "No onnxruntime/importlib/subprocess/ctypes/_pytest/atexit imports, no onnx.backend.test or /logs references, no binary or data files in onnx/reference",
+      "instruction_ref": "Deliverable bullet 2; What the verifier does 5"
+    },
+    {
+      "assertion": "Submission runs with onnxruntime import blocked (phase 1 of the harness)",
+      "instruction_ref": "Deliverable bullet 2"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "build_minutes_estimate": "4 to 10 per image on 4 CPUs: 62 onnx C++ translation units against the distro protobuf (local macOS build of the same tree took 129 s on 8 jobs including a from-source protobuf/absl that the Docker recipe avoids)",
+    "verifier_minutes": null,
+    "verifier_minutes_estimate": "under 3 on 4 CPUs (local dry run: harness 4 s, reference_evaluator_test 2 s, backend_reference_test cpu 12 s)",
+    "host": "not yet built in Docker; local validation on macOS arm64 (Darwin 25.6.0), Python 3.12.13, numpy 2.5.3, onnxruntime 1.30.0",
+    "oracle_wall_seconds": 170,
+    "env_setup_seconds": 79,
+    "verifier_seconds": 88,
+    "nop_wall_seconds": 29
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "py-onnx-reference-rnn-oracle-20260913T110408Z",
+      "nop": "py-onnx-reference-rnn-nop-20260913T110408Z"
+    },
+    "local_dry_run": "see STATUS.md: gold reward 1, no-op reward 0, three deliberate mutations rejected",
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}
