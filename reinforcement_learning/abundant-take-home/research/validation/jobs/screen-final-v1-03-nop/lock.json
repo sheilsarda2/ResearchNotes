@@ -1,0 +1,69 @@
+{
+    "schema_version": 1,
+    "created_at": "2026-09-13T08:05:39.220025Z",
+    "harbor": {
+        "version": "0.15.0",
+        "is_editable": false
+    },
+    "invocation": [
+        "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/bin/harbor",
+        "run",
+        "-p",
+        "candidates/huey-deadletter-redrive",
+        "-a",
+        "nop",
+        "--job-name",
+        "screen-final-v1-03-nop",
+        "--jobs-dir",
+        "research/validation/jobs"
+    ],
+    "n_concurrent_trials": 4,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "VerifierOutputParseError",
+            "RewardFileEmptyError",
+            "RewardFileNotFoundError",
+            "VerifierTimeoutError",
+            "AgentTimeoutError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "task": {
+                "name": "huey-deadletter-redrive",
+                "type": "local",
+                "digest": "sha256:78cfcda0a977544ce3880b1984909d4f22f6f544a30f516857c4126fdd6dc705",
+                "path": "candidates/huey-deadletter-redrive"
+            },
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "nop",
+                "skills": [],
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {},
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "env": {},
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {},
+                "disable": false
+            }
+        }
+    ]
+}

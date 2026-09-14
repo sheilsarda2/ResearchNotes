@@ -1,0 +1,98 @@
+{
+  "task_id": "huey-deadletter-redrive",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/coleifer/huey",
+    "commit": "dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+    "commit_date": "2026-09-08T01:25:03Z",
+    "latest_release": "3.4.0",
+    "license": "MIT",
+    "archive_sha256": "58d4eefbf9261e9729d0944d7cbba6462a3c3c4d83ffa41af50136dede3348c9"
+  },
+  "original_contribution": "Original opt-in terminal-failure inventory integrated into current Huey executor decisions; pre-mutation serialized attempt snapshots independent of results; atomic one-time detached redrive with fresh callback identities and durable lineage. Includes original explicit contract, independent behavioral verifier and reference implementation.",
+  "sources": [
+    {
+      "url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey/api.py",
+      "checked_date": "2026-09-13",
+      "finding": "Current executor handles retry, timeout, lock, rate limit, cancellation and chord outcomes. Existing error results are conditional/consumable and do not preserve the full failed invocation. Result.reschedule needs an in-memory task and is not an atomic durable claim."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey/registry.py",
+      "checked_date": "2026-09-13",
+      "finding": "Inspected current Message format and nested callback/chord serialization. This reference preserves that wire format and stores lineage separately."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey/storage.py",
+      "checked_date": "2026-09-13",
+      "finding": "Current SQLite schema and transaction primitives inspected; no durable terminal-failure inventory or atomic redrive claim API found."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/issues/815",
+      "checked_date": "2026-09-13",
+      "finding": "Public dead-letter/deserialization question is adjacent prior art. Its shipped 2.5.2 fix protects batch deserialization and does not implement this executed-terminal-failure archive. Malformed-message quarantine is explicitly out of scope."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/releases/tag/3.4.0",
+      "checked_date": "2026-09-13",
+      "finding": "Preserve shipped retry/backoff, terminal-error storage options and structured Error/SKIPPED chord behavior; do not claim these as new features."
+    }
+  ],
+  "public_solution_overlap": {
+    "known": "Result.reschedule, error results and public issue815 are explicitly distinguished from durable failure inventory and atomic detached replay. No exact complete feature implementation found in the checked current source/issues/PRs.",
+    "limit": "Bounded repository/source/issue search recorded in research/huey-sources.json, not exhaustive global fork search. Two final broad GitHub searches hit unauthenticated rate limits; source and web fallbacks were inspected."
+  },
+  "horizon": {
+    "status": "unmeasured hypothesis",
+    "rationale": "Coordinates exact terminal classification, capture before mutation, optional results, serializer/schema compatibility, nested success/error callback identities, chord detachment, persistent lineage and atomic concurrent replay. This is the most likely of the three Huey features to prove too easy; only trial trajectories can establish sustained work and useful model headroom. Patch size is not a step-count measurement.",
+    "over_75_steps_confirmed": false,
+    "model_headroom_measured": false
+  },
+  "validation": {
+    "local_python": "3.12.13",
+    "local_oracle": "195 passed, zero skips/errors:31 independent feature cases and164 selected upstream regression cases. Two new reference public tests additionally passed.",
+    "untouched_baseline": "Missing huey.contrib.deadletter causes collection failure and reward0.",
+    "docker": {
+      "image": "abundant-huey-deadletter-redrive:baseline",
+      "image_id": "sha256:fa97a7d56f34a9be267b14a59bd10641fa43866427c42057ac68eee637cdaa25",
+      "architecture": "arm64",
+      "python": "3.12.11",
+      "runtime_network": "none",
+      "cpus": 2,
+      "memory": "4g",
+      "oracle": {
+        "exit_code": 0,
+        "collected": 195,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "baseline": {
+        "exit_code": 2,
+        "collected": 1,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 0,
+        "reward": 0
+      }
+    },
+    "paid_model_trials_run": false,
+    "harbor_validation": "Current accepted Harbor oracle/nop results and exact revision bindings are maintained in ../../research/shortlist.json; local construction runs below remain historical evidence."
+  },
+  "artifacts": {
+    "solution_patch_sha256": "cb3aaed1615ab1d59d7f15ee6030c98d7a0ab9a627a185adabb42ca725833cc7",
+    "instruction_sha256": "96eeac15848f217988a278b08bbf5ff9d874c2097ecc8dcf8a32f85a0abf1417",
+    "hidden_tests_sha256": "a25a7bdc79e2773d7b8640401fdea7544c2e69be2616ebbafd08e0eb37fa0f7e"
+  },
+  "limitations": [
+    "Requires on-disk SQLite; no Redis/distributed archive or malformed-message quarantine.",
+    "Durability starts when archive insertion commits; no worker lease or guarantee for process disappearance before recording.",
+    "Archive commit is not atomic with all executor result/callback/external effects.",
+    "Periodic invocations and deliberate cancellation are excluded from terminal failures.",
+    "Redrive intentionally detaches old chord coordination and clears absolute expiry; applications must request any new absolute deadline separately.",
+    "Failure records/receipts remain until explicit deletion; lineage links are retained independently and are not automatically garbage-collected.",
+    "Receipt result handles do not retain rescheduling argument data.",
+    "Docker validated on ARM64; AMD64 base is available but not independently run."
+  ],
+  "integration_validation_index": "../../research/shortlist.json"
+}

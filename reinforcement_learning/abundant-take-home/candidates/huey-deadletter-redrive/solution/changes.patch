@@ -1,0 +1,487 @@
+diff --git a/docs/contrib.rst b/docs/contrib.rst
+index c64d431..12cedbb 100644
+--- a/docs/contrib.rst
++++ b/docs/contrib.rst
+@@ -15,3 +15,5 @@ beyond the core APIs.
+ .. include:: flask_admin.rst
+ 
+ .. include:: mini.rst
++
++.. include:: deadletter.rst
+diff --git a/docs/deadletter.rst b/docs/deadletter.rst
+new file mode 100644
+index 0000000..2dacc98
+--- /dev/null
++++ b/docs/deadletter.rst
+@@ -0,0 +1,99 @@
++.. _deadletter:
++
++SQLite terminal-failure archive
++-------------------------------
++
++Enable an independent, durable inventory of failed invocations::
++
++    from huey import SqliteHuey
++
++    huey = SqliteHuey('app', filename='app.db', failure_archive=True)
++
++    @huey.task(retries=2)
++    def index_record(record_id):
++        raise ValueError('index unavailable')
++
++    index_record(42)
++    # The consumer executes the initial attempt and any retries.
++
++    for failure in huey.failures(limit=100):
++        print(failure.failure_id, failure.task_id, failure.error)
++        print(failure.traceback)
++        receipt = huey.redrive(failure.failure_id, retries=1, delay=30)
++        print(receipt.task_id)  # A new invocation, with a new identity.
++
++The default is disabled and preserves the ordinary SQLite schema. Enabling
++requires an on-disk SQLite backend. With ``create_tables=False``, call
++``huey.storage.initialize_schema()`` explicitly. If immediate mode uses memory
++debug storage, initialize the database through a normal SQLite instance first
++when automatic creation is disabled. Queued/scheduled work, existing results
++and unrelated application tables remain intact.
++
++``FailureRecord`` and ``RedriveReceipt`` are exported by
++``huey.contrib.deadletter``. Records expose a stable string ``failure_id``, an
++increasing integer ``cursor``, original ``task_id`` and registered ``name``,
++``error``, ``traceback``, UTC Unix ``failed_at``, serialized invocation ``data``,
++``parent_failure_id``, ``redriven`` and ``replacement_id``. These are snapshots.
++Decode ``data`` with ``huey.deserialize_task`` when task functions are registered;
++reading metadata alone does not require registration.
++
++``failures(limit=100, after=None)`` lists records in ascending cursor order,
++strictly after a supplied cursor. ``limit`` must be a positive integer;
++``after`` must be a nonnegative integer or ``None``. Booleans are invalid.
++``failure(failure_id)`` reads one record, or returns ``None``. Both reads are
++non-destructive. ``delete_failure(failure_id)`` returns whether one record was
++deleted. It does not remove queued replacements, ordinary results, other
++records or lineage links. Deleted cursors are not reused. All operations are
++scoped to the Huey queue name and raise ``ConfigurationError`` when disabled.
++
++An invocation is frozen before pre-execute hooks and task code run. Only the
++terminal attempt is archived, retaining its initial arguments, options,
++callbacks and retry/backoff state even if execution mutates them. The archive
++is independent of ``results``, intermediate error results, result consumption
++and ``storage.flush_results()``. Recording precedes post-execute hooks and
++error callbacks. Serialization or archival failures propagate to the caller
++of ``execute``; consumers retain their normal error-reporting behavior.
++
++Terminal ordinary exceptions, exhausted timeouts, locks and non-retrying rate
++limits are archived. Intermediate retries, successful recovery, ``RetryTask``,
++``CancelExecution`` (including retrying cancellation), revoked/expired tasks,
++pre-execute cancellation, interrupted execution and periodic invocations are
++excluded. Existing executor callbacks, signals and chord outcomes still run.
++
++``redrive(failure_id, retries=0, delay=None, priority=None)`` creates one new root
++message. Missing failures raise ``KeyError``. ``retries`` is a nonnegative
++integer; ``delay`` is a finite nonnegative number of seconds or ``None``;
++``priority`` is a finite number or ``None``. Booleans are invalid. Validation
++precedes mutations. A valid repeated call returns the original committed
++receipt, even with different options; the first committed options win.
++
++The root and every success/error callback receive fresh unique IDs. Old chord
++bindings are removed throughout those chains; the callback graph reachable
++only through a chord binding is not replayed. Ordinary attached pipelines still
++run, but replay cannot count another completion in an old chord. Root retries
++and optional priority are overridden; other invocation options are preserved.
++Old ETA values are cleared, and a positive delay sets a new root ETA. Relative
++expiry is renewed from redrive time on the root and normal enqueue time on
++callbacks. Absolute expiration deadlines are explicitly disabled, including
++class-level defaults, so they do not suppress deliberately replayed work.
++
++The receipt exposes ``failure_id``, new root ``task_id``, all fresh ``task_ids``
++in root/success/error traversal order, and ``result``. Result reading uses the
++ordinary root ``Result`` or success-pipeline ``ResultGroup`` shape, or ``None``
++if results are disabled. Receipt handles do not retain rescheduling arguments.
++Immediate mode keeps normal calls unchanged; redrive always queues to SQLite,
++and receipt reads use that durable broker. It does not execute replay inline.
++
++Queue insertion, the one-time receipt and every lineage link commit in one
++SQLite transaction. Concurrent redrivers obtain one identity. Failed insertions
++or process death before commit leave the record unclaimed and no replacement.
++After commit the receipt remains reserved even when the work is consumed. A
++failed replay or its callbacks create distinct failures pointing to the parent
++that generated that replay graph. This survives retries, restart and deliberate
++deletion of the parent record. Lineage links are retained independently.
++
++This is an operator replay protocol, not worker acknowledgement or malformed
++message quarantine. It does not guarantee capture before a killed process has
++committed its failure, exactly-once external effects, or atomicity across the
++whole executor. Existing delivery and configured SQLite power-loss guarantees
++remain unchanged. Applications own deliberate archive retention and deletion.
+diff --git a/huey/api.py b/huey/api.py
+index c010e1a..79160bb 100644
+--- a/huey/api.py
++++ b/huey/api.py
+@@ -441,6 +441,7 @@ class Huey(object):
+             return self._execute(task, timestamp)
+ 
+     def _execute(self, task, timestamp):
++        failure_snapshot = self._snapshot_failure(task)
+         if self._pre_execute:
+             try:
+                 self._run_pre_execute(task)
+@@ -516,6 +517,10 @@ class Huey(object):
+         else:
+             logger.info('%s executed in %0.3fs', task, duration)
+ 
++        if (exception is not None and not task.retries and
++                not isinstance(exception, (CancelExecution, RetryTask))):
++            self._record_failure(task, exception, failure_snapshot)
++
+         # Clear the flag if this instance of the task was revoked after it
+         # began executing. Delete rather than destructively read, as expiring
+         # storages implement pop_data as a non-destructive peek.
+@@ -570,6 +575,12 @@ class Huey(object):
+ 
+         return task_value
+ 
++    def _snapshot_failure(self, task):
++        return None
++
++    def _record_failure(self, task, exception, snapshot):
++        pass
++
+     def _abort_chord_member(self, task, value):
+         # The dead task will never run its on_complete chain, so a chord
+         # config further down the pipeline would never fire. Find it and
+@@ -1522,6 +1533,46 @@ class MemoryHuey(Huey):
+ class SqliteHuey(Huey):
+     storage_class = SqliteStorage
+ 
++    def __init__(self, *args, failure_archive=False, **kwargs):
++        self.failure_archive = failure_archive
++        if failure_archive:
++            if str(kwargs.get('filename', 'huey.db')) == ':memory:':
++                raise ConfigurationError('failure archive requires on-disk SQLite')
++            kwargs['failure_archive'] = True
++        super(SqliteHuey, self).__init__(*args, **kwargs)
++        if failure_archive:
++            storage = (self.storage if isinstance(self.storage, SqliteStorage)
++                       else self.get_storage(**self.storage_kwargs))
++            if not isinstance(storage, SqliteStorage):
++                raise ConfigurationError('failure archive requires SQLite storage')
++            from huey.contrib.deadletter import FailureArchive
++            self._failure_archive = FailureArchive(self, storage)
++
++    def _archive(self):
++        if not self.failure_archive:
++            raise ConfigurationError('failure_archive is not enabled')
++        return self._failure_archive
++
++    def _snapshot_failure(self, task):
++        if self.failure_archive and not isinstance(task, PeriodicTask):
++            return self.serialize_task(copy.deepcopy(task))
++
++    def _record_failure(self, task, exception, snapshot):
++        if snapshot is not None:
++            self._archive().record(snapshot, self.build_error_result(task, exception))
++
++    def failures(self, limit=100, after=None):
++        return self._archive().failures(limit, after)
++
++    def failure(self, failure_id):
++        return self._archive().failure(failure_id)
++
++    def redrive(self, failure_id, retries=0, delay=None, priority=None):
++        return self._archive().redrive(failure_id, retries, delay, priority)
++
++    def delete_failure(self, failure_id):
++        return self._archive().delete_failure(failure_id)
++
+ class CySqliteHuey(Huey):
+     storage_class = CySqliteStorage
+ 
+diff --git a/huey/contrib/deadletter.py b/huey/contrib/deadletter.py
+new file mode 100644
+index 0000000..43498c2
+--- /dev/null
++++ b/huey/contrib/deadletter.py
+@@ -0,0 +1,201 @@
++"""Durable terminal failures and deliberate, detached replay for SQLite."""
++import copy
++from dataclasses import dataclass, field
++import datetime
++import json
++import math
++import time
++import uuid
++
++
++ARCHIVE_DDL = (
++    'create table if not exists huey_failure ('
++    'cursor integer primary key autoincrement, queue text not null, '
++    'failure_id text not null unique, task_id text not null, name text not null, '
++    'error text not null, traceback text not null, failed_at real not null, '
++    'data blob not null, parent_failure_id text, receipt text)',
++    'create index if not exists huey_failure_queue_cursor '
++    'on huey_failure (queue, cursor)',
++    'create table if not exists huey_failure_lineage ('
++    'queue text not null, task_id text not null, parent_failure_id text not null, '
++    'primary key(queue, task_id))')
++
++
++@dataclass(frozen=True)
++class FailureRecord:
++    failure_id: str
++    cursor: int
++    task_id: str
++    name: str
++    error: str
++    traceback: str
++    failed_at: float
++    data: bytes
++    parent_failure_id: object
++    redriven: bool
++    replacement_id: object
++
++
++@dataclass(frozen=True)
++class RedriveReceipt:
++    failure_id: str
++    task_id: str
++    task_ids: tuple
++    result: object = field(compare=False, repr=False)
++
++
++class FailureArchive:
++    columns = ('failure_id, cursor, task_id, name, error, traceback, '
++               'failed_at, data, parent_failure_id, receipt')
++
++    def __init__(self, huey, storage):
++        self.huey, self.storage = huey, storage
++        self.reader = copy.copy(huey)
++        self.reader.storage = storage
++        self.reader._immediate = False
++
++    def record(self, data, error):
++        # Read identity from the frozen message, never from the possibly
++        # mutated Task object. Reading metadata does not require registration.
++        message = self.huey.serializer.deserialize(data)
++        with self.storage.db(commit=True) as cursor:
++            parent = cursor.execute(
++                'select parent_failure_id from huey_failure_lineage '
++                'where queue=? and task_id=?',
++                (self.huey.name, message.id)).fetchone()
++            cursor.execute(
++                'insert into huey_failure (queue, failure_id, task_id, name, '
++                'error, traceback, failed_at, data, parent_failure_id) '
++                'values (?,?,?,?,?,?,?,?,?)',
++                (self.huey.name, uuid.uuid4().hex, message.id, message.name,
++                 error['error'], error['traceback'], time.time(),
++                 self.storage.to_blob(data), parent[0] if parent else None))
++
++    @staticmethod
++    def _record(row):
++        if row is None:
++            return None
++        receipt = json.loads(row[-1]) if row[-1] else None
++        return FailureRecord(*row[:-1], bool(receipt),
++                             receipt['task_id'] if receipt else None)
++
++    @staticmethod
++    def _integer(value, name, minimum):
++        if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
++            raise ValueError('%s must be an integer >= %s' % (name, minimum))
++
++    @staticmethod
++    def _number(value, name, minimum=None):
++        if (isinstance(value, bool) or not isinstance(value, (int, float)) or
++                not math.isfinite(value) or
++                (minimum is not None and value < minimum)):
++            raise ValueError('invalid %s' % name)
++
++    def failures(self, limit=100, after=None):
++        self._integer(limit, 'limit', 1)
++        if after is not None:
++            self._integer(after, 'after', 0)
++        rows = self.storage.sql(
++            'select %s from huey_failure where queue=? and cursor>? '
++            'order by cursor limit ?' % self.columns,
++            (self.huey.name, after or 0, limit), results=True)
++        return [self._record(row) for row in rows]
++
++    def failure(self, failure_id):
++        rows = self.storage.sql(
++            'select %s from huey_failure where queue=? and failure_id=?' %
++            self.columns, (self.huey.name, failure_id), results=True)
++        return self._record(rows[0]) if rows else None
++
++    def delete_failure(self, failure_id):
++        with self.storage.db(commit=True) as cursor:
++            cursor.execute('delete from huey_failure where queue=? and failure_id=?',
++                           (self.huey.name, failure_id))
++            return cursor.rowcount == 1
++
++    def _receipt(self, data):
++        from huey.api import Result, ResultGroup, Task
++        payload = json.loads(data)
++        result = None
++        if self.huey.results:
++            stages = [Result(self.reader, Task(id=tid))
++                      for tid in payload['pipeline']]
++            result = stages[0] if len(stages) == 1 else ResultGroup(stages)
++        return RedriveReceipt(payload['failure_id'], payload['task_id'],
++                              tuple(payload['task_ids']), result)
++
++    def _replacement(self, data, retries, delay, priority):
++        task = self.huey.deserialize_task(data)
++        task_ids = []
++
++        def fresh(value):
++            if value is None:
++                return
++            value.id = str(uuid.uuid4())
++            value.revoke_id = 'r:%s' % value.id
++            task_ids.append(value.id)
++            value.eta = None
++            value.expires_resolved = None
++            if isinstance(value.expires, datetime.datetime):
++                # None would restore a Task class's default expiry when the
++                # replacement is deserialized. False explicitly disables it.
++                value.expires = False
++            value.chord_config = None
++            fresh(value.on_complete)
++            fresh(value.on_error)
++
++        fresh(task)
++        now = self.huey._get_timestamp()
++        task.retries = retries
++        task.eta = now + datetime.timedelta(seconds=delay) if delay else None
++        if priority is not None:
++            task.priority = priority
++        if task.expires:
++            expiry = task.expires
++            if not isinstance(expiry, datetime.timedelta):
++                expiry = datetime.timedelta(seconds=expiry)
++            task.expires_resolved = now + expiry
++        pipeline, node = [], task
++        while node is not None:
++            pipeline.append(node.id)
++            node = node.on_complete
++        return task, task_ids, pipeline
++
++    def redrive(self, failure_id, retries=0, delay=None, priority=None):
++        self._integer(retries, 'retries', 0)
++        if delay is not None:
++            self._number(delay, 'delay', 0)
++        if priority is not None:
++            self._number(priority, 'priority')
++        connection = self.storage._create_connection()
++        try:
++            connection.execute('begin immediate')
++            row = connection.execute(
++                'select data, receipt from huey_failure '
++                'where queue=? and failure_id=?',
++                (self.huey.name, failure_id)).fetchone()
++            if row is None:
++                raise KeyError(failure_id)
++            if row[1] is not None:
++                connection.rollback()
++                return self._receipt(row[1])
++            task, task_ids, pipeline = self._replacement(row[0], retries, delay, priority)
++            message = self.huey.serialize_task(task)
++            receipt = json.dumps(dict(failure_id=failure_id, task_id=task.id,
++                                      task_ids=task_ids, pipeline=pipeline))
++            connection.execute('insert into task (queue, data, priority) values (?,?,?)',
++                               (self.huey.name, self.storage.to_blob(message),
++                                task.priority or 0))
++            connection.executemany(
++                'insert into huey_failure_lineage (queue, task_id, parent_failure_id) '
++                'values (?,?,?)', [(self.huey.name, tid, failure_id) for tid in task_ids])
++            connection.execute('update huey_failure set receipt=? '
++                               'where queue=? and failure_id=?',
++                               (receipt, self.huey.name, failure_id))
++            connection.commit()
++            return self._receipt(receipt)
++        except BaseException:
++            connection.rollback()
++            raise
++        finally:
++            connection.close()
+diff --git a/huey/storage.py b/huey/storage.py
+index 6a42a9f..660e088 100644
+--- a/huey/storage.py
++++ b/huey/storage.py
+@@ -908,7 +908,7 @@ class SqliteStorage(BaseSqlStorage):
+ 
+     def __init__(self, name='huey', filename='huey.db', cache_mb=8,
+                  fsync=None, journal_mode='wal', timeout=5, strict_fifo=False,
+-                 create_tables=True, **kwargs):
++                 create_tables=True, failure_archive=False, **kwargs):
+         self.filename = filename
+         self._cache_mb = cache_mb
+         self._fsync = fsync
+@@ -929,6 +929,10 @@ class SqliteStorage(BaseSqlStorage):
+                 'primary key autoincrement')
+             self.ddl = ddl
+ 
++        if failure_archive:
++            from huey.contrib.deadletter import ARCHIVE_DDL
++            self.ddl = list(self.ddl) + list(ARCHIVE_DDL)
++
+         self.to_blob = memoryview
+ 
+         super(SqliteStorage, self).__init__(name, create_tables=create_tables)
+diff --git a/huey/tests/test_deadletter.py b/huey/tests/test_deadletter.py
+new file mode 100644
+index 0000000..3d5d308
+--- /dev/null
++++ b/huey/tests/test_deadletter.py
+@@ -0,0 +1,52 @@
++import os
++import tempfile
++import unittest
++
++from huey import SqliteHuey
++from huey.exceptions import CancelExecution
++
++
++class TestFailureArchive(unittest.TestCase):
++    def setUp(self):
++        self.directory = tempfile.TemporaryDirectory()
++        self.huey = SqliteHuey(filename=os.path.join(self.directory.name, 'app.db'),
++                               failure_archive=True)
++
++    def tearDown(self):
++        self.huey.storage.close()
++        self.directory.cleanup()
++
++    def test_preserves_invocation_and_redrives_once(self):
++        fixed = []
++
++        @self.huey.task()
++        def work(values):
++            original = list(values)
++            values.append(9)
++            if not fixed:
++                raise ValueError('broken')
++            return original
++
++        result = work([1, 2])
++        self.huey.execute(self.huey.dequeue())
++        failure = self.huey.failures()[0]
++        self.assertEqual(failure.task_id, result.id)
++        self.assertEqual(self.huey.deserialize_task(failure.data).args, ([1, 2],))
++        self.huey.storage.flush_results()
++        fixed.append(True)
++        receipt = self.huey.redrive(failure.failure_id)
++        self.assertNotEqual(receipt.task_id, result.id)
++        self.assertEqual(self.huey.redrive(failure.failure_id).task_id, receipt.task_id)
++        self.assertEqual(self.huey.pending_count(), 1)
++        self.huey.execute(self.huey.dequeue())
++        self.assertEqual(receipt.result.get(), [1, 2])
++
++    def test_cancellation_is_not_a_terminal_failure(self):
++        @self.huey.task(retries=2)
++        def cancel():
++            raise CancelExecution(retry=False)
++
++        cancel()
++        self.huey.execute(self.huey.dequeue())
++        self.assertEqual(self.huey.failures(), [])
++        self.assertEqual(self.huey.pending_count(), 0)
