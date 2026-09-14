@@ -1,0 +1,403 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FF.................... [ 48%]
+........................................................................ [ 96%]
+.....                                                                    [100%]
+=================================== FAILURES ===================================
+____________ test_multiple_sources_cycles_maps_values_and_originals ____________
+/tests/test_relational_merge.py:77: in test_multiple_sources_cycles_maps_values_and_originals
+    result = merge(target, [("south", south), ("north", north)], tables=reversed(TABLES))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________ test_idempotency_reopen_moved_source_and_canonical_cli_order _________
+/tests/test_relational_merge.py:102: in test_idempotency_reopen_moved_source_and_canonical_cli_order
+    original = merge(target, [("s", source)])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________________ test_input_order_does_not_change_allocation __________________
+/tests/test_relational_merge.py:121: in test_input_order_does_not_change_allocation
+    r1 = merge(d1, [("z", z), ("a", a)], ["teams", "people"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+________ test_new_and_previously_imported_sources_allocate_only_new_ids ________
+/tests/test_relational_merge.py:131: in test_new_and_previously_imported_sources_allocate_only_new_ids
+    first = merge(target, [("a", a)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_wal_snapshot_identity_survives_checkpoint_and_detects_wal_only_changes __
+/tests/test_relational_merge.py:150: in test_wal_snapshot_identity_survives_checkpoint_and_detects_wal_only_changes
+    result = merge(target, [("wal", source)])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_____ test_source_identity_failure_is_atomic_with_other_new_sources[data] ______
+/tests/test_relational_merge.py:172: in test_source_identity_failure_is_atomic_with_other_new_sources
+    merge(target, [("z-old", source)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_____ test_source_identity_failure_is_atomic_with_other_new_sources[index] _____
+/tests/test_relational_merge.py:172: in test_source_identity_failure_is_atomic_with_other_new_sources
+    merge(target, [("z-old", source)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_____________ test_unrelated_source_changes_do_not_break_identity ______________
+/tests/test_relational_merge.py:187: in test_unrelated_source_changes_do_not_break_identity
+    merge(target, [("s", source)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+________ test_metadata_failure_rolls_back_all_sources_and_audit_effects ________
+/tests/test_relational_merge.py:199: in test_metadata_failure_rolls_back_all_sources_and_audit_effects
+    merge(target, [("seed", empty)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+__________ test_destination_unique_failure_rolls_back_earlier_source ___________
+/tests/test_relational_merge.py:220: in test_destination_unique_failure_rolls_back_earlier_source
+    merge(target, [("a", a), ("z", z)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+__________ test_pragma_restoration_on_success_and_failure[False-0-0] ___________
+/tests/test_relational_merge.py:238: in test_pragma_restoration_on_success_and_failure
+    assert db.merge_preserving_keys([("s", source)], tables=TABLES)["rows_inserted"] == 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+__________ test_pragma_restoration_on_success_and_failure[False-0-1] ___________
+/tests/test_relational_merge.py:238: in test_pragma_restoration_on_success_and_failure
+    assert db.merge_preserving_keys([("s", source)], tables=TABLES)["rows_inserted"] == 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+__________ test_pragma_restoration_on_success_and_failure[False-1-0] ___________
+/tests/test_relational_merge.py:238: in test_pragma_restoration_on_success_and_failure
+    assert db.merge_preserving_keys([("s", source)], tables=TABLES)["rows_inserted"] == 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+__________ test_pragma_restoration_on_success_and_failure[False-1-1] ___________
+/tests/test_relational_merge.py:238: in test_pragma_restoration_on_success_and_failure
+    assert db.merge_preserving_keys([("s", source)], tables=TABLES)["rows_inserted"] == 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_pragma_restoration_on_success_and_failure[True-0-0] ___________
+/tests/test_relational_merge.py:236: in test_pragma_restoration_on_success_and_failure
+    db.merge_preserving_keys([("s", source)], tables=TABLES)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_pragma_restoration_on_success_and_failure[True-0-1] ___________
+/tests/test_relational_merge.py:236: in test_pragma_restoration_on_success_and_failure
+    db.merge_preserving_keys([("s", source)], tables=TABLES)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_pragma_restoration_on_success_and_failure[True-1-0] ___________
+/tests/test_relational_merge.py:236: in test_pragma_restoration_on_success_and_failure
+    db.merge_preserving_keys([("s", source)], tables=TABLES)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_pragma_restoration_on_success_and_failure[True-1-1] ___________
+/tests/test_relational_merge.py:236: in test_pragma_restoration_on_success_and_failure
+    db.merge_preserving_keys([("s", source)], tables=TABLES)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+____________ test_caller_transaction_can_rollback_successful_merge _____________
+/tests/test_relational_merge.py:251: in test_caller_transaction_can_rollback_successful_merge
+    assert db.merge_preserving_keys([("s", source)], tables=TABLES)["rows_inserted"] == 3
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_____________ test_failed_nested_merge_keeps_preceding_caller_work _____________
+/tests/test_relational_merge.py:269: in test_failed_nested_merge_keeps_preceding_caller_work
+    db.merge_preserving_keys([("s", source)], tables=TABLES)
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_triggers_cannot_silently_suppress_or_change_imported_rows[SELECT RAISE(IGNORE);] _
+/tests/test_relational_merge.py:287: in test_triggers_cannot_silently_suppress_or_change_imported_rows
+    merge(target, [("s", source)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_triggers_cannot_silently_suppress_or_change_imported_rows[UPDATE people SET name='tampered' WHERE id=NEW.id;] _
+/tests/test_relational_merge.py:287: in test_triggers_cannot_silently_suppress_or_change_imported_rows
+    merge(target, [("s", source)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+________ test_process_termination_before_commit_leaves_no_partial_graph ________
+/tests/test_relational_merge.py:295: in test_process_termination_before_commit_leaves_no_partial_graph
+    merge(target, [("seed", empty)])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________ test_process_termination_after_commit_is_idempotent_on_retry _________
+/tests/test_relational_merge.py:325: in test_process_termination_after_commit_is_idempotent_on_retry
+    assert proc.returncode == 78, proc.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 5, in <module>
+E     AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+E     
+E   assert 1 == 78
+E    +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport os,sys\nfrom sqlite_utils import Database\ndb=Database...ile "<string>", line 5, in <module>\nAttributeError: \'Database\' object has no attribute \'merge_preserving_keys\'\n').returncode
+__________________ test_empty_sources_have_identity_and_maps ___________________
+/tests/test_relational_merge.py:334: in test_empty_sources_have_identity_and_maps
+    result = merge(target, [("empty", source)])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+______ test_rejected_graphs_leave_no_artifacts[missing_parent_selection] _______
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________ test_rejected_graphs_leave_no_artifacts[missing_destination] _________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_rejected_graphs_leave_no_artifacts[source_trigger] ____________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_______________ test_rejected_graphs_leave_no_artifacts[schema] ________________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+___________ test_rejected_graphs_leave_no_artifacts[dangling_source] ___________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________ test_rejected_graphs_leave_no_artifacts[invalid_destination] _________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+______________ test_rejected_graphs_leave_no_artifacts[same_file] ______________
+/tests/test_relational_merge.py:365: in test_rejected_graphs_leave_no_artifacts
+    merge(target, [("s", source)], tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id TEXT PRIMARY KEY, parent TEXT)] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER, second INTEGER, PRIMARY KEY(id,second))] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY) WITHOUT ROWID] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, doubled INTEGER GENERATED ALWAYS AS (id*2))] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE VIRTUAL TABLE t USING fts5(value)] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY REFERENCES t(id))] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, parent INTEGER REFERENCES t(id) REFERENCES t(id))] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_ test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, a INTEGER, b INTEGER, UNIQUE(a,b), FOREIGN KEY(a,b) REFERENCES t(a,b))] _
+/tests/test_relational_merge.py:386: in test_unsupported_key_and_table_layouts
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+______ test_negative_ids_implicit_fk_quoted_identifiers_and_autoincrement ______
+/tests/test_relational_merge.py:401: in test_negative_ids_implicit_fk_quoted_identifiers_and_autoincrement
+    result = merge(target, [("s", source)], ["node space"])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+____________________ test_id_exhaustion_is_a_prewrite_error ____________________
+/tests/test_relational_merge.py:414: in test_id_exhaustion_is_a_prewrite_error
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_______________ test_invalid_arguments_do_not_mutate[no_sources] _______________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+____________ test_invalid_arguments_do_not_mutate[duplicate_source] ____________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+________________ test_invalid_arguments_do_not_mutate[empty_id] ________________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+____________ test_invalid_arguments_do_not_mutate[duplicate_table] _____________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_______________ test_invalid_arguments_do_not_mutate[no_tables] ________________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+________________ test_invalid_arguments_do_not_mutate[reserved] ________________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+______________ test_invalid_arguments_do_not_mutate[missing_path] ______________
+/tests/test_relational_merge.py:432: in test_invalid_arguments_do_not_mutate
+    merge(target, sources, tables)
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_________ test_changed_valid_table_selection_rejected_for_existing_id __________
+/tests/test_relational_merge.py:454: in test_changed_valid_table_selection_rejected_for_existing_id
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+_______________ test_sqlite_numeric_storage_values_are_preserved _______________
+/tests/test_relational_merge.py:468: in test_sqlite_numeric_storage_values_are_preserved
+    merge(target, [("s", source)], ["t"])
+/tests/test_relational_merge.py:69: in merge
+    return db.merge_preserving_keys(sources, tables=tables)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Database' object has no attribute 'merge_preserving_keys'
+=========================== short test summary info ============================
+FAILED ../../tests/test_relational_merge.py::test_multiple_sources_cycles_maps_values_and_originals
+FAILED ../../tests/test_relational_merge.py::test_idempotency_reopen_moved_source_and_canonical_cli_order
+FAILED ../../tests/test_relational_merge.py::test_input_order_does_not_change_allocation
+FAILED ../../tests/test_relational_merge.py::test_new_and_previously_imported_sources_allocate_only_new_ids
+FAILED ../../tests/test_relational_merge.py::test_wal_snapshot_identity_survives_checkpoint_and_detects_wal_only_changes
+FAILED ../../tests/test_relational_merge.py::test_source_identity_failure_is_atomic_with_other_new_sources[data]
+FAILED ../../tests/test_relational_merge.py::test_source_identity_failure_is_atomic_with_other_new_sources[index]
+FAILED ../../tests/test_relational_merge.py::test_unrelated_source_changes_do_not_break_identity
+FAILED ../../tests/test_relational_merge.py::test_metadata_failure_rolls_back_all_sources_and_audit_effects
+FAILED ../../tests/test_relational_merge.py::test_destination_unique_failure_rolls_back_earlier_source
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[False-0-0]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[False-0-1]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[False-1-0]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[False-1-1]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[True-0-0]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[True-0-1]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[True-1-0]
+FAILED ../../tests/test_relational_merge.py::test_pragma_restoration_on_success_and_failure[True-1-1]
+FAILED ../../tests/test_relational_merge.py::test_caller_transaction_can_rollback_successful_merge
+FAILED ../../tests/test_relational_merge.py::test_failed_nested_merge_keeps_preceding_caller_work
+FAILED ../../tests/test_relational_merge.py::test_triggers_cannot_silently_suppress_or_change_imported_rows[SELECT RAISE(IGNORE);]
+FAILED ../../tests/test_relational_merge.py::test_triggers_cannot_silently_suppress_or_change_imported_rows[UPDATE people SET name='tampered' WHERE id=NEW.id;]
+FAILED ../../tests/test_relational_merge.py::test_process_termination_before_commit_leaves_no_partial_graph
+FAILED ../../tests/test_relational_merge.py::test_process_termination_after_commit_is_idempotent_on_retry
+FAILED ../../tests/test_relational_merge.py::test_empty_sources_have_identity_and_maps
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[missing_parent_selection]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[missing_destination]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[source_trigger]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[schema]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[dangling_source]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[invalid_destination]
+FAILED ../../tests/test_relational_merge.py::test_rejected_graphs_leave_no_artifacts[same_file]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id TEXT PRIMARY KEY, parent TEXT)]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER, second INTEGER, PRIMARY KEY(id,second))]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY) WITHOUT ROWID]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, doubled INTEGER GENERATED ALWAYS AS (id*2))]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE VIRTUAL TABLE t USING fts5(value)]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY REFERENCES t(id))]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, parent INTEGER REFERENCES t(id) REFERENCES t(id))]
+FAILED ../../tests/test_relational_merge.py::test_unsupported_key_and_table_layouts[CREATE TABLE t (id INTEGER PRIMARY KEY, a INTEGER, b INTEGER, UNIQUE(a,b), FOREIGN KEY(a,b) REFERENCES t(a,b))]
+FAILED ../../tests/test_relational_merge.py::test_negative_ids_implicit_fk_quoted_identifiers_and_autoincrement
+FAILED ../../tests/test_relational_merge.py::test_id_exhaustion_is_a_prewrite_error
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[no_sources]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[duplicate_source]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[empty_id]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[duplicate_table]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[no_tables]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[reserved]
+FAILED ../../tests/test_relational_merge.py::test_invalid_arguments_do_not_mutate[missing_path]
+FAILED ../../tests/test_relational_merge.py::test_changed_valid_table_selection_rejected_for_existing_id
+FAILED ../../tests/test_relational_merge.py::test_sqlite_numeric_storage_values_are_preserved
+51 failed, 98 passed in 1.26s

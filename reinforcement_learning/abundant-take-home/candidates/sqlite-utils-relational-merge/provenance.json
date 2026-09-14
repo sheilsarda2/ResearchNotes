@@ -1,0 +1,122 @@
+{
+  "task_id": "sqlite-utils-relational-merge",
+  "created_at": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/simonw/sqlite-utils",
+    "commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "commit_date": "2026-09-01T21:44:52-07:00",
+    "version": "4.2.1",
+    "license": "Apache-2.0",
+    "source_archive_sha256": "e4dabb4ddb41e8b7cddd56fccc26b020f816d8c8eff1db4fcc4dc8bb1c14c307",
+    "archive_method": "git archive --format=tar.gz at exact commit, including original LICENSE/tests, excluding history and task solutions"
+  },
+  "original_contribution": "Integrated Database.merge_preserving_keys and CLI: graph-wide deterministic fresh-key allocation, FK rewriting, read-only WAL-aware source snapshots, typed logical fingerprints, persisted maps/provenance, all-source atomicity and caller savepoint behavior.",
+  "sources": [
+    {
+      "url": "https://github.com/simonw/sqlite-utils/tree/85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+      "checked_at": "2026-09-13",
+      "use": "Source, existing transaction/FK APIs and missing proposed merge feature"
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/issues/491",
+      "checked_at": "2026-09-13",
+      "use": "Public demand for merging independent database contents and PK collisions"
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/pull/724",
+      "checked_at": "2026-09-13",
+      "use": "Overlapping generic merge proposal; source patch inspected during research"
+    },
+    {
+      "url": "https://www.sqlite.org/isolation.html",
+      "checked_at": "2026-09-13",
+      "use": "Read-transaction snapshot isolation and WAL semantics"
+    },
+    {
+      "url": "https://www.sqlite.org/pragma.html#pragma_defer_foreign_keys",
+      "checked_at": "2026-09-13",
+      "use": "Constraint deferral and transaction-related pragma behavior"
+    },
+    {
+      "url": "https://sqlite-utils.datasette.io/en/stable/changelog.html",
+      "checked_at": "2026-09-13",
+      "use": "Already shipped atomic/savepoint and compound FK behavior must not be claimed as new"
+    }
+  ],
+  "public_solution_overlap": {
+    "exact_solution_found": false,
+    "prior_art": "Open PR724 loops over source tables and calls insert_all with preserve/replace/ignore key behavior. It does not provide graph key remapping, WAL snapshot identity, persistent key maps or all-source atomicity. This task is an explicit extension beyond that public proposal, not an undisclosed reproduction.",
+    "audit_limit": "Pinned source and relevant public PRs inspected; no exhaustive absence claim across historical forks."
+  },
+  "contract_scope": {
+    "supported": "Existing compatible tables, rowid-alias INTEGER PKs, distinct non-PK single-column integer/null FKs to selected parent PKs; self-links/cycles, negative IDs, AUTOINCREMENT high-water marks, ordinary destination constraints/triggers.",
+    "excluded": "Composite/shared-primary keys, multi-FK child fields, generated/virtual/WITHOUT ROWID layouts, selected source triggers, schema reconciliation, concurrent destination writers, cross-file simultaneous snapshots."
+  },
+  "verifier": {
+    "new_contract_cases": 52,
+    "fixed_upstream_regressions": 97,
+    "upstream_test_files": [
+      "tests/test_foreign_keys.py",
+      "tests/test_atomic.py",
+      "tests/test_attach.py",
+      "tests/test_mutator_transactions.py"
+    ],
+    "fixture": "tests/conftest.py",
+    "copy_commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "upstream_copies_are_hidden_and_fixed": true,
+    "llm_grading": false
+  },
+  "horizon": {
+    "status": "unmeasured hypothesis",
+    "hypothesis": "Maintaining identity and referential integrity across snapshot loading, typed fingerprinting, graph-wide allocation, deferred insertion, trigger outcomes, metadata commit, retries and caller transactions may require sustained coordinated engineering. Code/patch size is not a horizon measurement.",
+    "model_runs": 0,
+    "model_headroom_established": false
+  },
+  "construction": {
+    "patch_sha256": "ca706979af30f4c2c9b30e607fdf43cc97a577c3367348ab899a728e3d65dbc6",
+    "verifier_sha256": "6a19077489a6cd1326b671e460be256e6dfe640d691caab2d3e6dac02163ea14",
+    "local_validation": "149 passed on Python3.12.13; construction/local-oracle.log and .xml",
+    "container": {
+      "image": "abundant-candidate-sqlite-relational-merge:85b1be1",
+      "python": "3.12.11",
+      "sqlite": "3.40.1",
+      "architecture": "aarch64",
+      "network": "none",
+      "cpus": 2,
+      "memory_mb": 4096
+    },
+    "oracle": {
+      "exit_code": 0,
+      "collected": 149,
+      "outcomes": {
+        "passed": 149,
+        "failed": 0,
+        "skipped": 0,
+        "xfail": 0
+      },
+      "reward": 1
+    },
+    "noop": {
+      "exit_code": 1,
+      "collected": 149,
+      "outcomes": {
+        "passed": 98,
+        "failed": 51,
+        "skipped": 0,
+        "xfail": 0
+      },
+      "reward": 0
+    },
+    "evidence": [
+      "construction/docker-build.log",
+      "construction/container-oracle.log",
+      "construction/container-oracle/results.xml",
+      "construction/container-oracle/diagnostics.json",
+      "construction/container-noop.log",
+      "construction/container-noop/results.xml",
+      "construction/container-noop/diagnostics.json"
+    ],
+    "harbor_validation": "Current accepted Harbor oracle/nop results and exact revision bindings are maintained in ../../research/shortlist.json; local construction runs below remain historical evidence."
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}
