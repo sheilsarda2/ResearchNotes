@@ -1,0 +1,559 @@
+diff --git a/docs/contrib.rst b/docs/contrib.rst
+index c64d431..7787451 100644
+--- a/docs/contrib.rst
++++ b/docs/contrib.rst
+@@ -15,3 +15,5 @@ beyond the core APIs.
+ .. include:: flask_admin.rst
+ 
+ .. include:: mini.rst
++
++.. include:: sqlite_outbox.rst
+diff --git a/docs/sqlite_outbox.rst b/docs/sqlite_outbox.rst
+new file mode 100644
+index 0000000..25019a5
+--- /dev/null
++++ b/docs/sqlite_outbox.rst
+@@ -0,0 +1,101 @@
++.. _sqlite-outbox:
++
++SQLite transactional outbox
++--------------------------
++
++An application can stage background work in the same SQLite transaction as its
++business writes. After commit, a separate publisher transfers each complete
++task graph to the queue. A producer disappearing between commit and publication
++does not lose the staged work::
++
++    import sqlite3
++    from huey import SqliteHuey, chord
++    from huey.contrib.sqlite_outbox import SqliteOutbox
++
++    huey = SqliteHuey('app', filename='app.db')
++    outbox = SqliteOutbox(huey)
++    connection = sqlite3.connect('app.db')
++    outbox.initialize_schema(connection)
++
++    @huey.task()
++    def update_index(record_id):
++        return record_id
++
++    # The business table is managed by the application.
++    with connection:
++        connection.execute('insert into records (id) values (?)', (42,))
++        receipt = outbox.stage(connection,
++                               update_index.s(42, id='index-record-42'),
++                               key='record-42-created')
++
++    # Can run in another process, without importing the task functions.
++    published = outbox.publish(limit=100)
++
++``SqliteOutbox`` requires an on-disk ``SqliteHuey`` database. Construction does
++not initialize outbox tables. ``initialize_schema(connection)`` is idempotent
++and does not commit or roll back the caller's transaction. When Huey is created
++with ``create_tables=False``, initialize its storage schema separately first.
++Caller connections must use the queue's physical database file as their main
++database; attaching it to a different main database is insufficient.
++
++``stage(connection, graph, key)`` requires an active transaction. It uses that
++connection for writes and participates in outer rollback and nested savepoints.
++It does not publish messages, execute tasks, or emit execution signals. Graph
++serialization or validation errors leave the caller's other writes intact.
++Keys must be non-empty strings and are scoped to the Huey queue name.
++
++A key reserves one invocation graph, including task IDs, arguments, task names,
++options and links. Staging the same request again returns the original receipt;
++changing it raises ``OutboxConflict``, a ``ValueError`` subclass. Use explicit,
++stable task IDs when rebuilding a request after restart. Idempotency is based
++on serialized request content, not semantic comparison of arbitrary objects.
++Generated chord IDs, relative expiry, compression timestamps and signatures do
++not change a request's identity. Published keys remain reserved after task
++consumption; there is no automatic receipt cleanup.
++
++``get(key)`` reads a committed receipt non-destructively, or returns ``None``.
++``pending_count()`` counts committed, unpublished submissions for this queue.
++``publish(limit=100)`` returns at most ``limit`` receipts in staging order;
++``limit`` must be a positive integer, excluding booleans. Each submission has
++its own transaction. Inserting all of its initial queue messages and marking
++its receipt published commit together. Competing publishers cannot duplicate
++that publication. If a publisher fails or is killed mid-graph, SQLite rolls the
++whole graph back; another publisher can retry it. Earlier submissions in the
++same call can already be committed when a later submission fails.
++
++``Submission`` exposes ``id``, ``key``, ``task_ids``, ``published`` and ``result``.
++The ID and ordered task IDs survive restarts. ``published`` is a snapshot; call
++``get`` to refresh it. With results enabled, ``result`` has the usual ``Result``,
++``ResultGroup`` or ``ChordResult`` reading interface. A chord's ``get`` returns
++its callback's value, with later callback stages available separately through
++``pipeline_results``. With results disabled, the handle is ``None``. Receipt
++handles do not retain arguments for rescheduling. Immediate-mode outboxes still
++queue to, and read results from, the configured SQLite broker; ordinary tasks
++on the application's Huey instance retain their immediate-mode behavior.
++
++Staging freezes Tasks, success/error pipelines, groups (including nested groups
++and chords), and chords of Tasks/pipelines or nested chords. Callback pipelines
++and ordered ``Error``/``SKIPPED`` chord outcomes retain normal executor behavior.
++Only initial messages are queued during publication; successors are handled by
++the ordinary consumer. Empty groups have no messages; empty chords queue their
++callback with an empty result list. Relative expiry on initial messages is
++resolved once at staging, so publication retries do not extend their lifetime.
++
++Graph members must be lists or tuples forming a finite tree. Cycles, shared
++nodes, duplicate Task IDs, unregistered tasks, groups directly inside chords,
++and already-bound chord member fragments are rejected. Input objects remain
++unchanged. Ordinary ``Huey.enqueue`` keeps its existing behavior independently
++of these outbox boundaries.
++
++Storage integrations can override
++``SqliteStorage.enqueue_many(messages, connection)``, where each message is a
++``(serialized_bytes, priority)`` pair. This method requires an active transaction
++on the same main database and inserts all pairs or none without ending the
++caller's transaction. An insertion failure preserves earlier business writes.
++Every outbox graph publication calls this bulk boundary once. Overrides must
++preserve its transaction ownership; publishing commits after the call returns.
++
++This protocol guarantees atomic publication within one SQLite database. It does
++not provide worker acknowledgements, exactly-once external effects, cross-file
++transactions, or a distributed broker protocol. Task execution and power-loss
++durability retain Huey's normal behavior and the configured SQLite guarantees.
+diff --git a/huey/api.py b/huey/api.py
+index c010e1a..b9690e4 100644
+--- a/huey/api.py
++++ b/huey/api.py
+@@ -304,6 +304,15 @@ class Huey(object):
+         message = self.serializer.deserialize(data)
+         return self._registry.create_task(message)
+ 
++    def prepare_task_graph(self, task):
++        """Return an immutable serialized graph plan without broker writes.
++
++        This is used by transactional publishers. The input graph is not
++        modified and no task executes, including in immediate mode.
++        """
++        from huey.graph import prepare_task_graph
++        return prepare_task_graph(self, task)
++
+     def enqueue(self, task):
+         if isinstance(task, group):
+             return ResultGroup([self.enqueue(t) for t in task.tasks])
+diff --git a/huey/contrib/sqlite_outbox.py b/huey/contrib/sqlite_outbox.py
+new file mode 100644
+index 0000000..46bcc6d
+--- /dev/null
++++ b/huey/contrib/sqlite_outbox.py
+@@ -0,0 +1,171 @@
++"""Transactional staging of Huey task graphs in the application's SQLite file."""
++import base64
++import copy
++from dataclasses import dataclass, field
++import hashlib
++import json
++import uuid
++
++from huey.api import Task, Result, ResultGroup, ChordResult, SqliteHuey
++from huey.storage import SqliteStorage
++
++
++class OutboxConflict(ValueError):
++    """A submission key was reused for a different invocation graph."""
++
++
++@dataclass(frozen=True)
++class Submission:
++    id: str
++    key: str
++    task_ids: tuple
++    published: bool
++    result: object = field(compare=False, repr=False)
++
++
++class SqliteOutbox:
++    """Stage with the caller's transaction; publish whole graphs atomically.
++
++    Receipts are retained after publication, including when all queued tasks
++    have been consumed. This makes submission keys idempotent across restarts.
++    """
++    ddl = (
++        'create table if not exists huey_outbox ('
++        'sequence integer primary key autoincrement, queue text not null, '
++        'submission_key text not null, submission_id text not null unique, '
++        'request_hash text not null, envelope text not null, '
++        'published integer not null default 0, unique(queue, submission_key))',
++        'create index if not exists huey_outbox_pending '
++        'on huey_outbox (queue, published, sequence)')
++
++    def __init__(self, huey):
++        if not isinstance(huey, SqliteHuey):
++            raise ValueError('SqliteOutbox requires a SqliteHuey')
++        self.huey = huey
++        # Immediate mode may use memory for debugging, but outbox staging and
++        # publishing must always target the configured on-disk SQLite broker.
++        self.storage = (huey.storage if isinstance(huey.storage, SqliteStorage)
++                        else huey.get_storage(**huey.storage_kwargs))
++        if not isinstance(self.storage, SqliteStorage):
++            raise ValueError('SqliteOutbox requires SQLite storage')
++        if str(self.storage.filename) == ':memory:':
++            raise ValueError('SqliteOutbox requires an on-disk database')
++        # Receipt reads always address the durable broker, even if the caller
++        # continues using immediate-mode's memory store for ordinary tasks.
++        self._result_huey = copy.copy(huey)
++        self._result_huey.storage = self.storage
++        self._result_huey._immediate = False
++
++    def initialize_schema(self, connection):
++        self.storage._validate_external_connection(connection)
++        for sql in self.ddl:
++            connection.execute(sql)
++
++    @staticmethod
++    def _key(key):
++        if not isinstance(key, str) or not key:
++            raise ValueError('key must be a non-empty string')
++        return key
++
++    def _result(self, descriptor):
++        if not self.huey.results:
++            return None
++        kind = descriptor['kind']
++        if kind == 'task':
++            return Result(self._result_huey, Task(id=descriptor['id']))
++        if kind == 'group':
++            return ResultGroup([self._result(t) for t in descriptor['results']])
++        members = [self._result(t) for t in descriptor['members']]
++        callback = self._result(descriptor['callback'])
++        stages = descriptor['pipeline']
++        pipeline = (ResultGroup([self._result(t) for t in stages])
++                    if len(stages) > 1 else None)
++        return ChordResult(members, callback, pipeline)
++
++    def _receipt(self, row):
++        submission_id, key, payload, published = row
++        envelope = json.loads(payload)
++        return Submission(submission_id, key, tuple(envelope['task_ids']),
++                          bool(published), self._result(envelope['result']))
++
++    def stage(self, connection, task_or_group_or_chord, key):
++        key = self._key(key)
++        self.storage._validate_external_connection(connection)
++        if not connection.in_transaction:
++            raise ValueError('stage requires an active caller transaction')
++        plan = self.huey.prepare_task_graph(task_or_group_or_chord)
++        request_hash = hashlib.sha256(plan.request).hexdigest()
++        existing = connection.execute(
++            'select request_hash, submission_id, submission_key, envelope, '
++            'published from huey_outbox where queue=? and submission_key=?',
++            (self.huey.name, key)).fetchone()
++        if existing is not None:
++            if existing[0] != request_hash:
++                raise OutboxConflict('submission key already has another payload')
++            return self._receipt(existing[1:])
++        envelope = json.dumps({
++            'version': 1,
++            'messages': [(base64.b64encode(data).decode('ascii'), priority)
++                         for data, priority in plan.messages],
++            'result': plan.result, 'task_ids': plan.task_ids},
++            separators=(',', ':'))
++        submission_id = uuid.uuid4().hex
++        connection.execute(
++            'insert into huey_outbox (queue, submission_key, submission_id, '
++            'request_hash, envelope) values (?,?,?,?,?)',
++            (self.huey.name, key, submission_id, request_hash, envelope))
++        return self._receipt((submission_id, key, envelope, 0))
++
++    def get(self, key):
++        key = self._key(key)
++        connection = self.storage._create_connection()
++        try:
++            row = connection.execute(
++                'select submission_id, submission_key, envelope, published '
++                'from huey_outbox where queue=? and submission_key=?',
++                (self.huey.name, key)).fetchone()
++            return self._receipt(row) if row is not None else None
++        finally:
++            connection.close()
++
++    def pending_count(self):
++        connection = self.storage._create_connection()
++        try:
++            return connection.execute('select count(*) from huey_outbox '
++                                      'where queue=? and published=0',
++                                      (self.huey.name,)).fetchone()[0]
++        finally:
++            connection.close()
++
++    def publish(self, limit=100):
++        if isinstance(limit, bool) or not isinstance(limit, int) or limit <= 0:
++            raise ValueError('limit must be a positive integer')
++        receipts = []
++        connection = self.storage._create_connection()
++        try:
++            for _ in range(limit):
++                connection.execute('begin immediate')
++                try:
++                    row = connection.execute(
++                        'select sequence, submission_id, submission_key, '
++                        'envelope, published from huey_outbox '
++                        'where queue=? and published=0 order by sequence limit 1',
++                        (self.huey.name,)).fetchone()
++                    if row is None:
++                        connection.rollback()
++                        break
++                    envelope = json.loads(row[3])
++                    messages = [(base64.b64decode(data), priority)
++                                for data, priority in envelope['messages']]
++                    self.storage.enqueue_many(messages, connection)
++                    connection.execute(
++                        'update huey_outbox set published=1 where sequence=?',
++                        (row[0],))
++                    connection.commit()
++                except BaseException:
++                    connection.rollback()
++                    raise
++                receipts.append(self._receipt((row[1], row[2], row[3], 1)))
++        finally:
++            connection.close()
++        return receipts
+diff --git a/huey/graph.py b/huey/graph.py
+new file mode 100644
+index 0000000..92f96f4
+--- /dev/null
++++ b/huey/graph.py
+@@ -0,0 +1,114 @@
++"""Prepare a task graph without executing it or touching broker storage."""
++import copy
++from dataclasses import dataclass
++import pickle
++import uuid
++
++from huey.api import Task, group, chord
++from huey.utils import ChordConfig
++
++
++@dataclass(frozen=True)
++class TaskGraphPlan:
++    request: bytes
++    messages: tuple
++    result: dict
++    task_ids: tuple
++
++
++def prepare_task_graph(huey, original):
++    # Validate before recursive copying/serialization so cycles fail cleanly.
++    objects, task_ids = set(), []
++    ids = set()
++
++    def check(value):
++        if id(value) in objects:
++            raise ValueError('task graphs must be trees without shared nodes')
++        objects.add(id(value))
++        if isinstance(value, Task):
++            if value.id in ids:
++                raise ValueError('task ids must be unique within a graph')
++            ids.add(value.id)
++            task_ids.append(value.id)
++            if value.chord_config is not None:
++                raise ValueError('already-bound chord members cannot be staged')
++            huey._registry.string_to_task(huey._registry.task_to_string(type(value)))
++            for next_task in (value.on_complete, value.on_error):
++                if next_task is not None:
++                    if not isinstance(next_task, Task):
++                        raise ValueError('pipeline links must be Tasks')
++                    check(next_task)
++        elif isinstance(value, (group, chord)):
++            if not isinstance(value.tasks, (list, tuple)):
++                raise ValueError('graph members must be a finite list or tuple')
++            for member in value.tasks:
++                if isinstance(value, chord) and isinstance(member, group):
++                    raise ValueError('a chord member must be a Task or chord')
++                check(member)
++            if isinstance(value, chord):
++                if not isinstance(value.callback, Task):
++                    raise ValueError('chord callback must be a Task')
++                check(value.callback)
++        else:
++            raise ValueError('expected a Task, group or chord')
++
++    check(original)
++    graph = copy.deepcopy(original)
++
++    def request(value):
++        if isinstance(value, Task):
++            return ('task', huey._registry.create_message(value))
++        if isinstance(value, chord):
++            return ('chord', tuple(request(t) for t in value.tasks),
++                    request(value.callback))
++        return ('group', tuple(request(t) for t in value.tasks))
++
++    # Fingerprint the logical request before resolving relative expiry or
++    # assigning chord synchronization ids. Compression timestamps and signatures
++    # must not make an unchanged submission conflict with itself.
++    request_bytes = pickle.dumps(request(graph), protocol=4)
++    messages = []
++
++    def pipeline(task):
++        results = []
++        while task is not None:
++            results.append({'kind': 'task', 'id': task.id})
++            task = task.on_complete
++        return results
++
++    def queue(task):
++        if task.expires:
++            task.resolve_expires(huey.utc)
++        messages.append((huey.serialize_task(task), task.priority))
++
++    def plan(value):
++        if isinstance(value, Task):
++            queue(value)
++            results = pipeline(value)
++            return results[0] if len(results) == 1 else {
++                'kind': 'group', 'results': results}
++        if isinstance(value, group):
++            return {'kind': 'group', 'results': [plan(t) for t in value.tasks]}
++
++        cid, size = str(uuid.uuid4()), len(value.tasks)
++        members = []
++        for idx, member in enumerate(value.tasks):
++            head = member.callback if isinstance(member, chord) else member
++            tail = head
++            while tail.on_complete is not None:
++                tail = tail.on_complete
++            tail.chord_config = ChordConfig(cid, size, idx, value.callback)
++            members.append({'kind': 'task', 'id': tail.id})
++            plan(member)
++        if not size:
++            # No member can trigger an empty chord; schedule its callback with
++            # the same ordered-results shape that an ordinary chord provides.
++            value.callback.extend_data(([],))
++            queue(value.callback)
++        return {'kind': 'chord', 'members': members,
++                'callback': {'kind': 'task', 'id': value.callback.id},
++                'pipeline': pipeline(value.callback)}
++
++    descriptor = plan(graph)
++    return TaskGraphPlan(request_bytes, tuple(messages), descriptor,
++                         tuple(task_ids))
+diff --git a/huey/storage.py b/huey/storage.py
+index 6a42a9f..38d1ddc 100644
+--- a/huey/storage.py
++++ b/huey/storage.py
+@@ -13,6 +13,7 @@ except ImportError:
+ import struct
+ import threading
+ import time
++import uuid
+ 
+ try:
+     import cysqlite
+@@ -949,6 +950,42 @@ class SqliteStorage(BaseSqlStorage):
+         self.sql('insert into task (queue, data, priority) values (?, ?, ?)',
+                  (self.name, self.to_blob(data), priority or 0), commit=True)
+ 
++    def _validate_external_connection(self, connection):
++        if not isinstance(connection, sqlite3.Connection):
++            raise ValueError('expected a sqlite3 connection')
++        main = next((row[2] for row in connection.execute('pragma database_list')
++                     if row[1] == 'main'), '')
++        try:
++            same_file = bool(main) and os.path.samefile(main, self.filename)
++        except (OSError, TypeError, ValueError):
++            same_file = False
++        if not same_file:
++            raise ValueError('connection must use the same on-disk main database')
++
++    def enqueue_many(self, messages, connection):
++        """Insert (serialized-data, priority) pairs in a caller transaction.
++
++        Participate in its commit/rollback, including nested savepoints. Unlike
++        enqueue(), this method never uses an unrelated broker connection or
++        commits business writes owned by the caller.
++        """
++        self._validate_external_connection(connection)
++        if not connection.in_transaction:
++            raise ValueError('enqueue_many requires an active transaction')
++        rows = [(self.name, self.to_blob(data), priority or 0)
++                for data, priority in messages]
++        savepoint = 'huey_batch_' + uuid.uuid4().hex
++        connection.execute('savepoint ' + savepoint)
++        try:
++            connection.executemany(
++                'insert into task (queue, data, priority) values (?,?,?)', rows)
++        except BaseException:
++            connection.execute('rollback to ' + savepoint)
++            connection.execute('release ' + savepoint)
++            raise
++        else:
++            connection.execute('release ' + savepoint)
++
+     def dequeue(self):
+         # Quick check without the full exclusive lock.
+         if not self.sql('select 1 from task where queue = ? limit 1',
+diff --git a/huey/tests/test_sqlite_outbox.py b/huey/tests/test_sqlite_outbox.py
+new file mode 100644
+index 0000000..133ab48
+--- /dev/null
++++ b/huey/tests/test_sqlite_outbox.py
+@@ -0,0 +1,64 @@
++import os
++import sqlite3
++import tempfile
++import unittest
++
++from huey import SqliteHuey, chord
++from huey.contrib.sqlite_outbox import SqliteOutbox, OutboxConflict
++
++
++class TestSqliteOutbox(unittest.TestCase):
++    def setUp(self):
++        self.directory = tempfile.TemporaryDirectory()
++        self.path = os.path.join(self.directory.name, 'app.db')
++        self.huey = SqliteHuey('app', filename=self.path)
++        self.outbox = SqliteOutbox(self.huey)
++        self.connection = sqlite3.connect(self.path)
++        self.outbox.initialize_schema(self.connection)
++        self.connection.execute('create table records (id integer)')
++
++        @self.huey.task()
++        def double(n):
++            return n * 2
++
++        @self.huey.task()
++        def total(values):
++            return sum(values)
++
++        self.double, self.total = double, total
++
++    def tearDown(self):
++        self.connection.close()
++        self.huey.storage.close()
++        self.directory.cleanup()
++
++    def test_business_transaction_rollback_and_receipt_identity(self):
++        task = self.double.s(5, id='record-5')
++        self.connection.execute('insert into records values (5)')
++        self.outbox.stage(self.connection, task, 'created-5')
++        self.connection.rollback()
++        self.assertIsNone(self.outbox.get('created-5'))
++        self.assertEqual(self.huey.pending_count(), 0)
++        with self.connection:
++            self.connection.execute('insert into records values (5)')
++            first = self.outbox.stage(self.connection, task, 'created-5')
++            second = self.outbox.stage(self.connection, task, 'created-5')
++            self.assertEqual(first.id, second.id)
++            with self.assertRaises(OutboxConflict):
++                self.outbox.stage(self.connection, self.double.s(6), 'created-5')
++        self.assertEqual([r.id for r in self.outbox.publish()], [first.id])
++        self.huey.execute(self.huey.dequeue())
++        self.assertEqual(first.result.get(), 10)
++        self.assertEqual(self.outbox.publish(), [])
++
++    def test_nested_chord_uses_normal_executor_and_callback_results(self):
++        inner = chord([self.double.s(2)], self.total.s()).then(self.double.s())
++        graph = chord([inner, self.double.s(3)], self.total.s()).then(self.double.s())
++        self.connection.execute('begin')
++        receipt = self.outbox.stage(self.connection, graph, 'workflow')
++        self.connection.commit()
++        self.outbox.publish()
++        while self.huey.pending_count():
++            self.huey.execute(self.huey.dequeue())
++        self.assertEqual(receipt.result.get(preserve=True), 14)
++        self.assertEqual(receipt.result.pipeline_results.get(), [14, 28])
