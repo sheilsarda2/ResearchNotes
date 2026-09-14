@@ -1,0 +1,206 @@
+{
+  "task_id": "rs-burn-onnx-rnn-runtime-weights",
+  "language": "rust",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/tracel-ai/burn-onnx",
+    "base_commit": "6fc6bacec1c5264d1160efd4e2c904591082e2f8",
+    "base_commit_date": "2026-08-21T15:56:08-04:00",
+    "base_commit_subject": "Bump the burn rev to 9cdb20df (#465)",
+    "burn_git_rev": "9cdb20df7ab3ff5572518cb0dae370a3cf85ed02",
+    "license": "MIT OR Apache-2.0",
+    "archive": {
+      "path": "environment/upstream.tar.gz",
+      "sha256": "b4d65369557f8ef83f13298ce240eb57843a7284c9ce8d08e88114421398e225",
+      "bytes": 31979574,
+      "clean_git_archive": true,
+      "note": "git archive of the base commit; includes the 35 MB vendored ONNX node corpus (crates/onnx-official-tests/vendor/node, 1615 dirs) so the corpus oracle is offline"
+    }
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/tracel-ai/burn-onnx/pull/466",
+    "title": "RNN family: consume weights supplied as runtime graph inputs",
+    "merge_commit": "438d2cdb942a5e1f93b4d2486998de0d08b45ab8",
+    "merged_at": "2026-08-21T23:15:11Z",
+    "closes_issue": "https://github.com/tracel-ai/burn-onnx/issues/458",
+    "pr_totals": {
+      "files": 24,
+      "additions": 2526,
+      "deletions": 511
+    },
+    "gold_patch": {
+      "path": "solution/changes.patch",
+      "sha256": "e73792ab071f0fcdcdeaea0e81cb05d8a0a15c411407fdde782b6422c8519b7d",
+      "files": 11,
+      "additions": 1931,
+      "deletions": 505,
+      "file_list": [
+        "TODO.md",
+        "crates/burn-onnx/src/import/burn/node/gru.rs",
+        "crates/burn-onnx/src/import/burn/node/lstm.rs",
+        "crates/burn-onnx/src/import/burn/node/mod.rs",
+        "crates/burn-onnx/src/import/burn/node/rnn.rs",
+        "crates/burn-onnx/src/import/burn/node/rnn_common.rs",
+        "crates/onnx-ir/src/node/gru.rs",
+        "crates/onnx-ir/src/node/lstm.rs",
+        "crates/onnx-ir/src/node/rnn.rs",
+        "crates/onnx-ir/src/processor.rs",
+        "crates/onnx-official-tests/expectations.toml"
+      ],
+      "excluded_as_hidden_tests": [
+        "crates/onnx-tests/build.rs (registers the 5 new fixtures)",
+        "crates/onnx-tests/tests/gru/{mod.rs, gru_runtime_weights.{py,onnx}, gru_bidirectional_runtime_weights.{py,onnx}, gru_bidirectional_static_weights.onnx}",
+        "crates/onnx-tests/tests/lstm/{mod.rs, lstm_runtime_weights.{py,onnx}}",
+        "crates/onnx-tests/tests/rnn/{mod.rs, rnn_runtime_weights.{py,onnx}}"
+      ],
+      "notes": "The PR's inline insta snapshot tests and onnx-ir unit tests live inside src files and therefore ship with the gold patch; they are not used as oracle. The committed .onnx fixtures are treated as hidden test fixtures (they are the models the hidden tests load), packaged in tests/hidden-overlay.tar.gz (sha256 1e941d2ea5aab1fb36505c1eacf34c8620b671266b9787b6476e8c9924044a26)."
+    }
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "components": [
+      {
+        "type": "pr_tests",
+        "reference": "4 hidden onnx-tests integration tests from PR #466 (expected sums from onnx.reference; reproduced bit-for-bit by onnxruntime 1.30 at authoring: Y/Y_h sums 0.1308653/0.0119344, 0.2429624/0.1401502, -0.5777385/-0.9212031, bidirectional runtime==static)"
+      },
+      {
+        "type": "conformance_corpus",
+        "reference": "onnx v1.19.0 backend node tests: the 11 RNN-family rows promoted by the PR (expected outputs from the ONNX distribution), plus the full 830-row harness and drift checks as regression"
+      },
+      {
+        "type": "cross_impl_differential",
+        "reference": "onnxruntime 1.30.0 CPU on 24 authored RNN-family models (tests/gen_rnn_cases.py) emitted in upstream node-test format at verifier image build; layout=1 references computed on the layout=0 twin and permuted per spec, permutation checked against the distribution's *_batchwise outputs (max |delta| 1.2e-7) and onnx.reference where implemented (max 2.4e-7); onnx.reference itself is NOT used as reference because it ignores direction=reverse and lacks bidirectional"
+      },
+      {
+        "type": "reference_binary",
+        "reference": "onnx2burn must reject mixed initializer/graph-input weight groups, sequence_lens and LSTM peepholes (non-zero exit) and accept a runtime-weight model"
+      }
+    ],
+    "tolerance": "burn Tolerance::default() = relative 0.5%, absolute 1e-5 (element-wise); PR tests: float_cmp (1e-5, 2 ulps) on sums",
+    "harness": "the repository's own crates/onnx-official-tests build.rs harness (ModelGen -> generated #[test] per vendored dir) is reused for the differential rows, so no verifier-authored Rust is compiled into the submission's build"
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "PR merged 2026-08-21, 23 days before authoring (2026-09-13). Issue #458 and the PR body are public; the instruction restates the contract from the ONNX spec and the issue without the PR's design (GateLayout table, Param overwrite, lift_all_or_none). The 24 differential models and the reject probes are authored here and not public."
+  },
+  "horizon": {
+    "proxy": "11 non-test files across 2 crates (onnx-ir type inference + constant lifting; burn-onnx codegen for 3 operators), 1931 added / 505 deleted lines; interacting requirements: runtime-vs-static weight paths x 3 ops x 3 directions x 2 layouts x optional B/initial states x output subsets; corpus promotion with a drift gate; import-time rejection semantics",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/tracel-ai/burn-onnx/issues/458 (GRU/LSTM/RNN silently discard weights supplied as runtime graph inputs)",
+      "https://github.com/tracel-ai/burn-onnx/pull/466",
+      "TODO.md roadmap item 6 at the base commit (scoreboard triage: every RNN row in the upstream suite fails for this reason)",
+      "Related open items #346/#352 (Conv/LayerNorm runtime weights) cite the same symptom"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "onnx-tests gru_runtime_weights / lstm_runtime_weights / rnn_runtime_weights: Model::from_file loads a runtime-weight model without panicking",
+      "instruction_ref": "Required behavior 1, paragraph 3 (from_file loads without missing tensors) and 'What is verified' item 1"
+    },
+    {
+      "assertion": "same tests: forward(input, W, R, B) -> (Y, Y_h) with shapes [2,1,1,3] and [1,1,3] and sums equal to the reference within (1e-5, 2 ulps)",
+      "instruction_ref": "Required behavior 1 (weight layout, parameter convention, outputs in order), section 2 layout=0 shapes, section 6 tolerances"
+    },
+    {
+      "assertion": "gru_bidirectional_runtime_weights_match_initializers: bidirectional GRU (linear_before_reset=1) with runtime W/R/B equals the initializer variant element-wise at Tolerance::default()",
+      "instruction_ref": "Required behavior 1: 'the two paths must agree numerically on the same weights'; linear_before_reset 0 or 1; 'What is verified' item 1"
+    },
+    {
+      "assertion": "official corpus rows test_gru_batchwise, test_lstm_batchwise, test_simple_rnn_batchwise (layout=1, runtime W/R, Y and Y_h) match the distribution outputs",
+      "instruction_ref": "Section 2 layout=1 shapes; section 5 lists the rows"
+    },
+    {
+      "assertion": "official rows test_*_defaults / *_with_initial_bias / *_seq_length (runtime W/R[/B], only Y_h declared) match",
+      "instruction_ref": "Section 1 (any subset of outputs, B present/absent); section 5"
+    },
+    {
+      "assertion": "verify_fail_compare_still_fails passes with exactly the 11 promotions",
+      "instruction_ref": "Section 5: 'The outcome of every other corpus row must be unchanged ... requires every remaining fail-compare row to still fail'"
+    },
+    {
+      "assertion": "verify_expectations_match_tests passes (vendor dirs, expectations, manifest agree)",
+      "instruction_ref": "Section 5 (the verifier uses its own expectations.toml); no submission-side action required"
+    },
+    {
+      "assertion": "24 test_rnnrt_* rows match onnxruntime at Tolerance::default(): all ops x directions, B present/absent, initial_h/initial_c, layout 0/1, linear_before_reset 0/1, output subsets, initializer-weight layout=1 variants",
+      "instruction_ref": "Sections 1, 2, 3 (reverse and bidirectional semantics), 6; 'What is verified' item 2 enumerates the axes"
+    },
+    {
+      "assertion": "onnx2burn exits non-zero on gru_mixed_weight_group.onnx (W initializer, R/B graph inputs)",
+      "instruction_ref": "Section 4, first bullet"
+    },
+    {
+      "assertion": "onnx2burn exits non-zero on lstm_sequence_lens.onnx and test_lstm_with_peepholes/model.onnx",
+      "instruction_ref": "Section 4, second bullet"
+    },
+    {
+      "assertion": "onnx2burn exits zero and emits a .rs file for gru_runtime_weights.onnx",
+      "instruction_ref": "Section 1 (such models must be imported) and 'What is verified' item 4"
+    },
+    {
+      "assertion": "exact counts 601 / 858 / 553 with zero failures or ignores",
+      "instruction_ref": "Section 6 (all existing tests keep passing) and 'What is verified' items 1-3"
+    },
+    {
+      "assertion": "anti-cheat: no symlinks, no non-source files, no verifier/reference/corpus-path strings in the two src dirs",
+      "instruction_ref": "'What is verified' item 5 and Environment notes (ort/onnxruntime must not be used)"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "host": "not yet built in Docker (phase rule); local measurements on the authoring Mac (Apple Silicon, rustc 1.98.1, 6 jobs): cargo fetch 24 s and 1.2 GB (registry 1.0 GB + git 168 MB); full `cargo test --no-run -p onnx-ir -p onnx-tests -p onnx-official-tests` 72 s wall / 236 s CPU, target/ 2.9 GB (3.8 GB after the gold rebuild); incremental rebuild after the gold patch 25 s wall / 55 s CPU; onnx-official-tests full run 22 s; onnx-tests 1.4 s; onnx-ir integration 42 s (build+run)",
+    "estimate_docker_4cpu": "agent image ~6.5-7.5 GB (rust slim 0.8 + cargo home 1.2 + target ~4.5 with burn-onnx tests and ort download + cargo-insta); build ~15-25 min (fetch 2, warm build 8-15, cargo-insta 2-3, pip 1). Verifier image ~6-7 GB; build ~15-20 min (+ onnxruntime pip ~1 min, corpus generation <30 s). Verifier run: incremental rebuild 3-8 min + suites ~2 min.",
+    "oracle_wall_seconds": 165,
+    "env_setup_seconds": 20,
+    "verifier_seconds": 141,
+    "nop_wall_seconds": 145
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "rs-burn-onnx-rnn-runtime-weights-oracle-20260913T121743Z",
+      "nop": "rs-burn-onnx-rnn-runtime-weights-nop-20260913T121743Z"
+    },
+    "local": {
+      "apply_check": "git apply --check of solution/changes.patch on the base worktree: OK",
+      "gold_onnx_tests": "601 passed (test_mod), 0 failed, incl. the 4 hidden PR tests",
+      "gold_official_with_differential_rows": "858 passed (830 harness + 4 drift/gate + 24 test_rnnrt_*) in 9 of 10 runs; one run failed only verify_fail_compare_still_fails (upstream drift gate over 96 fail-compare runners), not reproduced in 9 further runs; test.sh retries that test up to twice",
+      "gold_onnx_ir_integration": "553 passed (basic 3, custom_ops 10, edge_cases 35, external_data 6, infrastructure 11, noop_elimination 3, opset_compliance 476, simplification 9, test_utils 0)",
+      "gold_rejects": "gru_mixed_weight_group rc=101 with group-uniformity message; lstm_sequence_lens rc=101; lstm_with_peepholes rc=101; accept probe rc=0 with .rs and .bpk",
+      "nop_onnx_tests": "597 passed, 4 failed: the 4 hidden tests panic inside the generated model at from_file (missing tensors)",
+      "nop_official": "the 11 promoted rows FAIL at base; 22 of 24 test_rnnrt_* rows FAIL (lstm_static_bidir_state and gru_static_lbr_reverse_h0 are initializer-weight layout-0 regressions that base already handles); both drift checks pass",
+      "nop_rejects": "gru_mixed_weight_group is ACCEPTED at base (rc=0, code emitted) so the probe discriminates; sequence_lens and peepholes already rejected at base"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  },
+  "alternates_considered": [
+    {
+      "pr": 445,
+      "title": "Custom op hooks: import models with unsupported operators",
+      "merged_at": "2026-08-12",
+      "reason_not_chosen": "5575 added lines across 60 files including 1141 lines of design doc and a new example crate; public API design space (CustomOp/OpOverride traits, ext module) is large and its tests are mostly unit tests inside src plus 3 onnx-ir fixtures, so a hidden-test oracle would be thin relative to size; no external reference (onnxruntime cannot run vendor-domain ops). Kept as alternate."
+    },
+    {
+      "pr": 270,
+      "title": "feat: Support constrained Einsum operator",
+      "merged_at": "2026-03-30",
+      "reason_not_chosen": "Older (contamination tier C by recency), single operator subset, smaller; #466 has a stronger differential story (onnxruntime plus 11 corpus rows) and is more recent."
+    }
+  ]
+}

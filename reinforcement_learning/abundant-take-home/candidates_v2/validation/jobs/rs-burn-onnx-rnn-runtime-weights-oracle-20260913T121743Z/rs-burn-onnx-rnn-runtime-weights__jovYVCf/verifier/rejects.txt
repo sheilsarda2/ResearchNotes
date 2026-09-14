@@ -1,0 +1,108 @@
+reject gru_mixed_weight_group.onnx rc=101 files=
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Starting to convert ONNX to Burn
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output directory: "/tmp/o2b_out"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Converting "/opt/task/extra/reject/gru_mixed_weight_group.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Input file name: "gru_mixed_weight_group.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/gru_mixed_weight_group.onnx"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Generating model from "/opt/task/extra/reject/gru_mixed_weight_group.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Development mode: false
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/gru_mixed_weight_group.onnx"
+[32m INFO[0m [2monnx_ir::pipeline[0m[2m:[0m Parsing ONNX file: /opt/task/extra/reject/gru_mixed_weight_group.onnx
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m Memory-mapped ONNX file (390 bytes)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 1: Initialization 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2: Node Conversion (Proto -> RawNode) 
+[34mDEBUG[0m [2monnx_ir::phases::node_conversion[0m[2m:[0m Preserving outer-scope value_store for 'constant1_out1' (Constant)
+[34mDEBUG[0m [2monnx_ir::phases::node_conversion[0m[2m:[0m Preserving outer-scope value_store for 'constant1_out1' (Constant)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2b: Early Constant Folding 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2c: Custom-op coverage check 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 3: Type Inference 
+[31mERROR[0m [2mburn_onnx::import::logger[0m[2m:[0m PANIC => panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/gru_mixed_weight_group.onnx': Type inference failed: Node 'gru1' (Gru): Node 'gru1': input #1 is a build-time value while input #2 is supplied at run time. They are consumed as a group, so they must both be initializers or both be graph inputs.
+
+thread 'main' (10967) panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/gru_mixed_weight_group.onnx': Type inference failed: Node 'gru1' (Gru): Node 'gru1': input #1 is a build-time value while input #2 is supplied at run time. They are consumed as a group, so they must both be initializers or both be graph inputs.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+reject lstm_sequence_lens.onnx rc=101 files=
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Starting to convert ONNX to Burn
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output directory: "/tmp/o2b_out"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Converting "/opt/task/extra/reject/lstm_sequence_lens.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Input file name: "lstm_sequence_lens.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/lstm_sequence_lens.onnx"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Generating model from "/opt/task/extra/reject/lstm_sequence_lens.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Development mode: false
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/lstm_sequence_lens.onnx"
+[32m INFO[0m [2monnx_ir::pipeline[0m[2m:[0m Parsing ONNX file: /opt/task/extra/reject/lstm_sequence_lens.onnx
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m Memory-mapped ONNX file (275 bytes)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 1: Initialization 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2: Node Conversion (Proto -> RawNode) 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2b: Early Constant Folding 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2c: Custom-op coverage check 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 3: Type Inference 
+[34mDEBUG[0m [2monnx_ir::node::lstm[0m[2m:[0m LSTM extract_config: X input type=Tensor(TensorType { dtype: F32, rank: 3, static_shape: Some([Some(3), Some(2), Some(3)]) }), W input type=Tensor(TensorType { dtype: F32, rank: 3, static_shape: Some([Some(1), Some(16), Some(3)]) })
+[34mDEBUG[0m [2monnx_ir::node::lstm[0m[2m:[0m LSTM: using input_size from W static_shape: Some(3)
+[31mERROR[0m [2mburn_onnx::import::logger[0m[2m:[0m PANIC => panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/lstm_sequence_lens.onnx': Type inference failed: Node 'lstm1' (Lstm): LSTM sequence_lens input is not yet supported. All sequences must have the same length.
+
+thread 'main' (10975) panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/lstm_sequence_lens.onnx': Type inference failed: Node 'lstm1' (Lstm): LSTM sequence_lens input is not yet supported. All sequences must have the same length.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+reject lstm_with_peepholes.onnx rc=101 files=
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Starting to convert ONNX to Burn
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output directory: "/tmp/o2b_out"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Converting "/opt/task/extra/reject/lstm_with_peepholes.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Input file name: "lstm_with_peepholes.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/lstm_with_peepholes.onnx"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Generating model from "/opt/task/extra/reject/lstm_with_peepholes.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Development mode: false
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/lstm_with_peepholes.onnx"
+[32m INFO[0m [2monnx_ir::pipeline[0m[2m:[0m Parsing ONNX file: /opt/task/extra/reject/lstm_with_peepholes.onnx
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m Memory-mapped ONNX file (377 bytes)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 1: Initialization 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2: Node Conversion (Proto -> RawNode) 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2b: Early Constant Folding 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2c: Custom-op coverage check 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 3: Type Inference 
+[34mDEBUG[0m [2monnx_ir::node::lstm[0m[2m:[0m LSTM extract_config: X input type=Tensor(TensorType { dtype: F32, rank: 3, static_shape: Some([Some(1), Some(2), Some(4)]) }), W input type=Tensor(TensorType { dtype: F32, rank: 3, static_shape: Some([Some(1), Some(12), Some(4)]) })
+[34mDEBUG[0m [2monnx_ir::node::lstm[0m[2m:[0m LSTM: using input_size from W static_shape: Some(4)
+[31mERROR[0m [2mburn_onnx::import::logger[0m[2m:[0m PANIC => panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/lstm_with_peepholes.onnx': Type inference failed: Node 'lstm1' (Lstm): LSTM peephole connections (input P) are not yet supported
+
+thread 'main' (10983) panicked at crates/burn-onnx/src/import/model_gen.rs:397:33:
+Failed to parse ONNX file '/opt/task/extra/reject/lstm_with_peepholes.onnx': Type inference failed: Node 'lstm1' (Lstm): LSTM peephole connections (input P) are not yet supported
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+accept gru_runtime_weights.onnx rc=0 files=gru_runtime_weights.bpk gru_runtime_weights.rs 
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Starting to convert ONNX to Burn
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output directory: "/tmp/o2b_out"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Converting "/workspace/repo/crates/onnx-tests/tests/gru/gru_runtime_weights.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Input file name: "gru_runtime_weights.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/gru_runtime_weights.onnx"
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Generating model from "/workspace/repo/crates/onnx-tests/tests/gru/gru_runtime_weights.onnx"
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Development mode: false
+[34mDEBUG[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Output file: "/tmp/o2b_out/gru_runtime_weights.onnx"
+[32m INFO[0m [2monnx_ir::pipeline[0m[2m:[0m Parsing ONNX file: /workspace/repo/crates/onnx-tests/tests/gru/gru_runtime_weights.onnx
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m Memory-mapped ONNX file (273 bytes)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 1: Initialization 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2: Node Conversion (Proto -> RawNode) 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2b: Early Constant Folding 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 2c: Custom-op coverage check 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 3: Type Inference 
+[34mDEBUG[0m [2monnx_ir::phases::type_inference[0m[2m:[0m Type inference converged after 1 iterations
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 4: Post-processing 
+[34mDEBUG[0m [2monnx_ir::phases::post_processing[0m[2m:[0m Starting no-op elimination
+[34mDEBUG[0m [2monnx_ir::phases::post_processing[0m[2m:[0m No-op elimination: nothing to remove
+[34mDEBUG[0m [2monnx_ir::phases::post_processing[0m[2m:[0m Re-running constant lifting after no-op elimination
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 4b: Simplification 
+[34mDEBUG[0m [2monnx_ir::simplify[0m[2m:[0m Simplification: converged after 1 iteration(s)
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 5: Finalization 
+[34mDEBUG[0m [2monnx_ir::pipeline[0m[2m:[0m  PHASE 6: Node Conversion (RawNode -> Node) 
+[34mDEBUG[0m [2monnx_ir::ir::graph[0m[2m:[0m Converting node 'gru1' of type Gru
+[34mDEBUG[0m [2monnx_ir::ir::graph[0m[2m:[0m Dead constant elimination: 0 referenced constants
+[32m INFO[0m [2monnx_ir::pipeline[0m[2m:[0m Finished parsing ONNX file: /workspace/repo/crates/onnx-tests/tests/gru/gru_runtime_weights.onnx
+[34mDEBUG[0m [2mburn_onnx::import::burn::graph[0m[2m:[0m Registering node => 'gru1'
+[34mDEBUG[0m [2mburn_onnx::import::burn::graph[0m[2m:[0m Building the scope nodes len => '1'
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Writing source code to /tmp/o2b_out/gru_runtime_weights.rs
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Model generated
+[32m INFO[0m [2mburn_onnx::import::model_gen[0m[2m:[0m Finished converting ONNX to Burn

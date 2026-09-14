@@ -1,0 +1,790 @@
+{
+ "onnx": "1.22.0",
+ "onnxruntime": "1.30.0",
+ "numpy": "2.4.6",
+ "opset": 14,
+ "cases": [
+  {
+   "test": "test_rnnrt_gru_fwd_bias_h0",
+   "op": "GRU",
+   "direction": "forward",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "forward GRU, W/R/B/initial_h all graph inputs, linear_before_reset default 0"
+  },
+  {
+   "test": "test_rnnrt_gru_reverse_nobias",
+   "op": "GRU",
+   "direction": "reverse",
+   "layout": 0,
+   "bias": false,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.960464477539063e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "reverse GRU, only W/R as graph inputs (B absent => zero bias)"
+  },
+  {
+   "test": "test_rnnrt_gru_bidir_lbr_h0",
+   "op": "GRU",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": 1,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "bidirectional GRU with linear_before_reset=1 (Wb/Rb separately observable) and initial_h"
+  },
+  {
+   "test": "test_rnnrt_gru_bidir_yh_only",
+   "op": "GRU",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 4,
+    "batch": 1,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 7.450580596923828e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "bidirectional GRU declaring only Y_h"
+  },
+  {
+   "test": "test_rnnrt_gru_y_only_seq1",
+   "op": "GRU",
+   "direction": "forward",
+   "layout": 0,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 1,
+    "batch": 3,
+    "input": 3,
+    "hidden": 5
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.960464477539063e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "forward GRU declaring only Y, seq_length=1"
+  },
+  {
+   "test": "test_rnnrt_lstm_fwd_bias_state",
+   "op": "LSTM",
+   "direction": "forward",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": true,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h",
+    "initial_c"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.960464477539063e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "forward LSTM with W/R/B and both initial states as graph inputs, all three outputs"
+  },
+  {
+   "test": "test_rnnrt_lstm_reverse_nobias",
+   "op": "LSTM",
+   "direction": "reverse",
+   "layout": 0,
+   "bias": false,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 8.940696716308594e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "reverse LSTM, W/R only"
+  },
+  {
+   "test": "test_rnnrt_lstm_bidir_bias_yc",
+   "op": "LSTM",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 8.940696716308594e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "bidirectional LSTM with bias, Y/Y_h/Y_c"
+  },
+  {
+   "test": "test_rnnrt_lstm_bidir_state",
+   "op": "LSTM",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": true,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 2,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h",
+    "initial_c"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.960464477539063e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "bidirectional LSTM with initial_h/initial_c graph inputs"
+  },
+  {
+   "test": "test_rnnrt_lstm_yh_yc_only",
+   "op": "LSTM",
+   "direction": "forward",
+   "layout": 0,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 3
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.960464477539063e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "forward LSTM declaring Y_h and Y_c but not Y"
+  },
+  {
+   "test": "test_rnnrt_rnn_fwd_bias_h0",
+   "op": "RNN",
+   "direction": "forward",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.7881393432617188e-07,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "forward RNN (Tanh) with bias and initial_h as graph inputs"
+  },
+  {
+   "test": "test_rnnrt_rnn_bidir_bias",
+   "op": "RNN",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 5
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 2.086162567138672e-07,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "bidirectional RNN with bias"
+  },
+  {
+   "test": "test_rnnrt_rnn_reverse_nobias_yh",
+   "op": "RNN",
+   "direction": "reverse",
+   "layout": 0,
+   "bias": false,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.2665987014770508e-07,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "reverse RNN, W/R only, Y_h only"
+  },
+  {
+   "test": "test_rnnrt_gru_layout1_fwd_bias_h0",
+   "op": "GRU",
+   "direction": "forward",
+   "layout": 1,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 7.450580596923828e-08,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 forward GRU: X [batch,seq,in], initial_h/Y_h [batch,1,hid], Y [batch,seq,1,hid]"
+  },
+  {
+   "test": "test_rnnrt_gru_layout1_bidir_h0",
+   "op": "GRU",
+   "direction": "bidirectional",
+   "layout": 1,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 8.940696716308594e-08,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 bidirectional GRU with initial_h [batch,2,hid]"
+  },
+  {
+   "test": "test_rnnrt_lstm_layout1_bidir_state_yc",
+   "op": "LSTM",
+   "direction": "bidirectional",
+   "layout": 1,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": true,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B",
+    "initial_h",
+    "initial_c"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 bidirectional LSTM with both initial states, all outputs (direction axis swap on the way in and out)"
+  },
+  {
+   "test": "test_rnnrt_lstm_layout1_reverse",
+   "op": "LSTM",
+   "direction": "reverse",
+   "layout": 1,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 reverse LSTM"
+  },
+  {
+   "test": "test_rnnrt_rnn_layout1_fwd_bias",
+   "op": "RNN",
+   "direction": "forward",
+   "layout": 1,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 forward RNN with bias"
+  },
+  {
+   "test": "test_rnnrt_rnn_layout1_bidir_yh",
+   "op": "RNN",
+   "direction": "bidirectional",
+   "layout": 1,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y_h"
+   ],
+   "weights": "graph_inputs",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "W",
+    "R",
+    "B"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.7881393432617188e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "layout=1 bidirectional RNN, Y_h only"
+  },
+  {
+   "test": "test_rnnrt_gru_static_layout1_bidir_h0",
+   "op": "GRU",
+   "direction": "bidirectional",
+   "layout": 1,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "initializers",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 2.384185791015625e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "initializer weights, layout=1 bidirectional GRU with runtime initial_h"
+  },
+  {
+   "test": "test_rnnrt_lstm_static_layout1_fwd_yc",
+   "op": "LSTM",
+   "direction": "forward",
+   "layout": 1,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "initializers",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 2.9802322387695312e-08,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "initializer weights, layout=1 forward LSTM"
+  },
+  {
+   "test": "test_rnnrt_lstm_static_bidir_state",
+   "op": "LSTM",
+   "direction": "bidirectional",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": true,
+   "outputs": [
+    "Y",
+    "Y_h",
+    "Y_c"
+   ],
+   "weights": "initializers",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "initial_h",
+    "initial_c"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 5.21540641784668e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "initializer weights, layout=0 bidirectional LSTM with runtime initial states"
+  },
+  {
+   "test": "test_rnnrt_rnn_static_layout1_reverse",
+   "op": "RNN",
+   "direction": "reverse",
+   "layout": 1,
+   "bias": true,
+   "initial_h": false,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "initializers",
+   "linear_before_reset": null,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 1.1920928955078125e-07,
+   "reference": "onnxruntime 1.30.0 CPU (layout=0 twin + spec permutation)",
+   "note": "initializer weights, layout=1 reverse RNN"
+  },
+  {
+   "test": "test_rnnrt_gru_static_lbr_reverse_h0",
+   "op": "GRU",
+   "direction": "reverse",
+   "layout": 0,
+   "bias": true,
+   "initial_h": true,
+   "initial_c": false,
+   "outputs": [
+    "Y",
+    "Y_h"
+   ],
+   "weights": "initializers",
+   "linear_before_reset": 1,
+   "activations": null,
+   "clip": null,
+   "shape": {
+    "seq": 3,
+    "batch": 2,
+    "input": 3,
+    "hidden": 4
+   },
+   "graph_inputs": [
+    "X",
+    "initial_h"
+   ],
+   "onnxruntime_vs_onnx_reference_maxabs": 7.82310962677002e-08,
+   "reference": "onnxruntime 1.30.0 CPU",
+   "note": "initializer weights, reverse GRU with linear_before_reset=1 and runtime initial_h"
+  }
+ ],
+ "reject": [
+  {
+   "file": "gru_mixed_weight_group.onnx",
+   "reason": "W is an initializer while R and B are graph inputs: the W/R/B group must be rejected, not partially lifted"
+  },
+  {
+   "file": "lstm_sequence_lens.onnx",
+   "reason": "sequence_lens input is not supported and must be rejected"
+  },
+  {
+   "file": "lstm_with_peepholes.onnx",
+   "reason": "LSTM peephole input P is not supported and must be rejected (upstream test_lstm_with_peepholes)"
+  }
+ ]
+}

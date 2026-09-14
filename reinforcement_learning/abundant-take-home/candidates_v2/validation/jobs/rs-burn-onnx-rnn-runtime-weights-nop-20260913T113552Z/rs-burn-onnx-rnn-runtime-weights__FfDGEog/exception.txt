@@ -1,0 +1,511 @@
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment rs-burn-onnx-rnn-runtime-weights. Command: docker compose --project-name rs-burn-onnx-rnn-runtime-weights__ffdgeog --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/rs-burn-onnx-rnn-runtime-weights/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpli815uic/rs-burn-onnx-rnn-runtime-weights__FfDGEog-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpl_gavrj_/docker-compose-mounts.json build. Return code: 1. Stdout:  Image rs-burn-onnx-rnn-runtime-weights__ffdgeog-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 792B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 3.13kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/10] FROM docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57
+#5 resolve docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/10] RUN python3 -m venv /opt/py && /opt/py/bin/pip install --no-cache-dir onnx==1.19.0 numpy==2.4.6
+#7 CACHED
+
+#8 [ 3/10] RUN apt-get update && apt-get install -y --no-install-recommends         ca-certificates git curl pkg-config python3 python3-venv     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [ 5/10] RUN cargo install cargo-insta --version 1.48.0
+#9 CACHED
+
+#10 [ 6/10] WORKDIR /workspace/repo
+#10 CACHED
+
+#11 [ 8/10] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "tracel-ai/burn-onnx @ 6fc6bacec1c5264d1160efd4e2c904591082e2f8"
+#11 CACHED
+
+#12 [ 2/10] RUN mkdir -p "/usr/local/cargo" && printf '[target.aarch64-unknown-linux-gnu]\nrustflags = ["-C", "target-feature=+fp16"]\n' >> "/usr/local/cargo/config.toml"
+#12 CACHED
+
+#13 [ 7/10] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#13 CACHED
+
+#14 [ 9/10] RUN cargo fetch --locked
+#14 CACHED
+
+#15 [10/10] RUN cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests
+#15 0.132 warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+#15 0.132 package:   /workspace/repo/examples/raspberry-pi-pico/Cargo.toml
+#15 0.132 workspace: /workspace/repo/Cargo.toml
+#15 0.572    Compiling proc-macro2 v1.0.107
+#15 0.572    Compiling unicode-ident v1.0.24
+#15 0.572    Compiling quote v1.0.47
+#15 0.572    Compiling cfg-if v1.0.4
+#15 0.585    Compiling serde_core v1.0.229
+#15 0.600    Compiling serde v1.0.229
+#15 0.677    Compiling libm v0.2.16
+#15 0.711    Compiling once_cell v1.21.4
+#15 0.766    Compiling autocfg v1.5.0
+#15 0.781    Compiling memchr v2.8.0
+#15 0.941    Compiling num-traits v0.2.19
+#15 0.957    Compiling syn v2.0.119
+#15 0.976    Compiling syn v3.0.3
+#15 1.443    Compiling zerocopy v0.8.48
+#15 1.566    Compiling version_check v0.9.5
+#15 1.574    Compiling libc v0.2.186
+#15 1.649    Compiling equivalent v1.0.2
+#15 1.663    Compiling pin-project-lite v0.2.17
+#15 1.683    Compiling crossbeam-utils v0.8.21
+#15 1.859    Compiling parking v2.2.1
+#15 1.898    Compiling getrandom v0.4.2
+#15 1.980    Compiling paste v1.0.15
+#15 1.982    Compiling cfg_aliases v0.2.2
+#15 1.997    Compiling zmij v1.0.21
+#15 2.073    Compiling scopeguard v1.2.0
+#15 2.087    Compiling rand_core v0.10.1
+#15 2.093    Compiling lock_api v0.4.14
+#15 2.139    Compiling concurrent-queue v2.5.0
+#15 2.155    Compiling pulp v0.22.2
+#15 2.193    Compiling parking_lot_core v0.9.12
+#15 2.257    Compiling serde_json v1.0.150
+#15 2.274    Compiling fnv v1.0.7
+#15 2.292    Compiling object v0.37.3
+#15 2.330    Compiling allocator-api2 v0.2.21
+#15 2.381    Compiling foldhash v0.2.0
+#15 2.414    Compiling bytemuck_derive v1.10.2
+#15 2.418    Compiling zerocopy-derive v0.8.48
+#15 2.426    Compiling ident_case v1.0.1
+#15 2.450    Compiling darling_core v0.21.3
+#15 2.578    Compiling serde_derive v1.0.229
+#15 2.889    Compiling bytemuck v1.25.0
+#15 2.971    Compiling num-complex v0.4.6
+#15 3.093    Compiling event-listener v5.4.1
+#15 3.384    Compiling chacha20 v0.10.0
+#15 3.397    Compiling log v0.4.33
+#15 3.448    Compiling pulp-wasm-simd-flag v0.1.0
+#15 3.451    Compiling winnow v1.0.2
+#15 3.459    Compiling adler2 v2.0.1
+#15 3.487    Compiling bitflags v2.13.1
+#15 3.543    Compiling futures-core v0.3.32
+#15 3.562    Compiling ciborium-io v0.2.2
+#15 3.575    Compiling dyn-stack-macros v0.1.3
+#15 3.579    Compiling unicode-segmentation v1.13.2
+#15 3.676    Compiling gimli v0.32.3
+#15 3.707    Compiling reborrow v0.5.5
+#15 3.723    Compiling itoa v1.0.18
+#15 3.846    Compiling smallvec v1.15.1
+#15 4.145    Compiling convert_case v0.10.0
+#15 4.194    Compiling half v2.7.1
+#15 4.225    Compiling dyn-stack v0.13.2
+#15 4.295    Compiling toml_parser v1.1.2+spec-1.1.0
+#15 4.341    Compiling addr2line v0.25.1
+#15 4.427    Compiling ciborium-ll v0.2.2
+#15 4.448    Compiling raw-cpuid v11.6.0
+#15 4.482    Compiling miniz_oxide v0.8.9
+#15 4.517    Compiling rand v0.10.1
+#15 4.581    Compiling darling_macro v0.21.3
+#15 4.725    Compiling event-listener-strategy v0.5.4
+#15 4.807    Compiling derive-new v0.7.0
+#15 5.041    Compiling cubecl-environment v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 5.047    Compiling toml_datetime v1.1.1+spec-1.1.0
+#15 5.133    Compiling serde_spanned v1.1.1
+#15 5.144    Compiling portable-atomic v1.15.0
+#15 5.167    Compiling bytes v1.12.1
+#15 5.191    Compiling unicode-xid v0.2.6
+#15 5.215    Compiling futures-io v0.3.32
+#15 5.249    Compiling rustc-demangle v0.1.27
+#15 5.296    Compiling fastrand v2.4.1
+#15 5.354    Compiling toml_writer v1.1.1+spec-1.1.0
+#15 5.360    Compiling seq-macro v0.3.6
+#15 5.387    Compiling futures-lite v2.6.1
+#15 5.410    Compiling toml v1.1.2+spec-1.1.0
+#15 5.528    Compiling gemm-common v0.19.0
+#15 5.665    Compiling derive_more-impl v2.1.1
+#15 5.685    Compiling darling v0.21.3
+#15 5.699    Compiling async-channel v2.5.0
+#15 5.754    Compiling ciborium v0.2.2
+#15 5.945    Compiling backtrace v0.3.76
+#15 5.945    Compiling parking_lot v0.12.5
+#15 5.952    Compiling hashbrown v0.17.0
+#15 6.073    Compiling spin v0.12.2
+#15 6.130    Compiling cubecl-common v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 6.151    Compiling ahash v0.8.12
+#15 6.219    Compiling serde_bytes v0.11.19
+#15 6.224    Compiling aho-corasick v1.1.4
+#15 6.277    Compiling nom v8.0.0
+#15 6.445    Compiling etcetera v0.11.0
+#15 6.520    Compiling oneshot v0.2.1
+#15 6.567    Compiling web-time v1.1.0
+#15 6.582    Compiling regex-syntax v0.8.11
+#15 6.599    Compiling thiserror v2.0.18
+#15 6.721    Compiling embassy-futures v0.1.2
+#15 6.843    Compiling derive_more v2.1.1
+#15 6.880    Compiling enumset_derive v0.15.0
+#15 7.370    Compiling tynm v0.2.0
+#15 7.462    Compiling float8 v0.7.0
+#15 7.470    Compiling hashbrown v0.16.1
+#15 7.520    Compiling thiserror-impl v2.0.18
+#15 7.681    Compiling enumset v1.1.13
+#15 7.734    Compiling spin v0.11.1
+#15 7.813    Compiling cubecl-zspace v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 7.853    Compiling rand_distr v0.6.0
+#15 7.981    Compiling data-encoding v2.11.0
+#15 8.000    Compiling uuid v1.23.1
+#15 8.034    Compiling gemm-f32 v0.19.0
+#15 8.094    Compiling thiserror v1.0.69
+#15 8.119    Compiling burn-std v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 8.210    Compiling gemm-f64 v0.19.0
+#15 8.239    Compiling gemm-c32 v0.19.0
+#15 8.914    Compiling burn-backend v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 9.018    Compiling gemm-f16 v0.19.0
+#15 9.267    Compiling gemm-c64 v0.19.0
+#15 9.299    Compiling thiserror-impl v1.0.69
+#15 9.839    Compiling gemm v0.19.0
+#15 9.863    Compiling burn-ir v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 9.908    Compiling regex-automata v0.4.18
+#15 10.08    Compiling burn-dispatch v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 10.16    Compiling rustix v0.38.44
+#15 10.29    Compiling rustix v1.1.4
+#15 10.47    Compiling protobuf-support v3.7.2
+#15 10.63    Compiling anyhow v1.0.102
+#15 10.79    Compiling protobuf v3.7.2
+#15 10.82    Compiling linux-raw-sys v0.12.1
+#15 10.90    Compiling linux-raw-sys v0.4.15
+#15 11.59    Compiling burn-flex v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 11.70    Compiling either v1.15.0
+#15 11.76    Compiling colored v3.1.1
+#15 11.76    Compiling home v0.5.12
+#15 11.87    Compiling which v4.4.2
+#15 11.94    Compiling tempfile v3.27.0
+#15 11.96    Compiling indexmap v2.14.0
+#15 12.11    Compiling regex v1.13.1
+#15 12.25    Compiling byteorder v1.5.0
+#15 12.39    Compiling heck v0.5.0
+#15 12.46    Compiling burn-pack v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 12.89    Compiling burn-derive v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 13.45    Compiling protobuf-parse v3.7.2
+#15 13.58    Compiling utf8parse v0.2.2
+#15 13.61    Compiling syn v1.0.109
+#15 13.71    Compiling anstyle-parse v1.0.0
+#15 13.76    Compiling tracing-core v0.1.36
+#15 13.95    Compiling protobuf-codegen v3.7.2
+#15 14.08    Compiling anstyle-query v1.1.5
+#15 14.10    Compiling colorchoice v1.0.5
+#15 14.13    Compiling anstyle v1.0.14
+#15 14.19    Compiling is_terminal_polyfill v1.70.2
+#15 14.29    Compiling prettyplease v0.1.25
+#15 14.30    Compiling anstream v1.0.0
+#15 14.39    Compiling strum_macros v0.28.0
+#15 14.66    Compiling onnx-ir v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir)
+#15 15.10    Compiling memmap2 v0.9.11
+#15 15.16    Compiling strsim v0.11.1
+#15 15.16    Compiling clap_lex v1.1.0
+#15 15.21    Compiling lazy_static v1.5.0
+#15 15.23    Compiling sharded-slab v0.1.7
+#15 15.26    Compiling clap_builder v4.6.6
+#15 15.34    Compiling strum v0.28.0
+#15 15.63    Compiling tracing v0.1.44
+#15 15.69    Compiling tracing-log v0.2.0
+#15 15.75    Compiling clap_derive v4.6.4
+#15 16.36    Compiling matchers v0.2.0
+#15 16.39    Compiling safetensors v0.7.0
+#15 16.40    Compiling onnx-ir-derive v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir-derive)
+#15 16.62    Compiling thread_local v1.1.9
+#15 16.64    Compiling nu-ansi-term v0.50.3
+#15 16.68    Compiling textdistance v1.1.1
+#15 16.73    Compiling tracing-subscriber v0.3.23
+#15 16.77    Compiling clap v4.6.6
+#15 16.78    Compiling rust-format v0.3.4
+#15 19.94    Compiling burn-tensor v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 20.33    Compiling burn-core v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 20.96    Compiling burn-nn v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 21.67    Compiling burn-store v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 22.76    Compiling burn v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 23.96    Compiling burn-onnx v0.22.0-pre.1 (/workspace/repo/crates/burn-onnx)
+#15 28.47     Finished `dev` profile [unoptimized + debuginfo] target(s) in 28.35s
+#15 28.53 warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+#15 28.53 package:   /workspace/repo/examples/raspberry-pi-pico/Cargo.toml
+#15 28.53 workspace: /workspace/repo/Cargo.toml
+#15 29.30    Compiling syn v2.0.119
+#15 29.30    Compiling bitflags v2.13.1
+#15 29.30    Compiling fastrand v2.4.1
+#15 29.31    Compiling futures-core v0.3.32
+#15 29.34    Compiling async-channel v2.5.0
+#15 29.36    Compiling futures-lite v2.6.1
+#15 29.37    Compiling raw-cpuid v11.6.0
+#15 29.40    Compiling rustix v1.1.4
+#15 29.55    Compiling linux-raw-sys v0.12.1
+#15 29.59    Compiling winnow v1.0.2
+#15 29.99    Compiling toml_parser v1.1.2+spec-1.1.0
+#15 30.00    Compiling toml_datetime v1.1.1+spec-1.1.0
+#15 30.08    Compiling indexmap v2.14.0
+#15 30.18    Compiling rustix v0.38.44
+#15 30.28    Compiling tempfile v3.27.0
+#15 30.37    Compiling darling_core v0.21.3
+#15 30.40    Compiling terminal_size v0.4.4
+#15 30.43    Compiling clap_builder v4.6.6
+#15 30.75    Compiling which v4.4.2
+#15 30.82    Compiling byteorder v1.5.0
+#15 30.83    Compiling bytemuck_derive v1.10.2
+#15 30.89    Compiling zerocopy-derive v0.8.48
+#15 31.18    Compiling derive-new v0.7.0
+#15 31.29    Compiling bytemuck v1.25.0
+#15 31.37    Compiling darling_macro v0.21.3
+#15 31.42    Compiling derive_more-impl v2.1.1
+#15 31.43    Compiling zerocopy v0.8.48
+#15 31.59    Compiling darling v0.21.3
+#15 31.61    Compiling num-complex v0.4.6
+#15 31.64    Compiling enumset_derive v0.15.0
+#15 31.72    Compiling thiserror-impl v2.0.18
+#15 32.12    Compiling enumset v1.1.13
+#15 32.19    Compiling thiserror v2.0.18
+#15 32.22    Compiling cubecl-zspace v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 32.23    Compiling pulp v0.22.2
+#15 32.31    Compiling derive_more v2.1.1
+#15 32.34    Compiling dyn-stack v0.13.2
+#15 32.36    Compiling thiserror-impl v1.0.69
+#15 32.40    Compiling strum_macros v0.28.0
+#15 32.67    Compiling half v2.7.1
+#15 32.81    Compiling ciborium-ll v0.2.2
+#15 32.82    Compiling float8 v0.7.0
+#15 32.87    Compiling ciborium v0.2.2
+#15 32.87    Compiling ahash v0.8.12
+#15 32.92    Compiling thiserror v1.0.69
+#15 32.94    Compiling protobuf-support v3.7.2
+#15 33.06    Compiling cubecl-environment v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 33.08    Compiling protobuf v3.7.2
+#15 33.13    Compiling strum v0.28.0
+#15 33.15    Compiling clap v4.6.6
+#15 33.17    Compiling burn-derive v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 33.45    Compiling gemm-common v0.19.0
+#15 33.50    Compiling cubecl-common v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#15 33.58    Compiling gemm-f32 v0.19.0
+#15 33.68    Compiling gemm-f64 v0.19.0
+#15 33.89    Compiling gemm-f16 v0.19.0
+#15 34.45    Compiling gemm-c64 v0.19.0
+#15 34.45    Compiling gemm-c32 v0.19.0
+#15 34.57    Compiling protobuf-parse v3.7.2
+#15 35.20    Compiling gemm v0.19.0
+#15 35.22    Compiling burn-std v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 35.35    Compiling protobuf-codegen v3.7.2
+#15 35.43    Compiling toml v1.1.2+spec-1.1.0
+#15 35.47    Compiling tracing v0.1.44
+#15 35.53    Compiling tracing-subscriber v0.3.23
+#15 35.90    Compiling burn-backend v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 36.02    Compiling onnx-ir v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir)
+#15 36.25    Compiling burn-ir v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 36.73    Compiling console v0.16.3
+#15 36.82    Compiling similar v2.7.0
+#15 36.92    Compiling burn-pack v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 37.22    Compiling insta v1.48.0
+#15 37.34    Compiling shlex v1.3.0
+#15 37.39    Compiling find-msvc-tools v0.1.9
+#15 37.45    Compiling cc v1.2.61
+#15 37.83    Compiling burn-flex v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#15 38.35    Compiling vcpkg v0.2.15
+#15 38.54    Compiling pkg-config v0.3.33
+#15 38.56    Compiling semver v1.0.28
+#15 38.65    Compiling rustc_version v0.4.1
+#15 38.69    Compiling openssl-sys v0.9.117
+#15 38.72    Compiling rstest_macros v0.26.1
+#15 38.81    Compiling toml_edit v0.25.11+spec-1.1.0
+#15 38.90 warning: openssl-sys@0.9.117: Could not find directory of OpenSSL installation, and this `-sys` crate cannot proceed without this knowledge. If OpenSSL is installed and this crate had trouble finding it,  you can set the `OPENSSL_DIR` environment variable for the compilation process. See stderr section below for further information.
+#15 38.90 error: failed to run custom build command for `openssl-sys v0.9.117`
+#15 38.90 
+#15 38.90 Caused by:
+#15 38.90   process didn't exit successfully: `/workspace/repo/target/debug/build/openssl-sys-3ef2dbbf4d19883b/build-script-main` (exit status: 101)
+#15 38.90   --- stdout
+#15 38.90   cargo:rustc-check-cfg=cfg(osslconf, values("OPENSSL_NO_OCB", "OPENSSL_NO_SM4", "OPENSSL_NO_SEED", "OPENSSL_NO_CHACHA", "OPENSSL_NO_CAST", "OPENSSL_NO_IDEA", "OPENSSL_NO_CAMELLIA", "OPENSSL_NO_RC4", "OPENSSL_NO_BF", "OPENSSL_NO_PSK", "OPENSSL_NO_DEPRECATED_3_0", "OPENSSL_NO_SCRYPT", "OPENSSL_NO_SM3", "OPENSSL_NO_RMD160", "OPENSSL_NO_EC2M", "OPENSSL_NO_OCSP", "OPENSSL_NO_CMS", "OPENSSL_NO_COMP", "OPENSSL_NO_SOCK", "OPENSSL_NO_STDIO", "OPENSSL_NO_EC", "OPENSSL_NO_SSL3_METHOD", "OPENSSL_NO_KRB5", "OPENSSL_NO_TLSEXT", "OPENSSL_NO_SRP", "OPENSSL_NO_SRTP", "OPENSSL_NO_RFC3779", "OPENSSL_NO_SHA", "OPENSSL_NO_NEXTPROTONEG", "OPENSSL_NO_ENGINE", "OPENSSL_NO_BUF_FREELISTS", "OPENSSL_NO_RC2"))
+#15 38.90   cargo:rustc-check-cfg=cfg(openssl)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl)
+#15 38.90   cargo:rustc-check-cfg=cfg(boringssl)
+#15 38.90   cargo:rustc-check-cfg=cfg(awslc)
+#15 38.90   cargo:rustc-check-cfg=cfg(awslc_pregenerated)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl250)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl251)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl252)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl261)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl270)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl271)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl273)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl280)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl281)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl291)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl310)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl321)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl332)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl340)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl350)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl360)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl361)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl370)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl380)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl381)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl382)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl390)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl400)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl410)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl420)
+#15 38.90   cargo:rustc-check-cfg=cfg(libressl430)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl101)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl102)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl102f)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl102h)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl110)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl110f)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl110g)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl110h)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl111)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl111b)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl111c)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl111d)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl300)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl310)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl320)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl330)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl340)
+#15 38.90   cargo:rustc-check-cfg=cfg(ossl400)
+#15 38.90   cargo:rerun-if-env-changed=AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_LIB_DIR
+#15 38.90   AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_LIB_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_LIB_DIR
+#15 38.90   OPENSSL_LIB_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_INCLUDE_DIR
+#15 38.90   AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_INCLUDE_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_INCLUDE_DIR
+#15 38.90   OPENSSL_INCLUDE_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_DIR
+#15 38.90   AARCH64_UNKNOWN_LINUX_GNU_OPENSSL_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_DIR
+#15 38.90   OPENSSL_DIR unset
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_NO_PKG_CONFIG
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_aarch64-unknown-linux-gnu
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_aarch64_unknown_linux_gnu
+#15 38.90   cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_STATIC
+#15 38.90   cargo:rerun-if-env-changed=OPENSSL_DYNAMIC
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_ALL_STATIC
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_ALL_DYNAMIC
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_PATH_aarch64-unknown-linux-gnu
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_PATH_aarch64_unknown_linux_gnu
+#15 38.90   cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_aarch64-unknown-linux-gnu
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_aarch64_unknown_linux_gnu
+#15 38.90   cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_aarch64-unknown-linux-gnu
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_aarch64_unknown_linux_gnu
+#15 38.90   cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+#15 38.90   cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+#15 38.90 
+#15 38.90 
+#15 38.90   Could not find openssl via pkg-config:
+#15 38.90 
+#15 38.90   pkg-config exited with status code 1
+#15 38.90   > PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags openssl
+#15 38.90 
+#15 38.90   pkg-config output:
+#15 38.90     Package openssl was not found in the pkg-config search path.
+#15 38.90     Perhaps you should add the directory containing `openssl.pc'
+#15 38.90     to the PKG_CONFIG_PATH environment variable
+#15 38.90     Package 'openssl', required by 'virtual:world', not found
+#15 38.90 
+#15 38.90   The system library `openssl` required by crate `openssl-sys` was not found.
+#15 38.90   The file `openssl.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+#15 38.90   The PKG_CONFIG_PATH environment variable is not set.
+#15 38.90 
+#15 38.90   HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `openssl.pc`.
+#15 38.90 
+#15 38.90 
+#15 38.90   cargo:warning=Could not find directory of OpenSSL installation, and this `-sys` crate cannot proceed without this knowledge. If OpenSSL is installed and this crate had trouble finding it,  you can set the `OPENSSL_DIR` environment variable for the compilation process. See stderr section below for further information.
+#15 38.90 
+#15 38.90   --- stderr
+#15 38.90 
+#15 38.90 
+#15 38.90   Could not find directory of OpenSSL installation, and this `-sys` crate cannot
+#15 38.90   proceed without this knowledge. If OpenSSL is installed and this crate had
+#15 38.90   trouble finding it,  you can set the `OPENSSL_DIR` environment variable for the
+#15 38.90   compilation process.
+#15 38.90 
+#15 38.90   Make sure you also have the development packages of openssl installed.
+#15 38.90   For example, `libssl-dev` on Ubuntu or `openssl-devel` on Fedora.
+#15 38.90 
+#15 38.90   If you're in a situation where you think the directory *should* be found
+#15 38.90   automatically, please open a bug at https://github.com/rust-openssl/rust-openssl
+#15 38.90   and include information about your system as well as this message.
+#15 38.90 
+#15 38.90   $HOST = aarch64-unknown-linux-gnu
+#15 38.90   $TARGET = aarch64-unknown-linux-gnu
+#15 38.90   openssl-sys = 0.9.117
+#15 38.90 
+#15 38.90 
+#15 38.90 warning: build failed, waiting for other jobs to finish...
+#15 ERROR: process "/bin/sh -c cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests" did not complete successfully: exit code: 101
+------
+ > [10/10] RUN cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests:
+38.90   If you're in a situation where you think the directory *should* be found
+38.90   automatically, please open a bug at https://github.com/rust-openssl/rust-openssl
+38.90   and include information about your system as well as this message.
+38.90 
+38.90   $HOST = aarch64-unknown-linux-gnu
+38.90   $TARGET = aarch64-unknown-linux-gnu
+38.90   openssl-sys = 0.9.117
+38.90 
+38.90 
+38.90 warning: build failed, waiting for other jobs to finish...
+------
+Dockerfile:46
+
+--------------------
+
+  45 |     # use it.
+
+  46 | >>> RUN cargo build -p burn-onnx --bin onnx2burn --locked \
+
+  47 | >>>     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests
+
+  48 |     
+
+--------------------
+
+failed to solve: process "/bin/sh -c cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests" did not complete successfully: exit code: 101
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/3z8f9exh7qx7qw5yp7r11b58l
+
+. Stderr: None. 

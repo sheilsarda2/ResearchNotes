@@ -1,0 +1,1583 @@
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment rs-burn-onnx-rnn-runtime-weights. Command: docker compose --project-name rs-burn-onnx-rnn-runtime-weights__ecwe5yj --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/rs-burn-onnx-rnn-runtime-weights/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp_xp1zxfx/rs-burn-onnx-rnn-runtime-weights__ecWE5YJ-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp8w2sfq7z/docker-compose-mounts.json build. Return code: 1. Stdout:  Image rs-burn-onnx-rnn-runtime-weights__ecwe5yj-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 792B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.52kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [1/9] FROM docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57
+#5 resolve docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57 done
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 31.99MB 0.2s done
+#6 DONE 0.2s
+
+#7 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends         ca-certificates git curl pkg-config python3 python3-venv     && rm -rf /var/lib/apt/lists/*
+#7 0.364 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#7 0.973 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#7 1.045 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#7 1.128 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8689 kB]
+#7 5.495 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#7 5.533 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [335 kB]
+#7 6.044 Fetched 9273 kB in 6s (1602 kB/s)
+#7 6.044 Reading package lists...
+#7 6.327 Reading package lists...
+#7 6.620 Building dependency tree...
+#7 6.707 Reading state information...
+#7 6.819 ca-certificates is already the newest version (20250419~deb12u1).
+#7 6.819 The following additional packages will be installed:
+#7 6.819   git-man libbrotli1 libcurl3-gnutls libcurl4 liberror-perl libexpat1
+#7 6.820   libgdbm-compat4 libgdbm6 libldap-2.5-0 libncursesw6 libnghttp2-14
+#7 6.820   libperl5.36 libpkgconf3 libpsl5 libpython3-stdlib libpython3.11-minimal
+#7 6.820   libpython3.11-stdlib libreadline8 librtmp1 libsasl2-2 libsasl2-modules-db
+#7 6.820   libsqlite3-0 libssh2-1 media-types perl perl-modules-5.36 pkgconf
+#7 6.820   pkgconf-bin python3-distutils python3-lib2to3 python3-minimal
+#7 6.820   python3-pip-whl python3-setuptools-whl python3.11 python3.11-minimal
+#7 6.820   python3.11-venv readline-common
+#7 6.820 Suggested packages:
+#7 6.820   gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+#7 6.820   gitk gitweb git-cvs git-mediawiki git-svn gdbm-l10n sensible-utils perl-doc
+#7 6.820   libterm-readline-gnu-perl | libterm-readline-perl-perl make
+#7 6.820   libtap-harness-archive-perl python3-doc python3-tk python3.11-doc
+#7 6.820   binfmt-support readline-doc
+#7 6.820 Recommended packages:
+#7 6.820   patch less ssh-client libldap-common libgpm2 publicsuffix libsasl2-modules
+#7 6.820   netbase
+#7 7.036 The following NEW packages will be installed:
+#7 7.036   curl git git-man libbrotli1 libcurl3-gnutls libcurl4 liberror-perl libexpat1
+#7 7.036   libgdbm-compat4 libgdbm6 libldap-2.5-0 libncursesw6 libnghttp2-14
+#7 7.036   libperl5.36 libpkgconf3 libpsl5 libpython3-stdlib libpython3.11-minimal
+#7 7.036   libpython3.11-stdlib libreadline8 librtmp1 libsasl2-2 libsasl2-modules-db
+#7 7.036   libsqlite3-0 libssh2-1 media-types perl perl-modules-5.36 pkg-config pkgconf
+#7 7.037   pkgconf-bin python3 python3-distutils python3-lib2to3 python3-minimal
+#7 7.037   python3-pip-whl python3-setuptools-whl python3-venv python3.11
+#7 7.037   python3.11-minimal python3.11-venv readline-common
+#7 7.156 0 upgraded, 42 newly installed, 0 to remove and 1 not upgraded.
+#7 7.156 Need to get 27.8 MB of archives.
+#7 7.156 After this operation, 135 MB of additional disk space will be used.
+#7 7.156 Get:1 http://deb.debian.org/debian bookworm/main arm64 perl-modules-5.36 all 5.36.0-7+deb12u3 [2815 kB]
+#7 7.343 Get:2 http://deb.debian.org/debian bookworm/main arm64 libgdbm6 arm64 1.23-3 [70.9 kB]
+#7 7.344 Get:3 http://deb.debian.org/debian bookworm/main arm64 libgdbm-compat4 arm64 1.23-3 [48.0 kB]
+#7 7.366 Get:4 http://deb.debian.org/debian bookworm/main arm64 libperl5.36 arm64 5.36.0-7+deb12u3 [4009 kB]
+#7 7.511 Get:5 http://deb.debian.org/debian bookworm/main arm64 perl arm64 5.36.0-7+deb12u3 [239 kB]
+#7 7.642 Get:6 http://deb.debian.org/debian bookworm/main arm64 libpython3.11-minimal arm64 3.11.2-6+deb12u8 [811 kB]
+#7 7.660 Get:7 http://deb.debian.org/debian-security bookworm-security/main arm64 libexpat1 arm64 2.5.0-1+deb12u3 [87.9 kB]
+#7 7.661 Get:8 http://deb.debian.org/debian bookworm/main arm64 python3.11-minimal arm64 3.11.2-6+deb12u8 [1861 kB]
+#7 7.686 Get:9 http://deb.debian.org/debian bookworm/main arm64 python3-minimal arm64 3.11.2-1+b1 [26.3 kB]
+#7 7.686 Get:10 http://deb.debian.org/debian bookworm/main arm64 media-types all 10.0.0 [26.1 kB]
+#7 7.686 Get:11 http://deb.debian.org/debian bookworm/main arm64 libncursesw6 arm64 6.4-4 [122 kB]
+#7 7.687 Get:12 http://deb.debian.org/debian bookworm/main arm64 readline-common all 8.2-1.3 [69.0 kB]
+#7 7.699 Get:13 http://deb.debian.org/debian bookworm/main arm64 libreadline8 arm64 8.2-1.3 [155 kB]
+#7 7.721 Get:14 http://deb.debian.org/debian bookworm/main arm64 libsqlite3-0 arm64 3.40.1-2+deb12u2 [786 kB]
+#7 7.766 Get:15 http://deb.debian.org/debian bookworm/main arm64 libpython3.11-stdlib arm64 3.11.2-6+deb12u8 [1750 kB]
+#7 7.796 Get:16 http://deb.debian.org/debian bookworm/main arm64 python3.11 arm64 3.11.2-6+deb12u8 [574 kB]
+#7 7.807 Get:17 http://deb.debian.org/debian bookworm/main arm64 libpython3-stdlib arm64 3.11.2-1+b1 [9296 B]
+#7 7.807 Get:18 http://deb.debian.org/debian bookworm/main arm64 python3 arm64 3.11.2-1+b1 [26.3 kB]
+#7 7.808 Get:19 http://deb.debian.org/debian bookworm/main arm64 libbrotli1 arm64 1.0.9-2+b6 [269 kB]
+#7 7.815 Get:20 http://deb.debian.org/debian bookworm/main arm64 libsasl2-modules-db arm64 2.1.28+dfsg-10 [20.8 kB]
+#7 7.815 Get:21 http://deb.debian.org/debian bookworm/main arm64 libsasl2-2 arm64 2.1.28+dfsg-10 [58.0 kB]
+#7 7.878 Get:22 http://deb.debian.org/debian bookworm/main arm64 libldap-2.5-0 arm64 2.5.13+dfsg-5 [171 kB]
+#7 7.885 Get:23 http://deb.debian.org/debian bookworm/main arm64 libnghttp2-14 arm64 1.52.0-1+deb12u3 [69.0 kB]
+#7 7.886 Get:24 http://deb.debian.org/debian bookworm/main arm64 libpsl5 arm64 0.21.2-1 [58.6 kB]
+#7 7.886 Get:25 http://deb.debian.org/debian bookworm/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b2 [59.4 kB]
+#7 7.886 Get:26 http://deb.debian.org/debian-security bookworm-security/main arm64 libssh2-1 arm64 1.10.0-3+deb12u1 [169 kB]
+#7 7.888 Get:27 http://deb.debian.org/debian bookworm/main arm64 libcurl4 arm64 7.88.1-10+deb12u15 [367 kB]
+#7 7.900 Get:28 http://deb.debian.org/debian bookworm/main arm64 curl arm64 7.88.1-10+deb12u15 [310 kB]
+#7 7.956 Get:29 http://deb.debian.org/debian bookworm/main arm64 libcurl3-gnutls arm64 7.88.1-10+deb12u15 [362 kB]
+#7 7.989 Get:30 http://deb.debian.org/debian bookworm/main arm64 liberror-perl all 0.17029-2 [29.0 kB]
+#7 7.991 Get:31 http://deb.debian.org/debian bookworm/main arm64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+#7 8.045 Get:32 http://deb.debian.org/debian bookworm/main arm64 git arm64 1:2.39.5-0+deb12u3 [7153 kB]
+#7 8.193 Get:33 http://deb.debian.org/debian bookworm/main arm64 libpkgconf3 arm64 1.8.1-1 [35.3 kB]
+#7 8.193 Get:34 http://deb.debian.org/debian bookworm/main arm64 pkgconf-bin arm64 1.8.1-1 [28.9 kB]
+#7 8.194 Get:35 http://deb.debian.org/debian bookworm/main arm64 pkgconf arm64 1.8.1-1 [25.9 kB]
+#7 8.194 Get:36 http://deb.debian.org/debian bookworm/main arm64 pkg-config arm64 1.8.1-1 [13.7 kB]
+#7 8.195 Get:37 http://deb.debian.org/debian bookworm/main arm64 python3-lib2to3 all 3.11.2-3 [76.3 kB]
+#7 8.207 Get:38 http://deb.debian.org/debian bookworm/main arm64 python3-distutils all 3.11.2-3 [131 kB]
+#7 8.224 Get:39 http://deb.debian.org/debian bookworm/main arm64 python3-pip-whl all 23.0.1+dfsg-1 [1717 kB]
+#7 8.271 Get:40 http://deb.debian.org/debian bookworm/main arm64 python3-setuptools-whl all 66.1.1-1+deb12u2 [1112 kB]
+#7 8.289 Get:41 http://deb.debian.org/debian bookworm/main arm64 python3.11-venv arm64 3.11.2-6+deb12u8 [5888 B]
+#7 8.290 Get:42 http://deb.debian.org/debian bookworm/main arm64 python3-venv arm64 3.11.2-1+b1 [1200 B]
+#7 8.378 debconf: delaying package configuration, since apt-utils is not installed
+#7 8.393 Fetched 27.8 MB in 1s (22.2 MB/s)
+#7 8.405 Selecting previously unselected package perl-modules-5.36.
+#7 8.405 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9060 files and directories currently installed.)
+#7 8.431 Preparing to unpack .../0-perl-modules-5.36_5.36.0-7+deb12u3_all.deb ...
+#7 8.432 Unpacking perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#7 8.586 Selecting previously unselected package libgdbm6:arm64.
+#7 8.587 Preparing to unpack .../1-libgdbm6_1.23-3_arm64.deb ...
+#7 8.590 Unpacking libgdbm6:arm64 (1.23-3) ...
+#7 8.606 Selecting previously unselected package libgdbm-compat4:arm64.
+#7 8.607 Preparing to unpack .../2-libgdbm-compat4_1.23-3_arm64.deb ...
+#7 8.608 Unpacking libgdbm-compat4:arm64 (1.23-3) ...
+#7 8.624 Selecting previously unselected package libperl5.36:arm64.
+#7 8.625 Preparing to unpack .../3-libperl5.36_5.36.0-7+deb12u3_arm64.deb ...
+#7 8.626 Unpacking libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#7 8.820 Selecting previously unselected package perl.
+#7 8.821 Preparing to unpack .../4-perl_5.36.0-7+deb12u3_arm64.deb ...
+#7 8.825 Unpacking perl (5.36.0-7+deb12u3) ...
+#7 8.853 Selecting previously unselected package libpython3.11-minimal:arm64.
+#7 8.854 Preparing to unpack .../5-libpython3.11-minimal_3.11.2-6+deb12u8_arm64.deb ...
+#7 8.856 Unpacking libpython3.11-minimal:arm64 (3.11.2-6+deb12u8) ...
+#7 8.901 Selecting previously unselected package libexpat1:arm64.
+#7 8.902 Preparing to unpack .../6-libexpat1_2.5.0-1+deb12u3_arm64.deb ...
+#7 8.903 Unpacking libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#7 8.921 Selecting previously unselected package python3.11-minimal.
+#7 8.922 Preparing to unpack .../7-python3.11-minimal_3.11.2-6+deb12u8_arm64.deb ...
+#7 8.927 Unpacking python3.11-minimal (3.11.2-6+deb12u8) ...
+#7 9.012 Setting up libpython3.11-minimal:arm64 (3.11.2-6+deb12u8) ...
+#7 9.017 Setting up libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#7 9.021 Setting up python3.11-minimal (3.11.2-6+deb12u8) ...
+#7 9.284 Selecting previously unselected package python3-minimal.
+#7 9.284 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11387 files and directories currently installed.)
+#7 9.287 Preparing to unpack .../0-python3-minimal_3.11.2-1+b1_arm64.deb ...
+#7 9.288 Unpacking python3-minimal (3.11.2-1+b1) ...
+#7 9.298 Selecting previously unselected package media-types.
+#7 9.299 Preparing to unpack .../1-media-types_10.0.0_all.deb ...
+#7 9.300 Unpacking media-types (10.0.0) ...
+#7 9.310 Selecting previously unselected package libncursesw6:arm64.
+#7 9.311 Preparing to unpack .../2-libncursesw6_6.4-4_arm64.deb ...
+#7 9.312 Unpacking libncursesw6:arm64 (6.4-4) ...
+#7 9.326 Selecting previously unselected package readline-common.
+#7 9.327 Preparing to unpack .../3-readline-common_8.2-1.3_all.deb ...
+#7 9.328 Unpacking readline-common (8.2-1.3) ...
+#7 9.340 Selecting previously unselected package libreadline8:arm64.
+#7 9.340 Preparing to unpack .../4-libreadline8_8.2-1.3_arm64.deb ...
+#7 9.341 Unpacking libreadline8:arm64 (8.2-1.3) ...
+#7 9.359 Selecting previously unselected package libsqlite3-0:arm64.
+#7 9.360 Preparing to unpack .../5-libsqlite3-0_3.40.1-2+deb12u2_arm64.deb ...
+#7 9.361 Unpacking libsqlite3-0:arm64 (3.40.1-2+deb12u2) ...
+#7 9.395 Selecting previously unselected package libpython3.11-stdlib:arm64.
+#7 9.396 Preparing to unpack .../6-libpython3.11-stdlib_3.11.2-6+deb12u8_arm64.deb ...
+#7 9.397 Unpacking libpython3.11-stdlib:arm64 (3.11.2-6+deb12u8) ...
+#7 9.500 Selecting previously unselected package python3.11.
+#7 9.501 Preparing to unpack .../7-python3.11_3.11.2-6+deb12u8_arm64.deb ...
+#7 9.503 Unpacking python3.11 (3.11.2-6+deb12u8) ...
+#7 9.528 Selecting previously unselected package libpython3-stdlib:arm64.
+#7 9.529 Preparing to unpack .../8-libpython3-stdlib_3.11.2-1+b1_arm64.deb ...
+#7 9.531 Unpacking libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+#7 9.549 Setting up python3-minimal (3.11.2-1+b1) ...
+#7 9.610 Selecting previously unselected package python3.
+#7 9.610 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11838 files and directories currently installed.)
+#7 9.613 Preparing to unpack .../00-python3_3.11.2-1+b1_arm64.deb ...
+#7 9.617 Unpacking python3 (3.11.2-1+b1) ...
+#7 9.629 Selecting previously unselected package libbrotli1:arm64.
+#7 9.629 Preparing to unpack .../01-libbrotli1_1.0.9-2+b6_arm64.deb ...
+#7 9.630 Unpacking libbrotli1:arm64 (1.0.9-2+b6) ...
+#7 9.649 Selecting previously unselected package libsasl2-modules-db:arm64.
+#7 9.650 Preparing to unpack .../02-libsasl2-modules-db_2.1.28+dfsg-10_arm64.deb ...
+#7 9.651 Unpacking libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#7 9.663 Selecting previously unselected package libsasl2-2:arm64.
+#7 9.665 Preparing to unpack .../03-libsasl2-2_2.1.28+dfsg-10_arm64.deb ...
+#7 9.667 Unpacking libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#7 9.680 Selecting previously unselected package libldap-2.5-0:arm64.
+#7 9.680 Preparing to unpack .../04-libldap-2.5-0_2.5.13+dfsg-5_arm64.deb ...
+#7 9.681 Unpacking libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#7 9.701 Selecting previously unselected package libnghttp2-14:arm64.
+#7 9.702 Preparing to unpack .../05-libnghttp2-14_1.52.0-1+deb12u3_arm64.deb ...
+#7 9.703 Unpacking libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#7 9.715 Selecting previously unselected package libpsl5:arm64.
+#7 9.716 Preparing to unpack .../06-libpsl5_0.21.2-1_arm64.deb ...
+#7 9.717 Unpacking libpsl5:arm64 (0.21.2-1) ...
+#7 9.730 Selecting previously unselected package librtmp1:arm64.
+#7 9.730 Preparing to unpack .../07-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_arm64.deb ...
+#7 9.731 Unpacking librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#7 9.743 Selecting previously unselected package libssh2-1:arm64.
+#7 9.744 Preparing to unpack .../08-libssh2-1_1.10.0-3+deb12u1_arm64.deb ...
+#7 9.745 Unpacking libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#7 9.759 Selecting previously unselected package libcurl4:arm64.
+#7 9.759 Preparing to unpack .../09-libcurl4_7.88.1-10+deb12u15_arm64.deb ...
+#7 9.760 Unpacking libcurl4:arm64 (7.88.1-10+deb12u15) ...
+#7 9.781 Selecting previously unselected package curl.
+#7 9.782 Preparing to unpack .../10-curl_7.88.1-10+deb12u15_arm64.deb ...
+#7 9.783 Unpacking curl (7.88.1-10+deb12u15) ...
+#7 9.804 Selecting previously unselected package libcurl3-gnutls:arm64.
+#7 9.805 Preparing to unpack .../11-libcurl3-gnutls_7.88.1-10+deb12u15_arm64.deb ...
+#7 9.806 Unpacking libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#7 9.883 Selecting previously unselected package liberror-perl.
+#7 9.883 Preparing to unpack .../12-liberror-perl_0.17029-2_all.deb ...
+#7 9.884 Unpacking liberror-perl (0.17029-2) ...
+#7 9.894 Selecting previously unselected package git-man.
+#7 9.895 Preparing to unpack .../13-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+#7 9.896 Unpacking git-man (1:2.39.5-0+deb12u3) ...
+#7 9.949 Selecting previously unselected package git.
+#7 9.950 Preparing to unpack .../14-git_1%3a2.39.5-0+deb12u3_arm64.deb ...
+#7 9.953 Unpacking git (1:2.39.5-0+deb12u3) ...
+#7 10.13 Selecting previously unselected package libpkgconf3:arm64.
+#7 10.13 Preparing to unpack .../15-libpkgconf3_1.8.1-1_arm64.deb ...
+#7 10.13 Unpacking libpkgconf3:arm64 (1.8.1-1) ...
+#7 10.14 Selecting previously unselected package pkgconf-bin.
+#7 10.14 Preparing to unpack .../16-pkgconf-bin_1.8.1-1_arm64.deb ...
+#7 10.14 Unpacking pkgconf-bin (1.8.1-1) ...
+#7 10.15 Selecting previously unselected package pkgconf:arm64.
+#7 10.16 Preparing to unpack .../17-pkgconf_1.8.1-1_arm64.deb ...
+#7 10.16 Unpacking pkgconf:arm64 (1.8.1-1) ...
+#7 10.17 Selecting previously unselected package pkg-config:arm64.
+#7 10.17 Preparing to unpack .../18-pkg-config_1.8.1-1_arm64.deb ...
+#7 10.17 Unpacking pkg-config:arm64 (1.8.1-1) ...
+#7 10.18 Selecting previously unselected package python3-lib2to3.
+#7 10.18 Preparing to unpack .../19-python3-lib2to3_3.11.2-3_all.deb ...
+#7 10.18 Unpacking python3-lib2to3 (3.11.2-3) ...
+#7 10.19 Selecting previously unselected package python3-distutils.
+#7 10.20 Preparing to unpack .../20-python3-distutils_3.11.2-3_all.deb ...
+#7 10.20 Unpacking python3-distutils (3.11.2-3) ...
+#7 10.21 Selecting previously unselected package python3-pip-whl.
+#7 10.21 Preparing to unpack .../21-python3-pip-whl_23.0.1+dfsg-1_all.deb ...
+#7 10.21 Unpacking python3-pip-whl (23.0.1+dfsg-1) ...
+#7 10.26 Selecting previously unselected package python3-setuptools-whl.
+#7 10.27 Preparing to unpack .../22-python3-setuptools-whl_66.1.1-1+deb12u2_all.deb ...
+#7 10.27 Unpacking python3-setuptools-whl (66.1.1-1+deb12u2) ...
+#7 10.30 Selecting previously unselected package python3.11-venv.
+#7 10.30 Preparing to unpack .../23-python3.11-venv_3.11.2-6+deb12u8_arm64.deb ...
+#7 10.30 Unpacking python3.11-venv (3.11.2-6+deb12u8) ...
+#7 10.31 Selecting previously unselected package python3-venv.
+#7 10.31 Preparing to unpack .../24-python3-venv_3.11.2-1+b1_arm64.deb ...
+#7 10.31 Unpacking python3-venv (3.11.2-1+b1) ...
+#7 10.32 Setting up media-types (10.0.0) ...
+#7 10.33 Setting up python3-setuptools-whl (66.1.1-1+deb12u2) ...
+#7 10.33 Setting up libpsl5:arm64 (0.21.2-1) ...
+#7 10.33 Setting up python3-pip-whl (23.0.1+dfsg-1) ...
+#7 10.34 Setting up libbrotli1:arm64 (1.0.9-2+b6) ...
+#7 10.34 Setting up libsqlite3-0:arm64 (3.40.1-2+deb12u2) ...
+#7 10.34 Setting up libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#7 10.35 Setting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#7 10.35 Setting up perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#7 10.35 Setting up libpkgconf3:arm64 (1.8.1-1) ...
+#7 10.35 Setting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#7 10.36 Setting up pkgconf-bin (1.8.1-1) ...
+#7 10.36 Setting up libncursesw6:arm64 (6.4-4) ...
+#7 10.36 Setting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#7 10.36 Setting up git-man (1:2.39.5-0+deb12u3) ...
+#7 10.37 Setting up libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#7 10.37 Setting up readline-common (8.2-1.3) ...
+#7 10.38 Setting up libgdbm6:arm64 (1.23-3) ...
+#7 10.38 Setting up libreadline8:arm64 (8.2-1.3) ...
+#7 10.38 Setting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#7 10.38 Setting up pkgconf:arm64 (1.8.1-1) ...
+#7 10.39 Setting up pkg-config:arm64 (1.8.1-1) ...
+#7 10.39 Setting up libgdbm-compat4:arm64 (1.23-3) ...
+#7 10.40 Setting up libcurl4:arm64 (7.88.1-10+deb12u15) ...
+#7 10.40 Setting up curl (7.88.1-10+deb12u15) ...
+#7 10.40 Setting up libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#7 10.40 Setting up libpython3.11-stdlib:arm64 (3.11.2-6+deb12u8) ...
+#7 10.41 Setting up libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#7 10.41 Setting up perl (5.36.0-7+deb12u3) ...
+#7 10.41 Setting up libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+#7 10.42 Setting up python3.11 (3.11.2-6+deb12u8) ...
+#7 10.69 Setting up python3 (3.11.2-1+b1) ...
+#7 10.72 Setting up liberror-perl (0.17029-2) ...
+#7 10.73 Setting up git (1:2.39.5-0+deb12u3) ...
+#7 10.73 Setting up python3-lib2to3 (3.11.2-3) ...
+#7 10.77 Setting up python3-distutils (3.11.2-3) ...
+#7 10.81 Setting up python3.11-venv (3.11.2-6+deb12u8) ...
+#7 10.83 Setting up python3-venv (3.11.2-1+b1) ...
+#7 10.84 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+#7 DONE 11.1s
+
+#8 [3/9] RUN python3 -m venv /opt/py && /opt/py/bin/pip install --no-cache-dir onnx==1.19.0 numpy==2.4.6
+#8 1.891 Collecting onnx==1.19.0
+#8 2.202   Downloading onnx-1.19.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (18.0 MB)
+#8 8.303      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.0/18.0 MB 3.6 MB/s eta 0:00:00
+#8 8.783 Collecting numpy==2.4.6
+#8 8.808   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (16.0 MB)
+#8 11.93      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 6.0 MB/s eta 0:00:00
+#8 12.50 Collecting protobuf>=4.25.1
+#8 12.52   Downloading protobuf-7.36.1-cp310-abi3-manylinux2014_aarch64.whl (344 kB)
+#8 12.58      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 344.2/344.2 kB 6.1 MB/s eta 0:00:00
+#8 12.61 Collecting typing_extensions>=4.7.1
+#8 12.65   Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 12.66      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 340.3 MB/s eta 0:00:00
+#8 12.72 Collecting ml_dtypes
+#8 12.74   Downloading ml_dtypes-0.6.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (356 kB)
+#8 12.77      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 356.9/356.9 kB 10.6 MB/s eta 0:00:00
+#8 12.81 Installing collected packages: typing_extensions, protobuf, numpy, ml_dtypes, onnx
+#8 14.33 Successfully installed ml_dtypes-0.6.0 numpy-2.4.6 onnx-1.19.0 protobuf-7.36.1 typing_extensions-4.16.0
+#8 DONE 14.5s
+
+#9 [4/9] RUN cargo install cargo-insta --version 1.48.0
+#9 0.207     Updating crates.io index
+#9 0.605  Downloading crates ...
+#9 0.904   Downloaded cargo-insta v1.48.0
+#9 0.994   Installing cargo-insta v1.48.0
+#9 1.022     Updating crates.io index
+#9 1.681      Locking 87 packages to latest compatible versions
+#9 1.681       Adding cargo_metadata v0.18.1 (available: v0.23.1)
+#9 1.683       Adding itertools v0.10.5 (available: v0.15.0)
+#9 1.687       Adding syn v2.0.119 (available: v3.0.5)
+#9 1.689  Downloading crates ...
+#9 1.717   Downloaded cargo-platform v0.1.9
+#9 1.729   Downloaded same-file v1.0.6
+#9 1.736   Downloaded anstream v1.0.0
+#9 1.795   Downloaded anstyle v1.0.14
+#9 1.795   Downloaded anstyle-parse v1.0.0
+#9 1.805   Downloaded clap_lex v1.1.0
+#9 1.805   Downloaded aho-corasick v1.1.5
+#9 1.825   Downloaded colorchoice v1.0.5
+#9 1.826   Downloaded anstyle-query v1.1.5
+#9 1.861   Downloaded heck v0.5.0
+#9 1.881   Downloaded strsim v0.11.1
+#9 1.903   Downloaded is-docker v0.2.0
+#9 1.920   Downloaded utf8parse v0.2.2
+#9 1.927   Downloaded errno v0.3.14
+#9 1.933   Downloaded is-wsl v0.4.0
+#9 1.934   Downloaded itoa v1.0.18
+#9 2.014   Downloaded cfg-if v1.0.4
+#9 2.036   Downloaded cargo_metadata v0.18.1
+#9 2.050   Downloaded walkdir v2.5.0
+#9 2.061   Downloaded zmij v1.0.23
+#9 2.066   Downloaded crossbeam-deque v0.8.8
+#9 2.070   Downloaded globset v0.4.20
+#9 2.070   Downloaded pest_generator v2.9.1
+#9 2.073   Downloaded either v1.18.0
+#9 2.077   Downloaded is_terminal_polyfill v1.70.2
+#9 2.079   Downloaded thiserror v1.0.69
+#9 2.087   Downloaded pest_derive v2.9.1
+#9 2.105   Downloaded fastrand v2.5.0
+#9 2.142   Downloaded clap_derive v4.6.4
+#9 2.155   Downloaded camino v1.2.5
+#9 2.184   Downloaded quote v1.0.47
+#9 2.195   Downloaded tempfile v3.27.0
+#9 2.196   Downloaded semver v1.0.28
+#9 2.197   Downloaded open v5.4.4
+#9 2.198   Downloaded thiserror-impl v1.0.69
+#9 2.203   Downloaded serde_core v1.0.229
+#9 2.204   Downloaded pest_meta v2.9.1
+#9 2.225   Downloaded crossbeam-utils v0.8.23
+#9 2.235   Downloaded bitflags v2.13.2
+#9 2.237   Downloaded clap v4.6.6
+#9 2.241   Downloaded log v0.4.34
+#9 2.242   Downloaded once_cell v1.21.4
+#9 2.252   Downloaded similar v2.7.0
+#9 2.255   Downloaded unicode-ident v1.0.24
+#9 2.256   Downloaded console v0.16.6
+#9 2.257   Downloaded crossbeam-epoch v0.9.21
+#9 2.274   Downloaded ucd-trie v0.1.7
+#9 2.274   Downloaded serde_derive v1.0.229
+#9 2.312   Downloaded getrandom v0.4.3
+#9 2.314   Downloaded proc-macro2 v1.0.107
+#9 2.315   Downloaded uuid v1.26.1
+#9 2.317   Downloaded serde v1.0.229
+#9 2.318   Downloaded ignore v0.4.33
+#9 2.354   Downloaded memchr v2.8.3
+#9 2.357   Downloaded itertools v0.10.5
+#9 2.391   Downloaded insta v1.48.0
+#9 2.396   Downloaded pest v2.9.1
+#9 2.442   Downloaded clap_builder v4.6.6
+#9 2.445   Downloaded serde_json v1.0.151
+#9 2.608   Downloaded unicode-width v0.2.2
+#9 2.616   Downloaded syn v2.0.119
+#9 2.621   Downloaded syn v3.0.5
+#9 2.653   Downloaded bstr v1.13.1
+#9 2.660   Downloaded regex-syntax v0.8.11
+#9 2.675   Downloaded rustix v1.1.4
+#9 2.738   Downloaded regex-automata v0.4.18
+#9 2.793   Downloaded libc v0.2.189
+#9 3.022   Downloaded linux-raw-sys v0.12.1
+#9 3.114    Compiling proc-macro2 v1.0.107
+#9 3.114    Compiling quote v1.0.47
+#9 3.114    Compiling unicode-ident v1.0.24
+#9 3.114    Compiling memchr v2.8.3
+#9 3.114    Compiling serde_core v1.0.229
+#9 3.114    Compiling libc v0.2.189
+#9 3.114    Compiling crossbeam-utils v0.8.23
+#9 3.115    Compiling getrandom v0.4.3
+#9 3.116    Compiling ucd-trie v0.1.7
+#9 3.116    Compiling utf8parse v0.2.2
+#9 3.117    Compiling once_cell v1.21.4
+#9 3.119    Compiling serde v1.0.229
+#9 3.122    Compiling zmij v1.0.23
+#9 3.122    Compiling anstyle v1.0.14
+#9 3.123    Compiling crossbeam-epoch v0.9.21
+#9 3.126    Compiling is_terminal_polyfill v1.70.2
+#9 3.127    Compiling cfg-if v1.0.4
+#9 3.256    Compiling anstyle-parse v1.0.0
+#9 3.259    Compiling rustix v1.1.4
+#9 3.263    Compiling anstyle-query v1.1.5
+#9 3.284    Compiling colorchoice v1.0.5
+#9 3.331    Compiling camino v1.2.5
+#9 3.333    Compiling clap_lex v1.1.0
+#9 3.335    Compiling linux-raw-sys v0.12.1
+#9 3.338    Compiling anstream v1.0.0
+#9 3.372    Compiling thiserror v1.0.69
+#9 3.418    Compiling pest v2.9.1
+#9 3.436    Compiling aho-corasick v1.1.5
+#9 3.444    Compiling heck v0.5.0
+#9 3.449    Compiling strsim v0.11.1
+#9 3.470    Compiling regex-syntax v0.8.11
+#9 3.491    Compiling bitflags v2.13.2
+#9 3.512    Compiling serde_json v1.0.151
+#9 3.518    Compiling crossbeam-deque v0.8.8
+#9 3.548    Compiling bstr v1.13.1
+#9 3.552    Compiling clap_builder v4.6.6
+#9 3.607    Compiling is-docker v0.2.0
+#9 3.609    Compiling unicode-width v0.2.2
+#9 3.616    Compiling same-file v1.0.6
+#9 3.699    Compiling fastrand v2.5.0
+#9 3.724    Compiling itoa v1.0.18
+#9 3.764    Compiling log v0.4.34
+#9 3.989    Compiling syn v3.0.5
+#9 3.989    Compiling syn v2.0.119
+#9 4.030    Compiling walkdir v2.5.0
+#9 4.041    Compiling is-wsl v0.4.0
+#9 4.049    Compiling similar v2.7.0
+#9 4.080    Compiling either v1.18.0
+#9 4.329    Compiling pest_meta v2.9.1
+#9 4.329    Compiling console v0.16.6
+#9 4.349    Compiling uuid v1.26.1
+#9 4.367    Compiling itertools v0.10.5
+#9 4.416    Compiling open v5.4.4
+#9 4.835    Compiling regex-automata v0.4.18
+#9 41.85    Compiling semver v1.0.28
+#9 41.97    Compiling tempfile v3.27.0
+#9 42.09    Compiling pest_generator v2.9.1
+#9 42.98    Compiling thiserror-impl v1.0.69
+#9 43.25    Compiling pest_derive v2.9.1
+#9 43.58    Compiling serde_derive v1.0.229
+#9 43.58    Compiling clap_derive v4.6.4
+#9 44.20    Compiling globset v0.4.20
+#9 44.39    Compiling clap v4.6.6
+#9 44.45    Compiling ignore v0.4.33
+#9 45.42    Compiling cargo-platform v0.1.9
+#9 45.42    Compiling insta v1.48.0
+#9 45.80    Compiling cargo_metadata v0.18.1
+#9 48.39    Compiling cargo-insta v1.48.0
+#9 51.10     Finished `release` profile [optimized] target(s) in 50.92s
+#9 52.03   Installing /usr/local/cargo/bin/cargo-insta
+#9 52.03    Installed package `cargo-insta v1.48.0` (executable `cargo-insta`)
+#9 DONE 52.6s
+
+#10 [5/9] WORKDIR /workspace/repo
+#10 DONE 0.7s
+
+#11 [6/9] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#11 DONE 2.8s
+
+#12 [7/9] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "tracel-ai/burn-onnx @ 6fc6bacec1c5264d1160efd4e2c904591082e2f8"
+#12 DONE 2.3s
+
+#13 [8/9] RUN cargo fetch --locked
+#13 0.273 warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+#13 0.273 package:   /workspace/repo/examples/raspberry-pi-pico/Cargo.toml
+#13 0.273 workspace: /workspace/repo/Cargo.toml
+#13 0.287     Updating git repository `https://github.com/tracel-ai/burn`
+#13 5.384     Updating crates.io index
+#13 5.412     Updating git repository `https://github.com/tracel-ai/cubecl`
+#13 7.961     Updating git repository `https://github.com/tracel-ai/cubek`
+#13 10.93     Updating git repository `https://github.com/tracel-ai/tracel-llvm.git`
+#13 18.40  Downloading crates ...
+#13 18.63   Downloaded wasm-bindgen-macro v0.2.118
+#13 18.65   Downloaded rustls-pki-types v1.14.1
+#13 18.68   Downloaded wasm-bindgen-shared v0.2.118
+#13 18.72   Downloaded core-foundation v0.10.1
+#13 18.74   Downloaded utf8-zero v0.8.1
+#13 18.74   Downloaded futures-core v0.3.32
+#13 18.74   Downloaded socks v0.3.4
+#13 18.74   Downloaded subtle v2.6.1
+#13 18.74   Downloaded windows-targets v0.52.6
+#13 18.75   Downloaded windows-link v0.2.1
+#13 18.75   Downloaded svgbobdoc v0.3.0
+#13 18.75   Downloaded futures-task v0.3.32
+#13 18.75   Downloaded percent-encoding v2.3.2
+#13 18.75   Downloaded futures-sink v0.3.32
+#13 18.75   Downloaded futures-io v0.3.32
+#13 18.75   Downloaded untrusted v0.9.0
+#13 18.75   Downloaded rustc_version v0.2.3
+#13 18.76   Downloaded leb128fmt v0.1.0
+#13 18.77   Downloaded equivalent v1.0.2
+#13 18.77   Downloaded id-arena v2.3.0
+#13 18.81   Downloaded wit-bindgen-rust-macro v0.51.0
+#13 18.81   Downloaded unicode-xid v0.2.6
+#13 18.82   Downloaded pin-project-lite v0.2.17
+#13 18.82   Downloaded vcell v0.1.3
+#13 18.82   Downloaded nb v0.1.3
+#13 18.82   Downloaded zeroize v1.8.2
+#13 18.82   Downloaded web-time v1.1.0
+#13 18.82   Downloaded rustversion v1.0.22
+#13 18.82   Downloaded critical-section v1.2.0
+#13 18.82   Downloaded slab v0.4.12
+#13 18.82   Downloaded futures-macro v0.3.32
+#13 18.82   Downloaded cfg_aliases v0.2.2
+#13 18.82   Downloaded zmij v1.0.21
+#13 18.83   Downloaded foldhash v0.2.0
+#13 18.83   Downloaded foldhash v0.1.5
+#13 18.83   Downloaded security-framework-sys v2.17.0
+#13 18.85   Downloaded find-msvc-tools v0.1.9
+#13 18.85   Downloaded byteorder v1.5.0
+#13 18.85   Downloaded wasi v0.11.1+wasi-snapshot-preview1
+#13 18.85   Downloaded shlex v1.3.0
+#13 18.85   Downloaded wasm-metadata v0.244.0
+#13 18.85   Downloaded rand_core v0.10.1
+#13 18.85   Downloaded jobserver v0.1.34
+#13 18.86   Downloaded try-lock v0.2.5
+#13 18.86   Downloaded serde_bytes v0.11.19
+#13 18.86   Downloaded native-tls v0.2.18
+#13 18.86   Downloaded wit-bindgen-core v0.51.0
+#13 18.86   Downloaded fastrand v2.4.1
+#13 18.86   Downloaded core-foundation-sys v0.8.7
+#13 18.86   Downloaded getrandom v0.2.17
+#13 18.87   Downloaded anyhow v1.0.102
+#13 18.87   Downloaded wasm-bindgen-macro-support v0.2.118
+#13 18.87   Downloaded ciborium-ll v0.2.2
+#13 18.88   Downloaded allocator-api2 v0.2.21
+#13 18.88   Downloaded atomic-waker v1.1.2
+#13 18.88   Downloaded ciborium-io v0.2.2
+#13 18.88   Downloaded wasm-bindgen v0.2.118
+#13 18.88   Downloaded log v0.4.33
+#13 18.88   Downloaded getrandom v0.3.4
+#13 18.88   Downloaded r-efi v5.3.0
+#13 18.88   Downloaded getrandom v0.4.2
+#13 18.89   Downloaded wit-bindgen-rust v0.51.0
+#13 18.89   Downloaded r-efi v6.0.0
+#13 18.89   Downloaded httparse v1.10.1
+#13 18.89   Downloaded futures-channel v0.3.32
+#13 18.89   Downloaded float4 v0.2.0
+#13 18.89   Downloaded ureq-proto v0.6.0
+#13 18.89   Downloaded bytes v1.12.1
+#13 18.89   Downloaded wit-bindgen v0.51.0
+#13 18.89   Downloaded bitflags v2.13.1
+#13 18.90   Downloaded prettyplease v0.2.37
+#13 18.90   Downloaded wit-bindgen v0.57.1
+#13 18.90   Downloaded tracel-xtask v5.0.0
+#13 18.90   Downloaded spin v0.12.2
+#13 18.90   Downloaded windows-strings v0.5.1
+#13 18.90   Downloaded windows-collections v0.3.2
+#13 18.90   Downloaded wgpu-naga-bridge v30.0.0
+#13 18.90   Downloaded rustls-webpki v0.103.13
+#13 18.90   Downloaded cc v1.2.61
+#13 18.91   Downloaded security-framework v3.7.0
+#13 18.91   Downloaded js-sys v0.3.95
+#13 18.91   Downloaded http v1.4.0
+#13 18.91   Downloaded base64 v0.22.1
+#13 18.91   Downloaded memchr v2.8.0
+#13 18.91   Downloaded cortex-m-macros v0.7.8
+#13 18.92   Downloaded wasm-encoder v0.244.0
+#13 18.92   Downloaded const-default v1.0.0
+#13 18.92   Downloaded bumpalo v3.20.2
+#13 18.92   Downloaded android_system_properties v0.1.5
+#13 18.92   Downloaded sanitize-filename v0.6.0
+#13 18.92   Downloaded windows-core v0.62.2
+#13 18.93   Downloaded indexmap v2.14.0
+#13 18.94   Downloaded backtrace v0.3.76
+#13 18.94   Downloaded wgpu-core-deps-apple v30.0.0
+#13 18.94   Downloaded objc2-quartz-core v0.3.2
+#13 18.94   Downloaded objc2-encode v4.1.0
+#13 18.94   Downloaded wasip3 v0.4.0+wasi-0.3.0-rc-2026-01-06
+#13 18.95   Downloaded hyper-util v0.1.20
+#13 18.95   Downloaded usbd-hid-macros v0.10.0
+#13 18.95   Downloaded ureq v3.3.0
+#13 18.95   Downloaded downcast-rs v2.0.2
+#13 18.95   Downloaded webpki-root-certs v1.0.9
+#13 18.95   Downloaded hashbrown v0.15.5
+#13 18.96   Downloaded inventory v0.3.24
+#13 18.96   Downloaded awint_macros v0.18.1
+#13 18.96   Downloaded unicode-segmentation v1.13.2
+#13 18.96   Downloaded dyn-clone v1.0.20
+#13 18.96   Downloaded wasip2 v1.0.3+wasi-0.2.9
+#13 18.96   Downloaded wit-parser v0.244.0
+#13 18.98   Downloaded awint v0.18.1
+#13 18.98   Downloaded inflections v1.1.1
+#13 19.01   Downloaded constcat v0.6.1
+#13 19.01   Downloaded embassy-usb-logger v0.6.0
+#13 19.01   Downloaded text_placeholder v0.5.1
+#13 19.02   Downloaded futures-util v0.3.32
+#13 19.02   Downloaded dispatch2 v0.3.1
+#13 19.02   Downloaded float-ord v0.3.2
+#13 19.02   Downloaded tokio-util v0.7.18
+#13 19.03   Downloaded serde_json v1.0.150
+#13 19.03   Downloaded awint_macro_internals v0.18.1
+#13 19.03   Downloaded macerator-macros v0.2.0
+#13 19.04   Downloaded bare-metal v0.2.5
+#13 19.04   Downloaded zstd v0.11.2+zstd.1.5.2
+#13 19.04   Downloaded moddef v0.3.0
+#13 19.04   Downloaded const-random v0.1.18
+#13 19.04   Downloaded const-random-macro v0.1.16
+#13 19.04   Downloaded hashbrown v0.17.0
+#13 19.06   Downloaded nb v1.1.0
+#13 19.06   Downloaded h2 v0.4.16
+#13 19.06   Downloaded tiny-keccak v2.0.2
+#13 19.06   Downloaded bzip2 v0.4.4
+#13 19.06   Downloaded macerator v0.3.4
+#13 19.06   Downloaded webpki-roots v1.0.7
+#13 19.07   Downloaded objc2-open-directory v0.3.2
+#13 19.07   Downloaded portable-atomic v1.15.0
+#13 19.07   Downloaded quick-error v2.0.1
+#13 19.07   Downloaded semver-parser v0.7.0
+#13 19.07   Downloaded prettyplease v0.3.0
+#13 19.07   Downloaded zip v0.6.6
+#13 19.07   Downloaded equator v0.4.2
+#13 19.07   Downloaded as-slice v0.2.1
+#13 19.07   Downloaded fax v0.2.7
+#13 19.08   Downloaded aligned-vec v0.6.4
+#13 19.08   Downloaded y4m v0.8.0
+#13 19.08   Downloaded num-bigint v0.4.6
+#13 19.08   Downloaded color_quant v1.1.0
+#13 19.09   Downloaded rand v0.8.6
+#13 19.09   Downloaded v_frame v0.3.9
+#13 19.09   Downloaded home v0.5.12
+#13 19.09   Downloaded avif-serialize v0.8.8
+#13 19.09   Downloaded wasmparser v0.244.0
+#13 19.10   Downloaded zune-inflate v0.2.54
+#13 19.10   Downloaded float-cmp v0.10.0
+#13 19.10   Downloaded objc2-core-foundation v0.3.2
+#13 19.10   Downloaded wgpu v30.0.0
+#13 19.11   Downloaded wit-component v0.244.0
+#13 19.13   Downloaded prettyplease v0.1.25
+#13 19.13   Downloaded syn v3.0.3
+#13 19.14   Downloaded aes v0.8.4
+#13 19.14   Downloaded bitstream-io v4.10.0
+#13 19.14   Downloaded zune-jpeg v0.5.15
+#13 19.15   Downloaded protobuf-parse v3.7.2
+#13 19.15   Downloaded bon v3.9.1
+#13 19.15   Downloaded rustc_version v0.4.1
+#13 19.15   Downloaded foreign-types v0.3.2
+#13 19.15   Downloaded zerofrom v0.1.7
+#13 19.16   Downloaded yoke-derive v0.8.2
+#13 19.16   Downloaded terminal_size v0.4.4
+#13 19.16   Downloaded volatile-register v0.2.2
+#13 19.16   Downloaded defmt-parser v1.0.0
+#13 19.16   Downloaded bon-macros v3.9.1
+#13 19.16   Downloaded rand_chacha v0.9.0
+#13 19.16   Downloaded env_logger v0.11.10
+#13 19.16   Downloaded toml_writer v1.1.1+spec-1.1.0
+#13 19.16   Downloaded defmt-macros v1.1.1
+#13 19.17   Downloaded deranged v0.5.8
+#13 19.17   Downloaded relative-path v1.9.3
+#13 19.17   Downloaded lazy_static v1.5.0
+#13 19.17   Downloaded scoped-tls v1.0.1
+#13 19.17   Downloaded embassy-executor-macros v0.8.0
+#13 19.17   Downloaded writeable v0.6.3
+#13 19.17   Downloaded cookie v0.18.1
+#13 19.17   Downloaded embedded-hal v1.0.0
+#13 19.17   Downloaded az v1.3.0
+#13 19.17   Downloaded embassy-hal-internal v0.4.0
+#13 19.17   Downloaded ident_case v1.0.1
+#13 19.17   Downloaded zstd v0.13.3
+#13 19.17   Downloaded objc2-metal v0.3.2
+#13 19.18   Downloaded icu_normalizer_data v2.2.0
+#13 19.18   Downloaded icu_provider v2.2.0
+#13 19.18   Downloaded toml_parser v1.1.2+spec-1.1.0
+#13 19.18   Downloaded block-buffer v0.12.0
+#13 19.18   Downloaded cpubits v0.1.0
+#13 19.18   Downloaded icu_normalizer v2.2.0
+#13 19.18   Downloaded embedded-io v0.6.1
+#13 19.18   Downloaded smart-leds-trait v0.3.2
+#13 19.18   Downloaded cpufeatures v0.3.0
+#13 19.18   Downloaded libredox v0.1.16
+#13 19.18   Downloaded sync_wrapper v1.0.2
+#13 19.18   Downloaded rustls v0.23.39
+#13 19.19   Downloaded url v2.5.8
+#13 19.19   Downloaded objc2 v0.6.4
+#13 19.20   Downloaded embassy-futures v0.1.2
+#13 19.20   Downloaded ctutils v0.4.2
+#13 19.20   Downloaded ppmd-rust v1.4.0
+#13 19.20   Downloaded sysinfo v0.39.6
+#13 19.20   Downloaded darling_core v0.20.11
+#13 19.20   Downloaded redox_syscall v0.7.4
+#13 19.21   Downloaded tokio-macros v2.7.0
+#13 19.21   Downloaded rustc-hash v2.1.2
+#13 19.21   Downloaded want v0.3.1
+#13 19.21   Downloaded fallible-streaming-iterator v0.1.9
+#13 19.21   Downloaded event-listener-strategy v0.5.4
+#13 19.21   Downloaded lru-slab v0.1.2
+#13 19.21   Downloaded socket2 v0.6.3
+#13 19.21   Downloaded ipnet v2.12.0
+#13 19.21   Downloaded objc2-io-kit v0.3.2
+#13 19.21   Downloaded smart-leds v0.4.0
+#13 19.21   Downloaded idna v1.1.0
+#13 19.22   Downloaded hashlink v0.12.1
+#13 19.22   Downloaded windows_x86_64_gnullvm v0.52.6
+#13 19.22   Downloaded objc2-foundation v0.3.2
+#13 19.23   Downloaded windows_aarch64_gnullvm v0.52.6
+#13 19.23   Downloaded windows-numerics v0.3.1
+#13 19.23   Downloaded profiling v1.0.17
+#13 19.24   Downloaded jni-sys v0.3.1
+#13 19.24   Downloaded embedded-io-async v0.6.1
+#13 19.25   Downloaded debug-helper v0.3.13
+#13 19.25   Downloaded precomputed-hash v0.1.1
+#13 19.26   Downloaded tower v0.5.3
+#13 19.26   Downloaded tynm v0.2.0
+#13 19.26   Downloaded exr v1.74.0
+#13 19.27   Downloaded protobuf v3.7.2
+#13 19.27   Downloaded xxhash-rust v0.8.15
+#13 19.27   Downloaded spirv v0.4.0+sdk-1.4.341.0
+#13 19.27   Downloaded block2 v0.6.2
+#13 19.27   Downloaded scopeguard v1.2.0
+#13 19.27   Downloaded linkme-impl v0.3.37
+#13 19.27   Downloaded md5 v0.8.0
+#13 19.27   Downloaded variadics_please v2.0.0
+#13 19.28   Downloaded mutants v0.0.3
+#13 19.28   Downloaded windows_i686_gnullvm v0.52.6
+#13 19.28   Downloaded codespan-reporting v0.13.1
+#13 19.29   Downloaded convert_case v0.11.0
+#13 19.29   Downloaded num v0.4.3
+#13 19.29   Downloaded dirs v6.0.0
+#13 19.29   Downloaded zlib-rs v0.6.3
+#13 19.29   Downloaded gl_generator v0.14.0
+#13 19.30   Downloaded tracing-subscriber v0.3.23
+#13 19.30   Downloaded gpu-allocator v0.28.0
+#13 19.30   Downloaded safetensors v0.3.3
+#13 19.30   Downloaded slotmap v1.1.1
+#13 19.30   Downloaded awint_core v0.18.1
+#13 19.31   Downloaded liblzma v0.4.6
+#13 19.31   Downloaded atomic_float v1.1.0
+#13 19.31   Downloaded dyn-stack-macros v0.1.3
+#13 19.31   Downloaded rmp-serde v1.3.1
+#13 19.31   Downloaded equator-macro v0.4.2
+#13 19.31   Downloaded gemm-f32 v0.19.0
+#13 19.31   Downloaded simd_helpers v0.1.0
+#13 19.31   Downloaded hyper v1.9.0
+#13 19.31   Downloaded gemm v0.19.0
+#13 19.31   Downloaded hi_sparse_bitset v0.9.0
+#13 19.31   Downloaded llvm-sys v221.0.1
+#13 19.32   Downloaded ravif v0.13.0
+#13 19.32   Downloaded byteorder-lite v0.1.0
+#13 19.32   Downloaded rusqlite v0.40.2
+#13 19.32   Downloaded weezl v0.1.12
+#13 19.32   Downloaded crossbeam-epoch v0.9.20
+#13 19.33   Downloaded hmac-sha256 v1.1.14
+#13 19.33   Downloaded foreign-types-shared v0.1.1
+#13 19.33   Downloaded regex-lite v0.1.9
+#13 19.33   Downloaded embassy-net-driver-channel v0.4.0
+#13 19.33   Downloaded pio-parser v0.3.0
+#13 19.33   Downloaded pkg-config v0.3.33
+#13 19.33   Downloaded unsynn v0.3.0
+#13 19.33   Downloaded nom v8.0.0
+#13 19.33   Downloaded crc32fast v1.5.0
+#13 19.34   Downloaded embassy-time-queue-utils v0.3.2
+#13 19.34   Downloaded qoi v0.4.1
+#13 19.34   Downloaded protobuf-codegen v3.7.2
+#13 19.34   Downloaded powerfmt v0.2.0
+#13 19.34   Downloaded image-webp v0.2.4
+#13 19.35   Downloaded glow v0.17.0
+#13 19.35   Downloaded pliron-llvm v0.17.0
+#13 19.35   Downloaded pulp v0.22.2
+#13 19.36   Downloaded darling_macro v0.20.11
+#13 19.36   Downloaded strum v0.28.0
+#13 19.36   Downloaded panic-probe v1.0.0
+#13 19.36   Downloaded embassy-embedded-hal v0.6.0
+#13 19.36   Downloaded matchers v0.2.0
+#13 19.37   Downloaded document-features v0.2.12
+#13 19.37   Downloaded proc-macro-crate v3.5.0
+#13 19.38   Downloaded displaydoc v0.2.5
+#13 19.38   Downloaded bitflags v1.3.2
+#13 19.38   Downloaded tracing-log v0.2.0
+#13 19.38   Downloaded inout v0.2.2
+#13 19.38   Downloaded sha1 v0.11.0
+#13 19.38   Downloaded cookie_store v0.22.1
+#13 19.38   Downloaded tinystr v0.8.3
+#13 19.38   Downloaded litrs v1.0.0
+#13 19.38   Downloaded wasm-bindgen-futures v0.4.68
+#13 19.39   Downloaded derive-new v0.7.0
+#13 19.39   Downloaded generator v0.8.8
+#13 19.39   Downloaded pliron v0.17.0
+#13 19.39   Downloaded portable-atomic-util v0.2.7
+#13 19.40   Downloaded textdistance v1.1.1
+#13 19.40   Downloaded tower-service v0.3.3
+#13 19.40   Downloaded http-body-util v0.1.3
+#13 19.40   Downloaded cortex-m v0.7.8
+#13 19.40   Downloaded tracing-core v0.1.36
+#13 19.40   Downloaded colored v3.1.1
+#13 19.40   Downloaded chacha20 v0.10.0
+#13 19.41   Downloaded icu_properties v2.2.0
+#13 19.41   Downloaded icu_locale_core v2.2.0
+#13 19.41   Downloaded static_assertions v1.1.0
+#13 19.41   Downloaded oneshot v0.2.1
+#13 19.41   Downloaded ciborium v0.2.2
+#13 19.41   Downloaded object v0.37.3
+#13 19.42   Downloaded phf_shared v0.11.3
+#13 19.42   Downloaded addr2line v0.25.1
+#13 19.42   Downloaded windows-interface v0.59.3
+#13 19.42   Downloaded dlib v0.5.3
+#13 19.42   Downloaded glutin_wgl_sys v0.6.1
+#13 19.42   Downloaded zerocopy-derive v0.8.48
+#13 19.43   Downloaded jiff-static v0.2.24
+#13 19.43   Downloaded indicatif v0.18.4
+#13 19.43   Downloaded windows-future v0.3.2
+#13 19.43   Downloaded khronos-egl v6.0.0
+#13 19.43   Downloaded const_fn v0.4.12
+#13 19.44   Downloaded crypto-common v0.1.7
+#13 19.44   Downloaded rand_distr v0.6.0
+#13 19.44   Downloaded ordered-float v5.3.0
+#13 19.44   Downloaded presser v0.3.1
+#13 19.44   Downloaded num-complex v0.4.6
+#13 19.44   Downloaded redox_users v0.5.2
+#13 19.44   Downloaded rawpointer v0.2.1
+#13 19.44   Downloaded awint_ext v0.18.1
+#13 19.45   Downloaded internment v0.8.6
+#13 19.45   Downloaded zstd-safe v5.0.2+zstd.1.5.2
+#13 19.45   Downloaded password-hash v0.4.2
+#13 19.45   Downloaded xml-rs v0.8.28
+#13 19.45   Downloaded seq-macro v0.3.6
+#13 19.45   Downloaded windows_aarch64_msvc v0.52.6
+#13 19.46   Downloaded hmac v0.12.1
+#13 19.46   Downloaded bzip2-sys v0.1.13+1.0.8
+#13 19.47   Downloaded objc2-core-graphics v0.3.2
+#13 19.47   Downloaded generic-array v0.14.7
+#13 19.47   Downloaded tower-http v0.6.8
+#13 19.47   Downloaded windows_x86_64_gnu v0.52.6
+#13 19.48   Downloaded gemm-f16 v0.19.0
+#13 19.48   Downloaded protobuf-support v3.7.2
+#13 19.49   Downloaded dyn-stack v0.13.2
+#13 19.49   Downloaded windows_x86_64_msvc v0.52.6
+#13 19.49   Downloaded serde-wasm-bindgen v0.6.5
+#13 19.49   Downloaded libc v0.2.186
+#13 19.52   Downloaded ntapi v0.4.3
+#13 19.52   Downloaded darling v0.23.0
+#13 19.52   Downloaded av1-grain v0.2.5
+#13 19.52   Downloaded bstr v1.12.1
+#13 19.53   Downloaded windows_i686_msvc v0.52.6
+#13 19.54   Downloaded embassy-net-driver v0.2.0
+#13 19.54   Downloaded wgpu-hal v30.0.0
+#13 19.55   Downloaded rayon-core v1.13.0
+#13 19.55   Downloaded gif v0.14.2
+#13 19.55   Downloaded ignore v0.4.25
+#13 19.55   Downloaded simd-adler32 v0.3.9
+#13 19.55   Downloaded base64ct v1.8.3
+#13 19.55   Downloaded tracel-xtask-macros v5.0.0
+#13 19.55   Downloaded potential_utf v0.1.5
+#13 19.55   Downloaded form_urlencoded v1.2.2
+#13 19.55   Downloaded env_filter v1.0.1
+#13 19.55   Downloaded windows_i686_gnu v0.52.6
+#13 19.56   Downloaded stable_deref_trait v1.2.1
+#13 19.56   Downloaded naga v30.0.0
+#13 19.57   Downloaded serde_spanned v1.1.1
+#13 19.58   Downloaded winapi-util v0.1.11
+#13 19.58   Downloaded glob v0.3.3
+#13 19.58   Downloaded bytemuck_derive v1.10.2
+#13 19.58   Downloaded embassy-hal-internal v0.5.0
+#13 19.58   Downloaded gimli v0.32.3
+#13 19.58   Downloaded icu_collections v2.2.0
+#13 19.58   Downloaded ort v2.0.0-rc.13
+#13 19.59   Downloaded zerovec v0.11.6
+#13 19.59   Downloaded sharded-slab v0.1.7
+#13 19.59   Downloaded toml_edit v0.25.11+spec-1.1.0
+#13 19.59   Downloaded rstest_macros v0.26.1
+#13 19.60   Downloaded xattr v1.6.1
+#13 19.60   Downloaded tower-layer v0.3.3
+#13 19.60   Downloaded darling_macro v0.21.3
+#13 19.60   Downloaded wayland-sys v0.31.11
+#13 19.60   Downloaded renderdoc-sys v1.1.0
+#13 19.60   Downloaded cipher v0.5.1
+#13 19.60   Downloaded unit-prefix v0.5.2
+#13 19.60   Downloaded wgpu-core-deps-windows-linux-android v30.0.0
+#13 19.60   Downloaded jiff v0.2.24
+#13 19.61   Downloaded serde_urlencoded v0.7.1
+#13 19.61   Downloaded once_vec v0.3.0
+#13 19.61   Downloaded digest v0.11.2
+#13 19.61   Downloaded float8 v0.7.0
+#13 19.61   Downloaded darling_macro v0.24.0
+#13 19.61   Downloaded sha1 v0.10.6
+#13 19.61   Downloaded pbkdf2 v0.11.0
+#13 19.61   Downloaded ndarray v0.17.2
+#13 19.62   Downloaded hmac v0.13.0
+#13 19.62   Downloaded darling v0.21.3
+#13 19.62   Downloaded event-listener v5.4.1
+#13 19.62   Downloaded libloading v0.8.9
+#13 19.62   Downloaded hermit-abi v0.5.2
+#13 19.62   Downloaded pxfm v0.1.29
+#13 19.63   Downloaded bzip2 v0.6.1
+#13 19.64   Downloaded stable-vec v0.4.2
+#13 19.64   Downloaded gloo-timers v0.3.0
+#13 19.64   Downloaded zip v8.6.0
+#13 19.64   Downloaded pliron-derive v0.17.0
+#13 19.64   Downloaded rp-binary-info v0.1.2
+#13 19.64   Downloaded derive_more v2.1.1
+#13 19.65   Downloaded rustc_apfloat v0.2.3+llvm-462a31f5a5ab
+#13 19.65   Downloaded gemm-c64 v0.19.0
+#13 19.65   Downloaded noop_proc_macro v0.3.0
+#13 19.65   Downloaded interpolate_name v0.2.4
+#13 19.65   Downloaded lebe v0.5.3
+#13 19.65   Downloaded condtype v1.3.0
+#13 19.65   Downloaded darling_macro v0.23.0
+#13 19.65   Downloaded openssl-macros v0.1.1
+#13 19.65   Downloaded mio v1.2.0
+#13 19.65   Downloaded pure-rust-locales v0.8.2
+#13 19.66   Downloaded arbitrary v1.4.2
+#13 19.66   Downloaded pem-rfc7468 v1.0.0
+#13 19.66   Downloaded block-buffer v0.10.4
+#13 19.66   Downloaded time v0.3.47
+#13 19.66   Downloaded litemap v0.8.2
+#13 19.67   Downloaded combine v4.6.7
+#13 19.67   Downloaded version_check v0.9.5
+#13 19.67   Downloaded num-conv v0.2.1
+#13 19.67   Downloaded chrono v0.4.44
+#13 19.67   Downloaded raw-cpuid v11.6.0
+#13 19.68   Downloaded tiff v0.11.3
+#13 19.68   Downloaded ash v0.38.0+1.3.281
+#13 19.68   Downloaded ppv-lite86 v0.2.21
+#13 19.69   Downloaded strum_macros v0.28.0
+#13 19.69   Downloaded winapi v0.3.9
+#13 19.70   Downloaded rstest v0.26.1
+#13 19.71   Downloaded tokio v1.52.1
+#13 19.73   Downloaded siphasher v1.0.2
+#13 19.73   Downloaded cpufeatures v0.2.17
+#13 19.73   Downloaded moxcms v0.8.1
+#13 19.73   Downloaded fnv v1.0.7
+#13 19.73   Downloaded crypto-common v0.2.1
+#13 19.73   Downloaded windows-implement v0.60.2
+#13 19.73   Downloaded nu-ansi-term v0.50.3
+#13 19.73   Downloaded deflate64 v0.1.12
+#13 19.73   Downloaded concurrent-queue v2.5.0
+#13 19.73   Downloaded bit-vec v0.9.1
+#13 19.83   Downloaded cmov v0.5.3
+#13 19.83   Downloaded sha2 v0.10.9
+#13 19.83   Downloaded data-encoding v2.11.0
+#13 19.83   Downloaded constant_time_eq v0.4.2
+#13 19.83   Downloaded profiling-procmacros v1.0.17
+#13 19.83   Downloaded av-scenechange v0.14.1
+#13 19.83   Downloaded console_error_panic_hook v0.1.7
+#13 19.83   Downloaded darling v0.20.11
+#13 19.83   Downloaded num-traits v0.2.19
+#13 19.83   Downloaded lzma-rust2 v0.15.8
+#13 19.83   Downloaded console v0.16.3
+#13 19.83   Downloaded darling_core v0.21.3
+#13 19.83   Downloaded linkme v0.3.37
+#13 19.83   Downloaded pio-core v0.3.0
+#13 19.83   Downloaded dirs-sys v0.5.0
+#13 19.83   Downloaded inout v0.1.4
+#13 19.83   Downloaded spin v0.10.0
+#13 19.83   Downloaded cipher v0.4.4
+#13 19.83   Downloaded gemm-common v0.19.0
+#13 19.83   Downloaded darling v0.24.0
+#13 19.83   Downloaded cortex-m-rt-macros v0.7.6
+#13 19.83   Downloaded pulp-wasm-simd-flag v0.1.0
+#13 19.83   Downloaded adler2 v2.0.1
+#13 19.83   Downloaded num-derive v0.4.2
+#13 19.83   Downloaded csv v1.4.0
+#13 19.83   Downloaded divan-macros v0.1.21
+#13 19.83   Downloaded cubecl-hip-sys v7.1.5280200
+#13 19.83   Downloaded crossbeam-deque v0.8.6
+#13 19.83   Downloaded zerocopy v0.8.48
+#13 19.83   Downloaded anstyle-wincon v3.0.11
+#13 19.83   Downloaded zerovec-derive v0.11.3
+#13 19.83   Downloaded no_std_io2 v0.9.3
+#13 19.83   Downloaded libm v0.2.16
+#13 19.83   Downloaded built v0.8.0
+#13 19.83   Downloaded itertools v0.15.0
+#13 19.83   Downloaded zerofrom-derive v0.1.7
+#13 19.83   Downloaded rand_core v0.9.5
+#13 19.83   Downloaded thiserror v2.0.18
+#13 19.83   Downloaded thiserror-impl v2.0.18
+#13 19.83   Downloaded embedded-hal v0.2.7
+#13 19.83   Downloaded defmt-rtt v1.2.0
+#13 19.83   Downloaded ring v0.17.14
+#13 19.83   Downloaded defmt v1.1.1
+#13 19.83   Downloaded thread_local v1.1.9
+#13 19.83   Downloaded zstd-safe v7.2.4
+#13 19.83   Downloaded darling_core v0.23.0
+#13 19.83   Downloaded yoke v0.8.2
+#13 19.83   Downloaded uuid v1.23.1
+#13 19.83   Downloaded etcetera v0.11.0
+#13 19.83   Downloaded rsqlite-vfs v0.1.1
+#13 19.83   Downloaded convert_case v0.10.0
+#13 19.83   Downloaded lzma-rust2 v0.16.2
+#13 19.84   Downloaded ryu v1.0.23
+#13 19.84   Downloaded rayon v1.12.0
+#13 19.84   Downloaded embedded-hal-async v1.0.0
+#13 19.84   Downloaded pico-args v0.5.0
+#13 19.84   Downloaded rand v0.10.1
+#13 19.84   Downloaded objc2-io-surface v0.3.2
+#13 19.85   Downloaded recasting v0.2.1
+#13 19.85   Downloaded aligned v0.4.3
+#13 19.85   Downloaded bit_field v0.10.3
+#13 19.85   Downloaded wgpu-core-deps-emscripten v30.0.0
+#13 19.86   Downloaded utf8-chars v3.0.7
+#13 19.86   Downloaded fdeflate v0.3.7
+#13 19.86   Downloaded awint_internals v0.18.1
+#13 19.86   Downloaded strum_macros v0.27.2
+#13 19.86   Downloaded awint_dag v0.18.1
+#13 19.86   Downloaded smallvec v1.15.1
+#13 19.86   Downloaded time-macros v0.2.27
+#13 19.86   Downloaded dotenvy v0.15.7
+#13 19.86   Downloaded embedded-hal-nb v1.0.0
+#13 19.87   Downloaded http-body v1.0.1
+#13 19.87   Downloaded triple_arena v0.14.0
+#13 19.87   Downloaded futures-timer v3.0.3
+#13 19.87   Downloaded embassy-executor-timer-queue v0.1.0
+#13 19.87   Downloaded safe_arch v1.2.0
+#13 19.87   Downloaded embedded-storage v0.3.1
+#13 19.87   Downloaded memmap2 v0.9.11
+#13 19.87   Downloaded enumset v1.1.13
+#13 19.87   Downloaded parking v2.2.1
+#13 19.87   Downloaded divan v0.1.21
+#13 19.88   Downloaded wide v1.6.1
+#13 19.88   Downloaded aes v0.9.1
+#13 19.88   Downloaded hashbrown v0.16.1
+#13 19.89   Downloaded keccak v0.1.6
+#13 19.89   Downloaded cudarc v0.19.7
+#13 19.90   Downloaded time-core v0.1.8
+#13 19.90   Downloaded plain v0.2.3
+#13 19.90   Downloaded num-iter v0.1.45
+#13 19.90   Downloaded gemm-f64 v0.19.0
+#13 19.90   Downloaded rand_chacha v0.3.1
+#13 19.90   Downloaded csv-core v0.1.13
+#13 19.90   Downloaded rust-format v0.3.4
+#13 19.90   Downloaded globset v0.4.18
+#13 19.90   Downloaded raw-window-metal v1.1.0
+#13 19.90   Downloaded jni-sys v0.4.1
+#13 19.91   Downloaded matrixmultiply v0.3.10
+#13 19.91   Downloaded rav1e v0.8.1
+#13 19.92   Downloaded tokio-rustls v0.26.4
+#13 19.93   Downloaded libloading v0.9.0
+#13 19.93   Downloaded zerotrie v0.2.4
+#13 19.93   Downloaded tracel-xtask-utils v5.0.0
+#13 19.93   Downloaded darling_core v0.24.0
+#13 19.93   Downloaded strum v0.27.2
+#13 19.93   Downloaded windows-threading v0.2.1
+#13 19.94   Downloaded constant_time_eq v0.1.5
+#13 19.94   Downloaded num-integer v0.1.46
+#13 19.94   Downloaded zune-core v0.5.1
+#13 19.94   Downloaded num_cpus v1.17.0
+#13 19.94   Downloaded valuable v0.1.1
+#13 19.94   Downloaded async-channel v2.5.0
+#13 19.94   Downloaded embassy-usb-driver v0.2.0
+#13 19.94   Downloaded spin v0.11.1
+#13 19.94   Downloaded toml v1.1.2+spec-1.1.0
+#13 19.95   Downloaded tracing-attributes v0.1.31
+#13 19.95   Downloaded void v1.0.2
+#13 19.95   Downloaded tinyvec_macros v0.1.1
+#13 19.95   Downloaded jni-sys-macros v0.4.1
+#13 19.95   Downloaded pastey v0.1.1
+#13 19.95   Downloaded loop9 v0.1.5
+#13 19.95   Downloaded globwalk v0.9.1
+#13 19.95   Downloaded enum-as-inner v0.6.1
+#13 19.95   Downloaded arg_enum_proc_macro v0.3.4
+#13 19.95   Downloaded idna_adapter v1.2.1
+#13 19.95   Downloaded imgref v1.12.0
+#13 19.95   Downloaded icu_properties_data v2.2.0
+#13 19.96   Downloaded iri-string v0.7.12
+#13 19.96   Downloaded toml_datetime v1.1.1+spec-1.1.0
+#13 19.96   Downloaded quinn v0.11.9
+#13 19.96   Downloaded buildid v1.0.5
+#13 19.97   Downloaded sysctl v0.6.0
+#13 19.97   Downloaded reqwest v0.12.28
+#13 19.97   Downloaded ureq v2.12.1
+#13 19.97   Downloaded quinn-udp v0.5.14
+#13 19.97   Downloaded ort-sys v2.0.0-rc.13
+#13 19.98   Downloaded libbz2-rs-sys v0.2.3
+#13 19.98   Downloaded web-sys v0.3.95
+#13 20.01   Downloaded crossbeam-utils v0.8.21
+#13 20.01   Downloaded openssl-sys v0.9.117
+#13 20.01   Downloaded new_debug_unreachable v1.0.6
+#13 20.01   Downloaded ascii-canvas v4.0.0
+#13 20.01   Downloaded encode_unicode v1.0.0
+#13 20.02   Downloaded torch-sys v0.22.0
+#13 20.02   Downloaded embedded-io v0.7.1
+#13 20.02   Downloaded ndarray v0.16.1
+#13 20.02   Downloaded openssl-probe v0.2.1
+#13 20.03   Downloaded once_cell_polyfill v1.70.2
+#13 20.03   Downloaded naga-types v30.0.0
+#13 20.03   Downloaded option-ext v0.2.0
+#13 20.03   Downloaded crunchy v0.2.4
+#13 20.03   Downloaded winnow v1.0.2
+#13 20.03   Downloaded webpki-roots v0.26.11
+#13 20.03   Downloaded proc-macro-error-attr2 v2.0.0
+#13 20.03   Downloaded reborrow v0.5.5
+#13 20.03   Downloaded filetime v0.2.27
+#13 20.03   Downloaded safetensors v0.7.0
+#13 20.03   Downloaded signal-hook-registry v1.4.8
+#13 20.03   Downloaded bit-set v0.10.0
+#13 20.03   Downloaded autocfg v1.5.0
+#13 20.04   Downloaded fallible-iterator v0.3.0
+#13 20.04   Downloaded futures-lite v2.6.1
+#13 20.04   Downloaded rmp v0.8.15
+#13 20.04   Downloaded ndk-sys v0.6.0+11769913
+#13 20.04   Downloaded loom v0.7.2
+#13 20.05   Downloaded flate2 v1.1.9
+#13 20.05   Downloaded rand v0.9.4
+#13 20.05   Downloaded gemm-c32 v0.19.0
+#13 20.05   Downloaded vcpkg v0.2.15
+#13 20.07   Downloaded enumset_derive v0.15.0
+#13 20.07   Downloaded der v0.8.1
+#13 20.07   Downloaded openssl v0.10.81
+#13 20.07   Downloaded embassy-executor v0.10.0
+#13 20.08   Downloaded zopfli v0.8.3
+#13 20.08   Downloaded cordyceps v0.3.4
+#13 20.08   Downloaded aho-corasick v1.1.4
+#13 20.08   Downloaded tracing v0.1.44
+#13 20.09   Downloaded windows-sys v0.61.2
+#13 20.13   Downloaded image v0.25.10
+#13 20.14   Downloaded windows-sys v0.52.0
+#13 20.17   Downloaded wgpu-core v30.0.0
+#13 20.18   Downloaded zstd-sys v2.0.16+zstd.1.5.7
+#13 20.19   Downloaded winapi-i686-pc-windows-gnu v0.4.0
+#13 20.25   Downloaded winapi-x86_64-pc-windows-gnu v0.4.0
+#13 20.31   Downloaded tch v0.22.0
+#13 20.36   Downloaded windows-sys v0.59.0
+#13 20.40   Downloaded bit-set v0.8.0
+#13 20.40   Downloaded usbd-hid-descriptors v0.10.0
+#13 20.40   Downloaded embassy-time-driver v0.2.2
+#13 20.40   Downloaded linux-raw-sys v0.4.15
+#13 20.42   Downloaded embedded-io-async v0.7.0
+#13 20.42   Downloaded pio-proc v0.3.0
+#13 20.42   Downloaded libsqlite3-sys v0.38.2
+#13 20.46   Downloaded sqlite-wasm-rs v0.5.5
+#13 20.51   Downloaded rand_pcg v0.10.2
+#13 20.51   Downloaded bitfield v0.13.2
+#13 20.51   Downloaded semver v0.9.0
+#13 20.51   Downloaded embedded-alloc v0.7.0
+#13 20.51   Downloaded windows v0.62.2
+#13 20.66   Downloaded embedded-storage-async v0.4.1
+#13 20.66   Downloaded which v4.4.2
+#13 20.66   Downloaded maybe-rayon v0.1.1
+#13 20.66   Downloaded rustc-hash v1.1.0
+#13 20.66   Downloaded utf8_iter v1.0.4
+#13 20.66   Downloaded windows-result v0.4.1
+#13 20.66   Downloaded range-alloc v0.1.5
+#13 20.66   Downloaded wasm-logger v0.2.0
+#13 20.66   Downloaded type-map v0.5.1
+#13 20.66   Downloaded linked_list_allocator v0.10.6
+#13 20.67   Downloaded hash32 v0.3.1
+#13 20.67   Downloaded num_enum v0.7.6
+#13 20.67   Downloaded ssmarshal v1.0.0
+#13 20.67   Downloaded embassy-time v0.5.1
+#13 20.67   Downloaded rand_core v0.6.4
+#13 20.67   Downloaded pio v0.3.0
+#13 20.67   Downloaded string_cache v0.8.9
+#13 20.70   Downloaded bitfield v0.14.0
+#13 20.70   Downloaded num_enum_derive v0.7.6
+#13 20.70   Downloaded redox_syscall v0.5.18
+#13 20.70   Downloaded digest v0.10.7
+#13 20.78   Downloaded fixedbitset v0.5.7
+#13 20.79   Downloaded paste v1.0.15
+#13 20.80   Downloaded bit-vec v0.8.0
+#13 20.81   Downloaded rgb v0.8.53
+#13 20.82   Downloaded arrayvec v0.7.6
+#13 20.86   Downloaded either v1.15.0
+#13 20.86   Downloaded ena v0.14.4
+#13 20.86   Downloaded termcolor v1.4.1
+#13 20.89   Downloaded proc-macro-error2 v2.0.1
+#13 20.89   Downloaded lock_api v0.4.14
+#13 20.96   Downloaded hyper-rustls v0.27.9
+#13 21.02   Downloaded rustc-demangle v0.1.27
+#13 21.06   Downloaded synstructure v0.13.2
+#13 21.09   Downloaded pbkdf2 v0.13.0
+#13 21.14   Downloaded usbd-hid v0.10.0
+#13 21.14   Downloaded num-rational v0.4.2
+#13 21.17   Downloaded rlsf v0.2.2
+#13 21.21   Downloaded usb-device v0.3.2
+#13 21.21   Downloaded rp2040-boot2 v0.3.0
+#13 21.21   Downloaded cortex-m-rt v0.7.6
+#13 21.21   Downloaded term v1.2.1
+#13 21.22   Downloaded parking_lot_core v0.9.12
+#13 21.25   Downloaded parking_lot v0.12.5
+#13 21.35   Downloaded schannel v0.1.29
+#13 21.39   Downloaded hybrid-array v0.4.11
+#13 21.43   Downloaded base64 v0.13.1
+#13 21.43   Downloaded encode_unicode v0.3.6
+#13 21.43   Downloaded raw-window-handle v0.6.2
+#13 21.44   Downloaded crc-any v2.5.0
+#13 21.46   Downloaded lalrpop-util v0.22.2
+#13 21.46   Downloaded codespan-reporting v0.11.1
+#13 21.49   Downloaded ahash v0.8.12
+#13 21.54   Downloaded tinyvec v1.11.0
+#13 21.58   Downloaded bytemuck v1.25.0
+#13 21.58   Downloaded const-oid v0.10.2
+#13 21.63   Downloaded embassy-usb v0.6.0
+#13 21.63   Downloaded heapless v0.8.0
+#13 21.63   Downloaded embassy-sync v0.8.0
+#13 21.65   Downloaded half v2.7.1
+#13 21.69   Downloaded miniz_oxide v0.8.9
+#13 21.69   Downloaded tar v0.4.45
+#13 21.99   Downloaded derive_more-impl v2.1.1
+#13 22.06   Downloaded hashbrown v0.13.2
+#13 22.13   Downloaded typed-path v0.12.3
+#13 22.20   Downloaded heapless v0.9.2
+#13 22.20   Downloaded typenum v1.20.0
+#13 22.27   Downloaded libfuzzer-sys v0.4.12
+#13 22.28   Downloaded png v0.18.1
+#13 22.38   Downloaded itertools v0.14.0
+#13 22.40   Downloaded regex v1.13.1
+#13 22.41   Downloaded wgpu-types v30.0.0
+#13 22.57   Downloaded embassy-rp v0.10.0
+#13 22.60   Downloaded unicode-width v0.1.14
+#13 22.64   Downloaded syn v1.0.109
+#13 22.73   Downloaded lalrpop v0.22.2
+#13 22.74   Downloaded quinn-proto v0.11.16
+#13 22.90   Downloaded fixed v1.31.0
+#13 23.42   Downloaded rustix v0.38.44
+#13 23.86   Downloaded khronos_api v3.1.0
+#13 24.11   Downloaded petgraph v0.7.1
+#13 24.14   Downloaded rp-pac v7.0.0
+#13 24.21   Downloaded sha3 v0.10.9
+#13 24.55   Downloaded liblzma-sys v0.4.6
+#13 25.15   Downloaded sha2-const-stable v0.1.0
+#13 DONE 25.3s
+
+#14 [9/9] RUN cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests
+#14 0.500 warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+#14 0.500 package:   /workspace/repo/examples/raspberry-pi-pico/Cargo.toml
+#14 0.500 workspace: /workspace/repo/Cargo.toml
+#14 0.953    Compiling proc-macro2 v1.0.107
+#14 0.953    Compiling unicode-ident v1.0.24
+#14 0.953    Compiling quote v1.0.47
+#14 0.953    Compiling cfg-if v1.0.4
+#14 0.954    Compiling serde_core v1.0.229
+#14 0.955    Compiling serde v1.0.229
+#14 0.956    Compiling once_cell v1.21.4
+#14 0.956    Compiling libm v0.2.16
+#14 0.958    Compiling autocfg v1.5.0
+#14 0.960    Compiling memchr v2.8.0
+#14 0.962    Compiling zerocopy v0.8.48
+#14 0.963    Compiling version_check v0.9.5
+#14 0.963    Compiling libc v0.2.186
+#14 0.963    Compiling equivalent v1.0.2
+#14 0.963    Compiling crossbeam-utils v0.8.21
+#14 0.966    Compiling pin-project-lite v0.2.17
+#14 0.973    Compiling paste v1.0.15
+#14 0.973    Compiling scopeguard v1.2.0
+#14 1.031    Compiling rand_core v0.10.1
+#14 1.033    Compiling cfg_aliases v0.2.2
+#14 1.035    Compiling zmij v1.0.21
+#14 1.036    Compiling parking v2.2.1
+#14 1.078    Compiling getrandom v0.4.2
+#14 1.104    Compiling lock_api v0.4.14
+#14 1.118    Compiling allocator-api2 v0.2.21
+#14 1.120    Compiling object v0.37.3
+#14 1.176    Compiling pulp v0.22.2
+#14 1.195    Compiling foldhash v0.2.0
+#14 1.293    Compiling serde_json v1.0.150
+#14 1.293    Compiling parking_lot_core v0.9.12
+#14 1.319    Compiling num-traits v0.2.19
+#14 1.326    Compiling ident_case v1.0.1
+#14 1.326    Compiling fnv v1.0.7
+#14 1.348    Compiling chacha20 v0.10.0
+#14 1.358    Compiling pulp-wasm-simd-flag v0.1.0
+#14 1.360    Compiling winnow v1.0.2
+#14 1.362    Compiling log v0.4.33
+#14 1.367    Compiling ciborium-io v0.2.2
+#14 1.372    Compiling adler2 v2.0.1
+#14 1.380    Compiling unicode-segmentation v1.13.2
+#14 1.383    Compiling itoa v1.0.18
+#14 1.395    Compiling gimli v0.32.3
+#14 1.405    Compiling reborrow v0.5.5
+#14 1.424    Compiling dyn-stack-macros v0.1.3
+#14 1.425    Compiling futures-core v0.3.32
+#14 1.426    Compiling bitflags v2.13.1
+#14 1.430    Compiling miniz_oxide v0.8.9
+#14 1.460    Compiling concurrent-queue v2.5.0
+#14 1.479    Compiling cubecl-environment v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#14 1.498    Compiling raw-cpuid v11.6.0
+#14 1.503    Compiling toml_writer v1.1.1+spec-1.1.0
+#14 1.508    Compiling rustc-demangle v0.1.27
+#14 1.523    Compiling toml_parser v1.1.2+spec-1.1.0
+#14 1.524    Compiling seq-macro v0.3.6
+#14 1.570    Compiling event-listener v5.4.1
+#14 1.579    Compiling convert_case v0.10.0
+#14 1.616    Compiling futures-io v0.3.32
+#14 1.625    Compiling bytes v1.12.1
+#14 1.684    Compiling fastrand v2.4.1
+#14 1.718    Compiling portable-atomic v1.15.0
+#14 1.725    Compiling unicode-xid v0.2.6
+#14 1.743    Compiling event-listener-strategy v0.5.4
+#14 1.755    Compiling hashbrown v0.17.0
+#14 1.769    Compiling nom v8.0.0
+#14 1.769    Compiling aho-corasick v1.1.4
+#14 1.800    Compiling async-channel v2.5.0
+#14 1.845    Compiling syn v2.0.119
+#14 1.860    Compiling syn v3.0.3
+#14 1.900    Compiling futures-lite v2.6.1
+#14 1.903    Compiling spin v0.12.2
+#14 1.923    Compiling ahash v0.8.12
+#14 2.067    Compiling cubecl-common v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#14 2.081    Compiling etcetera v0.11.0
+#14 2.103    Compiling thiserror v2.0.18
+#14 2.155    Compiling embassy-futures v0.1.2
+#14 2.210    Compiling regex-syntax v0.8.11
+#14 2.215    Compiling web-time v1.1.0
+#14 2.244    Compiling rand v0.10.1
+#14 2.244    Compiling oneshot v0.2.1
+#14 2.281    Compiling uuid v1.23.1
+#14 2.285    Compiling data-encoding v2.11.0
+#14 2.491    Compiling thiserror v1.0.69
+#14 2.538    Compiling burn-dispatch v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#14 2.631    Compiling spin v0.11.1
+#14 2.649    Compiling rustix v0.38.44
+#14 2.766    Compiling toml_datetime v1.1.1+spec-1.1.0
+#14 2.780    Compiling serde_spanned v1.1.1
+#14 2.801    Compiling addr2line v0.25.1
+#14 2.838    Compiling serde_bytes v0.11.19
+#14 2.871    Compiling hashbrown v0.16.1
+#14 2.918    Compiling rand_distr v0.6.0
+#14 2.933    Compiling rustix v1.1.4
+#14 2.986    Compiling linux-raw-sys v0.4.15
+#14 2.995    Compiling anyhow v1.0.102
+#14 3.009    Compiling protobuf v3.7.2
+#14 3.012    Compiling linux-raw-sys v0.12.1
+#14 3.125    Compiling toml v1.1.2+spec-1.1.0
+#14 3.125    Compiling either v1.15.0
+#14 3.220    Compiling colored v3.1.1
+#14 3.261    Compiling home v0.5.12
+#14 3.273    Compiling byteorder v1.5.0
+#14 3.314    Compiling heck v0.5.0
+#14 3.316    Compiling syn v1.0.109
+#14 3.386    Compiling utf8parse v0.2.2
+#14 3.392    Compiling tracing-core v0.1.36
+#14 3.401    Compiling colorchoice v1.0.5
+#14 3.416    Compiling anstyle-parse v1.0.0
+#14 3.421    Compiling anstyle-query v1.1.5
+#14 3.452    Compiling is_terminal_polyfill v1.70.2
+#14 3.465    Compiling anstyle v1.0.14
+#14 3.482    Compiling regex-automata v0.4.18
+#14 3.609    Compiling indexmap v2.14.0
+#14 3.612    Compiling prettyplease v0.1.25
+#14 3.637    Compiling anstream v1.0.0
+#14 3.647    Compiling memmap2 v0.9.11
+#14 3.662    Compiling tynm v0.2.0
+#14 3.779    Compiling strsim v0.11.1
+#14 3.924    Compiling backtrace v0.3.76
+#14 3.925    Compiling clap_lex v1.1.0
+#14 3.925    Compiling lazy_static v1.5.0
+#14 3.938    Compiling tracing-log v0.2.0
+#14 3.966    Compiling tracing v0.1.44
+#14 4.071    Compiling darling_core v0.21.3
+#14 4.114    Compiling sharded-slab v0.1.7
+#14 4.116    Compiling thread_local v1.1.9
+#14 4.147    Compiling nu-ansi-term v0.50.3
+#14 4.213    Compiling clap_builder v4.6.6
+#14 4.214    Compiling textdistance v1.1.1
+#14 4.343    Compiling which v4.4.2
+#14 4.366    Compiling tempfile v3.27.0
+#14 4.610    Compiling bytemuck_derive v1.10.2
+#14 4.610    Compiling zerocopy-derive v0.8.48
+#14 4.611    Compiling derive-new v0.7.0
+#14 4.611    Compiling derive_more-impl v2.1.1
+#14 4.611    Compiling thiserror-impl v2.0.18
+#14 4.611    Compiling thiserror-impl v1.0.69
+#14 4.612    Compiling strum_macros v0.28.0
+#14 4.696    Compiling serde_derive v1.0.229
+#14 4.702    Compiling onnx-ir-derive v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir-derive)
+#14 4.702    Compiling clap_derive v4.6.4
+#14 5.135    Compiling regex v1.13.1
+#14 5.831    Compiling rust-format v0.3.4
+#14 5.854    Compiling burn-derive v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#14 6.042    Compiling darling_macro v0.21.3
+#14 6.130    Compiling matchers v0.2.0
+#14 6.171    Compiling bytemuck v1.25.0
+#14 6.215    Compiling protobuf-support v3.7.2
+#14 6.348    Compiling num-complex v0.4.6
+#14 6.353    Compiling dyn-stack v0.13.2
+#14 6.672    Compiling clap v4.6.6
+#14 6.679    Compiling strum v0.28.0
+#14 6.805    Compiling darling v0.21.3
+#14 6.810    Compiling derive_more v2.1.1
+#14 6.843    Compiling enumset_derive v0.15.0
+#14 7.370    Compiling smallvec v1.15.1
+#14 7.370    Compiling safetensors v0.7.0
+#14 7.468    Compiling cubecl-zspace v0.11.0-pre.2 (https://github.com/tracel-ai/cubecl?rev=48348968468e433235be3db6e7c344c34bc446c0#48348968)
+#14 7.468    Compiling tracing-subscriber v0.3.23
+#14 7.580    Compiling enumset v1.1.13
+#14 7.595    Compiling parking_lot v0.12.5
+#14 8.619    Compiling protobuf-parse v3.7.2
+#14 8.651    Compiling half v2.7.1
+#14 8.869    Compiling ciborium-ll v0.2.2
+#14 8.869    Compiling gemm-common v0.19.0
+#14 8.869    Compiling float8 v0.7.0
+#14 8.943    Compiling ciborium v0.2.2
+#14 9.069    Compiling gemm-f32 v0.19.0
+#14 9.069    Compiling gemm-f64 v0.19.0
+#14 9.070    Compiling gemm-c32 v0.19.0
+#14 9.070    Compiling gemm-c64 v0.19.0
+#14 9.389    Compiling protobuf-codegen v3.7.2
+#14 9.438    Compiling gemm-f16 v0.19.0
+#14 9.742    Compiling gemm v0.19.0
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:1994:18
+#14 9.812      |
+#14 9.812 1994 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[0]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[0]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2000:18
+#14 9.812      |
+#14 9.812 2000 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[1]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[1]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2006:18
+#14 9.812      |
+#14 9.812 2006 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[2]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[2]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2012:18
+#14 9.812      |
+#14 9.812 2012 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[3]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[3]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2018:18
+#14 9.812      |
+#14 9.812 2018 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[4]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[4]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2024:18
+#14 9.812      |
+#14 9.812 2024 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[5]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[5]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2030:18
+#14 9.812      |
+#14 9.812 2030 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[6]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[6]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.812 error: instruction requires: fullfp16
+#14 9.812     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:2036:18
+#14 9.812      |
+#14 9.812 2036 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.h[7]",
+#14 9.812      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.812      |
+#14 9.812 note: instantiated into assembly here
+#14 9.812     --> <inline asm>:1:2
+#14 9.812      |
+#14 9.812    1 |     fmla v0.8h, v1.8h, v2.h[7]
+#14 9.812      |     ^
+#14 9.812 
+#14 9.862 error: instruction requires: fullfp16
+#14 9.862     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:1966:18
+#14 9.862      |
+#14 9.862 1966 |                 "fadd {0:v}.8h, {1:v}.8h, {2:v}.8h",
+#14 9.862      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.862      |
+#14 9.862 note: instantiated into assembly here
+#14 9.862     --> <inline asm>:1:2
+#14 9.862      |
+#14 9.862    1 |     fadd v0.8h, v1.8h, v2.8h
+#14 9.862      |     ^
+#14 9.862 
+#14 9.862 error: instruction requires: fullfp16
+#14 9.862     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:1978:18
+#14 9.862      |
+#14 9.862 1978 |                 "fmla {0:v}.8h, {1:v}.8h, {2:v}.8h",
+#14 9.862      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.862      |
+#14 9.862 note: instantiated into assembly here
+#14 9.862     --> <inline asm>:1:2
+#14 9.862      |
+#14 9.862    1 |     fmla v0.8h, v1.8h, v2.8h
+#14 9.862      |     ^
+#14 9.862 
+#14 9.862 error: instruction requires: fullfp16
+#14 9.862     --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gemm-common-0.19.0/src/simd.rs:1952:18
+#14 9.862      |
+#14 9.862 1952 |                 "fmul {0:v}.8h, {1:v}.8h, {2:v}.8h",
+#14 9.862      |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#14 9.862      |
+#14 9.862 note: instantiated into assembly here
+#14 9.862     --> <inline asm>:1:2
+#14 9.862      |
+#14 9.862    1 |     fmul v0.8h, v1.8h, v2.8h
+#14 9.862      |     ^
+#14 9.862 
+#14 10.32    Compiling burn-std v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+#14 10.36    Compiling onnx-ir v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir)
+#14 10.40 error: could not compile `gemm-f16` (lib) due to 11 previous errors
+#14 10.40 warning: build failed, waiting for other jobs to finish...
+#14 ERROR: process "/bin/sh -c cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests" did not complete successfully: exit code: 101
+------
+ > [9/9] RUN cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests:
+9.862 note: instantiated into assembly here
+9.862     --> <inline asm>:1:2
+9.862      |
+9.862    1 |     fmul v0.8h, v1.8h, v2.8h
+9.862      |     ^
+9.862 
+10.32    Compiling burn-std v0.22.0-pre.2 (https://github.com/tracel-ai/burn?rev=9cdb20df7ab3ff5572518cb0dae370a3cf85ed02#9cdb20df)
+10.36    Compiling onnx-ir v0.22.0-pre.1 (/workspace/repo/crates/onnx-ir)
+10.40 error: could not compile `gemm-f16` (lib) due to 11 previous errors
+10.40 warning: build failed, waiting for other jobs to finish...
+------
+Dockerfile:40
+
+--------------------
+
+  39 |     # use it.
+
+  40 | >>> RUN cargo build -p burn-onnx --bin onnx2burn --locked \
+
+  41 | >>>     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests
+
+  42 |     
+
+--------------------
+
+failed to solve: process "/bin/sh -c cargo build -p burn-onnx --bin onnx2burn --locked     && cargo test --no-run --locked -p onnx-ir -p burn-onnx -p onnx-tests -p onnx-official-tests" did not complete successfully: exit code: 101
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/q2u9jmfjc9exfctd0x42aijsv
+
+. Stderr: None. 

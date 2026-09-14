@@ -1,0 +1,196 @@
+{
+ "failed_groups": [
+  "onnx_tests",
+  "official",
+  "rejects"
+ ],
+ "groups": {
+  "anticheat": {
+   "missing_artifacts": [],
+   "non_source_files": [],
+   "ok": true,
+   "pattern_hits": [],
+   "symlinks": []
+  },
+  "build": {
+   "errors": [],
+   "ok": true,
+   "onnx2burn_rc": 0,
+   "tests_rc": 0,
+   "warnings": 651
+  },
+  "official": {
+   "compile_error": false,
+   "differential": {
+    "failed": [
+     "test_rnnrt_gru_bidir_lbr_h0",
+     "test_rnnrt_gru_bidir_yh_only",
+     "test_rnnrt_gru_fwd_bias_h0",
+     "test_rnnrt_gru_layout1_bidir_h0",
+     "test_rnnrt_gru_layout1_fwd_bias_h0",
+     "test_rnnrt_gru_reverse_nobias",
+     "test_rnnrt_gru_static_layout1_bidir_h0",
+     "test_rnnrt_gru_y_only_seq1",
+     "test_rnnrt_lstm_bidir_bias_yc",
+     "test_rnnrt_lstm_bidir_state",
+     "test_rnnrt_lstm_fwd_bias_state",
+     "test_rnnrt_lstm_layout1_bidir_state_yc",
+     "test_rnnrt_lstm_layout1_reverse",
+     "test_rnnrt_lstm_reverse_nobias",
+     "test_rnnrt_lstm_static_layout1_fwd_yc",
+     "test_rnnrt_lstm_yh_yc_only",
+     "test_rnnrt_rnn_bidir_bias",
+     "test_rnnrt_rnn_fwd_bias_h0",
+     "test_rnnrt_rnn_layout1_bidir_yh",
+     "test_rnnrt_rnn_layout1_fwd_bias",
+     "test_rnnrt_rnn_reverse_nobias_yh",
+     "test_rnnrt_rnn_static_layout1_reverse"
+    ],
+    "passed": 2,
+    "total": 24
+   },
+   "drift_retries": 0,
+   "drift_tests": {
+    "drift_gate_polarity": "ok",
+    "negative_gate_actually_gates": "ok",
+    "verify_expectations_match_tests": "ok",
+    "verify_fail_compare_still_fails": "ok"
+   },
+   "expected_passed": 860,
+   "failed": 33,
+   "failed_tests": [
+    "test_gru_batchwise",
+    "test_gru_defaults",
+    "test_gru_seq_length",
+    "test_gru_with_initial_bias",
+    "test_lstm_batchwise",
+    "test_lstm_defaults",
+    "test_lstm_with_initial_bias",
+    "test_rnn_seq_length",
+    "test_rnnrt_gru_bidir_lbr_h0",
+    "test_rnnrt_gru_bidir_yh_only",
+    "test_rnnrt_gru_fwd_bias_h0",
+    "test_rnnrt_gru_layout1_bidir_h0",
+    "test_rnnrt_gru_layout1_fwd_bias_h0",
+    "test_rnnrt_gru_reverse_nobias",
+    "test_rnnrt_gru_static_layout1_bidir_h0",
+    "test_rnnrt_gru_y_only_seq1",
+    "test_rnnrt_lstm_bidir_bias_yc",
+    "test_rnnrt_lstm_bidir_state",
+    "test_rnnrt_lstm_fwd_bias_state",
+    "test_rnnrt_lstm_layout1_bidir_state_yc",
+    "test_rnnrt_lstm_layout1_reverse",
+    "test_rnnrt_lstm_reverse_nobias",
+    "test_rnnrt_lstm_static_layout1_fwd_yc",
+    "test_rnnrt_lstm_yh_yc_only",
+    "test_rnnrt_rnn_bidir_bias",
+    "test_rnnrt_rnn_fwd_bias_h0",
+    "test_rnnrt_rnn_layout1_bidir_yh",
+    "test_rnnrt_rnn_layout1_fwd_bias",
+    "test_rnnrt_rnn_reverse_nobias_yh",
+    "test_rnnrt_rnn_static_layout1_reverse",
+    "test_simple_rnn_batchwise",
+    "test_simple_rnn_defaults",
+    "test_simple_rnn_with_initial_bias"
+   ],
+   "ignored": 0,
+   "ok": false,
+   "other_failed": [],
+   "passed": 827,
+   "promoted_rows": {
+    "test_gru_batchwise": "FAILED",
+    "test_gru_defaults": "FAILED",
+    "test_gru_seq_length": "FAILED",
+    "test_gru_with_initial_bias": "FAILED",
+    "test_lstm_batchwise": "FAILED",
+    "test_lstm_defaults": "FAILED",
+    "test_lstm_with_initial_bias": "FAILED",
+    "test_rnn_seq_length": "FAILED",
+    "test_simple_rnn_batchwise": "FAILED",
+    "test_simple_rnn_defaults": "FAILED",
+    "test_simple_rnn_with_initial_bias": "FAILED"
+   },
+   "rc": 101
+  },
+  "onnx_ir": {
+   "compile_error": false,
+   "expected_passed": 553,
+   "failed": 0,
+   "failed_tests": [],
+   "ignored": 0,
+   "ok": true,
+   "passed": 553,
+   "rc": 0
+  },
+  "onnx_tests": {
+   "compile_error": false,
+   "expected_passed": 601,
+   "failed": 4,
+   "failed_tests": [
+    "gru::tests::gru_bidirectional_runtime_weights_match_initializers",
+    "gru::tests::gru_runtime_weights",
+    "lstm::tests::lstm_runtime_weights",
+    "rnn::tests::rnn_runtime_weights"
+   ],
+   "hidden_pr_tests": {
+    "gru::tests::gru_bidirectional_runtime_weights_match_initializers": "FAILED",
+    "gru::tests::gru_runtime_weights": "FAILED",
+    "lstm::tests::lstm_runtime_weights": "FAILED",
+    "rnn::tests::rnn_runtime_weights": "FAILED"
+   },
+   "ignored": 0,
+   "ok": false,
+   "passed": 597,
+   "rc": 101,
+   "rnn_family_failed": [
+    "gru::tests::gru_bidirectional_runtime_weights_match_initializers",
+    "gru::tests::gru_runtime_weights",
+    "lstm::tests::lstm_runtime_weights",
+    "rnn::tests::rnn_runtime_weights"
+   ]
+  },
+  "rejects": {
+   "accept_probe": {
+    "files": [
+     "gru_runtime_weights.bpk",
+     "gru_runtime_weights.rs"
+    ],
+    "rc": 0
+   },
+   "ok": false,
+   "rejected": {
+    "gru_mixed_weight_group.onnx": {
+     "files": [
+      "gru_mixed_weight_group.bpk",
+      "gru_mixed_weight_group.rs"
+     ],
+     "rc": 0,
+     "rejected": false
+    },
+    "lstm_sequence_lens.onnx": {
+     "files": [],
+     "rc": 101,
+     "rejected": true
+    },
+    "lstm_with_peepholes.onnx": {
+     "files": [],
+     "rc": 101,
+     "rejected": true
+    }
+   }
+  }
+ },
+ "reward": 0,
+ "task": "rs-burn-onnx-rnn-runtime-weights",
+ "timeline": [
+  "verifier start 2026-09-13T12:13:28Z",
+  "captured crates/onnx-ir/src (192 files)",
+  "captured crates/burn-onnx/src (200 files)",
+  "clean room ready 2026-09-13T12:13:30Z",
+  "build done 2026-09-13T12:13:41Z",
+  "onnx-tests done 2026-09-13T12:14:13Z",
+  "official done 2026-09-13T12:14:47Z",
+  "onnx-ir done 2026-09-13T12:15:07Z",
+  "rejects done 2026-09-13T12:15:07Z"
+ ]
+}
