@@ -36,6 +36,8 @@ cp "$REPO_ROOT/scripts/harbor-viewer/timezone.js" "$STATIC/assets/timezone.js"
 "$HARBOR_PY" "$REPO_ROOT/scripts/harbor-viewer/patch-timezone.py" "$STATIC"
 cp "$REPO_ROOT/scripts/harbor-viewer/failed_checks.py" "$HARBOR_PKG/viewer/failed_checks.py"
 "$HARBOR_PY" "$REPO_ROOT/scripts/harbor-viewer/patch-failed-checks.py" "$HARBOR_PKG/viewer"
+cp "$REPO_ROOT/scripts/harbor-viewer/effort_groups.py" "$HARBOR_PKG/viewer/effort_groups.py"
+"$HARBOR_PY" "$REPO_ROOT/scripts/harbor-viewer/patch-effort-groups.py" "$HARBOR_PKG/viewer"
 if ! grep -q 'effort-badge.js' "$INDEX"; then
   "$HARBOR_PY" - "$INDEX" <<'PY'
 from pathlib import Path

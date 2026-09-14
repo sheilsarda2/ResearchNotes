@@ -8,13 +8,15 @@
     return kwargs.reasoning_effort || kwargs.effort || kwargs.reasoningEffort || null;
   }
 
-  function effortsFromConfig(config) {
+  function effortsFromConfig(config, route = {}) {
     const seen = [];
     for (const agent of config.agents || []) {
-      const effort = effortFromKwargs(agent.kwargs) || "high";
-      const note = effortFromKwargs(agent.kwargs) ? "" : " (API default)";
+      const effort = effortFromKwargs(agent.kwargs);
+      const note = effort ? "" : " (unspecified)";
       const model = (agent.model_name || "").split("/").pop() || agent.name || "model";
-      const label = `${model} × ${effort}${note}`;
+      if (route.modelName && route.modelName !== model) continue;
+      if (route.effort !== null && route.effort !== undefined && route.effort !== (effort || "_")) continue;
+      const label = `${model} × ${effort || "default"}${note}`;
       if (!seen.includes(label)) seen.push(label);
     }
     return seen;
@@ -25,7 +27,9 @@
     if (parts.length === 0) return { page: "jobs" };
     if (parts[0] !== "jobs") return null;
     if (!parts[1]) return { page: "jobs" };
-    return { page: "job", jobName: decodeURIComponent(parts[1]) };
+    return { page: "job", jobName: decodeURIComponent(parts[1]),
+      modelName: parts[2] === "tasks" && parts[6] !== "_" ? decodeURIComponent(parts[6]) : null,
+      effort: new URLSearchParams(location.search).get("effort") };
   }
 
   function ensureStyle() {
@@ -122,7 +126,7 @@
     try {
       const res = await fetch(`/api/jobs/${encodeURIComponent(route.jobName)}/config`);
       if (!res.ok) return;
-      decorateJobHeading(effortsFromConfig(await res.json()));
+      decorateJobHeading(effortsFromConfig(await res.json(), route));
     } catch {
       /* ignore */
     }
