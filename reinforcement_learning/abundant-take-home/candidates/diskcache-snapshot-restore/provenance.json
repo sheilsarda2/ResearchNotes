@@ -1,0 +1,55 @@
+{
+  "upstream_url": "https://github.com/grantjenks/python-diskcache",
+  "upstream_commit": "ebfa37cd99d7ef716ec452ad8af4b4276a8e2233",
+  "upstream_commit_date": "2024-03-02T17:19:29-08:00",
+  "license": "Apache-2.0",
+  "source_archive_sha256": "9643193bf63095722cd022c5f6d672765fae7af5c725502bcb93bc8a6c1e6763",
+  "checked_at": "2026-09-13T07:27:05.928302+00:00",
+  "sources": [
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/core.py",
+      "finding": "Database rows reference separate payload files; transactions protect rows and scheduled file deletion."
+    },
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py",
+      "finding": "Current FanoutCache already supports transactions over all shards. No snapshot/restore API exists in the audited source."
+    },
+    {
+      "url": "https://www.sqlite.org/backup.html",
+      "finding": "SQLite online backup concerns the database image; DiskCache external value files require an additional consistency protocol."
+    },
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/pulls",
+      "finding": "Earlier metadata snapshot recorded25 open PRs in research/sources/diskcache-open-prs.json. Independent retrieval on2026-09-13T07:56:42Z returned27 open titles/bodies; none claimed the complete snapshot/restore contract. Fresh raw responses are in research/sources/independent-freshness-upstream.json. Inventory review is bounded evidence, not proof across external or non-default branches.",
+      "checked_at": "2026-09-13"
+    },
+    {
+      "url": "https://pypi.org/project/diskcache-weave/5.6.3.post1/",
+      "checked_at": "2026-09-13",
+      "finding": "Published source artifact uploaded2026-03-19 was hash-checked and compared to the pin. Only package init/core differ; core changes default Cache to JSONDisk and private directory modes, not snapshot/restore."
+    },
+    {
+      "url": "https://github.com/loonghao/diskcache_rs/blob/ee56ff2/src/migration.rs#L207",
+      "checked_at": "2026-09-13",
+      "finding": "Public database-only backup and legacy-format migration are partial prior art. The inspected helper copies cache.db; it does not implement this cross-file, cross-shard snapshot contract."
+    }
+  ],
+  "original_contribution": "Consistent native database plus external-payload snapshots across Fanout shards; validated atomic restore, built-in codec/settings fidelity, CLI and interruption semantics. This is a new feature contract, not an unmerged upstream patch replay.",
+  "public_solution_overlap": "SQLite backup and DiskCache transactions are public building blocks. Targeted repository/source and web searches found no implementation of this full API; bounded evidence cannot rule out external or unpublished solutions.",
+  "horizon_hypothesis": "Coordinating cross-shard write locking, SQLite backup, external payload lifetime, settings restoration, atomic directory publication, integrity validation, CLI and backward compatibility may require sustained repository work. Actual agent steps and headroom are unmeasured.",
+  "model_headroom": "unmeasured",
+  "agent_horizon": "unmeasured",
+  "validation_status": "Harbor oracle reward 1 (159 tests), nop reward 0, separate offline verifier; no-lock and no-checksum mutants rejected",
+  "validation_evidence": {
+    "oracle": "../../research/validation/jobs/snapshot-oracle-v4",
+    "nop": "../../research/validation/jobs/snapshot-nop-v2",
+    "mutants": "../../research/validation/snapshot-mutants/results.json"
+  },
+  "freshness_audit": {
+    "checked_at": "2026-09-13",
+    "report": "../../research/independent-freshness-audit.md",
+    "fork_scan": "../../research/sources/independent-freshness-diskcache-forks.json",
+    "scope": "27 open PR titles/bodies; default-branch source for22 recently pushed forks among newest100, plus selected alternative distributions. Non-default branches, older forks and unpublished work are not ruled out."
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}
