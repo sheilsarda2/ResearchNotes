@@ -1,0 +1,336 @@
+{
+  "sqlite3": {
+    "requested_undecodable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--topics",
+        "/camera/video_compressed"
+      ],
+      "rc": 1,
+      "mentions_proto": true,
+      "values": [],
+      "output_tail": "[INFO] [1789308192.107258508] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/mixed/0_mixed_2026_09_13-14_03_11.db3' for READ_ONLY.\nCannot play because the following requested topics have a serialization format which differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\nRemove these topics from the ros2 bag play options --topics, --services or --actions to play the rest of the bag.\n"
+    },
+    "default_play": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 0,
+      "mentions_proto": true,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308202.885304971] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/mixed/0_mixed_2026_09_13-14_03_11.db3' for READ_ONLY.\n[WARN] [1789308202.885410471] [rosbag2_player]: Excluding the following topics from playback: their serialization format differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\nSelect or exclude topics explicitly, e.g. with the ros2 bag play options --topics, --exclude-topics or --exclude-regex, to silence this warning.\n[INFO] [1789308202.885450721] [rosbag2_player]: Set rate to 1\n[INFO] [1789308202.891902596] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308202.892237096] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "explicit_exclude": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--exclude-topics",
+        "/camera/video_compressed"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308205.810992875] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/mixed/0_mixed_2026_09_13-14_03_11.db3' for READ_ONLY.\n[INFO] [1789308205.811134166] [rosbag2_player]: Set rate to 1\n[INFO] [1789308205.816173041] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308205.816442666] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "select_playable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--topics",
+        "/chatter"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308208.765042168] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/mixed/0_mixed_2026_09_13-14_03_11.db3' for READ_ONLY.\n[INFO] [1789308208.765176709] [rosbag2_player]: Set rate to 1\n[INFO] [1789308208.769722876] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308208.770166001] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "nothing_playable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--exclude-topics",
+        "/chatter"
+      ],
+      "rc": 1,
+      "mentions_proto": true,
+      "values": [],
+      "output_tail": "[INFO] [1789308211.704688878] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/mixed/0_mixed_2026_09_13-14_03_11.db3' for READ_ONLY.\nCannot play because no topics would be left to play after excluding the following topics, whose serialization format differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\n"
+    },
+    "only_undecodable_bag": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/only_proto",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 1,
+      "mentions_proto": false,
+      "values": [],
+      "output_tail": "[INFO] [1789308222.486391758] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/only_proto/0_only_proto_2026_09_13-14_03_11.db3' for READ_ONLY.\n[INFO] [1789308222.486431883] [rosbag2_cpp]: No plugin found providing serialization format 'protobuf'. Falling back to checking RMW implementations.\n[ERROR] [1789308222.486483216] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format protobuf\n[INFO] [1789308222.486506591] [rosbag2_cpp]: No plugin found providing serialization format 'cdr'. Falling back to checking RMW implementations.\nCould not find converter for format protobuf\n"
+    },
+    "uniform_baseline": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/sqlite3/uniform",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308233.349414346] [rosbag2_storage]: Opened database '/tmp/verifier_work/diff/bags/sqlite3/uniform/0_uniform_2026_09_13-14_03_11.db3' for READ_ONLY.\n[INFO] [1789308233.349525388] [rosbag2_player]: Set rate to 1\n[INFO] [1789308233.354452263] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308233.354644555] [rosbag2_player]: Sleep 2000000000 ns\n"
+    }
+  },
+  "mcap": {
+    "requested_undecodable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--topics",
+        "/camera/video_compressed"
+      ],
+      "rc": 1,
+      "mentions_proto": true,
+      "values": [],
+      "output_tail": "Cannot play because the following requested topics have a serialization format which differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\nRemove these topics from the ros2 bag play options --topics, --services or --actions to play the rest of the bag.\n"
+    },
+    "default_play": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 0,
+      "mentions_proto": true,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[WARN] [1789308247.088038297] [rosbag2_player]: Excluding the following topics from playback: their serialization format differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\nSelect or exclude topics explicitly, e.g. with the ros2 bag play options --topics, --exclude-topics or --exclude-regex, to silence this warning.\n[INFO] [1789308247.088087630] [rosbag2_player]: Set rate to 1\n[INFO] [1789308247.093400505] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308247.093634130] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "explicit_exclude": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--exclude-topics",
+        "/camera/video_compressed"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308250.044828673] [rosbag2_player]: Set rate to 1\n[INFO] [1789308250.049970507] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308250.050217340] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "select_playable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--topics",
+        "/chatter"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308252.961208883] [rosbag2_player]: Set rate to 1\n[INFO] [1789308252.965922050] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308252.966233675] [rosbag2_player]: Sleep 2000000000 ns\n"
+    },
+    "nothing_playable": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/mixed",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000",
+        "--exclude-topics",
+        "/chatter"
+      ],
+      "rc": 1,
+      "mentions_proto": true,
+      "values": [],
+      "output_tail": "Cannot play because no topics would be left to play after excluding the following topics, whose serialization format differs from the local rmw serialization format 'cdr' and cannot be converted:\n  '/camera/video_compressed' (protobuf)\n"
+    },
+    "only_undecodable_bag": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/only_proto",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 1,
+      "mentions_proto": false,
+      "values": [],
+      "output_tail": "[INFO] [1789308266.721099875] [rosbag2_cpp]: No plugin found providing serialization format 'protobuf'. Falling back to checking RMW implementations.\n[ERROR] [1789308266.721163708] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format protobuf\n[INFO] [1789308266.721187000] [rosbag2_cpp]: No plugin found providing serialization format 'cdr'. Falling back to checking RMW implementations.\nCould not find converter for format protobuf\n"
+    },
+    "uniform_baseline": {
+      "cmd": [
+        "ros2",
+        "bag",
+        "play",
+        "/tmp/verifier_work/diff/bags/mcap/uniform",
+        "--disable-keyboard-controls",
+        "--progress-bar-update-rate",
+        "0",
+        "--delay",
+        "2",
+        "--wait-for-all-acked",
+        "5000"
+      ],
+      "rc": 0,
+      "mentions_proto": false,
+      "values": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "output_tail": "[INFO] [1789308277.517526422] [rosbag2_player]: Set rate to 1\n[INFO] [1789308277.522913880] [rosbag2_player]: Playback until timestamp: -1\n[INFO] [1789308277.523195005] [rosbag2_player]: Sleep 2000000000 ns\n"
+    }
+  }
+}

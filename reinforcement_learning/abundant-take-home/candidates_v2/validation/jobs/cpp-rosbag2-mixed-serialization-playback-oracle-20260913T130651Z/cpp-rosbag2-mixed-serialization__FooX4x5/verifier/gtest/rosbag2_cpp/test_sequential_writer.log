@@ -1,0 +1,119 @@
+Running main() from gmock_main.cc
+[==========] Running 35 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 31 tests from SequentialWriterTest
+[ RUN      ] SequentialWriterTest.create_topic_does_not_throw_if_writer_not_open
+[       OK ] SequentialWriterTest.create_topic_does_not_throw_if_writer_not_open (0 ms)
+[ RUN      ] SequentialWriterTest.remove_topic_does_not_throw_if_writer_not_open
+[       OK ] SequentialWriterTest.remove_topic_does_not_throw_if_writer_not_open (0 ms)
+[ RUN      ] SequentialWriterTest.topics_persist_between_close_and_open
+[       OK ] SequentialWriterTest.topics_persist_between_close_and_open (0 ms)
+[ RUN      ] SequentialWriterTest.write_uses_converters_to_convert_serialization_format_if_input_and_output_format_are_different
+[       OK ] SequentialWriterTest.write_uses_converters_to_convert_serialization_format_if_input_and_output_format_are_different (1 ms)
+[ RUN      ] SequentialWriterTest.write_does_not_use_converters_if_input_and_output_format_are_equal
+[       OK ] SequentialWriterTest.write_does_not_use_converters_if_input_and_output_format_are_equal (0 ms)
+[ RUN      ] SequentialWriterTest.writer_uses_correct_serialization_format_in_metadata
+[       OK ] SequentialWriterTest.writer_uses_correct_serialization_format_in_metadata (1 ms)
+[ RUN      ] SequentialWriterTest.metadata_io_writes_metadata_file_in_destructor
+[       OK ] SequentialWriterTest.metadata_io_writes_metadata_file_in_destructor (0 ms)
+[ RUN      ] SequentialWriterTest.sequantial_writer_call_metadata_update_on_open_and_destruction
+[       OK ] SequentialWriterTest.sequantial_writer_call_metadata_update_on_open_and_destruction (0 ms)
+[ RUN      ] SequentialWriterTest.sequantial_writer_call_metadata_update_on_bag_split
+[       OK ] SequentialWriterTest.sequantial_writer_call_metadata_update_on_bag_split (0 ms)
+[ RUN      ] SequentialWriterTest.open_throws_error_if_converter_plugin_does_not_exist
+[       OK ] SequentialWriterTest.open_throws_error_if_converter_plugin_does_not_exist (0 ms)
+[ RUN      ] SequentialWriterTest.open_throws_error_on_invalid_splitting_size
+[       OK ] SequentialWriterTest.open_throws_error_on_invalid_splitting_size (0 ms)
+[ RUN      ] SequentialWriterTest.bagfile_size_is_checked_on_every_write
+[       OK ] SequentialWriterTest.bagfile_size_is_checked_on_every_write (0 ms)
+[ RUN      ] SequentialWriterTest.writer_splits_when_storage_bagfile_size_gt_max_bagfile_size
+[       OK ] SequentialWriterTest.writer_splits_when_storage_bagfile_size_gt_max_bagfile_size (0 ms)
+[ RUN      ] SequentialWriterTest.writer_with_cache_splits_when_storage_bagfile_size_gt_max_bagfile_size
+[INFO] [1789305163.983600009] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305163.995909050] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.004073509] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.writer_with_cache_splits_when_storage_bagfile_size_gt_max_bagfile_size (33 ms)
+[ RUN      ] SequentialWriterTest.do_not_use_cache_if_cache_size_is_zero
+[       OK ] SequentialWriterTest.do_not_use_cache_if_cache_size_is_zero (1 ms)
+[ RUN      ] SequentialWriterTest.snapshot_mode_write_on_trigger
+[INFO] [1789305164.005751842] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.005870675] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.snapshot_mode_write_on_trigger (0 ms)
+[ RUN      ] SequentialWriterTest.snapshot_mode_not_triggered_no_storage_write
+[INFO] [1789305164.006222675] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.snapshot_mode_not_triggered_no_storage_write (0 ms)
+[ RUN      ] SequentialWriterTest.snapshot_mode_zero_cache_size_throws_exception
+[       OK ] SequentialWriterTest.snapshot_mode_zero_cache_size_throws_exception (0 ms)
+[ RUN      ] SequentialWriterTest.snapshot_writes_to_new_file_with_bag_split
+[INFO] [1789305164.006889717] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.007045509] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.snapshot_writes_to_new_file_with_bag_split (0 ms)
+[ RUN      ] SequentialWriterTest.snapshot_can_be_called_twice
+[INFO] [1789305164.007380134] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.007492134] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.007624342] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.snapshot_can_be_called_twice (0 ms)
+[ RUN      ] SequentialWriterTest.calls_callback_on_storage_message_lost_with_no_cache
+[       OK ] SequentialWriterTest.calls_callback_on_storage_message_lost_with_no_cache (0 ms)
+[ RUN      ] SequentialWriterTest.calls_callback_on_storage_messages_lost_with_cache
+[INFO] [1789305164.008195217] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.calls_callback_on_storage_messages_lost_with_cache (0 ms)
+[ RUN      ] SequentialWriterTest.calls_callback_on_messages_loss_in_writer_cache
+[INFO] [1789305164.008459259] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.008595842] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.calls_callback_on_messages_loss_in_writer_cache (0 ms)
+[ RUN      ] SequentialWriterTest.split_event_calls_callback
+[       OK ] SequentialWriterTest.split_event_calls_callback (0 ms)
+[ RUN      ] SequentialWriterTest.split_event_calls_on_writer_close
+[       OK ] SequentialWriterTest.split_event_calls_on_writer_close (0 ms)
+[ RUN      ] SequentialWriterTest.split_prepends_transient_local_messages_to_next_bag
+[       OK ] SequentialWriterTest.split_prepends_transient_local_messages_to_next_bag (0 ms)
+[ RUN      ] SequentialWriterTest.snapshot_merge_prepends_transient_local_messages
+[INFO] [1789305164.009753675] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[INFO] [1789305164.009825509] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+[       OK ] SequentialWriterTest.snapshot_merge_prepends_transient_local_messages (0 ms)
+[ RUN      ] SequentialWriterTest.circular_logging_limits_number_of_files_by_max_bag_files
+[ERROR] [1789305164.010178842] [rosbag2_cpp]: Oldest bagfile to delete not found: /tmp/SequentialWriterTest/test_bag/0_test_bag_2026_09_13-13_12_44
+[ERROR] [1789305164.010284300] [rosbag2_cpp]: Oldest bagfile to delete not found: /tmp/SequentialWriterTest/test_bag/1_test_bag_2026_09_13-13_12_44
+[       OK ] SequentialWriterTest.circular_logging_limits_number_of_files_by_max_bag_files (0 ms)
+[ RUN      ] SequentialWriterTest.all_event_callbacks_can_be_installed
+[       OK ] SequentialWriterTest.all_event_callbacks_can_be_installed (0 ms)
+[ RUN      ] SequentialWriterTest.add_event_callbacks_throws_if_callbacks_are_not_set
+[       OK ] SequentialWriterTest.add_event_callbacks_throws_if_callbacks_are_not_set (0 ms)
+[ RUN      ] SequentialWriterTest.filename_extracts_prefix_from_timestamped_directory_name
+[       OK ] SequentialWriterTest.filename_extracts_prefix_from_timestamped_directory_name (0 ms)
+[----------] 31 tests from SequentialWriterTest (46 ms total)
+
+[----------] 4 tests from SplitMetadataTest/ParametrizedTemporaryDirectoryFixture
+[ RUN      ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.circular_logging_deletes_oldest_files_with_real_storage/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.012325634] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/0_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.013171259] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/1_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.013805800] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/2_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.014542884] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/3_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.014635092] [rosbag2_cpp]: Deleted oldest bagfile: 0_circular_bag_2026_09_13-13_12_44.db3 (28672 bytes, 0 ns)
+[INFO] [1789305164.015284384] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/4_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.015370675] [rosbag2_cpp]: Deleted oldest bagfile: 1_circular_bag_2026_09_13-13_12_44.db3 (28672 bytes, 0 ns)
+[INFO] [1789305164.015992259] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_21c392/circular_bag/5_circular_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.016072967] [rosbag2_cpp]: Deleted oldest bagfile: 2_circular_bag_2026_09_13-13_12_44.db3 (28672 bytes, 0 ns)
+[       OK ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.circular_logging_deletes_oldest_files_with_real_storage/0 (6 ms)
+[ RUN      ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.circular_logging_deletes_oldest_files_with_real_storage/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.019076759] [rosbag2_cpp]: Deleted oldest bagfile: 0_circular_bag_2026_09_13-13_12_44.mcap (2607 bytes, 0 ns)
+[INFO] [1789305164.019516925] [rosbag2_cpp]: Deleted oldest bagfile: 1_circular_bag_2026_09_13-13_12_44.mcap (3200 bytes, 0 ns)
+[INFO] [1789305164.019988842] [rosbag2_cpp]: Deleted oldest bagfile: 2_circular_bag_2026_09_13-13_12_44.mcap (3610 bytes, 0 ns)
+[       OK ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.circular_logging_deletes_oldest_files_with_real_storage/1 (3 ms)
+[ RUN      ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.split_bag_metadata_has_full_duration/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.021377800] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce7f9/split_duration_bag/0_split_duration_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.021917509] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce7f9/split_duration_bag/1_split_duration_bag_2026_09_13-13_12_44.db3' for READ_WRITE.
+[       OK ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.split_bag_metadata_has_full_duration/0 (1 ms)
+[ RUN      ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.split_bag_metadata_has_full_duration/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] SplitMetadataTest/ParametrizedTemporaryDirectoryFixture.split_bag_metadata_has_full_duration/1 (1 ms)
+[----------] 4 tests from SplitMetadataTest/ParametrizedTemporaryDirectoryFixture (13 ms total)
+
+[----------] Global test environment tear-down
+[==========] 35 tests from 2 test suites ran. (59 ms total)
+[  PASSED  ] 35 tests.
+exit=0

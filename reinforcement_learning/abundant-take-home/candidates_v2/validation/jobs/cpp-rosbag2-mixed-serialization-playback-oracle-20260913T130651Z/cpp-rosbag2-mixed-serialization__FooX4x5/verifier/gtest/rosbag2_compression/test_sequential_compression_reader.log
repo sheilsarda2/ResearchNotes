@@ -1,0 +1,50 @@
+Running main() from gmock_main.cc
+[==========] Running 10 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 10 tests from SequentialCompressionReaderTest
+[ RUN      ] SequentialCompressionReaderTest.open_throws_if_unsupported_compressor
+[ERROR] [1789305164.081675217] [rosbag2_compression]: No registered plugin found for compression format 'bad_format'
+[ERROR] [1789305164.081741842] [rosbag2_compression]: Could not load/open plugin for compression format 'bad_format'
+[       OK ] SequentialCompressionReaderTest.open_throws_if_unsupported_compressor (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.returns_all_topics_and_types
+[INFO] [1789305164.082143800] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.returns_all_topics_and_types (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.compressor_factory_creates_callable_compressor
+[ERROR] [1789305164.082457759] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.082509175] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_reader.cpp:188: Failure
+Expected: reader_->open(storage_options_, converter_options_) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Couldn't initialize decompressor.".
+
+[  FAILED  ] SequentialCompressionReaderTest.compressor_factory_creates_callable_compressor (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.reader_calls_create_decompressor
+[INFO] [1789305164.082795134] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.reader_calls_create_decompressor (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.compression_called_when_loading_split_bagfile
+[INFO] [1789305164.083124509] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[INFO] [1789305164.083188717] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_1.fake_comp
+[       OK ] SequentialCompressionReaderTest.compression_called_when_loading_split_bagfile (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.can_find_v4_names
+[INFO] [1789305164.083476759] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.can_find_v4_names (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.throws_on_incorrect_filenames
+[       OK ] SequentialCompressionReaderTest.throws_on_incorrect_filenames (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.can_find_prefixed_filenames
+[INFO] [1789305164.083986009] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.can_find_prefixed_filenames (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.can_find_prefixed_filenames_in_renamed_bag
+[INFO] [1789305164.084253800] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.can_find_prefixed_filenames_in_renamed_bag (0 ms)
+[ RUN      ] SequentialCompressionReaderTest.does_not_decompress_again_on_seek
+[INFO] [1789305164.084538550] [rosbag2_compression]: Decompressing /tmp/SequentialCompressionReaderTest/bagfile_0.fake_comp
+[       OK ] SequentialCompressionReaderTest.does_not_decompress_again_on_seek (0 ms)
+[----------] 10 tests from SequentialCompressionReaderTest (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 10 tests from 1 test suite ran. (3 ms total)
+[  PASSED  ] 9 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] SequentialCompressionReaderTest.compressor_factory_creates_callable_compressor
+
+ 1 FAILED TEST
+exit=1

@@ -1,0 +1,83 @@
+Running main() from gmock_main.cc
+[==========] Running 13 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from TemporaryDirectoryFixture
+[ RUN      ] TemporaryDirectoryFixture.test_rewrite_bag_with_mixed_serialization_formats
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[WARN] [1789305164.423902592] [rosbag2_cpp]: Message definition for topic '/camera/video_compressed' with type 'foxglove.CompressedVideo' not found. Message definition will be left empty in bag.
+[       OK ] TemporaryDirectoryFixture.test_rewrite_bag_with_mixed_serialization_formats (7 ms)
+[----------] 1 test from TemporaryDirectoryFixture (7 ms total)
+
+[----------] 12 tests from ParametrizedRewriteTests/TestRewrite
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_noop_rewrite/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.431406342] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.431979759] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_94f2d1/unchanged/0_unchanged_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.432565092] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.436849967] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_94f2d1/unchanged/0_unchanged_2026_09_13-13_12_44.db3' for READ_ONLY.
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_noop_rewrite/0 (7 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_noop_rewrite/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_noop_rewrite/1 (3 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_merge/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.441415801] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.442194342] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_b/rewriter_b_0.db3' for READ_ONLY.
+[INFO] [1789305164.442702467] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_d43d0d/merged/0_merged_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.443716676] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.449429134] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_d43d0d/merged/0_merged_2026_09_13-13_12_44.db3' for READ_ONLY.
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_merge/0 (9 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_merge/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_merge/1 (5 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_message_definitions_stored_with_merge/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.455837676] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.456620842] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_b/rewriter_b_0.db3' for READ_ONLY.
+[INFO] [1789305164.457083342] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_88e039/merged/0_merged_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.457667967] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.463127926] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_88e039/merged/0_merged_2026_09_13-13_12_44.db3' for READ_ONLY.
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_message_definitions_stored_with_merge/0 (8 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_message_definitions_stored_with_merge/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_message_definitions_stored_with_merge/1 (4 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_filter_split/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.469331134] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.469771467] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce1e6/split1/0_split1_2026_09_13-13_12_44.db3' for READ_WRITE.
+[INFO] [1789305164.470300676] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce1e6/split2/0_split2_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.470575592] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.474681634] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce1e6/split1/0_split1_2026_09_13-13_12_44.db3' for READ_ONLY.
+[INFO] [1789305164.475600551] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_fce1e6/split2/0_split2_2026_09_13-13_12_44.db3' for READ_ONLY.
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_filter_split/0 (7 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_filter_split/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_filter_split/1 (4 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_compress/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.480959426] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.481667884] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_cdfff5/compressed/0_compressed_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.483319551] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.485881342] [rosbag2_compression]: Compressing file: /tmp/tmp_test_dir_cdfff5/compressed/0_compressed_2026_09_13-13_12_44.db3
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_compress/0 (6 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_compress/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.490077676] [rosbag2_compression]: Compressing file: /tmp/tmp_test_dir_39ed18/compressed/0_compressed_2026_09_13-13_12_44.mcap
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_compress/1 (3 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_cut_single_topic_with_start_and_end_time/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305164.491885551] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.492911551] [rosbag2_storage]: Opened database '/workspace/ws/src/rosbag2/rosbag2_transport/test/resources/sqlite3/rewriter_a/rewriter_a_0.db3' for READ_ONLY.
+[INFO] [1789305164.493393842] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_7c2008/cut_window/0_cut_window_2026_09_13-13_12_44.db3' for READ_WRITE.
+[WARN] [1789305164.493677134] [rosbag2_cpp]: Message definition for topic 'a_empty' with type 'test_msgs/msg/Empty' not found. Message definition will be left empty in bag.
+[INFO] [1789305164.496121134] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_7c2008/cut_window/0_cut_window_2026_09_13-13_12_44.db3' for READ_ONLY.
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_cut_single_topic_with_start_and_end_time/0 (5 ms)
+[ RUN      ] ParametrizedRewriteTests/TestRewrite.test_cut_single_topic_with_start_and_end_time/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ParametrizedRewriteTests/TestRewrite.test_cut_single_topic_with_start_and_end_time/1 (3 ms)
+[----------] 12 tests from ParametrizedRewriteTests/TestRewrite (70 ms total)
+
+[----------] Global test environment tear-down
+[==========] 13 tests from 2 test suites ran. (78 ms total)
+[  PASSED  ] 13 tests.
+exit=0

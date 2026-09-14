@@ -1,0 +1,153 @@
+Running main() from gmock_main.cc
+[==========] Running 19 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 11 tests from SequentialCompressionWriterTest
+[ RUN      ] SequentialCompressionWriterTest.open_throws_on_empty_storage_options_uri
+[       OK ] SequentialCompressionWriterTest.open_throws_on_empty_storage_options_uri (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.open_throws_on_bad_compression_format
+[ERROR] [1789305164.199495425] [rosbag2_compression]: No registered plugin found for compression format 'bad_format'
+[ERROR] [1789305164.199546009] [rosbag2_compression]: Could not load/open plugin for compression format 'bad_format'
+[       OK ] SequentialCompressionWriterTest.open_throws_on_bad_compression_format (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.open_throws_on_invalid_splitting_size
+[       OK ] SequentialCompressionWriterTest.open_throws_on_invalid_splitting_size (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.open_succeeds_on_supported_compression_format
+[ERROR] [1789305164.200151800] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.200201967] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:269: Failure
+Expected: writer_->open(tmp_dir_storage_options_, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+
+[  FAILED  ] SequentialCompressionWriterTest.open_succeeds_on_supported_compression_format (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.open_succeeds_twice
+[ERROR] [1789305164.200510467] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.200562759] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:290: Failure
+Expected: writer_->open(storage_options, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+
+[ERROR] [1789305164.200736425] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.200778717] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:294: Failure
+Expected: writer_->open(storage_options_next, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+
+[  FAILED  ] SequentialCompressionWriterTest.open_succeeds_twice (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.writer_calls_create_compressor
+[       OK ] SequentialCompressionWriterTest.writer_calls_create_compressor (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.writer_creates_correct_metadata_relative_filepaths
+[ERROR] [1789305164.201688342] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.201736009] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTest.writer_creates_correct_metadata_relative_filepaths (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.writer_call_metadata_update_on_open_and_destruction
+[ERROR] [1789305164.202111217] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.202157967] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTest.writer_call_metadata_update_on_open_and_destruction (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.writer_call_metadata_update_on_bag_split
+[ERROR] [1789305164.202503050] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.202542009] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:417: Failure
+Actual function call count doesn't match EXPECT_CALL(*storage_, update_metadata(_))...
+         Expected: to be called 4 times
+           Actual: called twice - unsatisfied and active
+
+[  FAILED  ] SequentialCompressionWriterTest.writer_call_metadata_update_on_bag_split (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.circular_logging_limits_number_of_files_by_max_bag_files_with_file_compression
+[ERROR] [1789305164.202881675] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.202926259] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTest.circular_logging_limits_number_of_files_by_max_bag_files_with_file_compression (0 ms)
+[ RUN      ] SequentialCompressionWriterTest.snapshot_writes_to_new_file_with_file_compression
+[ERROR] [1789305164.203352050] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.203389259] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[INFO] [1789305164.203481134] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:745: Failure
+Actual function call count doesn't match EXPECT_CALL(*storage_, write_messages(An<const rosbag2_storage::SerializedBagMessages &>()))...
+         Expected: to be called once
+           Actual: never called - unsatisfied and active
+
+[  FAILED  ] SequentialCompressionWriterTest.snapshot_writes_to_new_file_with_file_compression (0 ms)
+[----------] 11 tests from SequentialCompressionWriterTest (5 ms total)
+
+[----------] 8 tests from SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/0
+[ERROR] [1789305164.203869009] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.203925884] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/0, where GetParam() = 0 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/1
+[ERROR] [1789305164.204230342] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.204274675] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/1, where GetParam() = 5 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_sets_threads_priority/0
+[       OK ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_sets_threads_priority/0 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_sets_threads_priority/1
+[       OK ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_sets_threads_priority/1 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/0
+[ERROR] [1789305164.205747675] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.205798050] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/0, where GetParam() = 0 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/1
+[ERROR] [1789305164.206098134] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.206139300] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/1, where GetParam() = 5 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/0
+[ERROR] [1789305164.206437259] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.206476175] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/0, where GetParam() = 0 (0 ms)
+[ RUN      ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/1
+[ERROR] [1789305164.206773509] [rosbag2_compression]: No registered plugin found for compression format 'fake_comp'
+[ERROR] [1789305164.206818925] [rosbag2_compression]: Could not load/open plugin for compression format 'fake_comp'
+unknown file: Failure
+C++ exception with description "Could not create compressor." thrown in the test body.
+
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/1, where GetParam() = 5 (0 ms)
+[----------] 8 tests from SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 19 tests from 2 test suites ran. (8 ms total)
+[  PASSED  ] 6 tests.
+[  FAILED  ] 13 tests, listed below:
+[  FAILED  ] SequentialCompressionWriterTest.open_succeeds_on_supported_compression_format
+[  FAILED  ] SequentialCompressionWriterTest.open_succeeds_twice
+[  FAILED  ] SequentialCompressionWriterTest.writer_creates_correct_metadata_relative_filepaths
+[  FAILED  ] SequentialCompressionWriterTest.writer_call_metadata_update_on_open_and_destruction
+[  FAILED  ] SequentialCompressionWriterTest.writer_call_metadata_update_on_bag_split
+[  FAILED  ] SequentialCompressionWriterTest.circular_logging_limits_number_of_files_by_max_bag_files_with_file_compression
+[  FAILED  ] SequentialCompressionWriterTest.snapshot_writes_to_new_file_with_file_compression
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/0, where GetParam() = 0
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.writer_writes_with_compression_queue_sizes/1, where GetParam() = 5
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/0, where GetParam() = 0
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_msg_compression/1, where GetParam() = 5
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/0, where GetParam() = 0
+[  FAILED  ] SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest.split_event_calls_callback_with_file_compression/1, where GetParam() = 5
+
+13 FAILED TESTS
+exit=1

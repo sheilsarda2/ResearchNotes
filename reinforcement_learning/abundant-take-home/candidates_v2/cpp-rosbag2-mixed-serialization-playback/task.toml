@@ -1,0 +1,92 @@
+version = "1.0"
+
+[metadata]
+author_name = "Abundant Candidate Research"
+author_email = ""
+difficulty = "hard"
+category = "software-engineering"
+tags = ["cpp", "ros2", "rosbag2", "form-a", "serialization", "storage-plugins", "playback", "differential", "colcon"]
+
+[verifier]
+# ~30-45 min clean-room rebuild of the touched packages (2 workers x -j2), then gtests (~5-8 min),
+# differential harness (~2 min incl. compile) and CLI playback (~3 min). Measured values: STATUS.md.
+timeout_sec = 7200.0
+
+[agent]
+timeout_sec = 21600.0
+
+[environment]
+# Full warm colcon build of 16 packages with tests on the ROS Rolling image; see STATUS.md estimates.
+build_timeout_sec = 7200.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+
+[environment.env]
+# Route model calls through the take-home gateway — keep this block in every
+# task you author. These values reach all phases (agent, verifier, solution).
+# The agent phase gets your ANTHROPIC_API_KEY from the terminal automatically;
+# if your verifier or solution also needs to call the model (e.g. an
+# LLM-as-judge verifier), add:  ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+# (harbor will ask to confirm host-environment access on each run; pass -y in
+# scripts).
+ANTHROPIC_BASE_URL = "https://take-home-automation.vercel.app"
+ANTHROPIC_API_BASE = "https://take-home-automation.vercel.app"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 7200
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+
+# Only the agent-editable sources of the six touched packages are transferred. Harbor re-uploads
+# each to its original path in the verifier container; tests/test.sh restores everything else from
+# a pristine copy before rebuilding.
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage/src"
+destination = "submission/rosbag2_storage/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage/include"
+destination = "submission/rosbag2_storage/include"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/src"
+destination = "submission/rosbag2_storage_sqlite3/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/include"
+destination = "submission/rosbag2_storage_sqlite3/include"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage_mcap/src"
+destination = "submission/rosbag2_storage_mcap/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_storage_mcap/include"
+destination = "submission/rosbag2_storage_mcap/include"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_cpp/src"
+destination = "submission/rosbag2_cpp/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_cpp/include"
+destination = "submission/rosbag2_cpp/include"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_compression/src"
+destination = "submission/rosbag2_compression/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_compression/include"
+destination = "submission/rosbag2_compression/include"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_transport/src"
+destination = "submission/rosbag2_transport/src"
+
+[[artifacts]]
+source = "/workspace/ws/src/rosbag2/rosbag2_transport/include"
+destination = "submission/rosbag2_transport/include"

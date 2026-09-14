@@ -1,0 +1,742 @@
+diff --git a/rosbag2_compression/src/rosbag2_compression/sequential_compression_reader.cpp b/rosbag2_compression/src/rosbag2_compression/sequential_compression_reader.cpp
+index 70519603db..dae2830f02 100644
+--- a/rosbag2_compression/src/rosbag2_compression/sequential_compression_reader.cpp
++++ b/rosbag2_compression/src/rosbag2_compression/sequential_compression_reader.cpp
+@@ -113,7 +113,7 @@ std::shared_ptr<rosbag2_storage::SerializedBagMessage> SequentialCompressionRead
+     if (compression_mode_ == rosbag2_compression::CompressionMode::MESSAGE) {
+       decompressor_->decompress_serialized_bag_message(message.get());
+     }
+-    return converter_ ? converter_->convert(message) : message;
++    return finalize_message(message);
+   }
+   throw std::runtime_error{"Bag is not open. Call open() before reading."};
+ }
+diff --git a/rosbag2_compression/src/rosbag2_compression/sequential_compression_writer.cpp b/rosbag2_compression/src/rosbag2_compression/sequential_compression_writer.cpp
+index 3fa9876e9f..75aca1e3ca 100644
+--- a/rosbag2_compression/src/rosbag2_compression/sequential_compression_writer.cpp
++++ b/rosbag2_compression/src/rosbag2_compression/sequential_compression_writer.cpp
+@@ -413,6 +413,7 @@ SequentialCompressionWriter::compress_message(
+   compressed_message->recv_timestamp = message->recv_timestamp;
+   compressed_message->send_timestamp = message->send_timestamp;
+   compressed_message->topic_name = message->topic_name;
++  compressed_message->serialization_format = message->serialization_format;
+   compressor.compress_serialized_bag_message(message.get(), compressed_message.get());
+   return compressed_message;
+ }
+diff --git a/rosbag2_cpp/include/rosbag2_cpp/reader.hpp b/rosbag2_cpp/include/rosbag2_cpp/reader.hpp
+index 0d07cfea44..649bffeaa6 100644
+--- a/rosbag2_cpp/include/rosbag2_cpp/reader.hpp
++++ b/rosbag2_cpp/include/rosbag2_cpp/reader.hpp
+@@ -78,17 +78,21 @@ class ROSBAG2_CPP_PUBLIC Reader
+   void open(const std::string & uri);
+ 
+   /**
+-   * Throws if file could not be opened.
+-   * This must be called before any other function is used.
+-   * The rosbag is automatically closed on destruction.
++   * Opens an existing bag for reading. Must be called before any other function is used.
++   * The bag is closed automatically on destruction.
+    *
+-   * If the `output_serialization_format` within the `converter_options` is not the same as the
+-   * format of the underlying stored data, a converter will be used to automatically convert the
+-   * data to the specified output format.
+-   * Throws if the converter plugin does not exist.
++   * If `converter_options.output_serialization_format` is empty, messages are returned as
++   * stored. Otherwise, messages are returned in that format: messages already stored in it are
++   * returned as is, and a bag whose topics all share another format is converted. A bag with
++   * topics in mixed formats cannot be converted; it can only be opened if at least one topic is
++   * stored in the requested format, and read_next() throws on messages of the other topics, so
++   * exclude those with set_filter(). Every returned message reports its format in
++   * SerializedBagMessage::serialization_format. `input_serialization_format` is ignored.
+    *
+-   * \param storage_options Options to configure the storage
+-   * \param converter_options Options for specifying the output data format
++   * \param storage_options Storage options; at least `uri` must be set.
++   * \param converter_options Requested output serialization format, see above.
++   * \throws std::runtime_error if the bag cannot be opened, the requested output format cannot
++   *   be provided, or a needed converter plugin is missing.
+    */
+   void open(
+     const rosbag2_storage::StorageOptions & storage_options,
+@@ -169,6 +173,19 @@ class ROSBAG2_CPP_PUBLIC Reader
+    */
+   std::vector<rosbag2_storage::TopicMetadata> get_all_topics_and_types() const;
+ 
++  /**
++   * Get the topics whose messages read_next() would refuse to deliver, based on the topic
++   * metadata. In a bag with mixed serialization formats opened with a requested output
++   * serialization format, these are the topics which are not stored in that format; exclude
++   * them with set_filter() to read the rest of the bag. Empty when no output serialization
++   * format was requested or when all messages can be returned in it.
++   *
++   * \return vector of topics whose messages can neither be returned in nor converted to the
++   * output serialization format requested in open().
++   * \throws runtime_error if the Reader is not open.
++   */
++  std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const;
++
+   /**
+    * Ask bagfile for all message definitions that were recorded.
+    *
+diff --git a/rosbag2_cpp/include/rosbag2_cpp/reader_interfaces/base_reader_interface.hpp b/rosbag2_cpp/include/rosbag2_cpp/reader_interfaces/base_reader_interface.hpp
+index 0276b3c6ac..34b7fe8073 100644
+--- a/rosbag2_cpp/include/rosbag2_cpp/reader_interfaces/base_reader_interface.hpp
++++ b/rosbag2_cpp/include/rosbag2_cpp/reader_interfaces/base_reader_interface.hpp
+@@ -57,6 +57,15 @@ class ROSBAG2_CPP_PUBLIC BaseReaderInterface
+ 
+   virtual std::vector<rosbag2_storage::TopicMetadata> get_all_topics_and_types() const = 0;
+ 
++  /// \brief Get the topics whose messages read_next() would refuse to deliver.
++  /// \return vector of topics whose messages can neither be returned in nor converted to the
++  /// serialization format requested when the bag was opened. Empty in the default
++  /// implementation, for readers which deliver every topic.
++  virtual std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const
++  {
++    return {};
++  }
++
+   virtual void get_all_message_definitions(
+     std::vector<rosbag2_storage::MessageDefinition> & definitions) = 0;
+ 
+diff --git a/rosbag2_cpp/include/rosbag2_cpp/readers/sequential_reader.hpp b/rosbag2_cpp/include/rosbag2_cpp/readers/sequential_reader.hpp
+index 5be38ce19b..8e3647ec6b 100644
+--- a/rosbag2_cpp/include/rosbag2_cpp/readers/sequential_reader.hpp
++++ b/rosbag2_cpp/include/rosbag2_cpp/readers/sequential_reader.hpp
+@@ -17,6 +17,7 @@
+ 
+ #include <memory>
+ #include <string>
++#include <unordered_map>
+ #include <unordered_set>
+ #include <vector>
+ 
+@@ -81,6 +82,8 @@ class ROSBAG2_CPP_PUBLIC SequentialReader
+ 
+   std::vector<rosbag2_storage::TopicMetadata> get_all_topics_and_types() const override;
+ 
++  std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const override;
++
+   void get_all_message_definitions(
+     std::vector<rosbag2_storage::MessageDefinition> & definitions) override;
+ 
+@@ -156,29 +159,6 @@ class ROSBAG2_CPP_PUBLIC SequentialReader
+   */
+   virtual void load_prev_file();
+ 
+-  /**
+-   * Checks if all topics in the bagfile have the same RMW serialization format.
+-   * Currently a bag file can only be played if all topics have the same serialization format.
+-   *
+-   * \param topics Vector of TopicInformation with metadata.
+-   * \throws runtime_error if any topic has a different serialization format from the rest.
+-   */
+-  virtual void check_topics_serialization_formats(
+-    const std::vector<rosbag2_storage::TopicInformation> & topics);
+-
+-  /**
+-  * Checks if the serialization format of the converter factory is the same as that of the storage
+-  * factory.
+-  * If not, changes the serialization format of the converter factory to use the serialization
+-  * format of the storage factory.
+-  *
+-  * \param converter_serialization_format
+-  * \param storage_serialization_format
+-  */
+-  virtual void check_converter_serialization_format(
+-    const std::string & converter_serialization_format,
+-    const std::string & storage_serialization_format);
+-
+   /**
+     * Fill topics_metadata_ cache vector with information from metadata_
+     */
+@@ -192,6 +172,23 @@ class ROSBAG2_CPP_PUBLIC SequentialReader
+     */
+   virtual void preprocess_current_file() {}
+ 
++  /**
++   * Finalize a message read from storage before handing it out to the caller.
++   *
++   * Fills in the serialization format of the message from the topic metadata if the storage
++   * plugin did not do so, converts the message if a converter was set up in open(), and
++   * otherwise throws if an output serialization format was requested and the message is not
++   * stored in it. The latter can only happen for bags with mixed serialization formats, where
++   * the caller is expected to filter out the topics it cannot decode.
++   *
++   * \param message The message as returned by the storage plugin.
++   * \return The message to hand out to the caller, converted if necessary.
++   * \throws std::runtime_error if the message can neither be returned in nor converted to the
++   *   requested output serialization format.
++   */
++  std::shared_ptr<rosbag2_storage::SerializedBagMessage> finalize_message(
++    std::shared_ptr<rosbag2_storage::SerializedBagMessage> message);
++
+   std::unique_ptr<rosbag2_storage::StorageFactoryInterface> storage_factory_{};
+   std::shared_ptr<rosbag2_storage::storage_interfaces::ReadOnlyInterface> storage_{};
+   std::unique_ptr<Converter> converter_{};
+@@ -200,6 +197,10 @@ class ROSBAG2_CPP_PUBLIC SequentialReader
+   rcutils_time_point_value_t seek_time_ = 0;
+   rosbag2_storage::StorageFilter topics_filter_{};
+   std::vector<rosbag2_storage::TopicMetadata> topics_metadata_{};
++  /// Serialization format of every topic in the bag, keyed by topic name.
++  std::unordered_map<std::string, std::string> topic_serialization_formats_{};
++  /// Output serialization format requested in open(); empty if none was requested.
++  std::string output_serialization_format_{};
+   std::vector<std::string> file_paths_{};
+   std::vector<std::string>::iterator current_file_iterator_{};
+   std::unordered_set<std::string> preprocessed_file_paths_;
+diff --git a/rosbag2_cpp/src/rosbag2_cpp/converter.cpp b/rosbag2_cpp/src/rosbag2_cpp/converter.cpp
+index d6f1c9beaa..0329441227 100644
+--- a/rosbag2_cpp/src/rosbag2_cpp/converter.cpp
++++ b/rosbag2_cpp/src/rosbag2_cpp/converter.cpp
+@@ -86,6 +86,7 @@ std::shared_ptr<rosbag2_storage::SerializedBagMessage> Converter::convert(
+   output_message->topic_name = std::string(allocated_ros_message->topic_name);
+   output_message->recv_timestamp = message->recv_timestamp;
+   output_message->send_timestamp = message->send_timestamp;
++  output_message->serialization_format = output_serialization_format_;
+   output_converter_->serialize(allocated_ros_message, rmw_ts, output_message);
+   return output_message;
+ }
+diff --git a/rosbag2_cpp/src/rosbag2_cpp/reader.cpp b/rosbag2_cpp/src/rosbag2_cpp/reader.cpp
+index 6a8b901424..9a59079fe0 100644
+--- a/rosbag2_cpp/src/rosbag2_cpp/reader.cpp
++++ b/rosbag2_cpp/src/rosbag2_cpp/reader.cpp
+@@ -85,6 +85,11 @@ std::vector<rosbag2_storage::TopicMetadata> Reader::get_all_topics_and_types() c
+   return reader_impl_->get_all_topics_and_types();
+ }
+ 
++std::vector<rosbag2_storage::TopicMetadata> Reader::get_undeliverable_topics() const
++{
++  return reader_impl_->get_undeliverable_topics();
++}
++
+ void Reader::get_all_message_definitions(
+   std::vector<rosbag2_storage::MessageDefinition> & definitions)
+ {
+diff --git a/rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp b/rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp
+index 5d10be7d6f..390649c3e8 100644
+--- a/rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp
++++ b/rosbag2_cpp/src/rosbag2_cpp/readers/sequential_reader.cpp
+@@ -14,6 +14,7 @@
+ 
+ #include <filesystem>
+ #include <memory>
++#include <set>
+ #include <stdexcept>
+ #include <string>
+ #include <utility>
+@@ -137,11 +138,37 @@ void SequentialReader::open(
+   }
+   fill_topics_metadata();
+ 
+-  // Currently a bag file can only be played if all topics have the same serialization format.
+-  check_topics_serialization_formats(topics);
+-  check_converter_serialization_format(
+-    converter_options.output_serialization_format,
+-    topics[0].topic_metadata.serialization_format);
++  std::set<std::string> storage_serialization_formats;
++  topic_serialization_formats_.clear();
++  for (const auto & topic : topics) {
++    storage_serialization_formats.insert(topic.topic_metadata.serialization_format);
++    topic_serialization_formats_[topic.topic_metadata.name] =
++      topic.topic_metadata.serialization_format;
++  }
++  // Conversion is needed if an output serialization format was requested and no topic is
++  // stored in it, and is only possible when all topics have the same serialization format.
++  output_serialization_format_ = converter_options.output_serialization_format;
++  if (!output_serialization_format_.empty() &&
++    storage_serialization_formats.count(output_serialization_format_) == 0)
++  {
++    if (storage_serialization_formats.size() > 1u) {
++      throw std::runtime_error(
++              "The bag contains topics with mixed serialization formats, and none of them "
++              "matches the requested output serialization format '" +
++              output_serialization_format_ + "'. Conversion of a bag with mixed serialization "
++              "formats is not supported.");
++    }
++    converter_ = std::make_unique<Converter>(
++      *storage_serialization_formats.begin(), output_serialization_format_, converter_factory_);
++    for (const auto & topic : topics) {
++      converter_->add_topic(topic.topic_metadata.name, topic.topic_metadata.type);
++    }
++  }
++  // Messages already stored in the requested output serialization format (or all messages,
++  // when no output serialization format is requested) are returned as stored, without
++  // conversion. In a bag with mixed serialization formats, topics which are not stored in the
++  // requested output serialization format have to be filtered out by the consumer;
++  // finalize_message() throws if a message from such a topic is read nevertheless.
+ }
+ 
+ bool SequentialReader::set_read_order(const rosbag2_storage::ReadOrder & order)
+@@ -182,14 +209,38 @@ std::shared_ptr<rosbag2_storage::SerializedBagMessage> SequentialReader::read_ne
+   if (storage_) {
+     // performs rollover if necessary
+     if (has_next()) {
+-      auto message = storage_->read_next();
+-      return converter_ ? converter_->convert(message) : message;
++      return finalize_message(storage_->read_next());
+     }
+     throw std::runtime_error("Bag is at end. No next message.");
+   }
+   throw std::runtime_error("Bag is not open. Call open() before reading.");
+ }
+ 
++std::shared_ptr<rosbag2_storage::SerializedBagMessage> SequentialReader::finalize_message(
++  std::shared_ptr<rosbag2_storage::SerializedBagMessage> message)
++{
++  if (message->serialization_format.empty()) {
++    const auto it = topic_serialization_formats_.find(message->topic_name);
++    if (it != topic_serialization_formats_.end()) {
++      message->serialization_format = it->second;
++    }
++  }
++  if (converter_) {
++    return converter_->convert(message);
++  }
++  if (!output_serialization_format_.empty() &&
++    message->serialization_format != output_serialization_format_)
++  {
++    throw std::runtime_error(
++            "Message on topic '" + message->topic_name + "' is stored in serialization format '" +
++            message->serialization_format + "', which differs from the requested output "
++            "serialization format '" + output_serialization_format_ + "', and cannot be "
++            "converted because the bag contains topics with mixed serialization formats. "
++            "Exclude this topic from reading by setting a filter.");
++  }
++  return message;
++}
++
+ const rosbag2_storage::BagMetadata & SequentialReader::get_metadata() const
+ {
+   rcpputils::check_true(storage_ != nullptr, "Bag is not open. Call open() before reading.");
+@@ -202,6 +253,22 @@ std::vector<rosbag2_storage::TopicMetadata> SequentialReader::get_all_topics_and
+   return topics_metadata_;
+ }
+ 
++std::vector<rosbag2_storage::TopicMetadata> SequentialReader::get_undeliverable_topics() const
++{
++  rcpputils::check_true(storage_ != nullptr, "Bag is not open. Call open() before reading.");
++  std::vector<rosbag2_storage::TopicMetadata> undeliverable_topics;
++  if (output_serialization_format_.empty() || converter_) {
++    // Messages are returned as stored or converted; finalize_message() delivers all of them.
++    return undeliverable_topics;
++  }
++  for (const auto & topic : topics_metadata_) {
++    if (topic.serialization_format != output_serialization_format_) {
++      undeliverable_topics.push_back(topic);
++    }
++  }
++  return undeliverable_topics;
++}
++
+ void SequentialReader::get_all_message_definitions(
+   std::vector<rosbag2_storage::MessageDefinition> & definitions)
+ {
+@@ -317,37 +384,6 @@ std::string SequentialReader::get_current_uri() const
+   return current_uri.generic_string();
+ }
+ 
+-void SequentialReader::check_topics_serialization_formats(
+-  const std::vector<rosbag2_storage::TopicInformation> & topics)
+-{
+-  auto storage_serialization_format = topics[0].topic_metadata.serialization_format;
+-  for (const auto & topic : topics) {
+-    if (topic.topic_metadata.serialization_format != storage_serialization_format) {
+-      throw std::runtime_error(
+-              "Topics with different rmw serialization format have been found. "
+-              "All topics must have the same serialization format.");
+-    }
+-  }
+-}
+-
+-void SequentialReader::check_converter_serialization_format(
+-  const std::string & converter_serialization_format,
+-  const std::string & storage_serialization_format)
+-{
+-  if (converter_serialization_format.empty()) {return;}
+-
+-  if (converter_serialization_format != storage_serialization_format) {
+-    converter_ = std::make_unique<Converter>(
+-      storage_serialization_format,
+-      converter_serialization_format,
+-      converter_factory_);
+-    auto topics = storage_->get_all_topics_and_types();
+-    for (const auto & topic_with_type : topics) {
+-      converter_->add_topic(topic_with_type.name, topic_with_type.type);
+-    }
+-  }
+-}
+-
+ void SequentialReader::fill_topics_metadata()
+ {
+   rcpputils::check_true(storage_ != nullptr, "Bag is not open. Call open() before reading.");
+diff --git a/rosbag2_storage/include/rosbag2_storage/serialized_bag_message.hpp b/rosbag2_storage/include/rosbag2_storage/serialized_bag_message.hpp
+index 00bf17a2a2..678920e25a 100644
+--- a/rosbag2_storage/include/rosbag2_storage/serialized_bag_message.hpp
++++ b/rosbag2_storage/include/rosbag2_storage/serialized_bag_message.hpp
+@@ -43,6 +43,13 @@ struct SerializedBagMessage
+   /// \brief An optional sequence number of the message. If non-zero, sequence numbers should be
+   /// unique per channel (per topic and per publisher) and increasing over time.
+   uint32_t sequence_number = 0;
++
++  /// \brief Serialization format of serialized_data, e.g. "cdr". Empty if unknown.
++  /// Storage plugins fill this in from the metadata of the topic when reading a message, and
++  /// readers fall back to the topic metadata when a storage plugin leaves it empty. It is
++  /// informational when writing: the serialization format of a topic is defined by the
++  /// TopicMetadata passed to create_topic().
++  std::string serialization_format;
+ };
+ 
+ /// \brief A shared pointer to a SerializedBagMessage.
+diff --git a/rosbag2_storage_mcap/src/mcap_storage.cpp b/rosbag2_storage_mcap/src/mcap_storage.cpp
+index 1b6ee569fc..95b5bbf2cf 100644
+--- a/rosbag2_storage_mcap/src/mcap_storage.cpp
++++ b/rosbag2_storage_mcap/src/mcap_storage.cpp
+@@ -540,6 +540,7 @@ bool MCAPStorage::read_and_enqueue_message()
+   msg->recv_timestamp = rcutils_time_point_value_t(messageView.message.logTime);
+   msg->send_timestamp = rcutils_time_point_value_t(messageView.message.publishTime);
+   msg->topic_name = messageView.channel->topic;
++  msg->serialization_format = messageView.channel->messageEncoding;
+   msg->serialized_data = rosbag2_storage::make_serialized_message(messageView.message.data,
+                                                                   messageView.message.dataSize);
+ 
+diff --git a/rosbag2_storage_sqlite3/include/rosbag2_storage_sqlite3/sqlite_storage.hpp b/rosbag2_storage_sqlite3/include/rosbag2_storage_sqlite3/sqlite_storage.hpp
+index 5e3440b4ad..552664284b 100644
+--- a/rosbag2_storage_sqlite3/include/rosbag2_storage_sqlite3/sqlite_storage.hpp
++++ b/rosbag2_storage_sqlite3/include/rosbag2_storage_sqlite3/sqlite_storage.hpp
+@@ -140,7 +140,8 @@ class ROSBAG2_STORAGE_DEFAULT_PLUGINS_PUBLIC SqliteStorage
+   uint16_t get_or_generate_extern_topic_id(int64_t inner_topic_id);
+ 
+   using ReadQueryResult = SqliteStatementWrapper::QueryResult<
+-    std::shared_ptr<rcutils_uint8_array_t>, rcutils_time_point_value_t, std::string, int>;
++    std::shared_ptr<rcutils_uint8_array_t>, rcutils_time_point_value_t, std::string, int,
++    std::string>;
+ 
+   std::shared_ptr<SqliteWrapper> database_ RCPPUTILS_TSA_GUARDED_BY(db_read_write_mutex_);
+   SqliteStatement write_statement_ {};
+diff --git a/rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp b/rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp
+index 18e3d525d2..7e98496d13 100644
+--- a/rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp
++++ b/rosbag2_storage_sqlite3/src/rosbag2_storage_sqlite3/sqlite_storage.cpp
+@@ -406,6 +406,7 @@ std::shared_ptr<rosbag2_storage::SerializedBagMessage> SqliteStorage::read_next(
+   bag_message->serialized_data = std::get<0>(*current_message_row_);
+   bag_message->recv_timestamp = std::get<1>(*current_message_row_);
+   bag_message->topic_name = std::get<2>(*current_message_row_);
++  bag_message->serialization_format = std::get<4>(*current_message_row_);
+ 
+   // set start time to current time
+   // and set seek_row_id to the new row id up
+@@ -730,7 +731,8 @@ void prepare_excluded_topics_filter(
+ 
+ void SqliteStorage::prepare_for_reading()
+ {
+-  std::string statement_str = "SELECT data, timestamp, topics.name, messages.id "
++  std::string statement_str =
++    "SELECT data, timestamp, topics.name, messages.id, topics.serialization_format "
+     "FROM messages JOIN topics ON messages.topic_id = topics.id WHERE ";
+   std::vector<std::string> where_conditions;
+ 
+@@ -763,7 +765,8 @@ void SqliteStorage::prepare_for_reading()
+ 
+   read_statement_ = database_->prepare_statement(statement_str);
+   message_result_ = read_statement_->execute_query<
+-    std::shared_ptr<rcutils_uint8_array_t>, rcutils_time_point_value_t, std::string, int>();
++    std::shared_ptr<rcutils_uint8_array_t>, rcutils_time_point_value_t, std::string, int,
++    std::string>();
+   current_message_row_ = message_result_.begin();
+ }
+ 
+diff --git a/rosbag2_transport/include/rosbag2_transport/readers_manager.hpp b/rosbag2_transport/include/rosbag2_transport/readers_manager.hpp
+index 0ea8f0ef6f..be03dbc65d 100644
+--- a/rosbag2_transport/include/rosbag2_transport/readers_manager.hpp
++++ b/rosbag2_transport/include/rosbag2_transport/readers_manager.hpp
+@@ -117,6 +117,13 @@ class ROSBAG2_TRANSPORT_PUBLIC ReadersManager
+   /// \return vector of topics with topic name and type as std::string
+   [[nodiscard]] std::vector<rosbag2_storage::TopicMetadata> get_all_topics_and_types() const;
+ 
++  /// \brief Getter for the topics whose messages the readers would refuse to deliver, i.e.
++  /// topics whose messages can neither be returned in nor converted to the local rmw
++  /// serialization format the readers are opened with.
++  /// \return vector of the undeliverable topics of all readers, in the order the readers were
++  /// provided at construction; a topic recorded in several bags may appear more than once.
++  [[nodiscard]] std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const;
++
+   /// \brief Add event callbacks to all readers.
+   /// \param callbacks The callbacks to add.
+   void add_event_callbacks(rosbag2_cpp::bag_events::ReaderEventCallbacks & callbacks);
+diff --git a/rosbag2_transport/src/rosbag2_transport/player.cpp b/rosbag2_transport/src/rosbag2_transport/player.cpp
+index 5dbd038f85..d005cc0663 100644
+--- a/rosbag2_transport/src/rosbag2_transport/player.cpp
++++ b/rosbag2_transport/src/rosbag2_transport/player.cpp
+@@ -17,8 +17,10 @@
+ #include <limits>
+ #include <memory>
+ #include <regex>
++#include <sstream>
+ #include <string>
+ #include <unordered_map>
++#include <unordered_set>
+ #include <utility>
+ #include <vector>
+ #include <thread>
+@@ -43,6 +45,7 @@
+ #include "rclcpp_action/create_generic_client.hpp"
+ #include "rcpputils/unique_lock.hpp"
+ #include "rcutils/time.h"
++#include "rmw/rmw.h"
+ 
+ #include "rosbag2_cpp/action_utils.hpp"
+ #include "rosbag2_cpp/clocks/time_controller_clock.hpp"
+@@ -334,6 +337,15 @@ class PlayerImpl
+ 
+   void wait_for_filled_queue() const;
+   void play_messages_from_queue();
++  /// \brief Build the storage filter resulting from the topic, service and action filtering
++  /// play options.
++  rosbag2_storage::StorageFilter build_storage_filter() const;
++  /// \brief Resolve which of the topics selected by the play options can actually be played,
++  /// dealing with topics whose messages the readers cannot deliver in the local rmw
++  /// serialization format: throw if such a topic was requested by name in the play options,
++  /// otherwise record it in undecodable_*_to_exclude_ and warn. Throws as well if no playable
++  /// topic remains selected.
++  void resolve_playable_topics();
+   void prepare_publishers();
+   bool publish_message(rosbag2_storage::SerializedBagMessageSharedPtr message);
+   bool publish_message_by_player_publisher(
+@@ -390,6 +402,12 @@ class PlayerImpl
+ 
+   Player * owner_;
+   rosbag2_transport::PlayOptions play_options_;
++  /// Topics excluded from playback, in addition to the exclusions in play_options_, because
++  /// their messages cannot be decoded; filled by resolve_playable_topics() and merged into the
++  /// storage filter by build_storage_filter(), grouped by the filter list they belong in.
++  std::vector<std::string> undecodable_topics_to_exclude_;
++  std::vector<std::string> undecodable_service_events_to_exclude_;
++  std::vector<std::string> undecodable_action_interfaces_to_exclude_;
+   static constexpr const char * kDefaultReadSplitTopicName = "events/read_split";
+   rcutils_time_point_value_t play_until_timestamp_ = -1;
+   LockedPriorityQueue<rosbag2_storage::SerializedBagMessageSharedPtr> message_queue_;
+@@ -536,6 +554,11 @@ PlayerImpl::PlayerImpl(
+       owner_->get_namespace(), false);
+   }
+ 
++  // Resolve the playable topics as early as possible, in particular before the progress bar
++  // is constructed, so that refusing to play does not produce any UI output and the warning
++  // about topics excluded from playback is not swallowed by the progress bar.
++  resolve_playable_topics();
++
+   starting_time_ = readers_->get_earliest_timestamp();
+   const rcutils_time_point_value_t ending_time = readers_->get_latest_timestamp();
+   // If a non-default (positive) starting time offset is provided in PlayOptions,
+@@ -1523,9 +1546,28 @@ bool allow_topic(
+ 
+   return true;
+ }
++
++TopicKind get_topic_kind(const rosbag2_storage::TopicMetadata & topic)
++{
++  if (rosbag2_cpp::is_topic_belong_to_action(topic.name, topic.type)) {
++    return TopicKind::ACTION_INTERFACE_TOPIC;
++  } else if (rosbag2_cpp::is_service_event_topic(topic.name, topic.type)) {
++    return TopicKind::SERVICE_EVENT_TOPIC;
++  }
++  return TopicKind::GENERIC_TOPIC;
++}
++
++std::string format_topic_list(const std::vector<std::string> & topics)
++{
++  std::string list;
++  for (const auto & topic : topics) {
++    list += "\n  " + topic;
++  }
++  return list;
++}
+ }  // namespace
+ 
+-void PlayerImpl::prepare_publishers()
++rosbag2_storage::StorageFilter PlayerImpl::build_storage_filter() const
+ {
+   rosbag2_storage::StorageFilter storage_filter;
+   storage_filter.topics = play_options_.topics_to_filter;
+@@ -1548,6 +1590,117 @@ void PlayerImpl::prepare_publishers()
+       std::make_move_iterator(action_interfaces.begin()),
+       std::make_move_iterator(action_interfaces.end()));
+   }
++  // Exclude the topics found to be undecodable by resolve_playable_topics() as well.
++  storage_filter.exclude_topics.insert(
++    storage_filter.exclude_topics.end(),
++    undecodable_topics_to_exclude_.begin(), undecodable_topics_to_exclude_.end());
++  storage_filter.exclude_service_events.insert(
++    storage_filter.exclude_service_events.end(),
++    undecodable_service_events_to_exclude_.begin(), undecodable_service_events_to_exclude_.end());
++  storage_filter.exclude_actions_interfaces.insert(
++    storage_filter.exclude_actions_interfaces.end(),
++    undecodable_action_interfaces_to_exclude_.begin(),
++    undecodable_action_interfaces_to_exclude_.end());
++  return storage_filter;
++}
++
++void PlayerImpl::resolve_playable_topics()
++{
++  // The readers refuse to deliver messages whose serialization format differs from the local
++  // rmw serialization format and cannot be converted, which happens for bags with mixed
++  // serialization formats. When such a topic was requested by name in the play options, refuse
++  // to play; when it is only selected implicitly, by the play-everything default or by a
++  // matching regex, exclude it from playback with a warning, matching how topics whose type
++  // has no typesupport locally are skipped in prepare_publishers().
++  std::unordered_set<std::string> undeliverable_topic_names;
++  for (const auto & topic : readers_->get_undeliverable_topics()) {
++    undeliverable_topic_names.insert(topic.name);
++  }
++  if (undeliverable_topic_names.empty()) {
++    return;
++  }
++
++  // The undecodable_*_to_exclude_ lists are still empty at this point, so this filter reflects
++  // the play options alone.
++  const rosbag2_storage::StorageFilter storage_filter = build_storage_filter();
++  const std::string rmw_serialization_format = rmw_get_serialization_format();
++  std::vector<std::string> requested_undecodable_topics;
++  std::vector<std::string> excluded_topics;
++  bool playable_topic_selected = false;
++  for (const auto & topic : readers_->get_all_topics_and_types()) {
++    const TopicKind topic_kind = get_topic_kind(topic);
++    if (!allow_topic(topic_kind, topic.name, storage_filter)) {
++      continue;
++    }
++    if (undeliverable_topic_names.count(topic.name) == 0) {
++      playable_topic_selected = true;
++      continue;
++    }
++    const std::vector<std::string> * requested_names = nullptr;
++    std::vector<std::string> * names_to_exclude = nullptr;
++    switch (topic_kind) {
++      case TopicKind::GENERIC_TOPIC:
++        requested_names = &storage_filter.topics;
++        names_to_exclude = &undecodable_topics_to_exclude_;
++        break;
++      case TopicKind::SERVICE_EVENT_TOPIC:
++        requested_names = &storage_filter.services_events;
++        names_to_exclude = &undecodable_service_events_to_exclude_;
++        break;
++      case TopicKind::ACTION_INTERFACE_TOPIC:
++        requested_names = &storage_filter.actions_interfaces;
++        names_to_exclude = &undecodable_action_interfaces_to_exclude_;
++        break;
++    }
++    if (std::find(requested_names->begin(), requested_names->end(), topic.name) !=
++      requested_names->end())
++    {
++      requested_undecodable_topics.push_back(
++        "'" + topic.name + "' (" + topic.serialization_format + ")");
++    } else {
++      if (std::find(names_to_exclude->begin(), names_to_exclude->end(), topic.name) ==
++        names_to_exclude->end())
++      {
++        // A topic recorded in several bags shall be excluded and reported only once.
++        names_to_exclude->push_back(topic.name);
++        excluded_topics.push_back("'" + topic.name + "' (" + topic.serialization_format + ")");
++      }
++    }
++  }
++
++  if (!requested_undecodable_topics.empty()) {
++    throw std::runtime_error(
++            "Cannot play because the following requested topics have a serialization format "
++            "which differs from the local rmw serialization format '" +
++            rmw_serialization_format + "' and cannot be converted:" +
++            format_topic_list(requested_undecodable_topics) +
++            "\nRemove these topics from the ros2 bag play options --topics, --services or "
++            "--actions to play the rest of the bag.");
++  }
++  if (excluded_topics.empty()) {
++    return;  // Everything selected for playback can be played.
++  }
++  if (!playable_topic_selected) {
++    // Refuse to play a bag none of whose topics can be played; otherwise playback would
++    // "succeed" without publishing a single message.
++    throw std::runtime_error(
++            "Cannot play because no topics would be left to play after excluding the "
++            "following topics, whose serialization format differs from the local rmw "
++            "serialization format '" + rmw_serialization_format + "' and cannot be converted:" +
++            format_topic_list(excluded_topics));
++  }
++  RCLCPP_WARN(
++    owner_->get_logger(),
++    "Excluding the following topics from playback: their serialization format differs from "
++    "the local rmw serialization format '%s' and cannot be converted:%s"
++    "\nSelect or exclude topics explicitly, e.g. with the ros2 bag play options --topics, "
++    "--exclude-topics or --exclude-regex, to silence this warning.",
++    rmw_serialization_format.c_str(), format_topic_list(excluded_topics).c_str());
++}
++
++void PlayerImpl::prepare_publishers()
++{
++  const rosbag2_storage::StorageFilter storage_filter = build_storage_filter();
+ 
+   readers_->set_filter(storage_filter);
+ 
+@@ -1590,14 +1743,7 @@ void PlayerImpl::prepare_publishers()
+   std::vector<rosbag2_storage::TopicMetadata> topics = readers_->get_all_topics_and_types();
+   std::string topic_without_support_acked;
+   for (const auto & topic : topics) {
+-    TopicKind topic_kind;
+-    if (rosbag2_cpp::is_topic_belong_to_action(topic.name, topic.type)) {
+-      topic_kind = TopicKind::ACTION_INTERFACE_TOPIC;
+-    } else if (rosbag2_cpp::is_service_event_topic(topic.name, topic.type)) {
+-      topic_kind = TopicKind::SERVICE_EVENT_TOPIC;
+-    } else {
+-      topic_kind = TopicKind::GENERIC_TOPIC;
+-    }
++    TopicKind topic_kind = get_topic_kind(topic);
+ 
+     if (topic_kind == TopicKind::ACTION_INTERFACE_TOPIC && play_options_.send_actions_as_client) {
+       // Check if action client was created
+diff --git a/rosbag2_transport/src/rosbag2_transport/readers_manager.cpp b/rosbag2_transport/src/rosbag2_transport/readers_manager.cpp
+index b886eab0c6..cce6cdaf84 100644
+--- a/rosbag2_transport/src/rosbag2_transport/readers_manager.cpp
++++ b/rosbag2_transport/src/rosbag2_transport/readers_manager.cpp
+@@ -73,6 +73,12 @@ ReadersManager::get_all_topics_and_types() const
+   return pimpl_->get_all_topics_and_types();
+ }
+ 
++[[nodiscard]] std::vector<rosbag2_storage::TopicMetadata>
++ReadersManager::get_undeliverable_topics() const
++{
++  return pimpl_->get_undeliverable_topics();
++}
++
+ void ReadersManager::add_event_callbacks(rosbag2_cpp::bag_events::ReaderEventCallbacks & callbacks)
+ {
+   pimpl_->add_event_callbacks(callbacks);
+diff --git a/rosbag2_transport/src/rosbag2_transport/readers_manager_impl.hpp b/rosbag2_transport/src/rosbag2_transport/readers_manager_impl.hpp
+index 125536235c..5efefcd9e3 100644
+--- a/rosbag2_transport/src/rosbag2_transport/readers_manager_impl.hpp
++++ b/rosbag2_transport/src/rosbag2_transport/readers_manager_impl.hpp
+@@ -16,6 +16,7 @@
+ #define ROSBAG2_TRANSPORT__READERS_MANAGER_IMPL_HPP_
+ 
+ #include <algorithm>
++#include <iterator>
+ #include <memory>
+ #include <utility>
+ #include <vector>
+@@ -174,6 +175,19 @@ class ReadersManagerImpl
+     return all_topics_and_types;
+   }
+ 
++  [[nodiscard]] std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const
++  {
++    std::vector<rosbag2_storage::TopicMetadata> undeliverable_topics{};
++    rcpputils::unique_lock lk(reader_mutex_);
++    for (const auto & [reader, _] : readers_with_options_) {
++      auto reader_undeliverable_topics = reader->get_undeliverable_topics();
++      undeliverable_topics.insert(undeliverable_topics.end(),
++                                  std::make_move_iterator(reader_undeliverable_topics.begin()),
++                                  std::make_move_iterator(reader_undeliverable_topics.end()));
++    }
++    return undeliverable_topics;
++  }
++
+   void add_event_callbacks(rosbag2_cpp::bag_events::ReaderEventCallbacks & callbacks)
+   {
+     rcpputils::unique_lock lk(reader_mutex_);

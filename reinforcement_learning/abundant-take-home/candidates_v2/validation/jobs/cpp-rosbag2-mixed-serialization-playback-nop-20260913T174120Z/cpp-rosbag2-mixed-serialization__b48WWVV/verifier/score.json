@@ -1,0 +1,37 @@
+{
+  "groups": {
+    "anticheat": {
+      "detail": "no forbidden patterns in transferred sources",
+      "ok": true
+    },
+    "build": {
+      "detail": "colcon build failed (rc=2), see build.log",
+      "ok": false
+    },
+    "cli_play": {
+      "detail": "group did not run",
+      "ok": false
+    },
+    "differential": {
+      "detail": "group did not run",
+      "ok": false
+    },
+    "gtests": {
+      "detail": "group did not run",
+      "ok": false
+    },
+    "overlay": {
+      "detail": "pristine tree + 12 transferred directories + hidden tests",
+      "ok": true
+    }
+  },
+  "required_groups": [
+    "anticheat",
+    "overlay",
+    "build",
+    "gtests",
+    "differential",
+    "cli_play"
+  ],
+  "reward": 0
+}

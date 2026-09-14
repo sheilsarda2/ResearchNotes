@@ -1,0 +1,29 @@
+[cli_play_check] sqlite3/requested_undecodable: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/mixed --topics /camera/video_compressed
+[cli_play_check]   rc=1 mentions_proto=True values=[]
+[cli_play_check] sqlite3/default_play: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/mixed 
+[cli_play_check]   rc=0 mentions_proto=True values=[0, 1, 2, 3, 4]
+[cli_play_check] sqlite3/explicit_exclude: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/mixed --exclude-topics /camera/video_compressed
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+[cli_play_check] sqlite3/select_playable: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/mixed --topics /chatter
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+[cli_play_check] sqlite3/nothing_playable: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/mixed --exclude-topics /chatter
+[cli_play_check]   rc=1 mentions_proto=True values=[]
+[cli_play_check] sqlite3/only_undecodable_bag: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/only_proto 
+[cli_play_check]   rc=1 mentions_proto=False values=[]
+[cli_play_check] sqlite3/uniform_baseline: ros2 bag play /tmp/verifier_work/diff/bags/sqlite3/uniform 
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+[cli_play_check] mcap/requested_undecodable: ros2 bag play /tmp/verifier_work/diff/bags/mcap/mixed --topics /camera/video_compressed
+[cli_play_check]   rc=1 mentions_proto=True values=[]
+[cli_play_check] mcap/default_play: ros2 bag play /tmp/verifier_work/diff/bags/mcap/mixed 
+[cli_play_check]   rc=0 mentions_proto=True values=[0, 1, 2, 3, 4]
+[cli_play_check] mcap/explicit_exclude: ros2 bag play /tmp/verifier_work/diff/bags/mcap/mixed --exclude-topics /camera/video_compressed
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+[cli_play_check] mcap/select_playable: ros2 bag play /tmp/verifier_work/diff/bags/mcap/mixed --topics /chatter
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+[cli_play_check] mcap/nothing_playable: ros2 bag play /tmp/verifier_work/diff/bags/mcap/mixed --exclude-topics /chatter
+[cli_play_check]   rc=1 mentions_proto=True values=[]
+[cli_play_check] mcap/only_undecodable_bag: ros2 bag play /tmp/verifier_work/diff/bags/mcap/only_proto 
+[cli_play_check]   rc=1 mentions_proto=False values=[]
+[cli_play_check] mcap/uniform_baseline: ros2 bag play /tmp/verifier_work/diff/bags/mcap/uniform 
+[cli_play_check]   rc=0 mentions_proto=False values=[0, 1, 2, 3, 4]
+exit=0

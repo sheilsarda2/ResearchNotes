@@ -1,0 +1,28 @@
+[verifier 13:10:11] transferred directories: 12
+[score] anticheat: PASS - no forbidden patterns in transferred sources
+[score] overlay: PASS - pristine tree + 12 transferred directories + hidden tests
+[verifier 13:10:11] building: rosbag2_storage rosbag2_storage_sqlite3 rosbag2_storage_mcap rosbag2_storage_default_plugins rosbag2_cpp rosbag2_compression rosbag2_compression_zstd rosbag2_transport rosbag2_py ros2bag
+[score] build: PASS - colcon build of touched packages and dependents succeeded
+[verifier 13:12:42] gtest rosbag2_storage_sqlite3/test_sqlite_storage (domain 32)
+[verifier 13:12:43] gtest rosbag2_storage_sqlite3/test_sqlite_topic_filter (domain 33)
+[verifier 13:12:43] gtest rosbag2_storage_mcap/test_mcap_storage (domain 34)
+[verifier 13:12:43] gtest rosbag2_storage_mcap/test_mcap_topic_filter (domain 35)
+[verifier 13:12:43] gtest rosbag2_cpp/test_sequential_reader (domain 36)
+[verifier 13:12:43] gtest rosbag2_cpp/test_serialization_converter (domain 37)
+[verifier 13:12:43] gtest rosbag2_cpp/test_multifile_reader (domain 38)
+[verifier 13:12:43] gtest rosbag2_cpp/test_converter_factory (domain 39)
+[verifier 13:12:43] gtest rosbag2_cpp/test_storage_without_metadata_file (domain 40)
+[verifier 13:12:43] gtest rosbag2_cpp/test_sequential_writer (domain 41)
+[verifier 13:12:44] gtest rosbag2_compression/test_sequential_compression_reader (domain 42)
+[verifier 13:12:44] gtest rosbag2_compression/test_sequential_compression_writer (domain 43)
+[verifier 13:12:44] gtest rosbag2_transport/test_readers_manager (domain 44)
+[verifier 13:12:44] gtest rosbag2_transport/test_rewrite (domain 45)
+[verifier 13:12:44] gtest rosbag2_transport/test_play (domain 46)
+[score] gtests: FAIL - 12/15 suites match expected case counts with no failures or skips
+[verifier 13:13:07] building differential harness
+[verifier 13:13:09] differential harness: sqlite3
+[verifier 13:13:09] differential harness: mcap
+[score] differential: FAIL - 69/79 differential and contract checks passed
+[verifier 13:13:10] cli playback checks
+[score] cli_play: FAIL - 40/42 CLI playback checks passed
+[score] reward=0 (anticheat=ok, overlay=ok, build=ok, gtests=FAIL, differential=FAIL, cli_play=FAIL)

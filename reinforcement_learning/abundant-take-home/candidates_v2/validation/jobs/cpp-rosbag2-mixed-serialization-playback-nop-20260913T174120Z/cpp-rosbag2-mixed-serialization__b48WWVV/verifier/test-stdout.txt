@@ -1,0 +1,66 @@
+[verifier 17:47:00] transferred directories: 12
+[score] anticheat: PASS - no forbidden patterns in transferred sources
+[score] overlay: PASS - pristine tree + 12 transferred directories + hidden tests
+[verifier 17:47:00] building: rosbag2_storage rosbag2_storage_sqlite3 rosbag2_storage_mcap rosbag2_storage_default_plugins rosbag2_cpp rosbag2_compression rosbag2_compression_zstd rosbag2_transport rosbag2_py ros2bag
+[ 30%] Building CXX object CMakeFiles/rosbag2_storage_sqlite3.dir/src/rosbag2_storage_sqlite3/sqlite_wrapper.cpp.o
+[ 40%] Linking CXX shared library librosbag2_storage_sqlite3.so
+running egg_info
+writing ros2bag_sqlite3_cli.egg-info/PKG-INFO
+writing dependency_links to ros2bag_sqlite3_cli.egg-info/dependency_links.txt
+writing entry points to ros2bag_sqlite3_cli.egg-info/entry_points.txt
+writing top-level names to ros2bag_sqlite3_cli.egg-info/top_level.txt
+reading manifest file 'ros2bag_sqlite3_cli.egg-info/SOURCES.txt'
+writing manifest file 'ros2bag_sqlite3_cli.egg-info/SOURCES.txt'
+[ 40%] Built target ament_cmake_python_build_ros2bag_sqlite3_cli_egg
+[ 40%] Built target rosbag2_storage_sqlite3
+[ 60%] Building CXX object CMakeFiles/test_sqlite_storage.dir/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp.o
+[ 60%] Building CXX object CMakeFiles/test_sqlite_wrapper.dir/test/rosbag2_storage_sqlite3/test_sqlite_wrapper.cpp.o
+In file included from /usr/include/gtest/gtest.h:71,
+                 from /usr/include/gmock/internal/gmock-internal-utils.h:51,
+                 from /usr/include/gmock/gmock-actions.h:146,
+                 from /usr/include/gmock/gmock.h:56,
+                 from /workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:15:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp: In member function ‘virtual void StorageTestFixture_string_messages_are_written_and_read_to_and_from_sqlite3_storage_Test::TestBody()’:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:76:35: error: ‘using std::__shared_ptr_access<rosbag2_storage::SerializedBagMessage, __gnu_cxx::_S_atomic, false, false>::element_type = struct rosbag2_storage::SerializedBagMessage’ {aka ‘struct rosbag2_storage::SerializedBagMessage’} has no member named ‘serialization_format’
+   76 |     EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+      |                                   ^~~~~~~~~~~~~~~~~~~~
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp: In member function ‘virtual void StorageTestFixture_messages_readable_for_prefoxy_db_schema_Test::TestBody()’:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:366:35: error: ‘using std::__shared_ptr_access<rosbag2_storage::SerializedBagMessage, __gnu_cxx::_S_atomic, false, false>::element_type = struct rosbag2_storage::SerializedBagMessage’ {aka ‘struct rosbag2_storage::SerializedBagMessage’} has no member named ‘serialization_format’
+  366 |     EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+      |                                   ^~~~~~~~~~~~~~~~~~~~
+[ 70%] Linking CXX executable test_sqlite_wrapper
+gmake[2]: *** [CMakeFiles/test_sqlite_storage.dir/build.make:79: CMakeFiles/test_sqlite_storage.dir/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:230: CMakeFiles/test_sqlite_storage.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+[ 70%] Built target test_sqlite_wrapper
+gmake: *** [Makefile:146: all] Error 2
+---
+--- stderr: rosbag2_storage_sqlite3
+In file included from /usr/include/gtest/gtest.h:71,
+                 from /usr/include/gmock/internal/gmock-internal-utils.h:51,
+                 from /usr/include/gmock/gmock-actions.h:146,
+                 from /usr/include/gmock/gmock.h:56,
+                 from /workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:15:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp: In member function ‘virtual void StorageTestFixture_string_messages_are_written_and_read_to_and_from_sqlite3_storage_Test::TestBody()’:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:76:35: error: ‘using std::__shared_ptr_access<rosbag2_storage::SerializedBagMessage, __gnu_cxx::_S_atomic, false, false>::element_type = struct rosbag2_storage::SerializedBagMessage’ {aka ‘struct rosbag2_storage::SerializedBagMessage’} has no member named ‘serialization_format’
+   76 |     EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+      |                                   ^~~~~~~~~~~~~~~~~~~~
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp: In member function ‘virtual void StorageTestFixture_messages_readable_for_prefoxy_db_schema_Test::TestBody()’:
+/workspace/ws/src/rosbag2/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp:366:35: error: ‘using std::__shared_ptr_access<rosbag2_storage::SerializedBagMessage, __gnu_cxx::_S_atomic, false, false>::element_type = struct rosbag2_storage::SerializedBagMessage’ {aka ‘struct rosbag2_storage::SerializedBagMessage’} has no member named ‘serialization_format’
+  366 |     EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+      |                                   ^~~~~~~~~~~~~~~~~~~~
+gmake[2]: *** [CMakeFiles/test_sqlite_storage.dir/build.make:79: CMakeFiles/test_sqlite_storage.dir/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:230: CMakeFiles/test_sqlite_storage.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2
+---
+Failed   <<< rosbag2_storage_sqlite3 [3.63s, exited with code 2]
+Aborted  <<< rosbag2_storage_mcap [8.24s]
+
+Summary: 1 package finished [15.1s]
+  1 package failed: rosbag2_storage_sqlite3
+  1 package aborted: rosbag2_storage_mcap
+  2 packages had stderr output: rosbag2_storage_mcap rosbag2_storage_sqlite3
+  7 packages not processed
+[score] build: FAIL - colcon build failed (rc=2), see build.log
+[score] reward=0 (anticheat=ok, overlay=ok, build=FAIL, gtests=FAIL, differential=FAIL, cli_play=FAIL)

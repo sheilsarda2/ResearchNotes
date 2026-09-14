@@ -1,0 +1,50 @@
+{
+  "_comment": "Exact gtest case counts per executable at the merge commit 08780f9e (PR #2476 tests applied). Derived from TEST/TEST_F/TEST_P counts and INSTANTIATE_TEST_SUITE_P parameter lists (kTestedStorageIDs = 2 storages; test_play MessageOrder = 2 values; compression writer queue sizes = 2 values). test_sqlite_storage is 23, not 22: the file holds 22 TEST_F plus one plain TEST(StoragePresetProfileValidation, parse_storage_preset_profile_works) that the first static count missed (found by a recount on the patched tree during validation, 2026-09-13). Confirmed against the oracle run's gtest XML.",
+  "rmw": "rmw_fastrtps_cpp",
+  "counts": {
+    "rosbag2_storage_sqlite3": {
+      "test_sqlite_storage": 23,
+      "test_sqlite_topic_filter": 17
+    },
+    "rosbag2_storage_mcap": {
+      "test_mcap_storage": 3,
+      "test_mcap_topic_filter": 17
+    },
+    "rosbag2_cpp": {
+      "test_sequential_reader": 26,
+      "test_serialization_converter": 2,
+      "test_multifile_reader": 9,
+      "test_converter_factory": 5,
+      "test_storage_without_metadata_file": 1,
+      "test_sequential_writer": 35
+    },
+    "rosbag2_compression": {
+      "test_sequential_compression_reader": 10,
+      "test_sequential_compression_writer": 19
+    },
+    "rosbag2_transport": {
+      "test_readers_manager": 9,
+      "test_rewrite": 13,
+      "test_play": 34
+    }
+  },
+  "pr_suites": [
+    "rosbag2_cpp/test_sequential_reader",
+    "rosbag2_cpp/test_serialization_converter",
+    "rosbag2_storage_mcap/test_mcap_storage",
+    "rosbag2_storage_sqlite3/test_sqlite_storage",
+    "rosbag2_transport/test_play",
+    "rosbag2_transport/test_rewrite"
+  ],
+  "regression_suites": [
+    "rosbag2_cpp/test_multifile_reader",
+    "rosbag2_cpp/test_converter_factory",
+    "rosbag2_cpp/test_storage_without_metadata_file",
+    "rosbag2_cpp/test_sequential_writer",
+    "rosbag2_storage_mcap/test_mcap_topic_filter",
+    "rosbag2_storage_sqlite3/test_sqlite_topic_filter",
+    "rosbag2_compression/test_sequential_compression_reader",
+    "rosbag2_compression/test_sequential_compression_writer",
+    "rosbag2_transport/test_readers_manager"
+  ]
+}

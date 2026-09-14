@@ -1,0 +1,25 @@
+Running main() from gmock_main.cc
+[==========] Running 3 tests from 2 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from McapStorageTestFixture
+[ RUN      ] McapStorageTestFixture.can_store_and_read_metadata_correctly
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[WARN] [1789305163.172211383] [rosbag2_storage_mcap]: Topic with name: topic1 already exist!
+[WARN] [1789305163.172621008] [rosbag2_storage_mcap]: Topic with name: topic1 already exist!
+[WARN] [1789305163.172720633] [rosbag2_storage_mcap]: Topic with name: topic2 already exist!
+[       OK ] McapStorageTestFixture.can_store_and_read_metadata_correctly (2 ms)
+[----------] 1 test from McapStorageTestFixture (2 ms total)
+
+[----------] 2 tests from TemporaryDirectoryFixture
+[ RUN      ] TemporaryDirectoryFixture.can_write_and_read_basic_mcap_file
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] TemporaryDirectoryFixture.can_write_and_read_basic_mcap_file (0 ms)
+[ RUN      ] TemporaryDirectoryFixture.can_write_mcap_with_zstd_configured_from_yaml
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] TemporaryDirectoryFixture.can_write_mcap_with_zstd_configured_from_yaml (0 ms)
+[----------] 2 tests from TemporaryDirectoryFixture (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 2 test suites ran. (4 ms total)
+[  PASSED  ] 3 tests.
+exit=0

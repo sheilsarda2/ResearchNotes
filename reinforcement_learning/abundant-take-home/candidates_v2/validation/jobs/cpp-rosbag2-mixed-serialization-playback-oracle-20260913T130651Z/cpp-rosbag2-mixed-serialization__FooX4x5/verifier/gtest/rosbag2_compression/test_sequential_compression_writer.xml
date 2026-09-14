@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="19" failures="13" disabled="0" errors="0" time="0.008" timestamp="2026-09-13T13:12:44.198" name="AllTests">
+  <testsuite name="SequentialCompressionWriterTest" tests="11" failures="7" disabled="0" skipped="0" errors="0" time="0.005" timestamp="2026-09-13T13:12:44.198">
+    <testcase name="open_throws_on_empty_storage_options_uri" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="207" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.198" classname="SequentialCompressionWriterTest" />
+    <testcase name="open_throws_on_bad_compression_format" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="222" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.199" classname="SequentialCompressionWriterTest" />
+    <testcase name="open_throws_on_invalid_splitting_size" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="235" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.199" classname="SequentialCompressionWriterTest" />
+    <testcase name="open_succeeds_on_supported_compression_format" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="257" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.199" classname="SequentialCompressionWriterTest">
+      <failure message="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:269&#x0A;Expected: writer_-&gt;open(tmp_dir_storage_options_, {serialization_format_, serialization_format_}) doesn&apos;t throw an exception.&#x0A;  Actual: it throws rcpputils::IllegalStateException with description &quot;Could not create compressor.&quot;.&#x0A;" type=""><![CDATA[/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:269
+Expected: writer_->open(tmp_dir_storage_options_, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+]]></failure>
+    </testcase>
+    <testcase name="open_succeeds_twice" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="273" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.200" classname="SequentialCompressionWriterTest">
+      <failure message="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:290&#x0A;Expected: writer_-&gt;open(storage_options, {serialization_format_, serialization_format_}) doesn&apos;t throw an exception.&#x0A;  Actual: it throws rcpputils::IllegalStateException with description &quot;Could not create compressor.&quot;.&#x0A;" type=""><![CDATA[/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:290
+Expected: writer_->open(storage_options, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+]]></failure>
+      <failure message="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:294&#x0A;Expected: writer_-&gt;open(storage_options_next, {serialization_format_, serialization_format_}) doesn&apos;t throw an exception.&#x0A;  Actual: it throws rcpputils::IllegalStateException with description &quot;Could not create compressor.&quot;.&#x0A;" type=""><![CDATA[/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:294
+Expected: writer_->open(storage_options_next, {serialization_format_, serialization_format_}) doesn't throw an exception.
+  Actual: it throws rcpputils::IllegalStateException with description "Could not create compressor.".
+]]></failure>
+    </testcase>
+    <testcase name="writer_calls_create_compressor" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="298" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.200" classname="SequentialCompressionWriterTest" />
+    <testcase name="writer_creates_correct_metadata_relative_filepaths" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="316" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.201" classname="SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="writer_call_metadata_update_on_open_and_destruction" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="361" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.201" classname="SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="writer_call_metadata_update_on_bag_split" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="400" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.202" classname="SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+      <failure message="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:417&#x0A;Actual function call count doesn&apos;t match EXPECT_CALL(*storage_, update_metadata(_))...&#x0A;         Expected: to be called 4 times&#x0A;           Actual: called twice - unsatisfied and active&#x0A;" type=""><![CDATA[/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:417
+Actual function call count doesn't match EXPECT_CALL(*storage_, update_metadata(_))...
+         Expected: to be called 4 times
+           Actual: called twice - unsatisfied and active
+]]></failure>
+    </testcase>
+    <testcase name="circular_logging_limits_number_of_files_by_max_bag_files_with_file_compression" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="699" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.202" classname="SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="snapshot_writes_to_new_file_with_file_compression" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="737" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.203" classname="SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+      <failure message="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:745&#x0A;Actual function call count doesn&apos;t match EXPECT_CALL(*storage_, write_messages(An&lt;const rosbag2_storage::SerializedBagMessages &amp;&gt;()))...&#x0A;         Expected: to be called once&#x0A;           Actual: never called - unsatisfied and active&#x0A;" type=""><![CDATA[/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp:745
+Actual function call count doesn't match EXPECT_CALL(*storage_, write_messages(An<const rosbag2_storage::SerializedBagMessages &>()))...
+         Expected: to be called once
+           Actual: never called - unsatisfied and active
+]]></failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest" tests="8" failures="6" disabled="0" skipped="0" errors="0" time="0.003" timestamp="2026-09-13T13:12:44.203">
+    <testcase name="writer_writes_with_compression_queue_sizes/0" value_param="0" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="448" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.203" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="writer_writes_with_compression_queue_sizes/1" value_param="5" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="448" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.204" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="writer_sets_threads_priority/0" value_param="0" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="481" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.204" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest" />
+    <testcase name="writer_sets_threads_priority/1" value_param="5" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="481" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.205" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest" />
+    <testcase name="split_event_calls_callback_with_msg_compression/0" value_param="0" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="535" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.205" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="split_event_calls_callback_with_msg_compression/1" value_param="5" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="535" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.205" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="split_event_calls_callback_with_file_compression/0" value_param="0" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="617" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.206" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+    <testcase name="split_event_calls_callback_with_file_compression/1" value_param="5" file="/workspace/ws/src/rosbag2/rosbag2_compression/test/rosbag2_compression/test_sequential_compression_writer.cpp" line="617" status="run" result="completed" time="0." timestamp="2026-09-13T13:12:44.206" classname="SequentialCompressionWriterTestQueueSizes/SequentialCompressionWriterTest">
+      <failure message="unknown file&#x0A;C++ exception with description &quot;Could not create compressor.&quot; thrown in the test body.&#x0A;" type=""><![CDATA[unknown file
+C++ exception with description "Could not create compressor." thrown in the test body.
+]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

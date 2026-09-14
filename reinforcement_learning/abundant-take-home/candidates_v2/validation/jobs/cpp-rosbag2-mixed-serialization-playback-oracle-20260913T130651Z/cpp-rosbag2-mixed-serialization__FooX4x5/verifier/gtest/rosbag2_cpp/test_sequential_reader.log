@@ -1,0 +1,115 @@
+Running main() from gmock_main.cc
+[==========] Running 26 tests from 5 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from SequentialReaderTest
+[ RUN      ] SequentialReaderTest.read_next_uses_converters_to_convert_serialization_format
+[       OK ] SequentialReaderTest.read_next_uses_converters_to_convert_serialization_format (2 ms)
+[ RUN      ] SequentialReaderTest.open_throws_error_if_converter_plugin_does_not_exist
+[       OK ] SequentialReaderTest.open_throws_error_if_converter_plugin_does_not_exist (0 ms)
+[ RUN      ] SequentialReaderTest.read_next_does_not_use_converters_if_input_and_output_format_are_equal
+[       OK ] SequentialReaderTest.read_next_does_not_use_converters_if_input_and_output_format_are_equal (0 ms)
+[ RUN      ] SequentialReaderTest.set_filter_calls_storage
+[       OK ] SequentialReaderTest.set_filter_calls_storage (0 ms)
+[ RUN      ] SequentialReaderTest.open_determines_unspecified_storage_id_from_metadata
+[       OK ] SequentialReaderTest.open_determines_unspecified_storage_id_from_metadata (0 ms)
+[ RUN      ] SequentialReaderTest.next_file_calls_callback
+[       OK ] SequentialReaderTest.next_file_calls_callback (0 ms)
+[----------] 6 tests from SequentialReaderTest (2 ms total)
+
+[----------] 7 tests from SequentialReaderMixedFormatsTest
+[ RUN      ] SequentialReaderMixedFormatsTest.open_and_read_succeed_if_output_format_matches_a_topic
+[       OK ] SequentialReaderMixedFormatsTest.open_and_read_succeed_if_output_format_matches_a_topic (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.open_and_read_succeed_if_no_output_format_is_requested
+[       OK ] SequentialReaderMixedFormatsTest.open_and_read_succeed_if_no_output_format_is_requested (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.open_throws_if_output_format_matches_no_topic
+[       OK ] SequentialReaderMixedFormatsTest.open_throws_if_output_format_matches_no_topic (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.read_next_fills_in_serialization_format_from_metadata
+[       OK ] SequentialReaderMixedFormatsTest.read_next_fills_in_serialization_format_from_metadata (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.read_next_keeps_serialization_format_set_by_storage
+[       OK ] SequentialReaderMixedFormatsTest.read_next_keeps_serialization_format_set_by_storage (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.read_next_throws_if_message_is_not_in_output_format
+[       OK ] SequentialReaderMixedFormatsTest.read_next_throws_if_message_is_not_in_output_format (0 ms)
+[ RUN      ] SequentialReaderMixedFormatsTest.read_next_returns_any_format_if_none_is_requested
+[       OK ] SequentialReaderMixedFormatsTest.read_next_returns_any_format_if_none_is_requested (0 ms)
+[----------] 7 tests from SequentialReaderMixedFormatsTest (0 ms total)
+
+[----------] 1 test from TemporaryDirectoryFixture
+[ RUN      ] TemporaryDirectoryFixture.reads_mixed_serialization_formats_from_real_bag
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[WARN] [1789305163.412262758] [rosbag2_cpp]: Message definition for topic '/camera/video_compressed' with type 'foxglove.CompressedVideo' not found. Message definition will be left empty in bag.
+[       OK ] TemporaryDirectoryFixture.reads_mixed_serialization_formats_from_real_bag (7 ms)
+[----------] 1 test from TemporaryDirectoryFixture (7 ms total)
+
+[----------] 4 tests from BareFileTests/ParametrizedTemporaryDirectoryFixture
+[ RUN      ] BareFileTests/ParametrizedTemporaryDirectoryFixture.reader_accepts_bare_file/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.419280050] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_5bfc9f/bag/0_bag_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.420919383] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_5bfc9f/bag/0_bag_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] BareFileTests/ParametrizedTemporaryDirectoryFixture.reader_accepts_bare_file/0 (2 ms)
+[ RUN      ] BareFileTests/ParametrizedTemporaryDirectoryFixture.reader_accepts_bare_file/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] BareFileTests/ParametrizedTemporaryDirectoryFixture.reader_accepts_bare_file/1 (1 ms)
+[ RUN      ] BareFileTests/ParametrizedTemporaryDirectoryFixture.get_metadata_include_topics_with_zero_messages/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.423282633] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_d93d9f/bag_with_no_msgs/0_bag_with_no_msgs_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.425800800] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_d93d9f/bag_with_no_msgs/0_bag_with_no_msgs_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] BareFileTests/ParametrizedTemporaryDirectoryFixture.get_metadata_include_topics_with_zero_messages/0 (3 ms)
+[ RUN      ] BareFileTests/ParametrizedTemporaryDirectoryFixture.get_metadata_include_topics_with_zero_messages/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] BareFileTests/ParametrizedTemporaryDirectoryFixture.get_metadata_include_topics_with_zero_messages/1 (1 ms)
+[----------] 4 tests from BareFileTests/ParametrizedTemporaryDirectoryFixture (9 ms total)
+
+[----------] 8 tests from ThisReadOrderTest/ReadOrderTest
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.received_timestamp_order/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.427825675] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.428391175] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.429481967] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.430035300] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.430515925] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.431101592] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_f8d070/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] ThisReadOrderTest/ReadOrderTest.received_timestamp_order/0 (4 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.received_timestamp_order/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ThisReadOrderTest/ReadOrderTest.received_timestamp_order/1 (1 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.reverse_received_timestamp_order/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.433837258] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.434419800] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.435490258] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.435938800] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.436347383] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.436715008] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.437209258] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.437601383] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[INFO] [1789305163.438011467] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_9274b4/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] ThisReadOrderTest/ReadOrderTest.reverse_received_timestamp_order/0 (5 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.reverse_received_timestamp_order/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[       OK ] ThisReadOrderTest/ReadOrderTest.reverse_received_timestamp_order/1 (2 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.reverse_file_order/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.441512967] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_2321ca/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.442093300] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_2321ca/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.443194758] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_2321ca/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] ThisReadOrderTest/ReadOrderTest.reverse_file_order/0 (2 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.reverse_file_order/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[WARN] [1789305163.444782592] [rosbag2_storage_mcap]: reverse file-order reading not implemented
+[       OK ] ThisReadOrderTest/ReadOrderTest.reverse_file_order/1 (1 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.published_timestamp_order/0
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[INFO] [1789305163.445473258] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_146507/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.446006842] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_146507/ordertest/1_ordertest_2026_09_13-13_12_43.db3' for READ_WRITE.
+[INFO] [1789305163.447060758] [rosbag2_storage]: Opened database '/tmp/tmp_test_dir_146507/ordertest/0_ordertest_2026_09_13-13_12_43.db3' for READ_ONLY.
+[       OK ] ThisReadOrderTest/ReadOrderTest.published_timestamp_order/0 (2 ms)
+[ RUN      ] ThisReadOrderTest/ReadOrderTest.published_timestamp_order/1
+The '/tmpfs' doesn't exist, falling back to the default temp directory 
+[WARN] [1789305163.448579592] [rosbag2_storage_mcap]: publish timestamp order reading not implemented
+[       OK ] ThisReadOrderTest/ReadOrderTest.published_timestamp_order/1 (1 ms)
+[----------] 8 tests from ThisReadOrderTest/ReadOrderTest (21 ms total)
+
+[----------] Global test environment tear-down
+[==========] 26 tests from 5 test suites ran. (41 ms total)
+[  PASSED  ] 26 tests.
+exit=0

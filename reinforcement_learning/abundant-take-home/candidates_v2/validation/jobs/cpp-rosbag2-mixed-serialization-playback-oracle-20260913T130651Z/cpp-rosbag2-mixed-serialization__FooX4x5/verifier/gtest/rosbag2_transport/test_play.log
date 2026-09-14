@@ -1,0 +1,420 @@
+Running main() from gmock_main.cc
+[==========] Running 34 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 22 tests from RosBag2PlayTestFixture
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_topics
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305164.552203301] [rosbag2_player]: Set rate to 1
+[INFO] [1789305164.555864009] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305164.555955509] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305164.556058759] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305164.556118676] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305164.556162801] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305164.556221801] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_topics (594 ms)
+[ RUN      ] RosBag2PlayTestFixture.can_play_messages_with_queue_size_equal_one
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305165.125405509] [rosbag2_player]: Set rate to 1
+[INFO] [1789305165.126530093] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305165.126596218] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305165.126639009] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305165.126682384] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305165.126721801] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305165.126803551] [rosbag2_player]: Playback until timestamp: -1
+[WARN] [1789305165.233642301] [rosbag2_player]: Message queue starved. Messages will be delayed. Consider increasing the --read-ahead-queue-size option.
+[       OK ] RosBag2PlayTestFixture.can_play_messages_with_queue_size_equal_one (117 ms)
+[ RUN      ] RosBag2PlayTestFixture.can_play_when_one_bag_has_fewer_messages_than_other_bags
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305165.243019509] [rosbag2_player]: Set rate to 1
+[INFO] [1789305165.244008884] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305165.244070843] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305165.244125384] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305165.244162801] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305165.244196759] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305165.244234843] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.can_play_when_one_bag_has_fewer_messages_than_other_bags (153 ms)
+[ RUN      ] RosBag2PlayTestFixture.high_freq_topics_does_not_starve_in_multibag_playback
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305165.397422468] [rosbag2_player]: Set rate to 1
+[INFO] [1789305165.398524301] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305165.398602509] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305165.398659634] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305165.398699093] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305165.398733551] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305165.398773176] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.high_freq_topics_does_not_starve_in_multibag_playback (1091 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_services
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305166.593713010] [rosbag2_player]: Set rate to 1
+[INFO] [1789305166.595198093] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305166.595271468] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305166.595331968] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305166.595382052] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305166.595431635] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305166.595556343] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_services (321 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_as_action_client_for_all_actions
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305166.813866385] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305166.816741052] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305166.816814677] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305166.816870968] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305166.816929135] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305166.816974510] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305166.817079135] [rosbag2_mock_player]: Playback until timestamp: -1
+[WARN] [1789305167.238589385] [rosbag2_mock_player]: Can't send result request before send goal request for '/test_action1' action !
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_as_action_client_for_all_actions (1438 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_with_cancel_are_played_as_action_client_for_all_actions
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305168.251908427] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305168.254594177] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305168.254673761] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305168.254732636] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305168.254774886] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305168.254810802] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305168.254909136] [rosbag2_mock_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_with_cancel_are_played_as_action_client_for_all_actions (2226 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_actions
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305170.477798720] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305170.479519595] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305170.479611178] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305170.479676428] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305170.479736220] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305170.479780762] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305170.479835220] [rosbag2_mock_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_actions (435 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_topics_and_services
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305171.016109262] [rosbag2_player]: Set rate to 1
+[INFO] [1789305171.017406179] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305171.017474970] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305171.017533304] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305171.017586595] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305171.017646679] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305171.017736804] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_topics_and_services (316 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_topics_with_unknown_type
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305171.229755470] [rosbag2_player]: Set rate to 1
+[WARN] [1789305171.232588470] [rosbag2_player]: Ignoring a topic 'topic3', reason: package 'unknown_msgs' not found, searching: [/workspace/ws/install, /opt/ros/rolling].
+[INFO] [1789305171.233587137] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305171.233673262] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305171.233710512] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305171.233762679] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305171.233816929] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305171.233859595] [rosbag2_player]: Playback until timestamp: -1
+[WARN] [1789305171.740102054] [ROSBAG2_TRANSPORT]: Publisher for topic 'topic3' not found
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_all_topics_with_unknown_type (562 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305171.793222304] [rosbag2_player]: Set rate to 1
+[INFO] [1789305171.794304346] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305171.794376887] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305171.794433221] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305171.794470346] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305171.794504471] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305171.794542804] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305172.354585054] [rosbag2_player]: Set rate to 1
+[INFO] [1789305172.355665471] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305172.355742054] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305172.355781596] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305172.355866971] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305172.355923554] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305172.356127221] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305172.874455138] [rosbag2_player]: Set rate to 1
+[INFO] [1789305172.875645805] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305172.875718430] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305172.875773971] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305172.875811305] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305172.875846180] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305172.875884305] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics (1655 ms)
+[ RUN      ] RosBag2PlayTestFixture.topics_with_unplayable_serialization_format_can_be_filtered_out
+stdin is not a terminal device. Keyboard handling disabled.[WARN] [1789305173.449189680] [rosbag2_player]: Excluding the following topics from playback: their serialization format differs from the local rmw serialization format 'cdr' and cannot be converted:
+  '/topic2' (protobuf)
+Select or exclude topics explicitly, e.g. with the ros2 bag play options --topics, --exclude-topics or --exclude-regex, to silence this warning.
+[INFO] [1789305173.449332930] [rosbag2_player]: Set rate to 1
+[INFO] [1789305173.450416680] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305173.450497638] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305173.450561222] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305173.450605180] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305173.450639263] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305173.450677055] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305173.756743597] [rosbag2_player]: Set rate to 1
+[INFO] [1789305173.757759638] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305173.757831888] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305173.757889888] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305173.757960722] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305173.758000055] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305173.758040347] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305174.075794472] [rosbag2_player]: Set rate to 1
+[INFO] [1789305174.077134013] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305174.077239972] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305174.077304263] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305174.077348430] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305174.077386430] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305174.077434430] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[       OK ] RosBag2PlayTestFixture.topics_with_unplayable_serialization_format_can_be_filtered_out (961 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_services
+
+>>> [rcutils|error_handling.c:109] rcutils_set_error_state()
+This error state is being overwritten:
+
+  'Handle's typesupport identifier (rosidl_typesupport_cpp) is not supported by this library, at ./src/type_support_dispatch.hpp:114'
+
+with this new error message:
+
+  'service's implementation is invalid, at ./src/rcl/service.c:419'
+
+rcutils_reset_error() should be called after error handling to avoid this.
+<<<
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305174.510647180] [rosbag2_player]: Set rate to 1
+[INFO] [1789305174.511914639] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305174.511994764] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305174.512058222] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305174.512110639] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305174.512146514] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305174.512284264] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305174.833424166] [rosbag2_player]: Set rate to 1
+[INFO] [1789305174.834682083] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305174.834759125] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305174.834816833] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305174.834869750] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305174.834920125] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305174.835017750] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305174.962112416] [rosbag2_player]: Set rate to 1
+[INFO] [1789305174.963532875] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305174.963608333] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305174.963947666] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305174.964117375] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305174.964206916] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305174.964523208] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_services (778 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_actions
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305175.196155750] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305175.201151875] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305175.201242666] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305175.201375791] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305175.201625625] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305175.201851375] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305175.201959333] [rosbag2_mock_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_actions (1433 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics_and_services
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305176.726795625] [rosbag2_player]: Set rate to 1
+[INFO] [1789305176.730236584] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305176.730308125] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305176.730358542] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305176.730399292] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305176.730437042] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305176.730915417] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305176.973008626] [rosbag2_player]: Set rate to 1
+[INFO] [1789305176.974460917] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305176.974522084] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305176.974560292] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305176.974593751] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305176.974632167] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305176.974714751] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305177.261758334] [rosbag2_player]: Set rate to 1
+[INFO] [1789305177.263321584] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305177.263395001] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305177.263427959] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305177.263465167] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305177.263496042] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305177.263603542] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics_and_services (822 ms)
+[ RUN      ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics_with_unknown_type
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305177.445438501] [rosbag2_player]: Set rate to 1
+[INFO] [1789305177.446565626] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305177.446632001] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305177.446665751] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305177.446719167] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305177.446780042] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305177.446833834] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305178.007174168] [rosbag2_player]: Set rate to 1
+[INFO] [1789305178.008299668] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305178.008366293] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305178.008435668] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305178.008491459] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305178.008540084] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305178.008609584] [rosbag2_player]: Playback until timestamp: -1
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305178.524113501] [rosbag2_player]: Set rate to 1
+[INFO] [1789305178.525558376] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305178.525615335] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305178.525680960] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305178.525746335] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305178.525818126] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305178.525880835] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.recorded_messages_are_played_for_filtered_topics_with_unknown_type (1638 ms)
+[ RUN      ] RosBag2PlayTestFixture.player_gracefully_exit_by_rclcpp_shutdown_in_pause
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305179.088024960] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305179.089299668] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305179.089391335] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305179.089458710] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305179.089512377] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305179.089576668] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305179.089638335] [rosbag2_mock_player]: Pausing play.
+[INFO] [1789305179.089689293] [rosbag2_mock_player]: Playback until timestamp: -1
+[ERROR] [1789305179.301641668] [rosbag2_mock_player]: Failed to publish message on 'topic1' topic. 
+Error: failed to borrow loaned msg: publisher's context is invalid, at ./src/rcl/publisher.c:424
+[       OK ] RosBag2PlayTestFixture.player_gracefully_exit_by_rclcpp_shutdown_in_pause (223 ms)
+[ RUN      ] RosBag2PlayTestFixture.play_service_requests_from_service_introspection_messages
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305179.410024543] [rosbag2_player]: Set rate to 1
+[INFO] [1789305179.411351627] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305179.411437210] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305179.411490668] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305179.411554627] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305179.411625210] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305179.411765085] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.play_service_requests_from_service_introspection_messages (246 ms)
+[ RUN      ] RosBag2PlayTestFixture.play_service_requests_from_client_introspection_messages
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305179.654909335] [rosbag2_player]: Set rate to 1
+[INFO] [1789305179.656253794] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305179.656304752] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305179.656374627] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305179.656420002] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305179.656470002] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305179.656595877] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.play_service_requests_from_client_introspection_messages (234 ms)
+[ RUN      ] RosBag2PlayTestFixture.play_actions_message_from_action_client_introspection_messages
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305179.790229002] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305179.793074419] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305179.793153377] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305179.793216294] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305179.793264710] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305179.793317044] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305179.793431794] [rosbag2_mock_player]: Playback until timestamp: -1
+[WARN] [1789305180.202211919] [rosbag2_mock_player]: Can't send result request before send goal request for '/test_action1' action !
+[       OK ] RosBag2PlayTestFixture.play_actions_message_from_action_client_introspection_messages (1430 ms)
+[ RUN      ] RosBag2PlayTestFixture.play_service_events_and_topics
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305181.220326544] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305181.221799003] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305181.221871919] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305181.221924044] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305181.221961294] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305181.222005461] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305181.225258586] [rosbag2_mock_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.play_service_events_and_topics (146 ms)
+[ RUN      ] RosBag2PlayTestFixture.read_split_callback_is_called
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305181.365769086] [rosbag2_mock_player]: Set rate to 1
+[INFO] [1789305181.366998586] [rosbag2_mock_player]: Adding keyboard callbacks.
+[INFO] [1789305181.367073836] [rosbag2_mock_player]: Press SPACE for Pause/Resume
+[INFO] [1789305181.367113419] [rosbag2_mock_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305181.367151336] [rosbag2_mock_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305181.367215003] [rosbag2_mock_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305181.371760919] [rosbag2_mock_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayTestFixture.read_split_callback_is_called (377 ms)
+[----------] 22 tests from RosBag2PlayTestFixture (17211 ms total)
+
+[----------] 6 tests from RosBag2PlayQosOverrideTestFixture
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.topic_qos_profiles_overridden
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305181.743741669] [rosbag2_player]: Set rate to 1
+[INFO] [1789305181.743862336] [rosbag2_player]: Overriding QoS profile for topic /test_topic
+[INFO] [1789305181.745075086] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305181.745148336] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305181.745193794] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305181.745261211] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305181.745320128] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305181.745363336] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayQosOverrideTestFixture.topic_qos_profiles_overridden (315 ms)
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.topic_qos_profile_override_matches_unqualified_name
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305182.059420128] [rosbag2_player]: Set rate to 1
+[INFO] [1789305182.059516461] [rosbag2_player]: Overriding QoS profile for topic /test_topic
+[INFO] [1789305182.060741128] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305182.060799878] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305182.060845586] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305182.060910295] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305182.060951086] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305182.061009836] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayQosOverrideTestFixture.topic_qos_profile_override_matches_unqualified_name (314 ms)
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.topic_qos_profiles_overridden_incompatible
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305182.373664378] [rosbag2_player]: Set rate to 1
+[INFO] [1789305182.373744711] [rosbag2_player]: Overriding QoS profile for topic /test_topic
+[INFO] [1789305182.374829295] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305182.374898295] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305182.374969378] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305182.375018253] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305182.375053336] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305182.375117545] [rosbag2_player]: Playback until timestamp: -1
+[WARN] [1789305182.376706003] [subscription_manager_1789305182371023295]: New publisher discovered on topic '/test_topic', offering incompatible QoS. No messages will be sent to it. Last incompatible policy: RELIABILITY_QOS_POLICY
+[       OK ] RosBag2PlayQosOverrideTestFixture.topic_qos_profiles_overridden_incompatible (3310 ms)
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.playback_uses_recorded_transient_local_profile
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305185.684565796] [rosbag2_player]: Set rate to 1
+[INFO] [1789305185.686170463] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305185.686337588] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305185.686455296] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305185.686506255] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305185.686552713] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305185.686638963] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayQosOverrideTestFixture.playback_uses_recorded_transient_local_profile (312 ms)
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.playback_uses_recorded_deadline
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305185.997420005] [rosbag2_player]: Set rate to 1
+[INFO] [1789305185.998681005] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305185.998743130] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305185.998777838] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305185.998811547] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305185.998869172] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305185.998925005] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayQosOverrideTestFixture.playback_uses_recorded_deadline (314 ms)
+[ RUN      ] RosBag2PlayQosOverrideTestFixture.override_has_precedence_over_recorded
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305186.311969213] [rosbag2_player]: Set rate to 1
+[INFO] [1789305186.312071005] [rosbag2_player]: Overriding QoS profile for topic /test_topic
+[INFO] [1789305186.313266797] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305186.313316380] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305186.313351130] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305186.313408380] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305186.313466713] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305186.313513172] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] RosBag2PlayQosOverrideTestFixture.override_has_precedence_over_recorded (312 ms)
+[----------] 6 tests from RosBag2PlayQosOverrideTestFixture (4880 ms total)
+
+[----------] 6 tests from ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.recorded_msgs_are_played_for_all_topics_from_three_bags/received_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305186.624338672] [rosbag2_player]: Set rate to 1
+[INFO] [1789305186.625603630] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305186.625690213] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305186.625724463] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305186.625763380] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305186.625797755] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305186.625844963] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.recorded_msgs_are_played_for_all_topics_from_three_bags/received_timestamp (124 ms)
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.recorded_msgs_are_played_for_all_topics_from_three_bags/sent_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305186.748631630] [rosbag2_player]: Set rate to 1
+[INFO] [1789305186.749901922] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305186.749960505] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305186.749999547] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305186.750037505] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305186.750078422] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305186.750125714] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.recorded_msgs_are_played_for_all_topics_from_three_bags/sent_timestamp (124 ms)
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_in_one_bag_respected_during_replay/received_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305186.873733005] [rosbag2_player]: Set rate to 1
+[INFO] [1789305186.875105297] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305186.875155714] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305186.875226797] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305186.875288172] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305186.875331005] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305186.875388089] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_in_one_bag_respected_during_replay/received_timestamp (117 ms)
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_in_one_bag_respected_during_replay/sent_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305186.991282547] [rosbag2_player]: Set rate to 1
+[INFO] [1789305186.992509714] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305186.992574172] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305186.992613964] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305186.992652380] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305186.992685422] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305186.992724839] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_in_one_bag_respected_during_replay/sent_timestamp (128 ms)
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_respected_in_multibag_replay/received_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305187.119414964] [rosbag2_player]: Set rate to 1
+[INFO] [1789305187.120707839] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305187.120774672] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305187.120815047] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305187.120888130] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305187.120954047] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305187.121003339] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_respected_in_multibag_replay/received_timestamp (126 ms)
+[ RUN      ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_respected_in_multibag_replay/sent_timestamp
+stdin is not a terminal device. Keyboard handling disabled.[INFO] [1789305187.246042339] [rosbag2_player]: Set rate to 1
+[INFO] [1789305187.247298922] [rosbag2_player]: Adding keyboard callbacks.
+[INFO] [1789305187.247352130] [rosbag2_player]: Press SPACE for Pause/Resume
+[INFO] [1789305187.247415839] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+[INFO] [1789305187.247489672] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+[INFO] [1789305187.247532255] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+[INFO] [1789305187.247578005] [rosbag2_player]: Playback until timestamp: -1
+[       OK ] ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder.order_of_msgs_with_the_same_timestamp_respected_in_multibag_replay/sent_timestamp (124 ms)
+[----------] 6 tests from ParametrizedPlayTests/RosBag2PlayTestFixtureMessageOrder (746 ms total)
+
+[----------] Global test environment tear-down
+[==========] 34 tests from 3 test suites ran. (22838 ms total)
+[  PASSED  ] 34 tests.
+exit=0

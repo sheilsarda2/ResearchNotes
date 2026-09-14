@@ -1,0 +1,56 @@
+Running main() from gmock_main.cc
+[==========] Running 5 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 5 tests from ConverterFactoryTest
+[ RUN      ] ConverterFactoryTest.load_test_plugin_can_load_a_converter_plugin_as_both_deserializer_and_serializer
+[INFO] [1789305163.739657092] [rosbag2_cpp]: No plugin found providing serialization format 'a'. Falling back to checking RMW implementations.
+[ERROR] [1789305163.740174717] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format a
+/workspace/ws/src/rosbag2/rosbag2_cpp/test/rosbag2_cpp/test_converter_factory.cpp:35: Failure
+Value of: deserializer
+Expected: isn't NULL
+  Actual: (nullptr)
+
+[INFO] [1789305163.740291509] [rosbag2_cpp]: No plugin found providing serialization format 'a'. Falling back to checking RMW implementations.
+[ERROR] [1789305163.740380509] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format a
+/workspace/ws/src/rosbag2/rosbag2_cpp/test/rosbag2_cpp/test_converter_factory.cpp:37: Failure
+Value of: serializer
+Expected: isn't NULL
+  Actual: (nullptr)
+
+[  FAILED  ] ConverterFactoryTest.load_test_plugin_can_load_a_converter_plugin_as_both_deserializer_and_serializer (1 ms)
+[ RUN      ] ConverterFactoryTest.load_converters_returns_nullptr_if_plugin_does_not_exist
+[INFO] [1789305163.740594342] [rosbag2_cpp]: No plugin found providing serialization format 'wrong_format'. Falling back to checking RMW implementations.
+[ERROR] [1789305163.740672217] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format wrong_format
+[       OK ] ConverterFactoryTest.load_converters_returns_nullptr_if_plugin_does_not_exist (0 ms)
+[ RUN      ] ConverterFactoryTest.load_test_serializer_plugin
+[INFO] [1789305163.740795800] [rosbag2_cpp]: No plugin found providing serialization format 's'. Falling back to checking RMW implementations.
+[ERROR] [1789305163.740908467] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format s
+/workspace/ws/src/rosbag2/rosbag2_cpp/test/rosbag2_cpp/test_converter_factory.cpp:47: Failure
+Value of: converter
+Expected: isn't NULL
+  Actual: (nullptr)
+
+[  FAILED  ] ConverterFactoryTest.load_test_serializer_plugin (0 ms)
+[ RUN      ] ConverterFactoryTest.load_deserializer_cannot_load_serializer_plugin
+[INFO] [1789305163.741082509] [rosbag2_cpp]: No plugin found providing serialization format 's'. Falling back to checking RMW implementations.
+[ERROR] [1789305163.741157259] [rosbag2_cpp]: Could not initialize RMWImplementedConverter: No RMW implementation found supporting serialization format s
+[       OK ] ConverterFactoryTest.load_deserializer_cannot_load_serializer_plugin (0 ms)
+[ RUN      ] ConverterFactoryTest.load_serialization_plugins_test
+/workspace/ws/src/rosbag2/rosbag2_cpp/test/rosbag2_cpp/test_converter_factory.cpp:65: Failure
+Value of: found
+  Actual: false
+Expected: true
+
+[  FAILED  ] ConverterFactoryTest.load_serialization_plugins_test (0 ms)
+[----------] 5 tests from ConverterFactoryTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 5 tests from 1 test suite ran. (2 ms total)
+[  PASSED  ] 2 tests.
+[  FAILED  ] 3 tests, listed below:
+[  FAILED  ] ConverterFactoryTest.load_test_plugin_can_load_a_converter_plugin_as_both_deserializer_and_serializer
+[  FAILED  ] ConverterFactoryTest.load_test_serializer_plugin
+[  FAILED  ] ConverterFactoryTest.load_serialization_plugins_test
+
+ 3 FAILED TESTS
+exit=1

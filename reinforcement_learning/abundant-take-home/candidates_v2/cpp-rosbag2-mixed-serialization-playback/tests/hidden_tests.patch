@@ -1,0 +1,764 @@
+diff --git a/rosbag2_cpp/test/rosbag2_cpp/test_sequential_reader.cpp b/rosbag2_cpp/test/rosbag2_cpp/test_sequential_reader.cpp
+index 8a778a787a..10c48b604b 100644
+--- a/rosbag2_cpp/test/rosbag2_cpp/test_sequential_reader.cpp
++++ b/rosbag2_cpp/test/rosbag2_cpp/test_sequential_reader.cpp
+@@ -17,15 +17,19 @@
+ #include <filesystem>
+ #include <memory>
+ #include <string>
++#include <unordered_map>
+ #include <utility>
+ #include <vector>
+ 
++#include "rmw/rmw.h"
++
+ #include "rosbag2_cpp/readers/sequential_reader.hpp"
+ #include "rosbag2_cpp/reader.hpp"
+ #include "rosbag2_cpp/writer.hpp"
+ 
+ #include "rosbag2_storage/bag_metadata.hpp"
+ #include "rosbag2_storage/metadata_io.hpp"
++#include "rosbag2_storage/ros_helper.hpp"
+ #include "rosbag2_storage/topic_metadata.hpp"
+ 
+ #include "rosbag2_test_common/tested_storage_ids.hpp"
+@@ -43,6 +47,7 @@
+ 
+ using namespace testing;  // NOLINT
+ using rosbag2_test_common::ParametrizedTemporaryDirectoryFixture;
++using rosbag2_test_common::TemporaryDirectoryFixture;
+ namespace fs = std::filesystem;
+ 
+ class SequentialReaderTest : public Test
+@@ -226,6 +231,296 @@ TEST_F(SequentialReaderTest, next_file_calls_callback) {
+   EXPECT_EQ(opened_file, bag_file_2_path_.generic_string());
+ }
+ 
++class SequentialReaderMixedFormatsTest : public Test
++{
++public:
++  void init_reader(const std::vector<std::string> & serialization_formats)
++  {
++    storage_ = std::make_shared<NiceMock<MockStorage>>();
++    converter_factory_ = std::make_shared<StrictMock<MockConverterFactory>>();
++    auto storage_factory = std::make_unique<NiceMock<MockStorageFactory>>();
++    auto metadata_io = std::make_unique<NiceMock<MockMetadataIo>>();
++
++    storage_uri_ = fs::temp_directory_path().generic_string();
++
++    rosbag2_storage::BagMetadata metadata;
++    metadata.version = 4;
++    metadata.relative_file_paths = {(fs::path(storage_uri_) / "bag_file1").generic_string()};
++    metadata.storage_identifier = "mock_storage";
++    std::vector<rosbag2_storage::TopicMetadata> topics_and_types;
++    size_t topic_id = 0;
++    for (const auto & serialization_format : serialization_formats) {
++      rosbag2_storage::TopicMetadata topic_metadata;
++      topic_metadata.id = static_cast<uint16_t>(topic_id);
++      topic_metadata.name = "topic" + std::to_string(topic_id);
++      topic_metadata.type = "test_msgs/BasicTypes";
++      topic_metadata.serialization_format = serialization_format;
++      metadata.topics_with_message_count.push_back({topic_metadata, 1});
++      topics_and_types.push_back(topic_metadata);
++      topic_id++;
++    }
++
++    auto message = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++    message->topic_name = "topic0";
++
++    ON_CALL(*metadata_io, read_metadata(_)).WillByDefault(Return(metadata));
++    ON_CALL(*metadata_io, metadata_file_exists(_)).WillByDefault(Return(true));
++    ON_CALL(*storage_, get_all_topics_and_types()).WillByDefault(Return(topics_and_types));
++    ON_CALL(*storage_, has_next()).WillByDefault(Return(true));
++    ON_CALL(*storage_, read_next()).WillByDefault(Return(message));
++    ON_CALL(*storage_, set_read_order).WillByDefault(Return(true));
++    ON_CALL(*storage_factory, open_read_only(_)).WillByDefault(Return(storage_));
++
++    auto sequential_reader = std::make_unique<rosbag2_cpp::readers::SequentialReader>(
++      std::move(storage_factory), converter_factory_, std::move(metadata_io));
++    reader_ = std::make_unique<rosbag2_cpp::Reader>(std::move(sequential_reader));
++  }
++
++  std::shared_ptr<NiceMock<MockStorage>> storage_;
++  std::shared_ptr<StrictMock<MockConverterFactory>> converter_factory_;
++  std::unique_ptr<rosbag2_cpp::Reader> reader_;
++  std::string storage_uri_;
++};
++
++TEST_F(SequentialReaderMixedFormatsTest, open_and_read_succeed_if_output_format_matches_a_topic) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  // No converter shall be created; messages are returned in their stored serialization format.
++  EXPECT_CALL(*converter_factory_, load_deserializer(_)).Times(0);
++  EXPECT_CALL(*converter_factory_, load_serializer(_)).Times(0);
++
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", "rmw1_format"}));
++  EXPECT_TRUE(reader_->has_next());
++  auto message = reader_->read_next();
++  ASSERT_NE(nullptr, message);
++  EXPECT_EQ("topic0", message->topic_name);
++
++  // The topic not stored in the requested output serialization format cannot be delivered.
++  const auto undeliverable_topics = reader_->get_undeliverable_topics();
++  ASSERT_THAT(undeliverable_topics, SizeIs(1));
++  EXPECT_EQ("topic1", undeliverable_topics[0].name);
++  EXPECT_EQ("rmw2_format", undeliverable_topics[0].serialization_format);
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, open_and_read_succeed_if_no_output_format_is_requested) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  EXPECT_CALL(*converter_factory_, load_deserializer(_)).Times(0);
++  EXPECT_CALL(*converter_factory_, load_serializer(_)).Times(0);
++
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", ""}));
++  EXPECT_TRUE(reader_->has_next());
++  auto message = reader_->read_next();
++  ASSERT_NE(nullptr, message);
++  EXPECT_EQ("topic0", message->topic_name);
++
++  // Without a requested output serialization format, every topic is delivered as stored.
++  EXPECT_THAT(reader_->get_undeliverable_topics(), IsEmpty());
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, open_throws_if_output_format_matches_no_topic) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  EXPECT_THROW(
++    reader_->open({storage_uri_, "mock_storage"}, {"", "rmw3_format"}),
++    std::runtime_error);
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, read_next_fills_in_serialization_format_from_metadata) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  EXPECT_CALL(*converter_factory_, load_deserializer(_)).Times(0);
++  EXPECT_CALL(*converter_factory_, load_serializer(_)).Times(0);
++
++  // The mock storage leaves the serialization format of the message empty, so the reader has
++  // to fill it in from the topic metadata.
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", ""}));
++  auto message = reader_->read_next();
++  ASSERT_NE(nullptr, message);
++  EXPECT_EQ("topic0", message->topic_name);
++  EXPECT_EQ("rmw1_format", message->serialization_format);
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, read_next_keeps_serialization_format_set_by_storage) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  auto message_from_storage = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++  message_from_storage->topic_name = "topic0";
++  message_from_storage->serialization_format = "rmw1_format";
++  ON_CALL(*storage_, read_next()).WillByDefault(Return(message_from_storage));
++
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", "rmw1_format"}));
++  auto message = reader_->read_next();
++  ASSERT_NE(nullptr, message);
++  EXPECT_EQ("rmw1_format", message->serialization_format);
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, read_next_throws_if_message_is_not_in_output_format) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  // topic1 is stored in rmw2_format, which is neither the requested output serialization
++  // format nor convertible to it, since the bag has mixed serialization formats.
++  auto message_from_storage = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++  message_from_storage->topic_name = "topic1";
++  ON_CALL(*storage_, read_next()).WillByDefault(Return(message_from_storage));
++
++  EXPECT_CALL(*converter_factory_, load_deserializer(_)).Times(0);
++  EXPECT_CALL(*converter_factory_, load_serializer(_)).Times(0);
++
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", "rmw1_format"}));
++  EXPECT_TRUE(reader_->has_next());
++  EXPECT_THROW(reader_->read_next(), std::runtime_error);
++}
++
++TEST_F(SequentialReaderMixedFormatsTest, read_next_returns_any_format_if_none_is_requested) {
++  init_reader({"rmw1_format", "rmw2_format"});
++
++  auto message_from_storage = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++  message_from_storage->topic_name = "topic1";
++  ON_CALL(*storage_, read_next()).WillByDefault(Return(message_from_storage));
++
++  EXPECT_NO_THROW(reader_->open({storage_uri_, "mock_storage"}, {"", ""}));
++  auto message = reader_->read_next();
++  ASSERT_NE(nullptr, message);
++  EXPECT_EQ("topic1", message->topic_name);
++  EXPECT_EQ("rmw2_format", message->serialization_format);
++}
++
++namespace
++{
++std::shared_ptr<rosbag2_storage::SerializedBagMessage> make_fake_protobuf_message(
++  const std::string & topic_name, int64_t stamp_ns, uint8_t index)
++{
++  // A minimal, valid protobuf encoding of a foxglove.CompressedVideo message:
++  //   field 2 (frame_id, string) = "cam0"
++  //   field 3 (data, bytes) = 16 filler bytes
++  //   field 4 (format, string) = "h264"
++  std::vector<uint8_t> payload = {0x12, 0x04, 'c', 'a', 'm', '0', 0x1a, 0x10};
++  payload.insert(payload.end(), 16, index);
++  const std::vector<uint8_t> format_field = {0x22, 0x04, 'h', '2', '6', '4'};
++  payload.insert(payload.end(), format_field.begin(), format_field.end());
++
++  auto message = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++  message->topic_name = topic_name;
++  message->recv_timestamp = stamp_ns;
++  message->send_timestamp = stamp_ns;
++  message->serialized_data =
++    rosbag2_storage::make_serialized_message(payload.data(), payload.size());
++  return message;
++}
++}  // namespace
++
++TEST_F(TemporaryDirectoryFixture, reads_mixed_serialization_formats_from_real_bag) {
++  const auto bag_path = (fs::path(temporary_dir_path_) / "mixed_formats_bag").generic_string();
++  const std::string cdr_topic = "/chatter";
++  const std::string protobuf_topic = "/camera/video_compressed";
++  constexpr size_t kNumMessagesPerTopic = 5;
++
++  // Write a small bag with one CDR encoded and one protobuf encoded topic, mimicking
++  // recordings made by non-ROS tools.
++  {
++    rosbag2_cpp::Writer writer;
++    rosbag2_storage::StorageOptions options;
++    options.uri = bag_path;
++    options.storage_id = "mcap";
++    writer.open(options);
++
++    rosbag2_storage::TopicMetadata protobuf_topic_metadata;
++    protobuf_topic_metadata.name = protobuf_topic;
++    protobuf_topic_metadata.type = "foxglove.CompressedVideo";
++    protobuf_topic_metadata.serialization_format = "protobuf";
++    writer.create_topic(protobuf_topic_metadata);
++
++    test_msgs::msg::BasicTypes msg;
++    for (size_t i = 0; i < kNumMessagesPerTopic; i++) {
++      const int64_t stamp_ns = 10000000 * static_cast<int64_t>(i);
++      msg.int32_value = static_cast<int32_t>(i);
++      writer.write(msg, cdr_topic, rclcpp::Time(stamp_ns));
++      writer.write(make_fake_protobuf_message(protobuf_topic, stamp_ns + 1,
++        static_cast<uint8_t>(i)));
++    }
++  }
++
++  // A bag with mixed serialization formats can be opened and read raw when no output
++  // serialization format is requested.
++  {
++    rosbag2_cpp::Reader reader;
++    EXPECT_NO_THROW(reader.open(bag_path));
++
++    std::unordered_map<std::string, std::string> serialization_formats;
++    for (const auto & topic : reader.get_all_topics_and_types()) {
++      serialization_formats[topic.name] = topic.serialization_format;
++    }
++    EXPECT_EQ(serialization_formats[protobuf_topic], "protobuf");
++    EXPECT_NE(serialization_formats[cdr_topic], "protobuf");
++
++    std::unordered_map<std::string, size_t> counts;
++    while (reader.has_next()) {
++      const auto message = reader.read_next();
++      counts[message->topic_name]++;
++      // Every message is tagged with the serialization format of its topic.
++      EXPECT_EQ(message->serialization_format, serialization_formats[message->topic_name]);
++    }
++    EXPECT_EQ(counts[cdr_topic], kNumMessagesPerTopic);
++    EXPECT_EQ(counts[protobuf_topic], kNumMessagesPerTopic);
++  }
++
++  // Opening also succeeds when the requested output serialization format matches some of
++  // the topics; messages are not converted. Messages of the matching topics are returned as
++  // stored, but reading a message of a topic in another serialization format throws instead
++  // of handing out data in an unexpected serialization format.
++  {
++    rosbag2_cpp::Reader reader;
++    rosbag2_storage::StorageOptions options;
++    options.uri = bag_path;
++    options.storage_id = "mcap";
++    EXPECT_NO_THROW(reader.open(options, {"", rmw_get_serialization_format()}));
++    // The protobuf topic is reported as undeliverable.
++    const auto undeliverable_topics = reader.get_undeliverable_topics();
++    ASSERT_THAT(undeliverable_topics, SizeIs(1));
++    EXPECT_EQ(undeliverable_topics[0].name, protobuf_topic);
++    ASSERT_TRUE(reader.has_next());
++    // The first message in the bag is on the CDR topic.
++    const auto message = reader.read_next();
++    EXPECT_EQ(message->topic_name, cdr_topic);
++    EXPECT_EQ(message->serialization_format, rmw_get_serialization_format());
++    // The second message is on the protobuf topic.
++    ASSERT_TRUE(reader.has_next());
++    EXPECT_THROW(reader.read_next(), std::runtime_error);
++  }
++
++  // Excluding the topics which are not stored in the requested output serialization format
++  // makes the whole bag readable.
++  {
++    rosbag2_cpp::Reader reader;
++    rosbag2_storage::StorageOptions options;
++    options.uri = bag_path;
++    options.storage_id = "mcap";
++    EXPECT_NO_THROW(reader.open(options, {"", rmw_get_serialization_format()}));
++    rosbag2_storage::StorageFilter filter;
++    filter.topics = {cdr_topic};
++    reader.set_filter(filter);
++    size_t count = 0;
++    while (reader.has_next()) {
++      const auto message = reader.read_next();
++      EXPECT_EQ(message->topic_name, cdr_topic);
++      EXPECT_EQ(message->serialization_format, rmw_get_serialization_format());
++      count++;
++    }
++    EXPECT_EQ(count, kNumMessagesPerTopic);
++  }
++
++  // Opening fails when the requested output serialization format matches none of the
++  // topics, since conversion of mixed serialization formats is not supported.
++  {
++    rosbag2_cpp::Reader reader;
++    rosbag2_storage::StorageOptions options;
++    options.uri = bag_path;
++    options.storage_id = "mcap";
++    EXPECT_THROW(reader.open(options, {"", "some_other_format"}), std::runtime_error);
++  }
++}
++
+ TEST_P(ParametrizedTemporaryDirectoryFixture, reader_accepts_bare_file) {
+   const auto bag_path = fs::path(temporary_dir_path_) / "bag";
+   const auto storage_id = GetParam();
+diff --git a/rosbag2_cpp/test/rosbag2_cpp/test_serialization_converter.cpp b/rosbag2_cpp/test/rosbag2_cpp/test_serialization_converter.cpp
+index fca8b6b782..722d5c784b 100644
+--- a/rosbag2_cpp/test/rosbag2_cpp/test_serialization_converter.cpp
++++ b/rosbag2_cpp/test/rosbag2_cpp/test_serialization_converter.cpp
+@@ -221,6 +221,7 @@ TEST_F(SerializationConverterTest, default_rmw_converter_can_serialize) {
+   writer_->write(message);
+ 
+   ASSERT_EQ(mock_storage_data_.size(), 1);
++  EXPECT_THAT(mock_storage_data_[0]->serialization_format, StrEq(rmw_serialization_format));
+ 
+   rclcpp::Serialization<std_msgs::msg::String> serialization;
+   rclcpp::SerializedMessage rclcpp_serialized_msg(*mock_storage_data_[0]->serialized_data);
+diff --git a/rosbag2_storage_mcap/test/rosbag2_storage_mcap/test_mcap_storage.cpp b/rosbag2_storage_mcap/test/rosbag2_storage_mcap/test_mcap_storage.cpp
+index 5bb0183fc1..212e46c7cb 100644
+--- a/rosbag2_storage_mcap/test/rosbag2_storage_mcap/test_mcap_storage.cpp
++++ b/rosbag2_storage_mcap/test/rosbag2_storage_mcap/test_mcap_storage.cpp
+@@ -246,6 +246,8 @@ TEST_F(TemporaryDirectoryFixture, can_write_and_read_basic_mcap_file)
+ 
+     std_msgs::msg::String msg;
+     auto serialized_bag_msg = reader->read_next();
++    EXPECT_EQ(serialized_bag_msg->topic_name, topic_name);
++    EXPECT_EQ(serialized_bag_msg->serialization_format, "cdr");
+     rclcpp::SerializedMessage extracted_serialized_msg(*serialized_bag_msg->serialized_data);
+     serialization.deserialize_message(&extracted_serialized_msg, &msg);
+     EXPECT_EQ(msg.data, message_data);
+@@ -279,6 +281,7 @@ TEST_F(TemporaryDirectoryFixture, can_write_mcap_with_zstd_configured_from_yaml)
+     rosbag2_storage::TopicMetadata topic_metadata;
+     topic_metadata.name = topic_name;
+     topic_metadata.type = "std_msgs/msg/String";
++    topic_metadata.serialization_format = "cdr";
+ 
+     std_msgs::msg::String msg;
+     msg.data = message_data;
+@@ -315,6 +318,8 @@ TEST_F(TemporaryDirectoryFixture, can_write_mcap_with_zstd_configured_from_yaml)
+ 
+     std_msgs::msg::String msg;
+     auto serialized_bag_msg = reader->read_next();
++    EXPECT_EQ(serialized_bag_msg->topic_name, topic_name);
++    EXPECT_EQ(serialized_bag_msg->serialization_format, "cdr");
+     rclcpp::SerializedMessage extracted_serialized_msg(*serialized_bag_msg->serialized_data);
+     serialization.deserialize_message(&extracted_serialized_msg, &msg);
+     EXPECT_EQ(msg.data, message_data);
+diff --git a/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp b/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp
+index 91b6a502ba..cdb4c7414b 100644
+--- a/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp
++++ b/rosbag2_storage_sqlite3/test/rosbag2_storage_sqlite3/test_sqlite_storage.cpp
+@@ -73,6 +73,7 @@ TEST_F(StorageTestFixture, string_messages_are_written_and_read_to_and_from_sqli
+     EXPECT_THAT(deserialize_message(read_messages[i]->serialized_data), Eq(string_messages[i]));
+     EXPECT_THAT(read_messages[i]->recv_timestamp, Eq(std::get<1>(messages[i])));
+     EXPECT_THAT(read_messages[i]->topic_name, Eq(topics[i]));
++    EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+   }
+ }
+ 
+@@ -362,6 +363,7 @@ TEST_F(StorageTestFixture, messages_readable_for_prefoxy_db_schema) {
+     EXPECT_THAT(deserialize_message(read_messages[i]->serialized_data), Eq(string_messages[i]));
+     EXPECT_THAT(read_messages[i]->recv_timestamp, Eq(std::get<1>(messages[i])));
+     EXPECT_THAT(read_messages[i]->topic_name, Eq(topics[i]));
++    EXPECT_THAT(read_messages[i]->serialization_format, Eq(std::get<4>(messages[i])));
+   }
+ }
+ 
+diff --git a/rosbag2_transport/CMakeLists.txt b/rosbag2_transport/CMakeLists.txt
+index 05d3c38348..2638eeb24a 100644
+--- a/rosbag2_transport/CMakeLists.txt
++++ b/rosbag2_transport/CMakeLists.txt
+@@ -677,6 +677,7 @@ if(BUILD_TESTING)
+     ${PROJECT_NAME}
+     rcpputils::rcpputils
+     rosbag2_test_common::rosbag2_test_common
++    test_msgs::test_msgs
+   )
+ 
+   ament_add_gmock(test_player_progress_bar test/rosbag2_transport/test_player_progress_bar.cpp)
+diff --git a/rosbag2_transport/test/rosbag2_transport/mock_sequential_reader.hpp b/rosbag2_transport/test/rosbag2_transport/mock_sequential_reader.hpp
+index 38b81a8f96..bc209eaa4e 100644
+--- a/rosbag2_transport/test/rosbag2_transport/mock_sequential_reader.hpp
++++ b/rosbag2_transport/test/rosbag2_transport/mock_sequential_reader.hpp
+@@ -17,6 +17,7 @@
+ 
+ #include <memory>
+ #include <string>
++#include <unordered_set>
+ #include <utility>
+ #include <vector>
+ 
+@@ -30,7 +31,7 @@ class MockSequentialReader : public rosbag2_cpp::reader_interfaces::BaseReaderIn
+     const rosbag2_cpp::ConverterOptions & converter_options) override
+   {
+     (void) storage_options;
+-    (void) converter_options;
++    output_serialization_format_ = converter_options.output_serialization_format;
+     num_read_ = 0;
+   }
+ 
+@@ -100,6 +101,31 @@ class MockSequentialReader : public rosbag2_cpp::reader_interfaces::BaseReaderIn
+     return topics_;
+   }
+ 
++  std::vector<rosbag2_storage::TopicMetadata> get_undeliverable_topics() const override
++  {
++    // Mirrors rosbag2_cpp::readers::SequentialReader: messages of a bag with a uniform
++    // serialization format are always delivered (converted if necessary), while in a bag with
++    // mixed serialization formats topics not stored in the requested output serialization
++    // format cannot be delivered.
++    std::vector<rosbag2_storage::TopicMetadata> undeliverable_topics;
++    if (output_serialization_format_.empty()) {
++      return undeliverable_topics;
++    }
++    std::unordered_set<std::string> serialization_formats;
++    for (const auto & topic : topics_) {
++      serialization_formats.insert(topic.serialization_format);
++    }
++    if (serialization_formats.size() <= 1u) {
++      return undeliverable_topics;
++    }
++    for (const auto & topic : topics_) {
++      if (topic.serialization_format != output_serialization_format_) {
++        undeliverable_topics.push_back(topic);
++      }
++    }
++    return undeliverable_topics;
++  }
++
+   void get_all_message_definitions(std::vector<rosbag2_storage::MessageDefinition> & definitions)
+   override
+   {
+@@ -168,6 +194,7 @@ class MockSequentialReader : public rosbag2_cpp::reader_interfaces::BaseReaderIn
+   std::vector<std::shared_ptr<rosbag2_storage::SerializedBagMessage>> messages_;
+   rosbag2_storage::BagMetadata metadata_;
+   std::vector<rosbag2_storage::TopicMetadata> topics_;
++  std::string output_serialization_format_;
+   size_t num_read_;
+   rcutils_time_point_value_t seek_time_ = 0;
+   rosbag2_storage::StorageFilter filter_;
+diff --git a/rosbag2_transport/test/rosbag2_transport/test_play.cpp b/rosbag2_transport/test/rosbag2_transport/test_play.cpp
+index 80f9a4053f..faa787cf4d 100644
+--- a/rosbag2_transport/test/rosbag2_transport/test_play.cpp
++++ b/rosbag2_transport/test/rosbag2_transport/test_play.cpp
+@@ -27,6 +27,7 @@
+ #include "rclcpp/executors/single_threaded_executor.hpp"
+ #include "rclcpp/qos.hpp"
+ #include "rclcpp/utilities.hpp"
++#include "rmw/rmw.h"
+ 
+ #include "rosbag2_test_common/action_server_manager.hpp"
+ #include "rosbag2_test_common/service_manager.hpp"
+@@ -1589,6 +1590,134 @@ TEST_F(RosBag2PlayTestFixture, recorded_messages_are_played_for_filtered_topics)
+   }
+ }
+ 
++TEST_F(RosBag2PlayTestFixture, topics_with_unplayable_serialization_format_can_be_filtered_out)
++{
++  auto primitive_message = get_messages_basic_types()[0];
++  primitive_message->int32_value = 42;
++
++  const std::string rmw_serialization_format = rmw_get_serialization_format();
++  auto topic_types = std::vector<rosbag2_storage::TopicMetadata>{
++    {1u, "/topic1", "test_msgs/BasicTypes", rmw_serialization_format, {}, ""},
++    {2u, "/topic2", "foxglove.CompressedVideo", "protobuf", {}, ""},
++  };
++
++  std::vector<std::shared_ptr<rosbag2_storage::SerializedBagMessage>> messages =
++  {serialize_test_message("/topic1", 500, primitive_message),
++    serialize_test_message("/topic1", 700, primitive_message)};
++
++  // Without filters the topic with the unplayable serialization format is only implicitly
++  // selected for playback; it shall be excluded automatically, with a warning, and the rest
++  // of the bag shall be played.
++  {
++    sub_.reset();
++    sub_ = std::make_shared<SubscriptionManager>();
++    sub_->add_subscription<test_msgs::msg::BasicTypes>("/topic1", 2);
++
++    auto prepared_mock_reader = std::make_unique<MockSequentialReader>();
++    prepared_mock_reader->prepare(messages, topic_types);
++    auto reader = std::make_unique<rosbag2_cpp::Reader>(std::move(prepared_mock_reader));
++
++    auto await_received_messages = sub_->spin_subscriptions();
++
++    auto player = std::make_shared<rosbag2_transport::Player>(
++      std::move(reader), storage_options_, play_options_);
++    player->play();
++    player->wait_for_playback_to_finish();
++    await_received_messages.get();
++
++    auto replayed_topic1 = sub_->get_received_messages<test_msgs::msg::BasicTypes>("/topic1");
++    EXPECT_THAT(replayed_topic1, SizeIs(2u));
++  }
++
++  // When the topic with the unplayable serialization format is requested by name, the player
++  // shall refuse to play.
++  {
++    play_options_.topics_to_filter = {"topic2"};
++
++    auto prepared_mock_reader = std::make_unique<MockSequentialReader>();
++    prepared_mock_reader->prepare(messages, topic_types);
++    auto reader = std::make_unique<rosbag2_cpp::Reader>(std::move(prepared_mock_reader));
++
++    EXPECT_THROW(
++      std::make_shared<rosbag2_transport::Player>(
++        std::move(reader), storage_options_, play_options_),
++      std::runtime_error);
++
++    play_options_.topics_to_filter.clear();
++  }
++
++  // When the topic with the unplayable serialization format is excluded, the rest of the bag
++  // shall be played.
++  {
++    play_options_.exclude_topics_to_filter = {"topic2"};
++
++    sub_.reset();
++    sub_ = std::make_shared<SubscriptionManager>();
++    sub_->add_subscription<test_msgs::msg::BasicTypes>("/topic1", 2);
++
++    auto prepared_mock_reader = std::make_unique<MockSequentialReader>();
++    prepared_mock_reader->prepare(messages, topic_types);
++    auto reader = std::make_unique<rosbag2_cpp::Reader>(std::move(prepared_mock_reader));
++
++    auto await_received_messages = sub_->spin_subscriptions();
++
++    auto player = std::make_shared<rosbag2_transport::Player>(
++      std::move(reader), storage_options_, play_options_);
++    player->play();
++    player->wait_for_playback_to_finish();
++    await_received_messages.get();
++
++    auto replayed_topic1 = sub_->get_received_messages<test_msgs::msg::BasicTypes>("/topic1");
++    EXPECT_THAT(replayed_topic1, SizeIs(2u));
++
++    play_options_.exclude_topics_to_filter.clear();
++  }
++
++  // Selecting only the playable topic shall work as well.
++  {
++    play_options_.topics_to_filter = {"topic1"};
++
++    sub_.reset();
++    sub_ = std::make_shared<SubscriptionManager>();
++    sub_->add_subscription<test_msgs::msg::BasicTypes>("/topic1", 2);
++
++    auto prepared_mock_reader = std::make_unique<MockSequentialReader>();
++    prepared_mock_reader->prepare(messages, topic_types);
++    auto reader = std::make_unique<rosbag2_cpp::Reader>(std::move(prepared_mock_reader));
++
++    auto await_received_messages = sub_->spin_subscriptions();
++
++    auto player = std::make_shared<rosbag2_transport::Player>(
++      std::move(reader), storage_options_, play_options_);
++    player->play();
++    player->wait_for_playback_to_finish();
++    await_received_messages.get();
++
++    auto replayed_topic1 = sub_->get_received_messages<test_msgs::msg::BasicTypes>("/topic1");
++    EXPECT_THAT(replayed_topic1, SizeIs(2u));
++
++    play_options_.topics_to_filter.clear();
++  }
++
++  // When excluding the unplayable topics would leave nothing to play, the player shall refuse
++  // to play instead of "succeeding" without publishing a single message.
++  {
++    auto all_unplayable_topic_types = std::vector<rosbag2_storage::TopicMetadata>{
++      {1u, "/topic1", "test_msgs/BasicTypes", "some_other_format", {}, ""},
++      {2u, "/topic2", "foxglove.CompressedVideo", "protobuf", {}, ""},
++    };
++
++    auto prepared_mock_reader = std::make_unique<MockSequentialReader>();
++    prepared_mock_reader->prepare(messages, all_unplayable_topic_types);
++    auto reader = std::make_unique<rosbag2_cpp::Reader>(std::move(prepared_mock_reader));
++
++    EXPECT_THROW(
++      std::make_shared<rosbag2_transport::Player>(
++        std::move(reader), storage_options_, play_options_),
++      std::runtime_error);
++  }
++}
++
+ TEST_F(RosBag2PlayTestFixture, recorded_messages_are_played_for_filtered_services)
+ {
+   const std::string service_name1 = "/test_service1";
+diff --git a/rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp b/rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp
+index 767f35e83f..c986542d1b 100644
+--- a/rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp
++++ b/rosbag2_transport/test/rosbag2_transport/test_rewrite.cpp
+@@ -14,16 +14,26 @@
+ 
+ #include <gmock/gmock.h>
+ 
++#include <cstdint>
++#include <cstring>
+ #include <filesystem>
++#include <memory>
+ #include <string>
++#include <unordered_map>
+ #include <vector>
+ #include <utility>
+ 
++#include "rclcpp/time.hpp"
++
++#include "rosbag2_cpp/writer.hpp"
++#include "rosbag2_storage/ros_helper.hpp"
+ #include "rosbag2_test_common/temporary_directory_fixture.hpp"
+ #include "rosbag2_test_common/tested_storage_ids.hpp"
+ #include "rosbag2_transport/bag_rewrite.hpp"
+ #include "rosbag2_transport/reader_writer_factory.hpp"
+ 
++#include "test_msgs/msg/basic_types.hpp"
++
+ using namespace ::testing;  // NOLINT
+ using namespace rosbag2_test_common;  // NOLINT
+ 
+@@ -336,3 +346,121 @@ INSTANTIATE_TEST_SUITE_P(
+   TestRewrite,
+   ValuesIn(rosbag2_test_common::kTestedStorageIDs)
+ );
++
++namespace
++{
++/// Payload mimicking a protobuf encoded foxglove.CompressedVideo message. The exact bytes do
++/// not matter to the rewrite, which has to pass them through unmodified.
++std::vector<uint8_t> make_fake_protobuf_payload(uint8_t index)
++{
++  std::vector<uint8_t> payload = {0x12, 0x04, 'c', 'a', 'm', '0', 0x1a, 0x10};
++  payload.insert(payload.end(), 16, index);
++  const std::vector<uint8_t> format_field = {0x22, 0x04, 'h', '2', '6', '4'};
++  payload.insert(payload.end(), format_field.begin(), format_field.end());
++  return payload;
++}
++}  // namespace
++
++TEST_F(TemporaryDirectoryFixture, test_rewrite_bag_with_mixed_serialization_formats) {
++  const auto input_bag_path = fs::path(temporary_dir_path_) / "mixed_input";
++  const std::string cdr_topic = "/chatter";
++  const std::string protobuf_topic = "/camera/video_compressed";
++  constexpr size_t kNumMessagesPerTopic = 5;
++
++  // Write an input bag with one topic in the local rmw serialization format and one protobuf
++  // encoded topic, mimicking recordings made by non-ROS tools.
++  {
++    rosbag2_cpp::Writer writer;
++    rosbag2_storage::StorageOptions options;
++    options.uri = input_bag_path.string();
++    options.storage_id = "mcap";
++    writer.open(options);
++
++    rosbag2_storage::TopicMetadata protobuf_topic_metadata;
++    protobuf_topic_metadata.name = protobuf_topic;
++    protobuf_topic_metadata.type = "foxglove.CompressedVideo";
++    protobuf_topic_metadata.serialization_format = "protobuf";
++    writer.create_topic(protobuf_topic_metadata);
++
++    test_msgs::msg::BasicTypes msg;
++    for (size_t i = 0; i < kNumMessagesPerTopic; i++) {
++      const int64_t stamp_ns = 10000000 * static_cast<int64_t>(i);
++      msg.int32_value = static_cast<int32_t>(i);
++      writer.write(msg, cdr_topic, rclcpp::Time(stamp_ns));
++
++      const auto payload = make_fake_protobuf_payload(static_cast<uint8_t>(i));
++      auto message = std::make_shared<rosbag2_storage::SerializedBagMessage>();
++      message->topic_name = protobuf_topic;
++      message->recv_timestamp = stamp_ns + 1;
++      message->send_timestamp = stamp_ns + 1;
++      message->serialized_data =
++        rosbag2_storage::make_serialized_message(payload.data(), payload.size());
++      writer.write(message);
++    }
++  }
++
++  rosbag2_storage::StorageOptions input_storage;
++  input_storage.uri = input_bag_path.string();
++  input_storage.storage_id = "mcap";
++
++  rosbag2_storage::StorageOptions all_topics_storage;
++  all_topics_storage.uri = (fs::path(temporary_dir_path_) / "mixed_output").string();
++  all_topics_storage.storage_id = "mcap";
++  rosbag2_transport::RecordOptions all_topics_record;
++  all_topics_record.all_topics = true;
++
++  rosbag2_storage::StorageOptions cdr_only_storage;
++  cdr_only_storage.uri = (fs::path(temporary_dir_path_) / "cdr_only_output").string();
++  cdr_only_storage.storage_id = "mcap";
++  rosbag2_transport::RecordOptions cdr_only_record;
++  cdr_only_record.all_topics = false;
++  cdr_only_record.topics = {cdr_topic};
++
++  rosbag2_transport::bag_rewrite(
++    {input_storage},
++    {{all_topics_storage, all_topics_record}, {cdr_only_storage, cdr_only_record}});
++
++  // The unfiltered output shall contain both topics, with their serialization formats
++  // preserved and the protobuf messages passed through byte for byte.
++  {
++    auto reader = rosbag2_transport::ReaderWriterFactory::make_reader(all_topics_storage);
++    reader->open(all_topics_storage);
++
++    std::unordered_map<std::string, std::string> serialization_formats;
++    for (const auto & topic : reader->get_all_topics_and_types()) {
++      serialization_formats[topic.name] = topic.serialization_format;
++    }
++    EXPECT_THAT(serialization_formats, SizeIs(2));
++    EXPECT_EQ(serialization_formats[protobuf_topic], "protobuf");
++    EXPECT_FALSE(serialization_formats[cdr_topic].empty());
++    EXPECT_NE(serialization_formats[cdr_topic], "protobuf");
++
++    std::unordered_map<std::string, size_t> counts;
++    while (reader->has_next()) {
++      const auto message = reader->read_next();
++      if (message->topic_name == protobuf_topic) {
++        const auto expected_payload =
++          make_fake_protobuf_payload(static_cast<uint8_t>(counts[protobuf_topic]));
++        ASSERT_NE(nullptr, message->serialized_data);
++        ASSERT_EQ(expected_payload.size(), message->serialized_data->buffer_length);
++        EXPECT_EQ(
++          0,
++          memcmp(
++            expected_payload.data(), message->serialized_data->buffer, expected_payload.size()));
++      }
++      counts[message->topic_name]++;
++    }
++    EXPECT_EQ(counts[cdr_topic], kNumMessagesPerTopic);
++    EXPECT_EQ(counts[protobuf_topic], kNumMessagesPerTopic);
++  }
++
++  // The filtered output shall only contain the topic in the local rmw serialization format.
++  {
++    auto reader = rosbag2_transport::ReaderWriterFactory::make_reader(cdr_only_storage);
++    reader->open(cdr_only_storage);
++    const auto metadata = reader->get_metadata();
++    ASSERT_THAT(metadata.topics_with_message_count, SizeIs(1));
++    EXPECT_EQ(metadata.topics_with_message_count[0].topic_metadata.name, cdr_topic);
++    EXPECT_EQ(metadata.message_count, kNumMessagesPerTopic);
++  }
++}

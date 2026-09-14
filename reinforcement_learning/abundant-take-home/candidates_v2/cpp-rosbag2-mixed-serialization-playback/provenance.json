@@ -1,0 +1,236 @@
+{
+  "task_id": "cpp-rosbag2-mixed-serialization-playback",
+  "language": "cpp",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/ros2/rosbag2",
+    "branch": "rolling",
+    "base_commit": "0580af8a26da42443a2df678e5d1346abc1a9046",
+    "base_commit_date": "2026-09-07T14:41:32+02:00",
+    "base_commit_subject": "More granular includes (#2487)",
+    "version_at_base": "0.34.0",
+    "license": "Apache-2.0",
+    "archive": {
+      "path": "environment/upstream.tar.gz",
+      "sha256": "bfabdb54c65676adffdc62b8a3e6b23e4f9f6c1aaf8ba5683fd43df0ad9ac62e",
+      "clean_git_archive": true,
+      "prefix": "rosbag2/",
+      "bytes": 1676685
+    }
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/ros2/rosbag2/pull/2476",
+    "title": "Support playing bags with topics in mixed serialization formats.",
+    "author": "clalancette",
+    "merged_by": "fujitatomoya",
+    "merged_at": "2026-09-11T09:02:34Z",
+    "merge_commit": "08780f9e28ca429e1f25f671f52e02a57574626c",
+    "merge_is_first_parent_of_base": true,
+    "pr_totals": {
+      "files": 24,
+      "additions": 927,
+      "deletions": 84
+    },
+    "gold_patch": {
+      "path": "solution/changes.patch",
+      "sha256": "5297ac1bedcddb05276702bcc8ba14438489bc9af0cfb2e9b8f8539665a5f2f7",
+      "files": 16,
+      "additions": 338,
+      "deletions": 83,
+      "packages": [
+        "rosbag2_storage",
+        "rosbag2_storage_sqlite3",
+        "rosbag2_storage_mcap",
+        "rosbag2_cpp",
+        "rosbag2_compression",
+        "rosbag2_transport"
+      ]
+    },
+    "hidden_tests_patch": {
+      "path": "tests/hidden_tests.patch",
+      "sha256": "5f67c984988f43e81e680a33a2a4a7ff84e7aaaf53a87c72973d5d77ef6714af",
+      "files": 8,
+      "additions": 589,
+      "deletions": 1,
+      "note": "PR test-side hunks (6 test .cpp/.hpp files, one test link line in rosbag2_transport/CMakeLists.txt). changes.patch + hidden_tests.patch applied at the base commit reproduce the merge commit tree exactly (tree c9ad4f921b97d598587b013246c4bae065f764a5)."
+    },
+    "linked_issue": null,
+    "generative_ai_disclosed_by_author": "PR body: 'Did you use Generative AI? Yes, Claude Opus 5'"
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "sqlite3 vs mcap storage plugins of the same rosbag2 tree (tests/differential/mixed_formats_differential.cpp) and `ros2 bag play` outcomes for both (tests/cli_play_check.py); plus the PR's own gtests and pristine regression suites with exact counts (tests/expected_counts.json)",
+    "secondary": [
+      "pr_tests",
+      "upstream_regression_tests"
+    ],
+    "reference_binaries_in_agent_image": "none; rosbag2 debs are purged, the overlay is the only rosbag2"
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "Merged 2026-09-11, two days before construction; rolling debs in the image (0.34.0, built 2026-08-21) predate the PR. PR body discloses the author used Claude Opus 5; the task tests behaviour and cross-plugin parity, not the reference text."
+  },
+  "horizon": {
+    "proxy": "16 non-test files across 6 packages (storage struct, both storage plugins, reader open/read paths, compression reader/writer, converter, readers manager, player), 338 non-test additions; interacting requirements: per-message tagging with plugin/metadata fallback, three-way open semantics, undeliverable-topic bookkeeping across readers, player resolution ordering and three filter kinds, byte-exact pass-through, parity across two storage backends; each build cycle of the touched packages is 30-45 min",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/ros2/rosbag2/pull/2476 (user-facing: 'after this change users should be able to open mcap/bag files that have multiple encodings in them')",
+      "rosbag2_cpp/readers/sequential_reader.cpp at base: check_topics_serialization_formats() throws 'Topics with different rmw serialization format have been found. All topics must have the same serialization format.'"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "SequentialReaderMixedFormatsTest.open_and_read_succeed_if_output_format_matches_a_topic: open with rmw1_format on {rmw1,rmw2} succeeds, no converter loaded, read_next returns topic0, get_undeliverable_topics == [topic1 (rmw2_format)]",
+      "instruction_ref": "Required public interface 2-4; contract C3, C5"
+    },
+    {
+      "assertion": "open_and_read_succeed_if_no_output_format_is_requested: open with empty format succeeds, no converter, undeliverable empty",
+      "instruction_ref": "C2, C5"
+    },
+    {
+      "assertion": "open_throws_if_output_format_matches_no_topic: open with rmw3_format on mixed bag throws std::runtime_error",
+      "instruction_ref": "C4 (mixed case)"
+    },
+    {
+      "assertion": "read_next_fills_in_serialization_format_from_metadata: storage leaves format empty, reader sets it to topic's format",
+      "instruction_ref": "C1 (reader fallback)"
+    },
+    {
+      "assertion": "read_next_keeps_serialization_format_set_by_storage",
+      "instruction_ref": "C1 (plugins set it; reader only fills empty)"
+    },
+    {
+      "assertion": "read_next_throws_if_message_is_not_in_output_format: message of undeliverable topic makes read_next throw std::runtime_error",
+      "instruction_ref": "C3"
+    },
+    {
+      "assertion": "read_next_returns_any_format_if_none_is_requested: topic1 message returned with rmw2_format",
+      "instruction_ref": "C2, C1"
+    },
+    {
+      "assertion": "reads_mixed_serialization_formats_from_real_bag (mcap): raw read tags each message with its topic's format; open with rmw format lists protobuf topic undeliverable, first message cdr, second read throws; filtered read yields 5; open with some_other_format throws",
+      "instruction_ref": "C1-C5; verification section 2 names the same topics"
+    },
+    {
+      "assertion": "SerializationConverterTest.default_rmw_converter_can_serialize: message written through the converter has serialization_format == rmw format",
+      "instruction_ref": "C1 (converted message reports the converter's output format)"
+    },
+    {
+      "assertion": "test_mcap_storage: read message has topic_name and serialization_format 'cdr' (plain and zstd-configured bag)",
+      "instruction_ref": "C1 (mcap plugin sets from channel encoding)"
+    },
+    {
+      "assertion": "test_sqlite_storage: read messages carry the written topic's serialization format, current and pre-Foxy schema",
+      "instruction_ref": "C1 (sqlite3 plugin, including pre-Foxy schema)"
+    },
+    {
+      "assertion": "MockSequentialReader overrides BaseReaderInterface::get_undeliverable_topics() const and records converter_options.output_serialization_format from open()",
+      "instruction_ref": "Required public interface 2 (non-pure virtual with that exact signature)"
+    },
+    {
+      "assertion": "RosBag2PlayTestFixture.topics_with_unplayable_serialization_format_can_be_filtered_out: default play publishes topic1's 2 messages; --topics topic2 makes Player constructor throw; --exclude-topics topic2 plays; --topics topic1 plays; all-undeliverable bag makes constructor throw",
+      "instruction_ref": "C6 (all four bullets)"
+    },
+    {
+      "assertion": "test_rewrite_bag_with_mixed_serialization_formats: rewrite of mixed mcap bag preserves both topics' formats, protobuf bytes byte-identical, counts 5/5; filtered output contains only /chatter with 5 messages",
+      "instruction_ref": "C7"
+    },
+    {
+      "assertion": "Differential harness: sqlite3 and mcap dumps identical for raw, requested_rmw, requested_unknown, uniform, only_proto, message/file-compressed scenarios",
+      "instruction_ref": "C8"
+    },
+    {
+      "assertion": "Differential harness: compressed bags (zstd MESSAGE and FILE mode) read back with the same tagged formats and bytes as the uncompressed bag; compressed + requested rmw + filter yields the 5 /chatter messages",
+      "instruction_ref": "C1 (compression writer keeps format; decompressed messages tagged), C3"
+    },
+    {
+      "assertion": "Differential harness: only_proto bag opened with rmw format throws at open (no protobuf converter plugin)",
+      "instruction_ref": "C4 (uniform case, plugin missing; environment note)"
+    },
+    {
+      "assertion": "CLI: `ros2 bag play mixed --topics /camera/video_compressed` exits non-zero and output names the topic; `ros2 bag play mixed --exclude-topics /chatter` (the protobuf topic is the only implicitly selected one) exits non-zero and names the topic; `ros2 bag play only_proto` exits non-zero with nothing received (reader open() fails on the missing protobuf converter, so the topic name is not required in the output)",
+      "instruction_ref": "C6 bullets 1 and 3; C4 (uniform bag, converter plugin missing)"
+    },
+    {
+      "assertion": "CLI: `ros2 bag play mixed` exits zero, output names the excluded topic, subscriber receives int32 values 0..4 on /chatter",
+      "instruction_ref": "C6 bullet 2"
+    },
+    {
+      "assertion": "CLI: `--exclude-topics /camera/video_compressed` and `--topics /chatter` exit zero, do not mention the topic, deliver 0..4; uniform bag plays 0..4",
+      "instruction_ref": "C6 bullet 4"
+    },
+    {
+      "assertion": "Pristine regression suites (multifile reader, converter factory, storage without metadata, sequential writer, both topic filters, compression reader/writer, readers manager) pass with exact counts",
+      "instruction_ref": "C9"
+    }
+  ],
+  "build": {
+    "base_image": "ros:rolling@sha256:7fd952a7f1f87c990f7b55f1e9cdf4e267010e52efd990665a94f7e41c7ce561",
+    "base_image_amd64_manifest": "sha256:19a2aec88315b852a4420cc52b4639bfaf0699848f157e1557baebef7d037e65",
+    "base_image_created": "2026-09-09T03:30:11Z",
+    "base_image_notes": "Ubuntu 26.04 resolute, ros-base variant (ros_core + rosbag2 debs 0.34.0, purged in the Dockerfile), Python 3.14, rmw_fastrtps_cpp only RMW installed; compressed layers 349.5 MB",
+    "agent_image_gb": 2.97,
+    "verifier_image_gb": 2.98,
+    "build_minutes": 3.1,
+    "verifier_minutes": 4.5,
+    "estimates": {
+      "agent_image_gb": "4-5",
+      "verifier_image_gb": "4-5",
+      "build_minutes": "40-70 (colcon, 2 workers x -j2)",
+      "verifier_minutes": "45-70"
+    },
+    "host": "Docker Desktop 29.5.3 (Server), aarch64, 18 vcpu, 8.3 GB VM; macOS 25.6.0",
+    "oracle_wall_seconds": 319,
+    "env_setup_seconds": 9,
+    "verifier_seconds": 303,
+    "nop_wall_seconds": 38,
+    "measured": {
+      "colcon_ws_build_layer": "3 min 03 s (16 packages with tests, 2 colcon workers x make -j2) in the agent image build; the verifier image reuses that layer through the BuildKit cache and adds pristine copy + harness in < 1 min",
+      "verifier_oracle_seconds": 270,
+      "verifier_nop_seconds": 20,
+      "verifier_breakdown": "clean-room rebuild of the 10 packages ~2 min, 15 gtest suites via ctest ~30 s, differential harness (compile + 2 runs) ~5 s, 14 ros2 bag play cases ~2 min (2 s discovery delay each)",
+      "env_setup_seconds_cached": 2,
+      "note": "docker images sizes; measured 2026-09-13 on the host below"
+    }
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "cpp-rosbag2-mixed-serialization-playback-oracle-20260913T174120Z",
+      "nop": "cpp-rosbag2-mixed-serialization-playback-nop-20260913T174120Z"
+    },
+    "patch_checks": {
+      "changes_patch_applies_at_base": true,
+      "hidden_tests_patch_applies_at_base": true,
+      "composition_equals_merge_tree": true
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null,
+    "nop_failure_reason": "build: hidden tests reference SerializedBagMessage::serialization_format and Reader::get_undeliverable_topics(), absent from pristine sources -> colcon build of rosbag2_storage_sqlite3/mcap tests fails (rc=2) in 20 s; gtests/differential/cli_play did not run",
+    "verifier_fixes_during_validation": [
+      "set +u around ROS setup.bash sourcing (build_ws.sh, test_ws.sh, test.sh) and stale image-source copies synced",
+      "verifier Dockerfile shares its layer prefix with the agent Dockerfile",
+      "ROS_DOMAIN_IDs moved below 101",
+      "cli_play_check.py --delay 2 discovery barrier",
+      "expected_counts test_sqlite_storage 22 -> 23",
+      "gtests run through ctest (ament run_test.py env: build-tree test plugins, per-RMW test names)",
+      "differential harness serializes into a zero-filled buffer (CDR padding was heap garbage)",
+      "CLI nothing_playable case = mixed --exclude-topics /chatter (C6 bullet 3); only_proto kept as exit-code-only case (C4)",
+      "test.sh cd to its work dir"
+    ],
+    "relaxed_checks": [
+      "cli_play only_undecodable_bag (ros2 bag play only_proto): the 'output names the topic' requirement was dropped because the failure is the reader's open() throwing on the missing protobuf converter (contract C4), whose message names the format; exit code non-zero and no message received are still required; the topic-naming requirement of C6 bullet 3 is now checked by nothing_playable (mixed --exclude-topics /chatter)"
+    ]
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}
