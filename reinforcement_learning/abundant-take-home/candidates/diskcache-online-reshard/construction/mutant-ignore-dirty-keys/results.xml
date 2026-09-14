@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.353" timestamp="2026-09-13T07:58:04.465546+00:00" hostname="1e68f3e1a3bc"><testcase classname="test_online_reshard" name="test_online_mutations_after_baseline_was_copied" time="0.187"><failure message="AssertionError: assert {0: (0, None,...remove'), ...} == {0: ('changed... 'keep'), ...}&#10;  &#10;  Omitting 13 identical items, use -vv to show&#10;  Differing items:&#10;  {0: (0, None, 'remove')} != {0: ('changed', None, 'new')}&#10;  {4: (40, None, 'keep')} != {4: (48, None, 'keep')}&#10;  {5: (50, None, 'keep')} != {5: (48, None, 'keep')}&#10;  Left contains 8 more items:...&#10;  &#10;  ...Full output truncated (11 lines hidden), use '-vv' to show">api = &lt;class 'diskcache.reshard.ReshardableFanoutCache'&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_online_mutations_after_ba0')
+
+    def test_online_mutations_after_baseline_was_copied(api, tmp_path):
+        c = api(tmp_path, shards=2, eviction_policy='none', tag_index=True)
+        for i in range(24):
+            c.set(i, i * 10, tag='remove' if i % 3 == 0 else 'keep')
+        token = c.begin_reshard(5)['migration_id']
+        state = c.step_reshard(token, 24)
+        assert state['phase'] != 'idle'
+        c.set(0, 'changed', tag='new')
+        c.delete(1)
+        assert c.pop(2) == 20
+        assert c.incr(4, 8) == 48
+        assert c.decr(5, 2) == 48
+        assert not c.add(6, 'wrong')
+        assert c.add(40, 'added')
+        c[1] = 'reinserted'
+        c.evict('remove')
+        before = snapshot(c)
+        finish(c, token, 1)
+&gt;       assert snapshot(c) == before
+E       AssertionError: assert {0: (0, None,...remove'), ...} == {0: ('changed... 'keep'), ...}
+E         
+E         Omitting 13 identical items, use -vv to show
+E         Differing items:
+E         {0: (0, None, 'remove')} != {0: ('changed', None, 'new')}
+E         {4: (40, None, 'keep')} != {4: (48, None, 'keep')}
+E         {5: (50, None, 'keep')} != {5: (48, None, 'keep')}
+E         Left contains 8 more items:...
+E         
+E         ...Full output truncated (11 lines hidden), use '-vv' to show
+
+/tests/test_online_reshard.py:135: AssertionError</failure></testcase><testcase classname="test_online_reshard" name="test_bulk_clear_does_not_resurrect_copied_rows" time="0.089"><failure message="AssertionError: assert {0: (0, None,...e, None), ...} == {100: ('after..., None, None)}&#10;  &#10;  Left contains 20 more items:&#10;  {0: (0, None, None),&#10;   1: (1, None, None),&#10;   2: (2, None, None),&#10;   3: (3, None, None),&#10;   4: (4, None, None),...&#10;  &#10;  ...Full output truncated (18 lines hidden), use '-vv' to show">api = &lt;class 'diskcache.reshard.ReshardableFanoutCache'&gt;
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_bulk_clear_does_not_resur0')
+
+    def test_bulk_clear_does_not_resurrect_copied_rows(api, tmp_path):
+        c = api(tmp_path, shards=2, eviction_policy='none')
+        for i in range(20):
+            c[i] = i
+        token = c.begin_reshard(3)['migration_id']
+        c.step_reshard(token, 20)
+        assert c.clear() == 20
+        c[100] = 'after clear'
+        finish(c, token, 2)
+&gt;       assert snapshot(c) == {100: ('after clear', None, None)}
+E       AssertionError: assert {0: (0, None,...e, None), ...} == {100: ('after..., None, None)}
+E         
+E         Left contains 20 more items:
+E         {0: (0, None, None),
+E          1: (1, None, None),
+E          2: (2, None, None),
+E          3: (3, None, None),
+E          4: (4, None, None),...
+E         
+E         ...Full output truncated (18 lines hidden), use '-vv' to show
+
+/tests/test_online_reshard.py:150: AssertionError</failure></testcase></testsuite></testsuites>

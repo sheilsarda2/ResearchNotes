@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-13",
+  "status": "complete",
+  "scope": "Verifier false-negative audit; no golden source changes or paid model runs.",
+  "runtime": "Fresh Python 3.12.11 Docker containers, network none, 2 CPUs, 4 GiB RAM.",
+  "changes": [
+    "Removed module-specific time mocking at epoch 1000. TTL tests now use real deadlines several hours in the future/past and compare exact stored deadlines before and after migration. They verify touch, explicit expiry and invisibility of expired entries without a sleep or a patched clock.",
+    "Mutation tests reserve an unfinished entry so implementations can cut over eagerly on the last budgeted entry. A valid eager-cutover variant passes the entire suite.",
+    "Removed barriers tied to private migration.copied storage and to builtins.open(...).write. Process interruption uses mandatory topology publication boundaries and a public bounded-step acknowledgement barrier. Direct abort-to-idle is accepted without requiring an intermediate aborting phase.",
+    "The partial-file recovery requirement remains unchanged. Current tests do not claim to inject a mid-payload failure for every legal copy mechanism; historical reference-only partial-write evidence remains in the initial construction logs.",
+    "Corrected the capacity-preservation fixture to make the destination per-shard limit smaller than a copied payload, so an erroneous copy-time cull is observable.",
+    "No golden source or public scope changed. The current feature suite has 34 new-feature cases plus 11 compatibility cases."
+  ],
+  "results": {
+    "baseline": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "eager-cutover": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/eager-cutover/results.xml",
+      "reward": 1
+    },
+    "mutant-refresh-deadlines": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/mutant-refresh-deadlines/results.xml"
+    },
+    "oracle": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    }
+  },
+  "artifact_sha256": {
+    "instruction.md": "675b34655091ec0bd67581da19ac93b41c505f10ccbf1a280a79c54ad1e6df43",
+    "tests/test.sh": "2e86315469aca51af4644d503c81abe44638b7fc3ef82849ae6e24b3a4e6f3c7",
+    "tests/test_online_reshard.py": "b79290c7bd7d024aa533ee98667ea5ec344ac29d73503aa63715e47751cf79bb"
+  },
+  "whole_task_frozen_after_this_report": true
+}

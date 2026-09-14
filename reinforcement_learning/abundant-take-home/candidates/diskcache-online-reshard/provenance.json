@@ -1,0 +1,197 @@
+{
+  "task_id": "diskcache-online-reshard",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/grantjenks/python-diskcache",
+    "commit": "ebfa37cd99d7ef716ec452ad8af4b4276a8e2233",
+    "commit_date": "2024-03-02",
+    "license": "Apache-2.0"
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "9643193bf63095722cd022c5f6d672765fae7af5c725502bcb93bc8a6c1e6763",
+    "clean_git_archive": true
+  },
+  "golden_patch": {
+    "path": "solution/changes.patch",
+    "sha256": "e53b3d8f8a4ed2384bdaaa89d161a63d52e53feb8b7c1bc608a91256773273f4",
+    "files": [
+      "diskcache/__init__.py",
+      "diskcache/reshard.py",
+      "docs/online-resharding.rst"
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L19-L56",
+      "checked": "2026-09-13",
+      "finding": "Constructor builds numbered shards from supplied count without a persisted topology record."
+    },
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L257-L290",
+      "checked": "2026-09-13",
+      "finding": "Get routes hash(key) modulo constructor shard count."
+    },
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/fanout.py#L69-L100",
+      "checked": "2026-09-13",
+      "finding": "FanoutCache transact exists and enters each shard transaction through ExitStack."
+    },
+    {
+      "url": "https://grantjenks.com/docs/diskcache/tutorial.html",
+      "checked": "2026-09-13",
+      "finding": "Documents sharding and size limits. Its assertion that FanoutCache lacks transactions conflicts with inspected current source and was not used as a feature-gap claim."
+    },
+    {
+      "url": "https://github.com/grantjenks/python-diskcache/blob/ebfa37cd99d7ef716ec452ad8af4b4276a8e2233/diskcache/core.py",
+      "checked": "2026-09-13",
+      "finding": "Core stores absolute expiry, tag and raw/serialized or file-backed values; migration must preserve these semantics."
+    },
+    {
+      "url": "https://typed-diskcache.readthedocs.io/en/latest/api/cache/fanout/",
+      "checked": "2026-09-13",
+      "finding": "Search surfaced an alternative FanoutCache implementation; no full restartable resharding contract was identified in the reviewed API."
+    }
+  ],
+  "original_contribution": "Opt-in durable fanout topology with bounded online source copying and transactional dirty-key reconciliation, atomic publication, progress replay, token/epoch fencing, persistent pause/resume/abort, legacy adoption and independent retired-generation collection. This extends the initial research proposal to allow actual CRUD throughout pending migration.",
+  "public_solution_overlap": {
+    "assessment": "Existing FanoutCache sharding and transact are prior art. No matching complete online reshard contract found in bounded pinned-source, official-documentation, issue, and web searches. Several expanded searches were rate limited; this is not a universal absence claim. Hosted tutorial transaction limitations are stale, and the task uses current source instead.",
+    "research_details": "../../research/workflow-sources.json"
+  },
+  "validation": {
+    "docker_image": "abundant-diskcache-online-reshard:dev",
+    "python": "3.12.11",
+    "network": "none during verifier",
+    "limits": {
+      "cpus": 2,
+      "memory": "4g"
+    },
+    "oracle": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "untouched_baseline": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "mutants": [
+      {
+        "tests": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "name": "mutant-ignore-dirty-keys",
+        "report": "construction/mutant-ignore-dirty-keys/results.xml"
+      },
+      {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "name": "mutant-ignore-migration-token",
+        "report": "construction/mutant-ignore-migration-token/results.xml"
+      },
+      {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "name": "mutant-refresh-deadlines",
+        "report": "construction/mutant-refresh-deadlines/results.xml"
+      }
+    ],
+    "harbor_oracle_nop": "Parent owns separate fresh-verifier Harbor integration; fresh direct Docker oracle and baseline completed.",
+    "pre_measurement_audit_construction": {
+      "oracle": {
+        "tests": 49,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1,
+        "report": "construction/docker-oracle/results.xml"
+      },
+      "untouched_baseline": {
+        "tests": 49,
+        "failures": 0,
+        "errors": 38,
+        "skipped": 0,
+        "reward": 0,
+        "report": "construction/docker-baseline/results.xml"
+      }
+    }
+  },
+  "horizon": {
+    "at_least_75_steps": "hypothesis only",
+    "basis": "Interacting online mutation tracking, SQLite/file-payload commits, metadata publication recovery, multi-process coordination, stale topology refresh, bounded progress and compatibility across legacy and current layouts. Not inferred from code length.",
+    "measured_model_headroom": null,
+    "paid_model_trials_run": false,
+    "counterevidence": "Durable filesystem tasks can score highly in other harnesses; FrontierSWE flash-filesystem Fable5 0.9709 and Fable5.1 0.7779 in a 20-hour harness are parent-recorded counterevidence, not measurements of this task."
+  },
+  "limitations": [
+    "Linux/POSIX local filesystem coordination; unmanaged direct access to managed shard internals is excluded.",
+    "Process-crash recovery, not device/power-loss or network-filesystem guarantees.",
+    "Native FanoutCache transact is retained; no stronger crash-atomic commit across independent SQLite databases or exactly-once external side effects.",
+    "Managed mode supports Disk and JSONDisk and immutable constructor settings; ordinary FanoutCache remains unchanged.",
+    "Nonblocking root contention is surfaced as ReshardBusyError and requires caller retry.",
+    "Entry work is bounded per step; bytes, directory traversal, initial empty shard creation, explicit abort/collect cleanup, and wall time are not bounded by max_items.",
+    "Continuous source mutations may delay quiescent completion."
+  ],
+  "original_materials_unchanged": true,
+  "measurement_audit": {
+    "date": "2026-09-13",
+    "report": "construction/measurement-audit/report.md",
+    "results": "construction/measurement-audit/results.json",
+    "changes": [
+      "Removed module-specific time mocking at epoch 1000. TTL tests now use real deadlines several hours in the future/past and compare exact stored deadlines before and after migration. They verify touch, explicit expiry and invisibility of expired entries without a sleep or a patched clock.",
+      "Mutation tests reserve an unfinished entry so implementations can cut over eagerly on the last budgeted entry. A valid eager-cutover variant passes the entire suite.",
+      "Removed barriers tied to private migration.copied storage and to builtins.open(...).write. Process interruption uses mandatory topology publication boundaries and a public bounded-step acknowledgement barrier. Direct abort-to-idle is accepted without requiring an intermediate aborting phase.",
+      "The partial-file recovery requirement remains unchanged. Current tests do not claim to inject a mid-payload failure for every legal copy mechanism; historical reference-only partial-write evidence remains in the initial construction logs.",
+      "Corrected the capacity-preservation fixture to make the destination per-shard limit smaller than a copied payload, so an erroneous copy-time cull is observable.",
+      "No golden source or public scope changed. The current feature suite has 34 new-feature cases plus 11 compatibility cases."
+    ],
+    "current_oracle": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "current_untouched_baseline": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 34,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "valid_variants": {
+      "eager-cutover": {
+        "tests": 45,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/eager-cutover/results.xml",
+        "reward": 1
+      }
+    },
+    "affected_negative_controls": {
+      "mutant-refresh-deadlines": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/mutant-refresh-deadlines/results.xml"
+      }
+    }
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}
