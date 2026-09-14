@@ -1,0 +1,61 @@
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:51:(.text+0x57c): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(points3d.cpp.o):/workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:54: more undefined references to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &' follow
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(points3d.cpp.o): in function `rerun::archetypes::Points3D::columns()':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:67:(.text+0x8cc): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:70:(.text+0x96c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:73:(.text+0xa0c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:76:(.text+0xaac): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:79:(.text+0xb4c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(points3d.cpp.o):/workspace/repo/rerun_cpp/src/rerun/archetypes/points3d.cpp:82: more undefined references to `rerun::ComponentBatch::length() const' follow
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(points3d.cpp.o): in function `rerun::Result<rerun::ComponentBatch> rerun::ComponentBatch::from_loggable<rerun::components::PointShading>(rerun::Collection<rerun::components::PointShading> const&, rerun::ComponentDescriptor const&)':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/../component_batch.hpp:58:(.text._ZN5rerun14ComponentBatch13from_loggableINS_10components12PointShadingEEENS_6ResultIS0_EERKNS_10CollectionIT_EERKNS_19ComponentDescriptorE[_ZN5rerun14ComponentBatch13from_loggableINS_10components12PointShadingEEENS_6ResultIS0_EERKNS_10CollectionIT_EERKNS_19ComponentDescriptorE]+0xe4): undefined reference to `rerun::ComponentBatch::from_arrow_array(std::shared_ptr<arrow::Array>, rerun::ComponentDescriptor const&)'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(segmentation_image.cpp.o): in function `rerun::archetypes::SegmentationImage::columns(rerun::Collection<unsigned int> const&)':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:27:(.text+0x27c): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:30:(.text+0x2e8): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:33:(.text+0x354): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:36:(.text+0x3c0): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(segmentation_image.cpp.o): in function `rerun::archetypes::SegmentationImage::columns()':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:43:(.text+0x54c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:46:(.text+0x5ec): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:49:(.text+0x68c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/segmentation_image.cpp:52:(.text+0x72c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(tensor.cpp.o): in function `rerun::archetypes::Tensor::columns(rerun::Collection<unsigned int> const&)':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/tensor.cpp:23:(.text+0x1d4): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/tensor.cpp:26:(.text+0x240): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(tensor.cpp.o): in function `rerun::archetypes::Tensor::columns()':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/tensor.cpp:33:(.text+0x38c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/tensor.cpp:36:(.text+0x42c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(tensor_ext.cpp.o): in function `rerun::archetypes::Tensor::with_dim_names(rerun::Collection<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >) &&':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/tensor_ext.cpp:144:(.text+0xea0): undefined reference to `rerun::Error::handle() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(transform3d.cpp.o): in function `rerun::archetypes::Transform3D::columns(rerun::Collection<unsigned int> const&)':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:42:(.text+0x3cc): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:45:(.text+0x438): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:48:(.text+0x4a4): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:51:(.text+0x510): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:54:(.text+0x57c): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(transform3d.cpp.o):/workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:57: more undefined references to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &' follow
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(transform3d.cpp.o): in function `rerun::archetypes::Transform3D::columns()':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:70:(.text+0x8cc): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:73:(.text+0x96c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:76:(.text+0xa0c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:79:(.text+0xaac): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:82:(.text+0xb4c): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(transform3d.cpp.o):/workspace/repo/rerun_cpp/src/rerun/archetypes/transform3d.cpp:85: more undefined references to `rerun::ComponentBatch::length() const' follow
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(view_coordinates.cpp.o): in function `rerun::archetypes::ViewCoordinates::columns(rerun::Collection<unsigned int> const&)':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/view_coordinates.cpp:20:(.text+0x17c): undefined reference to `rerun::ComponentBatch::partitioned(rerun::Collection<unsigned int> const&) const &'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(view_coordinates.cpp.o): in function `rerun::archetypes::ViewCoordinates::columns()':
+/workspace/repo/rerun_cpp/src/rerun/archetypes/view_coordinates.cpp:27:(.text+0x2a8): undefined reference to `rerun::ComponentBatch::length() const'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(annotation_context.cpp.o): in function `rerun::Loggable<rerun::components::AnnotationContext>::fill_arrow_array_builder(arrow::ListBuilder*, rerun::components::AnnotationContext const*, unsigned long)':
+/workspace/repo/rerun_cpp/src/rerun/components/annotation_context.cpp:59:(.text+0x67c): undefined reference to `rerun::Error::Error(arrow::Status const&)'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/components/annotation_context.cpp:60:(.text+0x714): undefined reference to `rerun::Error::Error(arrow::Status const&)'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/components/annotation_context.cpp:64:(.text+0x7bc): undefined reference to `rerun::Error::Error(arrow::Status const&)'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(colormap.cpp.o): in function `rerun::Loggable<rerun::components::Colormap>::fill_arrow_array_builder(arrow::NumericBuilder<arrow::UInt8Type>*, rerun::components::Colormap const*, unsigned long)':
+/workspace/repo/rerun_cpp/src/rerun/components/colormap.cpp:48:(.text+0x530): undefined reference to `rerun::Error::Error(arrow::Status const&)'
+/usr/bin/ld: /workspace/repo/rerun_cpp/src/rerun/components/colormap.cpp:51:(.text+0x5d8): undefined reference to `rerun::Error::Error(arrow::Status const&)'
+/usr/bin/ld: rerun_cpp/librerun_sdk.a(fill_mode.cpp.o):/workspace/repo/rerun_cpp/src/rerun/components/fill_mode.cpp:48: more undefined references to `rerun::Error::Error(arrow::Status const&)' follow
+collect2: error: ld returned 1 exit status
+[11/123] Building CXX object docs/snippets/CMakeFiles/snippets.dir/generated_snippets/boxes2d_simple.cpp.o
+[12/123] Building CXX object docs/snippets/CMakeFiles/snippets.dir/generated_snippets/boxes3d_batch.cpp.o
+[13/123] Building CXX object docs/snippets/CMakeFiles/snippets.dir/generated_snippets/boxes3d_simple.cpp.o
+ninja: build stopped: subcommand failed.
+reward=0

@@ -1,0 +1,106 @@
+# syntax=docker/dockerfile:1
+#
+# Verifier image for cpp-rerun-cpp-ffi-bridge (separate, offline).
+#
+# Stages `base`, `rust-build` and `agent` are byte-identical to environment/Dockerfile (same instructions, same
+# upstream.tar.gz content) so BuildKit shares their layers.  The `verifier` stage adds:
+#   * /workspace/pristine/rerun_cpp   pristine (excised) sources and tests, used to restore everything the agent
+#                                     must not change and to detect which files the submission touched;
+#   * /opt/reference/bin/snippets_rust the Rust snippet binary, and /opt/reference/rrd/**  the reference .rrd files
+#                                     it produced at image build (Rust is the comparison baseline, as upstream);
+#   * an unprivileged `runner` user: the submission's binaries run as this user with /opt/reference unreadable.
+
+ARG APT_SNAPSHOT=20260912T000000Z
+
+FROM ubuntu:24.04@sha256:224a1869083a311ef3f13648a154ba79832fbef6364d31493642ca03082da254 AS base
+ARG APT_SNAPSHOT
+ENV DEBIAN_FRONTEND=noninteractive
+# Pin the archive state via snapshot.ubuntu.com; fall back to the live archive if the snapshot service is unreachable.
+RUN set -eux; \
+    sed -i 's/^Suites:/Snapshot: yes\nSuites:/' /etc/apt/sources.list.d/ubuntu.sources; \
+    (apt-get -o Acquire::Snapshot=${APT_SNAPSHOT} update || apt-get update); \
+    apt-get install -y --no-install-recommends \
+        build-essential g++ cmake ninja-build pkg-config git curl ca-certificates \
+        python3 libssl-dev rsync xz-utils unzip util-linux; \
+    rm -rf /var/lib/apt/lists/*; \
+    gcc --version | head -1; cmake --version | head -1; ninja --version; python3 --version
+
+# ------------------------------------------------------------------------------------------------------------------
+FROM base AS rust-build
+ENV RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH=/usr/local/cargo/bin:$PATH
+RUN set -eux; \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup-init.sh; \
+    sh /tmp/rustup-init.sh -y --no-modify-path --profile minimal --default-toolchain 1.96.0; \
+    rm /tmp/rustup-init.sh; rustup --version; cargo --version
+WORKDIR /src
+COPY upstream.tar.gz /tmp/upstream.tar.gz
+RUN tar -xzf /tmp/upstream.tar.gz -C /src && rm /tmp/upstream.tar.gz
+# rust-toolchain pins channel 1.96.0 (+ rustfmt, clippy, wasm32 target); rustup installs them on first cargo use.
+# CARGO_BUILD_JOBS=3 keeps peak rustc memory under the 8 GB container limit on 4 cpus.
+ENV CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=3 CARGO_NET_RETRY=10 CARGO_PROFILE_RELEASE_DEBUG=0 \
+    CARGO_PROFILE_RELEASE_LTO=off CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16
+RUN cargo fetch --locked
+# rerun_c: the C ABI static library the C++ SDK links.  snippets: Rust reference implementations of every snippet
+# (verifier only).  rerun-cli without default features: no viewer, provides `rerun rrd compare` / `rerun rrd print`.
+RUN cargo build --release --locked -p rerun_c -p snippets -p rerun-cli --no-default-features \
+    && ls -la target/release/librerun_c.a target/release/snippets target/release/rerun \
+    && target/release/rerun --version
+
+# ------------------------------------------------------------------------------------------------------------------
+FROM base AS agent
+WORKDIR /workspace/repo
+COPY upstream.tar.gz /tmp/upstream.tar.gz
+RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+# Prebuilt rerun_c where crates/top/rerun_c/CMakeLists.txt expects cargo's output for either build type.
+COPY --from=rust-build /src/target/release/librerun_c.a /opt/rerun_c/release/librerun_c.a
+COPY --from=rust-build /src/target/release/librerun_c.a /opt/rerun_c/debug/librerun_c.a
+COPY --from=rust-build /src/target/release/rerun /usr/local/bin/rerun
+ENV CARGO_TARGET_DIR=/opt/rerun_c
+# `cpus = 4` in task.toml is a CPU quota, not a cpuset: nproc inside the container still reports every host core, so
+# ninja would default to nproc+2 parallel g++ jobs on Arrow and the generated SDK sources and exhaust the 8 GB memory
+# limit. CMAKE_BUILD_PARALLEL_LEVEL bounds every `cmake --build` (incl. Arrow's ExternalProject) here and at runtime.
+ENV CMAKE_BUILD_PARALLEL_LEVEL=4
+# The root CMakeLists wires `cargo build -p rerun_c` into the build graph; rerun_c is prebuilt, so provide a stub
+# that succeeds for exactly that invocation and refuses anything else (there is no Rust toolchain in this image).
+RUN printf '%s\n' '#!/bin/sh' \
+    'case " $* " in' \
+    '  *" -p rerun_c "*|*" --package rerun_c "*) echo "cargo stub: rerun_c is prebuilt at ${CARGO_TARGET_DIR:-/opt/rerun_c}" >&2; exit 0;;' \
+    'esac' \
+    'echo "cargo is not available in this environment: rerun_c is prebuilt and the Rust sources are read-only reference material." >&2' \
+    'exit 1' > /usr/local/bin/cargo && chmod +x /usr/local/bin/cargo
+# Configure and warm the Debug build (upstream's `pixi run -e cpp cpp-prepare` settings + a serialized link pool):
+#  * Arrow 18.0.0 is downloaded (md5-pinned) and built by rerun_cpp/download_and_build_arrow.cmake;
+#  * loguru and Catch2 v3.4.0 are populated by FetchContent;
+#  * every rerun_sdk / snippets / rerun_sdk_tests object is compiled.  Linking `snippets` and `rerun_sdk_tests`
+#    fails here by design: the FFI bridge implementation is absent from this tree.
+RUN set -eux; cd /workspace/repo; \
+    cmake -G Ninja -B build/debug -S . \
+        -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_JOB_POOLS=link_pool=1 -DCMAKE_JOB_POOL_LINK=link_pool \
+        -DFETCHCONTENT_UPDATES_DISCONNECTED=ON; \
+    cmake --build build/debug --target rerun_sdk; \
+    (cmake --build build/debug --target snippets rerun_sdk_tests -- -k 0 || true); \
+    test -f build/debug/rerun_cpp/librerun_sdk.a; \
+    test "$(find build/debug/docs/snippets -name '*.o' | wc -l)" -ge 121; \
+    test "$(find build/debug/rerun_cpp/tests -name '*.o' | wc -l)" -ge 40; \
+    test -f build/debug/rerun_cpp/arrow/lib/libarrow.a; \
+    cmake -B build/debug -DFETCHCONTENT_FULLY_DISCONNECTED=ON > /dev/null; \
+    touch /opt/rerun_c/debug/librerun_c.a /opt/rerun_c/release/librerun_c.a; \
+    du -sh build/debug | tail -1
+ENV PYTHONUNBUFFERED=1
+
+# ------------------------------------------------------------------------------------------------------------------
+FROM agent AS verifier
+# Pristine (excised) rerun_cpp tree: tests, generated code, C header directory, and the source baseline for diffs.
+COPY upstream.tar.gz /tmp/upstream.tar.gz
+RUN mkdir -p /workspace/pristine && tar -xzf /tmp/upstream.tar.gz -C /workspace/pristine rerun_cpp docs/snippets \
+    && rm /tmp/upstream.tar.gz
+# Rust reference snippets and the harness.
+COPY --from=rust-build /src/target/release/snippets /opt/reference/bin/snippets_rust
+COPY test.sh snippet_plan.py run_snippets.py gen_reference.sh /tests/
+RUN chmod +x /tests/test.sh /tests/gen_reference.sh \
+    && python3 /tests/snippet_plan.py /workspace/repo --json /opt/reference/plan.json \
+    && bash /tests/gen_reference.sh /workspace/repo /opt/reference \
+    && useradd --create-home --uid 1001 --shell /bin/bash runner \
+    && chmod -R o-rwx /opt/reference \
+    && du -sh /opt/reference | tail -1

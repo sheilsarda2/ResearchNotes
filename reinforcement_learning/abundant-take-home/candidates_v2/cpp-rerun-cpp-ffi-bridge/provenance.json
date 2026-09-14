@@ -1,0 +1,242 @@
+{
+  "task_id": "cpp-rerun-cpp-ffi-bridge",
+  "language": "cpp",
+  "form": "B",
+  "upstream": {
+    "repo": "https://github.com/rerun-io/rerun",
+    "base_commit": "ddd684110e1f200ee13ba482ab42689b78dd0551",
+    "base_commit_date": "2026-09-12",
+    "base_commit_subject": "Fix non-deterministic crate diagram",
+    "version": "0.38.0-alpha.1+dev",
+    "license": "MIT OR Apache-2.0"
+  },
+  "feature": {
+    "kind": "excision",
+    "ref": "rerun_cpp: the hand-written bridge between the C++ SDK and rerun_c (RecordingStream lifecycle, sinks, time, log/send_columns/log_file forwarding; Error mapping and handling; ComponentBatch/ComponentColumn/TimeColumn Arrow C Data Interface export; component type registration cache; entity path escaping; spawn options; version check)",
+    "merged_at": null,
+    "excised_files": [
+      "rerun_cpp/src/rerun/arrow_utils.hpp",
+      "rerun_cpp/src/rerun/component_batch.cpp",
+      "rerun_cpp/src/rerun/component_column.cpp",
+      "rerun_cpp/src/rerun/component_type.cpp",
+      "rerun_cpp/src/rerun/component_type_registry.cpp",
+      "rerun_cpp/src/rerun/component_type_registry.hpp",
+      "rerun_cpp/src/rerun/entity_path.cpp",
+      "rerun_cpp/src/rerun/error.cpp",
+      "rerun_cpp/src/rerun/log_sink.cpp",
+      "rerun_cpp/src/rerun/recording_stream.cpp",
+      "rerun_cpp/src/rerun/sdk_info.cpp",
+      "rerun_cpp/src/rerun/spawn.cpp",
+      "rerun_cpp/src/rerun/spawn_options.cpp",
+      "rerun_cpp/src/rerun/string_utils.cpp",
+      "rerun_cpp/src/rerun/time_column.cpp",
+      "rerun_cpp/src/rerun/timeline.cpp"
+    ],
+    "gold_patch": {
+      "files": 16,
+      "additions": 1064,
+      "deletions": 0,
+      "sha256": "e62489999ed4a961eae3f4566d81c20a04bed32fde62489afba6c782f8bf2aff"
+    }
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "daa1013964aa1132192636cbcead54a9cb8f37ab994ab9794e8471bfd301ca48",
+    "members": 7023,
+    "size_bytes": 38827956,
+    "clean_git_archive": true,
+    "notes": "git archive of the base commit filtered by construction/filter_tar.py: the 16 excised files removed; tests/assets/rrd (558 MB, includes the checked-in snippet reference recordings), tests/assets/gaussian_splats, tests/python, examples/python, examples/notebook, rerun_notebook, rerun_js, viewer snapshot PNGs (crates/**/tests/snapshots and tests/rust/re_integration_test/tests/snapshots, git-lfs) and unused video clips dropped. Every Cargo workspace member (crates/**, docs/snippets, examples/rust/*, rerun_py, run_wasm, tests/rust/*) is kept so `cargo fetch/build --locked` can load the workspace; filter_tar.py asserts that no member manifest is dropped (the first archive dropped tests/rust and broke the rust-build stage). git-lfs smudged the two AV1 clips and the mcap that snippets read."
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "Rust snippets (docs/snippets/all/**/*.rs, built as the `snippets` crate at the same commit) produce the baseline .rrd files at verifier image build; `rerun rrd compare --unordered --ignore-chunks-without-components` (rerun-cli built at the same commit, no viewer) compares the C++ output, exactly as docs/snippets/compare_snippet_output.py --no-py does upstream. Plus rerun_cpp/tests (Catch2 v3.4.0, 45 test cases) restored from pristine.",
+    "counts": {
+      "cpp_snippets_compiled": 121,
+      "cpp_snippets_run": 112,
+      "cpp_vs_rust_compared": 104,
+      "catch2_test_cases": 45
+    },
+    "python_baseline": "Not used. The Python SDK wheel would require building rerun_py (maturin + full Rust build); upstream uses Rust as the baseline whenever Rust runs, and every C++-runnable snippet has a runnable Rust sibling, so dropping Python loses zero comparisons."
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "The excised code is public in rerun-io/rerun (history since 2023, stable since 0.31). Not interface-shifted: headers, tests and snippets are upstream-verbatim so generated code and the snippet corpus keep compiling. Suitable for RL data; weak for headroom claims. Mitigations available: interface-shift the private members (e.g. rename detail::to_rr_string, change ComponentBatch::to_c_ffi_struct to return a struct) at the cost of regenerating snippets/tests; or switch to a newer commit at construction time."
+  },
+  "horizon": {
+    "proxy": "16 files, ~1060 lines to write across 13 headers' worth of declarations; three interacting boundaries (Arrow C Data Interface export/ownership, rerun_c C ABI incl. error codes and special handles, C++ error-handling semantics incl. strict mode and log handlers); verified by 45 unit test cases and 104 cross-language differential comparisons; build cycle 2-20 minutes.",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/rerun-io/rerun/tree/main/rerun_cpp (C++ SDK; conda-forge librerun-sdk and vcpkg rerun-sdk ports depend on this bridge)",
+      "https://github.com/rerun-io/rerun/pull/12885 (cpp: small cleanups, 2026-08-11) and https://github.com/rerun-io/rerun/commit/514a49b9a5e8f458b6509ba0a3c5fb263cc46bcd (GrpcServerSink multisink plumbed into C++, 2026-07-28): the bridge is actively maintained hand-written code",
+      "https://github.com/rerun-io/rerun/issues/10884 (regression covered by tests/recording_stream.cpp: stream stays usable after a failed flush)",
+      "docs/snippets/compare_snippet_output.py: upstream's own cross-language conformance harness for exactly this layer"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "rerun_sdk_tests: RecordingStream created/destroyed for both store kinds without logged error; kind() matches",
+      "instruction_ref": "Behavioral contract 14, 15"
+    },
+    {
+      "assertion": "rerun_sdk_tests: invalid UTF-8 app id logs ErrorCode::InvalidStringArgument",
+      "instruction_ref": "Behavioral contract 14"
+    },
+    {
+      "assertion": "rerun_sdk_tests: current(kind).kind()==kind and current(kind).is_enabled()==false; set_global/set_thread_local do not error",
+      "instruction_ref": "Behavioral contract 15"
+    },
+    {
+      "assertion": "rerun_sdk_tests: logging component batches, Result-wrapped batches, collections and archetypes (temporal and static) does not error",
+      "instruction_ref": "Behavioral contract 7, 8, 18"
+    },
+    {
+      "assertion": "rerun_sdk_tests: save() to an existing directory returns RecordingStreamSaveFailure; successful save creates the file immediately; a stream that logged data produces a larger file after destruction",
+      "instruction_ref": "Behavioral contract 15, 16"
+    },
+    {
+      "assertion": "rerun_sdk_tests: connect_grpc('definitely not valid!') returns InvalidServerUrl; connect_grpc(valid url) returns Ok; flush_blocking() then returns RecordingStreamFlushFailure; logging afterwards still works (issue #10884), also via current() after a global stream was set and discarded",
+      "instruction_ref": "Behavioral contract 15, 16"
+    },
+    {
+      "assertion": "rerun_sdk_tests: set_sinks(FileSink dir) -> RecordingStreamSaveFailure; set_sinks(GrpcSink invalid) -> InvalidServerUrl; set_sinks(GrpcSink valid) -> Ok; set_sinks(GrpcSink, FileSink) -> Ok; set_sinks(GrpcServerSink with CORS origins, FileSink) -> Ok",
+      "instruction_ref": "Behavioral contract 12"
+    },
+    {
+      "assertion": "rerun_sdk_tests: serve_grpc('0.0.0.0', 21521) returns 'rerun+http://0.0.0.0:21521/proxy'",
+      "instruction_ref": "Behavioral contract 16"
+    },
+    {
+      "assertion": "rerun_sdk_tests: try_log_data_row with a null array -> UnexpectedNullArgument; with RR_COMPONENT_TYPE_HANDLE_INVALID -> InvalidComponentTypeHandle",
+      "instruction_ref": "Behavioral contract 8, 18"
+    },
+    {
+      "assertion": "rerun_sdk_tests: serialization failures (Loggable::to_arrow / AsComponents error) are logged by log() with the original code and returned unchanged by try_log()",
+      "instruction_ref": "Behavioral contract 18"
+    },
+    {
+      "assertion": "rerun_sdk_tests: set_time_* / reset_time / disable_timeline (incl. nonexistent timeline) never log errors",
+      "instruction_ref": "Behavioral contract 17"
+    },
+    {
+      "assertion": "rerun_sdk_tests: a namespace-scope static RecordingStream does not crash at exit",
+      "instruction_ref": "Behavioral contract 15"
+    },
+    {
+      "assertion": "rerun_sdk_tests: ComponentType('test', float64).register_component() succeeds with a valid handle; empty name fails with InvalidStringArgument",
+      "instruction_ref": "Behavioral contract 6"
+    },
+    {
+      "assertion": "rerun_sdk_tests: logging Points3D with zero instances and ComponentBatch::empty<Position3D> does not error",
+      "instruction_ref": "Behavioral contract 18"
+    },
+    {
+      "assertion": "rerun_sdk_tests: set_default_enabled/is_default_enabled toggles (config.cpp is not excised; test still requires the binary to link)",
+      "instruction_ref": "Where to work (build must link)"
+    },
+    {
+      "assertion": "rerun_sdk_tests: archetype serialization tests (18 cases) and collection/color/half/mat/vec tests compile and pass against the submission's headers",
+      "instruction_ref": "Where to work: keep every public signature; Behavioral contract 7"
+    },
+    {
+      "assertion": "rerun_sdk_tests: error_check.hpp installs a log handler and expects exactly the documented handle() dispatch",
+      "instruction_ref": "Behavioral contract 2"
+    },
+    {
+      "assertion": "rerun_sdk_tests: header_checks.cpp requires rerun.hpp not to include c/rerun.h",
+      "instruction_ref": "Where to work (rerun.hpp must not leak c/rerun.h)"
+    },
+    {
+      "assertion": "112 C++ snippets exit 0 and write a recording under _RERUN_TEST_FORCE_SAVE with RERUN_STRICT=1 RERUN_PANIC_ON_WARN=1 RERUN_FLUSH_NUM_ROWS=0",
+      "instruction_ref": "Behavioral contract 22"
+    },
+    {
+      "assertion": "104 C++ recordings match the Rust recording under rerun rrd compare --unordered --ignore-chunks-without-components (covers log/log_static row semantics, set_time_* timelines, send_columns partitioning and time columns, recording properties, log_file_from_path, entity path escaping, static vs temporal, component descriptors)",
+      "instruction_ref": "Behavioral contract 7-11, 17-22"
+    },
+    {
+      "assertion": "Build links only prebuilt rerun_c and Arrow (ldd check); anti-cheat greps reject process spawning, directory enumeration, verifier paths",
+      "instruction_ref": "How you are evaluated; Environment"
+    },
+    {
+      "assertion": "Generated dirs and c/ are restored from pristine before the build",
+      "instruction_ref": "Where to work"
+    }
+  ],
+  "build": {
+    "agent_image_gb": 4.35,
+    "verifier_image_gb": 4.6,
+    "build_minutes": "5.5 for the agent image in run 20260913T131420Z with the rust-build stage served from the BuildKit cache (cmake/Arrow/SDK stage and verifier reference generation built cold); 0.3 when fully cached. The cold Rust release build was not observed in these runs (35-50 min estimate stands unmeasured).",
+    "verifier_minutes": "7.0 for the oracle incl. the verifier-image layer rebuild (reference generation ~2.5); test.sh alone ~4 (build 47 s, Catch2 ~40 s, 112 snippet runs + 104 compares ~2.5 min); nop 0.4 (build fails to link after 6 s)",
+    "host": "Docker Desktop 29.5.3, macOS arm64 (aarch64), 18 host cores; run 20260913T131420Z on the 8.3 GB VM (peak 3.5 GB used VM-wide, MemAvailable >= 4.4 GB); runs 173202Z/174015Z after the VM was resized to 32 GB (peak 11.3 GB used VM-wide incl. ~8 GB of other agents' containers; largest own process ld 1.47 GB RSS, cc1plus x3 <= 230 MB); containers limited by task.toml to cpus=4 memory_mb=8192; no OOM",
+    "estimates": {
+      "agent_image_gb": "6-8 (toolchain 0.6, Arrow build tree 1.5, rerun_c 0.3-0.5, SDK+snippets+tests debug objects 2-3, repo 0.4)",
+      "verifier_image_gb": "7-9 (agent + Rust snippets binary ~0.1 + reference rrds ~0.2-0.5 + pristine 0.05)",
+      "build_minutes": "70-100 on 4 cpus (rust release build of rerun_c + snippets + rerun-cli 35-50; Arrow 18 debug 10-15; SDK/snippets/tests objects 15-25)",
+      "verifier_minutes": "8-15 for a .cpp-only submission (relink 2-3, 45 Catch2 cases <2, 112 snippet runs 3-5, 104 compares 2-3); 25-35 if a widely included header changed"
+    },
+    "oracle_wall_seconds": 445,
+    "env_setup_seconds": 16,
+    "verifier_seconds": 423,
+    "nop_wall_seconds": 41,
+    "run2_oracle_20260913T131420Z": {
+      "wall_seconds": 556,
+      "env_setup_seconds": 327,
+      "verifier_seconds": 225,
+      "note": "images built (Rust stage cached); reward 0 only from the Catch2 summary parser"
+    }
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "cpp-rerun-cpp-ffi-bridge-oracle-20260913T173202Z",
+      "nop": "cpp-rerun-cpp-ffi-bridge-nop-20260913T174015Z"
+    },
+    "local_checks": [
+      "git apply --check of solution/changes.patch against the extracted tarball passes; restored files byte-identical to upstream",
+      "tests/snippet_plan.py on the base commit yields 112 run / 104 compare, matching compare_snippet_output.py --no-py selection",
+      "bash -n on test.sh/gen_reference.sh; py_compile on run_snippets.py/snippet_plan.py; task.toml parses with harbor 0.15.0 TaskConfig"
+    ],
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  },
+  "rejected_alternates": [
+    {
+      "ref": "514a49b9a5e8f458b6509ba0a3c5fb263cc46bcd (Make GrpcServerSink multisink compatible and plumb it into C++ & Python, 2026-07-28)",
+      "reason": "Form A candidate with the most hand-written rerun_cpp/src change since March: +155/-15 over 6 files plus Rust rerun_c changes; below the 200-line bar and its behavior (hosting a gRPC server with CORS) is only observable with a live client"
+    },
+    {
+      "ref": "58c588d19563bd640669912a582cdb17a0bedec4 (#12885 cpp: small cleanups)",
+      "reason": "+3/-24, cleanup"
+    },
+    {
+      "ref": "54295ae45bfdeaf8e6fac8818b3400dbb52097ad (#12872 missing standard library includes)",
+      "reason": "+2"
+    },
+    {
+      "ref": "896cffa38529114e2b8042e1a1848439be1713a1 (clang-tidy over hand-written C++)",
+      "reason": "+33/-7 lint fixes"
+    },
+    {
+      "ref": "73d305c28dd41ec5b2ed5da954cbab3469fb6bb0 (GaussianSplats3D archetype w/ PLY loader)",
+      "reason": "+76 hand-written C++, mostly codegen output; oracle snippet opted out (18 MB rrd)"
+    },
+    {
+      "ref": "62200d5d2 / b359f637d (codegen support for fixed-size arrays of structs / lists of enums)",
+      "reason": "changes live in re_types_builder (Rust); rerun_cpp diffs are generated test types"
+    },
+    {
+      "ref": "582f27394 / c2ea6ee4d / 7896181f7 / 2d9d6eca8 (renames: datatypes->encodings, ArrowDatatype->ArrowDataType, fuzzy->type_zoo, delete flatbuffers IDL)",
+      "reason": "mechanical renames, no feature"
+    }
+  ]
+}
