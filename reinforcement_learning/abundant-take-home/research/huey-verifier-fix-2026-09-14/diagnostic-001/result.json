@@ -1,0 +1,96 @@
+{
+  "admitted_at": "2026-09-14T04:10:07.131890+00:00",
+  "all_containers_removed": true,
+  "cases": [
+    {
+      "case": "reference",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failed_tests": [],
+      "finished_at": "2026-09-14T04:10:26.536263+00:00",
+      "image": "sha256:43fa880b4ac5b716019174b443c7f4b70925e9f885de705e6d66b76bba1f9927",
+      "model_calls": 0,
+      "skipped_tests": [],
+      "started_at": "2026-09-14T04:10:07.924672+00:00",
+      "verifier_command_exit_code": 0,
+      "verifier_files": {
+        "diagnostics.json": "401ce844da152a33a6c5562f4847241615d21a5af5c4ed20338b2b90838cfa6e",
+        "pytest.log": "d99b30b7abfc9807180d2c1be6c305405f3d2541896985bc989c27ae76dc3b9b",
+        "results.xml": "e1a06055c9e48607595e78435aa44218c4958df2777e7d924e973a388c616333",
+        "reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+      }
+    },
+    {
+      "case": "saved-direct-sql",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failed_tests": [],
+      "finished_at": "2026-09-14T04:10:39.505088+00:00",
+      "image": "sha256:43fa880b4ac5b716019174b443c7f4b70925e9f885de705e6d66b76bba1f9927",
+      "model_calls": 0,
+      "saved_source_bytes_verified": true,
+      "skipped_tests": [],
+      "started_at": "2026-09-14T04:10:30.743511+00:00",
+      "verifier_command_exit_code": 0,
+      "verifier_files": {
+        "diagnostics.json": "401ce844da152a33a6c5562f4847241615d21a5af5c4ed20338b2b90838cfa6e",
+        "pytest.log": "aa1e26cf17b16e5dc9db9b64ae38a4b6ce1f2563f43a8cdc91c41ae8eb9fab8b",
+        "results.xml": "d11debaa15463bb025021206d2e63203ee86efb2f0a5dcef8a1bfbacfc975b2c",
+        "reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+      }
+    },
+    {
+      "case": "saved-cleared-token",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failed_tests": [],
+      "finished_at": "2026-09-14T04:10:48.200272+00:00",
+      "image": "sha256:43fa880b4ac5b716019174b443c7f4b70925e9f885de705e6d66b76bba1f9927",
+      "model_calls": 0,
+      "saved_source_bytes_verified": true,
+      "skipped_tests": [],
+      "started_at": "2026-09-14T04:10:40.482268+00:00",
+      "verifier_command_exit_code": 0,
+      "verifier_files": {
+        "diagnostics.json": "401ce844da152a33a6c5562f4847241615d21a5af5c4ed20338b2b90838cfa6e",
+        "pytest.log": "8a03888b68411470b015f4914ef52c92836077d48870077561014cef09c76369",
+        "results.xml": "654a8393a0675c09ef7ed9db12ac7d4b7d1ab8d997a971acc92ccdf0a3c02fb1",
+        "reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+      }
+    },
+    {
+      "case": "broken-transfer-atomicity",
+      "collected": 2,
+      "expected_outcome_observed": false,
+      "failed_tests": [
+        "test_due_batch_late_error_and_scheduler_integration",
+        "test_kill_mid_due_transfer_restores_whole_batch"
+      ],
+      "finished_at": "2026-09-14T04:10:51.184441+00:00",
+      "image": "sha256:43fa880b4ac5b716019174b443c7f4b70925e9f885de705e6d66b76bba1f9927",
+      "model_calls": 0,
+      "skipped_tests": [],
+      "started_at": "2026-09-14T04:10:48.883839+00:00",
+      "verifier_command_exit_code": 1,
+      "verifier_files": {
+        "results.xml": "edbd5b4ee4b57010dd1143840a32b69a538ee3700b89ae6f51e9653069aa12f7"
+      }
+    }
+  ],
+  "claim_released": true,
+  "error": "broken-transfer-atomicity did not have expected outcome",
+  "error_type": "AssertionError",
+  "finished_at": "2026-09-14T04:10:51.737853+00:00",
+  "inputs_unchanged": true,
+  "limits": {
+    "cpus": 2,
+    "memory_mb": 4096,
+    "network": "none",
+    "verifier_timeout_sec": 900
+  },
+  "model_calls": 0,
+  "started_at": "2026-09-14T04:10:06.302925+00:00",
+  "status": "error",
+  "updated_at": "2026-09-14T04:10:06.927822+00:00",
+  "wait_reason": null
+}

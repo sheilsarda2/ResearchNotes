@@ -1,0 +1,85 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_____________ test_due_batch_late_error_and_scheduler_integration ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_due_batch_late_error_and_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff84d4a1e0>
+
+    def test_due_batch_late_error_and_scheduler_integration(tmp_path, monkeypatch):
+        with sqlite_insert_probe(monkeypatch, tmp_path/'q.db') as probe:
+            h = huey_at(tmp_path/'q.db')
+            probe.watch_queue(h.storage)
+            fn = register(h)
+            now = dt.datetime(2030, 1, 1)
+            future = now + dt.timedelta(days=1)
+            tasks = [fn.s(i, priority=i % 3) for i in range(11)]
+            for t in tasks:
+                t.eta = now
+                h.add_schedule(t)
+            t = fn.s(99); t.eta = future; h.add_schedule(t)
+            def fail_after_insert():
+                raise RuntimeError('mid-promotion')
+            probe.arm(3, fail_after_insert)
+            promote(h, now)
+            assert probe.reached and probe.hits >= 3, 'insertion failpoint was not reached'
+>           assert h.pending_count() == 0 and h.scheduled_count() == 12
+E           assert (10 == 0)
+E            +  where 10 = pending_count()
+E            +    where pending_count = <huey.api.LeasedSqliteHuey object at 0xffff84d46f00>.pending_count
+
+/tests/test_leases.py:540: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    huey:api.py:781 Error enqueueing test_leases.compute: cfb81c1c-4cc3-4be8-9e3b-7a856484ab58 @2030-01-01 00:00:00 p=2.
+Traceback (most recent call last):
+  File "/workspace/repo/huey/api.py", line 779, in enqueue_due
+    self.enqueue(task)
+  File "/workspace/repo/huey/api.py", line 324, in enqueue
+    self.storage.enqueue(self.serialize_task(task), task.priority)
+  File "/workspace/repo/huey/storage.py", line 953, in enqueue
+    self.sql('insert into task (queue, data, priority) values (?, ?, ?)',
+  File "/workspace/repo/huey/storage.py", line 883, in sql
+    curs.execute(query, params or ())
+sqlite3.OperationalError: user-defined function raised exception
+_______________ test_kill_mid_due_transfer_restores_whole_batch ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_kill_mid_due_transfer_res0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff84bd9d00>
+
+    def test_kill_mid_due_transfer_restores_whole_batch(tmp_path, monkeypatch):
+        ctx = mp.get_context('fork')
+        parent, child = ctx.Pipe(False)
+        gate = ctx.Event()
+        path = tmp_path/'q.db'
+        with sqlite_insert_probe(monkeypatch, path) as probe:
+            h = huey_at(path)
+            probe.watch_queue(h.storage)
+            fn = register(h)
+            due, future = dt.datetime(2030, 1, 1), dt.datetime(2031, 1, 1)
+            for i in range(503):
+                t = fn.s(i); t.eta = due; h.add_schedule(t)
+            t = fn.s(1000); t.eta = future; h.add_schedule(t)
+            other = LeasedSqliteHuey('other', filename=str(path), clock=Clock())
+            other.storage.add_to_schedule(b'foreign', due)
+            def transfer():
+                def pause_after_insert():
+                    child.send(('inserted', probe.hits, probe.reached))
+                    gate.wait(20)
+                probe.arm(501, pause_after_insert)
+                h.enqueue_due(due)
+            p = ctx.Process(target=transfer)
+            p.start()
+            wait_message(parent, p, ('inserted', 501, True))
+            stop_at_barrier(p)
+            fresh = huey_at(path)
+            register(fresh)
+>           assert fresh.pending_count() == 0 and fresh.scheduled_count() == 504
+E           assert (500 == 0)
+E            +  where 500 = pending_count()
+E            +    where pending_count = <huey.api.LeasedSqliteHuey object at 0xffff84d4ae70>.pending_count
+
+/tests/test_leases.py:690: AssertionError
+---------------- generated xml file: /logs/verifier/results.xml ----------------
+=========================== short test summary info ============================
+FAILED ../../dev::test_due_batch_late_error_and_scheduler_integration - asser...
+FAILED ../../dev::test_kill_mid_due_transfer_restores_whole_batch - assert (5...
+2 failed in 1.13s

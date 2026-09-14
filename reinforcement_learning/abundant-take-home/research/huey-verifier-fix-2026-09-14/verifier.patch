@@ -1,0 +1,239 @@
+--- a/tests/test_leases.py
++++ b/tests/test_leases.py
+@@ -8,6 +8,7 @@
+ import threading
+ import time
+ from concurrent.futures import ThreadPoolExecutor
++from contextlib import contextmanager
+ 
+ import pytest
+ 
+@@ -84,6 +85,91 @@
+     os.kill(proc.pid, signal.SIGKILL)
+     proc.join(10)
+     assert proc.exitcode == -signal.SIGKILL
++
++
++class SqliteInsertProbe:
++    """Observe actual SQLite row inserts, including direct SQL and bulk writes.
++
++    Discover the queue's write tables through the public enqueue operation on
++    an empty queue, rather than requiring a table name or a Python call path.
++    SQLite AFTER INSERT triggers reach the failpoint inside the transaction.
++    """
++    function = '__huey_verifier_insert_probe'
++
++    def __init__(self, path, connect):
++        self.path, self.connect = path, connect
++        self.triggers = []
++        self.queue_tables = set()
++        self.identifying = False
++        self.after = None
++        self.callback = None
++        self.hits = 0
++        self.reached = False
++
++    def inserted(self, table):
++        if self.identifying:
++            self.queue_tables.add(table)
++        elif self.after is not None and table in self.queue_tables:
++            self.hits += 1
++            if self.hits == self.after:
++                self.reached = True
++                self.callback()
++        return 0
++
++    def watch_queue(self, storage):
++        assert storage.queue_size() == storage.inflight_count() == 0
++        with self.connect(self.path) as conn:
++            tables = conn.execute("select name from sqlite_master where "
++                                  "type = 'table' and name not like 'sqlite_%'").fetchall()
++            for number, (table,) in enumerate(tables):
++                trigger = '__huey_verifier_insert_probe_%s' % number
++                quoted = '"' + table.replace('"', '""') + '"'
++                literal = "'" + table.replace("'", "''") + "'"
++                conn.execute('create trigger "%s" after insert on %s begin '
++                             'select %s(%s); end' %
++                             (trigger, quoted, self.function, literal))
++                self.triggers.append(trigger)
++        self.identifying = True
++        try:
++            storage.enqueue(b'verifier-sqlite-write-probe')
++        finally:
++            self.identifying = False
++            storage.flush_queue()
++        assert self.queue_tables, 'SQLite insertion probe did not observe enqueue'
++
++    def arm(self, after, callback):
++        self.after, self.callback = after, callback
++        self.hits, self.reached = 0, False
++
++    def disarm(self):
++        self.after = None
++
++    def close(self):
++        self.disarm()
++        with self.connect(self.path) as conn:
++            for trigger in self.triggers:
++                conn.execute('drop trigger if exists "%s"' % trigger)
++
++
++@contextmanager
++def sqlite_insert_probe(monkeypatch, path):
++    connect = sqlite3.connect
++    probe = SqliteInsertProbe(path, connect)
++
++    def instrumented_connect(*args, **kwargs):
++        conn = connect(*args, **kwargs)
++        conn.create_function(probe.function, 1, probe.inserted)
++        return conn
++
++    with monkeypatch.context() as patch:
++        # Register on every connection, including a new connection after fork.
++        # No cursor/execute/transaction behavior is replaced.
++        patch.setattr(sqlite3, 'connect', instrumented_connect)
++        patch.setattr(sqlite3.dbapi2, 'connect', instrumented_connect)
++        try:
++            yield probe
++        finally:
++            probe.close()
+ 
+ 
+ @pytest.mark.parametrize('duration', [0, -0.1, float('nan'), float('inf'), -float('inf'), True, False])
+@@ -330,8 +416,11 @@
+         return task.lease_token
+     result = renewing()
+     t = h.dequeue()
+-    assert h.execute(t) == t.lease_token
+-    assert result.get() == t.lease_token
++    token = t.lease_token
++    assert isinstance(token, str) and token
++    assert h.execute(t) == token
++    assert result.get() == token
++    assert not h.storage.owns(token) and not t.renew_lease()
+     c.value = 200
+     register(h)(3)
+     t = h.dequeue()
+@@ -432,32 +521,30 @@
+ 
+ 
+ def test_due_batch_late_error_and_scheduler_integration(tmp_path, monkeypatch):
+-    h = huey_at(tmp_path/'q.db')
+-    fn = register(h)
+-    now = dt.datetime(2030, 1, 1)
+-    future = now + dt.timedelta(days=1)
+-    tasks = [fn.s(i, priority=i % 3) for i in range(11)]
+-    for t in tasks:
+-        t.eta = now
+-        h.add_schedule(t)
+-    t = fn.s(99); t.eta = future; h.add_schedule(t)
+-    original = h.storage.enqueue
+-    counter = [0]
+-    def write_then_fail(data, priority=None):
+-        original(data, priority)
+-        counter[0] += 1
+-        if counter[0] == 3:
++    with sqlite_insert_probe(monkeypatch, tmp_path/'q.db') as probe:
++        h = huey_at(tmp_path/'q.db')
++        probe.watch_queue(h.storage)
++        fn = register(h)
++        now = dt.datetime(2030, 1, 1)
++        future = now + dt.timedelta(days=1)
++        tasks = [fn.s(i, priority=i % 3) for i in range(11)]
++        for t in tasks:
++            t.eta = now
++            h.add_schedule(t)
++        t = fn.s(99); t.eta = future; h.add_schedule(t)
++        def fail_after_insert():
+             raise RuntimeError('mid-promotion')
+-    monkeypatch.setattr(h.storage, 'enqueue', write_then_fail)
+-    promote(h, now)
+-    assert h.pending_count() == 0 and h.scheduled_count() == 12
+-    monkeypatch.setattr(h.storage, 'enqueue', original)
+-    promote(h, now)
+-    assert h.pending_count() == 11 and h.scheduled_count() == 1
+-    assert {t.id for t in h.pending()} == {t.id for t in tasks}
+-    for _ in tasks:
+-        work(h, now)
+-    assert [h.result(t.id) for t in tasks] == [i * 2 for i in range(11)]
++        probe.arm(3, fail_after_insert)
++        promote(h, now)
++        assert probe.reached and probe.hits >= 3, 'insertion failpoint was not reached'
++        assert h.pending_count() == 0 and h.scheduled_count() == 12
++        probe.disarm()
++        promote(h, now)
++        assert h.pending_count() == 11 and h.scheduled_count() == 1
++        assert {t.id for t in h.pending()} == {t.id for t in tasks}
++        for _ in tasks:
++            work(h, now)
++        assert [h.result(t.id) for t in tasks] == [i * 2 for i in range(11)]
+ 
+ 
+ def test_bad_message_does_not_block_and_immediate_is_compatible(tmp_path):
+@@ -573,40 +660,37 @@
+     assert fresh.scheduled_count() == 1 and fresh.storage.inflight_count() == 0
+ 
+ 
+-def test_kill_mid_due_transfer_restores_whole_batch(tmp_path):
++def test_kill_mid_due_transfer_restores_whole_batch(tmp_path, monkeypatch):
+     ctx = mp.get_context('fork')
+     parent, child = ctx.Pipe(False)
+     gate = ctx.Event()
+     path = tmp_path/'q.db'
+-    h = huey_at(path)
+-    fn = register(h)
+-    due, future = dt.datetime(2030, 1, 1), dt.datetime(2031, 1, 1)
+-    for i in range(503):
+-        t = fn.s(i); t.eta = due; h.add_schedule(t)
+-    t = fn.s(1000); t.eta = future; h.add_schedule(t)
+-    other = LeasedSqliteHuey('other', filename=str(path), clock=Clock())
+-    other.storage.add_to_schedule(b'foreign', due)
+-    def transfer():
+-        original = h.storage.enqueue
+-        count = [0]
+-        def enqueue(data, priority=None):
+-            original(data, priority)
+-            count[0] += 1
+-            if count[0] == 501:
+-                child.send('inserted')
++    with sqlite_insert_probe(monkeypatch, path) as probe:
++        h = huey_at(path)
++        probe.watch_queue(h.storage)
++        fn = register(h)
++        due, future = dt.datetime(2030, 1, 1), dt.datetime(2031, 1, 1)
++        for i in range(503):
++            t = fn.s(i); t.eta = due; h.add_schedule(t)
++        t = fn.s(1000); t.eta = future; h.add_schedule(t)
++        other = LeasedSqliteHuey('other', filename=str(path), clock=Clock())
++        other.storage.add_to_schedule(b'foreign', due)
++        def transfer():
++            def pause_after_insert():
++                child.send(('inserted', probe.hits, probe.reached))
+                 gate.wait(20)
+-        h.storage.enqueue = enqueue
+-        h.enqueue_due(due)
+-    p = ctx.Process(target=transfer)
+-    p.start()
+-    wait_message(parent, p, 'inserted')
+-    stop_at_barrier(p)
+-    fresh = huey_at(path)
+-    register(fresh)
+-    assert fresh.pending_count() == 0 and fresh.scheduled_count() == 504
+-    fresh.enqueue_due(due)
+-    assert fresh.pending_count() == 503 and fresh.scheduled_count() == 1
+-    assert other.storage.scheduled_items() == [b'foreign']
++            probe.arm(501, pause_after_insert)
++            h.enqueue_due(due)
++        p = ctx.Process(target=transfer)
++        p.start()
++        wait_message(parent, p, ('inserted', 501, True))
++        stop_at_barrier(p)
++        fresh = huey_at(path)
++        register(fresh)
++        assert fresh.pending_count() == 0 and fresh.scheduled_count() == 504
++        fresh.enqueue_due(due)
++        assert fresh.pending_count() == 503 and fresh.scheduled_count() == 1
++        assert other.storage.scheduled_items() == [b'foreign']
+ 
+ 
+ def test_actual_process_consumer_integration(tmp_path):

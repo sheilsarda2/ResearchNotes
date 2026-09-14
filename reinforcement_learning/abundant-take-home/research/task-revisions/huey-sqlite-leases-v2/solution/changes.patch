@@ -1,0 +1,554 @@
+diff --git a/docs/consumer.rst b/docs/consumer.rst
+index 59b84b7..49ef431 100644
+--- a/docs/consumer.rst
++++ b/docs/consumer.rst
+@@ -480,3 +480,56 @@ Signals
+ The consumer will emit certain :ref:`signals` as it executes tasks. User code
+ can register signal handlers to respond to these events. For more information,
+ see the :ref:`signals` document.
++
++Leased SQLite delivery
++----------------------
++
++``LeasedSqliteHuey`` opts into durable message reservations. Configure all
++consumers for a queue with this class; a normal SQLite consumer removes messages
++without acknowledging them and must not share that queue::
++
++    from huey import LeasedSqliteHuey
++
++    huey = LeasedSqliteHuey('jobs', filename='jobs.db', lease_seconds=60)
++
++    @huey.task(context=True)
++    def process_chunks(chunks, task=None):
++        for chunk in chunks:
++            process(chunk)
++            if not task.renew_lease():
++                return  # Ownership expired; another attempt may already run.
++
++Both thread and process consumers reserve work through the normal dequeue path.
++An unacknowledged message becomes available when its lease expires, including
++after an uncatchable worker termination. ``lease_seconds`` must be positive and
++finite. An optional ``clock`` callable supplies Unix seconds for leases; it does
++not replace Huey's task ETA clock. Applications using a custom clock must keep
++it consistent across processes.
++
++``task.lease_token`` identifies the current reservation generation, not the
++logical task. ``task.renew_lease(now=None)`` returns whether renewal succeeded.
++A normal task or immediate-mode invocation has no lease token and cannot renew.
++An expired attempt raises ``LeaseLost`` before execution or while completing;
++it cannot acknowledge a new owner's work. There is no automatic heartbeat.
++
++The storage exposes ``reserve``, ``owns``, ``ack``, ``release``, ``renew`` and
++``inflight_count``. All accept optional Unix ``now`` values; omitted values use
++the configured clock. Reservations expose ``token``, ``data``, and ``expires_at``.
++An expiry equal to the current time is expired. Queue counts and inspection
++show only available work; in-flight counts show active reservations. Flushing
++a queue removes its reservations as well as its pending messages.
++
++User task bodies run outside a database write transaction. Huey's completion
++writes (results, successor messages, retries and acknowledgement) commit
++together. ``enqueue_due()`` similarly moves due scheduled messages atomically;
++the normal scheduler calls it automatically. Failed completion or promotion
++transactions leave the original work recoverable. Result/signal hooks still
++execute application code; their external effects cannot be rolled back.
++
++This is at-least-once delivery. A task whose lease expires while it runs may be
++executed again. Make external effects safe to repeat and size or renew leases
++appropriately. Immediate execution is unchanged. Invalid serialized messages
++are discarded and logged as in ordinary Huey. The feature does not add a
++general exactly-once protocol to groups/chords or extend SQLite's own durability
++guarantees. Existing database files and explicit ``initialize_schema()`` are
++supported; ``create_tables=False`` performs no automatic schema creation.
+diff --git a/huey/__init__.py b/huey/__init__.py
+index 85d0540..9c747bc 100644
+--- a/huey/__init__.py
++++ b/huey/__init__.py
+@@ -13,6 +13,7 @@ from huey.api import PriorityRedisHuey
+ from huey.api import RedisExpireHuey
+ from huey.api import RedisHuey
+ from huey.api import SqliteHuey
++from huey.api import LeasedSqliteHuey
+ from huey.api import chord
+ from huey.api import crontab
+ from huey.api import group
+diff --git a/huey/api.py b/huey/api.py
+index c010e1a..5f7e7de 100644
+--- a/huey/api.py
++++ b/huey/api.py
+@@ -18,6 +18,7 @@ from huey.constants import EmptyData
+ from huey.consumer import Consumer
+ from huey.exceptions import CancelExecution
+ from huey.exceptions import ConfigurationError
++from huey.exceptions import LeaseLost
+ from huey.exceptions import RateLimitExceeded
+ from huey.exceptions import ResultTimeout
+ from huey.exceptions import RetryTask
+@@ -36,6 +37,7 @@ from huey.storage import PriorityRedisStorage
+ from huey.storage import RedisExpireStorage
+ from huey.storage import RedisStorage
+ from huey.storage import SqliteStorage
++from huey.storage import LeasedSqliteStorage
+ from huey.utils import ChordConfig
+ from huey.utils import Error
+ from huey.utils import SKIPPED
+@@ -421,20 +423,26 @@ class Huey(object):
+         return (utcnow() if self.utc else
+                 datetime.datetime.now())
+ 
++    def _task_transition(self, task):
++        return noop_context()
++
+     def execute(self, task, timestamp=None):
+         if timestamp is None:
+             timestamp = self._get_timestamp()
+ 
+         if not self.ready_to_run(task, timestamp):
+-            self.add_schedule(task)
++            with self._task_transition(task):
++                self.add_schedule(task)
+         elif self.is_revoked(task, timestamp, False):
+-            logger.warning('Task %s was revoked, not executing', task)
+-            self._emit(S.SIGNAL_REVOKED, task)
+-            self._abort_chord_member(task, SKIPPED)
++            with self._task_transition(task):
++                logger.warning('Task %s was revoked, not executing', task)
++                self._emit(S.SIGNAL_REVOKED, task)
++                self._abort_chord_member(task, SKIPPED)
+         elif task.expires_resolved and task.expires_resolved < timestamp:
+-            logger.info('Task %s expired, not executing.', task)
+-            self._emit(S.SIGNAL_EXPIRED, task)
+-            self._abort_chord_member(task, SKIPPED)
++            with self._task_transition(task):
++                logger.info('Task %s expired, not executing.', task)
++                self._emit(S.SIGNAL_EXPIRED, task)
++                self._abort_chord_member(task, SKIPPED)
+         else:
+             logger.info('Executing %s', task)
+             self._emit(S.SIGNAL_EXECUTING, task)
+@@ -445,8 +453,9 @@ class Huey(object):
+             try:
+                 self._run_pre_execute(task)
+             except CancelExecution:
+-                self._emit(S.SIGNAL_CANCELED, task)
+-                self._abort_chord_member(task, SKIPPED)
++                with self._task_transition(task):
++                    self._emit(S.SIGNAL_CANCELED, task)
++                    self._abort_chord_member(task, SKIPPED)
+                 return
+ 
+         start = time.monotonic()
+@@ -516,6 +525,10 @@ class Huey(object):
+         else:
+             logger.info('%s executed in %0.3fs', task, duration)
+ 
++        with self._task_transition(task):
++            return self._finish_task(task, task_value, exception, retry_eta)
++
++    def _finish_task(self, task, task_value, exception, retry_eta):
+         # Clear the flag if this instance of the task was revoked after it
+         # began executing. Delete rather than destructively read, as expiring
+         # storages implement pop_data as a non-destructive peek.
+@@ -760,6 +773,13 @@ class Huey(object):
+                 logger.exception('Unable to deserialize task.')
+         return accum
+ 
++    def enqueue_due(self, timestamp=None):
++        for task in self.read_schedule(timestamp):
++            try:
++                self.enqueue(task)
++            except Exception:
++                logger.exception('Error enqueueing %s.', task)
++
+     def read_periodic(self, timestamp):
+         if timestamp is None:
+             timestamp = self._get_timestamp()
+@@ -870,6 +890,14 @@ class Task(object):
+         self.on_complete = on_complete
+         self.on_error = on_error
+ 
++    @property
++    def lease_token(self):
++        return getattr(self, '_lease_token', None)
++
++    def renew_lease(self, now=None):
++        storage = getattr(self, '_lease_storage', None)
++        return bool(storage and storage.renew(self.lease_token, now=now))
++
+     @property
+     def data(self):
+         return (self.args, self.kwargs)
+@@ -1522,6 +1550,46 @@ class MemoryHuey(Huey):
+ class SqliteHuey(Huey):
+     storage_class = SqliteStorage
+ 
++class LeasedSqliteHuey(SqliteHuey):
++    """Opt-in at-least-once delivery for SQLite thread/process consumers."""
++    storage_class = LeasedSqliteStorage
++
++    def dequeue(self, now=None):
++        if not isinstance(self.storage, LeasedSqliteStorage):
++            return super(LeasedSqliteHuey, self).dequeue()
++        reservation = self.storage.reserve(now)
++        if reservation is None:
++            return
++        try:
++            task = self.deserialize_task(reservation.data)
++        except Exception:
++            # Match the existing invalid-message policy: discard and report.
++            self.storage.ack(reservation.token, now=now)
++            raise
++        task._lease_token = reservation.token
++        task._lease_storage = self.storage
++        return task
++
++    def execute(self, task, timestamp=None):
++        if task.lease_token and not task._lease_storage.owns(task.lease_token):
++            raise LeaseLost('reservation no longer owned')
++        return super(LeasedSqliteHuey, self).execute(task, timestamp)
++
++    def _task_transition(self, task):
++        if task.lease_token:
++            return task._lease_storage.complete(task.lease_token)
++        return super(LeasedSqliteHuey, self)._task_transition(task)
++
++    def enqueue_due(self, timestamp=None):
++        if not isinstance(self.storage, LeasedSqliteStorage):
++            return super(LeasedSqliteHuey, self).enqueue_due(timestamp)
++        # Schedule removal and every initial queue insertion commit together.
++        # Preserve per-message deserialization handling from read_schedule().
++        with self.storage.db(commit=True):
++            for task in self.read_schedule(timestamp):
++                self.enqueue(task)
++
++
+ class CySqliteHuey(Huey):
+     storage_class = CySqliteStorage
+ 
+diff --git a/huey/consumer.py b/huey/consumer.py
+index d643d21..1e339bd 100644
+--- a/huey/consumer.py
++++ b/huey/consumer.py
+@@ -174,16 +174,9 @@ class Scheduler(BaseProcess):
+             return
+ 
+         try:
+-            task_list = self.huey.read_schedule(now)
++            self.huey.enqueue_due(now)
+         except Exception:
+-            self._logger.exception('Error reading schedule.')
+-        else:
+-            for task in task_list:
+-                self._logger.debug('Enqueueing %s', task)
+-                try:
+-                    self.huey.enqueue(task)
+-                except Exception:
+-                    self._logger.exception('Error enqueueing %s.', task)
++            self._logger.exception('Error transferring scheduled tasks.')
+ 
+         if self.periodic and self._next_periodic <= time.monotonic():
+             # If the scheduler stalled (e.g. suspend/resume), skip past any
+diff --git a/huey/exceptions.py b/huey/exceptions.py
+index 471c196..0d06b79 100644
+--- a/huey/exceptions.py
++++ b/huey/exceptions.py
+@@ -1,5 +1,6 @@
+ class HueyException(Exception): pass
+ class ConfigurationError(HueyException): pass
++class LeaseLost(HueyException): pass
+ class TaskLockedException(HueyException): pass
+ class ResultTimeout(HueyException): pass
+ class TaskTimeout(HueyException): pass
+diff --git a/huey/storage.py b/huey/storage.py
+index 6a42a9f..9e64f2b 100644
+--- a/huey/storage.py
++++ b/huey/storage.py
+@@ -1,8 +1,10 @@
+ from functools import cached_property
++from collections import namedtuple
+ import contextlib
+ import hashlib
+ import heapq
+ import itertools
++import math
+ import os
+ import re
+ import shutil
+@@ -13,6 +15,7 @@ except ImportError:
+ import struct
+ import threading
+ import time
++import uuid
+ 
+ try:
+     import cysqlite
+@@ -34,6 +37,7 @@ except ImportError:
+ 
+ from huey.constants import EmptyData
+ from huey.exceptions import ConfigurationError
++from huey.exceptions import LeaseLost
+ from huey.utils import FileLock
+ 
+ 
+@@ -1117,6 +1121,203 @@ class SqliteStorage(BaseSqlStorage):
+         self.sql('delete from counter where queue=?', (self.name,), True)
+ 
+ 
++Reservation = namedtuple('Reservation', ('token', 'data', 'expires_at'))
++
++
++class LeasedSqliteStorage(SqliteStorage):
++    """SQLite delivery with durable, generation-fenced reservations.
++
++    Task rows remain present until acknowledged. A separate reservation table
++    allows an existing SqliteHuey database to be opened without rewriting it.
++    Use only leased consumers on a queue configured for leased delivery.
++    """
++    ddl = SqliteStorage.ddl + [
++        'create table if not exists huey_lease ('
++        'queue text not null, task_id integer not null, token text not null, '
++        'expires_at real not null, primary key (queue, task_id), '
++        'unique (queue, token))',
++        'create index if not exists huey_lease_expiry '
++        'on huey_lease (queue, expires_at)']
++    begin_sql = 'begin immediate'
++
++    def __init__(self, name='huey', lease_seconds=60, clock=None,
++                 create_tables=True, **kwargs):
++        self.lease_seconds = self._finite(lease_seconds)
++        if self.lease_seconds <= 0:
++            raise ValueError('lease_seconds must be positive')
++        self.clock = time.time if clock is None else clock
++        if not callable(self.clock):
++            raise ValueError('clock must be callable')
++        super(LeasedSqliteStorage, self).__init__(
++            name, create_tables=False, **kwargs)
++        self.lock = threading.RLock()
++        self._pid = os.getpid()
++        self._savepoint_ids = itertools.count()
++        if create_tables:
++            self.initialize_schema()
++
++    @staticmethod
++    def _finite(value):
++        if isinstance(value, bool):
++            raise ValueError('expected a finite number')
++        try:
++            value = float(value)
++        except (TypeError, ValueError, OverflowError):
++            raise ValueError('expected a finite number')
++        if not math.isfinite(value):
++            raise ValueError('expected a finite number')
++        return value
++
++    def _now(self, now=None):
++        return self._finite(self.clock() if now is None else now)
++
++    def _check_process(self):
++        if os.getpid() != self._pid:
++            # A fork must not reuse the parent's SQLite connection or lock.
++            if self._conn is not None:
++                self._conn.close()
++            self._conn = None
++            self.lock = threading.RLock()
++            self._pid = os.getpid()
++
++    @contextlib.contextmanager
++    def db(self, commit=False, close=False):
++        self._check_process()
++        with self.lock:
++            conn = self.conn
++            cursor = conn.cursor()
++            savepoint = None
++            try:
++                if commit:
++                    if conn.in_transaction:
++                        savepoint = 'huey_sp_%s' % next(self._savepoint_ids)
++                        cursor.execute('savepoint ' + savepoint)
++                    else:
++                        cursor.execute(self.begin_sql)
++                try:
++                    yield cursor
++                except BaseException:
++                    if commit:
++                        if savepoint:
++                            cursor.execute('rollback to ' + savepoint)
++                            cursor.execute('release ' + savepoint)
++                        else:
++                            conn.rollback()
++                    raise
++                else:
++                    if commit:
++                        if savepoint:
++                            cursor.execute('release ' + savepoint)
++                        else:
++                            conn.commit()
++            finally:
++                cursor.close()
++                if close:
++                    conn.close()
++                    self._conn = None
++
++    def reserve(self, now=None):
++        now = self._now(now)
++        with self.db(commit=True) as cursor:
++            cursor.execute(
++                'select t.id, t.data from task t left join huey_lease l '
++                'on l.queue=t.queue and l.task_id=t.id '
++                'where t.queue=? and (l.token is null or l.expires_at<=?) '
++                'order by t.priority desc, t.id limit 1', (self.name, now))
++            row = cursor.fetchone()
++            if row is None:
++                return
++            task_id, data = row
++            token = uuid.uuid4().hex
++            expires_at = now + self.lease_seconds
++            cursor.execute('insert or replace into huey_lease '
++                           '(queue, task_id, token, expires_at) values (?,?,?,?)',
++                           (self.name, task_id, token, expires_at))
++            return Reservation(token, data, expires_at)
++
++    def _owned(self, cursor, token, now):
++        cursor.execute('select task_id from huey_lease where queue=? and '
++                       'token=? and expires_at>?', (self.name, token, now))
++        row = cursor.fetchone()
++        return None if row is None else row[0]
++
++    def owns(self, token, now=None):
++        with self.db() as cursor:
++            return self._owned(cursor, token, self._now(now)) is not None
++
++    def ack(self, token, now=None):
++        with self.db(commit=True) as cursor:
++            task_id = self._owned(cursor, token, self._now(now))
++            if task_id is None:
++                return False
++            cursor.execute('delete from task where queue=? and id=?',
++                           (self.name, task_id))
++            cursor.execute('delete from huey_lease where queue=? and token=?',
++                           (self.name, token))
++            return True
++
++    def renew(self, token, now=None):
++        now = self._now(now)
++        with self.db(commit=True) as cursor:
++            if self._owned(cursor, token, now) is None:
++                return False
++            cursor.execute('update huey_lease set expires_at=max(expires_at,?) '
++                           'where queue=? and token=?',
++                           (now + self.lease_seconds, self.name, token))
++            return True
++
++    def release(self, token, now=None):
++        with self.db(commit=True) as cursor:
++            if self._owned(cursor, token, self._now(now)) is None:
++                return False
++            cursor.execute('delete from huey_lease where queue=? and token=?',
++                           (self.name, token))
++            return True
++
++    @contextlib.contextmanager
++    def complete(self, token):
++        # Only the outcome, never the user task body, runs in this transaction.
++        # Inherited storage operations nest using savepoints, so callback/
++        # result/retry writes and the ack commit or roll back together.
++        with self.db(commit=True) as cursor:
++            if self._owned(cursor, token, self._now()) is None:
++                raise LeaseLost('reservation no longer owned')
++            yield
++            if not self.ack(token):
++                raise LeaseLost('reservation expired during completion')
++
++    def queue_size(self, now=None):
++        return self.sql(
++            'select count(*) from task t left join huey_lease l '
++            'on l.queue=t.queue and l.task_id=t.id where t.queue=? and '
++            '(l.token is null or l.expires_at<=?)',
++            (self.name, self._now(now)), results=True)[0][0]
++
++    def inflight_count(self, now=None):
++        return self.sql('select count(*) from huey_lease '
++                        'where queue=? and expires_at>?',
++                        (self.name, self._now(now)), results=True)[0][0]
++
++    def enqueued_items(self, limit=None):
++        sql = ('select t.data from task t left join huey_lease l '
++               'on l.queue=t.queue and l.task_id=t.id where t.queue=? and '
++               '(l.token is null or l.expires_at<=?) '
++               'order by t.priority desc, t.id')
++        params = [self.name, self._now()]
++        if limit is not None:
++            sql += ' limit ?'
++            params.append(limit)
++        return [row[0] for row in self.sql(sql, params, results=True)]
++
++    def flush_queue(self):
++        with self.db(commit=True):
++            super(LeasedSqliteStorage, self).flush_queue()
++            self.sql('delete from huey_lease where queue=?', (self.name,))
++
++    def dequeue(self):
++        raise ConfigurationError('use reserve/ack for leased storage')
++
++
+ class CySqliteStorage(SqliteStorage):
+     def __init__(self, name='huey', filename='huey.db', pragmas=None,
+                  timeout=5, strict_fifo=False, create_tables=True, **kwargs):
+diff --git a/huey/tests/test_leased_sqlite.py b/huey/tests/test_leased_sqlite.py
+new file mode 100644
+index 0000000..f1b7020
+--- /dev/null
++++ b/huey/tests/test_leased_sqlite.py
+@@ -0,0 +1,53 @@
++import os
++import tempfile
++import unittest
++
++from huey import LeasedSqliteHuey
++from huey.exceptions import LeaseLost
++
++
++class TestLeasedSqlite(unittest.TestCase):
++    def setUp(self):
++        self.directory = tempfile.TemporaryDirectory()
++        self.clock = [100.0]
++        self.huey = LeasedSqliteHuey(
++            'lease-test', filename=os.path.join(self.directory.name, 'q.db'),
++            lease_seconds=10, clock=lambda: self.clock[0])
++
++    def tearDown(self):
++        self.huey.storage.close()
++        self.directory.cleanup()
++
++    def test_generation_and_completion(self):
++        @self.huey.task()
++        def double(value):
++            return value * 2
++        result = double(4)
++        expired = self.huey.dequeue()
++        self.assertEqual(self.huey.pending_count(), 0)
++        self.clock[0] = 110
++        current = self.huey.dequeue()
++        self.assertNotEqual(expired.lease_token, current.lease_token)
++        self.assertRaises(LeaseLost, self.huey.execute, expired)
++        self.assertEqual(self.huey.execute(current), 8)
++        self.assertEqual(result.get(), 8)
++        self.assertEqual(self.huey.storage.inflight_count(), 0)
++
++    def test_retry_handoff_failure(self):
++        @self.huey.task(retries=1, retry_delay=5)
++        def fail():
++            raise ValueError('failed')
++        result = fail()
++        task = self.huey.dequeue()
++        original = self.huey.storage.add_to_schedule
++        def fail_after_write(data, timestamp):
++            original(data, timestamp)
++            raise RuntimeError('storage failed')
++        self.huey.storage.add_to_schedule = fail_after_write
++        self.assertRaises(RuntimeError, self.huey.execute, task)
++        self.assertEqual(self.huey.scheduled_count(), 0)
++        self.assertIsNone(self.huey.result(result.id))
++        self.clock[0] = 110
++        recovered = self.huey.dequeue()
++        self.assertEqual(recovered.id, result.id)
++        self.assertEqual(recovered.retries, 1)

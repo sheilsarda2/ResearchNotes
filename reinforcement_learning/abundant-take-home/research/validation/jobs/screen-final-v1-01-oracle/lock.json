@@ -1,0 +1,69 @@
+{
+    "schema_version": 1,
+    "created_at": "2026-09-13T08:05:15.125217Z",
+    "harbor": {
+        "version": "0.15.0",
+        "is_editable": false
+    },
+    "invocation": [
+        "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/bin/harbor",
+        "run",
+        "-p",
+        "candidates/huey-sqlite-leases",
+        "-a",
+        "oracle",
+        "--job-name",
+        "screen-final-v1-01-oracle",
+        "--jobs-dir",
+        "research/validation/jobs"
+    ],
+    "n_concurrent_trials": 4,
+    "retry": {
+        "max_retries": 0,
+        "exclude_exceptions": [
+            "VerifierTimeoutError",
+            "VerifierOutputParseError",
+            "AgentTimeoutError",
+            "RewardFileNotFoundError",
+            "RewardFileEmptyError"
+        ],
+        "wait_multiplier": 1.0,
+        "min_wait_sec": 1.0,
+        "max_wait_sec": 60.0
+    },
+    "trials": [
+        {
+            "task": {
+                "name": "huey-sqlite-leases",
+                "type": "local",
+                "digest": "sha256:51b086b03bdfaa0f3ff5d3cd4cc74cd4bbf7c5d87f2948c4c0440ceeab572165",
+                "path": "candidates/huey-sqlite-leases"
+            },
+            "timeout_multiplier": 1.0,
+            "agent": {
+                "name": "oracle",
+                "skills": [],
+                "extra_allowed_hosts": [],
+                "kwargs": {},
+                "env": {},
+                "mcp_servers": []
+            },
+            "skills": [],
+            "environment": {
+                "type": "docker",
+                "force_build": false,
+                "delete": true,
+                "cpu_enforcement_policy": "auto",
+                "memory_enforcement_policy": "auto",
+                "extra_docker_compose": [],
+                "env": {},
+                "kwargs": {},
+                "extra_allowed_hosts": []
+            },
+            "verifier": {
+                "env": {},
+                "disable": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+.........................F.............................................. [ 37%]
+........................................................................ [ 74%]
+.................................................                        [100%]
+=================================== FAILURES ===================================
+__________ test_real_consumer_sigkill_recovery_and_unlocked_task_body __________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_real_consumer_sigkill_rec0')
+
+    def test_real_consumer_sigkill_recovery_and_unlocked_task_body(tmp_path):
+        ctx = mp.get_context('fork')
+        parent, child = ctx.Pipe(False)
+        gate = ctx.Event()
+        clock_file, marker = tmp_path/'clock', tmp_path/'entered'
+        clock_file.write_text('100')
+        path = tmp_path/'q.db'
+        def clock():
+            return float(clock_file.read_text())
+        def make():
+            h = huey_at(path, clock)
+            @h.task(name='worker_job')
+            def job(value):
+                if not marker.exists():
+                    marker.write_text('entered')
+                    child.send('running')
+                    gate.wait(20)
+                return value + 1
+            return h, job
+        h, job = make()
+        result = job(30)
+        def run_consumer():
+            consumer = h.create_consumer(workers=1, worker_type='thread', periodic=False,
+                                         initial_delay=0.01, max_delay=0.01)
+            consumer.run()
+        p = ctx.Process(target=run_consumer)
+        p.start()
+>       wait_message(parent, p, 'running')
+
+/tests/test_leases.py:617: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+conn = <multiprocessing.connection.Connection object at 0xffff8ba74260>
+proc = <ForkProcess name='ForkProcess-5' pid=35 parent=24 stopped exitcode=-SIGKILL>
+expected = 'running'
+
+    def wait_message(conn, proc, expected):
+        if not conn.poll(10):
+            if proc.is_alive():
+                proc.kill()
+            proc.join(5)
+>           pytest.fail('child did not reach barrier; exit=%r' % proc.exitcode)
+E           Failed: child did not reach barrier; exit=-9
+
+/tests/test_leases.py:80: Failed
+=============================== warnings summary ===============================
+huey/tests/test_api.py:31
+  /workspace/repo/huey/tests/test_api.py:31: PytestCollectionWarning: cannot collect test class 'TestError' because it has a __init__ constructor (from: )
+    class TestError(Exception):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---------------- generated xml file: /logs/verifier/results.xml ----------------
+=========================== short test summary info ============================
+FAILED ../../dev::test_real_consumer_sigkill_recovery_and_unlocked_task_body
+1 failed, 192 passed, 1 warning in 14.31s

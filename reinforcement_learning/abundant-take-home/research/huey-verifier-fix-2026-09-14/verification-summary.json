@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "case": "reference",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failures": []
+    },
+    {
+      "case": "saved-direct-sql",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failures": []
+    },
+    {
+      "case": "saved-cleared-token",
+      "collected": 193,
+      "expected_outcome_observed": true,
+      "failures": []
+    },
+    {
+      "case": "broken-transfer-atomicity",
+      "collected": 2,
+      "expected_outcome_observed": true,
+      "failures": [
+        "test_due_batch_late_error_and_scheduler_integration",
+        "test_kill_mid_due_transfer_restores_whole_batch"
+      ]
+    }
+  ],
+  "changed_task_files": [
+    "tests/test_leases.py"
+  ],
+  "checked_at": "2026-09-14T04:31:28.897825+00:00",
+  "diagnostic": {
+    "admitted_at": "2026-09-14T04:29:50.927917+00:00",
+    "all_containers_removed": true,
+    "claim": "huey-verifier-v2-diagnostic-20739",
+    "claim_released": true,
+    "claim_released_at": "2026-09-14T04:30:25.515681+00:00",
+    "finished_at": "2026-09-14T04:30:25.775104+00:00",
+    "id": "diagnostic-003",
+    "inputs_unchanged": true,
+    "pid": 20739,
+    "process_identity": "4384255"
+  },
+  "diagnostic_result_sha256": "9dcfd2aed3a15e1f24a1ac8c459fd37f72fac111d5512ca451211be4f96ab305",
+  "digest_format": "SHA256 of UTF-8 JSON map of relative file path to file SHA256, sort_keys=True, separators=(comma,colon)",
+  "final_test_sha256": "57750c23180603af956c74d47cf481f9f4bab68a194d49e1d620c5771d6dbb43",
+  "input_manifest_sha256": "2bbc9111df62eb0a3a01c20b78ef8c3d80e6b0b6f91049273d5c81461ffb28ee",
+  "instruction_sha256": "1ceead224d41de3de0989d14682f7543881de45b0a1862221783c84079235e4b",
+  "limitations": [
+    "Diagnostic-002 had one unchanged reference consumer-startup 10-second barrier timeout; preserved, final full rerun passed.",
+    "Validation overlays corrected tests onto the pinned cached image; new image build and campaign promotion remain separate.",
+    "Probe requires standard sqlite3 connection factory instrumentation and queue-table discovery; see README for scope."
+  ],
+  "model_calls": 0,
+  "original_tree_digest": "59b63717db0e0cc37c40280c7f75db3001de0a11fbbae064151abc360072c3bd",
+  "revision_tree_digest": "7651bb718c22cd86f87b05982c2bd2d030f0e88a3016bca379a852669f374170",
+  "saved_sources": {
+    "GN5kRT6": {
+      "result_sha256": "14eec424239616db33eb7cd31a5b6005af136408db8b6fddb6673f346462b3a3",
+      "snapshot_sha256": "dbf083e91a44b612c27cad497c13ead2022adf4ae263bf11a8788c02bbff3e19",
+      "submission_tree_digest": "4946700341ebbfeb301d643221ed4d78169a093e38db526830b0ad4f36ce17ef"
+    },
+    "mrj9rUA": {
+      "result_sha256": "81a34bb37c850646d8cdbd6f394c00cc0b3194bb5ccf8e019ae9789a653172eb",
+      "snapshot_sha256": "088b63f41af0cb071f7b35d2590c8f35e097efb361ee4dd1310949e533fdae82",
+      "submission_tree_digest": "3242b000ef80dcb05a988de687ba3c7364e269ed2689b2b15752c3605628aa82"
+    }
+  },
+  "status": "validated",
+  "supplied_preservation": {
+    "changed": [],
+    "checked_files": 36,
+    "commit": "c1ae968"
+  },
+  "task_toml_sha256": "c0e4fe784dcf61222dc4075249059f9147bce83fa5ee466e04012172ca4f3735",
+  "tool_sha256": {
+    "research/huey-verifier-fix-2026-09-14/broken_atomicity.py": "a1e8c534cefffa8aa347521fc56f4f2e1582e38fff94df8098fc920d32797692",
+    "research/huey-verifier-fix-2026-09-14/check_probe.py": "15c727904422ee401990932e97fde0ac3113147b557f2cf230d7fa12354e592c",
+    "research/huey-verifier-fix-2026-09-14/validate_revision.py": "5d563c985179ff9e7dc39109ed183b17f395933501c93771236c0926f881428d",
+    "scripts/benchmark_interleaving.py": "8f22613c808398b69f1e40e0c69c8d7567de3c17874b03db5c7fd80f6e976827",
+    "scripts/benchmark_recovery.py": "c2db772d4e7ebc4806901fdd1296354d3c5adc8632ccaf80b482714a496a6fca",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6"
+  },
+  "unchanged_task_files": 24
+}

@@ -1,0 +1,98 @@
+{
+  "task_id": "huey-sqlite-leases",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/coleifer/huey",
+    "commit": "dbd1aef45adf57d2169e80bdc9f18ea1cd704759",
+    "commit_date": "2026-09-08T01:25:03Z",
+    "latest_release": "3.4.0",
+    "license": "MIT",
+    "archive_sha256": "58d4eefbf9261e9729d0944d7cbba6462a3c3c4d83ffa41af50136dede3348c9"
+  },
+  "original_contribution": "Opt-in SQLite leased delivery integrated with Huey execution, fenced ownership, atomic outcome acknowledgement/retry/callback handoffs and scheduler promotion. Original explicit feature contract, independent behavioral verifier, and reference implementation.",
+  "sources": [
+    {
+      "url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/docs/consumer.rst",
+      "checked_date": "2026-09-13",
+      "finding": "Current docs explicitly do not guarantee acknowledgements or at-least-once delivery."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/blob/dbd1aef45adf57d2169e80bdc9f18ea1cd704759/huey/storage.py",
+      "checked_date": "2026-09-13",
+      "finding": "Current SQLite dequeue deletes before execution; inspected base transaction and schedule APIs."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/issues/796",
+      "checked_date": "2026-09-13",
+      "finding": "Public interruption-handler re-enqueue recipe is adjacent prior art; it does not handle SIGKILL, ownership generations or atomic retries."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/issues/598",
+      "checked_date": "2026-09-13",
+      "finding": "Historical restart recovery request; no durable lease implementation in inspected upstream."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/issues/915",
+      "checked_date": "2026-09-13",
+      "finding": "Public schedule enqueue failure issue; baseline includes latest per-enqueue exception-handling response. This task adds a broader original atomic recovery feature rather than reverting to an old vulnerable release."
+    },
+    {
+      "url": "https://github.com/coleifer/huey/releases/tag/3.4.0",
+      "checked_date": "2026-09-13",
+      "finding": "Exclude already-shipped retries/backoff, chord improvements, graceful-signal and shutdown timeout work."
+    }
+  ],
+  "public_solution_overlap": {
+    "known": "Prior signal-handler recipe and schedule-transfer issue described above; no exact new API implementation found in current upstream source/issues checked.",
+    "limit": "Bounded repository/source/issue search, not exhaustive global fork search."
+  },
+  "horizon": {
+    "status": "unmeasured hypothesis",
+    "rationale": "Requires coordinating persistent ownership, existing executor terminal paths, retries, callbacks, scheduler handoffs, schema compatibility, process lifetime and deterministic concurrency checks.",
+    "over_75_steps_confirmed": false,
+    "model_headroom_measured": false
+  },
+  "validation": {
+    "local_python": "3.12.13",
+    "local_oracle": "193 passed, zero skipped, zero errors (29 behavioral cases plus164 selected upstream cases). Reference-added public tests additionally2passed.",
+    "untouched_baseline": "New feature absent; ImportError for LeasedSqliteHuey produces verifier failure.",
+    "docker": {
+      "image": "abundant-huey-sqlite-leases:baseline",
+      "image_id": "sha256:38c10a56ba89078d237f844ee1754b20a168a5072f37b5bef127082e01473c0d",
+      "architecture": "arm64",
+      "python": "3.12.11",
+      "runtime_network": "none",
+      "cpus": 2,
+      "memory": "4g",
+      "oracle": {
+        "exit_code": 0,
+        "collected": 193,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1
+      },
+      "baseline": {
+        "exit_code": 2,
+        "collected": 1,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 0,
+        "reward": 0
+      }
+    },
+    "paid_model_trials_run": false
+  },
+  "artifacts": {
+    "solution_patch_sha256": "fea5d1793e33c828a4da046e527184d4d973349508d7b1e038c58f32fe8afa02",
+    "instruction_sha256": "1ceead224d41de3de0989d14682f7543881de45b0a1862221783c84079235e4b",
+    "hidden_tests_sha256": "3e27b881c30a7672518f21596ec1cbb73bd5005ccdf83431ced9307440f916bf"
+  },
+  "limitations": [
+    "At-least-once delivery; no exactly-once external task/hook effects.",
+    "No automatic heartbeat; applications must renew long-running leases.",
+    "Requires leased consumers for the whole queue; ordinary destructive consumers are not supported on it.",
+    "No new exactly-once chord protocol, generic distributed storage protocol, or stronger-than-SQLite power-loss guarantee."
+  ],
+  "integration_validation_index": "../../research/shortlist.json"
+}
