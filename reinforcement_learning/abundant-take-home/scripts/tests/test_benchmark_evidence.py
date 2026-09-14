@@ -225,12 +225,60 @@ class EvidenceTests(unittest.TestCase):
 
     def guarded_fixture(self, *, quiescent=True, deadline="2026-01-01T00:02:00Z"):
         self.fixture()
-        self.put("benchmark-runtime.json", {"version": 1, "helper_sha256": "a" * 64})
+        self.put("benchmark-runtime.json", {"version": 1, "scope": "single-step-linux-docker",
+                  "runtime_sha256": "a" * 64, "trial_containment_sha256": "b" * 64,
+                  "process_guard_sha256": "c" * 64})
         self.put("benchmark-deadline.json", {"version": 1, "quiescent": quiescent,
                   "started_at_epoch": 1767225600.0, "cleanup_finished_at_epoch": 1767225667.0,
                   "closed_at_epoch": 1767225667.0, "executions": [{"quiescent": quiescent}]})
         snapshot = evidence.snapshot_paths(self.root, ["agent", "artifacts"])
         evidence.write_evidence(self.root, snapshot, deadline_at=deadline)
+
+    def test_current_runtime_provenance_is_projected_without_mutating_inputs(self):
+        self.fixture()
+        baseline = evidence.collect_evidence(self.root)
+        hashes = {"runtime_sha256": "a" * 64, "trial_containment_sha256": "b" * 64,
+                  "process_guard_sha256": "c" * 64}
+        self.put("benchmark-runtime.json", {"version": 1, "scope": "single-step-linux-docker", **hashes})
+        before = evidence.snapshot_paths(self.root, evidence.INPUT_PATHS)
+        collected = evidence.collect_evidence(self.root)
+        for name, value in hashes.items():
+            self.assertEqual(collected["lifecycle"][name], value)
+        self.assertIsNone(collected["lifecycle"]["runtime_helper_sha256"])
+        self.assertEqual(collected["lifecycle"]["runtime_state"], "present")
+        for name in ("outcome", "usage", "counts", "budget", "completeness"):
+            self.assertEqual(collected[name], baseline[name])
+        self.assertEqual(collected["lifecycle"]["quiescent"], baseline["lifecycle"]["quiescent"])
+        self.assertEqual(before, evidence.snapshot_paths(self.root, evidence.INPUT_PATHS))
+
+    def test_legacy_runtime_helper_hash_keeps_its_own_meaning(self):
+        self.fixture()
+        self.put("benchmark-runtime.json", {"version": 1, "helper_sha256": "d" * 64})
+        lifecycle = evidence.collect_evidence(self.root)["lifecycle"]
+        self.assertEqual(lifecycle["runtime_helper_sha256"], "d" * 64)
+        for name in ("runtime_sha256", "trial_containment_sha256", "process_guard_sha256"):
+            self.assertIsNone(lifecycle[name])
+
+    def test_missing_or_invalid_runtime_hashes_remain_unknown(self):
+        self.fixture()
+        marker = self.root / "benchmark-runtime.json"
+        for value, state in ((None, "missing"), ("{broken", "invalid_json"),
+                             ({"version": 1, "runtime_sha256": 123,
+                               "trial_containment_sha256": {}, "process_guard_sha256": False}, "present")):
+            with self.subTest(state=state):
+                if value is None:
+                    marker.unlink(missing_ok=True)
+                elif isinstance(value, str):
+                    marker.write_text(value)
+                else:
+                    self.put("benchmark-runtime.json", value)
+                lifecycle = evidence.collect_evidence(self.root)["lifecycle"]
+                self.assertEqual(lifecycle["runtime_state"], state)
+                self.assertEqual(lifecycle["runtime_present"], state == "present")
+                self.assertIsNone(lifecycle["quiescent"])
+                for name in ("runtime_helper_sha256", "runtime_sha256",
+                             "trial_containment_sha256", "process_guard_sha256"):
+                    self.assertIsNone(lifecycle[name])
 
     def test_attach_legacy_does_not_hash_artifact_tree(self):
         self.fixture()
