@@ -1,0 +1,77 @@
+{
+  "upstream": {
+    "url": "https://github.com/Tencent/rapidjson",
+    "commit": "24b5e7a8b27f42fa16b96fc70aade9106cf7102f",
+    "commit_date": "2025-02-05T21:28:08+08:00",
+    "license": "MIT for RapidJSON library; complete source archive also preserves BSD and JSON-license third-party notices in license.txt",
+    "archive_sha256": "074a74e41b14774dd2fd702a9ff5379dbd61f6abeec27094c6aa10619dc09927"
+  },
+  "checked_at_utc": "2026-09-13T10:38:02.983077+00:00",
+  "sources": [
+    {
+      "url": "https://github.com/Tencent/rapidjson/issues/2296",
+      "role": "exact undeclared-required property acceptance report",
+      "checked_date": "2026-09-13"
+    },
+    {
+      "url": "https://github.com/Tencent/rapidjson/issues/2296#issuecomment-2385100070",
+      "role": "same-author reproducer, shared-table diagnosis, and suggested declared-property marker",
+      "checked_date": "2026-09-13"
+    },
+    {
+      "url": "https://github.com/Tencent/rapidjson/pull/2377",
+      "role": "active adjacent invalid dependency-array crash guard; actual diff inspected and excluded from task",
+      "checked_date": "2026-09-13"
+    },
+    {
+      "url": "https://github.com/Tencent/rapidjson/pull/977",
+      "role": "prior adjacent pattern/additional-property assertion repair already present in baseline",
+      "checked_date": "2026-09-13"
+    },
+    {
+      "url": "https://json-schema.org/draft-04/draft-fge-json-schema-validation-00",
+      "role": "Draft-4 sections 5.4.3, 5.4.4, 5.4.5, 8.3 independently confirm membership, presence, and child-schema contract",
+      "checked_date": "2026-09-13"
+    }
+  ],
+  "contribution": "New bounded Harbor task, protected public-API fixtures and lifecycle sequences, pinned build, protected upstream regressions, and reference schema-membership correction. Task authoring is AI-assisted.",
+  "implementation_surface": [
+    "include/rapidjson"
+  ],
+  "protected_surfaces": [
+    "all source outside include/rapidjson",
+    "upstream tests copied into /opt/pristine-tests",
+    "build configuration",
+    "independent fixture data and verifier"
+  ],
+  "runtime": {
+    "image": "rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa",
+    "compiler": "g++ (Debian 12.2.0-14+deb12u1) 12.2.0",
+    "language_mode": "C++17",
+    "gtest_apt_version": "1.12.1-0.2",
+    "python": "3.11.2; standard library only",
+    "verifier_network": "no-network",
+    "notes": "Rust is incidental to available digest-pinned GCC base. No Rust compilation or runtime dependency."
+  },
+  "public_solution_overlap": {
+    "finding": "No equivalent implemented fix found in bounded review. The issue author explicitly proposes a Property member distinguishing declared names; this closely matches the reference design and reduces diagnostic novelty. PR 2377 handles non-string dependency values, which this task excludes.",
+    "search_evidence": "../../research/rust-cpp-10-to-5/cpp/sources/",
+    "coverage": "116 open PRs, 100 recently updated closed PRs, 50 recent commits, issue comments/timeline, and targeted keyword/reference queries checked September 13, 2026. No claim about private or unreferenced work; rate-limited failed requests are not absence evidence."
+  },
+  "demand_limits": "Concrete validation failure and follow-up from one author. No named production application, independently quantified impact, or multiple affected users established. Dependency and schema-valued additional-property cases are same-path scope extensions, not separately reported demand.",
+  "difficulty": {
+    "metadata_label": "medium",
+    "horizon_hypothesis": "Small schema-compilation and validation-dispatch repair with behavioral regression work. Public diagnosis and design hint reduce novelty. No asserted >75-step horizon.",
+    "measured_model_headroom": null,
+    "paid_model_trials": false
+  },
+  "validation": {
+    "state": "Direct Linux ARM64 isolated Docker baseline=0, reference=1; 49 fixtures/309 independent checks and 13 protected upstream tests. Both agent and verifier images built.",
+    "baseline_diagnostics": "construction/docker-baseline/diagnostics.json",
+    "reference_diagnostics": "construction/docker-reference/diagnostics.json",
+    "local_validation": "construction/local-validation.json",
+    "local_verifier_image": "sha256:92e9421e3a9524ce41f130f20bbcbe4ed79c261c66e8cc688e4498fdb5b3adfc",
+    "local_agent_image": "sha256:b8829c92d68c7b231aa27e775f71c9b7a6977cb268cf9cd31195b7d3e635a4d5",
+    "harbor_validation": "Coordinator must execute paired oracle/nop after freeze; no Harbor validation claimed."
+  }
+}

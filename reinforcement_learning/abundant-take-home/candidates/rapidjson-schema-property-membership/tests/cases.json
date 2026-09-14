@@ -1,0 +1,927 @@
+[
+  {
+    "name": "required_undeclared_forbidden",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "required": [
+        "B",
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "B": 1,
+      "C": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "missing_required",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "required": [
+        "B",
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "B": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "declared_required",
+    "schema": {
+      "properties": {
+        "B": {},
+        "C": {}
+      },
+      "required": [
+        "B",
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "B": 1,
+      "C": 1
+    },
+    "expected": true
+  },
+  {
+    "name": "required_by_pattern",
+    "schema": {
+      "patternProperties": {
+        "^C$": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": true
+  },
+  {
+    "name": "required_pattern_type",
+    "schema": {
+      "patternProperties": {
+        "^C$": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": "x"
+    },
+    "expected": false
+  },
+  {
+    "name": "required_extra_schema_wrong",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "instance": {
+      "C": "wrong"
+    },
+    "expected": false
+  },
+  {
+    "name": "required_extra_schema_3",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "instance": {
+      "C": 3
+    },
+    "expected": true
+  },
+  {
+    "name": "only_required_present_forbidden",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "required_default_additional",
+    "schema": {
+      "required": [
+        "C"
+      ]
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": true
+  },
+  {
+    "name": "required_explicit_true",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "additionalProperties": true
+    },
+    "instance": {
+      "C": [
+        1,
+        2
+      ]
+    },
+    "expected": true
+  },
+  {
+    "name": "ordinary_extra_forbidden",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "empty_object_allowed",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "additionalProperties": false
+    },
+    "instance": {},
+    "expected": true
+  },
+  {
+    "name": "dependency_source_forbidden_None",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "dependency_source_forbidden_B",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": false
+  },
+  {
+    "name": "dependency_target_forbidden",
+    "schema": {
+      "properties": {
+        "A": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": false
+  },
+  {
+    "name": "dependencies_declared_valid",
+    "schema": {
+      "properties": {
+        "A": {},
+        "B": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "dependencies_missing_target",
+    "schema": {
+      "properties": {
+        "A": {},
+        "B": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "dependencies_inactive",
+    "schema": {
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {},
+    "expected": true
+  },
+  {
+    "name": "dependencies_additional_allowed",
+    "schema": {
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "dependency_extra_schema_type",
+    "schema": {
+      "properties": {
+        "A": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": "x"
+    },
+    "expected": false
+  },
+  {
+    "name": "dependency_extra_schema_valid",
+    "schema": {
+      "properties": {
+        "A": {}
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "dependency_pattern_presence",
+    "schema": {
+      "patternProperties": {
+        "^[AB]$": {
+          "type": "number"
+        }
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "dependency_pattern_missing",
+    "schema": {
+      "patternProperties": {
+        "^[AB]$": {
+          "type": "number"
+        }
+      },
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "schema_dependency_source_forbidden",
+    "schema": {
+      "properties": {
+        "B": {}
+      },
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": false
+  },
+  {
+    "name": "schema_dependency_missing",
+    "schema": {
+      "properties": {
+        "A": {},
+        "B": {}
+      },
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "schema_dependency_valid",
+    "schema": {
+      "properties": {
+        "A": {},
+        "B": {}
+      },
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "pattern_wins_over_extra_schema",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "patternProperties": {
+        "^C$": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "instance": {
+      "C": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "pattern_not_waived_by_extra_schema",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "patternProperties": {
+        "^C$": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "instance": {
+      "C": "x"
+    },
+    "expected": false
+  },
+  {
+    "name": "declared_empty_schema_is_declared",
+    "schema": {
+      "properties": {
+        "C": {}
+      },
+      "required": [
+        "C"
+      ],
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "instance": {
+      "C": "free"
+    },
+    "expected": true
+  },
+  {
+    "name": "ref_property_is_declared",
+    "schema": {
+      "definitions": {
+        "free": {}
+      },
+      "properties": {
+        "C": {
+          "$ref": "#/definitions/free"
+        }
+      },
+      "required": [
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": "free"
+    },
+    "expected": true
+  },
+  {
+    "name": "nested_required_extra",
+    "schema": {
+      "properties": {
+        "outer": {
+          "required": [
+            "C"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "instance": {
+      "outer": {
+        "C": 1
+      }
+    },
+    "expected": false
+  },
+  {
+    "name": "nested_parent_names_do_not_declare",
+    "schema": {
+      "properties": {
+        "C": {},
+        "outer": {
+          "required": [
+            "C"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "instance": {
+      "C": 1,
+      "outer": {
+        "C": 2
+      }
+    },
+    "expected": false
+  },
+  {
+    "name": "array_items_required_extra",
+    "schema": {
+      "type": "array",
+      "items": {
+        "required": [
+          "C"
+        ],
+        "additionalProperties": {
+          "type": "number"
+        }
+      }
+    },
+    "instance": [
+      {
+        "C": 1
+      },
+      {
+        "C": "x"
+      }
+    ],
+    "expected": false
+  },
+  {
+    "name": "array_items_valid",
+    "schema": {
+      "type": "array",
+      "items": {
+        "required": [
+          "C"
+        ],
+        "additionalProperties": {
+          "type": "number"
+        }
+      }
+    },
+    "instance": [
+      {
+        "C": 1
+      },
+      {
+        "C": 2
+      }
+    ],
+    "expected": true
+  },
+  {
+    "name": "allof_required_extra",
+    "schema": {
+      "allOf": [
+        {
+          "required": [
+            "C"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "nullbyte_name_forbidden",
+    "schema": {
+      "required": [
+        "C\u0000D"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C\u0000D": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "unicode_name_schema",
+    "schema": {
+      "required": [
+        "\u65e5\u672c\u8a9e"
+      ],
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "instance": {
+      "\u65e5\u672c\u8a9e": "x"
+    },
+    "expected": false
+  },
+  {
+    "name": "unicode_declared",
+    "schema": {
+      "properties": {
+        "\u65e5\u672c\u8a9e": {}
+      },
+      "required": [
+        "\u65e5\u672c\u8a9e"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "\u65e5\u672c\u8a9e": "x"
+    },
+    "expected": true
+  },
+  {
+    "name": "property_dependency_undeclared_source_missing",
+    "schema": {
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      }
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "schema_dependency_undeclared_source_missing",
+    "schema": {
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      }
+    },
+    "instance": {
+      "A": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "schema_dependency_undeclared_source_valid",
+    "schema": {
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "declared_nullbyte_name",
+    "schema": {
+      "properties": {
+        "C\u0000D": {}
+      },
+      "required": [
+        "C\u0000D"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C\u0000D": 1
+    },
+    "expected": true
+  },
+  {
+    "name": "nullbyte_name_does_not_match_prefix",
+    "schema": {
+      "properties": {
+        "C": {}
+      },
+      "required": [
+        "C\u0000D"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C\u0000D": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "ref_property_still_validates",
+    "schema": {
+      "definitions": {
+        "number": {
+          "type": "number"
+        }
+      },
+      "properties": {
+        "C": {
+          "$ref": "#/definitions/number"
+        }
+      },
+      "required": [
+        "C"
+      ],
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": "wrong"
+    },
+    "expected": false
+  },
+  {
+    "name": "all_matching_patterns_1",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "patternProperties": {
+        "^C": {
+          "type": "integer"
+        },
+        "C$": {
+          "minimum": 2
+        }
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": false
+  },
+  {
+    "name": "all_matching_patterns_2",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "patternProperties": {
+        "^C": {
+          "type": "integer"
+        },
+        "C$": {
+          "minimum": 2
+        }
+      },
+      "additionalProperties": false
+    },
+    "instance": {
+      "C": 2
+    },
+    "expected": true
+  },
+  {
+    "name": "reset_required_presence",
+    "schema": {
+      "required": [
+        "C"
+      ],
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "instance": {
+      "C": 1
+    },
+    "expected": true,
+    "after_reset": [
+      {
+        "instance": {},
+        "expected": false
+      },
+      {
+        "instance": {
+          "C": 2
+        },
+        "expected": true
+      }
+    ]
+  },
+  {
+    "name": "reset_property_dependency_presence",
+    "schema": {
+      "dependencies": {
+        "A": [
+          "B"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true,
+    "after_reset": [
+      {
+        "instance": {
+          "A": 1
+        },
+        "expected": false
+      },
+      {
+        "instance": {},
+        "expected": true
+      },
+      {
+        "instance": {
+          "A": 3,
+          "B": 4
+        },
+        "expected": true
+      }
+    ]
+  },
+  {
+    "name": "reset_schema_dependency_presence",
+    "schema": {
+      "dependencies": {
+        "A": {
+          "required": [
+            "B"
+          ]
+        }
+      }
+    },
+    "instance": {
+      "A": 1,
+      "B": 2
+    },
+    "expected": true,
+    "after_reset": [
+      {
+        "instance": {
+          "A": 1
+        },
+        "expected": false
+      },
+      {
+        "instance": {},
+        "expected": true
+      },
+      {
+        "instance": {
+          "A": 3,
+          "B": 4
+        },
+        "expected": true
+      }
+    ]
+  }
+]

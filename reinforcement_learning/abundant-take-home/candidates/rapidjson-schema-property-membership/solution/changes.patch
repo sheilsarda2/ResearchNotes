@@ -1,0 +1,64 @@
+diff --git a/include/rapidjson/schema.h b/include/rapidjson/schema.h
+index f049285..d9d7a37 100644
+--- a/include/rapidjson/schema.h
++++ b/include/rapidjson/schema.h
+@@ -685,8 +685,10 @@ public:
+             PointerType q = p.Append(GetPropertiesString(), allocator_);
+             for (ConstMemberIterator itr = properties->MemberBegin(); itr != properties->MemberEnd(); ++itr) {
+                 SizeType index;
+-                if (FindPropertyIndex(itr->name, &index))
++                if (FindPropertyIndex(itr->name, &index)) {
++                    properties_[index].declared = true;
+                     schemaDocument->CreateSchema(&properties_[index].schema, q.Append(itr->name, allocator_), itr->value, document, id_);
++                }
+             }
+         }
+ 
+@@ -1115,18 +1117,21 @@ public:
+ 
+         SizeType index  = 0;
+         if (FindPropertyIndex(ValueType(str, len).Move(), &index)) {
+-            if (context.patternPropertiesSchemaCount > 0) {
+-                context.patternPropertiesSchemas[context.patternPropertiesSchemaCount++] = properties_[index].schema;
+-                context.valueSchema = typeless_;
+-                context.valuePatternValidatorType = Context::kPatternValidatorWithProperty;
+-            }
+-            else
+-                context.valueSchema = properties_[index].schema;
+-
++            // Presence bookkeeping is independent of permission to use this name.
+             if (context.propertyExist)
+                 context.propertyExist[index] = true;
+ 
+-            return true;
++            if (properties_[index].declared || context.patternPropertiesSchemaCount > 0) {
++                if (context.patternPropertiesSchemaCount > 0) {
++                    context.patternPropertiesSchemas[context.patternPropertiesSchemaCount++] = properties_[index].schema;
++                    context.valueSchema = typeless_;
++                    context.valuePatternValidatorType = Context::kPatternValidatorWithProperty;
++                }
++                else
++                    context.valueSchema = properties_[index].schema;
++
++                return true;
++            }
+         }
+ 
+         if (additionalPropertiesSchema_) {
+@@ -1670,7 +1675,7 @@ private:
+     }
+ 
+     struct Property {
+-        Property() : schema(), dependenciesSchema(), dependenciesValidatorIndex(), dependencies(), required(false) {}
++        Property() : schema(), dependenciesSchema(), dependenciesValidatorIndex(), dependencies(), required(false), declared(false) {}
+         ~Property() { AllocatorType::Free(dependencies); }
+         SValue name;
+         const SchemaType* schema;
+@@ -1678,6 +1683,7 @@ private:
+         SizeType dependenciesValidatorIndex;
+         bool* dependencies;
+         bool required;
++        bool declared; // Named in properties, rather than only required/dependencies.
+     };
+ 
+     struct PatternProperty {
