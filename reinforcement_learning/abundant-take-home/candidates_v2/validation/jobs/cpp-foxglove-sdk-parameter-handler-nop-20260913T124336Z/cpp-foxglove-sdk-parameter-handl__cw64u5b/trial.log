@@ -1,0 +1,2590 @@
+Trial cpp-foxglove-sdk-parameter-handl__cw64u5b failed: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+Collecting main service artifacts
+Failed to download artifact '/workspace/repo/c/src' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/c/src /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/c/src. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/c/include' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/c/include /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/c/include. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/c/cbindgen.toml' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/c/cbindgen.toml /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/c/cbindgen.toml. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/c/cbindgen.prelude.toml' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/c/cbindgen.prelude.toml /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/c/cbindgen.prelude.toml. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/cpp/foxglove/include' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/cpp/foxglove/include /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/cpp/foxglove/include. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/cpp/foxglove/src' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/cpp/foxglove/src /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/cpp/foxglove/src. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 
+Failed to download artifact '/workspace/repo/cpp/cmake/foxglove-sources.cmake' from service 'main' (best-effort)
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 337, in run
+    await self._prepare()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 364, in _prepare
+    await self._setup_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1031, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/trial.py", line 1037, in _start_agent_environment
+    await asyncio.wait_for(
+    ...<4 lines>...
+    )
+  File "/Users/sheil/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/tasks.py", line 488, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 600, in start
+    await self._run_docker_compose_command(["build"])
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json build. Return code: 1. Stdout:  Image cpp-foxglove-sdk-parameter-handl__cw64u5b-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 6.51kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [ 1/14] FROM docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7
+#5 resolve docker.io/library/ubuntu:22.04@sha256:829f6df217bcbae2b371026e81711d1a787c61b2967ad09d015063663ebafbf7 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 39B done
+#6 DONE 0.0s
+
+#7 [ 4/14] RUN mkdir -p /opt/cmake-deps && cd /opt/cmake-deps     && git clone -q --depth 1 --branch v3.8.0 https://github.com/catchorg/Catch2.git Catch2     && git clone -q --depth 1 --branch v0.5.1 https://github.com/corrosion-rs/corrosion.git corrosion     && git clone -q --depth 1 --branch v4.3.3 https://github.com/warmcat/libwebsockets.git libwebsockets     && git clone -q --depth 1 --branch v3.12.0 https://github.com/nlohmann/json.git json     && git clone -q https://github.com/tobiaslocker/base64.git base64     && git -C base64 checkout -q 8d96a2a737ac1396304b1de289beb3a5ea0cb752     && git clone -q --depth 1 --branch v3.0.4 https://github.com/HowardHinnant/date.git date     && git clone -q --depth 1 --branch v0.32.0 https://github.com/yhirose/cpp-httplib.git cpp-httplib     && git clone -q --depth 1 --branch releases/cpp/v2.1.2 https://github.com/foxglove/mcap.git mcap     && git clone -q --depth 1 --branch v1.10.0 https://github.com/lz4/lz4.git lz4     && find /opt/cmake-deps -name .git -type d -prune -exec rm -rf {} +
+#7 CACHED
+
+#8 [ 6/14] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [ 8/14] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo     && git init -q && git config user.email task@example.invalid && git config user.name task     && git add -A && git commit -qm "foxglove-sdk base b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab"
+#9 CACHED
+
+#10 [ 7/14] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#10 CACHED
+
+#11 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends       build-essential cmake make git ca-certificates curl unzip pkg-config rsync       libglib2.0-dev libva-dev libwebsockets-dev       python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 3/14] RUN curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.85.0 --no-modify-path     && rustup component add rustfmt clippy     && rustc --version && cargo --version
+#12 CACHED
+
+#13 [ 5/14] RUN set -eux; arch="$(uname -m)";     case "$arch" in x86_64) triple=linux-x64-release ;; aarch64) triple=linux-arm64-release ;; *) echo "unsupported arch $arch" >&2; exit 1 ;; esac;     mkdir -p /opt/livekit-webrtc && cd /opt/livekit-webrtc     && curl -fsSL -o webrtc.zip "https://github.com/livekit/rust-sdks/releases/download/webrtc-51ef663/webrtc-${triple}.zip"     && unzip -q webrtc.zip && rm webrtc.zip && ln -s "${triple}" current && test -f current/webrtc.ninja
+#13 CACHED
+
+#14 [ 9/14] RUN host="$(rustc -vV | sed -n 's/^host: //p')" && cargo fetch --locked --target "$host"
+#14 CACHED
+
+#15 [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 14 | / pub fn upsample_horizontal_neon(
+#15 86.26 15 | |     input: &[i16],
+#15 86.26 16 | |     in_near: &[i16],
+#15 86.26 17 | |     in_far: &[i16],
+#15 86.26 18 | |     scratch: &mut [i16],
+#15 86.26 19 | |     output: &mut [i16],
+#15 86.26 20 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:86:1
+#15 86.26    |
+#15 86.26 86 |   #[target_feature(enable = "neon")]
+#15 86.26    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 87 | / pub fn upsample_vertical_neon(
+#15 86.26 88 | |     input: &[i16],
+#15 86.26 89 | |     in_near: &[i16],
+#15 86.26 90 | |     in_far: &[i16],
+#15 86.26 91 | |     scratch: &mut [i16],
+#15 86.26 92 | |     output: &mut [i16],
+#15 86.26 93 | | ) {
+#15 86.26    | |_- not an `unsafe` function
+#15 86.26    |
+#15 86.26    = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0658]: `#[target_feature(..)]` can only be applied to `unsafe` functions
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:167:1
+#15 86.26     |
+#15 86.26 167 |   #[target_feature(enable = "neon")]
+#15 86.26     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#15 86.26 168 | / pub fn upsample_hv_neon(
+#15 86.26 169 | |     input: &[i16],
+#15 86.26 170 | |     in_near: &[i16],
+#15 86.26 171 | |     in_far: &[i16],
+#15 86.26 172 | |     scratch_space: &mut [i16],
+#15 86.26 173 | |     output: &mut [i16],
+#15 86.26 174 | | ) {
+#15 86.26     | |_- not an `unsafe` function
+#15 86.26     |
+#15 86.26     = note: see issue #69098 <https://github.com/rust-lang/rust/issues/69098> for more information
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:34:19
+#15 86.26    |
+#15 86.26 34 |     let v_three = vdupq_n_s16(3);
+#15 86.26    |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:35:17
+#15 86.26    |
+#15 86.26 35 |     let v_two = vdupq_n_s16(2);
+#15 86.26    |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:24
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:50:34
+#15 86.26    |
+#15 86.26 50 |         let v_common = vaddq_s16(vmulq_s16(v_curr, v_three), v_two);
+#15 86.26    |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:22
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:51:39
+#15 86.26    |
+#15 86.26 51 |         let v_even = vshrq_n_s16::<2>(vaddq_s16(v_common, v_prev));
+#15 86.26    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:21
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:52:38
+#15 86.26    |
+#15 86.26 52 |         let v_odd = vshrq_n_s16::<2>(vaddq_s16(v_common, v_next));
+#15 86.26    |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip1q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:54:23
+#15 86.26    |
+#15 86.26 54 |         let v_res_1 = vzip1q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vzip2q_s16` is unsafe and requires unsafe function or block
+#15 86.26   --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:55:23
+#15 86.26    |
+#15 86.26 55 |         let v_res_2 = vzip2q_s16(v_even, v_odd);
+#15 86.26    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26    |
+#15 86.26    = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:107:19
+#15 86.26     |
+#15 86.26 107 |     let v_three = vdupq_n_s16(3);
+#15 86.26     |                   ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vdupq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:108:17
+#15 86.26     |
+#15 86.26 108 |     let v_two = vdupq_n_s16(2);
+#15 86.26     |                 ^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:24
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vmulq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:124:34
+#15 86.26     |
+#15 86.26 124 |         let v_common = vaddq_s16(vmulq_s16(v_in, v_three), v_two);
+#15 86.26     |                                  ^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:25
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:125:42
+#15 86.26     |
+#15 86.26 125 |         let v_out_top = vshrq_n_s16::<2>(vaddq_s16(v_common, v_near));
+#15 86.26     |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vshrq_n_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:28
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 error[E0133]: call to unsafe function `std::arch::aarch64::vaddq_s16` is unsafe and requires unsafe function or block
+#15 86.26    --> /usr/local/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zune-jpeg-0.5.9/src/upsampler/neon.rs:126:45
+#15 86.26     |
+#15 86.26 126 |         let v_out_bottom = vshrq_n_s16::<2>(vaddq_s16(v_common, v_far));
+#15 86.26     |                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+#15 86.26     |
+#15 86.26     = note: consult the function's documentation for information on how to avoid undefined behavior
+#15 86.26 
+#15 86.26 Some errors have detailed explanations: E0133, E0658.
+#15 86.26 For more information about an error, try `rustc --explain E0133`.
+#15 86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+#15 86.26 warning: build failed, waiting for other jobs to finish...
+#15 86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+#15 86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+#15 86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 gmake[1]: *** [Makefile:146: all] Error 2
+#15 86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+#15 86.26 make: *** [Makefile:38: build] Error 2
+#15 86.26 make: Leaving directory '/workspace/repo/cpp'
+#15 ERROR: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+------
+ > [10/14] RUN mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }:
+86.26 error: could not compile `zune-jpeg` (lib) due to 21 previous errors
+86.26 warning: build failed, waiting for other jobs to finish...
+86.26 gmake[3]: *** [CMakeFiles/_cargo-build_foxglove.dir/build.make:70: CMakeFiles/_cargo-build_foxglove] Error 101
+86.26 gmake[3]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[2]: *** [CMakeFiles/Makefile2:1026: CMakeFiles/_cargo-build_foxglove.dir/all] Error 2
+86.26 gmake[2]: Leaving directory '/workspace/repo/cpp/build'
+86.26 gmake[1]: *** [Makefile:146: all] Error 2
+86.26 gmake[1]: Leaving directory '/workspace/repo/cpp/build'
+86.26 make: *** [Makefile:38: build] Error 2
+86.26 make: Leaving directory '/workspace/repo/cpp'
+------
+Dockerfile:77
+
+--------------------
+
+  76 |     # executed once for a sanity log but does not fail the image build.
+
+  77 | >>> RUN mkdir -p /opt/build-logs \
+
+  78 | >>>     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1 \
+
+  79 | >>>     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }
+
+  80 |     RUN (cd cpp/build && timeout 900 ctest --output-on-failure > /opt/build-logs/ctest-base.log 2>&1) \
+
+--------------------
+
+failed to solve: process "/bin/bash -o pipefail -c mkdir -p /opt/build-logs     && make -C cpp build PARALLEL_JOBS=4 > /opt/build-logs/warm-build.log 2>&1     || { tail -n 200 /opt/build-logs/warm-build.log; exit 1; }" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/a5gj950fkcemufbcgk8srjmlm
+
+. Stderr: None. 
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/trial/artifact_handler.py", line 330, in _download_artifact
+    await source_env.service_download_file(
+    ...<3 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 721, in service_download_file
+    await self.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 706, in download_file
+    await self._platform.download_file(source_path, target_path)
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker_unix.py", line 56, in download_file
+    await self._env._run_docker_compose_command(
+    ...<2 lines>...
+    )
+  File "/Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker.py", line 419, in _run_docker_compose_command
+    raise RuntimeError(
+    ...<5 lines>...
+    )
+RuntimeError: Docker compose command failed for environment cpp-foxglove-sdk-parameter-handler. Command: docker compose --project-name cpp-foxglove-sdk-parameter-handl__cw64u5b --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/cpp-foxglove-sdk-parameter-handler/environment -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpejgjwk9e/cpp-foxglove-sdk-parameter-handl__cw64u5b-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp1rezulza/docker-compose-mounts.json cp main:/workspace/repo/cpp/cmake/foxglove-sources.cmake /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/validation/jobs/cpp-foxglove-sdk-parameter-handler-nop-20260913T124336Z/cpp-foxglove-sdk-parameter-handl__cw64u5b/artifacts/submission/cpp/cmake/foxglove-sources.cmake. Return code: 1. Stdout: no container found for service "main"
+. Stderr: None. 

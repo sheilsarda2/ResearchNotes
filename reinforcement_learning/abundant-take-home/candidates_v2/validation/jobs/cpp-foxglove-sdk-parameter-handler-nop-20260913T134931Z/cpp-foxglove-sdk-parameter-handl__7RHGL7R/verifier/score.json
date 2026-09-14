@@ -1,0 +1,77 @@
+{
+ "reward": 0,
+ "required_groups": [
+  "anti_cheat",
+  "restore",
+  "build_lib",
+  "build_tests",
+  "build_example",
+  "build_all",
+  "header_in_sync",
+  "deprecation_marked",
+  "pr_tests",
+  "regressions",
+  "c_unit_tests",
+  "api_validation",
+  "parity_cpp",
+  "parity_c"
+ ],
+ "groups": {
+  "anti_cheat": {
+   "status": "pass",
+   "detail": ""
+  },
+  "restore": {
+   "status": "pass",
+   "detail": ""
+  },
+  "build_lib": {
+   "status": "pass",
+   "detail": ""
+  },
+  "build_tests": {
+   "status": "fail",
+   "detail": "hidden/upstream Catch2 tests failed to compile (see build-tests.log)"
+  },
+  "build_example": {
+   "status": "fail",
+   "detail": "gold param-server example failed to compile against the submitted API"
+  },
+  "build_all": {
+   "status": "fail",
+   "detail": "full cpp build failed (see build-all.log)"
+  },
+  "header_in_sync": {
+   "status": "pass",
+   "detail": ""
+  },
+  "deprecation_marked": {
+   "status": "fail",
+   "detail": "control probe (options move, handler copy) does not compile warning-free (see probe-control.log); "
+  },
+  "pr_tests": {
+   "status": "fail",
+   "detail": "listed=0 ctest=0 ran=0 expected=5 rc=0 junit=0 0 0 0 (see pr-tests.txt)"
+  },
+  "regressions": {
+   "status": "fail",
+   "detail": "listed=71 ctest=71 ran=71 expected=76 rc=0 junit=71 0 0 0 (see cpp-tests.txt)"
+  },
+  "c_unit_tests": {
+   "status": "pass",
+   "detail": "18 passed, 0 failed (min 18)"
+  },
+  "api_validation": {
+   "status": "fail",
+   "detail": "C++ parity driver failed to compile against the submitted API (see cpp-driver-build.log)"
+  },
+  "parity_cpp": {
+   "status": "fail",
+   "detail": "driver did not compile"
+  },
+  "parity_c": {
+   "status": "fail",
+   "detail": "C parity driver failed to compile against the submitted header (see c-driver-build.log)"
+  }
+ }
+}

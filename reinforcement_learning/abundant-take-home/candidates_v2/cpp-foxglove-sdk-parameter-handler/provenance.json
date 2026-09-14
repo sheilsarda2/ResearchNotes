@@ -1,0 +1,267 @@
+{
+  "task_id": "cpp-foxglove-sdk-parameter-handler",
+  "language": "cpp",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/foxglove/foxglove-sdk",
+    "base_commit": "b2fb3fab2954d34fba6408fff1b4b7a7d58e6bab",
+    "base_commit_date": "2026-05-22",
+    "base_commit_subject": "Bump livekit from 0.7.39 -> 0.7.42 (#1272)",
+    "license": "MIT",
+    "archive_sha256": "0859abf23d88d84f1df5cdaafe96c28361660f12928129b92c33626f20842bcc"
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/foxglove/foxglove-sdk/pull/1258",
+    "title": "cpp: Introduce ParameterHandler for asynchronous parameter operations",
+    "author": "gasmith",
+    "merged_at": "2026-05-23T00:30:48Z",
+    "merge_commit": "a9e4bb7a480920a24d50ba630eaf0e5f196ecafd",
+    "gold_patch": {
+      "path": "solution/changes.patch",
+      "sha256": "3582e2df95faf42d02e1b00088fd613c0c3d95713d5f604823153e4e0bd50c9e",
+      "files": 17,
+      "additions": 1294,
+      "deletions": 125,
+      "hand_written_non_test": {
+        "c_abi_rust": {
+          "files": [
+            "c/src/parameter_handler.rs",
+            "c/src/server.rs",
+            "c/src/gateway.rs",
+            "c/src/lib.rs"
+          ],
+          "additions": 379
+        },
+        "cpp_sdk": {
+          "files": [
+            "cpp/foxglove/include/foxglove/parameter_handler.hpp",
+            "cpp/foxglove/include/foxglove/websocket.hpp",
+            "cpp/foxglove/include/foxglove/remote_access.hpp",
+            "cpp/foxglove/include/foxglove/parameter.hpp",
+            "cpp/foxglove/src/parameter_handler.cpp",
+            "cpp/foxglove/src/websocket.cpp",
+            "cpp/foxglove/src/remote_access.cpp",
+            "cpp/cmake/foxglove-sources.cmake"
+          ],
+          "additions": 510,
+          "deletions": 26
+        },
+        "generated_header": {
+          "files": [
+            "c/include/foxglove-c/foxglove-c.h"
+          ],
+          "additions": 202
+        },
+        "cbindgen_config": {
+          "files": [
+            "c/cbindgen.toml",
+            "c/cbindgen.prelude.toml"
+          ],
+          "additions": 6
+        },
+        "example_and_ros": {
+          "files": [
+            "cpp/examples/param-server/src/main.cpp",
+            "ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp"
+          ],
+          "additions": 206,
+          "deletions": 99
+        }
+      },
+      "tests_excluded": [
+        {
+          "file": "cpp/foxglove/tests/test_websocket.cpp",
+          "additions": 459,
+          "new_cases": 5
+        }
+      ]
+    },
+    "scope_decision": "C++ SDK plus C ABI glue over the fixed Rust core (the PR's own boundary). The Rust ParameterHandler trait and responders already exist at the base commit; the agent designs the FFI surface (opaque responders, handler struct, option fields), regenerates the cbindgen header, and writes the C++ wrapper. Remote access is built (compile-verified) but only the WebSocket path is exercised at runtime."
+  },
+  "oracle": {
+    "type": "cross_impl_differential",
+    "reference": "Rust SDK WebSocketServer (rust/foxglove at the base commit, unchanged by the PR) running the same scripted ParameterHandler; transcripts of one scripted ws-protocol client (Python websockets 15.0.1) must be identical for the C++ server, the C server and the Rust server. Plus: the PR's 5 Catch2 cases and the 71 upstream Catch2 cases (exact count 76, one process per case via ctest), the gold param-server example compiled against the submitted API, cargo test -p foxglove_c, cbindgen header-in-sync check, and compile-only deprecation probes.",
+    "groups": [
+      "anti_cheat",
+      "restore",
+      "build_lib",
+      "build_tests",
+      "build_example",
+      "build_all",
+      "header_in_sync",
+      "deprecation_marked",
+      "pr_tests",
+      "regressions",
+      "c_unit_tests",
+      "api_validation",
+      "parity_cpp",
+      "parity_c"
+    ],
+    "python_sdk_note": "The Python SDK at this commit has no ParameterHandler (only the legacy listener callbacks), so it cannot serve as a reference for the new API; the Rust SDK is the sole cross-implementation reference. A Python wheel was therefore not built into the verifier image."
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "Merged 2026-05-23, 3.5 months before authoring (below the 2026-06 preference in the pack README). Interface names are the upstream ones (not shifted). PR body, Linear ticket FLE-533, and the C++ docs page for ParameterHandler are public."
+  },
+  "horizon": {
+    "proxy": "17 files, +1294/-125 non-test (about 900 hand-written lines across Rust FFI and C++), 3 subsystems (C ABI crate, C++ WebSocket server wrapper, C++ remote-access wrapper) plus cbindgen configuration and header regeneration; hidden tests exercise ownership transfer across the FFI boundary, precedence, capability inference, echo/no-echo, drop-to-error-status, thread hand-off and exception containment.",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/foxglove/foxglove-sdk/pull/1258 (PR body: 'plumbs the new ParameterHandler from the rust SDK, and mirrors the AssetHandler pattern'; Fixes FLE-533)",
+      "https://github.com/foxglove/foxglove-sdk/pull/1152 (remote access C++ integration tests, May 6, 2026; establishes the responder-based patterns the C++ SDK follows)",
+      "ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp comment 'FLE-534: migrate to ParameterHandler' added by the PR (downstream consumer waiting on the API)",
+      "https://github.com/foxglove/foxglove-sdk/pull/1392 (Aug 10, 2026) extends the same C/C++ gateway options struct, confirming the append-last layout convention this task specifies"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "hidden: 'ParameterHandler requires both onGet and onSet' - only onGet or only onSet -> WebSocketServer::create returns FoxgloveError::ValueError; neither -> create succeeds",
+      "instruction_ref": "C++ API / Contract, first bullet: 'if exactly one of onGet / onSet is set, return FoxgloveError::ValueError ... If neither is set, no handler is registered.'"
+    },
+    {
+      "assertion": "hidden: 'get and set echo to requester' - onGet receives request_id 'get-1' and names [foo, bar] in order; respond() sends parameterValues with that id; onSet receives request_id and views; respond echoes with id",
+      "instruction_ref": "C++ API / Contract bullets 2-3 (request id, names in request order, ParameterView) and C API contract bullet 3 (get response to requester, set echo when request carried an id)"
+    },
+    {
+      "assertion": "hidden: 'set without request_id does not echo' - no parameterValues arrives after a set without id",
+      "instruction_ref": "C API contract bullet 3: 'a set response is echoed to the requester only when the request carried a request_id'"
+    },
+    {
+      "assertion": "hidden: 'dropping responder sends error status' - status level 2 with message containing 'failed to send a response'",
+      "instruction_ref": "C API contract bullet 3 and C++ contract bullet 3: destroying an un-responded responder performs the drop, 'generic error status to the requester (level error, message stating that the parameter handler failed to send a response)'"
+    },
+    {
+      "assertion": "hidden: 'publish after respond broadcasts to subscribers' - server.publishParameterValues called inside onSet delivers an id-less parameterValues filtered to the subscription; setter still gets its echo",
+      "instruction_ref": "C++ contract bullet 4: 'Calling WebSocketServer::publishParameterValues ... from inside a handler callback is allowed and is the way to broadcast applied updates'"
+    },
+    {
+      "assertion": "hidden tests include <foxglove/parameter_handler.hpp> and use foxglove::ParameterHandler, GetParametersResponder, SetParametersResponder with the exact std::function signatures and `std::move(responder).respond({})`",
+      "instruction_ref": "C++ API code block and 'Add the public header cpp/foxglove/include/foxglove/parameter_handler.hpp'"
+    },
+    {
+      "assertion": "build_example: gold param-server example compiles: `options.parameter_handler = handler;` (copy of a ParameterHandler), responders stored in a struct and moved into a worker queue, completed later",
+      "instruction_ref": "'ParameterHandler is a plain aggregate ... (copyable and movable)'; 'Responders can be moved into another thread and completed there'; evaluation item 2"
+    },
+    {
+      "assertion": "parity/handler: serverInfo advertises 'parameters' although the driver sets no capability",
+      "instruction_ref": "C API contract bullet 4 and C++ contract bullet 1: registering a handler 'implies the Parameters capability'"
+    },
+    {
+      "assertion": "parity/handler: unknown names are absent; unset_param is filtered out of get responses; 'all parameters' when names is empty",
+      "instruction_ref": "'empty means all parameters'; 'Parameters whose value is unset are dropped by the core before serialization' (the driver script defines which names exist)"
+    },
+    {
+      "assertion": "parity/handler: a get whose handler throws std::runtime_error yields the generic error status and the connection remains usable",
+      "instruction_ref": "C++ contract bullet 5: exception must not propagate; un-consumed responder destroyed -> error status; 'The connection stays usable.'"
+    },
+    {
+      "assertion": "parity/handler: a get completed from a detached thread 100 ms later is answered normally",
+      "instruction_ref": "'Responders can be moved into another thread and completed there'; C API: '*_respond ... later from any thread'"
+    },
+    {
+      "assertion": "parity/precedence: with legacy callbacks returning a sentinel and a handler registered, responses come from the handler",
+      "instruction_ref": "C API contract bullet 4 / C++ bullet 1: handler 'takes precedence over the legacy callbacks, which are then never invoked'"
+    },
+    {
+      "assertion": "parity/legacy: with only legacy callbacks and the Parameters capability, get/set echo and automatic subscriber publication behave as before",
+      "instruction_ref": "C API contract last bullet: 'legacy callbacks keep their exact current behavior (including the automatic publication ...)'; C++ bullet 6: 'keep working when no handler is registered'"
+    },
+    {
+      "assertion": "parity_c: C driver compiles against the generated header using foxglove_parameter_handler{context,get,set}, foxglove_server_options.parameter_handler, foxglove_*_responder_respond/drop, and produces the reference transcript; foxglove_gateway_options.parameter_handler exists (compile-only)",
+      "instruction_ref": "C API code block and 'appended as the last member of both foxglove_server_options and foxglove_gateway_options'"
+    },
+    {
+      "assertion": "api_validation: C++ create() rejects half-set handlers with ValueError and accepts none/both",
+      "instruction_ref": "C++ contract bullet 1"
+    },
+    {
+      "assertion": "header_in_sync: submitted foxglove-c.h equals cbindgen output of submitted c/src + cbindgen config",
+      "instruction_ref": "Scope and rules bullet 4: 'The committed header ... must be exactly what cbindgen generates'"
+    },
+    {
+      "assertion": "deprecation_marked: assigning WebSocketServerCallbacks::onGetParameters/onSetParameters or the RemoteAccessGatewayCallbacks equivalents fails under -Werror=deprecated-declarations; moving options and copying a ParameterHandler compiles warning-free under the same flag",
+      "instruction_ref": "C++ contract bullet 6"
+    },
+    {
+      "assertion": "compile: RemoteAccessGatewayOptions::parameter_handler is a foxglove::ParameterHandler (static_assert in the C++ driver built with -DFOXGLOVE_REMOTE_ACCESS); remote_access.cpp compiles with the new wiring",
+      "instruction_ref": "'WebSocketServerOptions and RemoteAccessGatewayOptions each gain a member ParameterHandler parameter_handler;' and Scope bullet 5"
+    },
+    {
+      "assertion": "regressions: 71 upstream Catch2 cases still pass (76 total with the hidden file); c_unit_tests: >= 18 cargo tests pass in foxglove_c",
+      "instruction_ref": "Scope and rules (no changes to build files or core; legacy behavior preserved) and 'Building and testing' (cargo test -p foxglove_c)"
+    }
+  ],
+  "build": {
+    "agent_image_gb": 8.05,
+    "verifier_image_gb": 8.15,
+    "build_minutes": 4.4,
+    "verifier_minutes": 0.8,
+    "estimates": {
+      "agent_image_gb": "9-12 (cargo registry ~2, release target with livekit/webrtc ~4-5, libwebrtc bundle ~0.7, dev-profile cargo test target ~2, cmake deps + build ~1)",
+      "verifier_image_gb": "10-13 (agent image content + pristine copy + refserver build artifacts pruned)",
+      "build_minutes": "30-45 on 4 cpus (webrtc-sys + aws-lc-sys + livekit release build dominate); may need build_timeout_sec raised to 5400 if measured over 50 min",
+      "verifier_minutes": "8-15 (incremental foxglove_c relink ~2-3, C++ rebuild ~2, tests ~1, cargo test ~2, parity ~1)"
+    },
+    "host": "Apple-silicon Docker Desktop (arm64, 8 GB VM, 4 cpus/container), Harbor 0.15.0, 2026-09-13",
+    "oracle_wall_seconds": 56,
+    "env_setup_seconds": 2,
+    "verifier_seconds": 49,
+    "nop_wall_seconds": 26,
+    "toolchain": {
+      "rust": "1.95.0 (all architectures; stable current at the base commit 2026-05-22)",
+      "not_msrv_because": "workspace rust-version 1.85.0 is verified upstream only for default features on x86_64; the remote-access build this task needs uses let chains in rust/foxglove/src/remote_access (stable since 1.88) and, on aarch64, the locked zune-jpeg 0.5.9 NEON module needs 1.87; upstream remote-access CI builds with stable",
+      "cargo_fetch": "all platforms (cbindgen's cargo metadata --all-features reads every Cargo.lock package offline)"
+    },
+    "build_minutes_note": "4.4 min agent image with layers up to cargo fetch cached (cold adds ~2 min); verifier 49 s oracle / 20 s nop; Harbor wall 56 s / 26 s with cached images"
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "cpp-foxglove-sdk-parameter-handler-oracle-20260913T134931Z",
+      "nop": "cpp-foxglove-sdk-parameter-handler-nop-20260913T134931Z"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null,
+    "groups_oracle": "all 14 pass",
+    "groups_nop_failing": [
+      "build_tests",
+      "build_example",
+      "build_all",
+      "deprecation_marked",
+      "pr_tests",
+      "regressions",
+      "api_validation",
+      "parity_cpp",
+      "parity_c"
+    ],
+    "earlier_runs": [
+      {
+        "job": "cpp-foxglove-sdk-parameter-handler-oracle-20260913T124336Z",
+        "outcome": "image build failed: zune-jpeg 0.5.9 NEON module on aarch64 with Rust 1.85 (E0658/E0133)"
+      },
+      {
+        "job": "cpp-foxglove-sdk-parameter-handler-oracle-20260913T125757Z",
+        "outcome": "image build failed: cbindgen cargo metadata offline needs all-platform crates (host-only cargo fetch)"
+      },
+      {
+        "job": "cpp-foxglove-sdk-parameter-handler-oracle-20260913T130429Z",
+        "outcome": "image build failed: let chains in rust/foxglove/src/remote_access need Rust >= 1.88 on every arch"
+      },
+      {
+        "job": "cpp-foxglove-sdk-parameter-handler-oracle-20260913T132706Z",
+        "outcome": "reward 0: regressions group ran all Catch2 cases in one process (hang + wrong expected count 60)"
+      }
+    ]
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

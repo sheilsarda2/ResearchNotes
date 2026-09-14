@@ -1,0 +1,11 @@
+[package]
+name = "parity_refserver"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+# Built as a member of a pristine copy of the upstream workspace (rust/examples/* glob), so it
+# uses the workspace Cargo.lock and the unmodified Rust core. Default features include the
+# WebSocket server.
+[dependencies]
+foxglove = { path = "../../foxglove" }

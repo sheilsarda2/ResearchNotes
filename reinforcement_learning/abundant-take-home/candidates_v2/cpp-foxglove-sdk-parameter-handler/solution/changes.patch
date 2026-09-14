@@ -1,0 +1,1951 @@
+diff --git a/c/cbindgen.prelude.toml b/c/cbindgen.prelude.toml
+index 9722a097..36850b6f 100644
+--- a/c/cbindgen.prelude.toml
++++ b/c/cbindgen.prelude.toml
+@@ -52,6 +52,7 @@ FoxgloveConnectionGraph = "foxglove_connection_graph"
+ FoxgloveContext = "foxglove_context"
+ FoxgloveError = "foxglove_error"
+ FoxgloveFetchAssetResponder = "foxglove_fetch_asset_responder"
++FoxgloveGetParametersResponder = "foxglove_get_parameters_responder"
+ FoxgloveKeyValue = "foxglove_key_value"
+ FoxgloveLoggingLevel = "foxglove_logging_level"
+ FoxgloveMcapAttachment = "foxglove_mcap_attachment"
+@@ -60,6 +61,7 @@ FoxgloveMcapOptions = "foxglove_mcap_options"
+ FoxgloveMcapWriter = "foxglove_mcap_writer"
+ FoxgloveParameter = "foxglove_parameter"
+ FoxgloveParameterArray = "foxglove_parameter_array"
++FoxgloveParameterHandler = "foxglove_parameter_handler"
+ FoxgloveParameterType = "foxglove_parameter_type"
+ FoxgloveParameterValue = "foxglove_parameter_value"
+ FoxgloveParameterValueArray = "foxglove_parameter_value_array"
+@@ -79,6 +81,7 @@ FoxgloveServiceMessageSchema = "foxglove_service_message_schema"
+ FoxgloveServiceRequest = "foxglove_service_request"
+ FoxgloveServiceResponder = "foxglove_service_responder"
+ FoxgloveServiceSchema = "foxglove_service_schema"
++FoxgloveSetParametersResponder = "foxglove_set_parameters_responder"
+ FoxgloveSchema = "foxglove_schema"
+ FoxgloveString = "foxglove_string"
+ FoxgloveSystemInfoPublisher = "foxglove_system_info_publisher"
+diff --git a/c/cbindgen.toml b/c/cbindgen.toml
+index ce72965e..f25b88e6 100644
+--- a/c/cbindgen.toml
++++ b/c/cbindgen.toml
+@@ -38,6 +38,7 @@ FoxgloveConnectionGraph = "foxglove_connection_graph"
+ FoxgloveContext = "foxglove_context"
+ FoxgloveError = "foxglove_error"
+ FoxgloveFetchAssetResponder = "foxglove_fetch_asset_responder"
++FoxgloveGetParametersResponder = "foxglove_get_parameters_responder"
+ FoxgloveKeyValue = "foxglove_key_value"
+ FoxgloveLoggingLevel = "foxglove_logging_level"
+ FoxgloveMcapAttachment = "foxglove_mcap_attachment"
+@@ -46,6 +47,7 @@ FoxgloveMcapOptions = "foxglove_mcap_options"
+ FoxgloveMcapWriter = "foxglove_mcap_writer"
+ FoxgloveParameter = "foxglove_parameter"
+ FoxgloveParameterArray = "foxglove_parameter_array"
++FoxgloveParameterHandler = "foxglove_parameter_handler"
+ FoxgloveParameterType = "foxglove_parameter_type"
+ FoxgloveParameterValue = "foxglove_parameter_value"
+ FoxgloveParameterValueArray = "foxglove_parameter_value_array"
+@@ -65,6 +67,7 @@ FoxgloveServiceMessageSchema = "foxglove_service_message_schema"
+ FoxgloveServiceRequest = "foxglove_service_request"
+ FoxgloveServiceResponder = "foxglove_service_responder"
+ FoxgloveServiceSchema = "foxglove_service_schema"
++FoxgloveSetParametersResponder = "foxglove_set_parameters_responder"
+ FoxgloveSchema = "foxglove_schema"
+ FoxgloveString = "foxglove_string"
+ FoxgloveSystemInfoPublisher = "foxglove_system_info_publisher"
+diff --git a/c/include/foxglove-c/foxglove-c.h b/c/include/foxglove-c/foxglove-c.h
+index 91309bf4..d77c0611 100644
+--- a/c/include/foxglove-c/foxglove-c.h
++++ b/c/include/foxglove-c/foxglove-c.h
+@@ -479,6 +479,19 @@ typedef struct foxglove_fetch_asset_responder foxglove_fetch_asset_responder;
+ typedef struct foxglove_gateway foxglove_gateway;
+ #endif
+ 
++#if !defined(__wasm__)
++/**
++ * Responder for a `getParameters` request from a client.
++ *
++ * Obtained via the `get` callback of `foxglove_parameter_handler`. The implementation **must**
++ * complete the request by calling `foxglove_get_parameters_responder_respond` exactly once (pass
++ * an empty array if no values are available). It is safe to invoke that function synchronously
++ * from the context of the callback. See `foxglove_get_parameters_responder_drop` for the
++ * drop-without-responding contract.
++ */
++typedef struct foxglove_get_parameters_responder foxglove_get_parameters_responder;
++#endif
++
+ #if !defined(__wasm__)
+ typedef struct foxglove_mcap_writer foxglove_mcap_writer;
+ #endif
+@@ -491,6 +504,25 @@ typedef struct foxglove_service foxglove_service;
+ typedef struct foxglove_service_responder foxglove_service_responder;
+ #endif
+ 
++#if !defined(__wasm__)
++/**
++ * Responder for a `setParameters` request from a client.
++ *
++ * Obtained via the `set` callback of `foxglove_parameter_handler`. The implementation **must**
++ * complete the request by calling `foxglove_set_parameters_responder_respond` exactly once with
++ * the values that were actually applied (pass an empty array if the request could not be
++ * handled). It is safe to invoke that function synchronously from the context of the callback.
++ * See `foxglove_set_parameters_responder_drop` for the drop-without-responding contract.
++ *
++ * When the request carried a `request_id`, the values passed to `respond` are echoed back to the
++ * requesting client; otherwise the responder does nothing on the wire. The responder does not
++ * notify other parameter subscribers, so the implementer is responsible for broadcasting applied
++ * updates to subscribers on each sink (for example, via `foxglove_server_publish_parameter_values`
++ * and `foxglove_gateway_publish_parameter_values`).
++ */
++typedef struct foxglove_set_parameters_responder foxglove_set_parameters_responder;
++#endif
++
+ #if !defined(__wasm__)
+ /**
+  * Opaque handle to a running system info publisher.
+@@ -2414,6 +2446,10 @@ typedef struct foxglove_gateway_callbacks {
+    * This function should return the named parameters, or all parameters if `param_names` is
+    * empty. The return value must be allocated with `foxglove_parameter_array_create`. Ownership
+    * of this value is transferred to the callee. A NULL return value is treated as empty.
++   *
++   * Deprecated: prefer `foxglove_gateway_options::parameter_handler`. If a
++   * `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++   * invoked.
+    */
+   struct foxglove_parameter_array *(*on_get_parameters)(const void *context,
+                                                         uint32_t client_id,
+@@ -2434,6 +2470,10 @@ typedef struct foxglove_gateway_callbacks {
+    * This function should return the updated parameters. The return value must be allocated with
+    * `foxglove_parameter_array_create`. Ownership is transferred to the callee. A NULL return
+    * value is treated as empty.
++   *
++   * Deprecated: prefer `foxglove_gateway_options::parameter_handler`. If a
++   * `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++   * invoked.
+    */
+   struct foxglove_parameter_array *(*on_set_parameters)(const void *context,
+                                                         uint32_t client_id,
+@@ -2486,6 +2526,72 @@ typedef struct foxglove_qos_profile {
+ } foxglove_qos_profile;
+ #endif
+ 
++#if !defined(__wasm__)
++/**
++ * Handler for client-initiated parameter operations.
++ *
++ * When supplied to `foxglove_server_options` or `foxglove_gateway_options`, the handler takes
++ * precedence over the deprecated `on_get_parameters` / `on_set_parameters` callbacks on
++ * `foxglove_server_callbacks` / `foxglove_gateway_callbacks`. Registering a handler also
++ * automatically advertises the `FOXGLOVE_SERVER_CAPABILITY_PARAMETERS` (or
++ * `FOXGLOVE_GATEWAY_CAPABILITY_PARAMETERS`) capability. Subscribe/unsubscribe notifications
++ * still go through the `on_parameters_subscribe` / `on_parameters_unsubscribe` callbacks on
++ * `foxglove_server_callbacks` / `foxglove_gateway_callbacks`; wire those up separately if you
++ * want to be notified.
++ *
++ * Both `get` and `set` are required: if a handler is supplied with either set to NULL,
++ * `foxglove_server_start` / `foxglove_gateway_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++ *
++ * These methods are invoked from time-sensitive contexts and must not block. If long-running
++ * behavior is required, the implementation should hand the responder off to another thread and
++ * return immediately.
++ */
++typedef struct foxglove_parameter_handler {
++  /**
++   * A user-defined value that will be passed to callback functions.
++   */
++  const void *context;
++  /**
++   * Callback invoked when a client requests parameters.
++   *
++   * Required: must not be NULL when this handler is registered.
++   *
++   * The `request_id` argument may be NULL.
++   *
++   * The `param_names` argument is guaranteed to be non-NULL. The buffer is valid for the
++   * duration of this call; if the callback wishes to store these values, it must copy them out.
++   *
++   * The implementation takes ownership of `responder`; see `FoxgloveGetParametersResponder`
++   * for the completion contract.
++   */
++  void (*get)(const void *context,
++              uint32_t client_id,
++              const struct foxglove_string *request_id,
++              const struct foxglove_string *param_names,
++              size_t param_names_len,
++              struct foxglove_get_parameters_responder *responder);
++  /**
++   * Callback invoked when a client sets parameters.
++   *
++   * Required: must not be NULL when this handler is registered.
++   *
++   * The `request_id` argument may be NULL.
++   *
++   * The `params` argument is guaranteed to be non-NULL. The buffer is valid for the duration of
++   * this call; if the callback wishes to store these values, it must copy them out.
++   *
++   * The implementation takes ownership of `responder`; see `FoxgloveSetParametersResponder`
++   * for the completion contract, the `request_id` echo behavior, and the implementer's
++   * responsibility to broadcast applied updates to other parameter subscribers.
++   */
++  void (*set)(const void *context,
++              uint32_t client_id,
++              const struct foxglove_string *request_id,
++              const struct foxglove_parameter_array *params,
++              struct foxglove_set_parameters_responder *responder);
++} foxglove_parameter_handler;
++#endif
++
+ #if defined(FOXGLOVE_REMOTE_ACCESS)
+ /**
+  * Options for creating a remote access gateway.
+@@ -2586,6 +2692,17 @@ typedef struct foxglove_gateway_options {
+    * Optional message backlog size override.
+    */
+   const size_t *message_backlog_size;
++  /**
++   * Optional parameter handler.
++   *
++   * When set, this handler takes precedence over the deprecated `on_get_parameters` /
++   * `on_set_parameters` callbacks on `foxglove_gateway_callbacks`. Registering a handler
++   * automatically enables the `FOXGLOVE_GATEWAY_CAPABILITY_PARAMETERS` capability.
++   *
++   * When provided, both `get` and `set` on the handler are required; otherwise
++   * `foxglove_gateway_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++   */
++  const struct foxglove_parameter_handler *parameter_handler;
+ } foxglove_gateway_options;
+ #endif
+ 
+@@ -2693,6 +2810,10 @@ typedef struct foxglove_server_callbacks {
+    * empty. The return value must be allocated with `foxglove_parameter_array_create`. Ownership
+    * of this value is transferred to the callee, who is responsible for freeing it. A NULL return
+    * value is treated as an empty array.
++   *
++   * Deprecated: prefer `foxglove_server_options::parameter_handler`. If a
++   * `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++   * invoked.
+    */
+   struct foxglove_parameter_array *(*on_get_parameters)(const void *context,
+                                                         uint32_t client_id,
+@@ -2716,6 +2837,10 @@ typedef struct foxglove_server_callbacks {
+    *
+    * All clients subscribed to updates for the returned parameters will be notified. Note that if a
+    * returned parameter is unset, it will not be published to clients.
++   *
++   * Deprecated: prefer `foxglove_server_options::parameter_handler`. If a
++   * `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++   * invoked.
+    */
+   struct foxglove_parameter_array *(*on_set_parameters)(const void *context,
+                                                         uint32_t client_id,
+@@ -2874,6 +2999,17 @@ typedef struct foxglove_server_options {
+    * - If provided, the `session_id` must be a valid pointer to a null-terminated UTF-8 string.
+    */
+   const struct foxglove_string *session_id;
++  /**
++   * Optional parameter handler.
++   *
++   * When set, this handler takes precedence over the deprecated `on_get_parameters` /
++   * `on_set_parameters` callbacks on `foxglove_server_callbacks`. Registering a handler
++   * automatically enables the `FOXGLOVE_SERVER_CAPABILITY_PARAMETERS` capability.
++   *
++   * When provided, both `get` and `set` on the handler are required; otherwise
++   * `foxglove_server_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++   */
++  const struct foxglove_parameter_handler *parameter_handler;
+ } foxglove_server_options;
+ #endif
+ 
+@@ -6174,6 +6310,72 @@ foxglove_error foxglove_parameter_value_dict_insert(struct foxglove_parameter_va
+ void foxglove_parameter_value_dict_free(struct foxglove_parameter_value_dict *dict);
+ #endif
+ 
++#if !defined(__wasm__)
++/**
++ * Completes a `getParameters` request by sending parameter values to the client.
++ *
++ * # Safety
++ * - `responder` must be a pointer to a `foxglove_get_parameters_responder` obtained via a `get`
++ *   callback. This value is moved into this function, and must not be accessed afterwards.
++ * - `params` must be a valid pointer to a value allocated by `foxglove_parameter_array_create`.
++ *   This value is moved into this function, and must not be accessed afterwards. A NULL value is
++ *   treated as an empty array.
++ */
++void foxglove_get_parameters_responder_respond(struct foxglove_get_parameters_responder *responder,
++                                               struct foxglove_parameter_array *params);
++#endif
++
++#if !defined(__wasm__)
++/**
++ * Drops a `getParameters` responder without responding.
++ *
++ * Reserved for unrecoverable internal errors; sends a generic error status to the requesting
++ * client. In all other cases, complete the request with
++ * `foxglove_get_parameters_responder_respond` (passing an empty array if no values are available).
++ *
++ * # Safety
++ * - `responder` must be a pointer to a `foxglove_get_parameters_responder` obtained via a `get`
++ *   callback. This value is moved into this function, and must not be accessed afterwards.
++ */
++void foxglove_get_parameters_responder_drop(struct foxglove_get_parameters_responder *responder);
++#endif
++
++#if !defined(__wasm__)
++/**
++ * Completes a `setParameters` request with the values that were actually applied.
++ *
++ * Echoes those values back to the requesting client when the request carried a `request_id`;
++ * otherwise does nothing on the wire. Does not notify other parameter subscribers; the caller is
++ * responsible for broadcasting applied updates to subscribers on each sink (for example, via
++ * `foxglove_server_publish_parameter_values` and `foxglove_gateway_publish_parameter_values`).
++ *
++ * # Safety
++ * - `responder` must be a pointer to a `foxglove_set_parameters_responder` obtained via a `set`
++ *   callback. This value is moved into this function, and must not be accessed afterwards.
++ * - `params` must be a valid pointer to a value allocated by `foxglove_parameter_array_create`.
++ *   This value is moved into this function, and must not be accessed afterwards. A NULL value is
++ *   treated as an empty array.
++ */
++void foxglove_set_parameters_responder_respond(struct foxglove_set_parameters_responder *responder,
++                                               struct foxglove_parameter_array *params);
++#endif
++
++#if !defined(__wasm__)
++/**
++ * Drops a `setParameters` responder without responding.
++ *
++ * Reserved for unrecoverable internal errors; sends a generic error status to the requesting
++ * client. In all other cases, complete the request with
++ * `foxglove_set_parameters_responder_respond` (passing an empty array if the request could not
++ * be handled).
++ *
++ * # Safety
++ * - `responder` must be a pointer to a `foxglove_set_parameters_responder` obtained via a `set`
++ *   callback. This value is moved into this function, and must not be accessed afterwards.
++ */
++void foxglove_set_parameters_responder_drop(struct foxglove_set_parameters_responder *responder);
++#endif
++
+ #if !defined(__wasm__)
+ /**
+  * Create and start a server.
+diff --git a/c/src/gateway.rs b/c/src/gateway.rs
+index c73d42de..027e145a 100644
+--- a/c/src/gateway.rs
++++ b/c/src/gateway.rs
+@@ -9,6 +9,7 @@ use crate::channel_descriptor::FoxgloveChannelDescriptor;
+ use crate::connection_graph::FoxgloveConnectionGraph;
+ use crate::fetch_asset::{FetchAssetHandler, FoxgloveFetchAssetResponder};
+ use crate::parameter::FoxgloveParameterArray;
++use crate::parameter_handler::FoxgloveParameterHandler;
+ use crate::server::FoxgloveServerStatusLevel;
+ use crate::service::FoxgloveService;
+ use crate::sink_channel_filter::ChannelFilter;
+@@ -247,6 +248,10 @@ pub struct FoxgloveGatewayCallbacks {
+     /// This function should return the named parameters, or all parameters if `param_names` is
+     /// empty. The return value must be allocated with `foxglove_parameter_array_create`. Ownership
+     /// of this value is transferred to the callee. A NULL return value is treated as empty.
++    ///
++    /// Deprecated: prefer `foxglove_gateway_options::parameter_handler`. If a
++    /// `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++    /// invoked.
+     pub on_get_parameters: Option<
+         unsafe extern "C" fn(
+             context: *const c_void,
+@@ -270,6 +275,10 @@ pub struct FoxgloveGatewayCallbacks {
+     /// This function should return the updated parameters. The return value must be allocated with
+     /// `foxglove_parameter_array_create`. Ownership is transferred to the callee. A NULL return
+     /// value is treated as empty.
++    ///
++    /// Deprecated: prefer `foxglove_gateway_options::parameter_handler`. If a
++    /// `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++    /// invoked.
+     pub on_set_parameters: Option<
+         unsafe extern "C" fn(
+             context: *const c_void,
+@@ -590,6 +599,16 @@ pub struct FoxgloveGatewayOptions<'a> {
+ 
+     /// Optional message backlog size override.
+     pub message_backlog_size: Option<&'a usize>,
++
++    /// Optional parameter handler.
++    ///
++    /// When set, this handler takes precedence over the deprecated `on_get_parameters` /
++    /// `on_set_parameters` callbacks on `foxglove_gateway_callbacks`. Registering a handler
++    /// automatically enables the `FOXGLOVE_GATEWAY_CAPABILITY_PARAMETERS` capability.
++    ///
++    /// When provided, both `get` and `set` on the handler are required; otherwise
++    /// `foxglove_gateway_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++    pub parameter_handler: Option<&'a FoxgloveParameterHandler>,
+ }
+ 
+ // Handle
+@@ -701,6 +720,12 @@ unsafe fn do_foxglove_gateway_start(
+         gateway = gateway.listener(Arc::new(callbacks.clone()));
+     }
+ 
++    // Parameter handler
++    if let Some(handler) = options.parameter_handler {
++        handler.validate()?;
++        gateway = gateway.parameter_handler(handler.clone().into_arc());
++    }
++
+     // Channel filter
+     if let Some(sink_channel_filter) = options.sink_channel_filter {
+         gateway = gateway.channel_filter(Arc::new(ChannelFilter::new(
+diff --git a/c/src/lib.rs b/c/src/lib.rs
+index 17d203b0..07b0c901 100644
+--- a/c/src/lib.rs
++++ b/c/src/lib.rs
+@@ -28,6 +28,8 @@ mod logging;
+ #[cfg(not(target_family = "wasm"))]
+ mod parameter;
+ #[cfg(not(target_family = "wasm"))]
++mod parameter_handler;
++#[cfg(not(target_family = "wasm"))]
+ mod playback_control_request;
+ #[cfg(not(target_family = "wasm"))]
+ mod playback_state;
+diff --git a/c/src/parameter_handler.rs b/c/src/parameter_handler.rs
+new file mode 100644
+index 00000000..45a74c76
+--- /dev/null
++++ b/c/src/parameter_handler.rs
+@@ -0,0 +1,329 @@
++use std::ffi::c_void;
++use std::sync::Arc;
++
++use foxglove::websocket::{
++    AnyClient, GetParametersResponder, Parameter, ParameterHandler, SetParametersResponder,
++};
++
++use crate::FoxgloveString;
++use crate::parameter::FoxgloveParameterArray;
++
++/// Responder for a `getParameters` request from a client.
++///
++/// Obtained via the `get` callback of `foxglove_parameter_handler`. The implementation **must**
++/// complete the request by calling `foxglove_get_parameters_responder_respond` exactly once (pass
++/// an empty array if no values are available). It is safe to invoke that function synchronously
++/// from the context of the callback. See `foxglove_get_parameters_responder_drop` for the
++/// drop-without-responding contract.
++pub struct FoxgloveGetParametersResponder(GetParametersResponder);
++
++impl FoxgloveGetParametersResponder {
++    fn into_raw(self) -> *mut Self {
++        Box::into_raw(Box::new(self))
++    }
++
++    /// # Safety
++    /// - The raw pointer must have been obtained from [`Self::into_raw`].
++    unsafe fn from_raw(ptr: *mut Self) -> Box<Self> {
++        unsafe { Box::from_raw(ptr) }
++    }
++}
++
++/// Responder for a `setParameters` request from a client.
++///
++/// Obtained via the `set` callback of `foxglove_parameter_handler`. The implementation **must**
++/// complete the request by calling `foxglove_set_parameters_responder_respond` exactly once with
++/// the values that were actually applied (pass an empty array if the request could not be
++/// handled). It is safe to invoke that function synchronously from the context of the callback.
++/// See `foxglove_set_parameters_responder_drop` for the drop-without-responding contract.
++///
++/// When the request carried a `request_id`, the values passed to `respond` are echoed back to the
++/// requesting client; otherwise the responder does nothing on the wire. The responder does not
++/// notify other parameter subscribers, so the implementer is responsible for broadcasting applied
++/// updates to subscribers on each sink (for example, via `foxglove_server_publish_parameter_values`
++/// and `foxglove_gateway_publish_parameter_values`).
++pub struct FoxgloveSetParametersResponder(SetParametersResponder);
++
++impl FoxgloveSetParametersResponder {
++    fn into_raw(self) -> *mut Self {
++        Box::into_raw(Box::new(self))
++    }
++
++    /// # Safety
++    /// - The raw pointer must have been obtained from [`Self::into_raw`].
++    unsafe fn from_raw(ptr: *mut Self) -> Box<Self> {
++        unsafe { Box::from_raw(ptr) }
++    }
++}
++
++/// Handler for client-initiated parameter operations.
++///
++/// When supplied to `foxglove_server_options` or `foxglove_gateway_options`, the handler takes
++/// precedence over the deprecated `on_get_parameters` / `on_set_parameters` callbacks on
++/// `foxglove_server_callbacks` / `foxglove_gateway_callbacks`. Registering a handler also
++/// automatically advertises the `FOXGLOVE_SERVER_CAPABILITY_PARAMETERS` (or
++/// `FOXGLOVE_GATEWAY_CAPABILITY_PARAMETERS`) capability. Subscribe/unsubscribe notifications
++/// still go through the `on_parameters_subscribe` / `on_parameters_unsubscribe` callbacks on
++/// `foxglove_server_callbacks` / `foxglove_gateway_callbacks`; wire those up separately if you
++/// want to be notified.
++///
++/// Both `get` and `set` are required: if a handler is supplied with either set to NULL,
++/// `foxglove_server_start` / `foxglove_gateway_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++///
++/// These methods are invoked from time-sensitive contexts and must not block. If long-running
++/// behavior is required, the implementation should hand the responder off to another thread and
++/// return immediately.
++#[repr(C)]
++#[derive(Clone)]
++pub struct FoxgloveParameterHandler {
++    /// A user-defined value that will be passed to callback functions.
++    pub context: *const c_void,
++
++    /// Callback invoked when a client requests parameters.
++    ///
++    /// Required: must not be NULL when this handler is registered.
++    ///
++    /// The `request_id` argument may be NULL.
++    ///
++    /// The `param_names` argument is guaranteed to be non-NULL. The buffer is valid for the
++    /// duration of this call; if the callback wishes to store these values, it must copy them out.
++    ///
++    /// The implementation takes ownership of `responder`; see `FoxgloveGetParametersResponder`
++    /// for the completion contract.
++    pub get: Option<
++        unsafe extern "C" fn(
++            context: *const c_void,
++            client_id: u32,
++            request_id: *const FoxgloveString,
++            param_names: *const FoxgloveString,
++            param_names_len: usize,
++            responder: *mut FoxgloveGetParametersResponder,
++        ),
++    >,
++
++    /// Callback invoked when a client sets parameters.
++    ///
++    /// Required: must not be NULL when this handler is registered.
++    ///
++    /// The `request_id` argument may be NULL.
++    ///
++    /// The `params` argument is guaranteed to be non-NULL. The buffer is valid for the duration of
++    /// this call; if the callback wishes to store these values, it must copy them out.
++    ///
++    /// The implementation takes ownership of `responder`; see `FoxgloveSetParametersResponder`
++    /// for the completion contract, the `request_id` echo behavior, and the implementer's
++    /// responsibility to broadcast applied updates to other parameter subscribers.
++    pub set: Option<
++        unsafe extern "C" fn(
++            context: *const c_void,
++            client_id: u32,
++            request_id: *const FoxgloveString,
++            params: *const FoxgloveParameterArray,
++            responder: *mut FoxgloveSetParametersResponder,
++        ),
++    >,
++}
++
++// SAFETY: The `context` pointer and callback function pointers are provided by the C caller, who
++// is responsible for ensuring they are safe to invoke from any thread.
++unsafe impl Send for FoxgloveParameterHandler {}
++unsafe impl Sync for FoxgloveParameterHandler {}
++
++impl FoxgloveParameterHandler {
++    /// Validates that both `get` and `set` are non-null.
++    ///
++    /// Mirrors the Rust [`ParameterHandler`] trait, which requires both methods.
++    pub(crate) fn validate(&self) -> Result<(), foxglove::FoxgloveError> {
++        if self.get.is_none() || self.set.is_none() {
++            return Err(foxglove::FoxgloveError::ValueError(
++                "foxglove_parameter_handler requires both `get` and `set` to be non-NULL"
++                    .to_string(),
++            ));
++        }
++        Ok(())
++    }
++
++    /// Constructs an Arc<dyn ParameterHandler> trait object for use with the SDK server / gateway
++    /// builders.
++    pub(crate) fn into_arc(self) -> Arc<dyn ParameterHandler> {
++        Arc::new(self)
++    }
++}
++
++impl ParameterHandler for FoxgloveParameterHandler {
++    fn get(
++        &self,
++        client: AnyClient,
++        names: Vec<String>,
++        request_id: Option<String>,
++        responder: GetParametersResponder,
++    ) {
++        // Validated to be Some at registration time (see `FoxgloveParameterHandler::validate`).
++        let get = self
++            .get
++            .expect("foxglove_parameter_handler.get is required");
++        let c_request_id = request_id.as_ref().map(FoxgloveString::from);
++        let c_names: Vec<_> = names.iter().map(FoxgloveString::from).collect();
++        let c_responder = FoxgloveGetParametersResponder(responder).into_raw();
++        // SAFETY: The C caller's safety requirements are documented on
++        // `FoxgloveParameterHandler::get`.
++        unsafe {
++            get(
++                self.context,
++                client.id().into(),
++                c_request_id
++                    .as_ref()
++                    .map(|id| id as *const _)
++                    .unwrap_or(std::ptr::null()),
++                c_names.as_ptr(),
++                c_names.len(),
++                c_responder,
++            );
++        }
++    }
++
++    fn set(
++        &self,
++        client: AnyClient,
++        parameters: Vec<Parameter>,
++        request_id: Option<String>,
++        responder: SetParametersResponder,
++    ) {
++        // Validated to be Some at registration time (see `FoxgloveParameterHandler::validate`).
++        let set = self
++            .set
++            .expect("foxglove_parameter_handler.set is required");
++        let c_request_id = request_id.as_ref().map(FoxgloveString::from);
++        let params: FoxgloveParameterArray = parameters.into_iter().collect();
++        let c_params = params.into_raw();
++        let c_responder = FoxgloveSetParametersResponder(responder).into_raw();
++        // SAFETY: The C caller's safety requirements are documented on
++        // `FoxgloveParameterHandler::set`.
++        unsafe {
++            set(
++                self.context,
++                client.id().into(),
++                c_request_id
++                    .as_ref()
++                    .map(|id| id as *const _)
++                    .unwrap_or(std::ptr::null()),
++                c_params,
++                c_responder,
++            );
++        }
++        // SAFETY: c_params was just produced by FoxgloveParameterArray::into_raw above.
++        drop(unsafe { FoxgloveParameterArray::from_raw(c_params) });
++    }
++}
++
++/// Completes a `getParameters` request by sending parameter values to the client.
++///
++/// # Safety
++/// - `responder` must be a pointer to a `foxglove_get_parameters_responder` obtained via a `get`
++///   callback. This value is moved into this function, and must not be accessed afterwards.
++/// - `params` must be a valid pointer to a value allocated by `foxglove_parameter_array_create`.
++///   This value is moved into this function, and must not be accessed afterwards. A NULL value is
++///   treated as an empty array.
++#[unsafe(no_mangle)]
++pub unsafe extern "C" fn foxglove_get_parameters_responder_respond(
++    responder: *mut FoxgloveGetParametersResponder,
++    params: *mut FoxgloveParameterArray,
++) {
++    if responder.is_null() {
++        tracing::error!("foxglove_get_parameters_responder_respond called with null responder");
++        if !params.is_null() {
++            // SAFETY: caller's contract: params allocated by foxglove_parameter_array_create.
++            drop(unsafe { FoxgloveParameterArray::from_raw(params) });
++        }
++        return;
++    }
++    // SAFETY: responder was produced by FoxgloveGetParametersResponder::into_raw.
++    let responder = unsafe { FoxgloveGetParametersResponder::from_raw(responder) };
++    let values = if params.is_null() {
++        Vec::new()
++    } else {
++        // SAFETY: caller's contract: params allocated by foxglove_parameter_array_create.
++        unsafe { FoxgloveParameterArray::from_raw(params) }.into_native()
++    };
++    responder.0.respond(values);
++}
++
++/// Drops a `getParameters` responder without responding.
++///
++/// Reserved for unrecoverable internal errors; sends a generic error status to the requesting
++/// client. In all other cases, complete the request with
++/// `foxglove_get_parameters_responder_respond` (passing an empty array if no values are available).
++///
++/// # Safety
++/// - `responder` must be a pointer to a `foxglove_get_parameters_responder` obtained via a `get`
++///   callback. This value is moved into this function, and must not be accessed afterwards.
++#[unsafe(no_mangle)]
++pub unsafe extern "C" fn foxglove_get_parameters_responder_drop(
++    responder: *mut FoxgloveGetParametersResponder,
++) {
++    if responder.is_null() {
++        tracing::error!("foxglove_get_parameters_responder_drop called with null responder");
++        return;
++    }
++    // SAFETY: responder was produced by FoxgloveGetParametersResponder::into_raw.
++    drop(unsafe { FoxgloveGetParametersResponder::from_raw(responder) });
++}
++
++/// Completes a `setParameters` request with the values that were actually applied.
++///
++/// Echoes those values back to the requesting client when the request carried a `request_id`;
++/// otherwise does nothing on the wire. Does not notify other parameter subscribers; the caller is
++/// responsible for broadcasting applied updates to subscribers on each sink (for example, via
++/// `foxglove_server_publish_parameter_values` and `foxglove_gateway_publish_parameter_values`).
++///
++/// # Safety
++/// - `responder` must be a pointer to a `foxglove_set_parameters_responder` obtained via a `set`
++///   callback. This value is moved into this function, and must not be accessed afterwards.
++/// - `params` must be a valid pointer to a value allocated by `foxglove_parameter_array_create`.
++///   This value is moved into this function, and must not be accessed afterwards. A NULL value is
++///   treated as an empty array.
++#[unsafe(no_mangle)]
++pub unsafe extern "C" fn foxglove_set_parameters_responder_respond(
++    responder: *mut FoxgloveSetParametersResponder,
++    params: *mut FoxgloveParameterArray,
++) {
++    if responder.is_null() {
++        tracing::error!("foxglove_set_parameters_responder_respond called with null responder");
++        if !params.is_null() {
++            // SAFETY: caller's contract: params allocated by foxglove_parameter_array_create.
++            drop(unsafe { FoxgloveParameterArray::from_raw(params) });
++        }
++        return;
++    }
++    // SAFETY: responder was produced by FoxgloveSetParametersResponder::into_raw.
++    let responder = unsafe { FoxgloveSetParametersResponder::from_raw(responder) };
++    let values = if params.is_null() {
++        Vec::new()
++    } else {
++        // SAFETY: caller's contract: params allocated by foxglove_parameter_array_create.
++        unsafe { FoxgloveParameterArray::from_raw(params) }.into_native()
++    };
++    responder.0.respond(values);
++}
++
++/// Drops a `setParameters` responder without responding.
++///
++/// Reserved for unrecoverable internal errors; sends a generic error status to the requesting
++/// client. In all other cases, complete the request with
++/// `foxglove_set_parameters_responder_respond` (passing an empty array if the request could not
++/// be handled).
++///
++/// # Safety
++/// - `responder` must be a pointer to a `foxglove_set_parameters_responder` obtained via a `set`
++///   callback. This value is moved into this function, and must not be accessed afterwards.
++#[unsafe(no_mangle)]
++pub unsafe extern "C" fn foxglove_set_parameters_responder_drop(
++    responder: *mut FoxgloveSetParametersResponder,
++) {
++    if responder.is_null() {
++        tracing::error!("foxglove_set_parameters_responder_drop called with null responder");
++        return;
++    }
++    // SAFETY: responder was produced by FoxgloveSetParametersResponder::into_raw.
++    drop(unsafe { FoxgloveSetParametersResponder::from_raw(responder) });
++}
+diff --git a/c/src/server.rs b/c/src/server.rs
+index f172363c..46084095 100644
+--- a/c/src/server.rs
++++ b/c/src/server.rs
+@@ -10,6 +10,7 @@ use std::mem::ManuallyDrop;
+ use std::sync::Arc;
+ 
+ use crate::parameter::FoxgloveParameterArray;
++use crate::parameter_handler::FoxgloveParameterHandler;
+ use crate::playback_control_request::FoxglovePlaybackControlRequest;
+ use crate::playback_state::FoxglovePlaybackState;
+ 
+@@ -187,6 +188,16 @@ pub struct FoxgloveServerOptions<'a> {
+     /// # Safety
+     /// - If provided, the `session_id` must be a valid pointer to a null-terminated UTF-8 string.
+     pub session_id: Option<&'a FoxgloveString>,
++
++    /// Optional parameter handler.
++    ///
++    /// When set, this handler takes precedence over the deprecated `on_get_parameters` /
++    /// `on_set_parameters` callbacks on `foxglove_server_callbacks`. Registering a handler
++    /// automatically enables the `FOXGLOVE_SERVER_CAPABILITY_PARAMETERS` capability.
++    ///
++    /// When provided, both `get` and `set` on the handler are required; otherwise
++    /// `foxglove_server_start` returns `FOXGLOVE_ERROR_VALUE_ERROR`.
++    pub parameter_handler: Option<&'a FoxgloveParameterHandler>,
+ }
+ 
+ #[repr(C)]
+@@ -258,6 +269,10 @@ pub struct FoxgloveServerCallbacks {
+     /// empty. The return value must be allocated with `foxglove_parameter_array_create`. Ownership
+     /// of this value is transferred to the callee, who is responsible for freeing it. A NULL return
+     /// value is treated as an empty array.
++    ///
++    /// Deprecated: prefer `foxglove_server_options::parameter_handler`. If a
++    /// `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++    /// invoked.
+     pub on_get_parameters: Option<
+         unsafe extern "C" fn(
+             context: *const c_void,
+@@ -283,6 +298,10 @@ pub struct FoxgloveServerCallbacks {
+     ///
+     /// All clients subscribed to updates for the returned parameters will be notified. Note that if a
+     /// returned parameter is unset, it will not be published to clients.
++    ///
++    /// Deprecated: prefer `foxglove_server_options::parameter_handler`. If a
++    /// `FoxgloveParameterHandler` is registered, it takes precedence and this callback is not
++    /// invoked.
+     pub on_set_parameters: Option<
+         unsafe extern "C" fn(
+             context: *const c_void,
+@@ -430,6 +449,10 @@ unsafe fn do_foxglove_server_start(
+     if let Some(callbacks) = options.callbacks {
+         server = server.listener(Arc::new(callbacks.clone()));
+     }
++    if let Some(handler) = options.parameter_handler {
++        handler.validate()?;
++        server = server.parameter_handler(handler.clone().into_arc());
++    }
+     if let Some(fetch_asset) = options.fetch_asset {
+         server = server.fetch_asset_handler(Arc::new(FetchAssetHandler::new(
+             options.fetch_asset_context,
+diff --git a/cpp/cmake/foxglove-sources.cmake b/cpp/cmake/foxglove-sources.cmake
+index 47d94991..2bbf44e1 100644
+--- a/cpp/cmake/foxglove-sources.cmake
++++ b/cpp/cmake/foxglove-sources.cmake
+@@ -18,6 +18,7 @@ set(FOXGLOVE_CPP_HANDWRITTEN_SOURCES
+   foxglove.cpp
+   mcap.cpp
+   parameter.cpp
++  parameter_handler.cpp
+   service.cpp
+   system_info.cpp
+   websocket.cpp
+diff --git a/cpp/examples/param-server/src/main.cpp b/cpp/examples/param-server/src/main.cpp
+index 118bd1be..652e818d 100644
+--- a/cpp/examples/param-server/src/main.cpp
++++ b/cpp/examples/param-server/src/main.cpp
+@@ -3,7 +3,14 @@
+  *
+  * An example from the Foxglove SDK.
+  *
+- * This implements a parameter server for live visualization.
++ * This implements a parameter server using the `ParameterHandler` API.
++ * Get/set requests from clients are enqueued on a worker thread, which owns
++ * the parameter store and fulfils each responder. Because
++ * `SetParametersResponder` only echoes the applied values to the requester,
++ * the worker is also responsible for publishing those updates to other
++ * parameter subscribers; the same path is used to publish a periodic
++ * "elapsed" tick. The parameter store has exactly one owner, so no
++ * synchronization is required.
+  *
+  * View and edit parameters from a Parameters panel in Foxglove:
+  * https://docs.foxglove.dev/docs/visualization/panels/parameters
+@@ -11,115 +18,131 @@
+ 
+ #include <foxglove/foxglove.hpp>
+ #include <foxglove/parameter.hpp>
++#include <foxglove/parameter_handler.hpp>
+ #include <foxglove/websocket.hpp>
+ 
+ #include <atomic>
+ #include <chrono>
++#include <condition_variable>
+ #include <csignal>
+-#include <functional>
+ #include <iostream>
++#include <mutex>
++#include <optional>
++#include <queue>
++#include <string>
+ #include <thread>
+ #include <unordered_map>
++#include <utility>
++#include <variant>
++#include <vector>
+ 
+ using namespace std::chrono_literals;
+ 
++namespace {
++
++// Set by the SIGINT handler.
+ // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+-static std::function<void()> sigint_handler;
++std::atomic<bool> g_shutdown{false};
++static_assert(decltype(g_shutdown)::is_always_lock_free);
+ 
+-// NOLINTNEXTLINE(bugprone-exception-escape)
+-int main() {
+-  foxglove::setLogLevel(foxglove::LogLevel::Debug);
++struct GetOp {
++  std::vector<std::string> names;
++  foxglove::GetParametersResponder responder;
++};
+ 
+-  std::signal(SIGINT, [](int) {
+-    if (sigint_handler) {
+-      sigint_handler();
+-    }
+-  });
++struct SetOp {
++  std::vector<foxglove::Parameter> parameters;
++  foxglove::SetParametersResponder responder;
++};
+ 
+-  // Initialize parameter store
+-  std::vector<foxglove::Parameter> params;
+-  params.emplace_back("read_only_str", std::string("can't change me"));
+-  params.emplace_back("elapsed", 1.0);
+-  params.emplace_back("float_array", std::vector<double>{1.0, 2.0, 3.0});
++using ParameterOp = std::variant<GetOp, SetOp>;
+ 
+-  std::unordered_map<std::string, foxglove::Parameter> param_store;
+-  for (auto&& param : std::move(params)) {
+-    param_store.emplace(param.name(), std::move(param));
++/// @brief Thread-safe queue of parameter operations enqueued by the SDK and
++/// drained by the worker thread.
++class OpQueue {
++public:
++  void push(ParameterOp&& op) {
++    {
++      std::lock_guard<std::mutex> lock(mu_);
++      queue_.push(std::move(op));
++    }
++    cv_.notify_one();
+   }
+ 
+-  foxglove::WebSocketServerOptions options = {};
+-  options.name = "param-server";
+-  options.host = "127.0.0.1";
+-  options.port = 8765;
+-  options.capabilities = foxglove::WebSocketServerCapabilities::Parameters;
+-  options.callbacks.onGetParameters = [&param_store](
+-                                        uint32_t client_id [[maybe_unused]],
+-                                        std::optional<std::string_view>
+-                                          request_id,
+-                                        const std::vector<std::string_view>& param_names
+-                                      ) -> std::vector<foxglove::Parameter> {
+-    std::vector<foxglove::Parameter> result;
+-    std::cerr << "onGetParameters called";
+-    if (request_id.has_value()) {
+-      std::cerr << " with request_id '" << *request_id << "'";
++  /// Block until an op is available or the timeout expires.
++  std::optional<ParameterOp> pop(std::chrono::milliseconds timeout) {
++    std::unique_lock<std::mutex> lock(mu_);
++    cv_.wait_for(lock, timeout, [&] {
++      return !queue_.empty();
++    });
++    if (queue_.empty()) {
++      return std::nullopt;
+     }
+-    if (param_names.empty()) {
+-      std::cerr << " for all parameters\n";
+-      for (const auto& it : param_store) {
+-        result.push_back(it.second.clone());
+-      }
+-    } else {
+-      std::cerr << " for parameters:\n";
+-      for (const auto& name : param_names) {
+-        std::cerr << " - " << name << "\n";
+-        if (auto it = param_store.find(std::string(name)); it != param_store.end()) {
+-          result.push_back(it->second.clone());
+-        }
+-      }
++    auto op = std::move(queue_.front());
++    queue_.pop();
++    return op;
++  }
++
++private:
++  std::mutex mu_;
++  std::condition_variable cv_;
++  std::queue<ParameterOp> queue_;
++};
++
++}  // namespace
++
++// NOLINTNEXTLINE(bugprone-exception-escape)
++int main() {
++  foxglove::setLogLevel(foxglove::LogLevel::Debug);
++
++  std::unordered_map<std::string, foxglove::Parameter> param_store;
++  param_store.emplace(
++    "read_only_str", foxglove::Parameter("read_only_str", std::string("can't change me"))
++  );
++  param_store.emplace("elapsed", foxglove::Parameter("elapsed", 0.0));
++  param_store.emplace(
++    "float_array", foxglove::Parameter("float_array", std::vector<double>{1.0, 2.0, 3.0})
++  );
++
++  OpQueue queue;
++
++  // Build a parameter handler that just enqueues each request onto the worker
++  // queue.
++  foxglove::ParameterHandler handler;
++  handler.onGet = [&queue](
++                    uint32_t /*client_id*/,
++                    std::optional<std::string_view> /*request_id*/,
++                    const std::vector<std::string_view>& param_names,
++                    foxglove::GetParametersResponder&& responder
++                  ) {
++    GetOp op{{}, std::move(responder)};
++    op.names.reserve(param_names.size());
++    for (const auto& name : param_names) {
++      op.names.emplace_back(name);
+     }
+-    return result;
++    queue.push(std::move(op));
+   };
+-  options.callbacks.onSetParameters = [&param_store](
+-                                        uint32_t client_id [[maybe_unused]],
+-                                        std::optional<std::string_view>
+-                                          request_id,
+-                                        const std::vector<foxglove::ParameterView>& params
+-                                      ) -> std::vector<foxglove::Parameter> {
+-    std::cerr << "onSetParameters called";
+-    if (request_id.has_value()) {
+-      std::cerr << " with request_id '" << *request_id << "'";
+-    }
+-    std::cerr << " for parameters:\n";
+-    std::vector<foxglove::Parameter> result;
++  handler.onSet = [&queue](
++                    uint32_t /*client_id*/,
++                    std::optional<std::string_view> /*request_id*/,
++                    const std::vector<foxglove::ParameterView>& params,
++                    foxglove::SetParametersResponder&& responder
++                  ) {
++    SetOp op{{}, std::move(responder)};
++    op.parameters.reserve(params.size());
+     for (const auto& param : params) {
+-      std::cerr << " - " << param.name();
+-      const std::string name(param.name());
+-      if (auto it = param_store.find(name); it != param_store.end()) {
+-        if (name.find("read_only_") == 0) {
+-          std::cerr << " - not updated\n";
+-          result.emplace_back(it->second.clone());
+-        } else {
+-          std::cerr << " - updated\n";
+-          it->second = param.clone();
+-          result.emplace_back(param.clone());
+-        }
+-      }
+-    }
+-    return result;
+-  };
+-  options.callbacks.onParametersSubscribe = [](const std::vector<std::string_view>& names) {
+-    std::cerr << "onParametersSubscribe called for parameters:\n";
+-    for (const auto& name : names) {
+-      std::cerr << " - " << name << "\n";
+-    }
+-  };
+-  options.callbacks.onParametersUnsubscribe = [](const std::vector<std::string_view>& names) {
+-    std::cerr << "onParametersUnsubscribe called for parameters:\n";
+-    for (const auto& name : names) {
+-      std::cerr << " - " << name << "\n";
++      op.parameters.emplace_back(param.clone());
+     }
++    queue.push(std::move(op));
+   };
+ 
++  foxglove::WebSocketServerOptions options = {};
++  options.name = "param-server";
++  options.host = "127.0.0.1";
++  options.port = 8765;
++  // Registering a ParameterHandler implicitly enables the Parameters capability.
++  options.parameter_handler = handler;
++
+   auto server_result = foxglove::WebSocketServer::create(std::move(options));
+   if (!server_result.has_value()) {
+     std::cerr << "Failed to create server: " << foxglove::strerror(server_result.error()) << '\n';
+@@ -127,23 +150,81 @@ int main() {
+   }
+   auto server = std::move(server_result.value());
+ 
+-  std::atomic_bool done = false;
+-  sigint_handler = [&] {
+-    done = true;
+-  };
++  std::signal(SIGINT, [](int) {
++    g_shutdown.store(true, std::memory_order_relaxed);
++  });
+ 
+-  // Start timer
+   auto start_time = std::chrono::steady_clock::now();
+-  while (!done) {
+-    std::this_thread::sleep_for(100ms);
+-    // Update elapsed time
++  auto next_tick = start_time + 1s;
++  while (!g_shutdown.load(std::memory_order_relaxed)) {
+     auto now = std::chrono::steady_clock::now();
+-    auto elapsed = std::chrono::duration<double>(now - start_time).count();
+-    auto param = foxglove::Parameter("elapsed", elapsed);
+-    param_store.insert_or_assign("elapsed", param.clone());
+-    std::vector<foxglove::Parameter> params_to_publish;
+-    params_to_publish.emplace_back(std::move(param));
+-    server.publishParameterValues(std::move(params_to_publish));
++    auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(next_tick - now);
++    if (remaining.count() < 0) {
++      remaining = 0ms;
++    }
++    auto maybe_op = queue.pop(remaining);
++    if (maybe_op) {
++      std::visit(
++        [&](auto& op) {
++          using T = std::decay_t<decltype(op)>;
++          if constexpr (std::is_same_v<T, GetOp>) {
++            std::vector<foxglove::Parameter> result;
++            if (op.names.empty()) {
++              result.reserve(param_store.size());
++              for (const auto& it : param_store) {
++                result.push_back(it.second.clone());
++              }
++            } else {
++              for (const auto& name : op.names) {
++                if (auto it = param_store.find(name); it != param_store.end()) {
++                  result.push_back(it->second.clone());
++                }
++              }
++            }
++            std::move(op.responder).respond(std::move(result));
++          } else if constexpr (std::is_same_v<T, SetOp>) {
++            std::vector<foxglove::Parameter> result;
++            std::vector<foxglove::Parameter> applied;
++            for (auto& param : op.parameters) {
++              const std::string name(param.name());
++              auto it = param_store.find(name);
++              if (it != param_store.end()) {
++                if (name.rfind("read_only_", 0) == 0) {
++                  // Echo back the existing value so the client sees no change.
++                  result.push_back(it->second.clone());
++                  continue;
++                }
++                it->second = std::move(param);
++              } else {
++                it = param_store.emplace(name, std::move(param)).first;
++              }
++              // The store now owns the value. Clone twice: `applied` is
++              // broadcast to subscribers, `result` is echoed to the requester.
++              applied.push_back(it->second.clone());
++              result.push_back(it->second.clone());
++            }
++            std::move(op.responder).respond(std::move(result));
++            // SetParametersResponder only echoes to the requester, so publish
++            // applied changes to subscribers ourselves.
++            if (!applied.empty()) {
++              server.publishParameterValues(std::move(applied));
++            }
++          }
++        },
++        *maybe_op
++      );
++    }
++
++    now = std::chrono::steady_clock::now();
++    if (now >= next_tick) {
++      auto elapsed_secs = std::chrono::duration<double>(now - start_time).count();
++      auto elapsed = foxglove::Parameter("elapsed", elapsed_secs);
++      param_store.insert_or_assign("elapsed", elapsed.clone());
++      std::vector<foxglove::Parameter> to_publish;
++      to_publish.emplace_back(std::move(elapsed));
++      server.publishParameterValues(std::move(to_publish));
++      next_tick += 1s;
++    }
+   }
+ 
+   server.stop();
+diff --git a/cpp/foxglove/include/foxglove/parameter.hpp b/cpp/foxglove/include/foxglove/parameter.hpp
+index aa4991eb..29a26c3a 100644
+--- a/cpp/foxglove/include/foxglove/parameter.hpp
++++ b/cpp/foxglove/include/foxglove/parameter.hpp
+@@ -718,6 +718,8 @@ public:
+ private:
+   friend class WebSocketServer;
+   friend class RemoteAccessGateway;
++  friend class GetParametersResponder;
++  friend class SetParametersResponder;
+ 
+   struct Deleter {
+     void operator()(foxglove_parameter_array* ptr) const noexcept;
+diff --git a/cpp/foxglove/include/foxglove/parameter_handler.hpp b/cpp/foxglove/include/foxglove/parameter_handler.hpp
+new file mode 100644
+index 00000000..0eddc58f
+--- /dev/null
++++ b/cpp/foxglove/include/foxglove/parameter_handler.hpp
+@@ -0,0 +1,181 @@
++#pragma once
++
++#include <foxglove/parameter.hpp>
++
++#include <cstdint>
++#include <functional>
++#include <memory>
++#include <optional>
++#include <string_view>
++#include <vector>
++
++struct foxglove_get_parameters_responder;
++struct foxglove_set_parameters_responder;
++
++namespace foxglove {
++
++/// @brief Responder for a client `getParameters` request.
++///
++/// This is the means by which a parameter handler responds to a get request
++/// from a client. Each request is paired with a unique responder instance,
++/// and the handler **must** complete it by calling `respond()` exactly once
++/// (pass an empty vector if no values are available). Dropping the responder
++/// without responding is reserved for unrecoverable internal errors, and
++/// sends a generic error status to the requesting client.
++class GetParametersResponder final {
++public:
++  /// @brief Send parameter values back to the requesting client.
++  ///
++  /// Entries with an unset value are dropped before serialization.
++  ///
++  /// May throw `std::runtime_error` if the underlying parameter-array
++  /// allocation fails. If this happens, the responder is left intact;
++  /// dropping it (without another `respond()`) sends the generic error
++  /// status to the client.
++  ///
++  /// @param params Parameter values to send.
++  void respond(std::vector<Parameter>&& params) &&;
++
++  ~GetParametersResponder() = default;
++  /// @brief Default move constructor.
++  GetParametersResponder(GetParametersResponder&&) noexcept = default;
++  /// @brief Default move assignment.
++  GetParametersResponder& operator=(GetParametersResponder&&) noexcept = default;
++  GetParametersResponder(const GetParametersResponder&) = delete;
++  GetParametersResponder& operator=(const GetParametersResponder&) = delete;
++
++private:
++  friend class WebSocketServer;
++  friend class RemoteAccessGateway;
++
++  struct Deleter {
++    void operator()(foxglove_get_parameters_responder* ptr) const noexcept;
++  };
++
++  std::unique_ptr<foxglove_get_parameters_responder, Deleter> impl_;
++
++  explicit GetParametersResponder(foxglove_get_parameters_responder* ptr)
++      : impl_(ptr) {}
++};
++
++/// @brief Responder for a client `setParameters` request.
++///
++/// This is the means by which a parameter handler responds to a set request
++/// from a client. Each request is paired with a unique responder instance,
++/// and the handler **must** complete it by calling `respond()` exactly once
++/// with the values that were actually applied (pass an empty vector if the
++/// request could not be handled). When the request carried a request_id, the
++/// values passed to `respond()` are echoed back to the requesting client;
++/// otherwise the responder does nothing on the wire. The responder does not
++/// notify other parameter subscribers; a handler may be shared across
++/// multiple sinks, so it is the implementer's responsibility to broadcast
++/// applied updates to subscribers on each sink (for example, via
++/// `WebSocketServer::publishParameterValues` and
++/// `RemoteAccessGateway::publishParameterValues`). Dropping the responder
++/// without responding is reserved for unrecoverable internal errors, and
++/// sends a generic error status to the requesting client.
++class SetParametersResponder final {
++public:
++  /// @brief Acknowledge the set request with the values that were actually
++  /// applied.
++  ///
++  /// Echoes those values back to the requesting client when the request
++  /// carried a request_id; otherwise does nothing on the wire. Entries with an
++  /// unset value are dropped before serialization.
++  ///
++  /// May throw `std::runtime_error` if the underlying parameter-array
++  /// allocation fails. If this happens, the responder is left intact;
++  /// dropping it (without another `respond()`) sends the generic error
++  /// status to the client.
++  ///
++  /// @param params Parameter values that were applied.
++  void respond(std::vector<Parameter>&& params) &&;
++
++  ~SetParametersResponder() = default;
++  /// @brief Default move constructor.
++  SetParametersResponder(SetParametersResponder&&) noexcept = default;
++  /// @brief Default move assignment.
++  SetParametersResponder& operator=(SetParametersResponder&&) noexcept = default;
++  SetParametersResponder(const SetParametersResponder&) = delete;
++  SetParametersResponder& operator=(const SetParametersResponder&) = delete;
++
++private:
++  friend class WebSocketServer;
++  friend class RemoteAccessGateway;
++
++  struct Deleter {
++    void operator()(foxglove_set_parameters_responder* ptr) const noexcept;
++  };
++
++  std::unique_ptr<foxglove_set_parameters_responder, Deleter> impl_;
++
++  explicit SetParametersResponder(foxglove_set_parameters_responder* ptr)
++      : impl_(ptr) {}
++};
++
++/// @brief Handler for client-initiated parameter operations.
++///
++/// When supplied to a `WebSocketServerOptions` or `RemoteAccessGatewayOptions`,
++/// this handler takes precedence over the deprecated `onGetParameters` /
++/// `onSetParameters` callbacks. Registering a handler also automatically
++/// advertises the `Parameters` capability. Subscribe/unsubscribe notifications
++/// still go through the `onParametersSubscribe` / `onParametersUnsubscribe`
++/// callbacks on `WebSocketServerCallbacks` /
++/// `RemoteAccessGatewayCallbacks`; wire those up separately if you want to be
++/// notified.
++///
++/// Both `onGet` and `onSet` are required: if a `ParameterHandler` is provided
++/// with only one of these set, `WebSocketServer::create` /
++/// `RemoteAccessGateway::create` returns `FoxgloveError::ValueError`. To omit
++/// a handler entirely, leave both callbacks unset.
++///
++/// @note These callbacks are invoked from time-sensitive contexts and must not
++/// block. If long-running work is required, the implementation should hand the
++/// responder off to another thread and return immediately.
++struct ParameterHandler {
++  /// @brief Callback invoked when a client requests parameters.
++  ///
++  /// Required when a `ParameterHandler` is registered.
++  ///
++  /// The implementation takes ownership of `responder`; see
++  /// `GetParametersResponder` for the completion contract.
++  ///
++  /// @param client_id The requesting client's ID.
++  /// @param request_id A request ID unique to this client. May be std::nullopt.
++  /// When present, the buffer is valid for the duration of this call.
++  /// @param param_names A list of parameter names to fetch, or empty to
++  /// request all parameters. The buffer is valid for the duration of this
++  /// call; if the callback wishes to store these values (e.g. to hand them
++  /// off to another thread along with the responder), it must copy them out.
++  /// @param responder The responder used to complete the request.
++  std::function<void(
++    uint32_t client_id, std::optional<std::string_view> request_id,
++    const std::vector<std::string_view>& param_names, GetParametersResponder&& responder
++  )>
++    onGet;
++
++  /// @brief Callback invoked when a client sets parameters.
++  ///
++  /// Required when a `ParameterHandler` is registered.
++  ///
++  /// The implementation takes ownership of `responder`; see
++  /// `SetParametersResponder` for the completion contract, the request_id
++  /// echo behavior, and the implementer's responsibility to broadcast applied
++  /// updates to other parameter subscribers.
++  ///
++  /// @param client_id The requesting client's ID.
++  /// @param request_id A request ID unique to this client. May be std::nullopt.
++  /// When present, the buffer is valid for the duration of this call.
++  /// @param params A list of parameter values the client wishes to set. The
++  /// buffer is valid for the duration of this call; if the callback wishes
++  /// to store these values (e.g. to hand them off to another thread along
++  /// with the responder), it must copy them out via `ParameterView::clone`.
++  /// @param responder The responder used to complete the request.
++  std::function<void(
++    uint32_t client_id, std::optional<std::string_view> request_id,
++    const std::vector<ParameterView>& params, SetParametersResponder&& responder
++  )>
++    onSet;
++};
++
++}  // namespace foxglove
+diff --git a/cpp/foxglove/include/foxglove/remote_access.hpp b/cpp/foxglove/include/foxglove/remote_access.hpp
+index f13017c7..c8b861bb 100644
+--- a/cpp/foxglove/include/foxglove/remote_access.hpp
++++ b/cpp/foxglove/include/foxglove/remote_access.hpp
+@@ -6,6 +6,7 @@
+ #include <foxglove/error.hpp>
+ #include <foxglove/fetch_asset.hpp>
+ #include <foxglove/parameter.hpp>
++#include <foxglove/parameter_handler.hpp>
+ #include <foxglove/service.hpp>
+ 
+ #include <chrono>
+@@ -80,6 +81,15 @@ inline RemoteAccessGatewayCapabilities operator&(
+ ///
+ /// @note These callbacks may be invoked concurrently from multiple threads.
+ /// You must synchronize access to your mutable internal state or shared resources.
++// Suppress -Wdeprecated-declarations for synthesized special members; the
++// field-level [[deprecated]] still warns on direct use.
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+ struct RemoteAccessGatewayCallbacks {
+   /// @brief Callback invoked when the gateway connection status changes.
+   std::function<void(RemoteAccessConnectionStatus status)> onConnectionStatusChanged;
+@@ -106,20 +116,32 @@ struct RemoteAccessGatewayCallbacks {
+   /// @brief Callback invoked when a client requests parameters.
+   ///
+   /// Requires RemoteAccessGatewayCapabilities::Parameters.
+-  std::function<std::vector<Parameter>(
+-    uint32_t client_id, std::optional<std::string_view> request_id,
+-    const std::vector<std::string_view>& param_names
+-  )>
+-    onGetParameters;
++  ///
++  /// @deprecated Use ParameterHandler instead. This callback is not invoked
++  /// when a ParameterHandler is registered on the gateway.
++  [[deprecated(
++    "Use ParameterHandler instead. This callback is not invoked when a ParameterHandler is "
++    "registered on the gateway."
++  )]] std::
++    function<std::vector<Parameter>(
++      uint32_t client_id, std::optional<std::string_view> request_id,
++      const std::vector<std::string_view>& param_names
++    )> onGetParameters;
+ 
+   /// @brief Callback invoked when a client sets parameters.
+   ///
+   /// Requires RemoteAccessGatewayCapabilities::Parameters.
+-  std::function<std::vector<Parameter>(
+-    uint32_t client_id, std::optional<std::string_view> request_id,
+-    const std::vector<ParameterView>& params
+-  )>
+-    onSetParameters;
++  ///
++  /// @deprecated Use ParameterHandler instead. This callback is not invoked
++  /// when a ParameterHandler is registered on the gateway.
++  [[deprecated(
++    "Use ParameterHandler instead. This callback is not invoked when a ParameterHandler is "
++    "registered on the gateway."
++  )]] std::
++    function<std::vector<Parameter>(
++      uint32_t client_id, std::optional<std::string_view> request_id,
++      const std::vector<ParameterView>& params
++    )> onSetParameters;
+ 
+   /// @brief Callback invoked when a client subscribes to parameters for the first time.
+   ///
+@@ -145,6 +167,11 @@ struct RemoteAccessGatewayCallbacks {
+   /// @warning Do not call publishConnectionGraph from within this callback; doing so will deadlock.
+   std::function<void()> onConnectionGraphUnsubscribe;
+ };
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ 
+ /// @brief The reliability policy for a channel's data delivery.
+ enum class Reliability : uint8_t {
+@@ -192,6 +219,19 @@ struct RemoteAccessGatewayOptions {
+   /// If set, this callback is invoked for each channel to determine its quality-of-service
+   /// profile. If not set, all channels use the default lossy profile.
+   QosClassifierFn qos_classifier;
++  /// @brief A parameter handler.
++  ///
++  /// When set, this handler takes precedence over the deprecated
++  /// `onGetParameters` / `onSetParameters` callbacks. Registering a handler
++  /// also automatically advertises the `Parameters` capability. Subscribe /
++  /// unsubscribe notifications still go through the `onParametersSubscribe` /
++  /// `onParametersUnsubscribe` callbacks on `RemoteAccessGatewayCallbacks`;
++  /// wire those up separately if you want to be notified.
++  ///
++  /// Both `ParameterHandler::onGet` and `ParameterHandler::onSet` are
++  /// required when a handler is supplied; setting only one returns
++  /// `FoxgloveError::ValueError` from `RemoteAccessGateway::create`.
++  ParameterHandler parameter_handler;
+   /// @cond foxglove_internal
+   /// @brief (internal) Information about the gateway, which is shared with clients.
+   ///
+@@ -280,13 +320,15 @@ private:
+     foxglove_gateway* gateway, std::unique_ptr<RemoteAccessGatewayCallbacks> callbacks,
+     std::unique_ptr<FetchAssetHandler> fetch_asset,
+     std::unique_ptr<SinkChannelFilterFn> sink_channel_filter,
+-    std::unique_ptr<QosClassifierFn> qos_classifier
++    std::unique_ptr<QosClassifierFn> qos_classifier,
++    std::unique_ptr<ParameterHandler> parameter_handler
+   );
+ 
+   std::unique_ptr<RemoteAccessGatewayCallbacks> callbacks_;
+   std::unique_ptr<FetchAssetHandler> fetch_asset_;
+   std::unique_ptr<SinkChannelFilterFn> sink_channel_filter_;
+   std::unique_ptr<QosClassifierFn> qos_classifier_;
++  std::unique_ptr<ParameterHandler> parameter_handler_;
+   std::unique_ptr<foxglove_gateway, foxglove_error (*)(foxglove_gateway*)> impl_;
+ };
+ 
+diff --git a/cpp/foxglove/include/foxglove/websocket.hpp b/cpp/foxglove/include/foxglove/websocket.hpp
+index f51513e7..f0179b2d 100644
+--- a/cpp/foxglove/include/foxglove/websocket.hpp
++++ b/cpp/foxglove/include/foxglove/websocket.hpp
+@@ -6,6 +6,7 @@
+ #include <foxglove/error.hpp>
+ #include <foxglove/fetch_asset.hpp>
+ #include <foxglove/parameter.hpp>
++#include <foxglove/parameter_handler.hpp>
+ #include <foxglove/playback_control_request.hpp>
+ #include <foxglove/playback_state.hpp>
+ #include <foxglove/service.hpp>
+@@ -115,6 +116,15 @@ inline WebSocketServerCapabilities operator&(
+ ///
+ /// @note These callbacks may be invoked concurrently from multiple threads.
+ /// You must synchronize access to your mutable internal state or shared resources.
++// Suppress -Wdeprecated-declarations for synthesized special members; the
++// field-level [[deprecated]] still warns on direct use.
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+ struct WebSocketServerCallbacks {
+   /// @brief Callback invoked when a client subscribes to a channel.
+   ///
+@@ -151,11 +161,17 @@ struct WebSocketServerCallbacks {
+   /// @param request_id A request ID unique to this client. May be NULL.
+   /// @param param_names A list of parameter names to fetch. If empty, this
+   /// method should return all parameters.
+-  std::function<std::vector<Parameter>(
+-    uint32_t client_id, std::optional<std::string_view> request_id,
+-    const std::vector<std::string_view>& param_names
+-  )>
+-    onGetParameters;
++  ///
++  /// @deprecated Use ParameterHandler instead. This callback is not invoked
++  /// when a ParameterHandler is registered on the server.
++  [[deprecated(
++    "Use ParameterHandler instead. This callback is not invoked when a ParameterHandler is "
++    "registered on the server."
++  )]] std::
++    function<std::vector<Parameter>(
++      uint32_t client_id, std::optional<std::string_view> request_id,
++      const std::vector<std::string_view>& param_names
++    )> onGetParameters;
+ 
+   /// @brief Callback invoked when a client sets parameters.
+   ///
+@@ -167,11 +183,17 @@ struct WebSocketServerCallbacks {
+   /// @param client_id The client ID.
+   /// @param request_id A request ID unique to this client. May be NULL.
+   /// @param param_names A list of updated parameter values.
+-  std::function<std::vector<Parameter>(
+-    uint32_t client_id, std::optional<std::string_view> request_id,
+-    const std::vector<ParameterView>& params
+-  )>
+-    onSetParameters;
++  ///
++  /// @deprecated Use ParameterHandler instead. This callback is not invoked
++  /// when a ParameterHandler is registered on the server.
++  [[deprecated(
++    "Use ParameterHandler instead. This callback is not invoked when a ParameterHandler is "
++    "registered on the server."
++  )]] std::
++    function<std::vector<Parameter>(
++      uint32_t client_id, std::optional<std::string_view> request_id,
++      const std::vector<ParameterView>& params
++    )> onSetParameters;
+ 
+   /// @brief Callback invoked when a client subscribes to the named parameters
+   /// for the first time.
+@@ -222,6 +244,11 @@ struct WebSocketServerCallbacks {
+   )>
+     onPlaybackControlRequest;
+ };
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ 
+ /// @cond foxglove_internal
+ /// @brief TLS configuration for a WebSocket server.
+@@ -262,6 +289,19 @@ struct WebSocketServerOptions {
+   FetchAssetHandler fetch_asset;
+   /// @brief A sink channel filter callback.
+   SinkChannelFilterFn sink_channel_filter;
++  /// @brief A parameter handler.
++  ///
++  /// When set, this handler takes precedence over the deprecated
++  /// `onGetParameters` / `onSetParameters` callbacks. Registering a handler
++  /// also automatically advertises the `Parameters` capability. Subscribe /
++  /// unsubscribe notifications still go through the `onParametersSubscribe` /
++  /// `onParametersUnsubscribe` callbacks on `WebSocketServerCallbacks`; wire
++  /// those up separately if you want to be notified.
++  ///
++  /// Both `ParameterHandler::onGet` and `ParameterHandler::onSet` are
++  /// required when a handler is supplied; setting only one returns
++  /// `FoxgloveError::ValueError` from `WebSocketServer::create`.
++  ParameterHandler parameter_handler;
+   /// @brief (internal) TLS configuration for the server.
+   ///
+   /// This option is under active development and may change.
+@@ -394,12 +434,14 @@ private:
+   WebSocketServer(
+     foxglove_websocket_server* server, std::unique_ptr<WebSocketServerCallbacks> callbacks,
+     std::unique_ptr<FetchAssetHandler> fetch_asset,
+-    std::unique_ptr<SinkChannelFilterFn> sink_channel_filter
++    std::unique_ptr<SinkChannelFilterFn> sink_channel_filter,
++    std::unique_ptr<ParameterHandler> parameter_handler
+   );
+ 
+   std::unique_ptr<WebSocketServerCallbacks> callbacks_;
+   std::unique_ptr<FetchAssetHandler> fetch_asset_;
+   std::unique_ptr<SinkChannelFilterFn> sink_channel_filter_;
++  std::unique_ptr<ParameterHandler> parameter_handler_;
+   std::unique_ptr<foxglove_websocket_server, foxglove_error (*)(foxglove_websocket_server*)> impl_;
+ };
+ 
+diff --git a/cpp/foxglove/src/parameter_handler.cpp b/cpp/foxglove/src/parameter_handler.cpp
+new file mode 100644
+index 00000000..8c131700
+--- /dev/null
++++ b/cpp/foxglove/src/parameter_handler.cpp
+@@ -0,0 +1,26 @@
++#include <foxglove-c/foxglove-c.h>
++#include <foxglove/parameter_handler.hpp>
++
++namespace foxglove {
++
++void GetParametersResponder::Deleter::operator()(foxglove_get_parameters_responder* ptr
++) const noexcept {
++  foxglove_get_parameters_responder_drop(ptr);
++}
++
++void GetParametersResponder::respond(std::vector<Parameter>&& params) && {
++  ParameterArray array(std::move(params));
++  foxglove_get_parameters_responder_respond(impl_.release(), array.release());
++}
++
++void SetParametersResponder::Deleter::operator()(foxglove_set_parameters_responder* ptr
++) const noexcept {
++  foxglove_set_parameters_responder_drop(ptr);
++}
++
++void SetParametersResponder::respond(std::vector<Parameter>&& params) && {
++  ParameterArray array(std::move(params));
++  foxglove_set_parameters_responder_respond(impl_.release(), array.release());
++}
++
++}  // namespace foxglove
+diff --git a/cpp/foxglove/src/remote_access.cpp b/cpp/foxglove/src/remote_access.cpp
+index 1208dc3f..93356244 100644
+--- a/cpp/foxglove/src/remote_access.cpp
++++ b/cpp/foxglove/src/remote_access.cpp
+@@ -20,6 +20,17 @@ FoxgloveResult<RemoteAccessGateway> RemoteAccessGateway::create(
+ ) {
+   foxglove_internal_register_cpp_wrapper();
+ 
++// The legacy onGetParameters/onSetParameters callbacks below are marked
++// [[deprecated]] for consumers, but this file is the internal bridge that
++// forwards them to the C ABI and must keep reading them.
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
++
+   bool has_any_callbacks =
+     options.callbacks.onConnectionStatusChanged || options.callbacks.onSubscribe ||
+     options.callbacks.onUnsubscribe || options.callbacks.onMessageData ||
+@@ -31,6 +42,7 @@ FoxgloveResult<RemoteAccessGateway> RemoteAccessGateway::create(
+   std::unique_ptr<RemoteAccessGatewayCallbacks> callbacks;
+   std::unique_ptr<FetchAssetHandler> fetch_asset;
+   std::unique_ptr<SinkChannelFilterFn> sink_channel_filter;
++  std::unique_ptr<ParameterHandler> parameter_handler;
+ 
+   foxglove_gateway_callbacks c_callbacks = {};
+ 
+@@ -322,6 +334,74 @@ FoxgloveResult<RemoteAccessGateway> RemoteAccessGateway::create(
+     };
+   }
+ 
++  foxglove_parameter_handler c_parameter_handler = {};
++  {
++    const bool has_on_get = bool(options.parameter_handler.onGet);
++    const bool has_on_set = bool(options.parameter_handler.onSet);
++    if (has_on_get != has_on_set) {
++      warn() << "ParameterHandler requires both onGet and onSet to be set";
++      return tl::unexpected(FoxgloveError::ValueError);
++    }
++  }
++  if (options.parameter_handler.onGet && options.parameter_handler.onSet) {
++    parameter_handler = std::make_unique<ParameterHandler>(std::move(options.parameter_handler));
++    c_parameter_handler.context = parameter_handler.get();
++    c_parameter_handler.get = [](
++                                const void* context,
++                                uint32_t client_id,
++                                const struct foxglove_string* c_request_id,
++                                const struct foxglove_string* c_param_names,
++                                size_t param_names_len,
++                                foxglove_get_parameters_responder* c_responder
++                              ) {
++      std::optional<std::string_view> request_id;
++      if (c_request_id != nullptr) {
++        request_id.emplace(c_request_id->data, c_request_id->len);
++      }
++      std::vector<std::string_view> param_names;
++      if (c_param_names != nullptr) {
++        param_names.reserve(param_names_len);
++        for (size_t i = 0; i < param_names_len; ++i) {
++          param_names.emplace_back(c_param_names[i].data, c_param_names[i].len);
++        }
++      }
++      GetParametersResponder responder(c_responder);
++      try {
++        (static_cast<const ParameterHandler*>(context))
++          ->onGet(client_id, request_id, param_names, std::move(responder));
++      } catch (const std::exception& exc) {
++        warn() << "ParameterHandler.onGet callback failed: " << exc.what();
++      }
++    };
++    c_parameter_handler.set = [](
++                                const void* context,
++                                uint32_t client_id,
++                                const struct foxglove_string* c_request_id,
++                                const foxglove_parameter_array* c_params,
++                                foxglove_set_parameters_responder* c_responder
++                              ) {
++      std::optional<std::string_view> request_id;
++      if (c_request_id != nullptr) {
++        request_id.emplace(c_request_id->data, c_request_id->len);
++      }
++      SetParametersResponder responder(c_responder);
++      if (c_params == nullptr) {
++        // Should not happen; the C implementation never passes a null pointer.
++        std::move(responder).respond({});
++        return;
++      }
++      try {
++        (static_cast<const ParameterHandler*>(context))
++          ->onSet(
++            client_id, request_id, ParameterArrayView(c_params).parameters(), std::move(responder)
++          );
++      } catch (const std::exception& exc) {
++        warn() << "ParameterHandler.onSet callback failed: " << exc.what();
++      }
++    };
++    c_options.parameter_handler = &c_parameter_handler;
++  }
++
+   // Optional API URL
+   foxglove_string api_url = {};
+   if (options.foxglove_api_url) {
+@@ -360,20 +440,29 @@ FoxgloveResult<RemoteAccessGateway> RemoteAccessGateway::create(
+     std::move(callbacks),
+     std::move(fetch_asset),
+     std::move(sink_channel_filter),
+-    std::move(qos_classifier)
++    std::move(qos_classifier),
++    std::move(parameter_handler)
+   );
++
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ }
+ 
+ RemoteAccessGateway::RemoteAccessGateway(
+   foxglove_gateway* gateway, std::unique_ptr<RemoteAccessGatewayCallbacks> callbacks,
+   std::unique_ptr<FetchAssetHandler> fetch_asset,
+   std::unique_ptr<SinkChannelFilterFn> sink_channel_filter,
+-  std::unique_ptr<QosClassifierFn> qos_classifier
++  std::unique_ptr<QosClassifierFn> qos_classifier,
++  std::unique_ptr<ParameterHandler> parameter_handler
+ )
+     : callbacks_(std::move(callbacks))
+     , fetch_asset_(std::move(fetch_asset))
+     , sink_channel_filter_(std::move(sink_channel_filter))
+     , qos_classifier_(std::move(qos_classifier))
++    , parameter_handler_(std::move(parameter_handler))
+     , impl_(gateway, foxglove_gateway_stop) {}
+ 
+ RemoteAccessConnectionStatus RemoteAccessGateway::connectionStatus() const {
+diff --git a/cpp/foxglove/src/websocket.cpp b/cpp/foxglove/src/websocket.cpp
+index 44306417..560d3ac9 100644
+--- a/cpp/foxglove/src/websocket.cpp
++++ b/cpp/foxglove/src/websocket.cpp
+@@ -13,6 +13,17 @@ FoxgloveResult<WebSocketServer> WebSocketServer::create(
+ ) {
+   foxglove_internal_register_cpp_wrapper();
+ 
++// The legacy onGetParameters/onSetParameters callbacks below are marked
++// [[deprecated]] for consumers, but this file is the internal bridge that
++// forwards them to the C ABI and must keep reading them.
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
++
+   bool has_any_callbacks =
+     options.callbacks.onSubscribe || options.callbacks.onUnsubscribe ||
+     options.callbacks.onClientAdvertise || options.callbacks.onMessageData ||
+@@ -25,6 +36,7 @@ FoxgloveResult<WebSocketServer> WebSocketServer::create(
+   std::unique_ptr<WebSocketServerCallbacks> callbacks;
+   std::unique_ptr<FetchAssetHandler> fetch_asset;
+   std::unique_ptr<SinkChannelFilterFn> sink_channel_filter;
++  std::unique_ptr<ParameterHandler> parameter_handler;
+ 
+   foxglove_server_callbacks c_callbacks = {};
+ 
+@@ -317,6 +329,74 @@ FoxgloveResult<WebSocketServer> WebSocketServer::create(
+     c_options.playback_end_time = &options.playback_time_range->second;
+   }
+ 
++  foxglove_parameter_handler c_parameter_handler = {};
++  {
++    const bool has_on_get = bool(options.parameter_handler.onGet);
++    const bool has_on_set = bool(options.parameter_handler.onSet);
++    if (has_on_get != has_on_set) {
++      warn() << "ParameterHandler requires both onGet and onSet to be set";
++      return tl::unexpected(FoxgloveError::ValueError);
++    }
++  }
++  if (options.parameter_handler.onGet && options.parameter_handler.onSet) {
++    parameter_handler = std::make_unique<ParameterHandler>(std::move(options.parameter_handler));
++    c_parameter_handler.context = parameter_handler.get();
++    c_parameter_handler.get = [](
++                                const void* context,
++                                uint32_t client_id,
++                                const struct foxglove_string* c_request_id,
++                                const struct foxglove_string* c_param_names,
++                                size_t param_names_len,
++                                foxglove_get_parameters_responder* c_responder
++                              ) {
++      std::optional<std::string_view> request_id;
++      if (c_request_id != nullptr) {
++        request_id.emplace(c_request_id->data, c_request_id->len);
++      }
++      std::vector<std::string_view> param_names;
++      if (c_param_names != nullptr) {
++        param_names.reserve(param_names_len);
++        for (size_t i = 0; i < param_names_len; ++i) {
++          param_names.emplace_back(c_param_names[i].data, c_param_names[i].len);
++        }
++      }
++      GetParametersResponder responder(c_responder);
++      try {
++        (static_cast<const ParameterHandler*>(context))
++          ->onGet(client_id, request_id, param_names, std::move(responder));
++      } catch (const std::exception& exc) {
++        warn() << "ParameterHandler.onGet callback failed: " << exc.what();
++      }
++    };
++    c_parameter_handler.set = [](
++                                const void* context,
++                                uint32_t client_id,
++                                const struct foxglove_string* c_request_id,
++                                const foxglove_parameter_array* c_params,
++                                foxglove_set_parameters_responder* c_responder
++                              ) {
++      std::optional<std::string_view> request_id;
++      if (c_request_id != nullptr) {
++        request_id.emplace(c_request_id->data, c_request_id->len);
++      }
++      SetParametersResponder responder(c_responder);
++      if (c_params == nullptr) {
++        // Should not happen; the C implementation never passes a null pointer.
++        std::move(responder).respond({});
++        return;
++      }
++      try {
++        (static_cast<const ParameterHandler*>(context))
++          ->onSet(
++            client_id, request_id, ParameterArrayView(c_params).parameters(), std::move(responder)
++          );
++      } catch (const std::exception& exc) {
++        warn() << "ParameterHandler.onSet callback failed: " << exc.what();
++      }
++    };
++    c_options.parameter_handler = &c_parameter_handler;
++  }
++
+   std::vector<foxglove_key_value> server_info;
+   if (options.server_info) {
+     server_info.reserve(options.server_info->size());
+@@ -367,18 +447,30 @@ FoxgloveResult<WebSocketServer> WebSocketServer::create(
+   }
+ 
+   return WebSocketServer(
+-    server, std::move(callbacks), std::move(fetch_asset), std::move(sink_channel_filter)
++    server,
++    std::move(callbacks),
++    std::move(fetch_asset),
++    std::move(sink_channel_filter),
++    std::move(parameter_handler)
+   );
++
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ }
+ 
+ WebSocketServer::WebSocketServer(
+   foxglove_websocket_server* server, std::unique_ptr<WebSocketServerCallbacks> callbacks,
+   std::unique_ptr<FetchAssetHandler> fetch_asset,
+-  std::unique_ptr<SinkChannelFilterFn> sink_channel_filter
++  std::unique_ptr<SinkChannelFilterFn> sink_channel_filter,
++  std::unique_ptr<ParameterHandler> parameter_handler
+ )
+     : callbacks_(std::move(callbacks))
+     , fetch_asset_(std::move(fetch_asset))
+     , sink_channel_filter_(std::move(sink_channel_filter))
++    , parameter_handler_(std::move(parameter_handler))
+     , impl_(server, foxglove_server_stop) {}
+ 
+ FoxgloveError WebSocketServer::stop() {
+diff --git a/ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp b/ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp
+index 2229aadc..cc17eeb2 100644
+--- a/ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp
++++ b/ros/src/foxglove_bridge/src/ros2_foxglove_bridge.cpp
+@@ -203,10 +203,23 @@ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
+       std::bind(&FoxgloveBridge::subscribeParameters, this, _1);
+     sdkServerOptions.callbacks.onParametersUnsubscribe =
+       std::bind(&FoxgloveBridge::unsubscribeParameters, this, _1);
++    // FLE-534: migrate to ParameterHandler
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+     sdkServerOptions.callbacks.onGetParameters =
+       std::bind(&FoxgloveBridge::getParameters, this, _1, _2, _3);
+     sdkServerOptions.callbacks.onSetParameters =
+       std::bind(&FoxgloveBridge::setParameters, this, _1, _2, _3);
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+ 
+     _paramInterface = std::make_shared<ParameterInterface>(this, paramWhitelistPatterns,
+                                                            ignoreUnresponsiveParamNodes
+@@ -362,10 +375,23 @@ FoxgloveBridge::FoxgloveBridge(const rclcpp::NodeOptions& options)
+         std::bind(&FoxgloveBridge::subscribeParameters, this, _1);
+       gatewayOptions.callbacks.onParametersUnsubscribe =
+         std::bind(&FoxgloveBridge::unsubscribeParameters, this, _1);
++      // FLE-534: migrate to ParameterHandler
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#elif defined(_MSC_VER)
++#pragma warning(push)
++#pragma warning(disable : 4996)
++#endif
+       gatewayOptions.callbacks.onGetParameters =
+         std::bind(&FoxgloveBridge::getParameters, this, _1, _2, _3);
+       gatewayOptions.callbacks.onSetParameters =
+         std::bind(&FoxgloveBridge::setParameters, this, _1, _2, _3);
++#if defined(__GNUC__) || defined(__clang__)
++#pragma GCC diagnostic pop
++#elif defined(_MSC_VER)
++#pragma warning(pop)
++#endif
+     }
+ 
+     if (hasCapability(_capabilities, foxglove::WebSocketServerCapabilities::ConnectionGraph)) {

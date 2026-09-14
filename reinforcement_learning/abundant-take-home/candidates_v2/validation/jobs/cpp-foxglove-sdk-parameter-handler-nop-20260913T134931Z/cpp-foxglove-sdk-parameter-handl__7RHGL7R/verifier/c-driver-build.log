@@ -1,0 +1,33 @@
+/tests/parity/c_driver.c: In function ‘gateway_compile_check’:
+/tests/parity/c_driver.c:23:37: error: storage size of ‘h’ isn’t known
+   23 |   struct foxglove_parameter_handler h;
+      |                                     ^
+/tests/parity/c_driver.c:26:4: error: ‘struct foxglove_gateway_options’ has no member named ‘parameter_handler’
+   26 |   g.parameter_handler = &h;
+      |    ^
+/tests/parity/c_driver.c: In function ‘slow_thread’:
+/tests/parity/c_driver.c:151:3: warning: implicit declaration of function ‘foxglove_get_parameters_responder_respond’ [-Wimplicit-function-declaration]
+  151 |   foxglove_get_parameters_responder_respond(ctx->responder, arr);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tests/parity/c_driver.c: In function ‘on_get’:
+/tests/parity/c_driver.c:170:7: warning: implicit declaration of function ‘foxglove_get_parameters_responder_drop’ [-Wimplicit-function-declaration]
+  170 |       foxglove_get_parameters_responder_drop(responder);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tests/parity/c_driver.c: At top level:
+/tests/parity/c_driver.c:211:57: warning: ‘struct foxglove_set_parameters_responder’ declared inside parameter list will not be visible outside of this definition or declaration
+  211 |   const struct foxglove_parameter_array* params, struct foxglove_set_parameters_responder* responder
+      |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tests/parity/c_driver.c: In function ‘on_set’:
+/tests/parity/c_driver.c:223:7: warning: implicit declaration of function ‘foxglove_set_parameters_responder_drop’ [-Wimplicit-function-declaration]
+  223 |       foxglove_set_parameters_responder_drop(responder);
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tests/parity/c_driver.c:248:3: warning: implicit declaration of function ‘foxglove_set_parameters_responder_respond’ [-Wimplicit-function-declaration]
+  248 |   foxglove_set_parameters_responder_respond(responder, result);
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tests/parity/c_driver.c: In function ‘main’:
+/tests/parity/c_driver.c:260:37: error: storage size of ‘handler’ isn’t known
+  260 |   struct foxglove_parameter_handler handler;
+      |                                     ^~~~~~~
+/tests/parity/c_driver.c:295:7: error: ‘struct foxglove_server_options’ has no member named ‘parameter_handler’
+  295 |   opts.parameter_handler = &handler;
+      |       ^
