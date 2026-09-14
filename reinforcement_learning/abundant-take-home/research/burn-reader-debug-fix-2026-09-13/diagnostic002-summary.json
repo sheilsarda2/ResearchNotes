@@ -1,0 +1,122 @@
+{
+  "at": "2026-09-14T00:23:40.421008+00:00",
+  "passed": true,
+  "source_trial": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__aLVwbse",
+  "diagnostic_result_sha256": "b0b6e9d98f420d6152fbd4a12d23f63fdf910a6c810abf8386b77175ff9a6bbf",
+  "supplemental_helper_proof_sha256": "984bd4d3e49c344196e9bcf41dd8d832bd31590d45a4663131d4713a044df006",
+  "cleanup_and_consistency_review_sha256": "ed365481039b10bc6186c9fdace78066996e69ca75c6bee2c851b328de6c598c",
+  "harness_sha256": "ea5c6eff7dca9d6eebeefb80d0b0c4e55b3c21d71b2c97484ae595f79b6ca4f9",
+  "wrapper_sha256": "d074c18072f88882a60b5b3ac3de9a20f66bedbaefa34201f96e1c59591dc62a",
+  "model_calls": 0,
+  "full_regrade_performed": false,
+  "reward": null,
+  "hidden_pytorch_tests_compiled": 108,
+  "targeted_assertions_exercised": 7,
+  "targeted_assertions_passed": 5,
+  "targeted_assertions_failed": 2,
+  "targeted_assertions": {
+    "pytorch::tests::reader::test_big_endian_file_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_top_level_key_that_is_not_a_dict": {
+      "exit_code": 101,
+      "passed": false,
+      "assertion_failed": true,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_truncated_legacy_file_fails_at_open": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error": {
+      "exit_code": 101,
+      "passed": false,
+      "assertion_failed": true,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_unrecognized_byteorder_is_an_error": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_legacy_big_endian_file_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    }
+  },
+  "all_saved_source_files_unchanged": 80,
+  "production_source_files_unchanged": 22,
+  "historical_anticheat_zero_unchanged": true,
+  "no_debug_implementation_added": true,
+  "task_assertions_unchanged_during_diagnostic": true,
+  "remaining_model_defects": [
+    {
+      "test": "test_tar_absurd_storage_count_is_an_error",
+      "observed": "PytorchReader::new returned Ok for a count of 2^40 in an eleven-byte storage entry",
+      "documented_requirement": "instruction.md:108 requires a Pickle error when count exceeds what the entry holds"
+    },
+    {
+      "test": "test_top_level_key_that_is_not_a_dict",
+      "observed": "Error omits the required substring does not hold a dictionary",
+      "documented_requirement": "instruction.md:120 requires that substring for a present non-dictionary selected value"
+    }
+  ],
+  "interpretation": "The incidental Debug bound is removed without modifying saved implementation. Compilation and seven focused error cases are validated; this is not a full regrade and the historical zero remains.",
+  "earlier_attempts": "Diagnostic001 remains InputDrift; diagnostic002 initial preflight made no Docker or shared-admission call and was superseded by checking actual unmanaged scope.",
+  "diagnostic_file_sha256": {
+    "cleanup-and-consistency-review.json": "ed365481039b10bc6186c9fdace78066996e69ca75c6bee2c851b328de6c598c",
+    "control.json": "084da64784a51c7fa4efa08ba105fff46754f95c62f4bab50bd9b5166e9ba927",
+    "live-container-proof.json": "67a469865ce08202163627481ba20b4ee1985b48710c9767363a290d896dd992",
+    "logs/compile.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/compile.log": "7f12a7c88898dd37233bda523c5cb252862e2cd5990f3014cbe4b03c96048b12",
+    "logs/list.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/list.log": "3083b28fbc54822174767b6c7509d1702bf51e4e91842e155ed1a9bd6b02787c",
+    "logs/test_big_endian_file_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_big_endian_file_is_refused.log": "d3909af64e814e373f71b2a22af22aeade6f2dc46263cc556ef4700f22165ceb",
+    "logs/test_legacy_big_endian_file_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_legacy_big_endian_file_is_refused.log": "4c39ccf4ba7d54b01e9fddf556b7aea75e140c7d3a117eed3dfafef1c6422a7d",
+    "logs/test_legacy_sys_info_without_little_endian_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_legacy_sys_info_without_little_endian_is_refused.log": "f7c8ff3669b71971c363264958e66b64cae5ffdf426f754191f0fef82ae02e8b",
+    "logs/test_tar_absurd_storage_count_is_an_error.exit": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "logs/test_tar_absurd_storage_count_is_an_error.log": "a82940d49f764d60621cd95f851ae2a06e358065b581866c403f54289d169643",
+    "logs/test_top_level_key_that_is_not_a_dict.exit": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "logs/test_top_level_key_that_is_not_a_dict.log": "f88f8cd969786d0ae0829eeea06f378da442148c77694de495814205947ca643",
+    "logs/test_truncated_legacy_file_fails_at_open.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_truncated_legacy_file_fails_at_open.log": "aa3475b876ec1450b4ba34e15fbcadba892613ac54fd13f2b973f6ec60fea6d8",
+    "logs/test_unrecognized_byteorder_is_an_error.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_unrecognized_byteorder_is_an_error.log": "4abdf7f56bd97e4aa838a0eb054b516219af5bb77f696b93da615857171c2396",
+    "result.json": "b0b6e9d98f420d6152fbd4a12d23f63fdf910a6c810abf8386b77175ff9a6bbf",
+    "targeted-test.log": "181b325afb13a6689df3ca34dba13d95e5d536ef1f34b9d6f0d8046cbeef397f"
+  },
+  "source_proof_file_sha256": {
+    "capture_and_run-before-policy-scope-check.py": "3c3a18677bd1069e68dac622680bff5b76a3ed50f467528e722419b0f5138066",
+    "capture_and_run.py": "d074c18072f88882a60b5b3ac3de9a20f66bedbaefa34201f96e1c59591dc62a",
+    "preflight-not-started.json": "73e034938c1fce3a6668e849adab8d045e259f3852f56207993c1fdce8e5fbe0",
+    "run-001/intent.json": "66f57eb35885474f230c95a103c54e7ae44b3032d2ff0220a92317bcf24d20ba",
+    "run-001/result.json": "984bd4d3e49c344196e9bcf41dd8d832bd31590d45a4663131d4713a044df006",
+    "run-001/source-manifest.json": "94cb51309198572186dc2f42c6c89aad12aed10d007aba47e8ede1d0fc6f2254",
+    "run-001/source_snapshot/research/burn-reader-debug-fix-2026-09-13/diagnose_saved_submission.py": "ea5c6eff7dca9d6eebeefb80d0b0c4e55b3c21d71b2c97484ae595f79b6ca4f9",
+    "run-001/source_snapshot/scripts/benchmark_interleaving.py": "995868b16804976ce48ef6a1bba52db97ca00f9f968799a41ed78e6ffa8ad62f",
+    "run-001/source_snapshot/scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "run-001/source_snapshot/scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+    "source-manifest.json": "32288146a74f538b533724fcf189ed43d65348c542a94a40bf067a72bf823b69",
+    "source_snapshot/research/burn-reader-debug-fix-2026-09-13/diagnose_saved_submission.py": "ea5c6eff7dca9d6eebeefb80d0b0c4e55b3c21d71b2c97484ae595f79b6ca4f9",
+    "source_snapshot/scripts/benchmark_interleaving.py": "995868b16804976ce48ef6a1bba52db97ca00f9f968799a41ed78e6ffa8ad62f",
+    "source_snapshot/scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "source_snapshot/scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9"
+  }
+}

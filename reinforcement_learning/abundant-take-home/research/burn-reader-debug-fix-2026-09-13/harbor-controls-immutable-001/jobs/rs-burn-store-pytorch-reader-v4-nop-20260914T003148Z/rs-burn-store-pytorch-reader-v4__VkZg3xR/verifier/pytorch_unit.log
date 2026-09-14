@@ -1,0 +1,626 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.41s
+     Running unittests src/lib.rs (target/debug/deps/burn_store-a93be7a4a4b93e29)
+
+running 108 tests
+test pytorch::tests::reader::test_3d_tensor ... ok
+test pytorch::tests::reader::test_2d_tensor ... ok
+test pytorch::tests::reader::test_4d_tensor ... ok
+test pytorch::tests::reader::test_bfloat16_tensor ... ok
+test pytorch::tests::reader::test_bool_tensor ... ok
+test pytorch::tests::reader::test_buffers ... ok
+test pytorch::tests::reader::test_checkpoint ... ok
+test pytorch::tests::reader::test_complex_structure ... ok
+test pytorch::tests::reader::test_empty_tensor ... ok
+test pytorch::tests::reader::test_extreme_values ... ok
+test pytorch::tests::reader::test_float16_tensor ... ok
+test pytorch::tests::reader::test_float32_tensor ... ok
+test pytorch::tests::reader::test_float64_tensor ... ok
+test pytorch::tests::reader::test_int16_tensor ... ok
+test pytorch::tests::reader::test_int32_tensor ... ok
+test pytorch::tests::reader::test_int64_tensor ... ok
+test pytorch::tests::reader::test_int8_tensor ... ok
+test pytorch::tests::reader::test_large_shape ... ok
+test pytorch::tests::reader::test_big_endian_file_is_refused ... FAILED
+test pytorch::tests::reader::test_legacy_big_endian_file_is_refused ... FAILED
+test pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols ... FAILED
+test pytorch::tests::reader::test_legacy_format ... ok
+test pytorch::tests::reader::test_legacy_metadata_detailed ... ok
+test pytorch::tests::reader::test_legacy_shared_storage ... ok
+test pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error ... FAILED
+test pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused ... FAILED
+test pytorch::tests::reader::test_legacy_uncloned_views ... ok
+test pytorch::tests::reader::test_legacy_with_offsets ... ok
+test pytorch::tests::reader::test_load_config_basic ... ok
+test pytorch::tests::reader::test_load_config_complex_types ... ok
+test pytorch::tests::reader::test_load_config_key_not_found ... ok
+test pytorch::tests::reader::test_metadata_legacy_format ... ok
+test pytorch::tests::reader::test_load_config_with_top_level_key ... ok
+test pytorch::tests::reader::test_metadata_zip_format ... ok
+test pytorch::tests::reader::test_metadata_reads_entries_under_archive_root ... FAILED
+test pytorch::tests::reader::test_mixed_types ... ok
+test pytorch::tests::reader::test_nested_dict ... ok
+test pytorch::tests::reader::test_non_contiguous_tensors ... ok
+test pytorch::tests::reader::test_parameter ... ok
+test pytorch::tests::reader::test_pickle_value_conversion ... ok
+test pytorch::tests::reader::test_protocol_4_checkpoint ... FAILED
+test pytorch::tests::reader::test_read_pickle_data_basic ... ok
+test pytorch::tests::reader::test_read_pickle_data_key_not_found ... ok
+test pytorch::tests::reader::test_read_pickle_data_nested_structure ... ok
+test pytorch::tests::reader::test_read_pickle_data_simple_pickle ... ok
+test pytorch::tests::reader::test_read_pickle_data_types ... ok
+test pytorch::tests::reader::test_read_pickle_data_with_key ... ok
+test pytorch::tests::reader::test_read_pytorch_tensors_convenience ... ok
+test pytorch::tests::reader::test_scalar_tensor ... ok
+test pytorch::tests::reader::test_small_invalid_file ... ok
+test pytorch::tests::reader::test_special_values ... ok
+test pytorch::tests::reader::test_state_dict ... ok
+test pytorch::tests::reader::test_tar_2d_tensor_shape ... FAILED
+test pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error ... FAILED
+test pytorch::tests::reader::test_storage_larger_than_tensor_reads_only_what_is_needed ... ok
+test pytorch::tests::reader::test_tar_float32_tensor ... FAILED
+test pytorch::tests::reader::test_tar_float64_tensor ... FAILED
+test pytorch::tests::reader::test_tar_format_detection ... ok
+test pytorch::tests::reader::test_tar_metadata ... FAILED
+test pytorch::tests::reader::test_tar_int64_tensor ... FAILED
+test pytorch::tests::reader::test_tar_multiple_tensors ... FAILED
+test pytorch::tests::reader::test_tar_multi_dtype ... FAILED
+test pytorch::tests::reader::test_tar_storage_view ... FAILED
+test pytorch::tests::reader::test_top_level_key_that_is_not_a_dict ... FAILED
+test pytorch::tests::reader::test_truncated_legacy_file_fails_at_open ... FAILED
+test pytorch::tests::reader::test_tensor_read_errors_are_not_zeros ... ok
+test pytorch::tests::reader::test_uint8_tensor ... ok
+test pytorch::tests::reader::test_unrecognized_byteorder_is_an_error ... FAILED
+test pytorch::tests::reader::test_with_top_level_key ... ok
+test pytorch::tests::reader::test_zip_archive_and_root_level_layouts ... FAILED
+test pytorch::tests::reader::test_zip_checksum_mismatch_is_an_error ... ok
+test pytorch::tests::store::adapter_tests::test_pytorch_adapter_with_filtering ... ok
+test pytorch::tests::store::adapter_tests::test_pytorch_adapter_always_applied ... ok
+test pytorch::tests::store::basic_tests::test_store_creation ... ok
+test pytorch::tests::store::basic_tests::test_store_map_indices_contiguous_default ... ok
+test pytorch::tests::store::basic_tests::test_store_configuration ... ok
+test pytorch::tests::store::basic_tests::test_store_map_indices_contiguous_disabled ... ok
+test pytorch::tests::store::basic_tests::test_store_save_not_supported ... ok
+test pytorch::tests::store::basic_tests::test_store_with_remapping ... ok
+test pytorch::tests::store::basic_tests::test_store_with_top_level_key ... ok
+test pytorch::tests::store::complex_model_tests::test_legacy_format ... ok
+test pytorch::tests::store::complex_model_tests::test_load_nested_structure ... ok
+test pytorch::tests::store::complex_model_tests::test_load_with_top_level_key ... ok
+test pytorch::tests::store::complex_model_tests::test_key_remap_chained ... ok
+test pytorch::tests::store::conv_model_tests::test_load_conv1d_model ... ok
+test pytorch::tests::store::direct_access_tests::test_caching_behavior ... ok
+test pytorch::tests::store::conv_model_tests::test_load_conv2d_model ... ok
+test pytorch::tests::store::direct_access_tests::test_get_all_tensors ... ok
+test pytorch::tests::store::direct_access_tests::test_get_all_tensors_ignores_filter ... ok
+test pytorch::tests::store::direct_access_tests::test_get_all_tensors_with_remapping ... ok
+test pytorch::tests::store::direct_access_tests::test_get_tensor_existing ... ok
+test pytorch::tests::store::direct_access_tests::test_get_tensor_not_found ... ok
+test pytorch::tests::store::direct_access_tests::test_get_tensor_with_remapped_name ... ok
+test pytorch::tests::store::direct_access_tests::test_keys ... ok
+test pytorch::tests::store::direct_access_tests::test_keys_fast_path ... ok
+test pytorch::tests::store::enum_variant_tests::enum_variant_appears_in_path_unless_skipped ... ok
+test pytorch::tests::store::enum_variant_tests::test_enum_variant_path_mismatch ... ok
+test pytorch::tests::store::enum_variant_tests::test_skip_enum_variants_feature ... ok
+test pytorch::tests::store::error_handling_tests::test_invalid_top_level_key ... ok
+test pytorch::tests::store::error_handling_tests::test_missing_file ... ok
+test pytorch::tests::store::error_handling_tests::test_strict_validation ... ok
+test pytorch::tests::store::linear_model_tests::test_filter_layers ... ok
+test pytorch::tests::store::linear_model_tests::test_load_linear_with_bias ... ok
+test pytorch::tests::store::linear_model_tests::test_load_linear_model ... ok
+test pytorch::tests::store::linear_model_tests::test_remap_layer_names ... ok
+test pytorch::tests::store::map_indices_contiguous_tests::test_load_non_contiguous_indexes_with_mapping ... ok
+test pytorch::tests::store::map_indices_contiguous_tests::test_load_non_contiguous_indexes_without_mapping ... ok
+test pytorch::tests::store::map_indices_contiguous_tests::test_mapping_applied_to_keys ... ok
+
+failures:
+
+---- pytorch::tests::reader::test_big_endian_file_is_refused stdout ----
+
+thread 'pytorch::tests::reader::test_big_endian_file_is_refused' (3823) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1340:47:
+big-endian files are not supported
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_big_endian_file_is_refused
+             at ./src/pytorch/tests/reader/mod.rs:1340:47
+   6: burn_store::pytorch::tests::reader::test_big_endian_file_is_refused::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1338:37
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_legacy_big_endian_file_is_refused stdout ----
+
+thread 'pytorch::tests::reader::test_legacy_big_endian_file_is_refused' (3838) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1674:47:
+big-endian legacy files are refused
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_legacy_big_endian_file_is_refused
+             at ./src/pytorch/tests/reader/mod.rs:1674:47
+   6: burn_store::pytorch::tests::reader::test_legacy_big_endian_file_is_refused::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1657:44
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols stdout ----
+
+thread 'pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols' (3840) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1625:67:
+protocol4: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: burn_store::pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1625:67
+   3: core::result::Result<T,E>::unwrap_or_else
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1622:23
+   4: burn_store::pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols
+             at ./src/pytorch/tests/reader/mod.rs:1625:48
+   5: burn_store::pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1605:49
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error stdout ----
+
+thread 'pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error' (3843) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1590:10:
+mismatched element count must be rejected: TensorData { bytes: Bytes { data: [0, 0, 128, "..."], len: 40 }, shape: Shape { dims: [10] }, dtype: F32 }
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::result::unwrap_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1867:5
+   3: core::result::Result<T,E>::expect_err
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1298:22
+   4: burn_store::pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error
+             at ./src/pytorch/tests/reader/mod.rs:1590:10
+   5: burn_store::pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1577:52
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused stdout ----
+
+thread 'pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused' (3844) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1649:47:
+a header without the flag must be refused
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused
+             at ./src/pytorch/tests/reader/mod.rs:1649:47
+   6: burn_store::pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1636:59
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_metadata_reads_entries_under_archive_root stdout ----
+
+thread 'pytorch::tests::reader::test_metadata_reads_entries_under_archive_root' (3852) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1331:5:
+assertion `left == right` failed
+  left: None
+ right: Some("3")
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:394:5
+   4: burn_store::pytorch::tests::reader::test_metadata_reads_entries_under_archive_root
+             at ./src/pytorch/tests/reader/mod.rs:1331:5
+   5: burn_store::pytorch::tests::reader::test_metadata_reads_entries_under_archive_root::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1326:52
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_protocol_4_checkpoint stdout ----
+
+thread 'pytorch::tests::reader::test_protocol_4_checkpoint' (3859) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1309:44:
+Failed to load protocol4.pt: Pickle(InvalidOpCode(149))
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::result::unwrap_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1867:5
+   3: core::result::Result<T,E>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/result.rs:1185:23
+   4: burn_store::pytorch::tests::reader::test_protocol_4_checkpoint
+             at ./src/pytorch/tests/reader/mod.rs:1309:44
+   5: burn_store::pytorch::tests::reader::test_protocol_4_checkpoint::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1305:32
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_2d_tensor_shape stdout ----
+
+thread 'pytorch::tests::reader::test_tar_2d_tensor_shape' (3872) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1277:39:
+matrix key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_2d_tensor_shape
+             at ./src/pytorch/tests/reader/mod.rs:1277:39
+   6: burn_store::pytorch::tests::reader::test_tar_2d_tensor_shape::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1272:30
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error stdout ----
+
+thread 'pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error' (3873) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1454:47:
+absurd count must be rejected
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error
+             at ./src/pytorch/tests/reader/mod.rs:1454:47
+   6: burn_store::pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1430:47
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_float32_tensor stdout ----
+
+thread 'pytorch::tests::reader::test_tar_float32_tensor' (3874) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1165:39:
+tensor key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_float32_tensor
+             at ./src/pytorch/tests/reader/mod.rs:1165:39
+   6: burn_store::pytorch::tests::reader::test_tar_float32_tensor::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1161:29
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_float64_tensor stdout ----
+
+thread 'pytorch::tests::reader::test_tar_float64_tensor' (3875) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1183:39:
+tensor key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_float64_tensor
+             at ./src/pytorch/tests/reader/mod.rs:1183:39
+   6: burn_store::pytorch::tests::reader::test_tar_float64_tensor::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1179:29
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_metadata stdout ----
+
+thread 'pytorch::tests::reader::test_tar_metadata' (3878) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1300:5:
+assertion `left == right` failed
+  left: 0
+ right: 1
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed::<usize, usize>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:394:5
+   4: burn_store::pytorch::tests::reader::test_tar_metadata
+             at ./src/pytorch/tests/reader/mod.rs:1300:5
+   5: burn_store::pytorch::tests::reader::test_tar_metadata::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1292:23
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_int64_tensor stdout ----
+
+thread 'pytorch::tests::reader::test_tar_int64_tensor' (3877) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1200:39:
+tensor key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_int64_tensor
+             at ./src/pytorch/tests/reader/mod.rs:1200:39
+   6: burn_store::pytorch::tests::reader::test_tar_int64_tensor::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1196:27
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_multiple_tensors stdout ----
+
+thread 'pytorch::tests::reader::test_tar_multiple_tensors' (3880) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1216:39:
+weight key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_multiple_tensors
+             at ./src/pytorch/tests/reader/mod.rs:1216:39
+   6: burn_store::pytorch::tests::reader::test_tar_multiple_tensors::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1210:31
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_multi_dtype stdout ----
+
+thread 'pytorch::tests::reader::test_tar_multi_dtype' (3879) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1248:10:
+float_tensor key not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_multi_dtype
+             at ./src/pytorch/tests/reader/mod.rs:1248:10
+   6: burn_store::pytorch::tests::reader::test_tar_multi_dtype::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1240:26
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_tar_storage_view stdout ----
+
+thread 'pytorch::tests::reader::test_tar_storage_view' (3881) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1415:35:
+root not found
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_tar_storage_view
+             at ./src/pytorch/tests/reader/mod.rs:1415:35
+   6: burn_store::pytorch::tests::reader::test_tar_storage_view::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1411:27
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_top_level_key_that_is_not_a_dict stdout ----
+
+thread 'pytorch::tests::reader::test_top_level_key_that_is_not_a_dict' (3883) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1351:5:
+unexpected error: Key 'Top-level key 'epoch' not found or is not a dictionary. Available top-level keys in file: ["optimizer_state_dict", "epoch", "loss", "model_state_dict"]' not found in PyTorch file. Available keys may be listed with the keys() method.
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: burn_store::pytorch::tests::reader::test_top_level_key_that_is_not_a_dict
+             at ./src/pytorch/tests/reader/mod.rs:1351:5
+   3: burn_store::pytorch::tests::reader::test_top_level_key_that_is_not_a_dict::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1348:43
+   4: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   5: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_truncated_legacy_file_fails_at_open stdout ----
+
+thread 'pytorch::tests::reader::test_truncated_legacy_file_fails_at_open' (3884) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1369:47:
+truncated storage data must be rejected
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_truncated_legacy_file_fails_at_open
+             at ./src/pytorch/tests/reader/mod.rs:1369:47
+   6: burn_store::pytorch::tests::reader::test_truncated_legacy_file_fails_at_open::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1362:46
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_unrecognized_byteorder_is_an_error stdout ----
+
+thread 'pytorch::tests::reader::test_unrecognized_byteorder_is_an_error' (3886) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1506:47:
+unknown byteorder must be rejected
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::panic_display::<&str>
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:259:5
+   3: core::option::expect_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:2245:5
+   4: core::option::Option<T>::expect
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:971:21
+   5: burn_store::pytorch::tests::reader::test_unrecognized_byteorder_is_an_error
+             at ./src/pytorch/tests/reader/mod.rs:1506:47
+   6: burn_store::pytorch::tests::reader::test_unrecognized_byteorder_is_an_error::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1493:45
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   8: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+---- pytorch::tests::reader::test_zip_archive_and_root_level_layouts stdout ----
+
+thread 'pytorch::tests::reader::test_zip_archive_and_root_level_layouts' (3888) panicked at crates/burn-store/src/pytorch/tests/reader/mod.rs:1571:9:
+assertion `left == right` failed
+  left: None
+ right: Some("3")
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: core::panicking::assert_failed_inner
+   3: core::panicking::assert_failed
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:394:5
+   4: burn_store::pytorch::tests::reader::test_zip_archive_and_root_level_layouts
+             at ./src/pytorch/tests/reader/mod.rs:1571:9
+   5: burn_store::pytorch::tests::reader::test_zip_archive_and_root_level_layouts::{{closure}}
+             at ./src/pytorch/tests/reader/mod.rs:1559:45
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   7: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+
+
+failures:
+    pytorch::tests::reader::test_big_endian_file_is_refused
+    pytorch::tests::reader::test_legacy_big_endian_file_is_refused
+    pytorch::tests::reader::test_legacy_magic_in_other_pickle_protocols
+    pytorch::tests::reader::test_legacy_storage_count_mismatch_is_an_error
+    pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused
+    pytorch::tests::reader::test_metadata_reads_entries_under_archive_root
+    pytorch::tests::reader::test_protocol_4_checkpoint
+    pytorch::tests::reader::test_tar_2d_tensor_shape
+    pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error
+    pytorch::tests::reader::test_tar_float32_tensor
+    pytorch::tests::reader::test_tar_float64_tensor
+    pytorch::tests::reader::test_tar_int64_tensor
+    pytorch::tests::reader::test_tar_metadata
+    pytorch::tests::reader::test_tar_multi_dtype
+    pytorch::tests::reader::test_tar_multiple_tensors
+    pytorch::tests::reader::test_tar_storage_view
+    pytorch::tests::reader::test_top_level_key_that_is_not_a_dict
+    pytorch::tests::reader::test_truncated_legacy_file_fails_at_open
+    pytorch::tests::reader::test_unrecognized_byteorder_is_an_error
+    pytorch::tests::reader::test_zip_archive_and_root_level_layouts
+
+test result: FAILED. 88 passed; 20 failed; 0 ignored; 0 measured; 181 filtered out; finished in 0.09s
+
+error: test failed, to rerun pass `-p burn-store --lib`

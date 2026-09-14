@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-14T00:34:22.641851+00:00",
+  "read_only_audit": true,
+  "model_calls": 0,
+  "scheduler_mutations": false,
+  "cause": "Uncaught FileNotFoundError in interleaving cached_state propagated through admission and Harbor TaskGroup, canceling sibling trials. Logs do not establish why shared state was temporarily absent.",
+  "runner_log": "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z.runner.log",
+  "runner_log_sha256": "b4e97c8a8d116dc1d05a4cb280c5420dbaace44772d2e1c0d7045f95fd84e09e",
+  "trials": [
+    {
+      "name": "rs-burn-store-pytorch-reader-v3__ZiKugWf",
+      "path": "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__ZiKugWf",
+      "started_at": "2026-09-14T00:08:26.835131Z",
+      "finished_at": "2026-09-14T00:24:15.853004Z",
+      "agent_execution": {
+        "started_at": "2026-09-14T00:09:10.236741Z",
+        "finished_at": "2026-09-14T00:23:45.973892Z"
+      },
+      "exception_type": "CancelledError",
+      "exception_occurred_at_as_recorded": "2026-09-14T00:23:47.265549",
+      "cleanup_finished_at_utc": "2026-09-14T00:23:46.454221+00:00",
+      "verifier": null,
+      "raw_reward": null,
+      "guard_quiescent": true,
+      "cleanup_error": null,
+      "all_guard_executions_quiescent": true,
+      "trajectory_counts": {
+        "atif_agent_steps": 56,
+        "atif_steps_with_timestamp": 56,
+        "atif_tool_calls": 56,
+        "native_assistant_turns": 56,
+        "native_tool_calls": 56,
+        "native_tool_returns": 56,
+        "native_turns_with_timestamp": 56,
+        "turn_counts_match": true
+      },
+      "usage_censored": true,
+      "evidence_input_files_rehashed": 87,
+      "evidence_hash_mismatches": [],
+      "raw_file_sha256": {
+        "result.json": "70436cc70c8ce694298c0531605546171b0c732a182f78c31c54b8d424087546",
+        "config.json": "a217d868815615c137b564292db32a1633c48f502712780ef1bf4e2b2e6d0415",
+        "benchmark-evidence.json": "45bbd164f96228796516dd155a1a1778cf179cdd0aceea799e92af1633eae78d",
+        "benchmark-deadline.json": "738d476627a053f47f170842d57cde340222e56e235c116009bbe5c7606f4060"
+      },
+      "read_only_current_classifier": {
+        "code": "admission_state_read_cancelled_siblings",
+        "resolved": true,
+        "incident": "research/benchmark-incidents/interleaving-state-read-20260914-burn/incident.json",
+        "incident_sha256": "9c4a621d579c2ff20f26f30e17e79a530b5fff122337419e7db60c54fe39b5a4"
+      },
+      "disposition": "Historical infrastructure cancellation; do not resume or retry v3."
+    },
+    {
+      "name": "rs-burn-store-pytorch-reader-v3__9WPpN5o",
+      "path": "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__9WPpN5o",
+      "started_at": "2026-09-13T23:43:32.513270Z",
+      "finished_at": "2026-09-14T00:24:15.858742Z",
+      "agent_execution": {
+        "started_at": "2026-09-13T23:44:26.723734Z",
+        "finished_at": "2026-09-14T00:23:45.924355Z"
+      },
+      "exception_type": "CancelledError",
+      "exception_occurred_at_as_recorded": "2026-09-14T00:23:47.567131",
+      "cleanup_finished_at_utc": "2026-09-14T00:23:46.517213+00:00",
+      "verifier": null,
+      "raw_reward": null,
+      "guard_quiescent": true,
+      "cleanup_error": null,
+      "all_guard_executions_quiescent": true,
+      "trajectory_counts": {
+        "atif_agent_steps": 80,
+        "atif_steps_with_timestamp": 80,
+        "atif_tool_calls": 80,
+        "native_assistant_turns": 80,
+        "native_tool_calls": 80,
+        "native_tool_returns": 80,
+        "native_turns_with_timestamp": 80,
+        "turn_counts_match": true
+      },
+      "usage_censored": true,
+      "evidence_input_files_rehashed": 89,
+      "evidence_hash_mismatches": [],
+      "raw_file_sha256": {
+        "result.json": "5e230e6b1d749a65d21cb2e386240cb98cd24c134c9c7dcfd53952b77e731608",
+        "config.json": "6fcdc3cf946c0122eb4c06d7356623617ca93faf88b39492c2c6e0ac8e61a32e",
+        "benchmark-evidence.json": "82dc792becbc305e11feb83bace40803174982d52cd965c550c69e22dcb2fde8",
+        "benchmark-deadline.json": "3ae8c994ff47044ca862ba4574f6f2d1e80591a275ea14bdb894c7af0e06c93e"
+      },
+      "read_only_current_classifier": {
+        "code": "admission_state_read_cancelled_siblings",
+        "resolved": true,
+        "incident": "research/benchmark-incidents/interleaving-state-read-20260914-burn/incident.json",
+        "incident_sha256": "9c4a621d579c2ff20f26f30e17e79a530b5fff122337419e7db60c54fe39b5a4"
+      },
+      "disposition": "Historical infrastructure cancellation; do not resume or retry v3."
+    }
+  ],
+  "late_hotpatch_ack": {
+    "path": "jobs/interleaving-live-20260914/read-retry-workers/14730-2749242.ack.json",
+    "sha256": "b9de2c396ebe3078a3a325d6da5856d6f23c2c7acd77a9dc472bf7a7aab9a17c",
+    "passed_field": true,
+    "started_at_utc": "2026-09-14T00:24:15.146210+00:00",
+    "finished_at_utc": "2026-09-14T00:24:15.842623+00:00",
+    "interpretation": "ACK is after cancellation began and immediately before trial cleanup completed. It does not prove these agents survived the update."
+  },
+  "cleanup_observation": {
+    "old_runner14730_absent": true,
+    "no_burn_v3_shared_claims": true,
+    "docker_metadata_inventory_completed": true,
+    "containers_inspected": 34,
+    "no_burn_v3_container_name_or_campaign_mount_matches": true
+  },
+  "burn_retirement_observation": {
+    "supervisor": {
+      "pid": 14708,
+      "state": "S",
+      "start_ticks": "2749217"
+    },
+    "watchdog": {
+      "pid": 14647,
+      "state": "S",
+      "start_ticks": "2749199"
+    },
+    "old_runner14730_absent": true,
+    "paused": true,
+    "pause_reason": "Burn reader v3 hidden assertions require undocumented PytorchReader Debug; v4 validation pending",
+    "summary_updated_at": "2026-09-14T00:34:20.987554+00:00",
+    "summary_status": "paused",
+    "summary_infrastructure": 2,
+    "summary_review": 0,
+    "current_classifier_recognizes_both": true,
+    "action": "Retire entire v3 cohort; do not restart or retry v3."
+  },
+  "scheduler_fix_proof": {
+    "path": "research/benchmark-incidents/interleaving-state-read-20260914/proof.json",
+    "sha256": "81f55656e193cdf6dffdaa38a164ce6b643ce2fcc44388d690d17cb4f242e1b3",
+    "recorded_unit_tests": 8,
+    "recorded_transient_read_regression_passed": true,
+    "source_comparison": {
+      "scripts/benchmark_interleaving.py": {
+        "proof_sha256": "ee2c6336b209dc4676975b1e108ef338b07f9248be739806a658abaaef6a18e5",
+        "current_sha256": "38dbc90d718c6ea5cfb2ae0dc34a269eeb1720240fa63a1e84cc2314efe9e4b0",
+        "matches": false
+      },
+      "scripts/benchmark_shared_admission.py": {
+        "proof_sha256": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+        "current_sha256": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+        "matches": true
+      },
+      "scripts/hotpatch-benchmark-interleaving.py": {
+        "proof_sha256": "aa11ed46caf2d334da04744679d3779d22dcd69a19abd2c272b69f9d7c352f47",
+        "current_sha256": "aa11ed46caf2d334da04744679d3779d22dcd69a19abd2c272b69f9d7c352f47",
+        "matches": true
+      }
+    },
+    "scope": "Cold missing-state and warm cached-state failure tests, plus fake ongoing-agent hotpatch smoke. Current interleaving source has since gained revision-selection refresh; this earlier proof does not validate those later additions."
+  },
+  "other_campaign_recovery_observations": [
+    {
+      "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+      "observed_summary_at": "2026-09-14T00:34:21.429065+00:00",
+      "runners": [
+        {
+          "pid": 18216,
+          "state": "R",
+          "start_ticks": "3020185"
+        }
+      ],
+      "supervisor": {
+        "pid": 72358,
+        "state": "S",
+        "start_ticks": "2427348"
+      },
+      "watchdog": {
+        "pid": 48564,
+        "state": "S",
+        "start_ticks": "2260381"
+      },
+      "paused": false,
+      "completed": 5,
+      "target": 180,
+      "infrastructure": 4,
+      "review": 0,
+      "resources": {
+        "active_trials": 0,
+        "admission_wait_reason": "memory pressure",
+        "updated_at": "2026-09-14T00:34:19.056994+00:00"
+      }
+    },
+    {
+      "campaign": "candidates-diskcache-v2-efforts-20-20260913T234023Z",
+      "observed_summary_at": "2026-09-14T00:34:21.491434+00:00",
+      "runners": [],
+      "supervisor": {
+        "pid": 14777,
+        "state": "S",
+        "start_ticks": "2749265"
+      },
+      "watchdog": {
+        "pid": 14740,
+        "state": "S",
+        "start_ticks": "2749249"
+      },
+      "paused": false,
+      "completed": 3,
+      "target": 180,
+      "infrastructure": 7,
+      "review": 0,
+      "resources": {
+        "active_trials": null,
+        "admission_wait_reason": null,
+        "updated_at": null
+      }
+    }
+  ]
+}

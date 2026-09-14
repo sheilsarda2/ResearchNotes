@@ -1,0 +1,45 @@
+{
+  "at": "2026-09-14T01:01:17.687115+00:00",
+  "expires_at_epoch": 1789353077.6871257,
+  "controller": {
+    "pid": 24716,
+    "identity": "3038984"
+  },
+  "validation_output": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001",
+  "validation_control_sha256": "7d33866a1e7bd120cabc62b06df3278b1596e6699c0d18caa868ca233fb561aa",
+  "shared_control_sha256": "29d7f5f4df8e7a64010849a127ec4f57f67bb4ab956934f910037645d368c5b7",
+  "script_sha256": "a9bc0e833bf0fa32ca613014dcbce00b5f1925b575f0e21751e4d63d9a9bcc5f",
+  "changes": [
+    {
+      "path": "jobs/candidates-all14-efforts-20-20260913T183301Z.control.json",
+      "original": "{\n  \"max_active\": 12,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": false,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"image_readiness\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json\",\n  \"image_readiness_tasks\": [\n    \"rs-burn-store-pytorch-reader\",\n    \"rs-zenoh-timestamp-instrumentation\",\n    \"rs-burn-onnx-rnn-runtime-weights\",\n    \"cpp-foxglove-sdk-parameter-handler\",\n    \"py-zarr-python-cast-value-scale-offset\",\n    \"cpp-zenoh-cpp-connectivity-api\",\n    \"cpp-rosbag2-mixed-serialization-playback\",\n    \"py-rosbags-rosbag2-storage-writers\",\n    \"rs-rerun-chunk-optimizer\",\n    \"diskcache-online-reshard\"\n  ],\n  \"excluded_tasks\": [\n    \"burn-scoped-checkpoint-remap\",\n    \"diskcache-online-reshard\",\n    \"rs-burn-store-pytorch-reader\",\n    \"rs-zenoh-timestamp-instrumentation\"\n  ]\n}\n",
+      "original_sha256": "97f53984ce655893ec1ebbbf3cccb2ffd630375d8e8ffe28bc5c70d489223587",
+      "applied": "{\n  \"max_active\": 10,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": false,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"image_readiness\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/queue-revisions/hold-rs-zenoh-hidden-import-20260913T214000Z/readiness.json\",\n  \"image_readiness_tasks\": [\n    \"rs-burn-store-pytorch-reader\",\n    \"rs-zenoh-timestamp-instrumentation\",\n    \"rs-burn-onnx-rnn-runtime-weights\",\n    \"cpp-foxglove-sdk-parameter-handler\",\n    \"py-zarr-python-cast-value-scale-offset\",\n    \"cpp-zenoh-cpp-connectivity-api\",\n    \"cpp-rosbag2-mixed-serialization-playback\",\n    \"py-rosbags-rosbag2-storage-writers\",\n    \"rs-rerun-chunk-optimizer\",\n    \"diskcache-online-reshard\"\n  ],\n  \"excluded_tasks\": [\n    \"burn-scoped-checkpoint-remap\",\n    \"diskcache-online-reshard\",\n    \"rs-burn-store-pytorch-reader\",\n    \"rs-zenoh-timestamp-instrumentation\"\n  ]\n}\n",
+      "applied_sha256": "10e7194ea11ff421bdabe35b6f8836416c72537460f6c1104677297aecfd3b29"
+    },
+    {
+      "path": "jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json",
+      "original": "{\n  \"max_active\": 12,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": false,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"excluded_tasks\": []\n}\n",
+      "original_sha256": "f89de323142114b1c44af52cfa0a2cb0dd7d57f8d7f7dec7b92dc73bfa8f82a4",
+      "applied": "{\n  \"max_active\": 12,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": true,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"excluded_tasks\": [],\n  \"pause_reason\": \"Reserve next available slot for Burn v4 oracle/nop validation\"\n}\n",
+      "applied_sha256": "9cf588bd3ebefa42a41931c1b1326e1c868da17a38ae29b80d0b56fe903d82da"
+    },
+    {
+      "path": "jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.json",
+      "original": "{\n  \"max_active\": 12,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": false,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"excluded_tasks\": []\n}\n",
+      "original_sha256": "f89de323142114b1c44af52cfa0a2cb0dd7d57f8d7f7dec7b92dc73bfa8f82a4",
+      "applied": "{\n  \"max_active\": 12,\n  \"min_total_mb\": 30000,\n  \"reserve_mb\": 4096,\n  \"startup_reserve_mb\": 1536,\n  \"startup_window_sec\": 120,\n  \"start_interval_sec\": 5,\n  \"max_memory_pressure_pct\": 1.0,\n  \"pressure_cooldown_sec\": 60,\n  \"network_pool_cidr\": \"172.31.0.0/16\",\n  \"paused\": true,\n  \"shared_pool\": \"/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json\",\n  \"excluded_tasks\": [],\n  \"pause_reason\": \"Reserve next available slot for Burn v4 oracle/nop validation\"\n}\n",
+      "applied_sha256": "9cf588bd3ebefa42a41931c1b1326e1c868da17a38ae29b80d0b56fe903d82da"
+    }
+  ],
+  "initial_claims": {
+    "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-all14-efforts-20-20260913T183301Z.control.json": 11,
+    "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-zenoh-v3-efforts-20-20260913T221317Z.control.json": 1,
+    "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/control.json": 0,
+    "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-diskcache-v2-efforts-20-20260913T234023Z.control.json": 0
+  },
+  "shared_cap": 12,
+  "task_budget_changes": 0,
+  "trial_signals": 0,
+  "model_calls": 0
+}

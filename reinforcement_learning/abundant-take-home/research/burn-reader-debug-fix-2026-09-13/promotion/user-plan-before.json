@@ -1,0 +1,77 @@
+{
+  "updated_at": "2026-09-13T23:42:28.138926+00:00",
+  "active_full_campaign": "candidates-all14-efforts-20-20260913T183301Z",
+  "iterations_per_task_model_effort": 20,
+  "total_full_trials": 2340,
+  "models": [
+    "fable-5-1",
+    "opus-5",
+    "sonnet-5"
+  ],
+  "efforts": [
+    "medium",
+    "high",
+    "max"
+  ],
+  "shared_concurrency": 12,
+  "superseded_do_not_resume": [
+    "candidates-top5-efforts-256-20260913T175721Z",
+    "candidates-v2-top9-efforts-256-20260913T181833Z"
+  ],
+  "pilot_remains_separate": true,
+  "image_prewarmer_continues_for_combined_queue": 52243,
+  "pilot_status": "cancelled",
+  "cancelled_do_not_resume": [
+    "candidates-top5-efforts-3-20260913T161409Z"
+  ],
+  "pilot_cancellation_archive": "jobs/cancellations/candidates-top5-efforts-3-20260913T161409Z-20260913T194155Z",
+  "active_task_count": 13,
+  "excluded_tasks": [
+    "burn-scoped-checkpoint-remap",
+    "diskcache-online-reshard",
+    "rs-burn-store-pytorch-reader",
+    "rs-zenoh-timestamp-instrumentation"
+  ],
+  "pending_activation": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation.json",
+  "activation_status_path": "jobs/queue-revisions/drop-burn-scoped-20260913T194700Z-02/activation-watcher.json",
+  "watchdog": {
+    "launcher_pid": 96223,
+    "interval_seconds": 30,
+    "status_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.json",
+    "log_path": "jobs/candidates-all14-efforts-20-20260913T183301Z.watchdog.log",
+    "automatic_recovery": true
+  },
+  "active_revision_campaigns": [
+    "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+    "candidates-burn-reader-v3-efforts-20-20260913T232621Z",
+    "candidates-diskcache-v2-efforts-20-20260913T234023Z"
+  ],
+  "task_revisions": [
+    {
+      "source_task": "rs-zenoh-timestamp-instrumentation",
+      "task": "rs-zenoh-timestamp-instrumentation-v3",
+      "campaign": "candidates-zenoh-v3-efforts-20-20260913T221317Z",
+      "manifest_sha256": "99ed5b56c7c760ac8fc98a3e10ceed3dce42e0d6e9789e742095bab5c8e86ea4",
+      "validation": "oracle=1, nop=0; both alternative-layout compile/conversion diagnostics passed",
+      "historical_results_remain_separate": true
+    },
+    {
+      "source_task": "rs-burn-store-pytorch-reader",
+      "task": "rs-burn-store-pytorch-reader-v3",
+      "campaign": "candidates-burn-reader-v3-efforts-20-20260913T232621Z",
+      "manifest_sha256": "5f705e08a9fbc121280b9729efa8c55ec618c6ed6aa1f5f9bb1edeab48002617",
+      "validation": "oracle=1, nop=0; exact revised task controls and source manifests verified",
+      "evidence": "research/burn-reader-fixture-fix-2026-09-13",
+      "historical_results_remain_separate": true
+    },
+    {
+      "source_task": "diskcache-online-reshard",
+      "task": "diskcache-online-reshard-v2",
+      "campaign": "candidates-diskcache-v2-efforts-20-20260913T234023Z",
+      "manifest_sha256": "914d191df6f348ff7f61c32d797ec48ffdef326897f96498e5553bd25f71b2e9",
+      "validation": "oracle=1, nop=0; exact revised task controls and source manifests verified",
+      "evidence": "research/diskcache-lease-spec-fix-2026-09-13",
+      "historical_results_remain_separate": true
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+--- v3/tests/hidden/reader/mod.rs
++++ v4/tests/hidden/reader/mod.rs
+@@ -1337,7 +1337,7 @@
+ #[test]
+ fn test_big_endian_file_is_refused() {
+     let path = test_data_path("big_endian.pt");
+-    let err = PytorchReader::new(&path).expect_err("big-endian files are not supported");
++    let err = PytorchReader::new(&path).err().expect("big-endian files are not supported");
+     assert!(
+         err.to_string().contains("Big-endian"),
+         "unexpected error: {err}"
+@@ -1347,7 +1347,7 @@
+ #[test]
+ fn test_top_level_key_that_is_not_a_dict() {
+     let path = test_data_path("checkpoint.pt");
+-    let err = PytorchReader::with_top_level_key(&path, "epoch").expect_err("epoch is an int");
++    let err = PytorchReader::with_top_level_key(&path, "epoch").err().expect("epoch is an int");
+     assert!(
+         err.to_string().contains("does not hold a dictionary"),
+         "unexpected error: {err}"
+@@ -1366,7 +1366,7 @@
+     // Drop the last 16 bytes of storage data.
+     std::fs::write(&path, &original[..original.len() - 16]).unwrap();
+ 
+-    let err = PytorchReader::new(&path).expect_err("truncated storage data must be rejected");
++    let err = PytorchReader::new(&path).err().expect("truncated storage data must be rejected");
+     assert!(
+         err.to_string()
+             .contains("extends beyond the end of the file"),
+@@ -1451,7 +1451,7 @@
+     }
+     builder.finish().unwrap();
+ 
+-    let err = PytorchReader::new(&path).expect_err("absurd count must be rejected");
++    let err = PytorchReader::new(&path).err().expect("absurd count must be rejected");
+     assert!(
+         err.to_string().contains("Pickle"),
+         "unexpected error: {err}"
+@@ -1503,7 +1503,7 @@
+             }
+         },
+     );
+-    let err = PytorchReader::new(&path).expect_err("unknown byteorder must be rejected");
++    let err = PytorchReader::new(&path).err().expect("unknown byteorder must be rejected");
+     assert!(
+         err.to_string().contains("Unrecognized byteorder"),
+         "unexpected error: {err}"
+@@ -1646,7 +1646,7 @@
+     let path = dir.path().join("no_endianness.pt");
+     std::fs::write(&path, &bytes).unwrap();
+ 
+-    let err = PytorchReader::new(&path).expect_err("a header without the flag must be refused");
++    let err = PytorchReader::new(&path).err().expect("a header without the flag must be refused");
+     assert!(
+         err.to_string().contains("little_endian bool"),
+         "unexpected error: {err}"
+@@ -1671,7 +1671,7 @@
+     let path = dir.path().join("big_endian_legacy.pt");
+     std::fs::write(&path, &bytes).unwrap();
+ 
+-    let err = PytorchReader::new(&path).expect_err("big-endian legacy files are refused");
++    let err = PytorchReader::new(&path).err().expect("big-endian legacy files are refused");
+     assert!(
+         err.to_string().contains("Big-endian"),
+         "unexpected error: {err}"

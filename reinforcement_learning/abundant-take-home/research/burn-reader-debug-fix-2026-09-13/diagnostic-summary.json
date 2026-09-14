@@ -1,0 +1,114 @@
+{
+  "created_at": "2026-09-14T00:15:28.063309+00:00",
+  "trial": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__aLVwbse",
+  "diagnostic_status": {
+    "status": "error",
+    "error_type": "InputDrift",
+    "model_calls": 0,
+    "diagnostic_completed": true,
+    "whole_lib_test_target_compiled": true,
+    "all_108_hidden_pytorch_tests_compiled": true,
+    "all_seven_error_assertions_exercised": true,
+    "all_seven_error_assertions_passed": false,
+    "container_submission_copy_verified": true,
+    "container_stopped_confirmed": true,
+    "shared_claim_released": true,
+    "inputs_unchanged": false,
+    "full_regrade_performed": false,
+    "reward": null
+  },
+  "diagnostic_source_sha256": "ea5c6eff7dca9d6eebeefb80d0b0c4e55b3c21d71b2c97484ae595f79b6ca4f9",
+  "check_only_sha256": "bfb9d20d0ead03940d43ce44a3eb55c66a167a95ddb32f435710d2b1fbce3b39",
+  "self_tests_sha256": "af139358e8d17ee4db923a77f66c0c47c63ac3d56afe77deba01350c9b647acf",
+  "result_sha256": "eb52816a8d1b6399b66037666834c050478798431272d5e1fae94069fad3266e",
+  "cleanup_and_input_drift_review_sha256": "b2c3d6fbaaa7e066c4f45949ea0e4a9e24a640e1de74e67ccb243d68f682c21b",
+  "live_container_proof_sha256": "5a94790c6a58da376d421e8ee3e77cc20af640928075ea8d40f24e839f5c188d",
+  "targeted_assertions": {
+    "pytorch::tests::reader::test_big_endian_file_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_top_level_key_that_is_not_a_dict": {
+      "exit_code": 101,
+      "passed": false,
+      "assertion_failed": true,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_truncated_legacy_file_fails_at_open": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_tar_absurd_storage_count_is_an_error": {
+      "exit_code": 101,
+      "passed": false,
+      "assertion_failed": true,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_unrecognized_byteorder_is_an_error": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_legacy_sys_info_without_little_endian_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    },
+    "pytorch::tests::reader::test_legacy_big_endian_file_is_refused": {
+      "exit_code": 0,
+      "passed": true,
+      "assertion_failed": false,
+      "exactly_one_test_executed": true
+    }
+  },
+  "remaining_model_defects": [
+    {
+      "test": "test_tar_absurd_storage_count_is_an_error",
+      "observed": "PytorchReader::new returned Ok for a count of 2^40 in an eleven-byte storage entry",
+      "instruction": "instruction.md:108 requires a Pickle error when count exceeds what the entry holds",
+      "log_sha256": "6a4b2079382ddec890e4c463906124d47a45a3e1d0ce9ef6cbe09841359d4568"
+    },
+    {
+      "test": "test_top_level_key_that_is_not_a_dict",
+      "observed": "Error says not found or is not a dictionary but omits the required substring",
+      "instruction": "instruction.md:120 requires does not hold a dictionary for a present non-dictionary selected value",
+      "log_sha256": "84294f41191a4056d70b51d5add0a9b28e7a8d5db332eb7cbdd773b47456b1e6"
+    }
+  ],
+  "decision": "Keep raw diagnostic-001 status InputDrift. No retry until source stability is confirmed; no task assertion changes or historical regrade.",
+  "historical_reward_unchanged": 0,
+  "historical_anticheat_failure_preserved": true,
+  "source_files_unchanged": 80,
+  "production_source_files_unchanged": 22,
+  "diagnostic_file_sha256": {
+    "control.json": "084da64784a51c7fa4efa08ba105fff46754f95c62f4bab50bd9b5166e9ba927",
+    "input-drift-and-cleanup-review.json": "b2c3d6fbaaa7e066c4f45949ea0e4a9e24a640e1de74e67ccb243d68f682c21b",
+    "live-container-proof.json": "5a94790c6a58da376d421e8ee3e77cc20af640928075ea8d40f24e839f5c188d",
+    "logs/compile.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/compile.log": "ae196586d894d5d537a7adffcf3d4774a59ff9928d9ca41bd7d276d108346793",
+    "logs/list.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/list.log": "92c6c777fe2cd234575f218eced022321601c9fdbd1c0185eee9f25af1cdcd47",
+    "logs/test_big_endian_file_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_big_endian_file_is_refused.log": "4aaa9eb19b3dfae86e553cf49e73857460346c257fdb502377f3bbffa08a8b84",
+    "logs/test_legacy_big_endian_file_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_legacy_big_endian_file_is_refused.log": "f6421c866e38c2ca7cd9f114a88dccef258bd390ceaadcc24d1427a5de648188",
+    "logs/test_legacy_sys_info_without_little_endian_is_refused.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_legacy_sys_info_without_little_endian_is_refused.log": "fa8d56b17d66e49c0e5881ae697bc2b9cf851f29205352bcbc42683246dd16b8",
+    "logs/test_tar_absurd_storage_count_is_an_error.exit": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "logs/test_tar_absurd_storage_count_is_an_error.log": "6a4b2079382ddec890e4c463906124d47a45a3e1d0ce9ef6cbe09841359d4568",
+    "logs/test_top_level_key_that_is_not_a_dict.exit": "39b8dc3fc8b44765c8e6f1adee04c5b465e555ab791cc42d0d9e810d5b64297c",
+    "logs/test_top_level_key_that_is_not_a_dict.log": "84294f41191a4056d70b51d5add0a9b28e7a8d5db332eb7cbdd773b47456b1e6",
+    "logs/test_truncated_legacy_file_fails_at_open.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_truncated_legacy_file_fails_at_open.log": "f97924a83376a0121f2a17b469ac8aafb42d790f22da93bf6202c73ef37cb133",
+    "logs/test_unrecognized_byteorder_is_an_error.exit": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "logs/test_unrecognized_byteorder_is_an_error.log": "1c31cbdd5f8ba3f4700c038678cb059060215c0abd680afb451f3561e996cd7b",
+    "result.json": "eb52816a8d1b6399b66037666834c050478798431272d5e1fae94069fad3266e",
+    "targeted-test.log": "181b325afb13a6689df3ca34dba13d95e5d536ef1f34b9d6f0d8046cbeef397f"
+  }
+}

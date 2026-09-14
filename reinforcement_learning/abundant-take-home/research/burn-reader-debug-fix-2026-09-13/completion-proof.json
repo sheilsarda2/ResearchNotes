@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "completed_at": "2026-09-14T01:11:04.494114+00:00",
+  "passed": true,
+  "model_calls": 0,
+  "promoted": false,
+  "frozen_selection": "research/burn-reader-debug-fix-2026-09-13/frozen-task-manifest.json",
+  "frozen_selection_sha256": "8db2dcb4d4bc46263f84024a730a2c876d63c397a0a78c622d1bcd8ea5891d03",
+  "task": {
+    "id": "rs-burn-store-pytorch-reader-v4",
+    "path": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+    "revision_of": "rs-burn-store-pytorch-reader",
+    "validated_task_sha256": "0f7372d7168f9d8eb07c6f6a19a8f13f5038004448b8528b6fba2f37745189ac",
+    "validated_harbor_task_checksum": "60ad8cb53469867e4e2dd5333e7b028677cda254452eae2aff018e707def3c11",
+    "validation_basis": "standard_harbor_oracle_nop_and_exact_fixture_manifests",
+    "validation_evidence": {
+      "oracle": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-oracle-20260914T003148Z/rs-burn-store-pytorch-reader-v4__NZZnrjW/result.json",
+      "nop": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs/rs-burn-store-pytorch-reader-v4-nop-20260914T003148Z/rs-burn-store-pytorch-reader-v4__VkZg3xR/result.json"
+    },
+    "validation_result_sha256": {
+      "oracle": "62401955772b5bfca598e9292d70feb917961381a1d695abbd53500108dd9e4a",
+      "nop": "cc2def2cc5f768e8e13c5013ca0db2dfee5bffdbb2b731c01f515ac70a4b094d"
+    },
+    "oracle_verified": true,
+    "nop_verified": true,
+    "check_format": "verifier_groups",
+    "expected_verifier_groups": [
+      "build",
+      "anticheat",
+      "pytorch_unit",
+      "safetensors_unit",
+      "integration",
+      "pytorch_tests_crate",
+      "fixture_matrix",
+      "reject_cases"
+    ]
+  },
+  "control_summary_sha256": "a2c067f05b60c0a1bf62a29fdb81b81eb5bd92900a8c84f7fe403b294577c184",
+  "run_identity_sha256": "9f96c74fe67821384d7aa6bcad45814eead243813e44e590be5a45eb6f215a7c",
+  "capture_manifest_sha256": "71dcb780574c40e8c120f57c0a3df50349230212ff66cd9732ce32366ae2c4c3",
+  "execution_context_sha256": "4d1e48ac19095af1e39916b2ffda3b42d5a69f1a2f2afb263e64c25afece9282",
+  "controls": {
+    "oracle": {
+      "source_proof": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/oracle-runner-source-proof.json",
+      "source_proof_sha256": "21b4fb829463c3a7d4960d0cdb53f5f2d0d2a35b8a2bc5d83bb04616e07aec2a",
+      "loaded_local_modules": 11,
+      "all_expected_runtime_modules_loaded_from_capture": true,
+      "reward": 1,
+      "result_sha256": "62401955772b5bfca598e9292d70feb917961381a1d695abbd53500108dd9e4a",
+      "raw_trial_files_bound": 139,
+      "guard_executions": 2,
+      "cleanup_leads_verifier_seconds": 13.845508575439453
+    },
+    "nop": {
+      "source_proof": "research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/nop-runner-source-proof.json",
+      "source_proof_sha256": "7c42e359f4a08b8c2519e1d497072a260b77fd7b82ef0c82e7a73d5868ac2951",
+      "loaded_local_modules": 11,
+      "all_expected_runtime_modules_loaded_from_capture": true,
+      "reward": 0,
+      "result_sha256": "cc2def2cc5f768e8e13c5013ca0db2dfee5bffdbb2b731c01f515ac70a4b094d",
+      "raw_trial_files_bound": 136,
+      "guard_executions": 0,
+      "cleanup_leads_verifier_seconds": 11.90144968032837
+    }
+  },
+  "task_inputs_unchanged": true,
+  "captured_execution_sources_unchanged": true,
+  "live_source_differences_recorded_separately": {
+    "scripts/benchmark_incidents.py": {
+      "captured": "9e3fef9622e65c25eb2ae2fb85e1540f310919a729c64ef841684f53258aefe5",
+      "live": "d14116a2533cacc46d42d563a1bb2c26e0b0fb8e7dd0f7267c528e548a0d270d"
+    },
+    "scripts/benchmark_interleaving.py": {
+      "captured": "ee2c6336b209dc4676975b1e108ef338b07f9248be739806a658abaaef6a18e5",
+      "live": "d53926c45426d56a09fd27348747876c355ab3428ff7aad3852bb2b7a32078e5"
+    }
+  },
+  "supplied_materials_check": "research/burn-reader-debug-fix-2026-09-13/original-materials-check.json",
+  "supplied_materials_check_sha256": "b528f06701a976aff7eeffa5e0af727d7dbefd2deab8be422f77a8f3de39303c",
+  "diagnostic_summary": "research/burn-reader-debug-fix-2026-09-13/diagnostic002-summary.json",
+  "diagnostic_summary_sha256": "8169129118648a47abaa1b1e42b648537cc576e936cd879197c86229183e3655",
+  "diagnostic_scope": "108 hidden tests compile, exact seven changed assertion tests executed; not a full regrade",
+  "historical_rewards_changed": false
+}

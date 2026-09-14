@@ -1,0 +1,93 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running tests/fixture_matrix.rs (target/debug/deps/fixture_matrix-fb2f5ead2dbe33a7)
+
+running 1 test
+test matrix_accepts ... PASS ACCEPT dtypes_typed.pt key=-: 10 tensors match
+FAIL ACCEPT dtypes_v3_unsigned.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT module_state_dict.pt key=-: 11 tensors match
+PASS ACCEPT checkpoint.pt key=-: 10 tensors match
+PASS ACCEPT checkpoint.pt key=model_state_dict: 4 tensors match
+PASS ACCEPT checkpoint.pt key=optimizer_state_dict: 6 tensors match
+PASS ACCEPT shared_storage_views.pt key=-: 8 tensors match
+PASS ACCEPT noncontiguous_3d.pt key=-: 6 tensors match
+PASS ACCEPT scalars_and_empty.pt key=-: 7 tensors match
+PASS ACCEPT large_tensors.pt key=-: 4 tensors match
+PASS ACCEPT legacy_default.pt key=-: 8 tensors match
+FAIL ACCEPT legacy_protocol4.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT zip_protocol3.pt key=-: 4 tensors match
+FAIL ACCEPT zip_protocol4.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL ACCEPT zip_protocol5.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT zip_fileobj_archive_root.pt key=-: 4 tensors match
+PASS ACCEPT parameters_and_grad.pt key=-: 4 tensors match
+FAIL ACCEPT opaque_metadata.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT many_tensors.pt key=-: 300 tensors match
+PASS ACCEPT special_floats.pt key=-: 4 tensors match
+FAIL ACCEPT subclass_tensor.pt key=-: open failed: Pickle parsing error: Invalid data in pickle file: rebuild_tensor_v2: expected at least 5 args, got 3. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL ACCEPT int_keys.pt key=-: open failed: Pickle parsing error: Invalid data in pickle file: dict key must be a string. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT crafted_root_level.pt key=-: 2 tensors match
+PASS ACCEPT crafted_deep_root.pt key=-: 2 tensors match
+PASS ACCEPT crafted_no_version_entries.pt key=-: 2 tensors match
+PASS ACCEPT crafted_deflated.pt key=-: 2 tensors match
+FAIL ACCEPT crafted_offsets_protocol4.pt key=-: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL ACCEPT crafted_untyped_storage_v3.pt key=-: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS ACCEPT plain_pickle_dict.pkl key=-: 0 tensors match
+FAIL ACCEPT tar_early.tar key=-: expected 5 tensors, reader reports len=0 keys=0 | missing tensor 'bytes' | missing tensor 'ids' | missing tensor 'matrix' | missing tensor 'root' | missing tensor 'window'
+FAIL META dtypes_typed.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META dtypes_v3_unsigned.pt: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META module_state_dict.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META checkpoint.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META shared_storage_views.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META noncontiguous_3d.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META scalars_and_empty.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META large_tensors.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+PASS META legacy_default.pt: Legacy
+FAIL META legacy_protocol4.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META zip_protocol3.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META zip_protocol4.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META zip_protocol5.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META zip_fileobj_archive_root.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META parameters_and_grad.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META opaque_metadata.pt: open failed: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META many_tensors.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META special_floats.pt: pytorch_version None, expected Some("3") | format_version None, expected Some("1") | has_storage_alignment false, expected true
+FAIL META subclass_tensor.pt: open failed: Pickle parsing error: Invalid data in pickle file: rebuild_tensor_v2: expected at least 5 args, got 3. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META int_keys.pt: open failed: Pickle parsing error: Invalid data in pickle file: dict key must be a string. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS META crafted_root_level.pt: Zip
+FAIL META crafted_deep_root.pt: pytorch_version None, expected Some("3")
+PASS META crafted_no_version_entries.pt: Zip
+FAIL META crafted_deflated.pt: pytorch_version None, expected Some("3")
+FAIL META crafted_offsets_protocol4.pt: open failed: Pickle parsing error: Invalid pickle opcode: 0x95. The file may be corrupted or use an unsupported pickle protocol.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL META crafted_untyped_storage_v3.pt: open failed: Pickle parsing error: Unsupported Python type 'torch._utils._rebuild_tensor_v3'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS META plain_pickle_dict.pkl: Pickle
+PASS META tar_early.tar: Tar
+PASS PICKLE checkpoint.pt key=epoch: Int(7)
+FAIL PICKLE opaque_metadata.pt key=count: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+FAIL PICKLE opaque_metadata.pt key=neg: Pickle parsing error: Unsupported Python type 'torch.device'. This may indicate a full model save rather than a state_dict.. This may indicate an unsupported PyTorch file format or corrupted file.
+PASS PICKLE plain_pickle_dict.pkl key=n: Int(5)
+
+thread 'matrix_accepts' (4090) panicked at crates/burn-store/tests/fixture_matrix.rs:308:5:
+35 fixture checks failed (27 passed)
+stack backtrace:
+   0: __rustc::rust_begin_unwind
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/panicking.rs:689:5
+   1: core::panicking::panic_fmt
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/panicking.rs:80:14
+   2: fixture_matrix::matrix_accepts
+             at ./tests/fixture_matrix.rs:308:5
+   3: fixture_matrix::matrix_accepts::{{closure}}
+             at ./tests/fixture_matrix.rs:139:20
+   4: core::ops::function::FnOnce::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+   5: <fn() -> core::result::Result<(), alloc::string::String> as core::ops::function::FnOnce<()>>::call_once
+             at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs:250:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+FAILED
+
+failures:
+
+failures:
+    matrix_accepts
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 1.15s
+
+error: test failed, to rerun pass `-p burn-store --test fixture_matrix`

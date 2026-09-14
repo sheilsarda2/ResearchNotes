@@ -1,0 +1,99 @@
+{
+  "check_only": true,
+  "passed": true,
+  "model_calls": 0,
+  "docker_runs": 0,
+  "task": "research/task-revisions/rs-burn-store-pytorch-reader-v4",
+  "task_files": 64,
+  "expected_verifier_groups": [
+    "build",
+    "anticheat",
+    "pytorch_unit",
+    "safetensors_unit",
+    "integration",
+    "pytorch_tests_crate",
+    "fixture_matrix",
+    "reject_cases"
+  ],
+  "admission": {
+    "max_active": 1,
+    "min_total_mb": 30000,
+    "reserve_mb": 4096,
+    "startup_reserve_mb": 1536,
+    "startup_window_sec": 120,
+    "start_interval_sec": 5,
+    "max_memory_pressure_pct": 1.0,
+    "pressure_cooldown_sec": 60,
+    "network_pool_cidr": "172.31.0.0/16",
+    "paused": false,
+    "shared_pool": "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/jobs/candidate-campaigns-shared.control.json"
+  },
+  "original_budgets": {
+    "agent": {
+      "timeout_sec": 21600.0
+    },
+    "verifier": {
+      "timeout_sec": 3600.0,
+      "environment": {
+        "network_mode": "no-network",
+        "build_timeout_sec": 3600,
+        "cpus": 4,
+        "memory_mb": 8192,
+        "storage_mb": 30720
+      }
+    },
+    "environment": {
+      "build_timeout_sec": 3600.0,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "storage_mb": 30720,
+      "env": {
+        "ANTHROPIC_BASE_URL": "https://take-home-automation.vercel.app",
+        "ANTHROPIC_API_BASE": "https://take-home-automation.vercel.app"
+      }
+    }
+  },
+  "captured_execution_tree": "research/burn-reader-debug-fix-2026-09-13/immutable-tooling-v1/files",
+  "capture_manifest_sha256": "71dcb780574c40e8c120f57c0a3df50349230212ff66cd9732ce32366ae2c4c3",
+  "live_source_differences": {},
+  "commands": [
+    [
+      "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/execute_captured_runner.py",
+      "--proof",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/oracle-runner-source-proof.json",
+      "--",
+      "run",
+      "-p",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "-a",
+      "oracle",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs",
+      "--job-name",
+      "rs-burn-store-pytorch-reader-v4-oracle-20260914T003138Z"
+    ],
+    [
+      "/home/vscode/.local/share/uv/tools/harbor/bin/python",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/execute_captured_runner.py",
+      "--proof",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/nop-runner-source-proof.json",
+      "--",
+      "run",
+      "-p",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/task-revisions/rs-burn-store-pytorch-reader-v4",
+      "-a",
+      "nop",
+      "-y",
+      "-n",
+      "1",
+      "-o",
+      "/workspaces/sheil_research/reinforcement_learning/abundant-take-home/research/burn-reader-debug-fix-2026-09-13/harbor-controls-immutable-001/jobs",
+      "--job-name",
+      "rs-burn-store-pytorch-reader-v4-nop-20260914T003138Z"
+    ]
+  ]
+}

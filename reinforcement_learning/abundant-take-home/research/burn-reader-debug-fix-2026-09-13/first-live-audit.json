@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "audited_at": "2026-09-14T00:12:50.358762+00:00",
+  "trial": "jobs/candidates-burn-reader-v3-efforts-20-20260913T232621Z/rs-burn-store-pytorch-reader-v3__aLVwbse",
+  "model": "anthropic/claude-sonnet-5",
+  "effort": "medium",
+  "reward": 0,
+  "exception": null,
+  "source_sha256": {
+    "result.json": "40615e0c023b12b4700b67216bea42211db5f8dc0a45e3dc68416281c619c548",
+    "config.json": "e4684c4b7d5736d17f17ad15323e89a2abb468966493bd71ceb72b9bdb00270d",
+    "verifier/score.json": "7c800a2c200d36fb272c928ba7cd227a58d08ccc23d0c9f18f22f1ffbea0824a",
+    "verifier/build.log": "2a533667603a51f6ae260ef4e16c4c7b88ed73abdb0d21e76a68622e0f833df9",
+    "verifier/build_errors.txt": "1ecda945e6b96a1381f220ec6d3ec9d64903090db0b4806e5f43e86d034f945d",
+    "verifier/anticheat_hits.txt": "fe6a6947f75e0030fe8301a59e1da265aa50f95bbf18d89a304f12143f87a8ec",
+    "agent/mini-swe-agent.trajectory.json": "ed246c08a8ee793c380ec040139d68c5e11901b2db3135ac84d0d2f3ef7c8732",
+    "agent/trajectory.json": "c69094827bab3f50a3326fe3030185cbc3e538cc3164478002652830c9248eaa",
+    "agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+    "benchmark-snapshot.json": "9fc0fc2276891b793f3dc1bc46723fa51d0b01422b9ebbe80829a8d775f42440",
+    "benchmark-evidence.json": "8f60a87108db111961756daa880fe966ed9a6b2c7fcb484f7746266d928907f5",
+    "benchmark-deadline.json": "1f7a3e3c5910dc31382b98e33481ef388ec999e534bf5e7392af87936df2dcd9",
+    "artifacts/submission/burn-store/src/pytorch/reader.rs": "29e06f940e8161a7af63b44267b447b17fc0e0ea735ed894ba154088737ebc30"
+  },
+  "classification": {
+    "build_failure": "test_spec_mismatch_incidental_reader_debug_bound",
+    "build_errors": 7,
+    "hidden_tests_executed": false,
+    "corrected_tar_count_test_executed": false,
+    "independent_anticheat_hit": "literal src/pytorch/tests/reader/test_data/non_contiguous.pt in inline test; explicit /tests/ prohibition and documented helper apply",
+    "historical_reward_changed": false
+  },
+  "evidence_checks": {
+    "native_assistant_turns": 127,
+    "atif_agent_steps": 127,
+    "native_tool_calls": 127,
+    "atif_tool_calls": 127,
+    "native_tool_returns": 127,
+    "tool_call_ids_order_equal": true,
+    "native_atif_timestamps_equal": true,
+    "pre_verifier_snapshot_rehashed": {
+      "entries": 104,
+      "files": 87,
+      "sha256": "a6fb6a1e0bab17c4d303678bc4d879df395d7c2d8fee9fcd65964909199c7703"
+    },
+    "final_evidence_rehashed": {
+      "entries": 112,
+      "files": 96,
+      "sha256": "d46d705baf85f673a412da62484308d0c87da035e46f79dc2b5ef35ef4f45b7f"
+    },
+    "all_64_task_files_match_revision_manifest": true,
+    "task_digest": "0fb7b043e0268301be207b97a40c6d7410ac894ccc08e15edfb3a18920619cca",
+    "harbor_task_checksum": "27742823d7b917fe34e19ea3da42b0bcc9a34ce09f5080da4a25d80437606ffe",
+    "guard_executions": 3,
+    "all_executions_quiescent": true,
+    "cleanup_leads_verifier_seconds": 18.410588264465332,
+    "all_three_tool_runtime_source_hashes_verified": true,
+    "tool_runtime": {
+      "schema_version": 1,
+      "runtime_wrapper_sha256": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+      "bootstrap_sha256": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+      "helper_sha256": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+      "scope": "agent_process_only",
+      "phase": "tool_runtime_preflight_before_mini_cli",
+      "preflight_passed": true,
+      "executable": "/root/.local/share/uv/tools/mini-swe-agent/bin/python",
+      "installed": true,
+      "package": "mini-swe-agent",
+      "package_version": "2.4.6",
+      "post_kill_drain_timeout_sec": 1.0,
+      "python": "3.12.11",
+      "replacement": "benchmark_mini_tool_cleanup.bounded_run",
+      "target": "minisweagent.environments.local._run",
+      "upstream_function_sha256": "47f7f72e224b860180c0b6ff6ddb205fe52fe5e66f07145ce3d95c7375df8e6b"
+    },
+    "native_aggregate_cost_usd": 4.190305199999999,
+    "usage_censored": false,
+    "post_deadline_assistant_turns": 0
+  },
+  "scope": "Read-only artifact audit; no model calls, Docker runs, replay, historical regrade or task promotion."
+}
