@@ -1,0 +1,225 @@
+{
+  "task_id": "rs-mcap-cli-recover-parity",
+  "language": "rust",
+  "form": "A",
+  "upstream": {
+    "repo": "https://github.com/foxglove/mcap",
+    "base_commit": "cb59283917587746d0b94f0d73139762a1046f31",
+    "base_commit_date": "2026-05-31",
+    "base_commit_subject": "Standardize on 1 MiB default chunk size across all libraries (#1659)",
+    "license": "MIT",
+    "archive_sha256": "737f5990594aea0e79994e84e5e20e2ff8e92795746bc76cafb9c1eac05b10f7",
+    "archive_notes": "git archive of the base commit with all 456 Git-LFS pointer files replaced by their real content (conformance corpus, rust test fixtures, testdata); no .git, no solution, no hidden tests. Deterministic tar (uid/gid 0, mtime = commit time)."
+  },
+  "feature": {
+    "kind": "pr",
+    "ref": "https://github.com/foxglove/mcap/pull/1647",
+    "title": "rust cli: Bring recover command to parity",
+    "merged_at": "2026-06-01T05:00:27Z",
+    "merge_commit": "f5dbff3744a9669b0d86c55e6e818f7543da8215",
+    "author": "amacneil (authored with a Cursor background agent per the PR body)",
+    "gold_patch": {
+      "files": 6,
+      "additions": 1142,
+      "deletions": 380,
+      "code_files": 5,
+      "code_additions": 968,
+      "code_deletions": 345,
+      "readme_additions": 174,
+      "sha256": "0d7deed04424f44368d4768feb0e67ec60cdfe8740fc41a7cd635cb181541a30"
+    },
+    "excluded_test_files": [
+      "tests/cli-conformance/src/cases.ts",
+      "tests/cli-conformance/src/fixtures.ts",
+      "tests/cli-conformance/src/types.ts"
+    ],
+    "composition": "single PR; #1646 (cat parity) not composed because #1647 alone is ~968 non-test code lines with a dozen interacting requirements (streaming, codec selection, exit codes, per-kind loss accounting, corrupt-chunk policy, remote streaming, record-length bound, stdout discipline)"
+  },
+  "oracle": {
+    "type": "reference_binary",
+    "reference": "Go mcap CLI (go/cli/mcap) and Go conformance reader (go/conformance/test-read-conformance) built from the same base commit with golang:1.22.12; Go `recover -a` output dumped record-by-record and compared to the Rust output dumped by the same reader; Go `mcap doctor` validates every Rust output; corpus expectations cross-checked against tests/conformance/data/*.json at image build (selfcheck.py)",
+    "differential_classes": [
+      "valid corpus (416) + multi-chunk zstd/uncompressed fixtures + demo + lz4/zstd variants of 5 message-bearing files produced by Go filter (zstd_chunk_with_padding.mcap references an undefined channel and is tested as a missing-channel case instead)",
+      "truncation at every record boundary and several interior offsets of 40 files (the Data End body-absent offset is excluded: upstream LinearReader reports a clean EOF there); truncation inside an Attachment is compared against Go on the prefix before it (Go keeps a CRC-less attachment)",
+      "corrupted chunk CRC (benign)",
+      "undecodable chunk payload (unsupported codec string, garbage compressed frame) -> stop",
+      "unparsable top-level record bodies -> skip",
+      "removed loose schema/channel -> dependents dropped; messages for a never-defined channel (zstd_chunk_with_padding.mcap) dropped",
+      "unknown/private opcodes top-level and in-chunk",
+      "missing summary/footer/DataEnd, trailing garbage, absurd record lengths, empty/garbage files",
+      "preserve codec selection on constructed mixes",
+      "CLI surface",
+      "stdin/stdout-pipe/loopback-HTTP modes",
+      "512 MiB streaming memory bound (RssAnon)"
+    ],
+    "case_count": 2235,
+    "upstream_tests": "rust/mcap integration tests restored from pristine (17 tests, exact count); rust/cli inline unit tests must pass (agent-authored, count recorded only)"
+  },
+  "contamination": {
+    "tier": "A_recent",
+    "notes": "Merged 2026-06-01. The gold patch is AI-assisted upstream code; the task instruction is written from the behavioral contract (PR body + README divergences) and the hidden harness tests behaviors the PR's own 2 cli-conformance cases do not cover. Agent container keeps public network on the Docker backend (allowlist unsupported there); the merged PR diff is fetchable in principle. Prefer a backend with network_allowlist or review trajectories for upstream lookups."
+  },
+  "horizon": {
+    "proxy": "5 code files, ~968 non-test lines added / 345 removed, 2 subsystems (CLI command + input plumbing) plus exit-code plumbing through main/dispatch; 12 interacting requirements",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/foxglove/mcap/pull/1647",
+      "https://github.com/foxglove/mcap/pull/1645 (CLI conformance framework: Go->Rust parity program)",
+      "https://github.com/foxglove/mcap/pull/1646 (cat parity), https://github.com/foxglove/mcap/pull/1649 (ros1 convert parity), https://github.com/foxglove/mcap/pull/1648 (ros2 db3)",
+      "rust/cli/README.md at base: recover marked partial, 'Go-parity gaps remain around raw chunk passthrough behavior'",
+      "AGENTS.md design principle: bounded memory when reading; the base recover buffers stdin fully"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "exit 0 on clean recovery, 3 on lossy, 1 on hard failure / nothing recovered; 'nonzero' for removed flag",
+      "instruction_ref": "Exit codes table; Command surface (--always-decode-chunk removed)"
+    },
+    {
+      "assertion": "stderr contains exactly the line 'Recovered N message(s), M attachment(s), and K metadata record(s).' with naive pluralization, counts from the Go-derived expected stream",
+      "instruction_ref": "Standard error, summary line and pluralization examples"
+    },
+    {
+      "assertion": "a line starting 'Recovery was lossy:' iff exit 3",
+      "instruction_ref": "Standard error, second paragraph"
+    },
+    {
+      "assertion": "stdout empty when -o given; MCAP bytes on stdout otherwise (stdout pipe mode)",
+      "instruction_ref": "Command surface, -o bullet"
+    },
+    {
+      "assertion": "output record stream (schemas by id, channels by id, ordered messages, attachments, metadata) equals Go recover -a on valid and truncated inputs",
+      "instruction_ref": "Intentional divergences last paragraph; Recovery semantics 6-7"
+    },
+    {
+      "assertion": "mcap-go doctor accepts every output, including stdout-pipe outputs",
+      "instruction_ref": "Recovery semantics 9 (always-valid output)"
+    },
+    {
+      "assertion": "output header profile/library equal the input header's",
+      "instruction_ref": "Recovery semantics 3"
+    },
+    {
+      "assertion": "unparsable header -> exit 3, output profile empty, all other records recovered",
+      "instruction_ref": "Recovery semantics 3 and 4"
+    },
+    {
+      "assertion": "truncation inside any record (incl. index records and the Data End length/body bytes other than the exact opcode+length boundary, which the upstream reader treats as EOF and is not tested) -> exit 3 with everything before it; at a record boundary -> exit 0; inside the first record or magic -> exit 1; after DataEnd -> exit 0 full",
+      "instruction_ref": "Recovery semantics 1, 2, 10; Exit codes"
+    },
+    {
+      "assertion": "corrupted chunk CRC -> exit 0, full content",
+      "instruction_ref": "Recovery semantics 5"
+    },
+    {
+      "assertion": "unsupported compression string / garbage compressed frame -> chunk discarded, scan stops, exit 3, content = everything before the chunk",
+      "instruction_ref": "Recovery semantics 5"
+    },
+    {
+      "assertion": "unparsable schema/channel/message/metadata/attachment top-level body -> discarded, scan continues, exit 3, dependents dropped",
+      "instruction_ref": "Recovery semantics 4 and 6"
+    },
+    {
+      "assertion": "removed loose channel -> its messages dropped; removed schema -> channel and messages dropped; messages whose channel is never defined -> dropped; exit 3",
+      "instruction_ref": "Recovery semantics 6"
+    },
+    {
+      "assertion": "unknown/private opcode records (top-level and in-chunk) skipped, exit 0",
+      "instruction_ref": "Recovery semantics 8"
+    },
+    {
+      "assertion": "missing summary / footer / DataEnd or trailing garbage -> exit 0 full recovery",
+      "instruction_ref": "Recovery semantics 1 and 2"
+    },
+    {
+      "assertion": "record length 2^64-1 (chunk_not_closed.mcap, synthetic) -> scan stops, exit 3, header-only output",
+      "instruction_ref": "Recovery semantics 1 (1 GiB bound)"
+    },
+    {
+      "assertion": "empty file, magic only, short magic, non-MCAP -> exit 1",
+      "instruction_ref": "Exit codes (no complete record); Recovery semantics 10"
+    },
+    {
+      "assertion": "preserve: chunk-first input keeps the chunk codec; message/attachment/private-first input -> uncompressed chunks; unchunked input -> uncompressed",
+      "instruction_ref": "Output compression"
+    },
+    {
+      "assertion": "explicit --compression none|zstd|lz4 -> all output chunks use it",
+      "instruction_ref": "Output compression"
+    },
+    {
+      "assertion": "--chunk-size 4096 on the 413-chunk fixture (~104 KiB of message payload) yields >= 20 output chunks and --chunk-size 1024 yields >= 50 (Rust writer: 32 / 110)",
+      "instruction_ref": "Command surface, --chunk-size"
+    },
+    {
+      "assertion": "--compression snappy -> exit 1 and stderr names preserve, none, zstd, lz4",
+      "instruction_ref": "Command surface, --compression"
+    },
+    {
+      "assertion": "recover --help exits 0 with non-empty stdout; missing input or unwritable output -> exit 1",
+      "instruction_ref": "Exit codes (hard failure)"
+    },
+    {
+      "assertion": "stdin input behaves like a file; loopback http URL with --allow-remote-scan behaves like a file; without the flag -> exit 1",
+      "instruction_ref": "Command surface, FILE and Remote inputs"
+    },
+    {
+      "assertion": "512 MiB input from path and from stdin: exit 0, 2048 messages with correct payload digest, peak RssAnon < 256 MiB",
+      "instruction_ref": "Recovery semantics preamble (memory bound)"
+    },
+    {
+      "assertion": "cargo test -p mcap integration tests (17) pass; cargo test -p mcap-cli passes",
+      "instruction_ref": "Scope and rules"
+    },
+    {
+      "assertion": "sources contain no reference to external executables / verifier paths; no symlinks",
+      "instruction_ref": "Scope and rules, last sentence"
+    }
+  ],
+  "not_tested_but_specified": [
+    "record inside a chunk fails to parse -> chunk stops the scan (upstream behavior, stated in rule 5, not exercised because agents may reasonably skip-and-continue and the corpus has no such fixture)",
+    "attachment CRC mismatch (upstream discards the attachment; documented upstream as a pre-1.0 gap, deliberately not enshrined)",
+    "exact wording of warnings and of the 'Recovery was lossy:' detail"
+  ],
+  "build": {
+    "agent_image_gb": 5.45,
+    "verifier_image_gb": 6.69,
+    "build_minutes": 1.8,
+    "verifier_minutes": 1.7,
+    "estimates": {
+      "agent_image_gb": 6.5,
+      "verifier_image_gb": 7.5,
+      "agent_build_minutes": 12,
+      "verifier_build_minutes": 16,
+      "verifier_run_minutes": 8
+    },
+    "host": "Docker Desktop, darwin arm64 (18 CPUs, 7.9 GB VM); build_minutes = cold agent-image build from Harbor run 1 (110 s), 0.2 min warm; verifier_minutes = Harbor oracle verifier phase (image layers warm + fixture generation + test.sh: incremental build ~6 s, tests ~35 s, differential 70 s). Target platform linux/amd64 not yet measured.",
+    "oracle_wall_seconds": 125,
+    "env_setup_seconds": 14,
+    "verifier_seconds": 102,
+    "nop_wall_seconds": 94
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "rs-mcap-cli-recover-parity-oracle-20260913T114725Z",
+      "nop": "rs-mcap-cli-recover-parity-nop-20260913T114725Z"
+    },
+    "validated_on": "2026-09-13",
+    "oracle_wall_seconds": 125,
+    "nop_wall_seconds": 94,
+    "notes": "oracle: build + 17/17 mcap tests + 230 cli tests + 2235/2235 differential cases (69.6 s); nop: 527/2235 differential cases, reward 0. See STATUS.md validation log for the 4 harness defects fixed and 2 relaxations.",
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

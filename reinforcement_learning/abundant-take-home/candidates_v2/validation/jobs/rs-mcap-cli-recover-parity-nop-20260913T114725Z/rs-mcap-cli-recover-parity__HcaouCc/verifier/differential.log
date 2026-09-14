@@ -1,0 +1,76 @@
+127.0.0.1 - - [13/Sep/2026 11:50:53] "GET /pristine/TenMessages/TenMessages-ch-chx-mx-pad-rch-rsh-st-sum.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:53] "GET /pristine/TenMessages/TenMessages.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:53] "GET /pristine/OneAttachment/OneAttachment-ax-pad-st-sum.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:53] "GET /pristine/OneMetadata/OneMetadata-mdx-pad-st-sum.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:54] "GET /pristine/fixtures/compressed.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:54] "GET /pristine/fixtures/demo.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:55] "GET /pristine/OneSchemalessMessage/OneSchemalessMessage-ch.mcap HTTP/1.1" 200 -
+127.0.0.1 - - [13/Sep/2026 11:50:55] "GET /truncated/TenMessages__TenMessages-ch-chx-mx-pad-rch-rsh-st-sum__300.mcap HTTP/1.1" 200 -
+{"expected_total": 2235, "ran": 2235, "passed": 527, "elapsed_sec": 65.8, "all_passed": false}
+  diff_valid: 125/429
+     - valid/OneAttachment/OneAttachment-ax-pad-st-sum/zstd: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - valid/OneAttachment/OneAttachment-ax-pad-st/lz4: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - valid/OneAttachment/OneAttachment-ax-pad-sum/none: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - valid/OneAttachment/OneAttachment-ax-pad/preserve: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - valid/OneAttachment/OneAttachment-ax-st-sum/zstd: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+  diff_truncated: 335/1194
+     - trunc/NoData/NoData@8/preserve: exit 0 != expected 1
+     - trunc/NoData/NoData@26/none: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - trunc/NoData/NoData@30/preserve: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - trunc/NoData/NoData@36/none: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - trunc/NoData/NoData@37/none: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+  diff_bad_crc: 17/53
+     - crc/OneMessage/OneMessage-ch-chx-mx-pad/c0/none: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - crc/OneMessage/OneMessage-ch-chx-mx-rch-st/c0/none: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - crc/OneMessage/OneMessage-ch-chx-pad-rch-st-sum/c0/none: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - crc/OneMessage/OneMessage-ch-chx-rch-rsh-st/c0/none: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - crc/OneMessage/OneMessage-ch-chx-rsh-st-sum/c0/none: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+  diff_undecodable_chunk: 0/36
+     - undecodable/OneMessage/OneMessage-ch/u0: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - undecodable/OneMessage/OneMessage-ch-chx-mx-pad-rsh-st-sum/u0: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - undecodable/OneMessage/OneMessage-ch-chx-mx-pad-st-sum/u0: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - undecodable/OneMessage/OneMessage-ch-chx-pad-rch-rsh-st-sum/u0: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - undecodable/OneMessage/OneMessage-ch-chx-rch-rsh-sum/u0: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+  diff_unparsable_record: 0/225
+     - unparsable/OneAttachment/OneAttachment-ax-pad-st-sum/attachment: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - unparsable/OneAttachment/OneAttachment-ax-pad-st/attachment: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - unparsable/OneAttachment/OneAttachment-ax-pad-sum/attachment: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - unparsable/OneAttachment/OneAttachment-ax-pad/attachment: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+     - unparsable/OneAttachment/OneAttachment-ax-st-sum/attachment: exit 0 != expected 3; exit 3 without a 'Recovery was lossy:' line
+  diff_missing_record: 0/135
+     - missing/OneMessage/OneMessage-pad-rch-rsh-st-sum/nochannel: exit 0 != expected 3; record stream differs: channels: got ids ['1'] expected []; exit 3 without a 'Recovery was lossy:' line
+     - missing/OneMessage/OneMessage-pad-rch-rsh-st-sum/noschema: exit 0 != expected 3; record stream differs: schemas: got ids ['1'] expected []; channels: got ids ['1'] expected []; exit 3 without a 'Recovery was lossy:' line
+     - missing/OneMessage/OneMessage-pad-rch-rsh-st/nochannel: exit 0 != expected 3; record stream differs: channels: got ids ['1'] expected []; exit 3 without a 'Recovery was lossy:' line
+     - missing/OneMessage/OneMessage-pad-rch-rsh-st/noschema: exit 0 != expected 3; record stream differs: schemas: got ids ['1'] expected []; channels: got ids ['1'] expected []; exit 3 without a 'Recovery was lossy:' line
+     - missing/OneMessage/OneMessage-pad-rch-rsh-sum/nochannel: exit 0 != expected 3; record stream differs: channels: got ids ['1'] expected []; exit 3 without a 'Recovery was lossy:' line
+  diff_unknown_opcode: 10/27
+     - unknown_op/OneAttachment/OneAttachment-ax-pad-st/op80: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - unknown_op/OneMessage/OneMessage-ch-chx-mx-pad-rsh/op7e: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - unknown_op/OneMessage/OneMessage-ch-chx-pad-rch-rsh-st/op82: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - unknown_op/OneMessage/OneMessage-ch-chx-rch-rsh-sum/op7e: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - unknown_op/OneMessage/OneMessage-ch-chx-rch-st-sum/op81: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+  diff_structural: 27/87
+     - structural/OneMessage/OneMessage-ch-chx-mx-pad-rsh-st-sum/no_summary: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - structural/OneMessage/OneMessage-ch-chx-mx-pad-rsh-st-sum/no_footer: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - structural/OneMessage/OneMessage-ch-chx-mx-pad-rsh-st-sum/no_dataend: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - structural/OneMessage/OneMessage-ch-chx-mx-pad-rsh-st-sum/trailing_garbage: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+     - structural/OneMessage/OneMessage-ch-chx-mx-pad-st-sum/no_summary: stderr summary line missing/wrong; expected 'Recovered 1 message, 0 attachments, and 0 metadata records.'
+  compression_selection: 2/14
+     - preserve/metadata_then_zstd_chunks: record stream differs: schemas: got ids ['1', '2'] expected ['1', '3']; channels: got ids ['1', '2'] expected ['0', '2']; messages: got 6 expected 6; stderr summary line missing/wrong; expected 'Recovered 6 messages, 0 attachments, and 1 metadata record.'
+     - preserve/attachment_then_zstd_chunks: record stream differs: schemas: got ids ['1', '2'] expected ['1', '3']; channels: got ids ['1', '2'] expected ['0', '2']; messages: got 6 expected 6; stderr summary line missing/wrong; expected 'Recovered 6 messages, 1 attachment, and 0 metadata records.'; output chunk compressions ['zstd'] != ''
+     - preserve/zstd_chunks_only: record stream differs: schemas: got ids ['1', '2'] expected ['1', '3']; channels: got ids ['1', '2'] expected ['0', '2']; messages: got 6 expected 6
+     - preserve/private_then_zstd_chunks: record stream differs: schemas: got ids ['1', '2'] expected ['1', '3']; channels: got ids ['1', '2'] expected ['0', '2']; messages: got 6 expected 6; output chunk compressions ['zstd'] != ''
+     - explicit/fixtures/compressed/none: record stream differs: schemas: got ids ['1', '2'] expected ['1', '3']; channels: got ids ['1', '2'] expected ['0', '2']; messages: got 826 expected 826
+  cli_surface: 3/7
+     - surface/always_decode_chunk_removed: expected non-zero exit
+     - surface/short_a_removed: expected non-zero exit
+     - surface/unknown_compression: stderr missing 'preserve'
+     - surface/output_written_on_lossy: exit 0 != expected 3; record stream differs: schemas: got ids ['1'] expected []; channels: got ids ['1'] expected []; messages: got 4 expected 0; stderr summary line missing/wrong; expected 'Recovered 0 messages, 0 attachments, and 0 metadata records.'; exit 3 without a 'Recovery was lossy:' line
+  io_modes: 7/26
+     - io/stdin/OneAttachment/OneAttachment-ax-pad-st-sum: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - io/stdout/OneAttachment/OneAttachment-ax-pad-st-sum: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - io/remote/OneAttachment/OneAttachment-ax-pad-st-sum: stderr summary line missing/wrong; expected 'Recovered 0 messages, 1 attachment, and 0 metadata records.'
+     - io/stdin/OneMetadata/OneMetadata-mdx-pad-st-sum: stderr summary line missing/wrong; expected 'Recovered 0 messages, 0 attachments, and 1 metadata record.'
+     - io/stdout/OneMetadata/OneMetadata-mdx-pad-st-sum: stderr summary line missing/wrong; expected 'Recovered 0 messages, 0 attachments, and 1 metadata record.'
+  memory: 1/2
+     - memory/stdin: peak anonymous RSS 513 MiB exceeds 256 MiB

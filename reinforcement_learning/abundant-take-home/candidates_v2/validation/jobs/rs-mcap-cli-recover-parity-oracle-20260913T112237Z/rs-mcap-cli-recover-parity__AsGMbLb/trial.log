@@ -1,0 +1,719 @@
+Skipping image OS validation for hb__rs-mcap-cli-recover-parity: docker inspect returned 1
+Collecting main service artifacts
+Trial rs-mcap-cli-recover-parity__AsGMbLb failed: Docker compose command failed for environment rs-mcap-cli-recover-parity. Command: docker compose --project-name rs-mcap-cli-recover-parity__asgmblb__verifier__trial --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/rs-mcap-cli-recover-parity/tests -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpqd_t95_e/rs-mcap-cli-recover-parity__AsGMbLb__verifier__trial-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpmo2w67vn/docker-compose-mounts.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-no-network.yaml build. Return code: 1. Stdout:  Image rs-mcap-cli-recover-parity__asgmblb__verifier__trial-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 790B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.80kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [goref 1/6] FROM docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253
+#6 resolve docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253 done
+#6 DONE 0.0s
+
+#7 [stage-1  1/12] FROM docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1
+#7 resolve docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1 done
+#7 CACHED
+
+#8 [goref 2/6] WORKDIR /src
+#8 CACHED
+
+#9 [internal] load build context
+#9 transferring context: 5.01MB 0.0s done
+#9 DONE 0.0s
+
+#10 [goref 3/6] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#10 DONE 0.2s
+
+#11 [stage-1  2/12] RUN apt-get update  && apt-get install -y --no-install-recommends git python3 pkg-config cmake xxd bc procps  && rm -rf /var/lib/apt/lists/*
+#11 0.549 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#11 ...
+
+#12 [goref 4/6] RUN mkdir -p /src/repo && tar -xzf /tmp/upstream.tar.gz -C /src/repo go/  && rm /tmp/upstream.tar.gz
+#12 DONE 0.3s
+
+#13 [goref 5/6] WORKDIR /src/repo/go
+#13 DONE 0.1s
+
+#11 [stage-1  2/12] RUN apt-get update  && apt-get install -y --no-install-recommends git python3 pkg-config cmake xxd bc procps  && rm -rf /var/lib/apt/lists/*
+#11 0.728 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#11 0.771 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#11 0.841 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8689 kB]
+#11 5.065 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#11 5.090 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [335 kB]
+#11 5.590 Fetched 9273 kB in 5s (1798 kB/s)
+#11 5.590 Reading package lists...
+#11 5.851 Reading package lists...
+#11 6.114 Building dependency tree...
+#11 6.200 Reading state information...
+#11 6.302 git is already the newest version (1:2.39.5-0+deb12u3).
+#11 6.302 python3 is already the newest version (3.11.2-1+b1).
+#11 6.302 python3 set to manually installed.
+#11 6.302 pkg-config is already the newest version (1.8.1-1).
+#11 6.302 pkg-config set to manually installed.
+#11 6.302 procps is already the newest version (2:4.0.2-3).
+#11 6.302 The following additional packages will be installed:
+#11 6.302   cmake-data libarchive13 libjsoncpp25 librhash0 libuv1
+#11 6.302 Suggested packages:
+#11 6.302   cmake-doc cmake-format elpa-cmake-mode ninja-build lrzip
+#11 6.343 The following NEW packages will be installed:
+#11 6.343   bc cmake cmake-data libarchive13 libjsoncpp25 librhash0 libuv1 xxd
+#11 6.412 0 upgraded, 8 newly installed, 0 to remove and 62 not upgraded.
+#11 6.412 Need to get 9675 kB of archives.
+#11 6.412 After this operation, 38.5 MB of additional disk space will be used.
+#11 6.412 Get:1 http://deb.debian.org/debian bookworm/main arm64 bc arm64 1.07.1-3 [107 kB]
+#11 6.480 Get:2 http://deb.debian.org/debian-security bookworm-security/main arm64 libarchive13 arm64 3.6.2-1+deb12u5 [318 kB]
+#11 6.521 Get:3 http://deb.debian.org/debian bookworm/main arm64 libjsoncpp25 arm64 1.9.5-4 [72.3 kB]
+#11 6.526 Get:4 http://deb.debian.org/debian bookworm/main arm64 librhash0 arm64 1.4.3-3 [131 kB]
+#11 6.684 Get:5 http://deb.debian.org/debian bookworm/main arm64 libuv1 arm64 1.44.2-1+deb12u1 [130 kB]
+#11 6.744 Get:6 http://deb.debian.org/debian bookworm/main arm64 cmake-data all 3.25.1-1 [2026 kB]
+#11 6.991 Get:7 http://deb.debian.org/debian bookworm/main arm64 cmake arm64 3.25.1-1 [6806 kB]
+#11 ...
+
+#14 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#14 2.874 go: downloading github.com/klauspost/compress v1.16.7
+#14 2.874 go: downloading github.com/mattn/go-sqlite3 v1.14.14
+#14 2.874 go: downloading github.com/fatih/color v1.13.0
+#14 2.875 go: downloading github.com/foxglove/go-rosbag v0.0.7
+#14 2.875 go: downloading github.com/olekukonko/tablewriter v0.0.5
+#14 2.876 go: downloading github.com/pierrec/lz4/v4 v4.1.22
+#14 2.876 go: downloading google.golang.org/protobuf v1.28.0
+#14 2.876 go: downloading github.com/spf13/cobra v1.5.0
+#14 2.876 go: downloading github.com/schollz/progressbar/v3 v3.13.1
+#14 2.876 go: downloading github.com/stretchr/testify v1.9.0
+#14 2.876 go: downloading cloud.google.com/go/storage v1.23.0
+#14 2.876 go: downloading github.com/spf13/viper v1.12.0
+#14 3.089 go: downloading github.com/aws/aws-sdk-go-v2 v1.39.2
+#14 3.130 go: downloading github.com/aws/aws-sdk-go-v2/config v1.31.12
+#14 3.218 go: downloading github.com/aws/aws-sdk-go-v2/service/s3 v1.88.4
+#14 3.256 go: downloading github.com/mattn/go-colorable v0.1.12
+#14 3.261 go: downloading github.com/mattn/go-isatty v0.0.17
+#14 3.269 go: downloading github.com/mattn/go-runewidth v0.0.14
+#14 3.286 go: downloading github.com/fsnotify/fsnotify v1.5.4
+#14 3.359 go: downloading github.com/mitchellh/mapstructure v1.5.0
+#14 3.402 go: downloading github.com/spf13/afero v1.8.2
+#14 3.420 go: downloading github.com/spf13/cast v1.5.0
+#14 3.421 go: downloading github.com/spf13/jwalterweatherman v1.1.0
+#14 3.444 go: downloading github.com/spf13/pflag v1.0.5
+#14 3.446 go: downloading github.com/davecgh/go-spew v1.1.1
+#14 3.450 go: downloading github.com/pmezard/go-difflib v1.0.0
+#14 3.485 go: downloading cloud.google.com/go v0.103.0
+#14 3.511 go: downloading gopkg.in/yaml.v3 v3.0.1
+#14 3.570 go: downloading github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db
+#14 3.570 go: downloading golang.org/x/term v0.6.0
+#14 3.571 go: downloading github.com/rivo/uniseg v0.2.0
+#14 3.572 go: downloading github.com/aws/smithy-go v1.23.0
+#14 3.573 go: downloading golang.org/x/sys v0.6.0
+#14 3.578 go: downloading github.com/aws/aws-sdk-go-v2/credentials v1.18.16
+#14 3.608 go: downloading github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.9
+#14 3.613 go: downloading github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3
+#14 3.617 go: downloading github.com/aws/aws-sdk-go-v2/service/sso v1.29.6
+#14 3.624 go: downloading github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.1
+#14 3.638 go: downloading github.com/aws/aws-sdk-go-v2/service/sts v1.38.6
+#14 3.639 go: downloading github.com/subosito/gotenv v1.4.0
+#14 3.639 go: downloading github.com/hashicorp/hcl v1.0.0
+#14 3.640 go: downloading gopkg.in/ini.v1 v1.66.6
+#14 3.647 go: downloading github.com/magiconair/properties v1.8.6
+#14 3.647 go: downloading github.com/pelletier/go-toml/v2 v2.0.2
+#14 3.648 go: downloading golang.org/x/text v0.3.7
+#14 3.681 go: downloading github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.1
+#14 3.735 go: downloading github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.9
+#14 3.736 go: downloading github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.9
+#14 3.740 go: downloading github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.1
+#14 3.740 go: downloading github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.0
+#14 3.740 go: downloading github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.9
+#14 3.743 go: downloading github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.9
+#14 3.749 go: downloading cloud.google.com/go/compute v1.7.0
+#14 3.749 go: downloading cloud.google.com/go/iam v0.3.0
+#14 3.812 go: downloading github.com/google/uuid v1.3.0
+#14 3.819 go: downloading github.com/pelletier/go-toml v1.9.5
+#14 3.824 go: downloading github.com/googleapis/gax-go/v2 v2.4.0
+#14 3.824 go: downloading github.com/googleapis/go-type-adapters v1.0.0
+#14 3.826 go: downloading golang.org/x/oauth2 v0.0.0-20220630143837-2104d58473e0
+#14 3.829 go: downloading google.golang.org/api v0.86.0
+#14 3.904 go: downloading google.golang.org/genproto v0.0.0-20220630160836-4327a74d660d
+#14 3.919 go: downloading google.golang.org/grpc v1.47.0
+#14 4.375 go: downloading github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.9
+#14 4.376 go: downloading go.opencensus.io v0.23.0
+#14 4.376 go: downloading golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f
+#14 ...
+
+#11 [stage-1  2/12] RUN apt-get update  && apt-get install -y --no-install-recommends git python3 pkg-config cmake xxd bc procps  && rm -rf /var/lib/apt/lists/*
+#11 7.730 Get:8 http://deb.debian.org/debian bookworm/main arm64 xxd arm64 2:9.0.1378-2+deb12u2 [83.8 kB]
+#11 7.847 debconf: delaying package configuration, since apt-utils is not installed
+#11 7.863 Fetched 9675 kB in 1s (6943 kB/s)
+#11 7.883 Selecting previously unselected package bc.
+#11 7.883 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 23279 files and directories currently installed.)
+#11 7.938 Preparing to unpack .../0-bc_1.07.1-3_arm64.deb ...
+#11 7.941 Unpacking bc (1.07.1-3) ...
+#11 7.978 Selecting previously unselected package libarchive13:arm64.
+#11 7.979 Preparing to unpack .../1-libarchive13_3.6.2-1+deb12u5_arm64.deb ...
+#11 7.986 Unpacking libarchive13:arm64 (3.6.2-1+deb12u5) ...
+#11 8.014 Selecting previously unselected package libjsoncpp25:arm64.
+#11 8.015 Preparing to unpack .../2-libjsoncpp25_1.9.5-4_arm64.deb ...
+#11 8.019 Unpacking libjsoncpp25:arm64 (1.9.5-4) ...
+#11 8.041 Selecting previously unselected package librhash0:arm64.
+#11 8.042 Preparing to unpack .../3-librhash0_1.4.3-3_arm64.deb ...
+#11 8.044 Unpacking librhash0:arm64 (1.4.3-3) ...
+#11 8.067 Selecting previously unselected package libuv1:arm64.
+#11 8.068 Preparing to unpack .../4-libuv1_1.44.2-1+deb12u1_arm64.deb ...
+#11 8.071 Unpacking libuv1:arm64 (1.44.2-1+deb12u1) ...
+#11 8.101 Selecting previously unselected package cmake-data.
+#11 8.102 Preparing to unpack .../5-cmake-data_3.25.1-1_all.deb ...
+#11 8.114 Unpacking cmake-data (3.25.1-1) ...
+#11 8.286 Selecting previously unselected package cmake.
+#11 8.288 Preparing to unpack .../6-cmake_3.25.1-1_arm64.deb ...
+#11 8.290 Unpacking cmake (3.25.1-1) ...
+#11 8.569 Selecting previously unselected package xxd.
+#11 8.571 Preparing to unpack .../7-xxd_2%3a9.0.1378-2+deb12u2_arm64.deb ...
+#11 8.573 Unpacking xxd (2:9.0.1378-2+deb12u2) ...
+#11 8.613 Setting up libarchive13:arm64 (3.6.2-1+deb12u5) ...
+#11 8.620 Setting up bc (1.07.1-3) ...
+#11 8.629 Setting up xxd (2:9.0.1378-2+deb12u2) ...
+#11 8.635 Setting up libuv1:arm64 (1.44.2-1+deb12u1) ...
+#11 8.644 Setting up libjsoncpp25:arm64 (1.9.5-4) ...
+#11 8.649 Setting up librhash0:arm64 (1.4.3-3) ...
+#11 8.663 Setting up cmake-data (3.25.1-1) ...
+#11 8.673 Setting up cmake (3.25.1-1) ...
+#11 8.679 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+#11 DONE 9.0s
+
+#14 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#14 ...
+
+#15 [stage-1  3/12] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#15 DONE 0.0s
+
+#16 [stage-1  4/12] RUN mkdir -p /opt/pristine/repo /workspace/repo  && tar -xzf /tmp/upstream.tar.gz -C /opt/pristine/repo  && tar -xzf /tmp/upstream.tar.gz -C /workspace/repo  && rm /tmp/upstream.tar.gz
+#16 DONE 0.5s
+
+#14 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#14 ...
+
+#17 [stage-1  5/12] WORKDIR /workspace/repo/rust
+#17 DONE 0.1s
+
+#14 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#14 8.830 go: downloading golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e
+#14 8.831 go: downloading github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
+#14 8.833 go: downloading github.com/golang/protobuf v1.5.2
+#14 10.20 go: downloading github.com/googleapis/enterprise-certificate-proxy v0.1.0
+#14 10.20 go: downloading github.com/google/go-cmp v0.5.8
+#14 ...
+
+#18 [stage-1  6/12] RUN cargo fetch --locked  && cargo build --locked -p mcap-cli  && cargo test --locked --no-run -p mcap-cli  && cargo test --locked --no-run -p mcap --all-features  && ./target/debug/mcap --version
+#18 0.267     Updating crates.io index
+#18 7.574  Downloading crates ...
+#18 7.837   Downloaded httparse v1.10.1
+#18 7.883   Downloaded utf8-zero v0.8.1
+#18 7.885   Downloaded windows-targets v0.52.6
+#18 7.906   Downloaded cfg-if v1.0.4
+#18 7.967   Downloaded subtle v2.6.1
+#18 8.005   Downloaded untrusted v0.9.0
+#18 8.023   Downloaded winapi-util v0.1.11
+#18 8.033   Downloaded fallible-streaming-iterator v0.1.9
+#18 8.076   Downloaded serde-value v0.7.0
+#18 8.102   Downloaded wasm-bindgen-shared v0.2.114
+#18 8.141   Downloaded futures-core v0.3.32
+#18 8.142   Downloaded strsim v0.10.0
+#18 8.143   Downloaded same-file v1.0.6
+#18 8.147   Downloaded wit-bindgen-rust-macro v0.51.0
+#18 8.208   Downloaded leb128fmt v0.1.0
+#18 8.236   Downloaded plotters-svg v0.3.7
+#18 8.274   Downloaded strsim v0.11.1
+#18 8.277   Downloaded windows-link v0.2.1
+#18 8.277   Downloaded futures-task v0.3.32
+#18 8.296   Downloaded equivalent v1.0.2
+#18 8.327   Downloaded id-arena v2.3.0
+#18 8.385   Downloaded percent-encoding v2.3.2
+#18 8.404   Downloaded num-conv v0.2.1
+#18 8.429   Downloaded num_threads v0.1.7
+#18 8.432   Downloaded cast v0.3.0
+#18 8.446   Downloaded ciborium-ll v0.2.2
+#18 8.475   Downloaded anstyle-wincon v3.0.11
+#18 8.479   Downloaded fastrand v2.3.0
+#18 8.489   Downloaded num_cpus v1.17.0
+#18 8.494   Downloaded heck v0.5.0
+#18 8.512   Downloaded ordered-float v2.10.1
+#18 8.525   Downloaded is-terminal v0.4.17
+#18 8.531   Downloaded darling_macro v0.21.3
+#18 8.533   Downloaded time-core v0.1.8
+#18 8.552   Downloaded wasm-bindgen-macro v0.2.114
+#18 8.577   Downloaded itoa v1.0.18
+#18 8.579   Downloaded ciborium-io v0.2.2
+#18 8.605   Downloaded clap_lex v1.1.0
+#18 8.606   Downloaded futures-sink v0.3.32
+#18 8.614   Downloaded is_terminal_polyfill v1.70.2
+#18 8.648   Downloaded ureq-proto v0.6.0
+#18 8.650   Downloaded zeroize v1.8.2
+#18 8.651   Downloaded futures-io v0.3.32
+#18 8.668   Downloaded clap_lex v0.2.4
+#18 8.669   Downloaded once_cell_polyfill v1.70.2
+#18 8.682   Downloaded fnv v1.0.7
+#18 8.688   Downloaded lz4 v1.28.1
+#18 8.692   Downloaded version_check v0.9.5
+#18 8.695   Downloaded atty v0.2.14
+#18 8.696   Downloaded proc-macro-error-attr v1.0.4
+#18 8.810   Downloaded array-init v2.1.0
+#18 8.814   Downloaded utf8parse v0.2.2
+#18 8.857   Downloaded wasi v0.11.1+wasi-snapshot-preview1
+#18 8.941   Downloaded ident_case v1.0.1
+#18 8.958   Downloaded thiserror v2.0.18
+#18 8.995   Downloaded hashlink v0.11.0
+#18 8.996   Downloaded rsqlite-vfs v0.1.1
+#18 9.055   Downloaded crunchy v0.2.4
+#18 9.056   Downloaded fallible-iterator v0.3.0
+#18 9.098   Downloaded pkg-config v0.3.32
+#18 9.100   Downloaded find-msvc-tools v0.1.9
+#18 9.103   Downloaded rustversion v1.0.22
+#18 9.105   Downloaded semver v1.0.27
+#18 9.114   Downloaded unicode-xid v0.2.6
+#18 9.117   Downloaded heck v0.4.1
+#18 9.141   Downloaded hermit-abi v0.1.19
+#18 9.147   Downloaded termcolor v1.4.1
+#18 9.168   Downloaded foldhash v0.1.5
+#18 9.174   Downloaded colorchoice v1.0.5
+#18 9.175   Downloaded jobserver v0.1.34
+#18 9.186   Downloaded hermit-abi v0.5.2
+#18 9.188   Downloaded pin-project-lite v0.2.17
+#18 9.191   Downloaded shlex v1.3.0
+#18 9.211   Downloaded walkdir v2.5.0
+#18 9.213   Downloaded errno v0.3.14
+#18 9.215   Downloaded time-macros v0.2.27
+#18 9.225   Downloaded anes v0.1.6
+#18 9.228   Downloaded quote v1.0.45
+#18 9.238   Downloaded static_assertions v1.1.0
+#18 9.250   Downloaded anstyle v1.0.14
+#18 9.252   Downloaded zstd v0.13.3
+#18 9.253   Downloaded powerfmt v0.2.0
+#18 9.263   Downloaded simplelog v0.12.2
+#18 9.272   Downloaded wasm-metadata v0.244.0
+#18 9.277   Downloaded paste v1.0.15
+#18 9.285   Downloaded prost-derive v0.14.3
+#18 9.289   Downloaded zmij v1.0.21
+#18 9.291   Downloaded either v1.15.0
+#18 9.297   Downloaded anstyle-query v1.1.5
+#18 9.300   Downloaded anstream v1.0.0
+#18 9.303   Downloaded tinytemplate v1.2.1
+#18 9.306   Downloaded deranged v0.5.8
+#18 9.311   Downloaded anstyle-parse v1.0.0
+#18 9.331   Downloaded zstd-safe v7.2.4
+#18 9.334   Downloaded plotters-backend v0.3.7
+#18 9.357   Downloaded crossbeam-deque v0.8.6
+#18 9.370   Downloaded criterion-plot v0.5.0
+#18 9.394   Downloaded assert_matches v1.5.0
+#18 9.405   Downloaded clap_derive v3.2.25
+#18 9.408   Downloaded proc-macro-error v1.0.4
+#18 9.420   Downloaded oorandom v11.1.5
+#18 9.426   Downloaded rustls-pki-types v1.14.1
+#18 9.447   Downloaded enumset_derive v0.14.0
+#18 9.448   Downloaded enumset v1.1.10
+#18 9.449   Downloaded autocfg v1.5.0
+#18 9.482   Downloaded thiserror-impl v2.0.18
+#18 9.485   Downloaded smallvec v1.15.1
+#18 9.512   Downloaded bitflags v1.3.2
+#18 9.514   Downloaded anyhow v1.0.102
+#18 9.530   Downloaded byteorder v1.5.0
+#18 9.583   Downloaded futures-channel v0.3.32
+#18 9.585   Downloaded crossbeam-epoch v0.9.18
+#18 9.586   Downloaded prost v0.14.3
+#18 9.591   Downloaded thiserror-impl v1.0.69
+#18 9.592   Downloaded thiserror v1.0.69
+#18 9.600   Downloaded wit-bindgen-core v0.51.0
+#18 9.606   Downloaded ciborium v0.2.2
+#18 9.607   Downloaded clap_derive v4.6.0
+#18 9.608   Downloaded foldhash v0.2.0
+#18 9.609   Downloaded memmap2 v0.9.10
+#18 9.612   Downloaded tokio-macros v2.6.1
+#18 9.624   Downloaded crc32fast v1.5.0
+#18 9.626   Downloaded darling v0.21.3
+#18 9.667   Downloaded crossbeam-utils v0.8.21
+#18 9.684   Downloaded bitflags v2.11.0
+#18 9.687   Downloaded tempfile v3.27.0
+#18 9.689   Downloaded once_cell v1.21.4
+#18 9.753   Downloaded log v0.4.29
+#18 9.766   Downloaded bimap v0.6.3
+#18 9.767   Downloaded os_str_bytes v6.6.1
+#18 9.776   Downloaded camino v1.2.2
+#18 9.789   Downloaded owo-colors v3.5.0
+#18 9.823   Downloaded getrandom v0.2.17
+#18 9.854   Downloaded indexmap v1.9.3
+#18 9.860   Downloaded prost-types v0.14.3
+#18 9.869   Downloaded wasm-bindgen-macro-support v0.2.114
+#18 9.872   Downloaded serde_core v1.0.228
+#18 9.876   Downloaded wit-bindgen-rust v0.51.0
+#18 9.893   Downloaded proc-macro2 v1.0.106
+#18 9.899   Downloaded textwrap v0.16.2
+#18 9.901   Downloaded num-traits v0.2.19
+#18 9.919   Downloaded clap v4.6.0
+#18 9.932   Downloaded serde_derive v1.0.228
+#18 9.934   Downloaded getrandom v0.3.4
+#18 10.01   Downloaded unicode-ident v1.0.24
+#18 10.02   Downloaded binrw_derive v0.12.1
+#18 10.03   Downloaded half v2.7.1
+#18 10.03   Downloaded rayon-core v1.13.0
+#18 10.04   Downloaded futures v0.3.32
+#18 10.08   Downloaded darling_core v0.21.3
+#18 10.09   Downloaded bzip2 v0.5.2
+#18 10.11   Downloaded js-sys v0.3.91
+#18 10.15   Downloaded getrandom v0.4.2
+#18 10.15   Downloaded r-efi v5.3.0
+#18 10.16   Downloaded prettyplease v0.2.37
+#18 10.17   Downloaded wasm-bindgen v0.2.114
+#18 10.19   Downloaded bytes v1.11.1
+#18 10.23   Downloaded bytemuck v1.25.0
+#18 10.26   Downloaded base64 v0.22.1
+#18 10.28   Downloaded binrw v0.12.1
+#18 10.28   Downloaded hashbrown v0.12.3
+#18 10.28   Downloaded zerocopy-derive v0.8.47
+#18 10.29   Downloaded serde v1.0.228
+#18 10.29   Downloaded wit-bindgen v0.51.0
+#18 10.30   Downloaded wasm-encoder v0.244.0
+#18 10.30   Downloaded cc v1.2.57
+#18 10.30   Downloaded bumpalo v3.20.2
+#18 10.31   Downloaded memchr v2.8.0
+#18 10.32   Downloaded r-efi v6.0.0
+#18 10.37   Downloaded prost-reflect v0.16.4
+#18 10.39   Downloaded criterion v0.5.1
+#18 10.40   Downloaded itertools v0.10.5
+#18 10.42   Downloaded rustls-webpki v0.103.13
+#18 10.45   Downloaded indexmap v2.13.0
+#18 10.46   Downloaded aho-corasick v1.1.4
+#18 10.64   Downloaded plotters v0.3.7
+#18 10.64   Downloaded http v1.4.1
+#18 10.76   Downloaded regex v1.12.3
+#18 10.80   Downloaded ureq v3.3.0
+#18 10.87   Downloaded clap_builder v4.6.0
+#18 10.87   Downloaded futures-util v0.3.32
+#18 10.88   Downloaded rayon v1.11.0
+#18 10.88   Downloaded wasip3 v0.4.0+wasi-0.3.0-rc-2026-01-06
+#18 10.88   Downloaded hashbrown v0.15.5
+#18 10.88   Downloaded wasip2 v1.0.2+wasi-0.2.9
+#18 10.95   Downloaded hashbrown v0.16.1
+#18 11.00   Downloaded serde_json v1.0.149
+#18 11.07   Downloaded vcpkg v0.2.15
+#18 11.09   Downloaded clap v3.2.25
+#18 11.20   Downloaded wit-parser v0.244.0
+#18 11.21   Downloaded zerocopy v0.8.47
+#18 11.26   Downloaded rusqlite v0.39.0
+#18 11.40   Downloaded webpki-roots v1.0.7
+#18 11.55   Downloaded regex-syntax v0.8.10
+#18 11.57   Downloaded lz4-sys v1.11.1+lz4-1.10.0
+#18 11.66   Downloaded time v0.3.47
+#18 11.67   Downloaded syn v1.0.109
+#18 11.68   Downloaded wasmparser v0.244.0
+#18 11.68   Downloaded chrono v0.4.44
+#18 11.81   Downloaded wit-component v0.244.0
+#18 11.93   Downloaded syn v2.0.117
+#18 12.10   Downloaded regex-automata v0.4.14
+#18 12.16   Downloaded web-sys v0.3.91
+#18 12.19   Downloaded bzip2-sys v0.1.13+1.0.8
+#18 12.24   Downloaded rustls v0.23.40
+#18 12.32   Downloaded zstd-sys v2.0.16+zstd.1.5.7
+#18 12.37   Downloaded rustix v1.1.4
+#18 12.40   Downloaded windows_aarch64_gnullvm v0.52.6
+#18 12.41   Downloaded tokio v1.50.0
+#18 12.46   Downloaded windows_x86_64_gnullvm v0.52.6
+#18 12.55   Downloaded windows_i686_gnullvm v0.52.6
+#18 13.60   Downloaded libc v0.2.183
+#18 13.62   Downloaded windows_x86_64_msvc v0.52.6
+#18 13.63   Downloaded windows_aarch64_msvc v0.52.6
+#18 13.64   Downloaded windows_x86_64_gnu v0.52.6
+#18 13.65   Downloaded windows_i686_gnu v0.52.6
+#18 13.76   Downloaded windows_i686_msvc v0.52.6
+#18 14.31   Downloaded winapi-i686-pc-windows-gnu v0.4.0
+#18 14.37   Downloaded winapi-x86_64-pc-windows-gnu v0.4.0
+#18 14.44   Downloaded winapi v0.3.9
+#18 14.68   Downloaded ring v0.17.14
+#18 14.85   Downloaded libsqlite3-sys v0.37.0
+#18 15.31   Downloaded windows-sys v0.52.0
+#18 15.47   Downloaded windows-sys v0.61.2
+#18 15.51   Downloaded linux-raw-sys v0.12.1
+#18 15.97   Downloaded sqlite-wasm-rs v0.5.5
+#18 16.19    Compiling libc v0.2.183
+#18 16.19    Compiling shlex v1.3.0
+#18 16.19    Compiling find-msvc-tools v0.1.9
+#18 16.19    Compiling proc-macro2 v1.0.106
+#18 16.19    Compiling quote v1.0.45
+#18 16.19    Compiling unicode-ident v1.0.24
+#18 16.19    Compiling pkg-config v0.3.32
+#18 16.19    Compiling cfg-if v1.0.4
+#18 16.19    Compiling either v1.15.0
+#18 16.19    Compiling autocfg v1.5.0
+#18 16.20    Compiling bytes v1.11.1
+#18 16.20    Compiling itoa v1.0.18
+#18 16.20    Compiling ident_case v1.0.1
+#18 16.20    Compiling serde_core v1.0.228
+#18 16.20    Compiling fnv v1.0.7
+#18 16.20    Compiling anyhow v1.0.102
+#18 16.20    Compiling log v0.4.29
+#18 16.20    Compiling syn v1.0.109
+#18 16.30    Compiling zeroize v1.8.2
+#18 16.30    Compiling vcpkg v0.2.15
+#18 16.33    Compiling utf8parse v0.2.2
+#18 16.33    Compiling zstd-safe v7.2.4
+#18 16.34    Compiling itertools v0.10.5
+#18 16.35    Compiling httparse v1.10.1
+#18 16.38    Compiling rustls-pki-types v1.14.1
+#18 16.38    Compiling binrw_derive v0.12.1
+#18 16.38    Compiling memchr v2.8.0
+#18 16.39    Compiling serde v1.0.228
+#18 16.40    Compiling untrusted v0.9.0
+#18 16.45    Compiling anstyle-parse v1.0.0
+#18 16.62    Compiling num-traits v0.2.19
+#18 16.62    Compiling paste v1.0.15
+#18 16.62    Compiling base64 v0.22.1
+#18 16.62    Compiling crc32fast v1.5.0
+#18 16.63    Compiling time-core v0.1.8
+#18 16.64    Compiling thiserror v1.0.69
+#18 16.64    Compiling zmij v1.0.21
+#18 16.64    Compiling rustix v1.1.4
+#18 16.64    Compiling rustls v0.23.40
+#18 16.68    Compiling foldhash v0.2.0
+#18 16.72    Compiling is_terminal_polyfill v1.70.2
+#18 16.72    Compiling num-conv v0.2.1
+#18 16.75    Compiling once_cell v1.21.4
+#18 16.76    Compiling anstyle v1.0.14
+#18 16.77    Compiling bitflags v2.11.0
+#18 16.78    Compiling getrandom v0.4.2
+#18 16.78    Compiling owo-colors v3.5.0
+#18 16.81    Compiling anstyle-query v1.1.5
+#18 16.81    Compiling colorchoice v1.0.5
+#18 16.83    Compiling binrw v0.12.1
+#18 16.84    Compiling powerfmt v0.2.0
+#18 16.86    Compiling time-macros v0.2.27
+#18 16.88    Compiling hashbrown v0.16.1
+#18 16.88    Compiling aho-corasick v1.1.4
+#18 16.90    Compiling anstream v1.0.0
+#18 16.91    Compiling http v1.4.1
+#18 16.91    Compiling bytemuck v1.25.0
+#18 16.94    Compiling deranged v0.5.8
+#18 16.95    Compiling clap_lex v1.1.0
+#18 16.95    Compiling strsim v0.11.1
+#18 16.97    Compiling array-init v2.1.0
+#18 17.02    Compiling regex-syntax v0.8.10
+#18 17.03    Compiling subtle v2.6.1
+#18 17.05    Compiling num_threads v0.1.7
+#18 17.07    Compiling serde_json v1.0.149
+#18 17.13    Compiling heck v0.5.0
+#18 17.13    Compiling linux-raw-sys v0.12.1
+#18 17.16    Compiling clap_builder v4.6.0
+#18 17.27    Compiling syn v2.0.117
+#18 17.33    Compiling jobserver v0.1.34
+#18 17.33    Compiling getrandom v0.2.17
+#18 17.35    Compiling num_cpus v1.17.0
+#18 17.42    Compiling hashlink v0.11.0
+#18 17.50    Compiling cc v1.2.57
+#18 17.52    Compiling ordered-float v2.10.1
+#18 17.53    Compiling webpki-roots v1.0.7
+#18 17.53    Compiling ureq-proto v0.6.0
+#18 17.55    Compiling fastrand v2.3.0
+#18 17.64    Compiling fallible-streaming-iterator v0.1.9
+#18 17.65    Compiling termcolor v1.4.1
+#18 17.73    Compiling byteorder v1.5.0
+#18 17.79    Compiling fallible-iterator v0.3.0
+#18 17.80    Compiling mcap-cli v0.0.1 (/workspace/repo/rust/cli)
+#18 17.81    Compiling percent-encoding v2.3.2
+#18 18.05    Compiling bimap v0.6.3
+#18 18.05    Compiling smallvec v1.15.1
+#18 18.12    Compiling static_assertions v1.1.0
+#18 18.12    Compiling utf8-zero v0.8.1
+#18 18.19    Compiling chrono v0.4.44
+#18 18.20    Compiling memmap2 v0.9.10
+#18 18.38    Compiling time v0.3.47
+#18 18.41    Compiling tempfile v3.27.0
+#18 18.50    Compiling serde-value v0.7.0
+#18 18.50    Compiling regex-automata v0.4.14
+#18 18.64    Compiling zstd-sys v2.0.16+zstd.1.5.7
+#18 18.64    Compiling ring v0.17.14
+#18 18.64    Compiling lz4-sys v1.11.1+lz4-1.10.0
+#18 18.64    Compiling libsqlite3-sys v0.37.0
+#18 18.64    Compiling bzip2-sys v0.1.13+1.0.8
+#18 19.23    Compiling darling_core v0.21.3
+#18 19.34    Compiling simplelog v0.12.2
+#18 19.56    Compiling prost-derive v0.14.3
+#18 19.57    Compiling thiserror-impl v1.0.69
+#18 19.57    Compiling clap_derive v4.6.0
+#18 19.64    Compiling bzip2 v0.5.2
+#18 20.11    Compiling regex v1.12.3
+#18 20.95    Compiling darling_macro v0.21.3
+#18 21.21    Compiling prost v0.14.3
+#18 21.30    Compiling clap v4.6.0
+#18 21.67    Compiling prost-types v0.14.3
+#18 22.10    Compiling darling v0.21.3
+#18 22.12    Compiling zstd v0.13.3
+#18 22.13    Compiling enumset_derive v0.14.0
+#18 22.25    Compiling prost-reflect v0.16.4
+#18 22.27    Compiling rustls-webpki v0.103.13
+#18 22.93    Compiling enumset v1.1.10
+#18 23.66    Compiling rusqlite v0.39.0
+#18 23.74    Compiling lz4 v1.28.1
+#18 23.78    Compiling mcap v0.24.0 (/workspace/repo/rust/mcap)
+#18 24.20    Compiling ureq v3.3.0
+#18 ...
+
+#14 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#14 37.29 cb59283-ref
+#14 37.30 total 30416
+#14 37.30 drwxr-xr-x 2 root root     4096 Sep 13 11:25 .
+#14 37.30 drwxr-xr-x 1 root root     4096 Sep 13 11:25 ..
+#14 37.30 -rwxr-xr-x 1 root root 26011560 Sep 13 11:25 mcap-go
+#14 37.30 -rwxr-xr-x 1 root root  5133656 Sep 13 11:25 mcap-go-dump
+#14 DONE 37.7s
+
+#18 [stage-1  6/12] RUN cargo fetch --locked  && cargo build --locked -p mcap-cli  && cargo test --locked --no-run -p mcap-cli  && cargo test --locked --no-run -p mcap --all-features  && ./target/debug/mcap --version
+#18 29.31     Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.22s
+#18 29.53    Compiling mcap-cli v0.0.1 (/workspace/repo/rust/cli)
+#18 33.71     Finished `test` profile [unoptimized + debuginfo] target(s) in 4.36s
+#18 33.72   Executable unittests src/main.rs (target/debug/deps/mcap-c4a1afaea9416cb8)
+#18 33.91    Compiling version_check v0.9.5
+#18 33.91    Compiling crossbeam-utils v0.8.21
+#18 33.91    Compiling serde_core v1.0.228
+#18 33.91    Compiling zerocopy v0.8.47
+#18 33.91    Compiling serde v1.0.228
+#18 33.91    Compiling pin-project-lite v0.2.17
+#18 33.91    Compiling num-traits v0.2.19
+#18 33.91    Compiling either v1.15.0
+#18 33.91    Compiling futures-core v0.3.32
+#18 33.91    Compiling rayon-core v1.13.0
+#18 33.91    Compiling futures-sink v0.3.32
+#18 33.91    Compiling indexmap v1.9.3
+#18 33.92    Compiling zerocopy-derive v0.8.47
+#18 33.92    Compiling serde_derive v1.0.228
+#18 33.92    Compiling tokio-macros v2.6.1
+#18 33.92    Compiling ciborium-io v0.2.2
+#18 33.92    Compiling plotters-backend v0.3.7
+#18 33.92    Compiling futures-task v0.3.32
+#18 33.95    Compiling regex-syntax v0.8.10
+#18 33.95    Compiling once_cell v1.21.4
+#18 33.97    Compiling futures-channel v0.3.32
+#18 34.00    Compiling futures-util v0.3.32
+#18 34.01    Compiling clap_builder v4.6.0
+#18 34.04    Compiling itertools v0.10.5
+#18 34.05    Compiling plotters-svg v0.3.7
+#18 34.07    Compiling binrw_derive v0.12.1
+#18 34.07    Compiling hashbrown v0.12.3
+#18 34.07    Compiling camino v1.2.2
+#18 34.09    Compiling proc-macro-error-attr v1.0.4
+#18 34.10    Compiling proc-macro-error v1.0.4
+#18 34.15    Compiling futures-io v0.3.32
+#18 34.17    Compiling os_str_bytes v6.6.1
+#18 34.20    Compiling cast v0.3.0
+#18 34.21    Compiling heck v0.4.1
+#18 34.26    Compiling same-file v1.0.6
+#18 34.30    Compiling atty v0.2.14
+#18 34.31    Compiling is-terminal v0.4.17
+#18 34.33    Compiling walkdir v2.5.0
+#18 34.35    Compiling clap_lex v0.2.4
+#18 34.36    Compiling oorandom v11.1.5
+#18 34.36    Compiling textwrap v0.16.2
+#18 34.38    Compiling bitflags v1.3.2
+#18 34.39    Compiling crossbeam-epoch v0.9.18
+#18 34.43    Compiling strsim v0.10.0
+#18 34.48    Compiling anes v0.1.6
+#18 34.50    Compiling tempfile v3.27.0
+#18 34.58    Compiling crossbeam-deque v0.8.6
+#18 34.60    Compiling plotters v0.3.7
+#18 34.63    Compiling assert_matches v1.5.0
+#18 34.63    Compiling clap_derive v3.2.25
+#18 34.68    Compiling regex-automata v0.4.14
+#18 34.69    Compiling criterion-plot v0.5.0
+#18 34.71    Compiling tokio v1.50.0
+#18 34.79    Compiling futures v0.3.32
+#18 34.89    Compiling rayon v1.11.0
+#18 35.00    Compiling clap v4.6.0
+#18 35.31    Compiling serde_json v1.0.149
+#18 35.54    Compiling regex v1.12.3
+#18 35.57    Compiling clap v3.2.25
+#18 35.69    Compiling tinytemplate v1.2.1
+#18 35.99    Compiling binrw v0.12.1
+#18 36.41    Compiling mcap v0.24.0 (/workspace/repo/rust/mcap)
+#18 36.55    Compiling half v2.7.1
+#18 36.64    Compiling ciborium-ll v0.2.2
+#18 36.69    Compiling ciborium v0.2.2
+#18 36.87    Compiling criterion v0.5.1
+#18 46.27     Finished `test` profile [unoptimized + debuginfo] target(s) in 12.54s
+#18 46.29   Executable unittests src/lib.rs (target/debug/deps/mcap-06447a84ea8fa3ea)
+#18 46.29   Executable tests/attachment.rs (target/debug/deps/attachment-96cec8a38096e65b)
+#18 46.29   Executable tests/chunks.rs (target/debug/deps/chunks-d659ec05e7420250)
+#18 46.29   Executable tests/common.rs (target/debug/deps/common-0ec01bb29e8d9f45)
+#18 46.29   Executable tests/compression.rs (target/debug/deps/compression-aa40d76179102f04)
+#18 46.29   Executable tests/flush.rs (target/debug/deps/flush-0c436ced0cb0b384)
+#18 46.29   Executable tests/handles_time0_messages.rs (target/debug/deps/handles_time0_messages-9afc880499a8de84)
+#18 46.29   Executable tests/message.rs (target/debug/deps/message-5991d01a35d057ab)
+#18 46.29   Executable tests/metadata.rs (target/debug/deps/metadata-66cbb8a90cd693ca)
+#18 46.29   Executable tests/round_trip.rs (target/debug/deps/round_trip-300ec6ad3fbed931)
+#18 46.31 mcap 0.0.1 (unknown) mcap-rust/0.24.0
+#18 DONE 46.4s
+
+#19 [stage-1  7/12] COPY --from=goref /out/mcap-go /opt/reference/bin/mcap-go
+#19 DONE 0.5s
+
+#20 [stage-1  8/12] COPY --from=goref /out/mcap-go-dump /opt/reference/bin/mcap-go-dump
+#20 DONE 0.0s
+
+#21 [stage-1  9/12] RUN /opt/reference/bin/mcap-go version && chmod 0755 /opt/reference/bin/*
+#21 0.508 cb59283-ref
+#21 DONE 0.5s
+
+#22 [stage-1 10/12] COPY . /tests
+#22 DONE 0.0s
+
+#23 [stage-1 11/12] RUN chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump
+#23 0.250 Traceback (most recent call last):
+#23 0.250   File "/tests/harness/gen_fixtures.py", line 656, in <module>
+#23 0.250     main()
+#23 0.250   File "/tests/harness/gen_fixtures.py", line 154, in main
+#23 0.250     subprocess.run([a.go_bin, "filter", pristine[src], "-o", dst, "--output-compression", codec,
+#23 0.250                                         ~~~~~~~~^^^^^
+#23 0.250 KeyError: 'OneSchemalessMessage/OneSchemalessMessage-ch-chx-mx-pad-rch-rsh-st-sum'
+#23 ERROR: process "/bin/sh -c chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump" did not complete successfully: exit code: 1
+------
+ > [stage-1 11/12] RUN chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump:
+0.250 Traceback (most recent call last):
+0.250   File "/tests/harness/gen_fixtures.py", line 656, in <module>
+0.250     main()
+0.250   File "/tests/harness/gen_fixtures.py", line 154, in main
+0.250     subprocess.run([a.go_bin, "filter", pristine[src], "-o", dst, "--output-compression", codec,
+0.250                                         ~~~~~~~~^^^^^
+0.250 KeyError: 'OneSchemalessMessage/OneSchemalessMessage-ch-chx-mx-pad-rch-rsh-st-sum'
+------
+Dockerfile:45
+
+--------------------
+
+  44 |     COPY . /tests
+
+  45 | >>> RUN chmod +x /tests/test.sh \
+
+  46 | >>>  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures \
+
+  47 | >>>       --go-bin /opt/reference/bin/mcap-go --big \
+
+  48 | >>>  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo \
+
+  49 | >>>       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump
+
+  50 |     
+
+--------------------
+
+failed to solve: process "/bin/sh -c chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/owk8fo0dwqfrnfgbde7vkp6gx
+
+. Stderr: None. 

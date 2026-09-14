@@ -1,0 +1,122 @@
+Skipping image OS validation for hb__rs-mcap-cli-recover-parity: docker inspect returned 1
+Collecting main service artifacts
+Trial rs-mcap-cli-recover-parity__tz2fJan failed: Docker compose command failed for environment rs-mcap-cli-recover-parity. Command: docker compose --project-name rs-mcap-cli-recover-parity__tz2fjan__verifier__trial --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates_v2/rs-mcap-cli-recover-parity/tests -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmptve18cw0/rs-mcap-cli-recover-parity__tz2fJan__verifier__trial-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmp7fi5gm79/docker-compose-mounts.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-no-network.yaml build. Return code: 1. Stdout:  Image rs-mcap-cli-recover-parity__tz2fjan__verifier__trial-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 790B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.80kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253
+#3 DONE 0.0s
+
+#4 [internal] load metadata for docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [goref 1/6] FROM docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253
+#6 resolve docker.io/library/golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-1  1/12] FROM docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1
+#7 resolve docker.io/library/rust:1.95.0-bookworm@sha256:6258907abe69656e41cd992e0b705cdcfabcbbe3db374f92ed2d47121282d4a1 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 339B done
+#8 DONE 0.0s
+
+#9 [stage-1  2/12] RUN apt-get update  && apt-get install -y --no-install-recommends git python3 pkg-config cmake xxd bc procps  && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [goref 6/6] RUN cd cli/mcap && go build -tags sqlite_omit_load_extension -ldflags "-s -w -X github.com/foxglove/mcap/go/cli/mcap/cmd.Version=cb59283-ref" -o /out/mcap-go .  && cd ../../conformance/test-read-conformance && go build -o /out/mcap-go-dump .  && /out/mcap-go version && ls -la /out
+#10 CACHED
+
+#11 [goref 3/6] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#11 CACHED
+
+#12 [stage-1  7/12] COPY --from=goref /out/mcap-go /opt/reference/bin/mcap-go
+#12 CACHED
+
+#13 [goref 2/6] WORKDIR /src
+#13 CACHED
+
+#14 [stage-1  3/12] COPY image-source/upstream.tar.gz /tmp/upstream.tar.gz
+#14 CACHED
+
+#15 [stage-1  5/12] WORKDIR /workspace/repo/rust
+#15 CACHED
+
+#16 [stage-1  8/12] COPY --from=goref /out/mcap-go-dump /opt/reference/bin/mcap-go-dump
+#16 CACHED
+
+#17 [stage-1  9/12] RUN /opt/reference/bin/mcap-go version && chmod 0755 /opt/reference/bin/*
+#17 CACHED
+
+#18 [stage-1  4/12] RUN mkdir -p /opt/pristine/repo /workspace/repo  && tar -xzf /tmp/upstream.tar.gz -C /opt/pristine/repo  && tar -xzf /tmp/upstream.tar.gz -C /workspace/repo  && rm /tmp/upstream.tar.gz
+#18 CACHED
+
+#19 [stage-1  6/12] RUN cargo fetch --locked  && cargo build --locked -p mcap-cli  && cargo test --locked --no-run -p mcap-cli  && cargo test --locked --no-run -p mcap --all-features  && ./target/debug/mcap --version
+#19 CACHED
+
+#20 [goref 4/6] RUN mkdir -p /src/repo && tar -xzf /tmp/upstream.tar.gz -C /src/repo go/  && rm /tmp/upstream.tar.gz
+#20 CACHED
+
+#21 [goref 5/6] WORKDIR /src/repo/go
+#21 CACHED
+
+#22 [stage-1 10/12] COPY . /tests
+#22 CACHED
+
+#23 [stage-1 11/12] RUN chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump
+#23 0.362 Traceback (most recent call last):
+#23 0.362   File "/tests/harness/gen_fixtures.py", line 656, in <module>
+#23 0.362     main()
+#23 0.362   File "/tests/harness/gen_fixtures.py", line 154, in main
+#23 0.363     subprocess.run([a.go_bin, "filter", pristine[src], "-o", dst, "--output-compression", codec,
+#23 0.363                                         ~~~~~~~~^^^^^
+#23 0.363 KeyError: 'OneSchemalessMessage/OneSchemalessMessage-ch-chx-mx-pad-rch-rsh-st-sum'
+#23 ERROR: process "/bin/sh -c chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump" did not complete successfully: exit code: 1
+------
+ > [stage-1 11/12] RUN chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump:
+0.362 Traceback (most recent call last):
+0.362   File "/tests/harness/gen_fixtures.py", line 656, in <module>
+0.362     main()
+0.362   File "/tests/harness/gen_fixtures.py", line 154, in main
+0.363     subprocess.run([a.go_bin, "filter", pristine[src], "-o", dst, "--output-compression", codec,
+0.363                                         ~~~~~~~~^^^^^
+0.363 KeyError: 'OneSchemalessMessage/OneSchemalessMessage-ch-chx-mx-pad-rch-rsh-st-sum'
+------
+Dockerfile:45
+
+--------------------
+
+  44 |     COPY . /tests
+
+  45 | >>> RUN chmod +x /tests/test.sh \
+
+  46 | >>>  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures \
+
+  47 | >>>       --go-bin /opt/reference/bin/mcap-go --big \
+
+  48 | >>>  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo \
+
+  49 | >>>       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump
+
+  50 |     
+
+--------------------
+
+failed to solve: process "/bin/sh -c chmod +x /tests/test.sh  && python3 /tests/harness/gen_fixtures.py --repo /opt/pristine/repo --out /tests/fixtures       --go-bin /opt/reference/bin/mcap-go --big  && python3 /tests/harness/selfcheck.py --fixtures /tests/fixtures --repo /opt/pristine/repo       --go-bin /opt/reference/bin/mcap-go --dump-bin /opt/reference/bin/mcap-go-dump" did not complete successfully: exit code: 1
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/nakx0m4mjk4ntog3vkrpn9u7s
+
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached
