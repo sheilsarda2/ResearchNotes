@@ -1,0 +1,2841 @@
+diff --git a/crates/store/re_chunk_optimizer/src/error.rs b/crates/store/re_chunk_optimizer/src/error.rs
+index bc24290a5..d60f8159b 100644
+--- a/crates/store/re_chunk_optimizer/src/error.rs
++++ b/crates/store/re_chunk_optimizer/src/error.rs
+@@ -1,4 +1,6 @@
+-use re_log_encoding::CodecError;
++use re_chunk::{ChunkError, ChunkId, ComponentIdentifier};
++use re_log_encoding::{ChunkProviderError, CodecError};
++use re_log_types::EntityPath;
+ 
+ /// Errors of this crate.
+ ///
+@@ -15,22 +17,126 @@ pub enum Error {
+     #[error("Failed to compute the chunk index's temporal map: {source}")]
+     TemporalMap { source: CodecError },
+ 
++    #[error("Malformed per-component chunk index column {column:?}: {reason}")]
++    MalformedComponentColumn {
++        column: String,
++        reason: &'static str,
++    },
++
+     #[error(
+-        "chunk index references chunk {chunk_id} for entity {entity_path}, but no such chunk row exists"
++        "Chunk index references chunk {chunk_id}, but no such chunk row exists\nEntity: {entity_path}"
+     )]
+     UnknownChunkId {
+-        chunk_id: re_chunk::ChunkId,
+-        entity_path: re_log_types::EntityPath,
++        chunk_id: ChunkId,
++        entity_path: EntityPath,
++    },
++
++    #[error(
++        "Failed to load {num_chunks} chunk(s) from the provider: {source}\nEntity: {entity_path}"
++    )]
++    LoadChunks {
++        entity_path: EntityPath,
++        num_chunks: usize,
++        source: ChunkProviderError,
++    },
++
++    #[error("The provider did not return chunk {chunk_id}\nEntity: {entity_path}")]
++    MissingChunk {
++        chunk_id: ChunkId,
++        entity_path: EntityPath,
++    },
++
++    #[error("Failed to merge chunks: {source}\nEntity: {entity_path}")]
++    MergeChunks {
++        entity_path: EntityPath,
++        source: ChunkError,
++    },
++
++    /// The decoded chunk lacks columns the chunk index records for it, or a selection built from
++    /// the index keeps none of its columns. An unrecorded extra column goes undetected.
++    #[error(
++        "Columns of chunk {chunk_id} do not match the index.\nEntity: {entity_path}\nMissing columns: {missing:?}"
++    )]
++    IndexMismatch {
++        chunk_id: ChunkId,
++        entity_path: EntityPath,
++        missing: Vec<ComponentIdentifier>,
++    },
++
++    /// The plan's selection drops every column of the chunk, which the planner never emits for a
++    /// chunk that matches the index.
++    #[error("Column selection keeps no column of chunk {chunk_id}\nEntity: {entity_path}")]
++    EmptySelection {
++        chunk_id: ChunkId,
++        entity_path: EntityPath,
+     },
+ }
+ 
+-// helpers for .map_err
+ impl Error {
+-    pub(crate) fn read_column(column: &'static str) -> impl Fn(CodecError) -> Self {
+-        move |source| Self::ReadColumn { column, source }
++    pub fn read_column(column: &'static str, source: CodecError) -> Self {
++        Self::ReadColumn { column, source }
+     }
+ 
+-    pub(crate) fn temporal_map(source: CodecError) -> Self {
++    pub fn temporal_map(source: CodecError) -> Self {
+         Self::TemporalMap { source }
+     }
++
++    pub fn malformed_component_column(column: &str, reason: &'static str) -> Self {
++        Self::MalformedComponentColumn {
++            column: column.to_owned(),
++            reason,
++        }
++    }
++
++    pub fn unknown_chunk_id(chunk_id: ChunkId, entity_path: &EntityPath) -> Self {
++        Self::UnknownChunkId {
++            chunk_id,
++            entity_path: entity_path.clone(),
++        }
++    }
++
++    pub fn load_chunks(
++        entity_path: &EntityPath,
++        num_chunks: usize,
++        source: ChunkProviderError,
++    ) -> Self {
++        Self::LoadChunks {
++            entity_path: entity_path.clone(),
++            num_chunks,
++            source,
++        }
++    }
++
++    pub fn missing_chunk(chunk_id: ChunkId, entity_path: &EntityPath) -> Self {
++        Self::MissingChunk {
++            chunk_id,
++            entity_path: entity_path.clone(),
++        }
++    }
++
++    pub fn merge_chunks(entity_path: &EntityPath, source: ChunkError) -> Self {
++        Self::MergeChunks {
++            entity_path: entity_path.clone(),
++            source,
++        }
++    }
++
++    pub fn index_mismatch(
++        chunk_id: ChunkId,
++        entity_path: &EntityPath,
++        missing: Vec<ComponentIdentifier>,
++    ) -> Self {
++        Self::IndexMismatch {
++            chunk_id,
++            entity_path: entity_path.clone(),
++            missing,
++        }
++    }
++
++    pub fn empty_selection(chunk_id: ChunkId, entity_path: &EntityPath) -> Self {
++        Self::EmptySelection {
++            chunk_id,
++            entity_path: entity_path.clone(),
++        }
++    }
+ }
+diff --git a/crates/store/re_chunk_optimizer/src/executor/merge_split.rs b/crates/store/re_chunk_optimizer/src/executor/merge_split.rs
+new file mode 100644
+index 000000000..d95d138a8
+--- /dev/null
++++ b/crates/store/re_chunk_optimizer/src/executor/merge_split.rs
+@@ -0,0 +1,374 @@
++//! Execution of one [`PlanUnit::MergeSplitRun`](crate::plan::PlanUnit): cut and split outputs on
++//! measured sizes.
++
++use std::collections::VecDeque;
++use std::num::NonZeroU64;
++use std::ops::ControlFlow;
++use std::sync::Arc;
++
++use re_byte_size::SizeBytes as _;
++use re_chunk::{Chunk, SplitRowsOptions};
++use re_log_encoding::ChunkProvider;
++
++use crate::Error;
++use crate::plan::ChunkSlice;
++use crate::settings::MergeSplitSettings;
++use crate::view::ChunkIndexView;
++
++use super::load_in_order;
++
++/// Minimum on-disk bytes (`rrd_byte_size`) requested per `load_chunks` call within a merge run,
++/// to give the provider a chance to coalesce reads. (Note: this is an IO floor, not a memory
++/// budget.)
++const MIN_LOAD_CHUNK_BATCH: u64 = 8 * 1024 * 1024;
++
++/// Only split chunks if their size is above the `target_size * SPLIT_THRESHOLD_FACTOR`.
++///
++/// The product of chunk merging can often overshoot the target due to per-chunk framing and
++/// padding. In order to achieve idempotency across optimization run — specifically avoid merge-
++/// split back-and-forth behavior — we introduce hysteresis via this factor.
++///
++/// Expressed as fraction to avoid float arithmetics.
++const SPLIT_THRESHOLD_FACTOR_NUM: u128 = 6;
++const SPLIT_THRESHOLD_FACTOR_DEN: u128 = 5;
++
++pub fn should_split_chunk(size: u64, max_bytes: u64) -> bool {
++    SPLIT_THRESHOLD_FACTOR_DEN * u128::from(size)
++        > SPLIT_THRESHOLD_FACTOR_NUM * u128::from(max_bytes)
++}
++
++/// The smallest byte target whose slack band still holds a chunk of the given measured size:
++/// [`should_split_chunk`] is false at this target and true just below it.
++///
++/// Exposed for testing.
++pub fn smallest_non_splitting_target(size: u64) -> u64 {
++    #[expect(clippy::cast_possible_truncation)] // the result is at most `size`
++    let target =
++        (u128::from(size) * SPLIT_THRESHOLD_FACTOR_DEN).div_ceil(SPLIT_THRESHOLD_FACTOR_NUM) as u64;
++    target
++}
++
++/// Executor state of a single [`PlanUnit::MergeSplitRun`](crate::plan::PlanUnit).
++pub struct MergeSplitRunState {
++    slices: Vec<ChunkSlice>,
++    target: MergeSplitSettings,
++
++    /// Index into `slices` of the first one not yet fetched.
++    next_unfetched_slice: usize,
++
++    /// Loaded input chunks not yet processed.
++    ///
++    /// Refilled only when empty, by one `load_chunks` batch, so it never holds more than one
++    /// decoded batch. An oversized chunk's pieces are pushed to its front and replace it.
++    pending: VecDeque<Arc<Chunk>>,
++
++    /// The output being accumulated: a stack-like sequence of merged intermediates
++    /// (see [`Self::push_and_compact`]).
++    accumulator: Vec<AccumulatorEntry>,
++
++    /// Sum of the accumulator entries' measured bytes, maintained across pushes and merges.
++    accumulator_bytes: u64,
++
++    /// Sum of the accumulator entries' rows (merges preserve it).
++    accumulator_rows: u64,
++}
++
++/// One merged intermediate in a run's accumulator.
++struct AccumulatorEntry {
++    chunk: Arc<Chunk>,
++
++    /// The entry's measured `total_size_bytes`.
++    ///
++    /// This is re-measured after every merge, so effect of per-chunk framing and padding is
++    /// measured instead of estimated.
++    bytes: u64,
++
++    /// The entry's row count.
++    rows: u64,
++
++    /// Whether the entry's timelines are all sorted.
++    sorted: bool,
++}
++
++impl MergeSplitRunState {
++    pub fn new(slices: Vec<ChunkSlice>, target: MergeSplitSettings) -> Self {
++        Self {
++            slices,
++            target,
++            next_unfetched_slice: 0,
++            pending: VecDeque::new(),
++            accumulator: Vec::new(),
++            accumulator_bytes: 0,
++            accumulator_rows: 0,
++        }
++    }
++
++    /// Drive the run until it emits at least one output into `ready` or finishes.
++    ///
++    /// Returns [`ControlFlow::Break`] when the run is done: its slices are exhausted and its
++    /// final output emitted. [`ControlFlow::Continue`] means there is more to step through.
++    pub async fn step(
++        &mut self,
++        provider: &dyn ChunkProvider,
++        view: &ChunkIndexView,
++        ready: &mut VecDeque<Arc<Chunk>>,
++    ) -> Result<ControlFlow<()>, Error> {
++        loop {
++            if let Some(chunk) = self.pending.pop_front() {
++                let chunk_bytes = chunk.as_ref().total_size_bytes();
++                let chunk_rows = chunk.num_rows() as u64;
++
++                if needs_split(&chunk, chunk_bytes, &self.target) {
++                    // Replace the oversized chunk by its pieces in the input stream.
++                    // `SplitRowsOptions` follows the legacy convention: `0` disables a limit.
++                    let options = SplitRowsOptions {
++                        chunk_max_bytes: self.target.max_bytes.get(),
++                        chunk_max_rows: self.target.max_rows.map_or(0, NonZeroU64::get),
++                        chunk_max_rows_if_unsorted: self
++                            .target
++                            .max_rows_if_unsorted
++                            .map_or(0, NonZeroU64::get),
++                    };
++                    let pieces = Chunk::split_rows(Arc::clone(&chunk), &options);
++                    if pieces.len() > 1 {
++                        for piece in pieces.into_iter().rev() {
++                            self.pending.push_front(piece);
++                        }
++                        continue;
++                    }
++
++                    // The split made no progress: `split_rows` estimates rows per piece from
++                    // floored average bytes-per-row, which can round `target_rows` up to the whole
++                    // chunk. Re-queueing would loop forever, so discard the copy and admit the
++                    // original as-is — it emits alone, identity preserved, like a band chunk.
++                }
++
++                let fits_bytes = self.accumulator_bytes.saturating_add(chunk_bytes)
++                    <= self.target.max_bytes.get();
++                let max_rows = if chunk.all_timelines_sorted() && !self.is_accumulator_unsorted() {
++                    self.target.max_rows
++                } else {
++                    self.target.max_rows_if_unsorted
++                };
++                let fits_rows = max_rows.is_none_or(|max| {
++                    self.accumulator_rows.saturating_add(chunk_rows) <= max.get()
++                });
++                let does_not_fit = !fits_bytes || !fits_rows;
++
++                // The chunk does not fit: the accumulated output is complete, and the chunk
++                // seeds the next output.
++                if !self.accumulator.is_empty() && does_not_fit {
++                    self.flush_accumulator(ready)?;
++                    self.push_and_compact(chunk, chunk_bytes, chunk_rows)?;
++                    return Ok(ControlFlow::Continue(()));
++                }
++
++                // The chunk joins the output.
++                self.push_and_compact(chunk, chunk_bytes, chunk_rows)?;
++            } else if self.next_unfetched_slice < self.slices.len() {
++                // Fetch the next IO batch: the shortest prefix of the remaining inputs whose
++                // on-disk size reaches the minimum. The loop always takes at least one chunk, so
++                // progress is guaranteed.
++                let mut end = self.next_unfetched_slice;
++                let mut batch_bytes = 0_u64;
++                while end < self.slices.len() && batch_bytes < MIN_LOAD_CHUNK_BATCH {
++                    batch_bytes = batch_bytes
++                        .saturating_add(view.chunk(self.slices[end].chunk).rrd_byte_size);
++                    end += 1;
++                }
++
++                let batch =
++                    load_in_order(provider, view, &self.slices[self.next_unfetched_slice..end])
++                        .await?;
++                self.next_unfetched_slice = end;
++                self.pending = batch.into();
++            } else {
++                self.flush_accumulator(ready)?;
++                return Ok(ControlFlow::Break(()));
++            }
++        }
++    }
++
++    /// Whether any accumulator entry has an unsorted timeline, which switches the row guard to
++    /// `max_rows_if_unsorted`.
++    fn is_accumulator_unsorted(&self) -> bool {
++        self.accumulator.iter().any(|entry| !entry.sorted)
++    }
++
++    /// Push one decoded chunk onto the accumulator and compact it.
++    ///
++    /// Compaction merges for the sake of the *measurement*: the cut decision needs honest sizes,
++    /// and the only way to know what a merge measures is to do it. Since a merge copies both
++    /// inputs into a fresh chunk, merging on every push would copy each row O(n) times; instead,
++    /// the accumulator merges its top two entries only while they are within 2× of each other by
++    /// measurement (LSM/doubling style), which keeps it to O(log n) copies per row.
++    ///
++    /// The lopsided pairs this leaves behind are [`merge_and_emit`]'s job, once the output is
++    /// final.
++    // TODO(ab): so far, we stayed close to how the legacy optimization operates: no rewrite of
++    // row ids, meaning no possibility to force-sort unsorted chunks/merge candidate. Having the
++    // ability to sort chunk here would be beneficial.
++    // TODO(RR-5587): it would probably be easy to implement a N-ary `concat_and_sort` operator
++    // (Arrow has a N-ary `concat`). This could further reduce the number of copies and simplify
++    // things. That said, we already perform better than legacy on maximally fragmented inputs, so
++    // this is likely not the bottleneck.
++    fn push_and_compact(&mut self, chunk: Arc<Chunk>, bytes: u64, rows: u64) -> Result<(), Error> {
++        let sorted = chunk.all_timelines_sorted();
++        self.accumulator.push(AccumulatorEntry {
++            chunk,
++            bytes,
++            rows,
++            sorted,
++        });
++        self.accumulator_bytes = self.accumulator_bytes.saturating_add(bytes);
++        self.accumulator_rows = self.accumulator_rows.saturating_add(rows);
++
++        while let [.., below, top] = self.accumulator.as_slice() {
++            let within_2x =
++                below.bytes.max(top.bytes) <= below.bytes.min(top.bytes).saturating_mul(2);
++            if !within_2x {
++                break;
++            }
++
++            let Some(merged) =
++                try_merge(&below.chunk, &top.chunk, self.target.max_rows_if_unsorted)?
++            else {
++                break;
++            };
++
++            let merged_bytes = merged.total_size_bytes();
++            let merged_sorted = merged.all_timelines_sorted();
++            let merged_rows = below.rows.saturating_add(top.rows);
++            let Some(top) = self.accumulator.pop() else {
++                break;
++            };
++            let Some(below) = self.accumulator.pop() else {
++                break;
++            };
++            self.accumulator_bytes = self
++                .accumulator_bytes
++                .saturating_sub(below.bytes)
++                .saturating_sub(top.bytes)
++                .saturating_add(merged_bytes);
++            self.accumulator.push(AccumulatorEntry {
++                chunk: Arc::new(merged),
++                bytes: merged_bytes,
++                rows: merged_rows,
++                sorted: merged_sorted,
++            });
++        }
++
++        Ok(())
++    }
++
++    /// Fold the accumulator entries with [`merge_and_emit`] and push them to the output.
++    fn flush_accumulator(&mut self, ready: &mut VecDeque<Arc<Chunk>>) -> Result<(), Error> {
++        self.accumulator_bytes = 0;
++        self.accumulator_rows = 0;
++        let chunks = std::mem::take(&mut self.accumulator)
++            .into_iter()
++            .map(|entry| entry.chunk)
++            .collect();
++        merge_and_emit(ready, chunks, self.target.max_rows_if_unsorted)
++    }
++}
++
++/// Merge two chunks if permitted, or return `None`.
++///
++/// Two gates (both are invisible to the index, which is the reason we "try" merges in the first
++/// place):
++///
++/// - `Chunk::concatenable`: the rare schema mismatch within a group (same entity and timeline
++///   set, but a shared component under different datatypes).
++/// - Sortedness: the result must be time-sorted, or within `max_rows_if_unsorted` (if any).
++///   Merging two individually sorted chunks can come out unsorted, and ranges cannot predict it
++///   when the row ids interleave — so the merge is tried and judged on the real result. This is
++///   what keeps every emitted chunk within the unsorted guard.
++//TODO(RR-5527): additional data in the index might allow predicting mergeabilty, so we don't have
++//to "try".
++fn try_merge(
++    left: &Chunk,
++    right: &Chunk,
++    max_rows_if_unsorted: Option<NonZeroU64>,
++) -> Result<Option<Chunk>, Error> {
++    if !left.concatenable(right) {
++        return Ok(None);
++    }
++
++    let merged = Chunk::concat_and_sort(left, right)
++        .map_err(|err| Error::merge_chunks(left.entity_path(), err))?;
++
++    let acceptable = merged.all_timelines_sorted()
++        || max_rows_if_unsorted.is_none_or(|max| merged.num_rows() as u64 <= max.get());
++
++    Ok(acceptable.then_some(merged))
++}
++
++/// Fold the accumulator's entries and emit the results in entry order.
++///
++/// [`MergeSplitRunState::push_and_compact`] deliberately leaves entries whose sizes are more
++/// than 2× apart, so this merges everything [`try_merge`] allows.
++fn merge_and_emit(
++    ready: &mut VecDeque<Arc<Chunk>>,
++    mut chunks: Vec<Arc<Chunk>>,
++    max_rows_if_unsorted: Option<NonZeroU64>,
++) -> Result<(), Error> {
++    let mut skip_first = false;
++    let mut rounds_without_merge = 0;
++
++    // repeatedly attempt to merge neighboring chunks
++    while chunks.len() > 1 && rounds_without_merge < 2 {
++        let mut next_round: Vec<Arc<Chunk>> = Vec::with_capacity(chunks.len() / 2 + 1);
++        let mut merged_any = false;
++
++        let mut iter = chunks.into_iter();
++
++        // Alternate rounds carry the first chunk over unpaired, so every chunk gets to meet both
++        // neighbors instead of retrying the same pairing.
++        if skip_first && let Some(first) = iter.next() {
++            next_round.push(first);
++        }
++        skip_first = !skip_first;
++
++        while let Some(left) = iter.next() {
++            let Some(right) = iter.next() else {
++                next_round.push(left);
++                break;
++            };
++            if let Some(merged) = try_merge(&left, &right, max_rows_if_unsorted)? {
++                next_round.push(Arc::new(merged));
++                merged_any = true;
++            } else {
++                next_round.push(left);
++                next_round.push(right);
++            }
++        }
++
++        chunks = next_round;
++        rounds_without_merge = if merged_any {
++            0
++        } else {
++            rounds_without_merge + 1
++        };
++    }
++
++    ready.extend(chunks);
++    Ok(())
++}
++
++/// Whether an incoming chunk must be split instead of joining the accumulator.
++fn needs_split(chunk: &Chunk, measured_bytes: u64, target: &MergeSplitSettings) -> bool {
++    if chunk.num_rows() <= 1 {
++        return false;
++    }
++
++    let rows = chunk.num_rows() as u64;
++    let over_bytes = should_split_chunk(measured_bytes, target.max_bytes.get());
++    let over_rows = target.max_rows.is_some_and(|max| rows > max.get());
++    let over_rows_unsorted = target
++        .max_rows_if_unsorted
++        .is_some_and(|max| rows > max.get())
++        && !chunk.all_timelines_sorted();
++
++    over_bytes || over_rows || over_rows_unsorted
++}
+diff --git a/crates/store/re_chunk_optimizer/src/executor/mod.rs b/crates/store/re_chunk_optimizer/src/executor/mod.rs
+new file mode 100644
+index 000000000..09d23614d
+--- /dev/null
++++ b/crates/store/re_chunk_optimizer/src/executor/mod.rs
+@@ -0,0 +1,279 @@
++//! The executor: drives a plan against a [`ChunkProvider`].
++
++pub mod merge_split;
++
++use std::collections::{BTreeSet, HashMap, VecDeque};
++use std::sync::Arc;
++
++use itertools::Itertools as _;
++
++use re_chunk::{Chunk, ChunkId, ComponentIdentifier};
++use re_log_encoding::ChunkProvider;
++
++use crate::Error;
++use crate::plan::{ChunkSlice, ColumnSelection, PlanUnit};
++use crate::view::ChunkIndexView;
++
++use merge_split::MergeSplitRunState;
++
++/// Pull-based execution of a plan: chunks are loaded on demand as [`Self::next_chunk`] is driven.
++///
++/// # Implementation notes
++///
++/// For now, the executor is a simple state machine that executes one plan unit at a time, with a
++/// FIFO queue to hold generated chunks until they are pulled from the stream.
++pub struct Executor {
++    provider: Arc<dyn ChunkProvider>,
++    view: ChunkIndexView,
++
++    /// Previously produced output chunk ready for streaming.
++    ready: VecDeque<Arc<Chunk>>,
++
++    /// The remaining plan units to execute, consumed one at a time.
++    units: std::vec::IntoIter<PlanUnit>,
++
++    /// State of the in-flight merge/split run, if any.
++    run: Option<MergeSplitRunState>,
++}
++
++impl Executor {
++    pub fn new(
++        provider: Arc<dyn ChunkProvider>,
++        view: ChunkIndexView,
++        units: Vec<PlanUnit>,
++    ) -> Self {
++        Self {
++            provider,
++            view,
++            units: units.into_iter(),
++            run: None,
++            ready: VecDeque::new(),
++        }
++    }
++
++    /// The next optimized chunk, or `None` when done.
++    pub async fn next_chunk(&mut self) -> Result<Option<Arc<Chunk>>, Error> {
++        loop {
++            if let Some(chunk) = self.ready.pop_front() {
++                return Ok(Some(chunk));
++            }
++
++            if let Some(run) = &mut self.run {
++                let flow = run
++                    .step(self.provider.as_ref(), &self.view, &mut self.ready)
++                    .await?;
++                if flow.is_break() {
++                    self.run = None;
++                }
++                continue;
++            }
++
++            let Some(output) = self.units.next() else {
++                return Ok(None);
++            };
++
++            match output {
++                PlanUnit::Passthrough(slice) => {
++                    let chunks =
++                        load_in_order(self.provider.as_ref(), &self.view, &[slice]).await?;
++                    self.ready.extend(chunks);
++                }
++
++                PlanUnit::MergeSplitRun { inputs, target } => {
++                    self.run = Some(MergeSplitRunState::new(inputs, target));
++                }
++            }
++        }
++    }
++}
++
++/// Load the chunks the slices name and return one input chunk per slice, in slice order.
++pub async fn load_in_order(
++    provider: &dyn ChunkProvider,
++    view: &ChunkIndexView,
++    slices: &[ChunkSlice],
++) -> Result<Vec<Arc<Chunk>>, Error> {
++    let Some(first) = slices.first() else {
++        return Ok(Vec::new());
++    };
++
++    let mut ids: Vec<ChunkId> = slices
++        .iter()
++        .map(|slice| view.chunk(slice.chunk).chunk_id)
++        .collect();
++    ids.sort_unstable();
++    ids.dedup();
++
++    // Every planned node stays within one entity, so the first chunk names them all.
++    let loaded = provider
++        .load_chunks(&ids)
++        .await
++        .map_err(|err| Error::load_chunks(&view.chunk(first.chunk).entity_path, ids.len(), err))?;
++
++    let by_id: HashMap<ChunkId, Arc<Chunk>> = loaded
++        .into_iter()
++        .map(|chunk| (chunk.id(), chunk))
++        .collect();
++
++    let mut chunks = Vec::with_capacity(slices.len());
++    for slice in slices {
++        let meta = view.chunk(slice.chunk);
++        let chunk = by_id
++            .get(&meta.chunk_id)
++            .ok_or_else(|| Error::missing_chunk(meta.chunk_id, &meta.entity_path))?;
++        chunks.push(select_columns(Arc::clone(chunk), &slice.columns)?);
++    }
++    Ok(chunks)
++}
++
++/// The input chunk a column selection keeps of a decoded chunk.
++///
++/// A selection that keeps every column of the chunk returns the same `Arc`. A selection naming a
++/// column the chunk lacks, or keeping no column at all, means the chunk index and the chunk
++/// disagree and is an error.
++pub fn select_columns(chunk: Arc<Chunk>, columns: &ColumnSelection) -> Result<Arc<Chunk>, Error> {
++    let ensure_columns_are_present =
++        |chunk: &Chunk, columns: &BTreeSet<ComponentIdentifier>| -> Result<(), Error> {
++            let components = chunk.components();
++            let missing = columns
++                .iter()
++                .filter(|col| !components.contains_component(**col))
++                .copied()
++                .collect_vec();
++            if !missing.is_empty() {
++                return Err(Error::index_mismatch(
++                    chunk.id(),
++                    chunk.entity_path(),
++                    missing,
++                ));
++            }
++            Ok(())
++        };
++
++    match columns {
++        ColumnSelection::All => Ok(chunk),
++
++        ColumnSelection::Only(columns) => {
++            ensure_columns_are_present(&chunk, columns)?;
++            if columns.len() == chunk.components().len() {
++                return Ok(chunk);
++            }
++            Ok(Arc::new(
++                chunk.components_sliced(&columns.iter().copied().collect_vec()),
++            ))
++        }
++
++        ColumnSelection::Except(columns) => {
++            ensure_columns_are_present(&chunk, columns)?;
++
++            if columns.len() == chunk.components().len() {
++                return Err(Error::empty_selection(chunk.id(), chunk.entity_path()));
++            }
++
++            Ok(Arc::new(chunk.components_dropped(
++                &columns.iter().copied().collect_vec(),
++            )))
++        }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use std::collections::BTreeSet;
++    use std::sync::Arc;
++
++    use re_chunk::{Chunk, ChunkId, RowId};
++    use re_log_types::Timeline;
++    use re_log_types::example_components::{MyColor, MyPoint, MyPoints};
++    use re_types_core::ComponentBatch as _;
++
++    use super::select_columns;
++    use crate::Error;
++    use crate::plan::ColumnSelection;
++
++    /// Covering selections return the same `Arc`; a column the chunk lacks, or a selection keeping
++    /// nothing, is an error; a partial selection is a new chunk with the selected columns.
++    #[test]
++    fn test_select_columns() -> Result<(), Error> {
++        let frame = Timeline::new_sequence("frame");
++        let points = MyPoints::descriptor_points().component;
++        let colors = MyPoints::descriptor_colors().component;
++        let labels = MyPoints::descriptor_labels().component;
++
++        let mixed = Arc::new(
++            Chunk::builder_with_id(ChunkId::from_u128(1), "entity")
++                .with_serialized_batches(
++                    RowId::from_u128(1),
++                    [(frame, 0_i64)],
++                    [
++                        MyPoint::from_iter(0..4)
++                            .try_serialized(MyPoints::descriptor_points())
++                            .unwrap(),
++                        MyColor::from_iter(0..4)
++                            .try_serialized(MyPoints::descriptor_colors())
++                            .unwrap(),
++                    ],
++                )
++                .build()
++                .unwrap(),
++        );
++        let colors_only = Arc::new(mixed.components_sliced(&[colors]));
++
++        // Identity.
++        assert!(Arc::ptr_eq(
++            &select_columns(Arc::clone(&mixed), &ColumnSelection::All)?,
++            &mixed
++        ));
++        assert!(Arc::ptr_eq(
++            &select_columns(
++                Arc::clone(&colors_only),
++                &ColumnSelection::Only(BTreeSet::from([colors]))
++            )?,
++            &colors_only
++        ));
++
++        // A column the chunk lacks, or nothing kept.
++        assert!(matches!(
++            select_columns(
++                Arc::clone(&mixed),
++                &ColumnSelection::Only(BTreeSet::from([labels]))
++            ),
++            Err(Error::IndexMismatch { missing, .. }) if missing == vec![labels]
++        ));
++        assert!(matches!(
++            select_columns(
++                Arc::clone(&mixed),
++                &ColumnSelection::Except(BTreeSet::from([points, colors]))
++            ),
++            Err(Error::EmptySelection { .. })
++        ));
++
++        // Partial selections: a new id, the selected columns, every row kept.
++        let only_colors = select_columns(
++            Arc::clone(&mixed),
++            &ColumnSelection::Only(BTreeSet::from([colors])),
++        )?;
++        assert_ne!(only_colors.id(), mixed.id());
++        assert_eq!(only_colors.num_rows(), 1);
++        assert_eq!(
++            only_colors.components().keys().copied().collect::<Vec<_>>(),
++            vec![colors]
++        );
++
++        let except_colors = select_columns(
++            Arc::clone(&mixed),
++            &ColumnSelection::Except(BTreeSet::from([colors])),
++        )?;
++        assert_ne!(except_colors.id(), mixed.id());
++        assert_eq!(
++            except_colors
++                .components()
++                .keys()
++                .copied()
++                .collect::<Vec<_>>(),
++            vec![points]
++        );
++
++        Ok(())
++    }
++}
+diff --git a/crates/store/re_chunk_optimizer/src/lib.rs b/crates/store/re_chunk_optimizer/src/lib.rs
+index db07ef9f0..da5891aaf 100644
+--- a/crates/store/re_chunk_optimizer/src/lib.rs
++++ b/crates/store/re_chunk_optimizer/src/lib.rs
+@@ -2,7 +2,21 @@
+ 
+ mod analysis;
+ mod error;
++mod executor;
++mod optimize;
++mod plan;
++mod settings;
+ mod view;
+ 
+ pub use self::analysis::{ChunkIndexAnalysis, MergeAssessment, analyze_chunk_index};
+ pub use self::error::Error;
++pub use self::optimize::optimize;
++pub use self::settings::{
++    ColumnSelector, MergeSplitOverride, MergeSplitSettings, OptimizationSettings, OwnChunkRule,
++};
++
++/// For testing purposes only.
++#[doc(hidden)]
++pub mod testing {
++    pub use super::executor::merge_split::{should_split_chunk, smallest_non_splitting_target};
++}
+diff --git a/crates/store/re_chunk_optimizer/src/optimize.rs b/crates/store/re_chunk_optimizer/src/optimize.rs
+new file mode 100644
+index 000000000..cfbbb0913
+--- /dev/null
++++ b/crates/store/re_chunk_optimizer/src/optimize.rs
+@@ -0,0 +1,26 @@
++use std::sync::Arc;
++
++use futures::Stream;
++
++use re_chunk::Chunk;
++use re_log_encoding::ChunkProvider;
++
++use crate::{Error, OptimizationSettings};
++
++/// Optimize the chunks of a [`ChunkProvider`] into a pull-based stream.
++pub fn optimize(
++    provider: Arc<dyn ChunkProvider>,
++    settings: &OptimizationSettings,
++) -> Result<impl Stream<Item = Result<Arc<Chunk>, Error>> + use<>, Error> {
++    let view = crate::view::ChunkIndexView::try_from_raw(provider.raw_manifest())?;
++    let units = crate::plan::plan(&view, settings);
++    let executor = crate::executor::Executor::new(provider, view, units);
++
++    Ok(futures::stream::try_unfold(
++        executor,
++        |mut executor| async move {
++            let chunk = executor.next_chunk().await?;
++            Ok(chunk.map(|chunk| (chunk, executor)))
++        },
++    ))
++}
+diff --git a/crates/store/re_chunk_optimizer/src/plan.rs b/crates/store/re_chunk_optimizer/src/plan.rs
+new file mode 100644
+index 000000000..62b575bdc
+--- /dev/null
++++ b/crates/store/re_chunk_optimizer/src/plan.rs
+@@ -0,0 +1,1165 @@
++//! The planner: a pure function from a [`ChunkIndexView`] and [`OptimizationSettings`] to a flat
++//! list of plan units.
++//!
++//! The plan's atom is a [`ChunkSlice`]: a column subset of one chunk. Every unit names slices, so
++//! a column split is one more unit over the same chunks and the plan stays a flat list.
++//!
++//! # Completeness
++//!
++//! The plan must route every non-null cell of every chunk to exactly one unit. For each input
++//! chunk, there should be either:
++//!
++//! - one slice, [`ColumnSelection::All`]; or
++//! - distinct [`ColumnSelection::Only`] columns plus one [`ColumnSelection::Except`] naming exactly
++//!   those columns; or
++//! - distinct [`ColumnSelection::Only`] columns, at least one, that are exactly the chunk's
++//!   [`ChunkMeta::components`].
++
++use std::collections::{BTreeMap, BTreeSet};
++
++use re_chunk::{ComponentIdentifier, ComponentType};
++use re_log_types::{EntityPath, EntityPathFilter, ResolvedEntityPathFilter, TimelineName};
++
++use crate::settings::{
++    ColumnSelector, MergeSplitOverride, MergeSplitSettings, OptimizationSettings, OwnChunkRule,
++};
++use crate::view::{ChunkIdx, ChunkIndexView, ChunkMeta, TimelineSetGroup};
++
++/// A column subset of one chunk of the index.
++// Note: column only for now, will eventually extend to row windows as well.
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub struct ChunkSlice {
++    pub chunk: ChunkIdx,
++    pub columns: ColumnSelection,
++}
++
++impl ChunkSlice {
++    pub fn all(chunk: ChunkIdx) -> Self {
++        Self {
++            chunk,
++            columns: ColumnSelection::All,
++        }
++    }
++
++    #[inline]
++    pub fn only(chunk: ChunkIdx, columns: impl IntoIterator<Item = ComponentIdentifier>) -> Self {
++        Self {
++            chunk,
++            columns: ColumnSelection::Only(columns.into_iter().collect()),
++        }
++    }
++
++    #[inline]
++    pub fn except(chunk: ChunkIdx, columns: impl IntoIterator<Item = ComponentIdentifier>) -> Self {
++        Self {
++            chunk,
++            columns: ColumnSelection::Except(columns.into_iter().collect()),
++        }
++    }
++}
++
++/// The component columns a [`ChunkSlice`] keeps.
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub enum ColumnSelection {
++    All,
++
++    /// Exactly these columns. Never empty.
++    Only(BTreeSet<ComponentIdentifier>),
++
++    /// Every column not named here. Never empty: [`plan_covers_view`] rejects an empty set.
++    Except(BTreeSet<ComponentIdentifier>),
++}
++
++/// One piece of the plan.
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub enum PlanUnit {
++    /// Emit the slice as-is.
++    Passthrough(ChunkSlice),
++
++    /// Load the slices in order, merging/splitting them on the way per the target settings.
++    ///
++    /// The merge-and-split run is executed in the order provided. The result (including chunk
++    /// count) is order dependant.
++    ///
++    /// # Implementation note
++    ///
++    /// This is deliberately "vague" (as opposed to, say, a rigid `Merge` unit) because planning
++    /// merges towards a target size is, in general, impossible, see RR-5536. The TL;DR is that, to
++    /// plan towards a final chunk size, the per-chunk framing overhead in input chunks must be
++    /// known. The index currently does not provide enough information for that.
++    MergeSplitRun {
++        inputs: Vec<ChunkSlice>,
++        target: MergeSplitSettings,
++    },
++}
++
++/// The own columns of one entity, each with the target its run merges toward, or `None` when its
++/// slices pass through.
++type OwnColumns = BTreeMap<ComponentIdentifier, Option<MergeSplitSettings>>;
++
++/// Build a plan.
++pub fn plan(view: &ChunkIndexView, settings: &OptimizationSettings) -> Vec<PlanUnit> {
++    let mut units = Vec::new();
++    let mut claimed = vec![false; view.num_chunks()];
++
++    // Resolved for every entity up front: the static and orphan loops below are global.
++    let own_columns_by_entity = resolve_own_columns(view, settings);
++    let no_own_columns = OwnColumns::new();
++    let own_columns_of = |entity_path: &EntityPath| {
++        own_columns_by_entity
++            .get(entity_path)
++            .unwrap_or(&no_own_columns)
++    };
++
++    // Static chunks pass through, in chunk-index order, split on their own columns.
++    for (idx, meta) in view.chunks() {
++        if meta.is_static {
++            claimed[idx.as_usize()] = true;
++            units.extend(
++                slices_of_chunk(idx, meta, own_columns_of(&meta.entity_path))
++                    .into_iter()
++                    .map(PlanUnit::Passthrough),
++            );
++        }
++    }
++
++    // Temporal chunks merge per entity and per exact timeline set — the same grouping the merge
++    // gate `Chunk::concatenable` enforces at merge time. Within a group, every own column gets a
++    // run of its own over the chunks that carry it, then the rest of every chunk forms one run.
++    for (entity_path, entity) in &view.entities {
++        let own = own_columns_of(entity_path);
++        for group in &entity.timeline_sets {
++            let order = sweep_order(view, group, settings.target_timeline.as_ref());
++            for &idx in &order {
++                claimed[idx.as_usize()] = true;
++            }
++
++            let mut own_runs: BTreeMap<ComponentIdentifier, Vec<ChunkSlice>> = BTreeMap::new();
++            let mut rest = Vec::new();
++            for &idx in &order {
++                let meta = view.chunk(idx);
++                let present = present_own_columns(meta, own);
++                for &column in &present {
++                    own_runs
++                        .entry(column)
++                        .or_default()
++                        .push(ChunkSlice::only(idx, [column]));
++                }
++                rest.extend(rest_slice(idx, meta, present));
++            }
++
++            for (column, inputs) in own_runs {
++                emit(&mut units, inputs, own[&column]);
++            }
++            if !rest.is_empty() {
++                emit(&mut units, rest, settings.merge_split);
++            }
++        }
++    }
++
++    // A chunk in neither bucket — non-static, yet with a null time range on every
++    // (index, component) pair, so the temporal map never saw it — must still reach the output.
++    for (idx, meta) in view.chunks() {
++        if !claimed[idx.as_usize()] {
++            re_log::warn_once!(
++                "Chunk is neither static nor on any timeline; passing it through unoptimized. \
++                 Chunk id: {}\nEntity: {}",
++                meta.chunk_id,
++                meta.entity_path,
++            );
++            units.extend(
++                slices_of_chunk(idx, meta, own_columns_of(&meta.entity_path))
++                    .into_iter()
++                    .map(PlanUnit::Passthrough),
++            );
++        }
++    }
++
++    re_log::debug_assert!(
++        plan_covers_view(view, &units),
++        "every column of every chunk must land in exactly one unit"
++    );
++
++    units
++}
++
++fn emit(units: &mut Vec<PlanUnit>, inputs: Vec<ChunkSlice>, target: Option<MergeSplitSettings>) {
++    match target {
++        Some(target) => units.push(PlanUnit::MergeSplitRun { inputs, target }),
++        None => units.extend(inputs.into_iter().map(PlanUnit::Passthrough)),
++    }
++}
++
++fn slices_of_chunk(idx: ChunkIdx, meta: &ChunkMeta, own: &OwnColumns) -> Vec<ChunkSlice> {
++    let present = present_own_columns(meta, own);
++    let mut slices: Vec<ChunkSlice> = present
++        .iter()
++        .map(|&column| ChunkSlice::only(idx, [column]))
++        .collect();
++    slices.extend(rest_slice(idx, meta, present));
++    slices
++}
++
++fn present_own_columns(meta: &ChunkMeta, own: &OwnColumns) -> BTreeSet<ComponentIdentifier> {
++    own.keys()
++        .filter(|column| meta.components.contains_key(column))
++        .copied()
++        .collect()
++}
++
++/// `None` when every column of the chunk is an own column: a dedicated chunk has nothing left to
++/// load.
++fn rest_slice(
++    idx: ChunkIdx,
++    meta: &ChunkMeta,
++    present: BTreeSet<ComponentIdentifier>,
++) -> Option<ChunkSlice> {
++    if present.is_empty() {
++        Some(ChunkSlice::all(idx))
++    } else if present.len() == meta.components.len() {
++        None
++    } else {
++        Some(ChunkSlice::except(idx, present))
++    }
++}
++
++/// Resolve [`OptimizationSettings::own_chunk`] per entity.
++///
++/// [`ColumnSelector::Type`] matches when any chunk of the entity carries the column under that
++/// type; the match then holds for the identifier, so every chunk carrying it is sliced, whatever
++/// type that chunk records.
++fn resolve_own_columns(
++    view: &ChunkIndexView,
++    settings: &OptimizationSettings,
++) -> BTreeMap<EntityPath, OwnColumns> {
++    if settings.own_chunk.is_empty() {
++        return BTreeMap::new();
++    }
++
++    // Per entity and column: the types the entity's chunks carry for the column.
++    let mut types: BTreeMap<&EntityPath, BTreeMap<ComponentIdentifier, BTreeSet<ComponentType>>> =
++        BTreeMap::new();
++    for (_, meta) in view.chunks() {
++        let entity_types = types.entry(&meta.entity_path).or_default();
++        for (&column, component_type) in &meta.components {
++            let column_types = entity_types.entry(column).or_default();
++            column_types.extend(component_type);
++        }
++    }
++
++    let rules: Vec<(Option<ResolvedEntityPathFilter>, &OwnChunkRule)> = settings
++        .own_chunk
++        .iter()
++        .map(|rule| {
++            (
++                rule.entity_filter
++                    .clone()
++                    .map(EntityPathFilter::resolve_without_substitutions),
++                rule,
++            )
++        })
++        .collect();
++
++    types
++        .into_iter()
++        .map(|(entity_path, columns)| {
++            let own: OwnColumns = columns
++                .into_iter()
++                .filter_map(|(column, column_types)| {
++                    let (_, rule) = rules.iter().find(|(filter, rule)| {
++                        filter
++                            .as_ref()
++                            .is_none_or(|filter| filter.matches(entity_path))
++                            && match rule.column {
++                                ColumnSelector::Type(t) => column_types.contains(&t),
++                                ColumnSelector::Column(c) => c == column,
++                            }
++                    })?;
++                    let target = match rule.merge_split {
++                        MergeSplitOverride::Inherit => settings.merge_split,
++                        MergeSplitOverride::Passthrough => None,
++                        MergeSplitOverride::MergeSplit(target) => Some(target),
++                    };
++                    Some((column, target))
++                })
++                .collect();
++            (entity_path.clone(), own)
++        })
++        .collect()
++}
++
++/// The order in which a group's chunks are swept into its merge/split run.
++///
++/// Currently:
++/// - use time-based ordering if a target timeline is specified
++/// - retain input-file order otherwise (based on chunk's byte offset)
++// TODO(ab): this needs more efforts: there actually exists index-based ordering decisions that can
++// predictably improve the merge/split result.
++fn sweep_order(
++    view: &ChunkIndexView,
++    group: &TimelineSetGroup,
++    target_timeline: Option<&TimelineName>,
++) -> Vec<ChunkIdx> {
++    if let Some(target) = target_timeline
++        && let Some(timeline) = group.timelines.iter().find(|t| t.name() == target)
++    {
++        // Note: chunks within `per_timeline` are already sorted by range start
++        return group.per_timeline[timeline]
++            .iter()
++            .map(|span| span.chunk)
++            .collect();
++    }
++
++    let mut idxs: Vec<ChunkIdx> = group
++        .per_timeline
++        .values()
++        .next()
++        .into_iter()
++        .flatten()
++        .map(|span| span.chunk)
++        .collect();
++    idxs.sort_by_key(|&idx| (view.chunk(idx).rrd_byte_offset, idx));
++    idxs
++}
++
++/// Check the plan invariant: the slices of every chunk of the view, across all units, form one of
++/// the three partitions the module doc lists, and no run is empty.
++pub fn plan_covers_view(view: &ChunkIndexView, units: &[PlanUnit]) -> bool {
++    let mut slices: Vec<Vec<&ColumnSelection>> = vec![Vec::new(); view.num_chunks()];
++
++    for unit in units {
++        match unit {
++            PlanUnit::Passthrough(slice) => {
++                slices[slice.chunk.as_usize()].push(&slice.columns);
++            }
++
++            PlanUnit::MergeSplitRun { inputs, target: _ } => {
++                if inputs.is_empty() {
++                    return false;
++                }
++                for slice in inputs {
++                    slices[slice.chunk.as_usize()].push(&slice.columns);
++                }
++            }
++        }
++    }
++
++    view.chunks()
++        .all(|(idx, meta)| slices_correctly_partition_chunk(&slices[idx.as_usize()], meta))
++}
++
++/// Sanity check that the input slice fully cover the input chunk without overlap.
++fn slices_correctly_partition_chunk(slices: &[&ColumnSelection], chunk_meta: &ChunkMeta) -> bool {
++    // only acceptable slices containing `All`
++    if let [ColumnSelection::All] = slices {
++        return true;
++    }
++
++    let mut onlys: BTreeSet<ComponentIdentifier> = BTreeSet::new();
++    let mut except: Option<&BTreeSet<ComponentIdentifier>> = None;
++    for selection in slices {
++        match selection {
++            ColumnSelection::All => return false,
++
++            ColumnSelection::Only(set) => {
++                if set.is_empty() || !onlys.is_disjoint(set) {
++                    return false;
++                }
++                onlys.extend(set.iter().copied());
++            }
++
++            ColumnSelection::Except(set) => {
++                // zero or one `Except` is allowed
++                if set.is_empty() || except.replace(set).is_some() {
++                    return false;
++                }
++            }
++        }
++    }
++
++    // columns listed in the one `Except` (if any) must be covered with `Only`s
++    match except {
++        Some(set) => *set == onlys,
++        None => !onlys.is_empty() && chunk_meta.components.keys().eq(onlys.iter()),
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use std::collections::BTreeSet;
++    use std::num::NonZeroU64;
++
++    use re_chunk::{Chunk, ChunkId, ComponentIdentifier, RowId};
++    use re_log_encoding::RawRrdManifest;
++    use re_log_types::example_components::{MyColor, MyPoint, MyPoints};
++    use re_log_types::{EntityPathFilter, StoreId, StoreKind, Timeline};
++    use re_types_core::{Component as _, ComponentBatch as _, ComponentDescriptor};
++
++    use super::{ChunkSlice, PlanUnit, plan, plan_covers_view};
++    use crate::view::{ChunkIdx, ChunkIndexView};
++    use crate::{
++        ColumnSelector, MergeSplitOverride, MergeSplitSettings, OptimizationSettings, OwnChunkRule,
++    };
++
++    /// A temporal chunk on the `frame` timeline: one row per time, `points_per_row` points each.
++    fn temporal_chunk(id: u128, entity: &str, times: &[i64], points_per_row: u32) -> Chunk {
++        let frame = Timeline::new_sequence("frame");
++        let mut builder = Chunk::builder_with_id(ChunkId::from_u128(id), entity);
++        for (i, &time) in times.iter().enumerate() {
++            builder = builder.with_serialized_batches(
++                RowId::from_u128((id << 32) + i as u128 + 1),
++                [(frame, time)],
++                [MyPoint::from_iter(0..points_per_row)
++                    .try_serialized(MyPoints::descriptor_points())
++                    .unwrap()],
++            );
++        }
++        builder.build().unwrap()
++    }
++
++    /// A temporal chunk with a colors column only.
++    fn temporal_color_chunk(id: u128, entity: &str, times: &[i64], colors_per_row: u32) -> Chunk {
++        let frame = Timeline::new_sequence("frame");
++        let mut builder = Chunk::builder_with_id(ChunkId::from_u128(id), entity);
++        for (i, &time) in times.iter().enumerate() {
++            builder = builder.with_serialized_batches(
++                RowId::from_u128((id << 32) + i as u128 + 1),
++                [(frame, time)],
++                [MyColor::from_iter(0..colors_per_row)
++                    .try_serialized(MyPoints::descriptor_colors())
++                    .unwrap()],
++            );
++        }
++        builder.build().unwrap()
++    }
++
++    /// A temporal chunk with both a points and a colors column on every row.
++    fn temporal_mixed_chunk(
++        id: u128,
++        entity: &str,
++        times: &[i64],
++        points_per_row: u32,
++        colors_per_row: u32,
++    ) -> Chunk {
++        let frame = Timeline::new_sequence("frame");
++        let mut builder = Chunk::builder_with_id(ChunkId::from_u128(id), entity);
++        for (i, &time) in times.iter().enumerate() {
++            builder = builder.with_serialized_batches(
++                RowId::from_u128((id << 32) + i as u128 + 1),
++                [(frame, time)],
++                [
++                    MyPoint::from_iter(0..points_per_row)
++                        .try_serialized(MyPoints::descriptor_points())
++                        .unwrap(),
++                    MyColor::from_iter(0..colors_per_row)
++                        .try_serialized(MyPoints::descriptor_colors())
++                        .unwrap(),
++                ],
++            );
++        }
++        builder.build().unwrap()
++    }
++
++    fn untyped_descriptor() -> ComponentDescriptor {
++        ComponentDescriptor {
++            archetype: None,
++            component: "custom".into(),
++            component_type: None,
++        }
++    }
++
++    /// A temporal chunk with a points column and a column whose descriptor carries no type.
++    fn temporal_untyped_chunk(id: u128, entity: &str, times: &[i64]) -> Chunk {
++        let frame = Timeline::new_sequence("frame");
++        let mut builder = Chunk::builder_with_id(ChunkId::from_u128(id), entity);
++        for (i, &time) in times.iter().enumerate() {
++            builder = builder.with_serialized_batches(
++                RowId::from_u128((id << 32) + i as u128 + 1),
++                [(frame, time)],
++                [
++                    MyPoint::from_iter(0..2)
++                        .try_serialized(MyPoints::descriptor_points())
++                        .unwrap(),
++                    MyPoint::from_iter(0..2)
++                        .try_serialized(untyped_descriptor())
++                        .unwrap(),
++                ],
++            );
++        }
++        builder.build().unwrap()
++    }
++
++    fn static_chunk(id: u128, entity: &str) -> Chunk {
++        Chunk::builder_with_id(ChunkId::from_u128(id), entity)
++            .with_serialized_batches(
++                RowId::from_u128(id << 32),
++                re_log_types::TimePoint::default(),
++                [MyPoint::from_iter(0..1)
++                    .try_serialized(MyPoints::descriptor_points())
++                    .unwrap()],
++            )
++            .build()
++            .unwrap()
++    }
++
++    fn static_mixed_chunk(id: u128, entity: &str) -> Chunk {
++        Chunk::builder_with_id(ChunkId::from_u128(id), entity)
++            .with_serialized_batches(
++                RowId::from_u128(id << 32),
++                re_log_types::TimePoint::default(),
++                [
++                    MyPoint::from_iter(0..1)
++                        .try_serialized(MyPoints::descriptor_points())
++                        .unwrap(),
++                    MyColor::from_iter(0..1)
++                        .try_serialized(MyPoints::descriptor_colors())
++                        .unwrap(),
++                ],
++            )
++            .build()
++            .unwrap()
++    }
++
++    fn view_of(chunks: &[Chunk]) -> ChunkIndexView {
++        let store_id = StoreId::new(StoreKind::Recording, "test_app", "test_recording");
++        let chunk_index =
++            RawRrdManifest::build_in_memory_from_chunks(store_id, chunks.iter()).unwrap();
++        ChunkIndexView::try_from_raw(&chunk_index).unwrap()
++    }
++
++    fn idx_of(view: &ChunkIndexView, id: u128) -> ChunkIdx {
++        let id = ChunkId::from_u128(id);
++        view.chunks()
++            .find(|(_, meta)| meta.chunk_id == id)
++            .map(|(idx, _)| idx)
++            .unwrap()
++    }
++
++    fn colors() -> ComponentIdentifier {
++        MyPoints::descriptor_colors().component
++    }
++
++    fn color_set() -> BTreeSet<ComponentIdentifier> {
++        std::iter::once(colors()).collect()
++    }
++
++    fn merge_split_settings(max_bytes: u64, max_rows: u64) -> MergeSplitSettings {
++        MergeSplitSettings {
++            max_bytes: NonZeroU64::new(max_bytes).unwrap(),
++            max_rows: NonZeroU64::new(max_rows),
++            max_rows_if_unsorted: None,
++        }
++    }
++
++    fn settings(max_bytes: u64, max_rows: u64) -> OptimizationSettings {
++        OptimizationSettings {
++            merge_split: Some(merge_split_settings(max_bytes, max_rows)),
++            target_timeline: None,
++            own_chunk: Vec::new(),
++        }
++    }
++
++    fn with_rules(
++        mut settings: OptimizationSettings,
++        rules: Vec<OwnChunkRule>,
++    ) -> OptimizationSettings {
++        settings.own_chunk = rules;
++        settings
++    }
++
++    fn passthrough_all(view: &ChunkIndexView, id: u128) -> PlanUnit {
++        PlanUnit::Passthrough(ChunkSlice::all(idx_of(view, id)))
++    }
++
++    fn merge_split_run(
++        view: &ChunkIndexView,
++        ids: &[u128],
++        settings: &OptimizationSettings,
++    ) -> PlanUnit {
++        PlanUnit::MergeSplitRun {
++            inputs: ids
++                .iter()
++                .map(|&id| ChunkSlice::all(idx_of(view, id)))
++                .collect(),
++            target: settings.merge_split.unwrap(),
++        }
++    }
++
++    fn only_run(
++        view: &ChunkIndexView,
++        ids: &[u128],
++        column: ComponentIdentifier,
++        target: MergeSplitSettings,
++    ) -> PlanUnit {
++        PlanUnit::MergeSplitRun {
++            inputs: ids
++                .iter()
++                .map(|&id| ChunkSlice::only(idx_of(view, id), [column]))
++                .collect(),
++            target,
++        }
++    }
++
++    /// A group's chunks form one merge/split run in sweep order, whatever the byte target —
++    /// output boundaries and splits belong to the executor.
++    #[test]
++    fn group_forms_one_run() {
++        let chunks: Vec<Chunk> = (0..7)
++            .map(|i| temporal_chunk(i + 1, "entity", &[i as i64 * 10, i as i64 * 10 + 1], 64))
++            .collect();
++        let view = view_of(&chunks);
++
++        let settings = settings(1, 0); // even a tiny target: the plan shape does not change
++        let outputs = plan(&view, &settings);
++        assert!(plan_covers_view(&view, &outputs));
++
++        let expected = vec![merge_split_run(&view, &[1, 2, 3, 4, 5, 6, 7], &settings)];
++        assert_eq!(outputs, expected);
++    }
++
++    /// Chunks never share a run across entities or across timeline sets; a singleton group is a
++    /// one-input run.
++    #[test]
++    fn one_run_per_group() {
++        let frame = Timeline::new_sequence("frame");
++        let other = Timeline::new_sequence("other");
++
++        // Two chunks on `frame` alone, one chunk on `frame` + `other`, one chunk on another
++        // entity: three groups, no run across them.
++        let two_timelines = {
++            let mut builder = Chunk::builder_with_id(ChunkId::from_u128(3), "entity");
++            for i in 0..2_i64 {
++                builder = builder.with_serialized_batches(
++                    RowId::from_u128((3 << 32) + i as u128 + 1),
++                    [(frame, i), (other, i)],
++                    [MyPoint::from_iter(0..64)
++                        .try_serialized(MyPoints::descriptor_points())
++                        .unwrap()],
++                );
++            }
++            builder.build().unwrap()
++        };
++        let chunks = vec![
++            temporal_chunk(1, "entity", &[0, 1], 64),
++            temporal_chunk(2, "entity", &[10, 11], 64),
++            two_timelines,
++            temporal_chunk(4, "other_entity", &[0, 1], 64),
++        ];
++        let view = view_of(&chunks);
++
++        let settings = settings(u64::MAX / 2, 0);
++        let outputs = plan(&view, &settings);
++        assert!(plan_covers_view(&view, &outputs));
++
++        let expected = vec![
++            merge_split_run(&view, &[1, 2], &settings),
++            merge_split_run(&view, &[3], &settings),
++            merge_split_run(&view, &[4], &settings),
++        ];
++        assert_eq!(outputs, expected);
++    }
++
++    /// Statics pass through untouched; `merge_split: None` disables the optimization — every
++    /// temporal chunk passes through, and no run exists.
++    #[test]
++    fn passthrough_rules() {
++        let chunks = vec![
++            static_chunk(1, "static_entity"),
++            temporal_chunk(2, "entity", &[0, 1], 64),
++            temporal_chunk(3, "entity", &[10, 11], 64),
++        ];
++        let view = view_of(&chunks);
++
++        // Tiny byte target: statics still pass through whole; temporal chunks form their run.
++        let outputs = plan(&view, &settings(1, 0));
++        assert!(plan_covers_view(&view, &outputs));
++        assert_eq!(outputs[0], passthrough_all(&view, 1));
++        assert!(matches!(&outputs[1], PlanUnit::MergeSplitRun { .. }));
++
++        // `merge_split: None`: every chunk stands alone, no run.
++        let disabled = OptimizationSettings {
++            merge_split: None,
++            target_timeline: None,
++            own_chunk: Vec::new(),
++        };
++        let outputs = plan(&view, &disabled);
++        assert!(plan_covers_view(&view, &outputs));
++        assert_eq!(
++            outputs,
++            vec![
++                passthrough_all(&view, 1),
++                passthrough_all(&view, 2),
++                passthrough_all(&view, 3),
++            ]
++        );
++    }
++
++    /// With `target_timeline`, the run's inputs follow time order where file order disagrees; a
++    /// group lacking the timeline, or an unknown name, falls back to file order.
++    #[test]
++    fn sweep_order() {
++        // Written (file) order: times 0, 20, 10, 30.
++        let chunks = vec![
++            temporal_chunk(1, "entity", &[0, 1], 64),
++            temporal_chunk(2, "entity", &[20, 21], 64),
++            temporal_chunk(3, "entity", &[10, 11], 64),
++            temporal_chunk(4, "entity", &[30, 31], 64),
++        ];
++        let view = view_of(&chunks);
++
++        let with_target = |name: &str| OptimizationSettings {
++            merge_split: settings(1024 * 1024, 0).merge_split,
++            target_timeline: Some(re_log_types::TimelineName::try_new(name).unwrap()),
++            own_chunk: Vec::new(),
++        };
++
++        // Time order sweeps 0, 10, 20, 30.
++        let outputs = plan(&view, &with_target("frame"));
++        assert!(plan_covers_view(&view, &outputs));
++        assert_eq!(
++            outputs,
++            vec![merge_split_run(&view, &[1, 3, 2, 4], &with_target("frame"))]
++        );
++
++        // File order sweeps 0, 20, 10, 30 — both with no target and with an unknown one.
++        let file_order = vec![merge_split_run(
++            &view,
++            &[1, 2, 3, 4],
++            &settings(1024 * 1024, 0),
++        )];
++        assert_eq!(plan(&view, &settings(1024 * 1024, 0)), file_order);
++        assert_eq!(
++            plan(&view, &with_target("no_such_timeline")),
++            vec![merge_split_run(
++                &view,
++                &[1, 2, 3, 4],
++                &with_target("no_such_timeline")
++            )]
++        );
++    }
++
++    /// The chunk index of `chunks` with the second chunk's per-(index, component) time ranges
++    /// nulled out, so that the temporal map never sees it.
++    fn view_with_orphan(chunks: &[Chunk]) -> ChunkIndexView {
++        use arrow::array::BooleanArray;
++
++        let store_id = StoreId::new(StoreKind::Recording, "test_app", "test_recording");
++        let mut raw = RawRrdManifest::build_in_memory_from_chunks(store_id, chunks.iter()).unwrap();
++
++        // Rows follow append order, so row 1 is the second chunk.
++        let mut mask = vec![false; chunks.len()];
++        mask[1] = true;
++        let orphan_mask = BooleanArray::from(mask);
++        let schema = raw.data.schema();
++        let columns = std::iter::zip(schema.fields(), raw.data.columns())
++            .map(|(field, column)| {
++                // The same identification `calc_temporal_map` uses for the per-(index, component)
++                // time-range pair columns.
++                let is_pair_range = field.metadata().contains_key("rerun:index")
++                    && field
++                        .metadata()
++                        .contains_key(re_types_core::FIELD_METADATA_KEY_COMPONENT)
++                    && (field.name().ends_with(":start") || field.name().ends_with(":end"));
++                if is_pair_range {
++                    arrow::compute::nullif(column, &orphan_mask).unwrap()
++                } else {
++                    column.clone()
++                }
++            })
++            .collect();
++        let row_count = raw.data.num_rows();
++        raw.data = arrow::array::RecordBatch::try_new_with_options(
++            schema,
++            columns,
++            &arrow::array::RecordBatchOptions::new().with_row_count(Some(row_count)),
++        )
++        .unwrap();
++
++        ChunkIndexView::try_from_raw(&raw).unwrap()
++    }
++
++    /// A non-static chunk whose time range is null on every (index, component) pair is invisible
++    /// to the temporal map, so it lands in no group — the plan must still pass it through instead
++    /// of silently dropping its rows.
++    #[test]
++    fn orphan_chunk_passes_through() {
++        let chunks = [
++            temporal_chunk(1, "entity", &[0, 1], 64),
++            temporal_chunk(2, "entity", &[10, 11], 64),
++        ];
++        let view = view_with_orphan(&chunks);
++        let settings = settings(1024 * 1024, 0);
++        let units = plan(&view, &settings);
++
++        assert!(plan_covers_view(&view, &units));
++        assert_eq!(
++            units,
++            vec![
++                merge_split_run(&view, &[1], &settings),
++                passthrough_all(&view, 2),
++            ]
++        );
++    }
++
++    /// Own-column runs hold `Only` slices of every chunk carrying the column, dedicated chunks
++    /// included; the rest run holds `Except` slices of the mixed chunks, `All` of the chunks
++    /// without the column, and nothing of the dedicated chunks. A group of dedicated chunks only
++    /// has no rest run.
++    #[test]
++    fn slices_follow_the_index() {
++        let other = Timeline::new_sequence("other");
++        let dedicated_on_other = |id: u128| {
++            Chunk::builder_with_id(ChunkId::from_u128(id), "entity")
++                .with_serialized_batches(
++                    RowId::from_u128(id << 32),
++                    [(other, 0_i64)],
++                    [MyColor::from_iter(0..4)
++                        .try_serialized(MyPoints::descriptor_colors())
++                        .unwrap()],
++                )
++                .build()
++                .unwrap()
++        };
++        let chunks = vec![
++            temporal_mixed_chunk(1, "entity", &[0, 1], 4, 4),
++            temporal_chunk(2, "entity", &[10, 11], 4),
++            temporal_color_chunk(3, "entity", &[20, 21], 4),
++            temporal_mixed_chunk(4, "entity", &[30, 31], 4, 4),
++            // A second group, on another timeline, of dedicated colors chunks only.
++            dedicated_on_other(5),
++            dedicated_on_other(6),
++        ];
++        let view = view_of(&chunks);
++
++        let settings = with_rules(
++            settings(1024 * 1024, 0),
++            vec![OwnChunkRule::new(ColumnSelector::Type(MyColor::name()))],
++        );
++        let target = settings.merge_split.unwrap();
++        let units = plan(&view, &settings);
++        assert!(plan_covers_view(&view, &units));
++
++        let except_colors =
++            |id: u128| ChunkSlice::except(idx_of(&view, id), BTreeSet::from([colors()]));
++        assert_eq!(
++            units,
++            vec![
++                only_run(&view, &[1, 3, 4], colors(), target),
++                PlanUnit::MergeSplitRun {
++                    inputs: vec![
++                        except_colors(1),
++                        ChunkSlice::all(idx_of(&view, 2)),
++                        except_colors(4),
++                    ],
++                    target,
++                },
++                only_run(&view, &[5, 6], colors(), target),
++            ]
++        );
++    }
++
++    /// Rules are tried in order; the selector kinds match what they say; the entity filter
++    /// applies; every override resolves as documented, with and without a global target.
++    #[test]
++    fn rule_resolution() {
++        let chunks = vec![
++            temporal_mixed_chunk(1, "entity", &[0, 1], 4, 4),
++            temporal_mixed_chunk(2, "other", &[0, 1], 4, 4),
++            temporal_mixed_chunk(3, "__properties/x", &[0, 1], 4, 4),
++            temporal_untyped_chunk(4, "untyped", &[0, 1]),
++        ];
++        let view = view_of(&chunks);
++        let global = settings(1024 * 1024, 0);
++        let target = global.merge_split.unwrap();
++        let custom = untyped_descriptor().component;
++
++        let type_rule = OwnChunkRule::new(ColumnSelector::Type(MyColor::name()));
++        let column_passthrough = OwnChunkRule {
++            merge_split: MergeSplitOverride::Passthrough,
++            ..OwnChunkRule::new(ColumnSelector::Column(colors()))
++        };
++
++        // The units holding a colors slice of chunk 1 (entity `entity`) under the given rules.
++        let colors_units = |settings: &OptimizationSettings, rules: Vec<OwnChunkRule>| {
++            let units = plan(&view, &with_rules(settings.clone(), rules));
++            assert!(plan_covers_view(&view, &units));
++            let is_colors_of_1 = |slice: &ChunkSlice| {
++                slice.chunk == idx_of(&view, 1)
++                    && slice.columns == super::ColumnSelection::Only(color_set())
++            };
++            units
++                .into_iter()
++                .filter(|unit| match unit {
++                    PlanUnit::Passthrough(slice) => is_colors_of_1(slice),
++                    PlanUnit::MergeSplitRun { inputs, .. } => inputs.iter().any(is_colors_of_1),
++                })
++                .collect::<Vec<_>>()
++        };
++
++        // Rules are tried in order: a run with the type rule first, a passthrough with the column
++        // rule first.
++        assert_eq!(
++            colors_units(&global, vec![type_rule.clone(), column_passthrough.clone()]),
++            vec![only_run(&view, &[1], colors(), target)]
++        );
++        assert_eq!(
++            colors_units(&global, vec![column_passthrough.clone(), type_rule.clone()]),
++            vec![PlanUnit::Passthrough(ChunkSlice::only(
++                idx_of(&view, 1),
++                color_set()
++            ))]
++        );
++
++        // An untyped column matches `Column`, never `Type`.
++        let units_of = |rules: Vec<OwnChunkRule>| {
++            let units = plan(&view, &with_rules(global.clone(), rules));
++            assert!(plan_covers_view(&view, &units));
++            units
++        };
++        let untyped_units = |units: &[PlanUnit]| {
++            units
++                .iter()
++                .filter(|unit| match unit {
++                    PlanUnit::Passthrough(slice) => slice.chunk == idx_of(&view, 4),
++                    PlanUnit::MergeSplitRun { inputs, .. } => {
++                        inputs.iter().any(|s| s.chunk == idx_of(&view, 4))
++                    }
++                })
++                .cloned()
++                .collect::<Vec<_>>()
++        };
++        let by_type = units_of(vec![OwnChunkRule::new(ColumnSelector::Type(
++            MyPoint::name(),
++        ))]);
++        assert_eq!(
++            untyped_units(&by_type),
++            vec![
++                only_run(&view, &[4], MyPoints::descriptor_points().component, target),
++                PlanUnit::MergeSplitRun {
++                    inputs: vec![ChunkSlice::except(
++                        idx_of(&view, 4),
++                        [MyPoints::descriptor_points().component]
++                    )],
++                    target,
++                },
++            ]
++        );
++        let by_column = units_of(vec![OwnChunkRule::new(ColumnSelector::Column(custom))]);
++        assert_eq!(
++            untyped_units(&by_column),
++            vec![
++                only_run(&view, &[4], custom, target),
++                PlanUnit::MergeSplitRun {
++                    inputs: vec![ChunkSlice::except(idx_of(&view, 4), [custom])],
++                    target,
++                },
++            ]
++        );
++
++        // The entity filter: a rule naming `entity` alone leaves `other` mixed; a plain `all()`
++        // filter skips the properties subtree; no filter covers every entity, properties included,
++        // and still only the columns its selector matches.
++        let entity_only = type_rule
++            .clone()
++            .with_entity_filter(EntityPathFilter::parse_forgiving("+ /entity"));
++        let units = units_of(vec![entity_only]);
++        assert!(units.contains(&only_run(&view, &[1], colors(), target)));
++        assert!(units.contains(&merge_split_run(&view, &[2], &global)));
++        assert!(units.contains(&merge_split_run(&view, &[3], &global)));
++
++        let plain_all = type_rule
++            .clone()
++            .with_entity_filter(EntityPathFilter::all());
++        let units = units_of(vec![plain_all]);
++        assert!(units.contains(&only_run(&view, &[1], colors(), target)));
++        assert!(units.contains(&merge_split_run(&view, &[3], &global)));
++
++        assert_eq!(type_rule.entity_filter, None);
++        let units = units_of(vec![type_rule.clone()]);
++        assert!(units.contains(&only_run(&view, &[1], colors(), target)));
++        assert!(units.contains(&only_run(&view, &[2], colors(), target)));
++        assert!(units.contains(&only_run(&view, &[3], colors(), target)));
++        for id in [1, 2, 3] {
++            assert!(units.contains(&PlanUnit::MergeSplitRun {
++                inputs: vec![ChunkSlice::except(idx_of(&view, id), color_set())],
++                target,
++            }));
++        }
++        assert!(units.contains(&merge_split_run(&view, &[4], &global)));
++
++        // Overrides, under a global target and without one.
++        let custom_target = merge_split_settings(64, 0);
++        let with_override = |merge_split: MergeSplitOverride| OwnChunkRule {
++            merge_split,
++            ..type_rule.clone()
++        };
++        let colors_run_of = |settings: &OptimizationSettings, rule: OwnChunkRule| {
++            let mut units = colors_units(settings, vec![rule]);
++            assert_eq!(units.len(), 1);
++            units.pop().unwrap()
++        };
++        let disabled = OptimizationSettings {
++            merge_split: None,
++            ..global.clone()
++        };
++
++        assert_eq!(
++            colors_run_of(&global, with_override(MergeSplitOverride::Inherit)),
++            only_run(&view, &[1], colors(), target)
++        );
++        assert_eq!(
++            colors_run_of(&disabled, with_override(MergeSplitOverride::Inherit)),
++            PlanUnit::Passthrough(ChunkSlice::only(idx_of(&view, 1), color_set()))
++        );
++        for settings in [&global, &disabled] {
++            assert_eq!(
++                colors_run_of(settings, with_override(MergeSplitOverride::Passthrough)),
++                PlanUnit::Passthrough(ChunkSlice::only(idx_of(&view, 1), color_set()))
++            );
++            assert_eq!(
++                colors_run_of(
++                    settings,
++                    with_override(MergeSplitOverride::MergeSplit(custom_target))
++                ),
++                only_run(&view, &[1], colors(), custom_target)
++            );
++        }
++    }
++
++    /// Static and orphan chunks split on their own columns into passthroughs, and never merge.
++    #[test]
++    fn static_and_orphan_chunks_split() {
++        let rules = vec![OwnChunkRule::new(ColumnSelector::Type(MyColor::name()))];
++
++        let chunks = vec![static_mixed_chunk(1, "mixed"), static_chunk(2, "points")];
++        let view = view_of(&chunks);
++        let units = plan(&view, &with_rules(settings(1024 * 1024, 0), rules.clone()));
++        assert!(plan_covers_view(&view, &units));
++        assert_eq!(
++            units,
++            vec![
++                PlanUnit::Passthrough(ChunkSlice::only(idx_of(&view, 1), color_set())),
++                PlanUnit::Passthrough(ChunkSlice::except(idx_of(&view, 1), [colors()])),
++                passthrough_all(&view, 2),
++            ]
++        );
++
++        // An orphan mixed chunk: its `:start` columns are null, so the index records no column
++        // for it and it passes through whole.
++        let chunks = [
++            temporal_mixed_chunk(1, "entity", &[0, 1], 4, 4),
++            temporal_mixed_chunk(2, "entity", &[10, 11], 4, 4),
++        ];
++        let view = view_with_orphan(&chunks);
++        let settings = with_rules(settings(1024 * 1024, 0), rules);
++        let units = plan(&view, &settings);
++        assert!(plan_covers_view(&view, &units));
++        assert_eq!(
++            units,
++            vec![
++                only_run(&view, &[1], colors(), settings.merge_split.unwrap()),
++                PlanUnit::MergeSplitRun {
++                    inputs: vec![ChunkSlice::except(idx_of(&view, 1), color_set())],
++                    target: settings.merge_split.unwrap(),
++                },
++                passthrough_all(&view, 2),
++            ]
++        );
++    }
++
++    /// Hand-built plans that break the completeness invariant are rejected.
++    #[test]
++    fn plan_covers_view_rejects() {
++        let chunks = vec![temporal_mixed_chunk(1, "entity", &[0, 1], 4, 4)];
++        let view = view_of(&chunks);
++        let idx = idx_of(&view, 1);
++        let points = MyPoints::descriptor_points().component;
++        let target = merge_split_settings(1024, 0);
++
++        let passthroughs = |slices: Vec<ChunkSlice>| -> Vec<PlanUnit> {
++            slices.into_iter().map(PlanUnit::Passthrough).collect()
++        };
++
++        // The valid forms, for contrast.
++        assert!(plan_covers_view(
++            &view,
++            &passthroughs(vec![ChunkSlice::all(idx)])
++        ));
++        assert!(plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::only(idx, color_set()),
++                ChunkSlice::except(idx, color_set()),
++            ])
++        ));
++        assert!(plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::only(idx, color_set()),
++                ChunkSlice::only(idx, [points]),
++            ])
++        ));
++
++        // An `Except` set that differs from the `Only`s.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::only(idx, color_set()),
++                ChunkSlice::except(idx, [points]),
++            ])
++        ));
++        // An empty `Except` set.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![ChunkSlice::except(idx, [])])
++        ));
++        // Two `Only`s of one column.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::only(idx, color_set()),
++                ChunkSlice::only(idx, color_set()),
++                ChunkSlice::except(idx, color_set()),
++            ])
++        ));
++        // Overlapping `Only` sets.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::only(idx, [colors(), points]),
++                ChunkSlice::only(idx, [points]),
++            ])
++        ));
++        // An empty `Only` set.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![ChunkSlice::only(idx, []), ChunkSlice::all(idx)])
++        ));
++        // `Only`s without `Except` whose set differs from the chunk's columns.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![ChunkSlice::only(idx, color_set())])
++        ));
++        // `All` next to another slice.
++        assert!(!plan_covers_view(
++            &view,
++            &passthroughs(vec![
++                ChunkSlice::all(idx),
++                ChunkSlice::only(idx, color_set())
++            ])
++        ));
++        // A chunk in no unit.
++        assert!(!plan_covers_view(&view, &[]));
++        // An empty run.
++        assert!(!plan_covers_view(
++            &view,
++            &[
++                PlanUnit::MergeSplitRun {
++                    inputs: vec![],
++                    target,
++                },
++                PlanUnit::Passthrough(ChunkSlice::all(idx)),
++            ]
++        ));
++    }
++}
+diff --git a/crates/store/re_chunk_optimizer/src/settings.rs b/crates/store/re_chunk_optimizer/src/settings.rs
+new file mode 100644
+index 000000000..e32b11cb2
+--- /dev/null
++++ b/crates/store/re_chunk_optimizer/src/settings.rs
+@@ -0,0 +1,102 @@
++use std::num::NonZeroU64;
++
++use re_chunk::{ComponentIdentifier, ComponentType};
++use re_log_types::{EntityPathFilter, TimelineName};
++
++/// The knobs of the chunk optimizer.
++// TODO(ab): I deliberately growing this type separately from `re_chunk_store::OptimizationProfile`.
++// Eventually, it'll supersede it, and might be renamed then. For now, I prefer to keep the name
++// distinct.
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub struct OptimizationSettings {
++    /// Merge and split chunks toward a target size; `None` disables the optimization entirely and
++    /// every chunk passes through.
++    pub merge_split: Option<MergeSplitSettings>,
++
++    /// Timeline that orders the merge sweep; `None` means file order.
++    ///
++    /// Chunks are swept whole, ordered by their time range on this timeline; rows are never
++    /// reordered. A group of chunks that lacks the timeline falls back to file order silently,
++    /// and a name that matches no timeline in the recording means every group falls back.
++    ///
++    /// Only read when [`Self::merge_split`] is `Some`.
++    pub target_timeline: Option<TimelineName>,
++
++    /// Components that always get a chunk of their own.
++    ///
++    /// Rules are tried in order per `(entity, column)`; the first rule whose entity filter and
++    /// selector both match decides.
++    ///
++    /// An all-null temporal column is invisible to the chunk index and stays with the rest of its
++    /// chunk.
++    pub own_chunk: Vec<OwnChunkRule>,
++}
++
++/// The single vertical optimization: rechunk rows toward a byte target, with row-count guards on
++/// that target.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub struct MergeSplitSettings {
++    /// Byte target for output chunks.
++    ///
++    /// The executor cuts output boundaries and splits oversized chunks on the measured size
++    /// (heap bytes) of the decoded chunks it holds, with a slack band (`1.2 ×` this target) that
++    /// keeps re-optimization of already-optimized chunks a no-op.
++    pub max_bytes: NonZeroU64,
++
++    /// Row guard for chunks whose timelines are all sorted; `None` disables it.
++    pub max_rows: Option<NonZeroU64>,
++
++    /// Row guard for chunks with at least one unsorted timeline; `None` disables it.
++    pub max_rows_if_unsorted: Option<NonZeroU64>,
++}
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub struct OwnChunkRule {
++    /// If set, which entity path this rule applies to.
++    ///
++    /// We use an option here to avoid the issue of [`EntityPathFilter::all`] excluding the
++    /// `/__properties` subtree.
++    pub entity_filter: Option<EntityPathFilter>,
++
++    pub column: ColumnSelector,
++
++    pub merge_split: MergeSplitOverride,
++}
++
++impl OwnChunkRule {
++    pub fn new(column: ColumnSelector) -> Self {
++        Self {
++            entity_filter: None,
++            column,
++            merge_split: MergeSplitOverride::Inherit,
++        }
++    }
++
++    pub fn with_entity_filter(mut self, entity_filter: EntityPathFilter) -> Self {
++        self.entity_filter = Some(entity_filter);
++        self
++    }
++}
++
++/// What selects a component for a chunk of its own.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum ColumnSelector {
++    /// Every column of this type, whatever its archetype; an untyped column never matches.
++    Type(ComponentType),
++
++    /// This column, typed or not.
++    Column(ComponentIdentifier),
++}
++
++/// How the chunks of one [`OwnChunkRule`] are rechunked.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum MergeSplitOverride {
++    /// Use [`OptimizationSettings::merge_split`].
++    Inherit,
++
++    /// Emit every slice as-is, even when the global setting merges.
++    Passthrough,
++
++    /// Use this target instead of the global one, even when the global setting is `None`.
++    MergeSplit(MergeSplitSettings),
++}
+diff --git a/crates/store/re_chunk_optimizer/src/view.rs b/crates/store/re_chunk_optimizer/src/view.rs
+index c8b1be2c3..a268a2feb 100644
+--- a/crates/store/re_chunk_optimizer/src/view.rs
++++ b/crates/store/re_chunk_optimizer/src/view.rs
+@@ -1,8 +1,9 @@
+ use std::collections::{BTreeMap, BTreeSet};
+ 
+-use itertools::izip;
++use itertools::{Either, izip};
+ 
+-use re_chunk::ChunkId;
++use re_chunk::external::arrow::array::BooleanArray;
++use re_chunk::{ArrowArray as _, ChunkId, ComponentIdentifier, ComponentType};
+ use re_log_encoding::RawRrdManifest;
+ use re_log_types::{AbsoluteTimeRange, EntityPath, StoreId, Timeline};
+ 
+@@ -12,6 +13,12 @@ use crate::Error;
+ #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+ pub struct ChunkIdx(usize);
+ 
++impl ChunkIdx {
++    pub fn as_usize(self) -> usize {
++        self.0
++    }
++}
++
+ /// Everything the chunk index records about one chunk, minus the per-timeline columns.
+ ///
+ /// The per-timeline data lives in [`EntityView::timeline_sets`].
+@@ -28,8 +35,15 @@ pub struct ChunkMeta {
+     /// Size of the chunk in the RRD file.
+     pub rrd_byte_size: u64,
+ 
+-    /// In-memory (heap) size of the decoded chunk.
++    /// Uncompressed size of the chunk. What this measures depends on the source: the length of
++    /// the uncompressed Arrow IPC stream on the file path (which charges each chunk a
++    /// schema-dependent framing constant), and the decoded heap size on the in-memory path.
+     pub byte_size_uncompressed: u64,
++
++    /// Component columns with data in this chunk — a non-null range on some timeline, or the
++    /// static flag — with the type each carries when it has one. An all-null temporal column is
++    /// absent.
++    pub components: BTreeMap<ComponentIdentifier, Option<ComponentType>>,
+ }
+ 
+ /// One chunk's presence on one timeline.
+@@ -115,30 +129,41 @@ impl ChunkIndexView {
+     pub fn try_from_raw(raw: &RawRrdManifest) -> Result<Self, Error> {
+         let rows = izip!(
+             raw.col_chunk_id_iter()
+-                .map_err(Error::read_column(RawRrdManifest::COLUMN_CHUNK_ID.name))?,
++                .map_err(|err| Error::read_column(RawRrdManifest::COLUMN_CHUNK_ID.name, err))?,
+             raw.col_chunk_entity_path_iter()
+-                .map_err(Error::read_column(
+-                    RawRrdManifest::COLUMN_CHUNK_ENTITY_PATH.name
++                .map_err(|err| Error::read_column(
++                    RawRrdManifest::COLUMN_CHUNK_ENTITY_PATH.name,
++                    err
++                ))?,
++            raw.col_chunk_is_static_iter()
++                .map_err(|err| Error::read_column(
++                    RawRrdManifest::COLUMN_CHUNK_IS_STATIC.name,
++                    err
++                ))?,
++            raw.col_chunk_num_rows_iter()
++                .map_err(|err| Error::read_column(
++                    RawRrdManifest::COLUMN_CHUNK_NUM_ROWS.name,
++                    err
+                 ))?,
+-            raw.col_chunk_is_static_iter().map_err(Error::read_column(
+-                RawRrdManifest::COLUMN_CHUNK_IS_STATIC.name
+-            ))?,
+-            raw.col_chunk_num_rows_iter().map_err(Error::read_column(
+-                RawRrdManifest::COLUMN_CHUNK_NUM_ROWS.name
+-            ))?,
+             raw.col_chunk_byte_offset_iter()
+-                .map_err(Error::read_column(
+-                    RawRrdManifest::COLUMN_CHUNK_BYTE_OFFSET.name
++                .map_err(|err| Error::read_column(
++                    RawRrdManifest::COLUMN_CHUNK_BYTE_OFFSET.name,
++                    err
++                ))?,
++            raw.col_chunk_byte_size_iter()
++                .map_err(|err| Error::read_column(
++                    RawRrdManifest::COLUMN_CHUNK_BYTE_SIZE.name,
++                    err
+                 ))?,
+-            raw.col_chunk_byte_size_iter().map_err(Error::read_column(
+-                RawRrdManifest::COLUMN_CHUNK_BYTE_SIZE.name
+-            ))?,
+             raw.col_chunk_byte_size_uncompressed_iter()
+-                .map_err(Error::read_column(
++                .map_err(|err| Error::read_column(
+                     RawRrdManifest::COLUMN_CHUNK_BYTE_SIZE_UNCOMPRESSED.name,
++                    err
+                 ))?,
+         );
+ 
++        let mut components = components_per_chunk(raw)?;
++
+         let mut chunks: Vec<ChunkMeta> = Vec::with_capacity(raw.data.num_rows());
+         let mut idx_by_chunk_id: BTreeMap<ChunkId, ChunkIdx> = BTreeMap::new();
+         let mut entities: BTreeMap<EntityPath, EntityView> = BTreeMap::new();
+@@ -173,6 +198,7 @@ impl ChunkIndexView {
+                 rrd_byte_offset: byte_offset,
+                 rrd_byte_size: byte_size,
+                 byte_size_uncompressed,
++                components: std::mem::take(&mut components[i]),
+             });
+         }
+ 
+@@ -190,12 +216,9 @@ impl ChunkIndexView {
+             for (timeline, per_component) in per_timeline {
+                 for per_chunk_entries in per_component.into_values() {
+                     for (chunk_id, entry) in per_chunk_entries {
+-                        let idx = *idx_by_chunk_id.get(&chunk_id).ok_or_else(|| {
+-                            Error::UnknownChunkId {
+-                                chunk_id,
+-                                entity_path: entity_path.clone(),
+-                            }
+-                        })?;
++                        let idx = *idx_by_chunk_id
++                            .get(&chunk_id)
++                            .ok_or_else(|| Error::unknown_chunk_id(chunk_id, &entity_path))?;
+ 
+                         per_chunk
+                             .entry(idx)
+@@ -252,16 +275,144 @@ impl ChunkIndexView {
+     }
+ }
+ 
++/// Per chunk index row: the component columns with data.
++///
++/// Two descriptors that differ only by type produce two index fields with the same name, so this
++/// iterates the fields and never looks one up by name.
++fn components_per_chunk(
++    raw: &RawRrdManifest,
++) -> Result<Vec<BTreeMap<ComponentIdentifier, Option<ComponentType>>>, Error> {
++    let num_rows = raw.data.num_rows();
++    let mut components = vec![BTreeMap::new(); num_rows];
++
++    let schema = raw.data.schema();
++    for (field, column) in std::iter::zip(schema.fields(), raw.data.columns()) {
++        let Some(component) = field
++            .metadata()
++            .get(re_types_core::FIELD_METADATA_KEY_COMPONENT)
++        else {
++            continue;
++        };
++        let component = ComponentIdentifier::try_new(component).map_err(|_err| {
++            Error::malformed_component_column(field.name(), "empty component identifier")
++        })?;
++        let component_type = field
++            .metadata()
++            .get(re_types_core::FIELD_METADATA_KEY_COMPONENT_TYPE)
++            .map(ComponentType::try_new)
++            .transpose()
++            .map_err(|_err| {
++                Error::malformed_component_column(field.name(), "empty component type")
++            })?;
++
++        // Only the rows with data are visited: for a `:start` column those are its valid rows, for a
++        // `:has_static_data` column its set bits. Both come straight off the buffers, so the walk
++        // is proportional to the number of (chunk, component) presences, not to fields × rows.
++        let rows_with_data: Either<_, _> = if field.name().ends_with(":start") {
++            Either::Left(match column.nulls() {
++                Some(nulls) => Either::Left(nulls.valid_indices()),
++                None => Either::Right(0..num_rows),
++            })
++        } else if field.name().ends_with(":has_static_data") {
++            let flags = column
++                .as_any()
++                .downcast_ref::<BooleanArray>()
++                .ok_or_else(|| {
++                    Error::malformed_component_column(field.name(), "expected a boolean column")
++                })?;
++            Either::Right(flags.values().set_indices())
++        } else {
++            continue;
++        };
++
++        for i in rows_with_data {
++            // A chunk holds one column per identifier, so at most one variant has data here;
++            // should two ever claim it, keep the typed one.
++            components[i]
++                .entry(component)
++                .and_modify(|existing: &mut Option<ComponentType>| {
++                    if existing.is_none() {
++                        *existing = component_type;
++                    }
++                })
++                .or_insert(component_type);
++        }
++    }
++
++    Ok(components)
++}
++
+ #[cfg(test)]
+ mod tests {
++    use std::collections::BTreeMap;
++
+     use re_chunk::{Chunk, ChunkId, RowId};
+     use re_log_encoding::RawRrdManifest;
+-    use re_log_types::example_components::{MyColor, MyPoints};
++    use re_log_types::example_components::{MyColor, MyPoint, MyPoints};
+     use re_log_types::{EntityPath, StoreId, StoreKind, TimePoint, Timeline};
+-    use re_types_core::ComponentBatch as _;
++    use re_types_core::{Component as _, ComponentBatch as _, ComponentDescriptor};
+ 
+     use super::ChunkIndexView;
+ 
++    /// The same identifier logged typed under an archetype on one entity and untyped on another
++    /// gives the index two same-named column sets; the view reads both.
++    ///
++    /// Background info in RR-5622.
++    #[test]
++    fn same_identifier_two_descriptors() -> anyhow::Result<()> {
++        let frame = Timeline::new_sequence("frame");
++        let typed = Chunk::builder_with_id(ChunkId::from_u128(1), "real")
++            .with_serialized_batches(
++                RowId::from_u128(1 << 32),
++                [(frame, 0_i64)],
++                [MyPoint::from_iter(0..2).try_serialized(MyPoints::descriptor_points())?],
++            )
++            .build()?;
++        let untyped_descriptor = ComponentDescriptor {
++            archetype: None,
++            component: MyPoints::descriptor_points().component,
++            component_type: None,
++        };
++        let untyped = Chunk::builder_with_id(ChunkId::from_u128(2), "fake")
++            .with_serialized_batches(
++                RowId::from_u128(2 << 32),
++                [(frame, 0_i64)],
++                [
++                    MyPoint::from_iter(0..2).try_serialized(untyped_descriptor)?,
++                    MyColor::from_iter(0..2).try_serialized(MyPoints::descriptor_colors())?,
++                ],
++            )
++            .build()?;
++
++        let store_id = StoreId::new(StoreKind::Recording, "test_app", "test_recording");
++        let raw = RawRrdManifest::build_in_memory_from_chunks(store_id, [typed, untyped].iter())?;
++
++        // Both variants are seen, per chunk and per entity.
++        let view = ChunkIndexView::try_from_raw(&raw)?;
++        let columns = |id: u128| {
++            view.chunks()
++                .find(|(_, meta)| meta.chunk_id == ChunkId::from_u128(id))
++                .map(|(_, meta)| meta.components.keys().copied().collect::<Vec<_>>())
++                .unwrap()
++        };
++        assert_eq!(columns(1), vec![MyPoints::descriptor_points().component]);
++        assert_eq!(
++            columns(2),
++            vec![
++                MyPoints::descriptor_colors().component,
++                MyPoints::descriptor_points().component,
++            ]
++        );
++        assert_eq!(view.entities.len(), 2);
++        for entity in ["real", "fake"] {
++            let entity = &view.entities[&EntityPath::from(entity)];
++            assert_eq!(entity.timeline_sets.len(), 1);
++            assert_eq!(entity.timeline_sets[0].per_timeline[&frame].len(), 1);
++        }
++
++        Ok(())
++    }
++
+     #[test]
+     fn view_construction() -> anyhow::Result<()> {
+         let frame = Timeline::new_sequence("frame");
+@@ -284,18 +435,45 @@ mod tests {
+         }
+         let temporal = temporal.build()?;
+ 
++        // A typed column next to an untyped one, on the same rows.
++        let untyped_descriptor = ComponentDescriptor {
++            archetype: None,
++            component: "custom".into(),
++            component_type: None,
++        };
++        let mixed = Chunk::builder_with_id(ChunkId::from_u128(3), "temporal")
++            .with_serialized_batches(
++                RowId::from_u128(3 << 32),
++                [(frame, 20_i64)],
++                [
++                    MyPoint::from_iter(0..2).try_serialized(MyPoints::descriptor_points())?,
++                    MyPoint::from_iter(0..2).try_serialized(untyped_descriptor.clone())?,
++                ],
++            )
++            .build()?;
++
+         let store_id = StoreId::new(StoreKind::Recording, "test_app", "test_recording");
+-        let chunk_index =
+-            RawRrdManifest::build_in_memory_from_chunks(store_id, [static_chunk, temporal].iter())?;
++        let chunk_index = RawRrdManifest::build_in_memory_from_chunks(
++            store_id,
++            [static_chunk, temporal, mixed].iter(),
++        )?;
+         let view = ChunkIndexView::try_from_raw(&chunk_index)?;
+ 
+-        assert_eq!(view.num_chunks(), 2);
++        assert_eq!(view.num_chunks(), 3);
+         assert_eq!(view.entities.len(), 2);
+ 
+         let static_entity = &view.entities[&EntityPath::from("static_entity")];
+         assert_eq!(static_entity.static_chunks.len(), 1);
+         assert!(static_entity.timeline_sets.is_empty());
+-        assert!(view.chunk(static_entity.static_chunks[0]).is_static);
++        let static_meta = view.chunk(static_entity.static_chunks[0]);
++        assert!(static_meta.is_static);
++        assert_eq!(
++            static_meta.components,
++            BTreeMap::from([(
++                MyPoints::descriptor_colors().component,
++                Some(MyColor::name())
++            )])
++        );
+ 
+         let temporal = &view.entities[&EntityPath::from("temporal")];
+         assert!(temporal.static_chunks.is_empty());
+@@ -303,10 +481,33 @@ mod tests {
+         let group = &temporal.timeline_sets[0];
+         assert_eq!(group.timelines.len(), 1);
+         let spans = &group.per_timeline[&frame];
+-        assert_eq!(spans.len(), 1);
++        assert_eq!(spans.len(), 2);
+         assert_eq!(spans[0].time_range.min().as_i64(), 0);
+         assert_eq!(spans[0].time_range.max().as_i64(), 10);
+-        assert_eq!(view.chunk(spans[0].chunk).num_rows, 2);
++        let colors_meta = view.chunk(spans[0].chunk);
++        assert_eq!(colors_meta.num_rows, 2);
++        assert_eq!(
++            colors_meta.components,
++            BTreeMap::from([(
++                MyPoints::descriptor_colors().component,
++                Some(MyColor::name())
++            )])
++        );
++
++        // The typed column records its type, the untyped one records `None`; neither chunk sees
++        // the other's columns.
++        let mixed_meta = view.chunk(spans[1].chunk);
++        assert_eq!(mixed_meta.chunk_id, ChunkId::from_u128(3));
++        assert_eq!(
++            mixed_meta.components,
++            BTreeMap::from([
++                (
++                    MyPoints::descriptor_points().component,
++                    Some(MyPoint::name())
++                ),
++                (untyped_descriptor.component, None),
++            ])
++        );
+ 
+         Ok(())
+     }
+diff --git a/crates/store/re_chunk_store/src/lazy_store.rs b/crates/store/re_chunk_store/src/lazy_store.rs
+index 405ab3c5e..abe586667 100644
+--- a/crates/store/re_chunk_store/src/lazy_store.rs
++++ b/crates/store/re_chunk_store/src/lazy_store.rs
+@@ -5,7 +5,7 @@ use ahash::{HashMap, HashMapExt as _};
+ use nohash_hasher::{IntMap, IntSet};
+ 
+ use re_chunk::{Chunk, ChunkId};
+-use re_log_encoding::{ChunkProvider, RawRrdManifest, RrdManifest};
++use re_log_encoding::{ChunkProvider, ChunkProviderError, RawRrdManifest, RrdManifest};
+ use re_log_types::{AbsoluteTimeRange, EntityPath, StoreId, TimelineName};
+ 
+ use crate::{
+@@ -141,24 +141,6 @@ impl LazyStore {
+         self.manifest().num_chunks()
+     }
+ 
+-    /// The parsed manifest of every chunk this store can serve.
+-    pub fn manifest(&self) -> &Arc<RrdManifest> {
+-        self.provider.manifest()
+-    }
+-
+-    /// Human-readable source identifier of the underlying provider, for diagnostics.
+-    pub fn source(&self) -> String {
+-        self.provider.source()
+-    }
+-
+-    /// The raw manifest as-parsed from the RRD footer, before validation/extraction.
+-    ///
+-    /// Kept around so the server can synthesize `GetRrdManifest` responses without materializing
+-    /// chunks: the footer already contains everything a client needs to pick which chunks to fetch.
+-    pub fn raw_manifest(&self) -> &Arc<RawRrdManifest> {
+-        self.provider.raw_manifest()
+-    }
+-
+     /// The underlying chunk provider.
+     pub fn provider(&self) -> &Arc<dyn ChunkProvider> {
+         &self.provider
+@@ -277,6 +259,29 @@ impl LazyStore {
+     }
+ }
+ 
++// `LazyStore` is itself a provider.
++#[async_trait::async_trait]
++impl ChunkProvider for LazyStore {
++    fn manifest(&self) -> &Arc<RrdManifest> {
++        self.provider.manifest()
++    }
++
++    fn raw_manifest(&self) -> &Arc<RawRrdManifest> {
++        self.provider.raw_manifest()
++    }
++
++    fn source(&self) -> String {
++        self.provider().source()
++    }
++
++    async fn load_chunks(&self, ids: &[ChunkId]) -> Result<Vec<Arc<Chunk>>, ChunkProviderError> {
++        // We delegate to the inherant method, which tracks loaded chunks.
++        Self::load_chunks(self, ids)
++            .await
++            .map_err(|err| ChunkProviderError(Box::new(err)))
++    }
++}
++
+ #[cfg(test)]
+ mod tests {
+     use std::fs::File;
+diff --git a/crates/store/re_log_encoding/src/chunk_provider/in_memory.rs b/crates/store/re_log_encoding/src/chunk_provider/in_memory.rs
+new file mode 100644
+index 000000000..b651b81fe
+--- /dev/null
++++ b/crates/store/re_log_encoding/src/chunk_provider/in_memory.rs
+@@ -0,0 +1,76 @@
++use std::sync::Arc;
++
++use ahash::HashMap;
++
++use re_chunk::{Chunk, ChunkId};
++use re_log_types::StoreId;
++
++use crate::{ChunkProvider, ChunkProviderError, CodecResult, RawRrdManifest, RrdManifest};
++
++/// [`ChunkProvider`] over a set of already-materialized chunks.
++pub struct InMemoryChunkProvider {
++    chunks: HashMap<ChunkId, Arc<Chunk>>,
++    manifest: Arc<RrdManifest>,
++    raw_manifest: Arc<RawRrdManifest>,
++
++    /// Human-readable source identifier for diagnostics.
++    source: String,
++}
++
++impl InMemoryChunkProvider {
++    pub fn new(
++        store_id: &StoreId,
++        chunks: impl IntoIterator<Item = Arc<Chunk>>,
++    ) -> CodecResult<Self> {
++        // Build the manifest from the caller's insertion order: the synthesized byte offsets and
++        // the file-order sweep of downstream consumers must be deterministic, which a hash-map
++        // iteration is not.
++        let chunks: Vec<Arc<Chunk>> = chunks.into_iter().collect();
++        let raw_manifest = Arc::new(RawRrdManifest::build_in_memory_from_chunks(
++            store_id.clone(),
++            chunks.iter().map(AsRef::as_ref),
++        )?);
++        let manifest = Arc::new(RrdManifest::try_new(&raw_manifest)?);
++        let chunks: HashMap<_, _> = chunks
++            .into_iter()
++            .map(|chunk| (chunk.id(), chunk))
++            .collect();
++
++        Ok(Self {
++            chunks,
++            manifest,
++            raw_manifest,
++            source: format!("in-memory store {store_id}"),
++        })
++    }
++}
++
++#[derive(thiserror::Error, Debug)]
++#[error("unknown chunk id: {0}")]
++struct UnknownChunkIdError(ChunkId);
++
++#[async_trait::async_trait]
++impl ChunkProvider for InMemoryChunkProvider {
++    fn manifest(&self) -> &Arc<RrdManifest> {
++        &self.manifest
++    }
++
++    fn raw_manifest(&self) -> &Arc<RawRrdManifest> {
++        &self.raw_manifest
++    }
++
++    fn source(&self) -> String {
++        self.source.clone()
++    }
++
++    async fn load_chunks(&self, ids: &[ChunkId]) -> Result<Vec<Arc<Chunk>>, ChunkProviderError> {
++        ids.iter()
++            .map(|id| {
++                self.chunks
++                    .get(id)
++                    .cloned()
++                    .ok_or_else(|| ChunkProviderError(Box::new(UnknownChunkIdError(*id))))
++            })
++            .collect()
++    }
++}
+diff --git a/crates/store/re_log_encoding/src/chunk_provider/mod.rs b/crates/store/re_log_encoding/src/chunk_provider/mod.rs
+index e78259cd4..1c697c9d0 100644
+--- a/crates/store/re_log_encoding/src/chunk_provider/mod.rs
++++ b/crates/store/re_log_encoding/src/chunk_provider/mod.rs
+@@ -4,9 +4,11 @@ use re_chunk::{Chunk, ChunkId};
+ 
+ use crate::{RawRrdManifest, RrdManifest};
+ 
++mod in_memory;
+ #[cfg(feature = "decoder")]
+ mod rrd;
+ 
++pub use self::in_memory::InMemoryChunkProvider;
+ #[cfg(feature = "decoder")]
+ pub use self::rrd::RrdChunkProvider;
+ 
+diff --git a/crates/store/re_log_encoding/src/lib.rs b/crates/store/re_log_encoding/src/lib.rs
+index 0889641e9..0503c84ea 100644
+--- a/crates/store/re_log_encoding/src/lib.rs
++++ b/crates/store/re_log_encoding/src/lib.rs
+@@ -83,6 +83,6 @@ pub use self::app_id_injector::{
+ };
+ #[cfg(feature = "decoder")]
+ pub use self::chunk_provider::RrdChunkProvider;
+-pub use self::chunk_provider::{ChunkProvider, ChunkProviderError};
++pub use self::chunk_provider::{ChunkProvider, ChunkProviderError, InMemoryChunkProvider};
+ pub use self::rrd::*;
+ pub use self::transport_to_app::{ToApplication, ToTransport};
+diff --git a/crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs b/crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs
+index 4be1e57cd..b26aab69d 100644
+--- a/crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs
++++ b/crates/store/re_log_encoding/src/rrd/footer/raw_rrd_manifest.rs
+@@ -120,8 +120,10 @@ use crate::{CodecError, CodecResult, Decodable as _, StreamFooterEntry, ToApplic
+ ///   compression enabled, these sizes are therefore compressed. For a backend that doesn't do any
+ ///   kind of compression, such as the OSS server that stores everything already decoded in memory,
+ ///   these sizes will correspond to heap memory usage.
+-/// * `chunk_byte_size_uncompressed` always corresponds to the size on the heap that the data would
+-///   require once fully decoded, regardless of the backend.
++/// * `chunk_byte_size_uncompressed` reports the chunk's uncompressed size, whose exact meaning
++///   depends on the writer: the length of the uncompressed Arrow IPC stream when written to an RRD
++///   file, and the decoded heap size when synthesized in memory
++///   (see [`RawRrdManifest::build_in_memory_from_chunks`]).
+ /// * `chunk_key`, if specified, should always be used to fetch the associated data.
+ ///
+ /// ## A note on filtering
+@@ -593,42 +595,29 @@ impl RawRrdManifest {
+             col_num_rows_raw: &'a [u64],
+         }
+ 
+-        let mut columns_per_index = HashMap::<String, IndexColumns<'_>>::new();
++        // Two descriptors that share a component identifier but differ in type or archetype get
++        // two sets of columns with the same names, so a column is matched to its `:start` field
++        // by its full metadata, never by name or by `rerun:component` alone.
++        let sibling = |field: &Field, suffix: &str| {
++            itertools::izip!(fields, columns)
++                .find(|(f, _col)| f.name().ends_with(suffix) && f.metadata() == field.metadata())
++                .ok_or_else(|| {
++                    CodecError::from(ChunkError::Malformed {
++                        reason: format!("{suffix} index is missing for {}", field.name()),
++                    })
++                })
++        };
++
++        let mut columns_per_index = Vec::<IndexColumns<'_>>::new();
+         for (index, component, field) in indexes {
+             let index = index.as_str();
+             if index == "rerun:static" {
+                 continue;
+             }
+ 
+-            let Some((_, col_start)) = itertools::izip!(fields, columns).find(|(f, _col)| {
+-                Self::is_specific_index(f, index)
+-                    && f.name().ends_with(":start")
+-                    && f.metadata().get("rerun:component") == Some(component)
+-            }) else {
+-                return Err(CodecError::from(ChunkError::Malformed {
+-                    reason: format!("start index is missing for {component}"),
+-                }));
+-            };
+-            let Some((_, col_end)) = itertools::izip!(fields, columns).find(|(f, _col)| {
+-                Self::is_specific_index(f, index)
+-                    && f.name().ends_with(":end")
+-                    && f.metadata().get("rerun:component") == Some(component)
+-            }) else {
+-                return Err(CodecError::from(ChunkError::Malformed {
+-                    reason: format!("end index is missing for {component}"),
+-                }));
+-            };
+-            let Some((field_num_rows, col_num_rows)) =
+-                itertools::izip!(fields, columns).find(|(f, _col)| {
+-                    Self::is_specific_index(f, index)
+-                        && f.name().ends_with(":num_rows")
+-                        && f.metadata().get("rerun:component") == Some(component)
+-                })
+-            else {
+-                return Err(CodecError::from(ChunkError::Malformed {
+-                    reason: format!("num_rows index is missing for {component}"),
+-                }));
+-            };
++            let (_, col_start) = sibling(field, ":start")?;
++            let (_, col_end) = sibling(field, ":end")?;
++            let (field_num_rows, col_num_rows) = sibling(field, ":num_rows")?;
+ 
+             let (time_type, col_start_raw) =
+                 TimeType::from_arrow_array(col_start).map_err(CodecError::ArrowDeserialization)?;
+@@ -654,19 +643,16 @@ impl RawRrdManifest {
+                 .cloned()
+                 .unwrap_or_else(|| NullBuffer::new_valid(col_end.len()));
+ 
+-            columns_per_index.insert(
+-                field.name().to_owned(),
+-                IndexColumns {
+-                    index,
+-                    component,
+-                    time_type,
+-                    col_start_nulls,
+-                    col_start_raw,
+-                    col_end_nulls,
+-                    col_end_raw,
+-                    col_num_rows_raw,
+-                },
+-            );
++            columns_per_index.push(IndexColumns {
++                index,
++                component,
++                time_type,
++                col_start_nulls,
++                col_start_raw,
++                col_end_nulls,
++                col_end_raw,
++                col_num_rows_raw,
++            });
+         }
+ 
+         for (i, (chunk_id, is_static, entity_path)) in
+@@ -676,7 +662,7 @@ impl RawRrdManifest {
+                 continue;
+             }
+ 
+-            for columns in columns_per_index.values() {
++            for columns in &columns_per_index {
+                 let IndexColumns {
+                     index,
+                     component,
+diff --git a/crates/store/re_server/src/rerun_cloud/mod.rs b/crates/store/re_server/src/rerun_cloud/mod.rs
+index 21222cf44..2de02780d 100644
+--- a/crates/store/re_server/src/rerun_cloud/mod.rs
++++ b/crates/store/re_server/src/rerun_cloud/mod.rs
+@@ -15,7 +15,7 @@ use re_arrow_util::RecordBatchExt as _;
+ use re_chunk_store::{
+     Chunk, ChunkId, ChunkStore, ChunkStoreHandle, ChunkTrackingMode, LatestAtQuery, RangeQuery,
+ };
+-use re_log_encoding::ToTransport as _;
++use re_log_encoding::{ChunkProvider as _, ToTransport as _};
+ use re_log_types::{AbsoluteTimeRange, EntityPath, EntryId, StoreId, StoreKind, TimelineName};
+ #[cfg(not(target_arch = "wasm32"))]
+ use re_protos::cloud::v1alpha1::ext::{CreateTableEntryResponse, ProviderDetails};
+diff --git a/crates/store/re_server/src/store/resolved_store.rs b/crates/store/re_server/src/store/resolved_store.rs
+index df3ed7388..3011a7589 100644
+--- a/crates/store/re_server/src/store/resolved_store.rs
++++ b/crates/store/re_server/src/store/resolved_store.rs
+@@ -6,7 +6,7 @@ use nohash_hasher::IntSet;
+ use re_chunk_store::{
+     ChunkStoreHandle, ChunkStoreHandleWeak, ChunkTrackingMode, LazyStore, QueryResults, StoreSchema,
+ };
+-use re_log_encoding::{RrdChunkProvider, RrdManifest};
++use re_log_encoding::{ChunkProvider as _, RrdChunkProvider, RrdManifest};
+ use re_log_types::{EntityPath, StoreId, StoreKind};
+ 
+ /// A store backend: either an in-memory eager store or a provider-backed lazy store.
+diff --git a/crates/store/re_server/src/store/source.rs b/crates/store/re_server/src/store/source.rs
+index 02cd2fa56..66acf76e7 100644
+--- a/crates/store/re_server/src/store/source.rs
++++ b/crates/store/re_server/src/store/source.rs
+@@ -6,7 +6,7 @@ use arrow::datatypes::Schema;
+ use arrow::error::ArrowError;
+ use itertools::Itertools as _;
+ use re_byte_size::SizeBytes as _;
+-use re_log_encoding::RawRrdManifest;
++use re_log_encoding::{ChunkProvider as _, RawRrdManifest};
+ use re_log_types::{AbsoluteTimeRange, Timeline};
+ use re_protos::cloud::v1alpha1::ext::DataSourceKind;
+ use url::Url;

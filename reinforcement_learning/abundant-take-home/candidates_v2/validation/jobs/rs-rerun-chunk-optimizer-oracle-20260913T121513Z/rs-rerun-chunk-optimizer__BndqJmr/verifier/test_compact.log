@@ -1,0 +1,65 @@
+
+running 18 tests
+test compacted_reduces_chunk_count ... ok
+test compacted_preserves_row_count ... ok
+test insertion_never_merges_a_keyframe_chunk_into_a_sample_chunk ... ok
+test finalize_compaction_converges ... ok
+test insertion_still_merges_a_mixed_chunk_with_a_sample_chunk ... ok
+test keyframe_chunk_preserves_all_source_timelines ... ok
+test keyframe_markers_are_idempotent_across_optimize_runs ... ok
+test optimize_breaks_out_keyframes_sharing_chunk_with_other_components ... ok
+test keyframe_markers_share_store_but_not_chunks ... ok
+test optimize_fix_keyframe_overrides_user_labels ... ok
+test optimize_fix_keyframe_strips_false_rows ... ok
+test optimize_gives_is_keyframe_its_own_chunk_without_video_rebatching ... ok
+test optimize_preserves_canonical_keyframes_while_rebatching_samples ... ok
+[2m2026-09-13T12:16:28.611137Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m compaction pass completed [3mpass[0m[2m=[0m0 [3mnum_before[0m[2m=[0m7 [3mnum_after[0m[2m=[0m7 [3mtime[0m[2m=[0m15.833µs
+[2m2026-09-13T12:16:28.611170Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m converged, stopping early [3mpass[0m[2m=[0m0
+[2m2026-09-13T12:16:28.611196Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m found video entities for GoP realignment [3mnum_video_entities[0m[2m=[0m1
+[2m2026-09-13T12:16:28.611181Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m compaction pass completed [3mpass[0m[2m=[0m0 [3mnum_before[0m[2m=[0m3 [3mnum_after[0m[2m=[0m3 [3mtime[0m[2m=[0m7.916µs
+[2m2026-09-13T12:16:28.611274Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m converged, stopping early [3mpass[0m[2m=[0m0
+[2m2026-09-13T12:16:28.611310Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m found video entities for GoP realignment [3mnum_video_entities[0m[2m=[0m1
+[2m2026-09-13T12:16:28.611372Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m GoP stats (min/avg/max) [3mentity[0m[2m=[0m/video [3mnum_gops[0m[2m=[0m4 [3mframes_per_gop[0m[2m=[0m5/5/5 [3mbytes_per_gop[0m[2m=[0m1.4 KiB/1.4 KiB/1.4 KiB
+[2m2026-09-13T12:16:28.611410Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merging GoPs into chunks [3mnum_gops[0m[2m=[0m4 [3mchunk_max_bytes[0m[2m=[0m384 KiB
+[2m2026-09-13T12:16:28.611462Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merge complete [3mnum_gops_in[0m[2m=[0m20 [3mnum_chunks_out[0m[2m=[0m1
+[2m2026-09-13T12:16:28.612595Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m GoP stats (min/avg/max) [3mentity[0m[2m=[0m/video [3mnum_gops[0m[2m=[0m6 [3mframes_per_gop[0m[2m=[0m10/10/10 [3mbytes_per_gop[0m[2m=[0m642 KiB/642 KiB/642 KiB
+[2m2026-09-13T12:16:28.612648Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merging GoPs into chunks [3mnum_gops[0m[2m=[0m6 [3mchunk_max_bytes[0m[2m=[0m1.0 MiB
+[2m2026-09-13T12:16:28.612683Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merge complete [3mnum_gops_in[0m[2m=[0m60 [3mnum_chunks_out[0m[2m=[0m6
+[2m2026-09-13T12:16:28.612706Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m rebatched video entity (min/avg/max) [3mentity[0m[2m=[0m/video [3mtimeline[0m[2m=[0mframe [3mcodec[0m[2m=[0mH264 [3mnum_chunks[0m[2m=[0m6 [3mtotal_frames[0m[2m=[0m60 [3mframes_per_chunk[0m[2m=[0m10/10/10 [3mbytes_per_chunk[0m[2m=[0m642 KiB/642 KiB/642 KiB
+[2m2026-09-13T12:16:28.612622Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m rebatched video entity (min/avg/max) [3mentity[0m[2m=[0m/video [3mtimeline[0m[2m=[0mframe [3mcodec[0m[2m=[0mH264 [3mnum_chunks[0m[2m=[0m1 [3mtotal_frames[0m[2m=[0m20 [3mframes_per_chunk[0m[2m=[0m20/20/20 [3mbytes_per_chunk[0m[2m=[0m1.9 KiB/1.9 KiB/1.9 KiB
+[2m2026-09-13T12:16:28.612839Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m video GoP rebatching completed [3mtime[0m[2m=[0m1.644541ms
+test optimize_collects_all_keyframe_markers_into_one_chunk ... ok
+[2m2026-09-13T12:16:28.613491Z[0m [33m WARN[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m skipping GoP rebatching of video entity, leaving it un-optimized [3mentity[0m[2m=[0m/video [3merror[0m[2m=[0muser-supplied `is_keyframe` data is incorrect: 16 `is_keyframe=false` row(s) (e.g. at times 1, 2, 3 (+13 more)); `is_keyframe` is a sparse marker, only `true` should be logged; pass `--fix-keyframe` (Python: `fix_keyframe=True`) to drop the existing labels and re-derive them from the encoded samples
+[2m2026-09-13T12:16:28.613562Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m video GoP rebatching completed [3mtime[0m[2m=[0m2.252375ms
+test optimize_skips_entity_with_false_rows ... ok
+[2m2026-09-13T12:16:28.613729Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m compaction pass completed [3mpass[0m[2m=[0m0 [3mnum_before[0m[2m=[0m3 [3mnum_after[0m[2m=[0m3 [3mtime[0m[2m=[0m9.583µs
+[2m2026-09-13T12:16:28.613758Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m converged, stopping early [3mpass[0m[2m=[0m0
+[2m2026-09-13T12:16:28.613777Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m found video entities for GoP realignment [3mnum_video_entities[0m[2m=[0m1
+[2m2026-09-13T12:16:28.613819Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m GoP stats (min/avg/max) [3mentity[0m[2m=[0m/video [3mnum_gops[0m[2m=[0m4 [3mframes_per_gop[0m[2m=[0m5/5/5 [3mbytes_per_gop[0m[2m=[0m1.4 KiB/1.4 KiB/1.4 KiB
+[2m2026-09-13T12:16:28.613839Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merging GoPs into chunks [3mnum_gops[0m[2m=[0m4 [3mchunk_max_bytes[0m[2m=[0m384 KiB
+[2m2026-09-13T12:16:28.613864Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merge complete [3mnum_gops_in[0m[2m=[0m20 [3mnum_chunks_out[0m[2m=[0m1
+[2m2026-09-13T12:16:28.613883Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m rebatched video entity (min/avg/max) [3mentity[0m[2m=[0m/video [3mtimeline[0m[2m=[0mframe [3mcodec[0m[2m=[0mH264 [3mnum_chunks[0m[2m=[0m1 [3mtotal_frames[0m[2m=[0m20 [3mframes_per_chunk[0m[2m=[0m20/20/20 [3mbytes_per_chunk[0m[2m=[0m1.9 KiB/1.9 KiB/1.9 KiB
+[2m2026-09-13T12:16:28.613918Z[0m [33m WARN[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m skipping GoP rebatching of video entity, leaving it un-optimized [3mentity[0m[2m=[0m/video [3merror[0m[2m=[0muser-supplied `is_keyframe` data is incorrect: 2 codec keyframe(s) missing an `is_keyframe=true` label (e.g. at times 10, 15); 1 sample(s) labeled `is_keyframe=true` that are not codec keyframes (e.g. at times 1); pass `--fix-keyframe` (Python: `fix_keyframe=True`) to drop the existing labels and re-derive them from the encoded samples
+[2m2026-09-13T12:16:28.613948Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m video GoP rebatching completed [3mtime[0m[2m=[0m172.584µs
+[2m2026-09-13T12:16:28.614000Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m compaction pass completed [3mpass[0m[2m=[0m0 [3mnum_before[0m[2m=[0m3 [3mnum_after[0m[2m=[0m3 [3mtime[0m[2m=[0m5.375µs
+[2m2026-09-13T12:16:28.614032Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m converged, stopping early [3mpass[0m[2m=[0m0
+test optimize_skips_entity_with_mismatched_keyframe_labels ... ok[2m2026-09-13T12:16:28.614056Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m found video entities for GoP realignment [3mnum_video_entities[0m[2m=[0m1
+[2m2026-09-13T12:16:28.614123Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m GoP stats (min/avg/max) [3mentity[0m[2m=[0m/video [3mnum_gops[0m[2m=[0m6 [3mframes_per_gop[0m[2m=[0m5/5/5 [3mbytes_per_gop[0m[2m=[0m1.4 KiB/1.4 KiB/1.4 KiB
+
+[2m2026-09-13T12:16:28.614143Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merging GoPs into chunks [3mnum_gops[0m[2m=[0m6 [3mchunk_max_bytes[0m[2m=[0m384 KiB
+[2m2026-09-13T12:16:28.614257Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merge complete [3mnum_gops_in[0m[2m=[0m30 [3mnum_chunks_out[0m[2m=[0m1
+[2m2026-09-13T12:16:28.614277Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m rebatched video entity (min/avg/max) [3mentity[0m[2m=[0m/video [3mtimeline[0m[2m=[0mframe [3mcodec[0m[2m=[0mH264 [3mnum_chunks[0m[2m=[0m1 [3mtotal_frames[0m[2m=[0m30 [3mframes_per_chunk[0m[2m=[0m30/30/30 [3mbytes_per_chunk[0m[2m=[0m2.3 KiB/2.3 KiB/2.3 KiB
+[2m2026-09-13T12:16:28.614309Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m video GoP rebatching completed [3mtime[0m[2m=[0m253.292µs
+test optimize_strips_user_supplied_is_keyframe_from_sample_chunks ... ok
+[2m2026-09-13T12:16:28.614391Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m compaction pass completed [3mpass[0m[2m=[0m0 [3mnum_before[0m[2m=[0m2 [3mnum_after[0m[2m=[0m2 [3mtime[0m[2m=[0m7.125µs
+[2m2026-09-13T12:16:28.614462Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m converged, stopping early [3mpass[0m[2m=[0m0
+[2m2026-09-13T12:16:28.614479Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m found video entities for GoP realignment [3mnum_video_entities[0m[2m=[0m1
+[2m2026-09-13T12:16:28.614509Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m GoP stats (min/avg/max) [3mentity[0m[2m=[0m/video [3mnum_gops[0m[2m=[0m3 [3mframes_per_gop[0m[2m=[0m4/4/4 [3mbytes_per_gop[0m[2m=[0m1.4 KiB/1.4 KiB/1.4 KiB
+[2m2026-09-13T12:16:28.614527Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merging GoPs into chunks [3mnum_gops[0m[2m=[0m3 [3mchunk_max_bytes[0m[2m=[0m384 KiB
+[2m2026-09-13T12:16:28.614548Z[0m [34mDEBUG[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m merge complete [3mnum_gops_in[0m[2m=[0m12 [3mnum_chunks_out[0m[2m=[0m1
+[2m2026-09-13T12:16:28.614565Z[0m [32m INFO[0m [2mre_chunk_store::rebatch_videos[0m[2m:[0m rebatched video entity (min/avg/max) [3mentity[0m[2m=[0m/video [3mtimeline[0m[2m=[0mtimeline_c_0 [3mcodec[0m[2m=[0mH264 [3mnum_chunks[0m[2m=[0m1 [3mtotal_frames[0m[2m=[0m12 [3mframes_per_chunk[0m[2m=[0m12/12/12 [3mbytes_per_chunk[0m[2m=[0m1.8 KiB/1.8 KiB/1.8 KiB
+[2m2026-09-13T12:16:28.614594Z[0m [32m INFO[0m [2mre_chunk_store::compact[0m[2m:[0m video GoP rebatching completed [3mtime[0m[2m=[0m115.708µs
+test rebatching_is_insensitive_to_timeline_map_iteration_order ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

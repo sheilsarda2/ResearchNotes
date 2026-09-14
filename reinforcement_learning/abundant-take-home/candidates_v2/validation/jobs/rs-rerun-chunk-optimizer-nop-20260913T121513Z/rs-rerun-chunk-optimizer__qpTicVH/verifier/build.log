@@ -1,0 +1,102 @@
+   Compiling re_chunk_optimizer v0.37.0-alpha.1+dev (/workspace/repo/crates/store/re_chunk_optimizer)
+   Compiling re_log_encoding v0.37.0-alpha.1+dev (/workspace/repo/crates/store/re_log_encoding)
+error[E0432]: unresolved import `re_chunk_optimizer::testing`
+  --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:17:25
+   |
+17 | use re_chunk_optimizer::testing::{should_split_chunk, smallest_non_splitting_target};
+   |                         ^^^^^^^ could not find `testing` in `re_chunk_optimizer`
+
+error[E0432]: unresolved import `re_chunk_optimizer::testing`
+  --> crates/store/re_chunk_optimizer/tests/optimize.rs:17:25
+   |
+17 | use re_chunk_optimizer::testing::{should_split_chunk, smallest_non_splitting_target};
+   |                         ^^^^^^^ could not find `testing` in `re_chunk_optimizer`
+
+error[E0432]: unresolved imports `re_chunk_optimizer::ColumnSelector`, `re_chunk_optimizer::MergeSplitOverride`, `re_chunk_optimizer::MergeSplitSettings`, `re_chunk_optimizer::OptimizationSettings`, `re_chunk_optimizer::OwnChunkRule`, `re_chunk_optimizer::optimize`
+  --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:19:5
+   |
+19 |     ColumnSelector, Error, MergeSplitOverride, MergeSplitSettings, OptimizationSettings,
+   |     ^^^^^^^^^^^^^^         ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^ no `OptimizationSettings` in the root
+   |     |                      |                   |
+   |     |                      |                   no `MergeSplitSettings` in the root
+   |     |                      no `MergeSplitOverride` in the root
+   |     no `ColumnSelector` in the root
+20 |     OwnChunkRule, optimize,
+   |     ^^^^^^^^^^^^  ^^^^^^^^ no `optimize` in the root
+   |     |
+   |     no `OwnChunkRule` in the root
+
+error[E0432]: unresolved import `re_log_encoding::InMemoryChunkProvider`
+  --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:24:40
+   |
+24 |     ChunkProvider, ChunkProviderError, InMemoryChunkProvider, RawRrdManifest, RrdManifest,
+   |                                        ^^^^^^^^^^^^^^^^^^^^^ no `InMemoryChunkProvider` in the root
+   |
+help: a similar name exists in the module
+   |
+24 -     ChunkProvider, ChunkProviderError, InMemoryChunkProvider, RawRrdManifest, RrdManifest,
+24 +     ChunkProvider, ChunkProviderError, RrdChunkProvider, RawRrdManifest, RrdManifest,
+   |
+
+error[E0432]: unresolved imports `re_chunk_optimizer::ColumnSelector`, `re_chunk_optimizer::MergeSplitOverride`, `re_chunk_optimizer::MergeSplitSettings`, `re_chunk_optimizer::OptimizationSettings`, `re_chunk_optimizer::OwnChunkRule`, `re_chunk_optimizer::optimize`
+  --> crates/store/re_chunk_optimizer/tests/optimize.rs:19:5
+   |
+19 |     ColumnSelector, Error, MergeSplitOverride, MergeSplitSettings, OptimizationSettings,
+   |     ^^^^^^^^^^^^^^         ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^ no `OptimizationSettings` in the root
+   |     |                      |                   |
+   |     |                      |                   no `MergeSplitSettings` in the root
+   |     |                      no `MergeSplitOverride` in the root
+   |     no `ColumnSelector` in the root
+20 |     OwnChunkRule, analyze_chunk_index, optimize,
+   |     ^^^^^^^^^^^^                       ^^^^^^^^ no `optimize` in the root
+   |     |
+   |     no `OwnChunkRule` in the root
+
+error[E0432]: unresolved import `re_log_encoding::InMemoryChunkProvider`
+  --> crates/store/re_chunk_optimizer/tests/optimize.rs:23:57
+   |
+23 |     ChunkProvider, ChunkProviderError, EncodingOptions, InMemoryChunkProvider, RawRrdManifest,
+   |                                                         ^^^^^^^^^^^^^^^^^^^^^ no `InMemoryChunkProvider` in the root
+   |
+help: a similar name exists in the module
+   |
+23 -     ChunkProvider, ChunkProviderError, EncodingOptions, InMemoryChunkProvider, RawRrdManifest,
+23 +     ChunkProvider, ChunkProviderError, EncodingOptions, RrdChunkProvider, RawRrdManifest,
+   |
+
+error[E0277]: the trait bound `LazyStore: ChunkProvider` is not satisfied
+   --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:295:48
+    |
+295 |     let dyn_provider: Arc<dyn ChunkProvider> = Arc::clone(&lazy) as _;
+    |                                                ^^^^^^^^^^^^^^^^^ the trait `ChunkProvider` is not implemented for `LazyStore`
+    |
+help: the following other types implement trait `ChunkProvider`
+   --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:225:1
+    |
+225 | impl ChunkProvider for Wrapped {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `Wrapped`
+    |
+   ::: crates/store/re_log_encoding/src/chunk_provider/rrd.rs:38:1
+    |
+ 38 | impl<R: AsyncReadAt> ChunkProvider for RrdChunkProvider<R> {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `RrdChunkProvider<R>`
+    = note: required for the cast from `Arc<LazyStore>` to `Arc<dyn ChunkProvider>`
+
+error[E0599]: no variant named `LoadChunks` found for enum `re_chunk_optimizer::Error`
+   --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:314:20
+    |
+314 |         Err(Error::LoadChunks {
+    |                    ^^^^^^^^^^ variant not found in `re_chunk_optimizer::Error`
+
+error[E0599]: no variant named `MissingChunk` found for enum `re_chunk_optimizer::Error`
+   --> crates/store/re_chunk_optimizer/tests/optimizer_contract.rs:336:20
+    |
+336 |         Err(Error::MissingChunk {
+    |                    ^^^^^^^^^^^^ variant not found in `re_chunk_optimizer::Error`
+
+For more information about this error, try `rustc --explain E0432`.
+Some errors have detailed explanations: E0277, E0432, E0599.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `re_chunk_optimizer` (test "optimize") due to 3 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `re_chunk_optimizer` (test "optimizer_contract") due to 6 previous errors
