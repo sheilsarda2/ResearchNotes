@@ -1,0 +1,241 @@
+{
+  "bound_files_sha256": {
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC/agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC/agent/mini-swe-agent.trajectory.json": "0181752dbc71ebbb120762d66d8cf89603c1d43d2c57cefb709f285439e94515",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC/benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC/config.json": "ef2ea86e74f31693d5cd6e0d42c5abed122d8edfd19f53614a3c2755463389b5"
+  },
+  "classification": "model_upstream_bad_gateway_retry_wait",
+  "container": {
+    "id_prefix": "e759c33c763f",
+    "name": "luigi-generation-target__tvhp5oc-main-1"
+  },
+  "diagnosis": "Last tool returned successfully. No live child tool or verifier; agent has an established TCP socket and is polling. Agent log ends in repeated upstream BadGatewayError retries. This is model response/retry waiting, not the prior post-kill tool output-drain hang.",
+  "guard_deadline_utc": "2026-09-14T02:28:22.648459+00:00",
+  "host_deadline_sidecar_present": false,
+  "limitations": [
+    "No stack injection or packet inspection; socket ownership plus last log and completed-tool sequence support the live phase diagnosis.",
+    "Historical retry lines lack timestamps; log mtime gives the last logged retry time."
+  ],
+  "live": {
+    "agent_fd_targets": {
+      "0": "/dev/null",
+      "1": "pipe:[5283668]",
+      "2": "pipe:[5283668]",
+      "3": "socket:[5283679]"
+    },
+    "agent_log": {
+      "bad_gateway_retries": [
+        {
+          "exception": "litellm.BadGatewayError / AnthropicException BadGatewayError",
+          "line": 2263,
+          "message": "upstream request failed",
+          "provider_type": "api_error",
+          "retry_delay_seconds": 4
+        },
+        {
+          "exception": "litellm.BadGatewayError / AnthropicException BadGatewayError",
+          "line": 2331,
+          "message": "upstream request failed",
+          "provider_type": "api_error",
+          "retry_delay_seconds": 4
+        },
+        {
+          "exception": "litellm.BadGatewayError / AnthropicException BadGatewayError",
+          "line": 2428,
+          "message": "upstream request failed",
+          "provider_type": "api_error",
+          "retry_delay_seconds": 4
+        },
+        {
+          "exception": "litellm.BadGatewayError / AnthropicException BadGatewayError",
+          "line": 2609,
+          "message": "upstream request failed",
+          "provider_type": "api_error",
+          "retry_delay_seconds": 4
+        },
+        {
+          "exception": "litellm.BadGatewayError / AnthropicException BadGatewayError",
+          "line": 2614,
+          "message": "upstream request failed",
+          "provider_type": "api_error",
+          "retry_delay_seconds": 4
+        }
+      ],
+      "last_line_is_bad_gateway_retry": true,
+      "line_count": 2614,
+      "mtime_epoch": 1789347206.9852855,
+      "sha256": "34a0796f2a9535811f9b7d4435d4f4803e6bec7f1732c8324e3bb8fca6f77e0a",
+      "size": 86421
+    },
+    "agent_pid": 1783,
+    "agent_tcp_sockets": [
+      {
+        "inode": "5283679",
+        "queues": "00000000:00000000",
+        "state_hex": "01"
+      }
+    ],
+    "container_helper_sha256": {
+      "/tmp/benchmark-agent-input-067bfc25e7404579a7aed1750838bccc/c.py": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816"
+    },
+    "guard_states": {
+      "/tmp/benchmark-guard-6e5e43cbe9024dad8bb6f885a0d2603c/198a3ab8fb16484d92233a376987c45f.json": {
+        "deadline_epoch": 1789352902.6484592,
+        "identity": "3018511",
+        "pid": 1774,
+        "quiescent": false,
+        "started_at_epoch": 1789345703.4315376
+      },
+      "/tmp/benchmark-guard-6e5e43cbe9024dad8bb6f885a0d2603c/2097fc02e2854d8194af6c0f3c25a288.json": {
+        "deadline_epoch": 1789352902.6484592,
+        "descendants_killed": 0,
+        "identity": "3018491",
+        "pid": 1765,
+        "quiescent": true,
+        "quiescent_at_epoch": 1789345703.3492112,
+        "reason": "completed",
+        "return_code": 0,
+        "started_at_epoch": 1789345703.2227497,
+        "stop_requested_at_epoch": 1789345703.348984
+      },
+      "/tmp/benchmark-guard-6e5e43cbe9024dad8bb6f885a0d2603c/d74ec88416984a6d9f407b535d3e56af.json": {
+        "deadline_epoch": 1789352902.6484592,
+        "descendants_killed": 0,
+        "identity": "3018442",
+        "pid": 1758,
+        "quiescent": true,
+        "quiescent_at_epoch": 1789345702.8240855,
+        "reason": "completed",
+        "return_code": 0,
+        "started_at_epoch": 1789345702.8171253,
+        "stop_requested_at_epoch": 1789345702.8236468
+      }
+    },
+    "observed_at_epoch": 1789347292.0451295,
+    "processes": [
+      {
+        "comm": "sh",
+        "identity": "3014427",
+        "pid": 1,
+        "ppid": 0,
+        "state": "S",
+        "stime": 0,
+        "utime": 0,
+        "wchan": "do_wait"
+      },
+      {
+        "comm": "sleep",
+        "identity": "3014430",
+        "pid": 7,
+        "ppid": 1,
+        "state": "S",
+        "stime": 0,
+        "utime": 0,
+        "wchan": "do_sys_poll"
+      },
+      {
+        "comm": "python3",
+        "identity": "3018511",
+        "pid": 1774,
+        "ppid": 0,
+        "state": "S",
+        "stime": 306,
+        "utime": 1628,
+        "wchan": "hrtimer_nanosleep"
+      },
+      {
+        "comm": "bash",
+        "identity": "3018514",
+        "pid": 1780,
+        "ppid": 1774,
+        "state": "S",
+        "stime": 0,
+        "utime": 0,
+        "wchan": "do_wait"
+      },
+      {
+        "comm": "python",
+        "identity": "3018514",
+        "pid": 1783,
+        "ppid": 1780,
+        "state": "S",
+        "stime": 52,
+        "utime": 309,
+        "wchan": "do_sys_poll"
+      },
+      {
+        "comm": "tee",
+        "identity": "3018514",
+        "pid": 1784,
+        "ppid": 1780,
+        "state": "S",
+        "stime": 0,
+        "utime": 0,
+        "wchan": "pipe_read"
+      },
+      {
+        "comm": "python3",
+        "identity": "3177364",
+        "pid": 1860,
+        "ppid": 0,
+        "state": "R",
+        "stime": 2,
+        "utime": 5,
+        "wchan": "0"
+      }
+    ],
+    "runtime_sidecars": {
+      "benchmark-agent-runtime.json": {
+        "executable": "/root/.local/share/uv/tools/mini-swe-agent/bin/python",
+        "litellm_import_ok": true,
+        "packages": {
+          "anthropic": null,
+          "litellm": "1.100.1",
+          "mini-swe-agent": "2.4.6",
+          "openai": "2.54.0",
+          "pydantic": "2.13.5"
+        },
+        "preflight_passed": true,
+        "python": "3.12.11",
+        "requested_python": "3.12.11",
+        "runtime_patch_sha256": "386b12d26587cdc6c735fb37c803640beba73fe9faee49473c386543d730457d",
+        "schema_version": 1
+      },
+      "benchmark-agent-tool-runtime.json": {
+        "bootstrap_sha256": "420412aad25eaba8ee1cab3ae6fd6d1bc33dd120333d3582d28d1561c77f439d",
+        "executable": "/root/.local/share/uv/tools/mini-swe-agent/bin/python",
+        "helper_sha256": "c7d17548170e677eeeac5f3790e291f6003b1705f1c08a41cbb9aea19f3d0816",
+        "installed": true,
+        "package": "mini-swe-agent",
+        "package_version": "2.4.6",
+        "phase": "tool_runtime_preflight_before_mini_cli",
+        "post_kill_drain_timeout_sec": 1.0,
+        "preflight_passed": true,
+        "python": "3.12.11",
+        "replacement": "benchmark_mini_tool_cleanup.bounded_run",
+        "runtime_wrapper_sha256": "1da84e136d12fcaa9bc6ba5dca893ca98577486e4c5aa14300bb3a65152306a8",
+        "schema_version": 1,
+        "scope": "agent_process_only",
+        "target": "minisweagent.environments.local._run",
+        "upstream_function_sha256": "47f7f72e224b860180c0b6ff6ddb205fe52fe5e66f07145ce3d95c7375df8e6b"
+      }
+    }
+  },
+  "native": {
+    "age_sec_at_observation": 670.0215046405792,
+    "assistant_turns": 17,
+    "last_exception_info_empty": true,
+    "last_returncode": 0,
+    "last_role": "tool",
+    "last_timestamp_epoch": 1789346622.0119698,
+    "mtime_epoch": 1789346622.023625
+  },
+  "observed_at_utc": "2026-09-14T00:54:52.065680+00:00",
+  "recommended_root_action": "Preserve trial; monitor model recovery or normal guarded deadline. No tool drain intervention indicated by current evidence.",
+  "result_present": false,
+  "schema_version": 1,
+  "scope": "Read-only live diagnosis; no signals, restarts, model calls, or trial/result mutations. Artifact metadata only.",
+  "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/luigi-generation-target__tvHP5oC"
+}

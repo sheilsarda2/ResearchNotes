@@ -1,0 +1,640 @@
+{
+  "attribution": "Recorded SIGSEGV in test_advanced_pub_sub_zenohpico; not established as infrastructure, hidden-test/spec mismatch, or model-caused defect.",
+  "bound_artifact_sha256": {
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/agent/benchmark-agent-runtime.json": "7928010113ca20fdbd8b2f835c47449ee7d3d9cb5dc6941bdb9af9f17191b105",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/agent/benchmark-agent-tool-runtime.json": "fa6d9b474469435017e53572912c88cba2f1fdf8dd0758d630f0ffcaa72a0334",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/agent/mini-swe-agent.trajectory.json": "d8736a4563c27e55bf0d39ba641ca8913ec8c264cfe8f9249020463e5cebf021",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/agent/mini-swe-agent.txt": "9aff4c2014636cb5e601846da76893858f9b9c9e1d1a95632c3817b1caf47168",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/agent/trajectory.json": "60477c9877b4b9ee7f8b57dbc1949d311aff3ab5e5e4cb7b4d9780f486569eff",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/benchmark-deadline.json": "db2bb636fcc461d0943fcbe57b4a67341876698a3503712c6e5eb50d8a65dc1d",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/benchmark-evidence.json": "b32a26e7db10a20b2b561ec8a602912add2b26647fc51fbb33db717417d7d0a9",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/benchmark-runtime.json": "42f0eb507a2c80a6f2720e2372a90077f2472f0a2db072d75bf85f239047d3dd",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/benchmark-snapshot.json": "305a7ac230dba7593824d0f72e135c4e3deb12487300f100d3aaded78625feae",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/config.json": "521ebb538181c2a75aa82ddd8fbc021dea7e8e0656dc97ae8b7ea393fc410ee4",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/result.json": "08c46acb8ababa7b32e7e78582cd15b058951d99c586d9ce9c827f5fc6929997",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/anti_cheat.json": "39eede6eac1d5635f1d80e30a37e1169fb3cca9f411868a8f2dfbc28157572f3",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/build.log": "dd83a8f17ef8352011fec347f0d05978a856a8c1d0a4cbad0563b3b29cdfa89e",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/ctest.log": "e4d254e9b1faf9560b99635eb4b9a02f2db5fd87aeec05da9ae3b9113de23f45",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/ctest.xml": "2b8570a298a02a35a42aa327fd3b742e51c03e13063e1df8c96e7c87fbf70c11",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/include_diff.patch": "bc6aa43715361f900add092b54e0a34f8ccf189b9958a3f38bb3b889bd1939a0",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/parity_result.json": "95a18dc9ad0c057392852da5bc1a0d27bdc09adb0564f615bfc025909c2ed687",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/registered_tests.txt": "98fe9702f909db716bafdbaece826dcc2e7c2bb36e871bbe9b07b8195c90c69b",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/score.json": "944977b64b4a750ac2edb6c0cf9266c6e9a0b34e5e07f52452811e30213b0d13",
+    "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/verifier/test-stdout.txt": "ffc1bc1a8208ff00d34725e99dddce438378514c554277639ffb104df73e07da"
+  },
+  "checks": {
+    "all_activity_within_agent_phase_and_deadline": true,
+    "cache_usage_matches": true,
+    "cleanup_precedes_verifier": true,
+    "cost_matches": true,
+    "evidence_recomputed_identically": true,
+    "guard_clean_quiescent": true,
+    "input_usage_matches": true,
+    "lock_task_digest_matches": true,
+    "native_atif_counts_match": true,
+    "native_atif_tool_calls_identical": true,
+    "no_harbor_exception": true,
+    "other_eight_groups_pass": true,
+    "output_usage_matches": true,
+    "pairwise_timestamps_within_1_microsecond": true,
+    "post_snapshot_matches": true,
+    "pre_snapshot_matches": true,
+    "raw_reward_agrees_with_failed_verifier": true,
+    "router_alive_after_run": true,
+    "single_expected_regression_crash": true,
+    "task_checksum_matches": true,
+    "timestamps_monotonic": true,
+    "tool_return_ids_match_calls": true,
+    "unique_tool_ids": true,
+    "usage_uncensored": true
+  },
+  "cleanup": {
+    "matching_container_names_now": [],
+    "quiescent": true,
+    "seconds_before_verifier": 15.75870656967163
+  },
+  "contract_review": {
+    "conclusion": "The failed regression is within the stated contract. No missing import/signature/hidden assertion requirement was observed. Unlike rs-zenoh, this is a runtime segmentation fault after successful compilation.",
+    "existing_regressions_explicitly_required": true,
+    "instruction_lines": [
+      8,
+      204,
+      205
+    ],
+    "instruction_path": "candidates_v2/cpp-zenoh-cpp-connectivity-api/instruction.md",
+    "instruction_sha256": "b54f7ff525a8a1695241aba3c4505b657d0304dac3064682b0e33d6372b80e72"
+  },
+  "diagnostic_classification": "unresolved_upstream_regression_runtime_crash",
+  "effort": "max",
+  "evidence_consistent": true,
+  "exception": null,
+  "model": "anthropic/claude-opus-5",
+  "observed_at_utc": "2026-09-14T01:07:37.597503+00:00",
+  "raw_bound_artifacts_unchanged": true,
+  "reproduction_outline": {
+    "environment": "Resolve and pin the existing task verifier image by immutable image ID, verify task/tests/library source hashes before the run; no dependency rebuild or hidden-source workaround.",
+    "interpretation": [
+      "A successful replay alone does not disprove the original crash or justify rewriting reward.",
+      "Crashes across unchanged valid baseline/failed source support test/dependency instability; a failure unique to the submission needs a concrete stack/source mechanism before assigning model causality."
+    ],
+    "model_calls": 0,
+    "priority": "Do not admit until root releases Burn oracle/nop validation priority. Use existing shared-capacity admission and claim cleanup.",
+    "raw_reward_handling": "Preserve reward 0 and all raw artifacts. Separate diagnostic outcomes only.",
+    "resources": {
+      "cpus": 4,
+      "ctest_per_test_timeout_sec": 300,
+      "memory_mb": 8192,
+      "network": "none; local loopback router only",
+      "outer_wallclock_sec": 1800
+    },
+    "source": "Exactly the 64 saved include files bound by saved_source_snapshot; no hidden-test or production-source edits.",
+    "status": "prepared_outline_only_not_launched",
+    "steps": [
+      "In a fresh separate diagnostic container, overlay exact saved include tree on verifier pristine headers/tests using the existing test.sh copy/configure/build steps. Rehash all 64 headers after copy/build.",
+      "Start the same zenohd 1.8.0 loopback router with multicast/gossip disabled, and invoke the existing wrapper/CTest target unchanged.",
+      "Run a bounded matrix: the failed target alone three times, then the preceding CTest tests 1 through 10 once to reproduce prior suite ordering. Record each exit, duration, stdout, router state and any core/debugger backtrace separately.",
+      "Repeat that matrix against the clean passing iNXNSXx header snapshot only if the saved-source run reproduces or attribution remains unresolved, within one shared claim and the same total bound.",
+      "If a segmentation fault recurs, capture a separate debugger run/backtrace of the exact binary with unchanged libraries; a debugger run is diagnostic and cannot replace the ordinary result.",
+      "Remove all exact diagnostic containers, prove absence, and release the shared claim only after quiescence. Compare input hashes after completion; source drift invalidates diagnostic."
+    ]
+  },
+  "reward": 0,
+  "saved_source_snapshot": {
+    "entries": {
+      "artifacts/submission/include": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh.hxx": {
+        "kind": "file",
+        "sha256": "4790b852bda3c41bf628edb1ed3705dfb3dfcfa615dbb55e854e984c8d1dfb43",
+        "size": 642
+      },
+      "artifacts/submission/include/zenoh/api": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api.hxx": {
+        "kind": "file",
+        "sha256": "77fddad598ebc01550b1e37bab06d0ad7d388ba508b44ebfe1b284a56c99272c",
+        "size": 1660
+      },
+      "artifacts/submission/include/zenoh/api/base.hxx": {
+        "kind": "file",
+        "sha256": "7ed37ba15a699e6d974c287b30b8ffb00b9dd082852843d1295acf1131c770a0",
+        "size": 3074
+      },
+      "artifacts/submission/include/zenoh/api/bytes.hxx": {
+        "kind": "file",
+        "sha256": "cad9c4cf6374b3f5fa90c530571c1a17a1734824ec92d7a0c32268dabf7a8de5",
+        "size": 14439
+      },
+      "artifacts/submission/include/zenoh/api/cancellation.hxx": {
+        "kind": "file",
+        "sha256": "e233030adf3f0bddab5c684b20240a5e6afcf8d4a2bef62e169ed134afa2aceb",
+        "size": 2464
+      },
+      "artifacts/submission/include/zenoh/api/channels.hxx": {
+        "kind": "file",
+        "sha256": "4d33211b785c0b719e888417bab603a4ecfd0224f99a0a13b71396f6680b16c5",
+        "size": 8856
+      },
+      "artifacts/submission/include/zenoh/api/closures.hxx": {
+        "kind": "file",
+        "sha256": "3f17617347822037e3ebeadc550a6d7f39f442a431f5b556b8bc827ed3d66aaf",
+        "size": 663
+      },
+      "artifacts/submission/include/zenoh/api/config.hxx": {
+        "kind": "file",
+        "sha256": "f32e4ef956bfbf365c5d5adc2abed632e4e2878fdbb1d71a6011b9c8fd7f4600",
+        "size": 6957
+      },
+      "artifacts/submission/include/zenoh/api/connectivity.hxx": {
+        "kind": "file",
+        "sha256": "e7906d6affaa2de4a6baf1ab533d0065b5ada20ee7b7a2d5260d1415dbabb1c7",
+        "size": 30317
+      },
+      "artifacts/submission/include/zenoh/api/encoding.hxx": {
+        "kind": "file",
+        "sha256": "a0995b5742f5093582e4b387da1a52d65bc2bc04cb9204a0c2a1b9006c33dda9",
+        "size": 17331
+      },
+      "artifacts/submission/include/zenoh/api/enums.hxx": {
+        "kind": "file",
+        "sha256": "e901f970f376e7c264e3d5c0974311885995d5d80f100421417d13b3723bfeca",
+        "size": 5468
+      },
+      "artifacts/submission/include/zenoh/api/ext": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/ext/advanced_publisher.hxx": {
+        "kind": "file",
+        "sha256": "3b5afed821804a81c48e22daa3726a7df5c15e7576bd26355da083c2fb55f45d",
+        "size": 12443
+      },
+      "artifacts/submission/include/zenoh/api/ext/advanced_subscriber.hxx": {
+        "kind": "file",
+        "sha256": "73784ced87b5ff0a63fcbc5e5f8edc91355a0b470faed564fd1f958956502c0b",
+        "size": 18613
+      },
+      "artifacts/submission/include/zenoh/api/ext/miss.hxx": {
+        "kind": "file",
+        "sha256": "2310fdd433f022ae3014d08692faa68394d3207235ed2620e1ff779b55507942",
+        "size": 6944
+      },
+      "artifacts/submission/include/zenoh/api/ext/publication_cache.hxx": {
+        "kind": "file",
+        "sha256": "7a4ba7ec47aab5fef39df290897eb90ba80d886a48490e6c0a27ac85a0f1f321",
+        "size": 1907
+      },
+      "artifacts/submission/include/zenoh/api/ext/querying_subscriber.hxx": {
+        "kind": "file",
+        "sha256": "f39e64534c5fc4f0528470c8a0b6e3aaa664411748b77102d7bef4c038dffac5",
+        "size": 9034
+      },
+      "artifacts/submission/include/zenoh/api/ext/serialization.hxx": {
+        "kind": "file",
+        "sha256": "1636632c4f343c1b80e38bf7ca95fbed97acfab907f52b710ce0ed5180722d7b",
+        "size": 18416
+      },
+      "artifacts/submission/include/zenoh/api/ext/session_ext.hxx": {
+        "kind": "file",
+        "sha256": "fc2094606f51f6ff4520121328194cc6ac3826f6975b5fa31fb00774bb2dffe3",
+        "size": 35136
+      },
+      "artifacts/submission/include/zenoh/api/hello.hxx": {
+        "kind": "file",
+        "sha256": "4f94ef93707ed015a980dc98b6d0799e4178030f5683ee249a8dc20d289a6f31",
+        "size": 2671
+      },
+      "artifacts/submission/include/zenoh/api/id.hxx": {
+        "kind": "file",
+        "sha256": "5e3f01c7dbda9b819c025817618241dab3ceca8a1934fd874d2cf225a181a645",
+        "size": 2175
+      },
+      "artifacts/submission/include/zenoh/api/interop.hxx": {
+        "kind": "file",
+        "sha256": "3c22fc2082098e1cc1ad489004966537f1adc36da939d798fb92a624ad2fbef5",
+        "size": 9995
+      },
+      "artifacts/submission/include/zenoh/api/keyexpr.hxx": {
+        "kind": "file",
+        "sha256": "8a06fc2db7349c44143117604b681d6b95c7491529e682f3d5b69c28aa44fce1",
+        "size": 10415
+      },
+      "artifacts/submission/include/zenoh/api/liveliness.hxx": {
+        "kind": "file",
+        "sha256": "616446cbb6f65233355c789dc317accb454d1e7b8522a140c6efda4a9fc86787",
+        "size": 1652
+      },
+      "artifacts/submission/include/zenoh/api/logging.hxx": {
+        "kind": "file",
+        "sha256": "2f81845b158b5a908c87750941bd0b9e6924b790e012ece27b665cead3cc8f96",
+        "size": 1733
+      },
+      "artifacts/submission/include/zenoh/api/matching.hxx": {
+        "kind": "file",
+        "sha256": "d5f7e8a534670a31d366733a680c1c7cd5ecb2a279a0d0260295bca247dd0225",
+        "size": 6311
+      },
+      "artifacts/submission/include/zenoh/api/publisher.hxx": {
+        "kind": "file",
+        "sha256": "1f52243d5f3a65cc1cabe5da7c3de56915fa29bb95723a97f4c49c0d6238ee0d",
+        "size": 12162
+      },
+      "artifacts/submission/include/zenoh/api/querier.hxx": {
+        "kind": "file",
+        "sha256": "fba68e5eaba5b0b495197e59336cff07e2fac7b17b51caf32cd1d6a6b40d92da",
+        "size": 13699
+      },
+      "artifacts/submission/include/zenoh/api/query.hxx": {
+        "kind": "file",
+        "sha256": "ad9eb9d75a355fc47c13f4f64d1f7a4931540f2b1fc89f361d603a0ccefca1eb",
+        "size": 11210
+      },
+      "artifacts/submission/include/zenoh/api/query_consolidation.hxx": {
+        "kind": "file",
+        "sha256": "8c8b7b1a41a81cba85fa0e325366dc29dc64144922502cd9c7c89204b6ded308",
+        "size": 1838
+      },
+      "artifacts/submission/include/zenoh/api/queryable.hxx": {
+        "kind": "file",
+        "sha256": "a409ce40f0626b05ead5a4faacee298db8f21f5f75607a57e8381de09c691b1b",
+        "size": 6948
+      },
+      "artifacts/submission/include/zenoh/api/reply.hxx": {
+        "kind": "file",
+        "sha256": "f368d5c1bb81e5e33f4c2289f5c76ae69c29f30d025e7f51dd207afa28749c21",
+        "size": 5127
+      },
+      "artifacts/submission/include/zenoh/api/sample.hxx": {
+        "kind": "file",
+        "sha256": "c3a33815345cfa1d181446c1f4b4b4768333b92cccec5514bf4cfe3008210c94",
+        "size": 4873
+      },
+      "artifacts/submission/include/zenoh/api/scout.hxx": {
+        "kind": "file",
+        "sha256": "6a863108d358c15ddafc5de12e9a1ba17ad94533b5fe88ad7bc7d8b955388b09",
+        "size": 2086
+      },
+      "artifacts/submission/include/zenoh/api/session.hxx": {
+        "kind": "file",
+        "sha256": "a151257b80b37d2b081b493f453d46f493667656c20606f6e43a02fa65bb82a6",
+        "size": 90438
+      },
+      "artifacts/submission/include/zenoh/api/shm": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/buffer": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/buffer/buffer.hxx": {
+        "kind": "file",
+        "sha256": "df7872d70e13c95f6c758c72918854d546d4af954773cf1d3dbaac2039adf8c5",
+        "size": 522
+      },
+      "artifacts/submission/include/zenoh/api/shm/buffer/zshm.hxx": {
+        "kind": "file",
+        "sha256": "c6ffb030f32ca82b8115a0f0e7dffd302890e69a8f7b489dace9fd2862567f2b",
+        "size": 2924
+      },
+      "artifacts/submission/include/zenoh/api/shm/buffer/zshmmut.hxx": {
+        "kind": "file",
+        "sha256": "89343d95706acdf049764fac71c5ed8284bae7a174bd8087770622814f1c8392",
+        "size": 1337
+      },
+      "artifacts/submission/include/zenoh/api/shm/cleanup.hxx": {
+        "kind": "file",
+        "sha256": "68b754c8caf3b370796ac5b8f76b93d99aed3912d71d7d878b4f50f9d26a1e01",
+        "size": 1630
+      },
+      "artifacts/submission/include/zenoh/api/shm/client": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/client/client.hxx": {
+        "kind": "file",
+        "sha256": "416a5fe53ae9aaf8282add962fa853e6d17723817b2bfbe53425892c5cf554c0",
+        "size": 532
+      },
+      "artifacts/submission/include/zenoh/api/shm/client/shm_client.hxx": {
+        "kind": "file",
+        "sha256": "3e432f1bdcdadb56fd7879a8b7c9e0dd3c7ac59b2b0a23d2947f4f09c264ceff",
+        "size": 2705
+      },
+      "artifacts/submission/include/zenoh/api/shm/client/shm_segment.hxx": {
+        "kind": "file",
+        "sha256": "c7455b8c2bc8f054af422147a5fb1f14d7e9b0a5a79762b5e3b2146ee8a81d2f",
+        "size": 1236
+      },
+      "artifacts/submission/include/zenoh/api/shm/client_storage": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/client_storage/client_storage.hxx": {
+        "kind": "file",
+        "sha256": "28889067e40948c2ef0a1bf14f9807abf911525b48616fe60fbdc8895cb9b082",
+        "size": 4315
+      },
+      "artifacts/submission/include/zenoh/api/shm/common": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/common/common.hxx": {
+        "kind": "file",
+        "sha256": "093ff7e08c7cfbb5bfa229e4c2d1252a90e6c1c7041da0ca1af1cd52c6a2a6d8",
+        "size": 500
+      },
+      "artifacts/submission/include/zenoh/api/shm/common/types.hxx": {
+        "kind": "file",
+        "sha256": "d9d9f6c06ec97fe42e0b871ee608f196a109878c43996843960c390ae95deaf8",
+        "size": 892
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations/posix": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations/posix/posix.hxx": {
+        "kind": "file",
+        "sha256": "3b059b0a120c7e4286af410e059103cb919a8bc51e30af2b55aeaae5e6bacf25",
+        "size": 546
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations/posix/posix_shm_client.hxx": {
+        "kind": "file",
+        "sha256": "603387bbc6bef31be23955342d5f9797817f0656c9374fd05387531b097fd2ed",
+        "size": 976
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations/posix/posix_shm_provider.hxx": {
+        "kind": "file",
+        "sha256": "f68dd43591275305afd759607111906eb0f2220994ef49669438cc92aae02484",
+        "size": 2043
+      },
+      "artifacts/submission/include/zenoh/api/shm/protocol_implementations/protocol_implementations.hxx": {
+        "kind": "file",
+        "sha256": "78214d3f260c7975c92d3debf07b7bf9ca71f2e2f6e7b17356c5a55a77ade77b",
+        "size": 506
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/chunk.hxx": {
+        "kind": "file",
+        "sha256": "28c9e4e427c2fe7b26a979cd77ab85498078aeaa40306958886819d46b81ef5d",
+        "size": 915
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/precomputed_layout.hxx": {
+        "kind": "file",
+        "sha256": "d26bcee6fda96a451827e45219057e57071b02234a46dfa1b7495d1270cc3170",
+        "size": 4063
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/provider.hxx": {
+        "kind": "file",
+        "sha256": "4edfaad3b915c3ae0a28cd13f3d6fe98797f719eb78c0f61f7d36d26661f4999",
+        "size": 620
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/shm_provider.hxx": {
+        "kind": "file",
+        "sha256": "72be816261579ed1f20ce65fa9d180aee5071a212eb47b1bf770783d792ab212",
+        "size": 11356
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/shm_provider_backend.hxx": {
+        "kind": "file",
+        "sha256": "9b98677771a470c7d9779926016086426bd18fd2830e1e6cb16d83c62926290f",
+        "size": 2678
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/types.hxx": {
+        "kind": "file",
+        "sha256": "67828b13fcab9f87469063dbda9fcc0455c606166fa11ffd677036e01d435055",
+        "size": 4081
+      },
+      "artifacts/submission/include/zenoh/api/shm/provider/types_impl.hxx": {
+        "kind": "file",
+        "sha256": "e06685c37c33c87f6c15ffaa7eb3d8ed554d196fdc2a6efdd5ba5385fef8f9b9",
+        "size": 1595
+      },
+      "artifacts/submission/include/zenoh/api/shm/shm.hxx": {
+        "kind": "file",
+        "sha256": "f9d9bc7e15316470bc1493aa41232287e938a547540068eebe0e3d72bfaa100a",
+        "size": 910
+      },
+      "artifacts/submission/include/zenoh/api/source_info.hxx": {
+        "kind": "file",
+        "sha256": "d16b7b579c3abd32160aefd2ff112fd296b33d89d293c30d1d5e123ad6cd3d48",
+        "size": 2375
+      },
+      "artifacts/submission/include/zenoh/api/subscriber.hxx": {
+        "kind": "file",
+        "sha256": "b907c7ad3a73546d7404c6784a0a1f60ef75116a876a046b616cd3fd98163970",
+        "size": 6993
+      },
+      "artifacts/submission/include/zenoh/api/timestamp.hxx": {
+        "kind": "file",
+        "sha256": "4db6b9962e57cc0a5943c47b6f909e3ada6551f98c7c08053df456d6c4fa182a",
+        "size": 1248
+      },
+      "artifacts/submission/include/zenoh/detail": {
+        "kind": "directory"
+      },
+      "artifacts/submission/include/zenoh/detail/availability_checks.hxx": {
+        "kind": "file",
+        "sha256": "e88de79cf2478d69ddab950996a901dc78a7b524ff607513ea94e8395b60e3ee",
+        "size": 1791
+      },
+      "artifacts/submission/include/zenoh/detail/closures.hxx": {
+        "kind": "file",
+        "sha256": "6550177b30c4be8a67d46acf9931b7a3ffe5b822eedcbf4a6d56e81a89f8cdb0",
+        "size": 2591
+      },
+      "artifacts/submission/include/zenoh/detail/closures_concrete.hxx": {
+        "kind": "file",
+        "sha256": "017195f1b4b19ae75e28a9b32b6a7bc187f46c78ba995784eda3196e12f9aee8",
+        "size": 1946
+      },
+      "artifacts/submission/include/zenoh/detail/commons.hxx": {
+        "kind": "file",
+        "sha256": "a19a6fe2e79a3e4fc6c1770ea1a134cb037578b359d60ffe1c99b2b811ec99a5",
+        "size": 1885
+      },
+      "artifacts/submission/include/zenoh/zenohc.hxx": {
+        "kind": "file",
+        "sha256": "7081314f17b5c3599003bacc0f3ba227191c965a03ea4d8c0ac67bf35f4fc50e",
+        "size": 465
+      }
+    },
+    "hash_algorithm": "sha256",
+    "paths": [
+      "artifacts/submission/include"
+    ],
+    "schema_version": 1,
+    "sha256": "25d482888f930b069737de68d89c3b68fee301170c06bca6b46a76b84146e70f"
+  },
+  "schema_version": 1,
+  "scope": "Read-only audit; no model calls, regrade, live-control edits, diagnostic container launch, signals, or raw reward/classification mutation.",
+  "snapshots": {
+    "post_file_count": 89,
+    "post_result": {
+      "changed_paths": [],
+      "expected_sha256": "540b664b6cf20b307b8b1c1a2907814327f9bcbc285b0660f02480f131780aa2",
+      "matches": true,
+      "observed_sha256": "540b664b6cf20b307b8b1c1a2907814327f9bcbc285b0660f02480f131780aa2"
+    },
+    "pre_file_count": 71,
+    "pre_verifier": {
+      "changed_paths": [],
+      "expected_sha256": "c576774a51c8c9b212f1c678aead5b9b028e359a4f7ebe840df9edccc3ed8ee0",
+      "matches": true,
+      "observed_sha256": "c576774a51c8c9b212f1c678aead5b9b028e359a4f7ebe840df9edccc3ed8ee0"
+    }
+  },
+  "source_review": {
+    "agent_prior_local_run": {
+      "advanced_pub_sub_exit_zero_present": true,
+      "native_row_index": 215,
+      "qualification": "Agent-side contextual run, not a hash-bound replay of the final saved headers under verifier conditions.",
+      "timestamp_epoch": 1789346847.1612546,
+      "tool_returncode": 0
+    },
+    "clean_passing_comparison": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx",
+    "comparison_bound_artifacts": {
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api.hxx": "ca3326c9d37a8f28a430edaef8a42edaeb71979ee1f07ec5d10761393cfe59e1",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/connectivity.hxx": "6d7d73cd657779270ee3289db429bc148814994bd372147a10646fd2a7de25c1",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/ext/advanced_subscriber.hxx": "10df7d7b6e821d4d9527c9e1797d90a99c4fbcd7dc0df2aed9a03bae0f2bb943",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/ext/miss.hxx": "3697702f3d8f7d1eb0156f4ae8d80de06e385cde86ae335a5ce0a7905105c9f6",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/ext/querying_subscriber.hxx": "6a82881873f76f97afd023ecfff067076298a9835ccadea84d00357da188097b",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/matching.hxx": "ac2e3e20d2c0d026f441d7a7e58d56fff167d48f02898a3173316e32a1d001ca",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/queryable.hxx": "6610eb68699f5943db143f60186c61dde68ed7b3882a67a3561507048472924b",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/session.hxx": "c5be79efe10da112ab522559d770778f81d61b1e9dba91ae4f6d25e35b84a612",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/artifacts/submission/include/zenoh/api/subscriber.hxx": "a85f166b613ed0f5e1a54896526efce36be8b0e79b73c67c14580e5a88f8c682",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/result.json": "b0e371bed028daaa78f45c9b6864723d267eb61521516d2f2fe01464d4e71780",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__iNXNSXx/verifier/score.json": "96d7faefe6e162b358ce1fc28663e908efc6fec836112e8dca169e75ffd56e2b"
+    },
+    "comparison_exception": null,
+    "comparison_failed_regression_passed": true,
+    "comparison_reward": 1.0,
+    "current_bound_headers": {
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api.hxx": "77fddad598ebc01550b1e37bab06d0ad7d388ba508b44ebfe1b284a56c99272c",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/connectivity.hxx": "e7906d6affaa2de4a6baf1ab533d0065b5ada20ee7b7a2d5260d1415dbabb1c7",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/ext/advanced_subscriber.hxx": "73784ced87b5ff0a63fcbc5e5f8edc91355a0b470faed564fd1f958956502c0b",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/ext/miss.hxx": "2310fdd433f022ae3014d08692faa68394d3207235ed2620e1ff779b55507942",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/ext/querying_subscriber.hxx": "f39e64534c5fc4f0528470c8a0b6e3aaa664411748b77102d7bef4c038dffac5",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/matching.hxx": "d5f7e8a534670a31d366733a680c1c7cd5ecb2a279a0d0260295bca247dd0225",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/queryable.hxx": "a409ce40f0626b05ead5a4faacee298db8f21f5f75607a57e8381de09c691b1b",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/session.hxx": "a151257b80b37d2b081b493f453d46f493667656c20606f6e43a02fa65bb82a6",
+      "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy/artifacts/submission/include/zenoh/api/subscriber.hxx": "b907c7ad3a73546d7404c6784a0a1f60ef75116a876a046b616cd3fd98163970"
+    },
+    "failed_test_archive": "candidates_v2/cpp-zenoh-cpp-connectivity-api/tests/upstream.tar.gz",
+    "failed_test_archive_sha256": "f79b45acc02a426286526f817138116e48c691c50ed083ccd5279efea02f367e",
+    "failed_test_member": "./tests/universal/network/advanced_pub_sub.cxx",
+    "failed_test_source_sha256": "e807539facbca5646848be2828176019554d5bd149ef9c7ec73c7b3fe51b81a9",
+    "findings": [
+      "All six legacy entity-header differences versus clean Opus/high pass are equivalent branch ordering for the required optional pointer fix.",
+      "Current Session diff from pristine contains an include and a block of new connectivity methods/options; existing session lifecycle methods and data layout are not edited.",
+      "The failed upstream test calls advanced publisher/subscriber APIs and does not invoke the added connectivity methods.",
+      "New connectivity helpers are scoped to the new connectivity/event/listener types; no global macro override or changed existing lifecycle implementation identified in this bounded review.",
+      "These observations do not prove the crash is unrelated to the submission; a controlled saved-source reproduction is required to attribute it."
+    ],
+    "legacy_header_diffs": {
+      "zenoh/api/ext/advanced_subscriber.hxx": "--- \n\n+++ \n\n@@ -310,6 +310,6 @@\n\n auto as_moved_c_ptr(std::optional<zenoh::ext::AdvancedSubscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {\n-    if (!s.has_value()) {\n+    if (s.has_value()) {\n+        return as_moved_c_ptr(s.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(s.value());\n     }",
+      "zenoh/api/ext/miss.hxx": "--- \n\n+++ \n\n@@ -147,6 +147,6 @@\n\n auto as_moved_c_ptr(std::optional<zenoh::ext::SampleMissListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {\n-    if (!m.has_value()) {\n+    if (m.has_value()) {\n+        return as_moved_c_ptr(m.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(m.value());\n     }",
+      "zenoh/api/ext/querying_subscriber.hxx": "--- \n\n+++ \n\n@@ -176,6 +176,6 @@\n\n auto as_moved_c_ptr(std::optional<zenoh::ext::QueryingSubscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {\n-    if (!s.has_value()) {\n+    if (s.has_value()) {\n+        return as_moved_c_ptr(s.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(s.value());\n     }",
+      "zenoh/api/matching.hxx": "--- \n\n+++ \n\n@@ -136,6 +136,6 @@\n\n auto as_moved_c_ptr(std::optional<MatchingListener<Handler>>& m) -> decltype(as_moved_c_ptr(m.value())) {\n-    if (!m.has_value()) {\n+    if (m.has_value()) {\n+        return as_moved_c_ptr(m.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(m.value());\n     }",
+      "zenoh/api/queryable.hxx": "--- \n\n+++ \n\n@@ -152,6 +152,6 @@\n\n auto as_moved_c_ptr(std::optional<Queryable<Handler>>& q) -> decltype(as_moved_c_ptr(q.value())) {\n-    if (!q.has_value()) {\n+    if (q.has_value()) {\n+        return as_moved_c_ptr(q.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(q.value());\n     }",
+      "zenoh/api/subscriber.hxx": "--- \n\n+++ \n\n@@ -152,6 +152,6 @@\n\n auto as_moved_c_ptr(std::optional<Subscriber<Handler>>& s) -> decltype(as_moved_c_ptr(s.value())) {\n-    if (!s.has_value()) {\n+    if (s.has_value()) {\n+        return as_moved_c_ptr(s.value());\n+    } else {\n         return {};\n-    } else {\n-        return as_moved_c_ptr(s.value());\n     }"
+    }
+  },
+  "supplied_files_preserved": {
+    "checked": 36,
+    "mismatches": []
+  },
+  "task_identity": {
+    "checksum": "334fd9a44f0bfdd2b6080101c3afb6e3b2bf59b596d721f30368cd145cfae863",
+    "matching_locked_configs": 20,
+    "packager_digest": "b22af2f1d44a5b722b9c8d7909dfc59a0521faf6e26e0d824f84052dedf5968c",
+    "path": "candidates_v2/cpp-zenoh-cpp-connectivity-api"
+  },
+  "trajectory": {
+    "atif_agent_steps": 134,
+    "cost_usd": 16.4336425,
+    "native_assistant_turns": 134,
+    "tool_calls": 148,
+    "tool_returns": 148,
+    "usage_censored": false,
+    "usage_totals": {
+      "cache_creation_input_tokens": 283314,
+      "cache_read_input_tokens": 24361480,
+      "completion_tokens": 99234,
+      "prompt_tokens": 24645062,
+      "total_tokens": 24744296
+    }
+  },
+  "trial": "jobs/candidates-all14-efforts-20-20260913T183301Z/cpp-zenoh-cpp-connectivity-api__4gQVPQy",
+  "verifier": {
+    "ctest_exit_code": 8,
+    "failed_tests": [
+      {
+        "has_failure": true,
+        "name": "test_advanced_pub_sub_zenohpico",
+        "output": "------------------ Running test /work/repo/build/tests/advanced_pub_sub_zenohpico (router tcp/127.0.0.1:27447) -------------------\n",
+        "status": "fail",
+        "time_sec": 13.3594
+      }
+    ],
+    "groups": {
+      "anti_cheat": {
+        "ok": true
+      },
+      "authored": {
+        "expected": 1,
+        "ok": true,
+        "passed": 1
+      },
+      "build": {
+        "ok": true
+      },
+      "parity": {
+        "ok": true
+      },
+      "pr_tests": {
+        "expected": 2,
+        "ok": true,
+        "passed": 2
+      },
+      "registered_tests": {
+        "ok": true
+      },
+      "regression_zenohc": {
+        "expected": 14,
+        "ok": true,
+        "passed": 14
+      },
+      "regression_zenohpico": {
+        "expected": 15,
+        "ok": false,
+        "passed": 14
+      },
+      "router": {
+        "alive_after_run": true,
+        "ok": true
+      }
+    },
+    "no_failure_stack_or_assertion_in_retained_logs": true,
+    "parity_checks_passed": 42,
+    "pr_subtests": {
+      "test_connectivity_zenohc": {
+        "all_passed_line": true,
+        "ok": true,
+        "passes": 10,
+        "sub_tests": 10
+      },
+      "test_connectivity_zenohpico": {
+        "all_passed_line": true,
+        "ok": true,
+        "passes": 10,
+        "sub_tests": 10
+      }
+    },
+    "tests_passed": 31,
+    "tests_reported": 32
+  }
+}
