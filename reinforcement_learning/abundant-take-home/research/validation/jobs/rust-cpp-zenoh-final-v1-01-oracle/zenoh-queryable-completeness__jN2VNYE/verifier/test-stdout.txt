@@ -1,0 +1,41 @@
+   Compiling bytes v1.12.1
+   Compiling zenoh v1.10.1 (/workspace/repo/zenoh)
+   Compiling tokio v1.53.1
+   Compiling zenoh-runtime v1.10.1 (/workspace/repo/commons/zenoh-runtime)
+   Compiling zenoh-core v1.10.1 (/workspace/repo/commons/zenoh-core)
+   Compiling zenoh-util v1.10.1 (/workspace/repo/commons/zenoh-util)
+   Compiling tokio-util v0.7.19
+   Compiling zenoh-config v1.10.1 (/workspace/repo/commons/zenoh-config)
+   Compiling zenoh-link-commons v1.10.1 (/workspace/repo/io/zenoh-link-commons)
+   Compiling zenoh-task v1.10.1 (/workspace/repo/commons/zenoh-task)
+   Compiling zenoh-sync v1.10.1 (/workspace/repo/commons/zenoh-sync)
+   Compiling zenoh-link-tcp v1.10.1 (/workspace/repo/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link v1.10.1 (/workspace/repo/io/zenoh-link)
+   Compiling zenoh-transport v1.10.1 (/workspace/repo/io/zenoh-transport)
+   Compiling zenoh-plugin-trait v1.10.1 (/workspace/repo/plugins/zenoh-plugin-trait)
+   Compiling zenoh-task-check v0.1.0 (/opt/check)
+    Finished `test` profile [unoptimized] target(s) in 18.71s
+     Running tests/completeness.rs (/opt/target/debug/deps/completeness-0eb9a99828171df7)
+
+running 6 tests
+test complete_then_incomplete ... ok
+test homogeneous_and_empty_controls ... ok
+test incomplete_churn_preserves_complete_siblings ... ok
+test incomplete_then_complete ... ok
+test undeclare_and_redeclare_complete_queryables ... ok
+test wildcard_same_expression_and_unrelated_key ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.10s
+
+
+   Compiling zenoh-task-check v0.1.0 (/opt/check)
+    Finished `test` profile [unoptimized] target(s) in 3.48s
+     Running /workspace/repo/zenoh/tests/queryable.rs (/opt/target/debug/deps/upstream_queryable-9b77f142d158a36d)
+
+running 1 test
+test test_queryable_same_session ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 1.56s
+
+
+{"reward": 1, "clean_exit_code": 0, "checks": [{"check": "completeness", "exit_code": 0, "seconds": 21.864000883993867, "expected_tests": ["complete_then_incomplete", "homogeneous_and_empty_controls", "incomplete_churn_preserves_complete_siblings", "incomplete_then_complete", "undeclare_and_redeclare_complete_queryables", "wildcard_same_expression_and_unrelated_key"], "observed_tests": {"complete_then_incomplete": "ok", "homogeneous_and_empty_controls": "ok", "incomplete_churn_preserves_complete_siblings": "ok", "incomplete_then_complete": "ok", "undeclare_and_redeclare_complete_queryables": "ok", "wildcard_same_expression_and_unrelated_key": "ok"}, "passed": true}, {"check": "upstream_queryable", "exit_code": 0, "seconds": 5.090839877993858, "expected_tests": ["test_queryable_same_session"], "observed_tests": {"test_queryable_same_session": "ok"}, "passed": true}]}

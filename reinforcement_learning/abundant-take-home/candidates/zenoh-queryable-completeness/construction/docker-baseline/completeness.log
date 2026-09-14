@@ -1,0 +1,60 @@
+   Compiling bytes v1.12.1
+   Compiling zenoh v1.10.1 (/workspace/repo/zenoh)
+   Compiling tokio v1.53.1
+   Compiling zenoh-runtime v1.10.1 (/workspace/repo/commons/zenoh-runtime)
+   Compiling zenoh-core v1.10.1 (/workspace/repo/commons/zenoh-core)
+   Compiling zenoh-util v1.10.1 (/workspace/repo/commons/zenoh-util)
+   Compiling tokio-util v0.7.19
+   Compiling zenoh-config v1.10.1 (/workspace/repo/commons/zenoh-config)
+   Compiling zenoh-link-commons v1.10.1 (/workspace/repo/io/zenoh-link-commons)
+   Compiling zenoh-task v1.10.1 (/workspace/repo/commons/zenoh-task)
+   Compiling zenoh-sync v1.10.1 (/workspace/repo/commons/zenoh-sync)
+   Compiling zenoh-link-tcp v1.10.1 (/workspace/repo/io/zenoh-links/zenoh-link-tcp)
+   Compiling zenoh-link v1.10.1 (/workspace/repo/io/zenoh-link)
+   Compiling zenoh-transport v1.10.1 (/workspace/repo/io/zenoh-transport)
+   Compiling zenoh-plugin-trait v1.10.1 (/workspace/repo/plugins/zenoh-plugin-trait)
+   Compiling zenoh-task-check v0.1.0 (/opt/check)
+    Finished `test` profile [unoptimized] target(s) in 40.34s
+     Running tests/completeness.rs (/opt/target/debug/deps/completeness-0eb9a99828171df7)
+
+running 6 tests
+test complete_then_incomplete ... FAILED
+test homogeneous_and_empty_controls ... ok
+test incomplete_churn_preserves_complete_siblings ... FAILED
+test incomplete_then_complete ... ok
+test undeclare_and_redeclare_complete_queryables ... ok
+test wildcard_same_expression_and_unrelated_key ... FAILED
+
+failures:
+
+---- complete_then_incomplete stdout ----
+
+thread 'complete_then_incomplete' (281) panicked at tests/completeness.rs:59:5:
+assertion `left == right` failed: remote AllComplete at mixed/key
+  left: []
+ right: ["primary"]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- incomplete_churn_preserves_complete_siblings stdout ----
+
+thread 'incomplete_churn_preserves_complete_siblings' (297) panicked at tests/completeness.rs:59:5:
+assertion `left == right` failed: remote AllComplete at churn/key
+  left: []
+ right: ["complete-a", "complete-b"]
+
+---- wildcard_same_expression_and_unrelated_key stdout ----
+
+thread 'wildcard_same_expression_and_unrelated_key' (306) panicked at tests/completeness.rs:59:5:
+assertion `left == right` failed: remote AllComplete at wild/deep/value
+  left: []
+ right: ["authoritative"]
+
+
+failures:
+    complete_then_incomplete
+    incomplete_churn_preserves_complete_siblings
+    wildcard_same_expression_and_unrelated_key
+
+test result: FAILED. 3 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.30s
+
+error: test failed, to rerun pass `--test completeness`

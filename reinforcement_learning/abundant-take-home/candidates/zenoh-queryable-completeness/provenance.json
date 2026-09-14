@@ -1,0 +1,74 @@
+{
+  "upstream": {
+    "url": "https://github.com/eclipse-zenoh/zenoh",
+    "commit": "646f2d1b730e584a570015a77bee9f6db08be9d1",
+    "source_version": "1.10.1",
+    "commit_date": "2026-09-11T16:10:40+02:00",
+    "license": "EPL-2.0 OR Apache-2.0",
+    "archive_sha256": "5a42c7498d7d9566e9dabcb172d3e5a977350926315e54488d56cc6fdbb8980a"
+  },
+  "checked_at_utc": "2026-09-13T10:23:35.070555+00:00",
+  "sources": [
+    {
+      "url": "https://github.com/eclipse-zenoh/zenoh/issues/2614",
+      "role": "exact mixed-completeness defect report"
+    },
+    {
+      "url": "https://github.com/eclipse-zenoh/zenoh/issues/2614#issuecomment-4695686563",
+      "role": "authoritative RocksDB and eventual S3 shared-session workflow"
+    },
+    {
+      "url": "https://github.com/eclipse-zenoh/zenoh/issues/2614#issuecomment-4732383239",
+      "role": "maintainer-endorsed aggregation semantics"
+    },
+    {
+      "url": "https://github.com/eclipse-zenoh/zenoh/pull/2631",
+      "role": "reviewed adjacent opt-in upstream aggregation; not equivalent broker registration fix"
+    },
+    {
+      "url": "https://github.com/eclipse-zenoh/zenoh/pull/2660",
+      "role": "prior failover route invalidation fix already on main; reproduced defect remains"
+    }
+  ],
+  "contribution": "New bounded Harbor task, public behavior specification, protected public-API lifecycle verifier, pinned vendored build, reference broker aggregation repair. Task authoring is AI-assisted.",
+  "implementation_surface": [
+    "zenoh/src"
+  ],
+  "protected_surfaces": [
+    "Cargo manifests and lockfiles",
+    "build scripts outside zenoh/src",
+    "upstream tests outside zenoh/src",
+    "vendored dependencies",
+    "verifier harness and tests"
+  ],
+  "runtime": {
+    "toolchain": "1.97.1",
+    "image": "rust:1.97.1-slim-bookworm@sha256:2775a09d208ff0d7c1f50490c45b62db929e87ba1dcbc3f2132ac71a704bcdd3",
+    "cargo_lock_sha256": "7ed789930f5f4a5d61f47fa87d0e35ea234999dd0f21b385e1f88f3cc2bbcb5a",
+    "vendor_archive_sha256": "ad0cd6b6d6e1fa8eb4a0bcbcb0d48deebd17325befc46e241a6afc0fd8dcd20e",
+    "features": [
+      "transport_tcp",
+      "unstable"
+    ],
+    "build_jobs": 2,
+    "verifier_network": "no-network; container-local TCP loopback"
+  },
+  "public_solution_overlap": {
+    "finding": "No exact active public implementation found in bounded refreshed searches. Existing client/peer aggregation and merge_qabl_infos are legitimate prior art. Open northbound aggregation #2631 does not alter broker registration.",
+    "search_evidence": "../../research/rust-cpp-10-to-5/rerun-zenoh/sources/",
+    "coverage": "All 89 open PRs, 100 recent closed PRs, exact issue comments/timeline/search and additional targeted all-state queries checked September 13, 2026. Not proof about private/unreferenced work."
+  },
+  "difficulty": {
+    "metadata_label": "medium",
+    "horizon_hypothesis": "Natural scope is small broker aggregation plus lifecycle regression coverage. No asserted >75-step horizon.",
+    "measured_model_headroom": null,
+    "paid_model_trials": false
+  },
+  "validation": {
+    "state": "direct isolated Docker baseline=0 and solve.sh reference=1; six independent tests and one selected upstream regression",
+    "baseline_diagnostics": "construction/docker-baseline/diagnostics.json",
+    "oracle_diagnostics": "construction/docker-oracle/diagnostics.json",
+    "local_verifier_image": "sha256:f981efc10ad77bd68caa51d6669eb6ee5452c9a36a2a5398715ce67fa31d41c6",
+    "harbor_validation": "Coordinator must execute paired oracle/nop after freeze; no Harbor validation claimed."
+  }
+}

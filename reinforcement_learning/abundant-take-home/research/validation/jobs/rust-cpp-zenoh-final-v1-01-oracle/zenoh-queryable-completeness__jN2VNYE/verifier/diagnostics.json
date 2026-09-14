@@ -1,0 +1,40 @@
+{
+  "reward": 1,
+  "clean_exit_code": 0,
+  "checks": [
+    {
+      "check": "completeness",
+      "exit_code": 0,
+      "seconds": 21.864000883993867,
+      "expected_tests": [
+        "complete_then_incomplete",
+        "homogeneous_and_empty_controls",
+        "incomplete_churn_preserves_complete_siblings",
+        "incomplete_then_complete",
+        "undeclare_and_redeclare_complete_queryables",
+        "wildcard_same_expression_and_unrelated_key"
+      ],
+      "observed_tests": {
+        "complete_then_incomplete": "ok",
+        "homogeneous_and_empty_controls": "ok",
+        "incomplete_churn_preserves_complete_siblings": "ok",
+        "incomplete_then_complete": "ok",
+        "undeclare_and_redeclare_complete_queryables": "ok",
+        "wildcard_same_expression_and_unrelated_key": "ok"
+      },
+      "passed": true
+    },
+    {
+      "check": "upstream_queryable",
+      "exit_code": 0,
+      "seconds": 5.090839877993858,
+      "expected_tests": [
+        "test_queryable_same_session"
+      ],
+      "observed_tests": {
+        "test_queryable_same_session": "ok"
+      },
+      "passed": true
+    }
+  ]
+}

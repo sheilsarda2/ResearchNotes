@@ -1,0 +1,14 @@
+[package]
+name = "zenoh-task-check"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+zenoh = { path = "/workspace/repo/zenoh", default-features = false, features = ["transport_tcp", "unstable"] }
+zenoh-core = { path = "/workspace/repo/commons/zenoh-core" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+futures = "0.3"
+
+[[test]]
+name = "upstream_queryable"
+path = "/workspace/repo/zenoh/tests/queryable.rs"
