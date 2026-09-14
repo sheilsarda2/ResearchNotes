@@ -1,0 +1,23 @@
+{
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "--name",
+    "abundant-rerun-verifier-baseline",
+    "--network",
+    "none",
+    "--cpus=2",
+    "--memory=4g",
+    "-v",
+    "/Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/rerun-selected-time-export/construction/verifier-baseline-final:/logs/verifier",
+    "abundant-rerun-selected-time-verifier:v1",
+    "bash",
+    "-c",
+    "bash /tests/test.sh"
+  ],
+  "elapsed_seconds": 53.037239084,
+  "exit_code": 0,
+  "reward": 0,
+  "expected_reward": 0
+}

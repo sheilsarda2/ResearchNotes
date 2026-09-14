@@ -1,0 +1,56 @@
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1081:18
+     |
+1081 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+     = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+     = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1168:18
+     |
+1168 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1390:30
+     |
+1390 | ...                   .saturating_cast(),
+     |                        ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: `re_chunk_store` (lib) generated 3 warnings
+warning: a method with this name may be added to the standard library in the future
+   --> crates/store/re_entity_db/src/rrd_manifest_index/chunk_prioritizer.rs:263:56
+    |
+263 |             remaining_bytes_on_wire: max_bytes_on_wire.saturating_cast::<i64>(),
+    |                                                        ^^^^^^^^^^^^^^^
+    |
+    = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+    = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+    = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: `re_entity_db` (lib) generated 1 warning
+   Compiling re_entity_db v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_entity_db)
+error: linking with `cc` failed: exit status: 1
+  |
+  = note:  "cc" "-Wl,--fix-cortex-a53-843419" "/target/debug/deps/rustcNEjgGg/symbols.o" "<17 object files omitted>" "-Wl,--as-needed" "-Wl,-Bstatic" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libtest-*,libgetopts-*,librustc_std_workspace_std-*}.rlib" "/target/debug/deps/{libre_entity_db-eb30bf41c5e6a291,libpoll_promise-e8176200e9042e8c,libre_query-846f8025701f1860,libre_log_channel-294a231964a80ed2,libcamino-8f76e36ee6b4bc45,libre_uri-cac89af89d1da145,libre_chunk_store-9c8b15209525080f,libindent-058b47ed87b2d88d,libre_log_encoding-feff1e6b10bb8b10,libfutures-7bbea877999e67a6,libfutures_executor-7b70fdd76fbd2832,libsha2-35e17ed6a43c8120,libdigest-697ff25dd0c41d16,libblock_buffer-7c04bc31a9df02b6,libcrypto_common-ee3c68d080b077ec,libgeneric_array-86d827227ad8cefb,libre_protos-16b40d9dbae94abd,liblz4_flex-f667af0d06dc231c,libtwox_hash-189ea5a63eb97117,liburl-10278426d67dccfc,libidna-5b2aa74060489a03,libidna_adapter-38fd60baeb2b4bda,libicu_properties-19b664f2c2b13012,libicu_properties_data-c3a997b246b82c48,libicu_normalizer-26b0aa96b04a0703,libicu_normalizer_data-2fadcb7eb787781b,libicu_collections-faf7c8e59b8a8eea,libutf8_iter-c78fc7ed6dfc0d94,libpotential_utf-d044f4a34bfe0657,libicu_provider-3c53b23fadc49975,libicu_locale_core-488ed4bafcb06147,libtinystr-ee6f93044f4fbea0,liblitemap-5f3ac766c80b5588,libwriteable-898d4f684e8150b0,libzerovec-90d43d8c13324c5d,libzerotrie-17f9e97e0188e28e,libyoke-fd8128d1eb60ca76,libstable_deref_trait-43ed8417464962d3,libzerofrom-332beaaf2ceabf71,libform_urlencoded-9dddd5a25d54b533,libopentelemetry-bb4c4ac722d807b1,libtonic_reflection-498bd0dbf81e3766,libtonic_prost-96e590b8a4b671fb,libprost_types-3bbc039fc5a96589,libre_grpc_headers-da13dce259e22e31,libtonic-25846ebd1416673a,libhyper_timeout-1732881935fd6b63,libhyper_util-c24905bce66f5cdc,libhyper-f968a2ad2790f68d,libwant-ed7770f87fe300e9,libtry_lock-06fd47b6dfc0a1dc,libhttparse-03bea1dcff0747af,libh2-51a13db50c15e8be,libatomic_waker-aee7b9ba9b7c77cf,libhttpdate-b8d4ab441e6f5b77,libaxum-67d1cc260ee2e04f,libpercent_encoding-387cf33e23f70011,libmatchit-4e0d73cae0c3048a,libaxum_core-a51eabe5ebd9b702,libpin_project-049a7c7b482b74ce,libtokio_stream-64be22a057628521,libhttp_body_util-88f6ce3effd7c10b,libhttp_body-bca643dbace533d8,libtower-0c7730d7a4a8a802,libsync_wrapper-da26bdb4e39aae45,libtokio_util-ddd2d619e6821dfd,libfutures_util-88f6ff7f5df1011d,libfutures_io-e297c8741df9c171,libslab-2733fab7e01e211f,libfutures_channel-0bb820b60097e74c,libfutures_sink-0388b2724578641b,libfutures_task-f114d7af245b5e3f,libfutures_core-e3e7b15ba49bf8e5,libtower_service-8b122f386287a1b0,libtower_layer-5f436b67861671ce,libhttp-e7f477a80b3ceb23,libprost-8f67b87f295372fb,libre_async-a2f8ebab447331e9,libtokio-40c086f3f3d83d6a,libsocket2-ac5f01c47c637492,libmio-6c3686253a264fdb,libre_sdk_types-2fcc0cb2af19ab84,libinfer-561d4856b05d2957,libcfb-927a2c0b01ad7b09,libfnv-63c7d23a09db51ef,libmime_guess2-bb52955f25ada7c0,libunicase-bfe47934c199bfed,libmime-cf7d51bce0ea99b5,libarray_init-b7f13e02b93666d4,libndarray-ef48fc379b7e88d9,libmatrixmultiply-a7bf6af166a49b6f,librawpointer-f2b66a97258ccbff,libre_rvl-344b6dadc928bfc2,libply_rs_bw-3fc2ad527f008cc8,libpeg-917fbdd3e4315ba7,libpeg_runtime-9d8319e59cbc46ee,libre_mutex-a92e9fbbf7336516,libemath-91beb33ea6e2c479,libre_chunk-31d7544cd0345a55,libre_sorbet-21072f3e558c0ce1,libsemver-2f7bee5830a7c953,libstrum-87d521999e1eaa81,libre_quota_channel-bb7ee936661a8154,librand-13021cdbf1a73e04,librand_chacha-bdef0c45eb73cb41,libppv_lite86-8665b5e5a0fe277d,librand_core-7ef0cb054a59e77d,libre_log_types-279dda820b62dc21,libnatord-0418e05ebec5e640,libre_format-fd98a80c29f96611,libre_int-48da784a7f64ff67,libuuid-543d139b0c433c38,libgetrandom-c78f481ad5beba80,libxxhash_rust-24a7c94d1eefc7f6,libre_build_info-038e7b4932f2021a,libclean_path-9c7175f340b8becb,libjiff-e44dfc3d2701e1f0,libjiff_core-56147904d5edbb97,libfixed-2ea121dce69f6485,libtypenum-22787e9fc41cce01,libaz-97cc8689257fe9a9,libre_types_core-6529665f0b499501,libre_error-56da1d0ad0dd60a0,libre_case-a3352f7aa060aadb,libconvert_case-beea939c1a328b43,libre_string_interner-ad92a6bde8558059,libstatic_assertions-9378a5d232daf9e4,libre_arrow_util-f79bc8e6605bc7f0,libre_tracing-7db97286ab90c0e5,libpuffin-4e5e38e9f8bf553b,libitertools-41f0a866198980e9,libbyteorder-ab7d582dfa2cba97,libre_tuid-32aa40029af55c10,libquiver-5080765a40e18970,libquiver_types-c63c84b08994790b,libthiserror-acd5c86d567c2f12,libre_byte_size-51d8a3b7d736a183,libvec1-cc8b808ae5ef8961,libweb_time-3ef9ba6d77fd9204,libcomfy_table-ec732e0bc6379c52,libunicode_segmentation-ba6b09ce3d0939b2,libcrossterm-95e6052ce4a8e2bd,librustix-ffb0d59e83cb5309,liblinux_raw_sys-5d7d8767a0bdcb8a,libunicode_width-4a222bdd7df4e7a4,libanyhow-5dbd7777e751b160,libre_span-7cecff9113864231,libre_log-8f38baad06f4f86a,libparking_lot-9b7ae54321261738,libparking_lot_core-2e35afed4b884a9f,liblock_api-f1aa81e9adf49c0a,libscopeguard-c4fcf37babdcee1a,libtracing_subscriber-5c88c96cc7fa1868,libsmallvec-6a4da75ce8631468,libsharded_slab-b48b6a22dca00029,liblazy_static-085ff8b369c6b17e,libmatchers-1b3ddd5a0531d342,libnu_ansi_term-805c45aafdad5b3f,libtracing-b1b07bb0d4feca60,libpin_project_lite-8e4a26d48d099fe2,libthread_local-c52ca4083b2e336b,libtracing_log-426e86d65ad90d64,liblog-36dd9775655234e3,libtracing_core-e946880c9020b5f8,libcrossbeam-8ce33bfd1b3335c2,libcrossbeam_deque-22e869e09dff8d26,libcrossbeam_channel-e727366e5d310524,libcrossbeam_queue-88efc11a0af91b2c,libcrossbeam_epoch-99d6b9ad472332cd,libcrossbeam_utils-b6a210a5d80b0a66,libserde-68da37c5cf88469c,libnohash_hasher-088ce41ff1f8fd1d,libitertools-0f93bdf6fa38457a,libeither-f1f63d38ca0f601c,libarrow-16d76e8621f35e0b,libarrow_row-3b67c78eea00928a,libarrow_json-27feec057342282c,libsimdutf8-dfcec6339d3b043e,libserde_json-f3714ab5bacb27a6,libitoa-bf5643795585cfb3,libzmij-0daef99e4ac10b41,libindexmap-6cd79643dc067ecd,libequivalent-e863bc8abd7eb4d6,libserde_core-11aa98cd6cf964ba,libarrow_ipc-c7d369549da3fc3d,libflatbuffers-c80456edd5270b11,libarrow_string-d155d75860aeab52,libregex-918e5b1e1997b2f9,libregex_automata-18209de7b6edb73e,libaho_corasick-db75875eba2041b4,libregex_syntax-7d0c9c846ed5f73f,libmemchr-c8b4cf4fc3025c1a,libarrow_cast-c0fd42fc18639ca2,libatoi-71b576734370afae,libryu-9c99438443ba6451,libbase64-c6c3f836afe1acf0,liblexical_core-e80dd57c065ac6af,liblexical_write_float-3701803467f89ff2,liblexical_write_integer-cdb8ce4eb409e672,liblexical_parse_float-4d379f6da5cb8129,liblexical_parse_integer-f87f304a7b8c4625,liblexical_util-63e1cc4b196aa62b,libarrow_arith-f33f51451e1ec4ad,libarrow_ord-e9717a5559033a18,libarrow_select-c5582645ca923ec6,libarrow_array-f835e2917e09c1b7,libahash-1366676e84fbb682,libgetrandom-d6f9a89295e5e9e1,liblibc-15d3638c22f785f6,libonce_cell-6ee341c995c672e9,libhashbrown-32bc04e7d6109062,libnum_complex-967526679fb8feb9,libchrono-5ab08035b42fef6e,libiana_time_zone-2d58db24f84af435,libarrow_data-7cdc1b6db45f058a,libarrow_schema-32820f58225b0ed2,libbitflags-be0f39ba2b6dcc77,libarrow_buffer-a01abe4547702445,libbytes-588fcc9d3d9931fe,libhalf-48e992efe454c684,libcfg_if-a26d448c1cc5136c,libzerocopy-1acfc2f3e2d09bc0,libbytemuck-1574b92792aae7d5,libnum_bigint-15c641f9ea9b3c55,libnum_integer-c4fcf6b9e7d29ebc,libnum_traits-892cec673ce8c86f}.rlib" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib/{libstd-*,libpanic_unwind-*,libobject-*,libmemchr-*,libaddr2line-*,libgimli-*,libcfg_if-*,librustc_demangle-*,libstd_detect-*,libhashbrown-*,librustc_std_workspace_alloc-*,libminiz_oxide-*,libadler2-*,libunwind-*,liblibc-*,librustc_std_workspace_core-*,liballoc-*,libcore-*,libcompiler_builtins-*}.rlib" "-Wl,-Bdynamic" "-lgcc_s" "-lutil" "-lrt" "-lpthread" "-lm" "-ldl" "-lc" "-L" "/target/debug/deps/rustcNEjgGg/raw-dylibs" "-Wl,--eh-frame-hdr" "-Wl,-z,noexecstack" "-L" "<sysroot>/lib/rustlib/aarch64-unknown-linux-gnu/lib" "-o" "/target/debug/deps/selected_time_export-a52b9d7dd6057b69" "-Wl,--gc-sections" "-pie" "-Wl,-z,relro,-z,now" "-nodefaultlibs"
+  = note: some arguments are omitted. use `--verbose` to show all linker arguments
+  = note: collect2: fatal error: ld terminated with signal 9 [Killed]
+          compilation terminated.
+          
+
+error: could not compile `re_entity_db` (test "selected_time_export") due to 1 previous error

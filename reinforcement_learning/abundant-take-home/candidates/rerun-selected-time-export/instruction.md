@@ -1,0 +1,14 @@
+Rerun can export a selected time interval through `re_entity_db::EntityDb::to_messages(Some((timeline, range)))`. At present, a chunk with any overlap is exported in full. For example, a single chunk containing frame values `2,4,6,8,10` exported for `[4,7]` incorrectly includes all five rows. Repair this export boundary so the resulting recording contains exactly the selected rows.
+
+The repository is at `/workspace/repo`. Implement the following behavior while retaining the existing public API:
+
+- For a temporal chunk, retain a row exactly when its selected timeline value lies within the closed integer interval. Preserve the existing conversion of the floating selection to `floor(min)` and `ceil(max)`, including fractional and negative bounds. If a temporal chunk has no selected timeline, exclude it. Do not emit temporal chunks with no matching rows.
+- Handle sorted and unsorted timestamps, duplicate timestamps, both endpoints, point selections, gaps inside a chunk's time extent, and selections spanning multiple chunks and entities. Selection is based solely on the chosen timeline.
+- Retain each selected row's original row ID, entity, all timeline values, component descriptors, and component values. Preserve sparse null entries, empty lists, and variable-length component lists with their original row alignment. The serialized chunks must have valid metadata and must be loadable into a fresh `EntityDb`; encoding and decoding an RRD must not restore discarded rows or lose selected values.
+- Keep all static data regardless of the selection. Exporting must leave the source database unchanged, including its full-export result. With no selection, retain full-export behavior. Preserve store-information messages, store identity, and the existing activation/default command when exporting a blueprint.
+
+The task concerns this Rust storage/export behavior. GUI controls, SDK logging behavior, unrelated queries, and new dependencies are outside its scope. Use any sound implementation; no particular slicing helper or chunk grouping is required.
+
+The grader starts from a pristine checkout and transfers only `crates/store/re_entity_db/src` and `crates/store/re_chunk/src` from your solution. Make implementation changes in those directories. Manifests, lockfiles, build scripts, and supplied/injected integration tests remain protected. You may add local tests elsewhere while developing, but those changes are not transferred.
+
+The image provides Rust 1.98.1 and cached locked dependencies, overriding the repository's 1.96.0 toolchain selection through `RUSTUP_TOOLCHAIN`. Build the relevant crate using `cargo test --locked --offline -p re_entity_db --lib --config 'profile.dev.package."*".opt-level=0'`. Development optimization and debug information are disabled in the image to fit the CPU/memory budget. No viewer or GPU build is needed. The independent verifier runs without network access.

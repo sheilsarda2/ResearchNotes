@@ -1,0 +1,89 @@
+{
+  "task_id": "rerun-selected-time-export",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/rerun-io/rerun",
+    "commit": "ddd684110e1f200ee13ba482ab42689b78dd0551",
+    "commit_date": "2026-09-12T22:50:23+02:00",
+    "source_version": "0.38.0-alpha.1+dev",
+    "latest_release_checked": "0.37.2",
+    "license": "MIT OR Apache-2.0",
+    "license_files": [
+      "LICENSE-MIT",
+      "LICENSE-APACHE"
+    ],
+    "archive_sha256": "84611b10c3f85ca394b1c4bfea5351b0bec4d275e59f48456c3304affb081c50",
+    "archive_method": "git archive of exact commit with LFS smudge/filter disabled; tracked LFS pointer contents retained. No git history or temporary research probe included."
+  },
+  "original_contribution": "A complete behavioral task contract, independent row-level and serialization verifier, and reference integration fixing selected-time recording export. The underlying upstream bug is public; no internal implementation is required by the contract.",
+  "sources": [
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596",
+      "checked_date": "2026-09-13",
+      "finding": "Reporter supplies a frame-selection export reproducer; maintainer identifies whole-chunk export rather than truncation."
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596#issuecomment-3811458713",
+      "checked_date": "2026-09-13",
+      "finding": "Same reporter confirms excess exported intervals in real data. One affected reporter, prevalence unknown."
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/issues/12596#issuecomment-3841776767",
+      "checked_date": "2026-09-13",
+      "finding": "Reporter workaround sets maximum chunk rows to one, then exports and optionally compacts."
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/blob/ddd684110e1f200ee13ba482ab42689b78dd0551/crates/store/re_entity_db/src/entity_db.rs",
+      "checked_date": "2026-09-13",
+      "finding": "Current to_messages checks chunk-range overlap but exports whole chunks; executable selected-range reproduction fails at the intended behavioral assertion."
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12239",
+      "checked_date": "2026-09-13",
+      "finding": "Earlier fix keeps static chunks and improves overlap detection; row truncation is not implemented."
+    },
+    {
+      "url": "https://github.com/rerun-io/rerun/pull/12312",
+      "checked_date": "2026-09-13",
+      "finding": "Existing deep chunk slicing primitives do not connect time selection to export."
+    }
+  ],
+  "public_solution_overlap": {
+    "known": "Bounded September 13 audit found no exact linked or named active implementation. Existing generic chunk filters make a compact repair possible.",
+    "search_scope": "Saved issue timeline, all 18 open PRs, 100 recently updated closed PRs, exact issue all-state PR search and broader time-selection/time-slice searches, plus relevant historical diffs.",
+    "limit": "Not an exhaustive search of every fork or private work. Source ledger is research/rust-package-review/sources/rerun-audit-sources.json."
+  },
+  "horizon": {
+    "status": "unmeasured",
+    "difficulty_metadata": "medium is a qualitative author estimate, not measured model difficulty",
+    "hypothesis": "Requires tracing an existing chunk export boundary and preserving Arrow row alignment and serialization behavior. Suitable existing helpers may make this a modest repair.",
+    "measured_agent_steps": null,
+    "model_trials": 0,
+    "claim_over_75_steps": false
+  },
+  "runtime": {
+    "toolchain": "Rust 1.98.1",
+    "upstream_toolchain": "Rust 1.96.0",
+    "override_reason": "Use the available pinned multi-architecture Rust image and existing verified CPU reproduction cache; no source toolchain or dependency files changed.",
+    "profiles": "dev optimization/debug=0; package wildcard optimization=0; two build jobs",
+    "base_images": [
+      "python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7",
+      "rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa"
+    ],
+    "locked_dependencies": "upstream Cargo.lock; only target crate dependencies downloaded and built at image construction",
+    "grading_network": "separate verifier with no-network, cargo --offline",
+    "implementation_artifacts": [
+      "crates/store/re_entity_db/src",
+      "crates/store/re_chunk/src"
+    ],
+    "isolation_limit": "Submitted Rust remains executable code; this is protected verifier/data separation, not a malicious-code sandbox guarantee.",
+    "linker": "LLVM lld via /usr/local/bin/cc wrapper; reduces Arrow/RRD link peak memory without source changes"
+  },
+  "validation": {
+    "local_baseline": "Final fresh offline verifier: reward 0; 2 pristine upstream regressions pass, 8 intended behavioral failures. Cargo/test runtime 48.73 seconds; 2 CPUs/4096MB.",
+    "local_reference": "Final fresh offline verifier: reward 1; all 10 tests pass, including both pristine upstream regressions. Cargo/test runtime 25.94 seconds; 2 CPUs/4096MB.",
+    "harbor_oracle": "pending coordinator final freeze",
+    "harbor_nop": "pending coordinator final freeze",
+    "image_build": "Pinned self-contained agent image built cold in 250.38 seconds (Cargo 2m 50s); final verifier image reused dependency layers and built in 8.79 seconds."
+  }
+}

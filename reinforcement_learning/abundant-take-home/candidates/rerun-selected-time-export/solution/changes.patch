@@ -1,0 +1,45 @@
+--- a/crates/store/re_entity_db/src/entity_db.rs
++++ b/crates/store/re_entity_db/src/entity_db.rs
+@@ -1056,22 +1056,34 @@
+             let mut chunks: Vec<Arc<Chunk>> = engine
+                 .store()
+                 .iter_physical_chunks()
+-                .filter(move |chunk| {
++                .filter_map(move |chunk| {
+                     if chunk.is_static() {
+-                        return true; // always keep all static data
++                        return Some(Arc::clone(chunk)); // always keep all static data
+                     }
+ 
+                     let Some((timeline, time_range)) = time_filter else {
+-                        return true; // no filter -> keep all data
++                        return Some(Arc::clone(chunk)); // no filter -> keep all data
+                     };
+ 
+-                    // TODO(cmc): chunk.slice_time_selection(time_selection)
++                    let time_column = chunk.timelines().get(&timeline)?;
++                    if !time_range.intersects(time_column.time_range()) {
++                        return None;
++                    }
++                    if time_range.contains_range(time_column.time_range()) {
++                        return Some(Arc::clone(chunk));
++                    }
++
++                    let mask = arrow::array::BooleanArray::from(
++                        time_column
++                            .times()
++                            .map(|time| time_range.contains(time))
++                            .collect::<Vec<_>>(),
++                    );
+                     chunk
+-                        .timelines()
+-                        .get(&timeline)
+-                        .is_some_and(|time_column| time_range.intersects(time_column.time_range()))
++                        .filtered(&mask)
++                        .filter(|chunk| !chunk.is_empty())
++                        .map(Arc::new)
+                 })
+-                .cloned() // refcount
+                 .collect();
+ 
+             // Try to roughly preserve the order of the chunks

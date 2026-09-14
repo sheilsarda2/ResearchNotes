@@ -1,0 +1,43 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "-p",
+    "re_entity_db",
+    "--test",
+    "selected_time_export",
+    "--test",
+    "clear",
+    "--config",
+    "profile.dev.package.\"*\".opt-level=0",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 101,
+  "elapsed_seconds": 45.90541510400362,
+  "expected_tests": 10,
+  "observed_passed_tests": [
+    "clears_respect_index_order"
+  ],
+  "test_summaries": [
+    [
+      "ok",
+      "2",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "FAILED",
+      "0",
+      "8",
+      "0",
+      "0",
+      "0"
+    ]
+  ],
+  "reward": 0
+}

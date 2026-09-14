@@ -1,0 +1,51 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "-p",
+    "re_entity_db",
+    "--test",
+    "selected_time_export",
+    "--test",
+    "clear",
+    "--config",
+    "profile.dev.package.\"*\".opt-level=0",
+    "--",
+    "--test-threads=1"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 32.098515681005665,
+  "expected_tests": 10,
+  "observed_passed_tests": [
+    "clears_respect_index_order",
+    "deterministic_varied_chunks_match_row_predicate",
+    "disjoint_interior_gap_and_full_coverage",
+    "fractional_selection_keeps_existing_floor_ceil_conversion",
+    "multiple_chunks_entities_static_rows_and_absent_timeline",
+    "sorted_closed_interval_and_point_boundaries",
+    "sparse_empty_lists_and_secondary_timelines_stay_aligned",
+    "store_information_and_blueprint_activation_survive_selection",
+    "unsorted_duplicate_times_keep_every_matching_row"
+  ],
+  "test_summaries": [
+    [
+      "ok",
+      "2",
+      "0",
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "ok",
+      "8",
+      "0",
+      "0",
+      "0",
+      "0"
+    ]
+  ],
+  "reward": 0
+}

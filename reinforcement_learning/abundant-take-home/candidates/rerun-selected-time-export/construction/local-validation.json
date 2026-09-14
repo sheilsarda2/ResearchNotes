@@ -1,0 +1,202 @@
+{
+  "status": "complete: cold image build plus final separate offline verifier baseline=0/reference=1; coordinator Harbor freeze/runs pending",
+  "source_commit": "ddd684110e1f200ee13ba482ab42689b78dd0551",
+  "architecture": "aarch64",
+  "rust_toolchain": "1.98.1",
+  "linker": "Debian lld 14.0.6 via cc wrapper",
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "-p",
+    "re_entity_db",
+    "--test",
+    "selected_time_export",
+    "--test",
+    "clear",
+    "--config",
+    "profile.dev.package.\"*\".opt-level=0",
+    "--",
+    "--test-threads=1"
+  ],
+  "container_limits": {
+    "cpus": 1,
+    "memory_mb": 3072,
+    "reason": "Temporary coordination cap; task declares 2 CPUs / 4096 MB"
+  },
+  "network": "Container bridge disconnected before cargo execution; Cargo offline",
+  "cache_volumes": [
+    "abundant-rerun-cargo",
+    "abundant-rerun-target"
+  ],
+  "baseline": {
+    "exit_code": 101,
+    "upstream_regressions_passed": 2,
+    "authored_behavioral_failures": 8,
+    "cached_build_seconds": 14.36,
+    "log": "baseline-direct.log",
+    "log_sha256": "72af65dcb044ee5d26fe55130f469a0e54b2ce37d7e0804056ac4d01c7afb556"
+  },
+  "reference": {
+    "exit_code": 0,
+    "upstream_regressions_passed": 2,
+    "authored_tests_passed": 8,
+    "cached_build_seconds": 6.37,
+    "upstream_test_seconds": 0.04,
+    "authored_test_seconds": 0.06,
+    "log": "reference-lld.log",
+    "log_sha256": "0f269a94b0b985b07af0de8896e01473f123b03c5a99266f67e79e156179bcd1"
+  },
+  "construction_retries": [
+    "Initial verifier authoring errors used borrowed strings for interned timeline names and implicit label conversion; fixed using TimelineName::try_new and MyLabel values.",
+    "GNU ld was killed at the temporary 3GB cap while linking the large Arrow/RRD graph. lld successfully linked the same dependency artifacts without changing source or dependency compiler flags.",
+    "Initial final-image test accounting missed an upstream test because logging appeared between its name and final ok. The parser now groups each test through its final status. Both fresh containers were rerun after rebuilding the verifier image; final baseline reward is 0 and reference reward is 1."
+  ],
+  "review": {
+    "reviewer": "independent Rerun/Zenoh task agent",
+    "findings": [
+      "Record timeline types, not only names/integers.",
+      "Assert exported and decoded store IDs directly."
+    ],
+    "resolution": "Both incorporated before final direct baseline/reference runs; mixed sequence/duration/timestamp fixture present."
+  },
+  "image_builds": {
+    "agent": {
+      "command": [
+        "docker",
+        "build",
+        "--progress=plain",
+        "-t",
+        "abundant-rerun-selected-time-agent:v1",
+        "candidates/rerun-selected-time-export/environment"
+      ],
+      "elapsed_seconds": 250.381680375,
+      "exit_code": 0
+    },
+    "verifier": {
+      "command": [
+        "docker",
+        "build",
+        "--progress=plain",
+        "-t",
+        "abundant-rerun-selected-time-verifier:v1",
+        "candidates/rerun-selected-time-export/tests"
+      ],
+      "elapsed_seconds": 8.788523709,
+      "exit_code": 0
+    }
+  },
+  "final_verifier": {
+    "baseline": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "re_entity_db",
+        "--test",
+        "selected_time_export",
+        "--test",
+        "clear",
+        "--config",
+        "profile.dev.package.\"*\".opt-level=0",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 101,
+      "elapsed_seconds": 48.72613064699544,
+      "expected_tests": 10,
+      "observed_passed_tests": [
+        "clears",
+        "clears_respect_index_order"
+      ],
+      "test_summaries": [
+        [
+          "ok",
+          "2",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "FAILED",
+          "0",
+          "8",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "reward": 0
+    },
+    "reference": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "re_entity_db",
+        "--test",
+        "selected_time_export",
+        "--test",
+        "clear",
+        "--config",
+        "profile.dev.package.\"*\".opt-level=0",
+        "--",
+        "--test-threads=1"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 25.941092304004997,
+      "expected_tests": 10,
+      "observed_passed_tests": [
+        "clears",
+        "clears_respect_index_order",
+        "deterministic_varied_chunks_match_row_predicate",
+        "disjoint_interior_gap_and_full_coverage",
+        "fractional_selection_keeps_existing_floor_ceil_conversion",
+        "multiple_chunks_entities_static_rows_and_absent_timeline",
+        "sorted_closed_interval_and_point_boundaries",
+        "sparse_empty_lists_and_secondary_timelines_stay_aligned",
+        "store_information_and_blueprint_activation_survive_selection",
+        "unsorted_duplicate_times_keep_every_matching_row"
+      ],
+      "test_summaries": [
+        [
+          "ok",
+          "2",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "ok",
+          "8",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "reward": 1
+    }
+  },
+  "final_verifier_limits": {
+    "cpus": 2,
+    "memory_mb": 4096,
+    "network_mode": "none"
+  },
+  "verification_inputs_sha256": {
+    "solution/changes.patch": "971fd9a851f7694c1c3ffbf87b6e1429c75831973935fcdb0ffed8e4a65e7f23",
+    "solution/solve.sh": "4deac760f46b2c785ae244a805f14223fea43326554be4693e7bfcce5b95377e",
+    "tests/test.sh": "16b058745e0ac75a72c1599ce944bda2fc4caebcc6b5088b8ecc918df3b53f21",
+    "tests/test_export.py": "1c22dc23d008295f707d11f4dd567ceedaa8ffe32a25df6083cf51bb10133d4d",
+    "tests/selected_time_export.rs": "bae125db67201ee9be7adc77fa538774e1417e94d8af0deadc2e0cc7bf493a7e",
+    "tests/Dockerfile": "eb011496df3cd1a64eefa549d4344cc2bccb5fea7f4813006fe12b2a88fb6921",
+    "environment/Dockerfile": "fd83e8c6d38e88255a02a4e208f98f4c282481cb4b2f8ec80dd3722f547917b5"
+  }
+}

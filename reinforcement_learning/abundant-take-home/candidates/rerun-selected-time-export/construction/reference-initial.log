@@ -1,0 +1,116 @@
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1081:18
+     |
+1081 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+     = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+     = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1168:18
+     |
+1168 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1390:30
+     |
+1390 | ...                   .saturating_cast(),
+     |                        ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: `re_chunk_store` (lib) generated 3 warnings
+   Compiling re_entity_db v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_entity_db)
+warning: a method with this name may be added to the standard library in the future
+   --> crates/store/re_entity_db/src/rrd_manifest_index/chunk_prioritizer.rs:263:56
+    |
+263 |             remaining_bytes_on_wire: max_bytes_on_wire.saturating_cast::<i64>(),
+    |                                                        ^^^^^^^^^^^^^^^
+    |
+    = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+    = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+    = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: `re_entity_db` (lib) generated 1 warning
+error[E0277]: the trait bound `MyLabel: From<&str>` is not satisfied
+   --> crates/store/re_entity_db/tests/selected_time_export.rs:209:27
+    |
+209 |             value = value.with_labels(["selected", "labels"]);
+    |                           ^^^^^^^^^^^ the trait `From<&str>` is not implemented for `MyLabel`
+    |
+    = note: required for `&str` to implement `Into<MyLabel>`
+note: required by a bound in `MyPoints::with_labels`
+   --> crates/store/re_log_types/src/example_components.rs:79:72
+    |
+ 79 |     pub fn with_labels(mut self, labels: impl IntoIterator<Item = impl Into<MyLabel>>) -> Self {
+    |                                                                        ^^^^^^^^^^^^^ required by this bound in `MyPoints::with_labels`
+
+error[E0277]: the trait bound `MyLabel: From<&str>` is not satisfied
+   --> crates/store/re_entity_db/tests/selected_time_export.rs:212:27
+    |
+212 |             value = value.with_labels([] as [&str; 0]);
+    |                           ^^^^^^^^^^^ the trait `From<&str>` is not implemented for `MyLabel`
+    |
+    = note: required for `&str` to implement `Into<MyLabel>`
+note: required by a bound in `MyPoints::with_labels`
+   --> crates/store/re_log_types/src/example_components.rs:79:72
+    |
+ 79 |     pub fn with_labels(mut self, labels: impl IntoIterator<Item = impl Into<MyLabel>>) -> Self {
+    |                                                                        ^^^^^^^^^^^^^ required by this bound in `MyPoints::with_labels`
+
+error[E0277]: the trait bound `MyLabel: From<&str>` is not satisfied
+   --> crates/store/re_entity_db/tests/selected_time_export.rs:248:56
+    |
+248 |             &MyPoints::new([MyPoint::new(91.0, 92.0)]).with_labels(["static calibration"]),
+    |                                                        ^^^^^^^^^^^ the trait `From<&str>` is not implemented for `MyLabel`
+    |
+    = note: required for `&str` to implement `Into<MyLabel>`
+note: required by a bound in `MyPoints::with_labels`
+   --> crates/store/re_log_types/src/example_components.rs:79:72
+    |
+ 79 |     pub fn with_labels(mut self, labels: impl IntoIterator<Item = impl Into<MyLabel>>) -> Self {
+    |                                                                        ^^^^^^^^^^^^^ required by this bound in `MyPoints::with_labels`
+
+error[E0521]: borrowed data escapes outside of function
+  --> crates/store/re_entity_db/tests/selected_time_export.rs:62:51
+   |
+61 | fn messages(db: &EntityDb, selection: Option<(&str, AbsoluteTimeRangeF)>) -> Vec<LogMsg> {
+   |                            ---------          - let's call the lifetime of this reference `'1`
+   |                            |
+   |                            `selection` is a reference that is only valid in the function body
+62 |     db.to_messages(selection.map(|(name, range)| (name.into(), range)))
+   |                                                   ^^^^^^^^^^^
+   |                                                   |
+   |                                                   `selection` escapes the function body here
+   |                                                   argument requires that `'1` must outlive `'static`
+
+error[E0521]: borrowed data escapes outside of function
+  --> crates/store/re_entity_db/tests/selected_time_export.rs:87:36
+   |
+82 | fn points(entity: &str, timeline: &str, times: &[i64]) -> Chunk {
+   |                         --------  - let's call the lifetime of this reference `'1`
+   |                         |
+   |                         `timeline` is a reference that is only valid in the function body
+...
+87 |             TimePoint::from_iter([(Timeline::new_sequence(timeline), time)]),
+   |                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |                                    |
+   |                                    `timeline` escapes the function body here
+   |                                    argument requires that `'1` must outlive `'static`
+
+Some errors have detailed explanations: E0277, E0521.
+For more information about an error, try `rustc --explain E0277`.
+error: could not compile `re_entity_db` (test "selected_time_export") due to 5 previous errors

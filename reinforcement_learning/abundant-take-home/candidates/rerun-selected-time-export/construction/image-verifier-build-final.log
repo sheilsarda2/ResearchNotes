@@ -1,0 +1,81 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.29kB 0.0s done
+#1 DONE 0.2s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#2 ...
+
+#3 [internal] load metadata for docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#3 DONE 0.3s
+
+#4 [rust 1/1] FROM docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa
+#4 resolve docker.io/library/rust:1.98.1-bookworm@sha256:9a73a5088750b4c95158ab26629c854c3d6fc4b173cb7bc8079ad252d8ed7bfa 0.0s done
+#4 CACHED
+
+#2 [internal] load metadata for docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#2 DONE 0.3s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 ...
+
+#7 [stage-1  1/11] FROM docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#7 resolve docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7 0.3s done
+#7 DONE 0.4s
+
+#6 [internal] load build context
+#6 transferring context: 9.37MB 1.0s done
+#6 DONE 1.1s
+
+#8 [stage-1  4/11] COPY --from=rust /usr/local/rustup /usr/local/rustup
+#8 CACHED
+
+#9 [stage-1  7/11] WORKDIR /workspace/repo
+#9 CACHED
+
+#10 [stage-1  3/11] RUN printf '#!/bin/sh\nexec /usr/bin/cc -fuse-ld=lld "$@"\n' > /usr/local/bin/cc && chmod +x /usr/local/bin/cc
+#10 CACHED
+
+#11 [stage-1  5/11] COPY --from=rust /usr/local/cargo /usr/local/cargo
+#11 CACHED
+
+#12 [stage-1  6/11] RUN rustup component add rustfmt clippy --toolchain 1.98.1
+#12 CACHED
+
+#13 [stage-1  2/11] RUN apt-get update && apt-get install -y --no-install-recommends bash git curl ca-certificates build-essential pkg-config libssl-dev lld && rm -rf /var/lib/apt/lists/*
+#13 CACHED
+
+#14 [stage-1  8/11] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#14 CACHED
+
+#15 [stage-1  9/11] RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+#15 CACHED
+
+#16 [stage-1 10/11] RUN cargo test --locked -p re_entity_db --lib --test clear --no-run --config 'profile.dev.package."*".opt-level=0'
+#16 CACHED
+
+#17 [stage-1 11/11] COPY . /tests
+#17 DONE 0.5s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 1.4s done
+#18 exporting manifest sha256:4a4accf366d131e6155fd72e5a3dfe670ccf2a92721b903719ac663919c68f5f 0.1s done
+#18 exporting config sha256:13c71bec636a445ea482642984d2708820472c1468ec1667677032a2006c4436 0.1s done
+#18 exporting attestation manifest sha256:dbdf8fb8c2444589ea30361eb8d24dbc27e6920727f924027765bd0fe2883da5
+#18 exporting attestation manifest sha256:dbdf8fb8c2444589ea30361eb8d24dbc27e6920727f924027765bd0fe2883da5 0.4s done
+#18 exporting manifest list sha256:1225482df77a29392911debbad007f14f9c00c67e23ef0fd7d2fabd4274b5111
+#18 exporting manifest list sha256:1225482df77a29392911debbad007f14f9c00c67e23ef0fd7d2fabd4274b5111 0.2s done
+#18 naming to docker.io/library/abundant-rerun-selected-time-verifier:v1
+#18 naming to docker.io/library/abundant-rerun-selected-time-verifier:v1 0.0s done
+#18 unpacking to docker.io/library/abundant-rerun-selected-time-verifier:v1
+#18 unpacking to docker.io/library/abundant-rerun-selected-time-verifier:v1 0.7s done
+#18 DONE 3.3s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/jnsdsh8exint809vebb9l4fgd

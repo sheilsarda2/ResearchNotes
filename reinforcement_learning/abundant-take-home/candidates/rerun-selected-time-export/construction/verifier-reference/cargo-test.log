@@ -1,0 +1,79 @@
+   Compiling re_chunk v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_chunk)
+   Compiling re_protos v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_protos)
+   Compiling re_log_encoding v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_log_encoding)
+   Compiling re_chunk_store v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_chunk_store)
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1081:18
+     |
+1081 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+     = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+     = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1168:18
+     |
+1168 |                 .saturating_cast(),
+     |                  ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+warning: a method with this name may be added to the standard library in the future
+    --> crates/store/re_chunk_store/src/query.rs:1390:30
+     |
+1390 | ...                   .saturating_cast(),
+     |                        ^^^^^^^^^^^^^^^
+     |
+     = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+     = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+     = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+
+   Compiling re_log_channel v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_log_channel)
+   Compiling re_query v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_query)
+   Compiling re_entity_db v0.38.0-alpha.1+dev (/workspace/repo/crates/store/re_entity_db)
+warning: a method with this name may be added to the standard library in the future
+   --> crates/store/re_entity_db/src/rrd_manifest_index/chunk_prioritizer.rs:263:56
+    |
+263 |             remaining_bytes_on_wire: max_bytes_on_wire.saturating_cast::<i64>(),
+    |                                                        ^^^^^^^^^^^^^^^
+    |
+    = help: call with fully qualified syntax `saturating_cast(...)` to keep using the current method
+    = warning: once this associated item is added to the standard library, the ambiguity may cause an error or change in behavior!
+    = note: for more information, see issue #48919 <https://github.com/rust-lang/rust/issues/48919>
+    = note: `-W unstable-name-collisions` implied by `-W future-incompatible`
+    = help: to override `-W future-incompatible` add `#[allow(unstable_name_collisions)]`
+
+warning: `re_chunk_store` (lib) generated 3 warnings
+warning: `re_entity_db` (lib) generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 31.55s
+     Running tests/clear.rs (/opt/rerun-target/debug/deps/clear-94a8092cf99789f7)
+
+running 2 tests
+test clears ... [2m2026-09-13T10:39:57.530618Z[0m [33m WARN[0m [2mre_chunk::chunk[0m[2m:[0m DEBUG: Found out-of-order timelines: ["frame"]. Out-of-order timelines are sometimes unavoidable, but they may cause performance problems
+[2m2026-09-13T10:39:57.530678Z[0m [33m WARN[0m [2mre_chunk::merge[0m[2m:[0m DEBUG: Timeline 'frame' BECAME unsorted after concatenating overlapping, sorted chunks for entity '/parent/child1'. This may cause performance issues.
+[2m2026-09-13T10:39:57.531004Z[0m [33m WARN[0m [2mre_chunk::merge[0m[2m:[0m DEBUG: Timeline 'frame' BECAME unsorted after concatenating overlapping, sorted chunks for entity '/parent/deep/deep/down/child2'. This may cause performance issues.
+ok
+test clears_respect_index_order ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/selected_time_export.rs (/opt/rerun-target/debug/deps/selected_time_export-a52b9d7dd6057b69)
+
+running 8 tests
+test deterministic_varied_chunks_match_row_predicate ... ok
+test disjoint_interior_gap_and_full_coverage ... ok
+test fractional_selection_keeps_existing_floor_ceil_conversion ... ok
+test multiple_chunks_entities_static_rows_and_absent_timeline ... ok
+test sorted_closed_interval_and_point_boundaries ... ok
+test sparse_empty_lists_and_secondary_timelines_stay_aligned ... ok
+test store_information_and_blueprint_activation_survive_selection ... ok
+test unsorted_duplicate_times_keep_every_matching_row ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
