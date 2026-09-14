@@ -1,0 +1,55 @@
+{
+  "measured_at": "2026-09-14T04:07:00Z",
+  "scope": "Four active candidate campaigns; no task or result changes",
+  "recent_trial_window_start": "2026-09-14T02:00:00Z",
+  "recent_trials": 26,
+  "median_minutes": {
+    "environment_setup": 0.0,
+    "agent_setup": 0.7,
+    "agent_execution": 50.0,
+    "verifier": 1.7,
+    "trial": 54.0
+  },
+  "aggregate_minutes": {
+    "agent_execution": 1372.7,
+    "verifier": 92.8,
+    "trial": 1491.2
+  },
+  "native_timestamp_intervals": {
+    "assistant_response_gap_hours": 17.31,
+    "tool_execution_gap_hours": 4.67,
+    "assistant_response_fraction": 0.787,
+    "interpretation": "Tool-return to assistant-response timestamps include provider computation, request/network latency and retries; they do not measure pure model computation. First/last unpaired intervals are omitted."
+  },
+  "preceding_hour_slot_occupancy": {
+    "mean_active_trials": 11.84,
+    "fraction_at_12_trial_cap": 0.858,
+    "method": "Merge all four resource histories by timestamp, carrying forward each campaign's active_trials."
+  },
+  "host": {
+    "vcpus": 18,
+    "memory_total_mb": 32293,
+    "sample_available_mb_range": [20417, 22199],
+    "sample_cpu_busy_percent_range": [46.7, 60.8],
+    "sample_memory_pressure_percent_range": [1.05, 1.67]
+  },
+  "scheduler": {
+    "cells": 117,
+    "attempt_target_per_cell": 20,
+    "total_counted_trial_target": 2340,
+    "round_measure": "primary admissions, not completions",
+    "admission_stagger_seconds": 5,
+    "shared_memory_reserve_mb": 6144,
+    "startup_reserve_mb_per_new_trial": 1536,
+    "startup_window_seconds": 120,
+    "memory_pressure_limit_percent": 1.0,
+    "pressure_cooldown_seconds": 60,
+    "held_zero_dispatch_cell": ["huey-sqlite-leases", "anthropic/claude-fable-5-1", "high"],
+    "finding": "A temporarily held cell currently participates in the global minimum and can block all later rounds. No existing config field bypasses it without changing counts or targets."
+  },
+  "limitations": [
+    "Resource samples are a short snapshot and do not guarantee capacity during simultaneous compilation peaks.",
+    "Per-campaign admission_wait_reason is the latest waiter, not an aggregate utilization metric; image-held waiters can overwrite other wait reasons.",
+    "Diskcache's stale local resource timestamp is explained by the pre-admission round wait; its process remains alive."
+  ]
+}

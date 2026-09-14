@@ -73,6 +73,66 @@ class InterleavingTests(unittest.TestCase):
         state = json.loads(self.shared.state_path.read_text())
         self.assertEqual(state['interleaving']['counts'], {'a': 1})
 
+    def test_held_cell_does_not_pin_ready_round_and_catches_up_after_release(self):
+        self.policy({'held': 0, 'ready': 1, 'peer': 1})
+        for key in ['held', 'ready', 'peer']:
+            candidate(key, key + '-first')
+            candidate(key, key + '-second')
+        with self.shared.locked() as (_, state):
+            policy = state['interleaving']
+            policy['held_cells'] = {'held': dict(job='job', reason='verifier revision')}
+            policy['receipts']['historical'] = dict(cell='ready', job='job', iteration=1)
+            before = json.loads(json.dumps(policy))
+        self.assertEqual(self.shared.try_acquire('held-first', SNAPSHOT, {}),
+                         'interleaving: task temporarily held')
+        self.assertEqual(json.loads(self.shared.state_path.read_text())['interleaving'], before)
+        self.assertIsNone(self.shared.try_acquire('ready-first', SNAPSHOT, {}))
+        self.assertIn('remaining cells', self.shared.try_acquire('ready-second', SNAPSHOT, {}))
+        with self.shared.locked() as (_, state):
+            policy = state['interleaving']
+            self.assertEqual(policy['cells'], before['cells'])
+            self.assertEqual(policy['receipts']['historical'], before['receipts']['historical'])
+            self.assertEqual(policy['counts'], {'held': 0, 'ready': 2, 'peer': 1})
+            policy['held_cells'] = {}
+        self.assertIn('remaining cells', self.shared.try_acquire('peer-first', SNAPSHOT, {}))
+        self.assertIsNone(self.shared.try_acquire('held-first', SNAPSHOT, {}))
+        self.assertIsNone(self.shared.try_acquire('held-second', SNAPSHOT, {}))
+        self.assertIsNone(self.shared.try_acquire('peer-first', SNAPSHOT, {}))
+
+    def test_all_held_blocks_new_work_but_preserves_an_active_reservation(self):
+        self.policy({'a': 0})
+        candidate('a', 'active'); candidate('a', 'pending')
+        self.assertIsNone(self.shared.try_acquire('active', SNAPSHOT, {}))
+        with self.shared.locked() as (_, state):
+            state['interleaving']['held_cells'] = {'a': dict(job='job', reason='hold')}
+            before = json.loads(json.dumps(state['interleaving']))
+        self.assertIsNone(self.shared.try_acquire('active', SNAPSHOT, {}))
+        self.assertEqual(self.shared.try_acquire('pending', SNAPSHOT, {}),
+                         'interleaving: task temporarily held')
+        self.assertEqual(json.loads(self.shared.state_path.read_text())['interleaving'], before)
+        self.shared.release('active')
+        self.assertEqual(json.loads(self.shared.state_path.read_text())['interleaving'], before)
+
+    def test_unknown_or_superseded_holds_do_not_remove_a_current_round_barrier(self):
+        self.policy({'a': 0, 'b': 1})
+        candidate('a', 'a'); candidate('b', 'b')
+        with self.shared.locked() as (_, state):
+            state['interleaving']['held_cells'] = {
+                'retired': None, 'a': dict(job='old-job', reason='historical hold')}
+        self.assertIn('remaining cells', self.shared.try_acquire('b', SNAPSHOT, {}))
+        self.assertIsNone(self.shared.try_acquire('a', SNAPSHOT, {}))
+
+    def test_malformed_current_hold_stops_admission_without_crashing_or_changing_counts(self):
+        self.policy({'a': 0})
+        candidate('a', 'a')
+        for holds in (None, [], {'a': None}, {'a': {}}, {'a': {'job': 'job', 'reason': ''}}):
+            with self.subTest(holds=holds):
+                with self.shared.locked() as (_, state):
+                    state['interleaving']['held_cells'] = holds
+                self.assertEqual(self.shared.try_acquire('a', SNAPSHOT, {}),
+                                 'interleaving: waiting for valid hold metadata')
+                self.assertEqual(json.loads(self.shared.state_path.read_text())['interleaving']['counts'], {'a': 0})
+
     def test_repair_does_not_advance_round_and_limits_still_apply(self):
         self.policy({'a': 0, 'b': 0})
         candidate('a', 'a'); candidate('b', 'b')
@@ -160,6 +220,7 @@ class InterleavingTests(unittest.TestCase):
         self.policy({old:0})
         with self.shared.locked() as (_, state):
             state['interleaving']['installed_at'] = 1
+            state['interleaving']['held_cells'] = {old: dict(job='old-job', reason='archived hold')}
         candidate(old,'old-start')
         self.assertIsNone(self.shared.try_acquire('old-start',SNAPSHOT,{}))
         self.shared.release('old-start')
@@ -172,6 +233,8 @@ class InterleavingTests(unittest.TestCase):
         self.assertEqual(policy['counts'],{new:0})
         self.assertIn('old-start',policy['retired_receipts'])
         self.assertEqual(policy['installed_at'],1)
+        self.assertEqual(policy['held_cells'], {old: dict(job='old-job', reason='archived hold')})
+        self.assertEqual(rounds.held_cell_keys(policy), set())
         candidate(old,'old-pending')
         self.assertIn('retired',self.shared.try_acquire('old-pending',SNAPSHOT,{}))
 

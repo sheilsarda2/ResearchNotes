@@ -101,27 +101,6 @@ def refresh_selection(shared):
     _cache.clear()
 
 
-def held_cell_keys(policy):
-    """Read explicit temporary holds without changing dispatch history.
-
-    Retired keys and holds for a superseded job remain audit metadata only.
-    Malformed current holds fail closed instead of silently releasing work.
-    """
-    holds = policy.get('held_cells', {})
-    if not isinstance(holds, dict):
-        raise ValueError('held_cells must be a mapping')
-    held = set()
-    for key, hold in holds.items():
-        if key not in policy['cells']:
-            continue
-        if (not isinstance(hold, dict) or not isinstance(hold.get('job'), str)
-                or not isinstance(hold.get('reason'), str) or not hold['reason'].strip()):
-            raise ValueError('current cell hold requires job and reason')
-        if hold['job'] == policy['cells'][key]['job']:
-            held.add(key)
-    return held
-
-
 def wait_reason(name, state):
     if state.get('interleaving_unavailable'):
         return 'interleaving: waiting for shared state'
@@ -134,12 +113,6 @@ def wait_reason(name, state):
     key = trial['cell']
     if key not in policy['cells'] or policy['cells'][key]['job'] != trial['job']:
         return 'interleaving: task version retired from queued sweep'
-    try:
-        held = held_cell_keys(policy)
-    except ValueError:
-        return 'interleaving: waiting for valid hold metadata'
-    if key in held:
-        return 'interleaving: task temporarily held'
     receipts = policy['receipts']
     if name in receipts:
         return 'interleaving: dispatch already recorded'
@@ -148,7 +121,7 @@ def wait_reason(name, state):
         return 'interleaving: waiting for earlier attempt in cell'
     counts = policy['counts']
     unfinished = [counts[k] for k, cell in policy['cells'].items()
-                  if k not in held and counts[k] < cell['target']]
+                  if counts[k] < cell['target']]
     if counts[key] >= policy['cells'][key]['target']:
         return 'interleaving: primary dispatch target reached'
     if unfinished and counts[key] > min(unfinished):

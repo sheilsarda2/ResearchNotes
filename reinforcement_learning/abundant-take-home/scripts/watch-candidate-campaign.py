@@ -13,6 +13,7 @@ import sys
 import time
 
 from benchmark_recovery import job_containers, memory_snapshot, memory_block_reason
+from benchmark_interleaving import held_cell_keys
 from benchmark_shared_admission import process_identity
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,7 +121,8 @@ def confirmed_interleaving_wait(process, participant, shared, job_name):
         cells, counts = policy['cells'], policy['counts']
         if not cells or set(cells) != set(counts):
             return None
-        own_pending, pending = [], []
+        held = held_cell_keys(policy)
+        own_pending, pending, own_held = [], [], []
         for key, cell in cells.items():
             target, count = cell['target'], counts[key]
             if (type(target) is not int or type(count) is not int or
@@ -128,11 +130,17 @@ def confirmed_interleaving_wait(process, participant, shared, job_name):
                     key != json.dumps([cell['task'], cell['model'], cell['effort']], separators=(',', ':'))):
                 return None
             if count < target:
+                if key in held:
+                    if cell['job'] == job_name:
+                        own_held.append(count)
+                    continue
                 pending.append(count)
                 if cell['job'] == job_name:
                     own_pending.append(count)
         if own_pending and min(own_pending) > min(pending):
             return 'interleaving: waiting for remaining cells in round'
+        if own_held and not own_pending:
+            return 'interleaving: task temporarily held'
     except (KeyError, TypeError, ValueError, AttributeError, OSError):
         return None
     return None

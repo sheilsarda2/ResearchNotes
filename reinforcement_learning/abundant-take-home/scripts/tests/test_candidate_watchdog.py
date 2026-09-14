@@ -289,6 +289,40 @@ class SharedWaitWatchdogTests(unittest.TestCase):
         self.shared['participants']['waiting']['control'] = str(self.root/'jobs/other.control.json')
         self.assertIsNone(self.round_wait())
 
+    def test_held_other_cell_cannot_mask_an_eligible_idle_worker(self):
+        _, other = self.interleaving()
+        self.shared['interleaving']['held_cells'] = {other: dict(job='other', reason='revision')}
+        self.save()
+        self.assertIsNone(self.round_wait())
+        report, _, signal_call = self.cycle()
+        signal_call.assert_called_once_with(self.process, signal.SIGINT)
+        self.assertIn({'restarted_empty_runner': self.base}, report['actions'])
+
+    def test_all_owned_cells_held_are_proven_without_a_resource_heartbeat(self):
+        own, other = self.interleaving()
+        policy = self.shared['interleaving']
+        policy['held_cells'] = {key: dict(job=policy['cells'][key]['job'], reason='revision')
+                                for key in [*own, other]}
+        self.save()
+        self.assertEqual(self.round_wait(), 'interleaving: task temporarily held')
+        report, state, signal_call = self.cycle()
+        signal_call.assert_not_called()
+        self.assertEqual(report['admission_waits'][self.base], 'interleaving: task temporarily held')
+        self.assertNotIn(self.base, state['runner_idle_since'])
+        del policy['held_cells'][own[0]]
+        self.assertIsNone(self.round_wait())
+
+    def test_hold_overlay_requires_current_job_and_valid_metadata(self):
+        _, other = self.interleaving()
+        policy = self.shared['interleaving']
+        policy['held_cells'] = {'retired-cell': None,
+                                other: dict(job='superseded-job', reason='old revision')}
+        self.assertEqual(self.round_wait(), 'interleaving: waiting for remaining cells in round')
+        for holds in (None, [], {other: None}, {other: {'job': 'other', 'reason': ''}}):
+            with self.subTest(holds=holds):
+                policy['held_cells'] = holds
+                self.assertIsNone(self.round_wait())
+
     def test_round_wait_does_not_cover_repairs_unregistered_or_completed_jobs(self):
         own, _ = self.interleaving()
         policy = self.shared['interleaving']

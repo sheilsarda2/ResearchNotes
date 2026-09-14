@@ -1,0 +1,441 @@
+{
+  "passed": true,
+  "model_calls": 0,
+  "assertions": {
+    "old_worker_loaded": true,
+    "same_pid": true,
+    "same_module_namespace": true,
+    "ongoing_model_task_kept_running": true,
+    "activation_preserves_active_set": true,
+    "activation_preserves_policy": true,
+    "ready_cells_advance_past_held_zero": true,
+    "held_cell_never_admitted": true,
+    "all_held_stays_idle": true,
+    "unheld_cell_catches_up": true,
+    "cells_and_targets_preserved": true,
+    "historical_receipts_preserved": true,
+    "unrelated_history_preserved": true,
+    "exact_admission_receipts": true,
+    "worker_alive": true,
+    "sources_unchanged": true
+  },
+  "source_sha256": {
+    "scripts/benchmark_interleaving.py": "576b96c70ea6609b22674254be28199339f3585b99c93f85bf748508c0338326",
+    "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+    "scripts/hotpatch-benchmark-interleaving.py": "aa11ed46caf2d334da04744679d3779d22dcd69a19abd2c272b69f9d7c352f47",
+    "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9",
+    "scripts/watch-candidate-campaign.py": "849f3d6532410fc0560d805845abc07f673918abbcfb55f4499a692d0215a80e",
+    "research/scheduler-throughput-audit-2026-09-14/smoke_held_cells.py": "351a6130ee3a3bf6aa18aa07cb27c5dba67ab0bedb277450b4b33c29d4d3d8ba"
+  },
+  "baseline_sha256": "d53926c45426d56a09fd27348747876c355ab3428ff7aad3852bb2b7a32078e5",
+  "activation": {
+    "pid": 86489,
+    "started_at": 1789358986.7307024,
+    "passed": true,
+    "active_before": [
+      "ongoing-fake-model-task"
+    ],
+    "registered_configs": 6,
+    "registered_names": 6,
+    "module_id": 281473728099680,
+    "active_after": [
+      "ongoing-fake-model-task"
+    ],
+    "source_sha256": {
+      "scripts/benchmark_interleaving.py": "576b96c70ea6609b22674254be28199339f3585b99c93f85bf748508c0338326",
+      "scripts/benchmark_shared_admission.py": "f6e2cee75437899f4c65eea299c38100b6140e5ed3be23d1074b7dfddc4384b6",
+      "scripts/harbor-resource-runner.py": "7f00c308bd679609b8855fc31387ab5acdcc2641a5e39027af74d65da10ed4d9"
+    },
+    "identity": "4346661",
+    "job": "job",
+    "finished_at": 1789358986.7740004
+  },
+  "before": {
+    "pid": 86489,
+    "ticks": 3,
+    "active": [
+      "ongoing-fake-model-task"
+    ],
+    "registered": 6,
+    "module_id": 281473728099680,
+    "command_applied": null
+  },
+  "advanced": {
+    "pid": 86489,
+    "ticks": 10,
+    "active": [
+      "ongoing-fake-model-task",
+      "peer-first",
+      "ready-first"
+    ],
+    "registered": 6,
+    "module_id": 281473728099680,
+    "command_applied": null
+  },
+  "all_held": {
+    "pid": 86489,
+    "ticks": 36,
+    "active": [
+      "ongoing-fake-model-task"
+    ],
+    "registered": 6,
+    "module_id": 281473728099680,
+    "command_applied": "release-ready"
+  },
+  "caught_up": {
+    "pid": 86489,
+    "ticks": 39,
+    "active": [
+      "held-first",
+      "held-second",
+      "ongoing-fake-model-task"
+    ],
+    "registered": 6,
+    "module_id": 281473728099680,
+    "command_applied": "release-ready"
+  },
+  "policy_before": {
+    "version": 1,
+    "campaigns": [
+      "job"
+    ],
+    "cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "task": "held",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"ready\",\"m\",\"high\"]": {
+        "task": "ready",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"peer\",\"m\",\"high\"]": {
+        "task": "peer",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      }
+    },
+    "counts": {
+      "[\"held\",\"m\",\"high\"]": 0,
+      "[\"ready\",\"m\",\"high\"]": 1,
+      "[\"peer\",\"m\",\"high\"]": 1
+    },
+    "receipts": {
+      "ready-historical": {
+        "cell": "[\"ready\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      },
+      "peer-historical": {
+        "cell": "[\"peer\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      }
+    },
+    "held_cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "job": "job",
+        "reason": "fixture verifier hold"
+      }
+    },
+    "custom_history": {
+      "retain": [
+        "exact",
+        117,
+        2340
+      ]
+    }
+  },
+  "ready_policy": {
+    "version": 1,
+    "campaigns": [
+      "job"
+    ],
+    "cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "task": "held",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"ready\",\"m\",\"high\"]": {
+        "task": "ready",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"peer\",\"m\",\"high\"]": {
+        "task": "peer",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      }
+    },
+    "counts": {
+      "[\"held\",\"m\",\"high\"]": 0,
+      "[\"ready\",\"m\",\"high\"]": 2,
+      "[\"peer\",\"m\",\"high\"]": 2
+    },
+    "receipts": {
+      "ready-historical": {
+        "cell": "[\"ready\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      },
+      "peer-historical": {
+        "cell": "[\"peer\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      },
+      "ready-first": {
+        "cell": "[\"ready\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 2,
+        "started_at": 1789358986.9220815,
+        "source": "atomic_admission"
+      },
+      "peer-first": {
+        "cell": "[\"peer\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 2,
+        "started_at": 1789358986.9230988,
+        "source": "atomic_admission"
+      }
+    },
+    "held_cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "job": "job",
+        "reason": "fixture verifier hold"
+      }
+    },
+    "custom_history": {
+      "retain": [
+        "exact",
+        117,
+        2340
+      ]
+    }
+  },
+  "held_policy": {
+    "version": 1,
+    "campaigns": [
+      "job"
+    ],
+    "cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "task": "held",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"ready\",\"m\",\"high\"]": {
+        "task": "ready",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      },
+      "[\"peer\",\"m\",\"high\"]": {
+        "task": "peer",
+        "model": "m",
+        "effort": "high",
+        "job": "job",
+        "target": 20
+      }
+    },
+    "counts": {
+      "[\"held\",\"m\",\"high\"]": 0,
+      "[\"ready\",\"m\",\"high\"]": 2,
+      "[\"peer\",\"m\",\"high\"]": 2
+    },
+    "receipts": {
+      "ready-historical": {
+        "cell": "[\"ready\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      },
+      "peer-historical": {
+        "cell": "[\"peer\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 1,
+        "started_at": 1,
+        "source": "existing_start"
+      },
+      "ready-first": {
+        "cell": "[\"ready\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 2,
+        "started_at": 1789358986.9220815,
+        "source": "atomic_admission"
+      },
+      "peer-first": {
+        "cell": "[\"peer\",\"m\",\"high\"]",
+        "job": "job",
+        "iteration": 2,
+        "started_at": 1789358986.9230988,
+        "source": "atomic_admission"
+      }
+    },
+    "held_cells": {
+      "[\"held\",\"m\",\"high\"]": {
+        "job": "job",
+        "reason": "all-held fixture"
+      },
+      "[\"ready\",\"m\",\"high\"]": {
+        "job": "job",
+        "reason": "all-held fixture"
+      },
+      "[\"peer\",\"m\",\"high\"]": {
+        "job": "job",
+        "reason": "all-held fixture"
+      }
+    },
+    "custom_history": {
+      "retain": [
+        "exact",
+        117,
+        2340
+      ]
+    }
+  },
+  "final_state": {
+    "participants": {
+      "86358:4346585": {
+        "pid": 86358,
+        "identity": "4346585",
+        "control": "/tmp/held-cell-smoke-w3g4ex2y/observer.json",
+        "trials": {}
+      },
+      "86489:4346661": {
+        "pid": 86489,
+        "identity": "4346661",
+        "control": "/tmp/held-cell-smoke-w3g4ex2y/local.json",
+        "trials": {
+          "held-first": {
+            "started_at": 1789358988.3522687,
+            "startup_reserve_mb": 768
+          },
+          "held-second": {
+            "started_at": 1789358988.4281435,
+            "startup_reserve_mb": 768
+          }
+        }
+      }
+    },
+    "interleaving": {
+      "version": 1,
+      "campaigns": [
+        "job"
+      ],
+      "cells": {
+        "[\"held\",\"m\",\"high\"]": {
+          "task": "held",
+          "model": "m",
+          "effort": "high",
+          "job": "job",
+          "target": 20
+        },
+        "[\"ready\",\"m\",\"high\"]": {
+          "task": "ready",
+          "model": "m",
+          "effort": "high",
+          "job": "job",
+          "target": 20
+        },
+        "[\"peer\",\"m\",\"high\"]": {
+          "task": "peer",
+          "model": "m",
+          "effort": "high",
+          "job": "job",
+          "target": 20
+        }
+      },
+      "counts": {
+        "[\"held\",\"m\",\"high\"]": 2,
+        "[\"ready\",\"m\",\"high\"]": 2,
+        "[\"peer\",\"m\",\"high\"]": 2
+      },
+      "receipts": {
+        "ready-historical": {
+          "cell": "[\"ready\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1,
+          "source": "existing_start"
+        },
+        "peer-historical": {
+          "cell": "[\"peer\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1,
+          "source": "existing_start"
+        },
+        "ready-first": {
+          "cell": "[\"ready\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 2,
+          "started_at": 1789358986.9220815,
+          "source": "atomic_admission"
+        },
+        "peer-first": {
+          "cell": "[\"peer\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 2,
+          "started_at": 1789358986.9230988,
+          "source": "atomic_admission"
+        },
+        "held-first": {
+          "cell": "[\"held\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 1,
+          "started_at": 1789358988.3522687,
+          "source": "atomic_admission"
+        },
+        "held-second": {
+          "cell": "[\"held\",\"m\",\"high\"]",
+          "job": "job",
+          "iteration": 2,
+          "started_at": 1789358988.4281435,
+          "source": "atomic_admission"
+        }
+      },
+      "held_cells": {},
+      "custom_history": {
+        "retain": [
+          "exact",
+          117,
+          2340
+        ]
+      }
+    },
+    "updated_at": 1789358988.4531794,
+    "active_trials": 2,
+    "external_trials": 0,
+    "peak_active_trials": 2,
+    "available_mb": 30000,
+    "memory_pressure_pct": 0,
+    "last_wait_reason": "shared concurrency",
+    "last_start": 1789358988.4281435
+  }
+}
