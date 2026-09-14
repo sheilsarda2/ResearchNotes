@@ -1,0 +1,64 @@
+[PASS] submission_shape {"files": 15, "non_python_files": [], "missing": [], "forbidden": [], "compile_rc": 0, "compile_err": ""}
+py_writer: 208/208 passed
+py_streamed_reader: 416/416 passed
+py_indexed_reader: 16/16 passed
+rust_streamed_on_py_output: 208/208 passed
+go_streamed_on_py_output: 208/208 passed
+rust_indexed_on_py_output: 16/16 passed
+go_indexed_on_py_output: 8/8 passed
+[PASS] conformance:py_writer {"expected": 208, "run": 208, "passed": 208, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:py_streamed_reader {"expected": 416, "run": 416, "passed": 416, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:py_indexed_reader {"expected": 16, "run": 16, "passed": 16, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:rust_streamed_on_py_output {"expected": 208, "run": 208, "passed": 208, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:go_streamed_on_py_output {"expected": 208, "run": 208, "passed": 208, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:rust_indexed_on_py_output {"expected": 16, "run": 16, "passed": 16, "failed_examples": [], "failed_count": 0}
+[PASS] conformance:go_indexed_on_py_output {"expected": 8, "run": 8, "passed": 8, "failed_examples": [], "failed_count": 0}
+authored checks: 206/206 passed
+[PASS] authored_checks {"passed": 206, "total": 206, "failed": {}, "missing_ids": [], "skipped": {"multi_lz4:go_indexed_reads": "e\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x17a574]\n\ngoroutine 1 [running]:\nmain.readIndexed({0x22d268, 0x400005a028}, {0xffffd944dde4?, 0x0?})\n\t/src/go/conformance/test-read-conformance/main.go:364 +0x2f4\nmain.main()\n\t/src/go/conformance/test-read-conformance/mai
+============================= test session starts ==============================
+platform linux -- Python 3.10.21, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python3
+rootdir: /workspace/repo/python/mcap
+configfile: pyproject.toml
+collecting ... collected 37 items / 1 deselected / 36 selected
+
+tests/test_chunk_log_time.py::test_json_schema PASSED                    [  2%]
+tests/test_message_queue.py::test_chunk_message_ordering PASSED          [  5%]
+tests/test_message_queue.py::test_reverse_ordering PASSED                [  8%]
+tests/test_message_queue.py::test_insert_ordering PASSED                 [ 11%]
+tests/test_read_crc_validation.py::test_validation_passes[SeekingReader] PASSED [ 13%]
+tests/test_read_crc_validation.py::test_validation_passes[NonSeekingReader] PASSED [ 16%]
+tests/test_read_crc_validation.py::test_crc_chunk_validation[SeekingReader] PASSED [ 19%]
+tests/test_read_crc_validation.py::test_crc_chunk_validation[NonSeekingReader] PASSED [ 22%]
+tests/test_read_crc_validation.py::test_crc_data_end_validation PASSED   [ 25%]
+tests/test_reader.py::test_make_seeking PASSED                           [ 27%]
+tests/test_reader.py::test_make_not_seeking PASSED                       [ 30%]
+tests/test_reader.py::test_all_messages[SeekingReader] PASSED            [ 33%]
+tests/test_reader.py::test_all_messages[NonSeekingReader] PASSED         [ 36%]
+tests/test_reader.py::test_time_range[SeekingReader] PASSED              [ 38%]
+tests/test_reader.py::test_time_range[NonSeekingReader] PASSED           [ 41%]
+tests/test_reader.py::test_only_diagnostics[SeekingReader] PASSED        [ 44%]
+tests/test_reader.py::test_only_diagnostics[NonSeekingReader] PASSED     [ 47%]
+tests/test_reader.py::test_only_diagnostics_str[SeekingReader] PASSED    [ 50%]
+tests/test_reader.py::test_only_diagnostics_str[NonSeekingReader] PASSED [ 52%]
+tests/test_reader.py::test_seeking_reader_reads_chunk_index_without_message_index PASSED [ 55%]
+tests/test_reader.py::test_decode_schemaless[SeekingReader] PASSED       [ 58%]
+tests/test_reader.py::test_decode_schemaless[NonSeekingReader] PASSED    [ 61%]
+tests/test_reader.py::test_decode_with_schema[SeekingReader] PASSED      [ 63%]
+tests/test_reader.py::test_decode_with_schema[NonSeekingReader] PASSED   [ 66%]
+tests/test_reader.py::test_non_seeking_used_once PASSED                  [ 69%]
+tests/test_reader.py::test_no_summary_seeking PASSED                     [ 72%]
+tests/test_reader.py::test_no_summary_not_seeking PASSED                 [ 75%]
+tests/test_reader.py::test_detect_invalid_initial_magic PASSED           [ 77%]
+tests/test_reader.py::test_record_size_limit PASSED                      [ 80%]
+tests/test_reader.py::test_custom_record PASSED                          [ 83%]
+tests/test_records.py::test_statistics_serialization PASSED              [ 86%]
+tests/test_writer.py::test_lz4_chunks PASSED                             [ 88%]
+tests/test_writer.py::test_default_library_identifier PASSED             [ 91%]
+tests/test_writer.py::test_decode_read[CompressionType.ZSTD-741] PASSED  [ 94%]
+tests/test_writer.py::test_decode_read[CompressionType.LZ4-779] PASSED   [ 97%]
+tests/test_writer.py::test_out_of_order_messages PASSED                  [100%]
+
+---------------- generated xml file: /logs/verifier/pytest.xml -----------------
+======================= 36 passed, 1 deselected in 0.12s =======================
+[PASS] upstream_pytest {"exit_code": 0, "collected": 36, "passed": 36, "failed": 0, "skipped": 0, "xfail": 0}
+REWARD 1

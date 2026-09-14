@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="16" skipped="0" tests="36" time="0.130" timestamp="2026-09-13T11:35:25.304365+00:00" hostname="2bd402346126"><testcase classname="tests.test_chunk_log_time" name="test_json_schema" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_chunk_log_time.py:11: in test_json_schema
+    writer = Writer(output)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_message_queue" name="test_chunk_message_ordering" time="0.000" /><testcase classname="tests.test_message_queue" name="test_reverse_ordering" time="0.000" /><testcase classname="tests.test_message_queue" name="test_insert_ordering" time="0.000" /><testcase classname="tests.test_read_crc_validation" name="test_validation_passes[SeekingReader]" time="0.001" /><testcase classname="tests.test_read_crc_validation" name="test_validation_passes[NonSeekingReader]" time="0.000" /><testcase classname="tests.test_read_crc_validation" name="test_crc_chunk_validation[SeekingReader]" time="0.000"><failure message="NotImplementedError">tests/test_read_crc_validation.py:76: in test_crc_chunk_validation
+    content = produce_corrupted_mcap(DEMO_MCAP, "chunk")
+tests/test_read_crc_validation.py:49: in produce_corrupted_mcap
+    record.write(builder)
+mcap/records.py:12: in write
+    raise NotImplementedError()
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_read_crc_validation" name="test_crc_chunk_validation[NonSeekingReader]" time="0.000"><failure message="NotImplementedError">tests/test_read_crc_validation.py:76: in test_crc_chunk_validation
+    content = produce_corrupted_mcap(DEMO_MCAP, "chunk")
+tests/test_read_crc_validation.py:49: in produce_corrupted_mcap
+    record.write(builder)
+mcap/records.py:12: in write
+    raise NotImplementedError()
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_read_crc_validation" name="test_crc_data_end_validation" time="0.000" /><testcase classname="tests.test_reader" name="test_make_seeking" time="0.000" /><testcase classname="tests.test_reader" name="test_make_not_seeking" time="0.000" /><testcase classname="tests.test_reader" name="test_all_messages[SeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_all_messages[NonSeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_time_range[SeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_time_range[NonSeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_only_diagnostics[SeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_only_diagnostics[NonSeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_only_diagnostics_str[SeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_only_diagnostics_str[NonSeekingReader]" time="0.000" /><testcase classname="tests.test_reader" name="test_seeking_reader_reads_chunk_index_without_message_index" time="0.002"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:138: in test_seeking_reader_reads_chunk_index_without_message_index
+    writer = Writer(f, index_types=IndexType.CHUNK)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_decode_schemaless[SeekingReader]" time="0.001"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:182: in test_decode_schemaless
+    write_json_mcap(filepath)
+tests/test_reader.py:165: in write_json_mcap
+    writer = Writer(f)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_decode_schemaless[NonSeekingReader]" time="0.001"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:182: in test_decode_schemaless
+    write_json_mcap(filepath)
+tests/test_reader.py:165: in write_json_mcap
+    writer = Writer(f)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_decode_with_schema[SeekingReader]" time="0.001"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:214: in test_decode_with_schema
+    write_json_mcap(filepath)
+tests/test_reader.py:165: in write_json_mcap
+    writer = Writer(f)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_decode_with_schema[NonSeekingReader]" time="0.001"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:214: in test_decode_with_schema
+    write_json_mcap(filepath)
+tests/test_reader.py:165: in write_json_mcap
+    writer = Writer(f)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_non_seeking_used_once" time="0.001" /><testcase classname="tests.test_reader" name="test_no_summary_seeking" time="0.003" /><testcase classname="tests.test_reader" name="test_no_summary_not_seeking" time="0.002" /><testcase classname="tests.test_reader" name="test_detect_invalid_initial_magic" time="0.001" /><testcase classname="tests.test_reader" name="test_record_size_limit" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:320: in test_record_size_limit
+    writer = Writer(write_stream)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_reader" name="test_custom_record" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_reader.py:384: in test_custom_record
+    writer = Writer(write_stream)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_records" name="test_statistics_serialization" time="0.000"><failure message="NotImplementedError">tests/test_records.py:25: in test_statistics_serialization
+    s.write(builder)
+mcap/records.py:12: in write
+    raise NotImplementedError()
+E   NotImplementedError</failure></testcase><testcase classname="tests.test_writer" name="test_lz4_chunks" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_writer.py:59: in test_lz4_chunks
+    with generate_sample_data(CompressionType.LZ4) as t:
+/usr/local/lib/python3.10/contextlib.py:135: in __enter__
+    return next(self.gen)
+tests/test_writer.py:19: in generate_sample_data
+    writer = Writer(file, compression=compression)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_writer" name="test_default_library_identifier" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_writer.py:79: in test_default_library_identifier
+    writer = Writer(io)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_writer" name="test_decode_read[CompressionType.ZSTD-741]" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_writer.py:96: in test_decode_read
+    with generate_sample_data(compression_type) as t:
+/usr/local/lib/python3.10/contextlib.py:135: in __enter__
+    return next(self.gen)
+tests/test_writer.py:19: in generate_sample_data
+    writer = Writer(file, compression=compression)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_writer" name="test_decode_read[CompressionType.LZ4-779]" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_writer.py:96: in test_decode_read
+    with generate_sample_data(compression_type) as t:
+/usr/local/lib/python3.10/contextlib.py:135: in __enter__
+    return next(self.gen)
+tests/test_writer.py:19: in generate_sample_data
+    writer = Writer(file, compression=compression)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase><testcase classname="tests.test_writer" name="test_out_of_order_messages" time="0.000"><failure message="NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available">tests/test_writer.py:103: in test_out_of_order_messages
+    writer = Writer(io, compression=CompressionType.ZSTD)
+mcap/writer.py:126: in __init__
+    raise NotImplementedError(
+E   NotImplementedError: chunked writing, indexes, statistics and the summary section are not implemented; only unchunked, unindexed output is available</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,94 @@
+{
+ "groups": {
+  "authored_checks": {
+   "failed": {},
+   "missing_ids": [
+    "multi_zstd:go_indexed_reads"
+   ],
+   "ok": false,
+   "passed": 206,
+   "skipped": {
+    "multi_lz4:go_indexed_reads": "e\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x17a574]\n\ngoroutine 1 [running]:\nmain.readIndexed({0x22d268, 0x40000a8020}, {0xffffd253ede4?, 0x0?})\n\t/src/go/conformance/test-read-conformance/main.go:364 +0x2f4\nmain.main()\n\t/src/go/conformance/test-read-conformance/main.go:391 +0x98\n",
+    "multi_none:go_indexed_reads": "e\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x17a574]\n\ngoroutine 1 [running]:\nmain.readIndexed({0x22d268, 0x40000a8020}, {0xffffefc02de3?, 0x0?})\n\t/src/go/conformance/test-read-conformance/main.go:364 +0x2f4\nmain.main()\n\t/src/go/conformance/test-read-conformance/main.go:391 +0x98\n",
+    "multi_zstd:go_indexed_reads": "e\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x17a574]\n\ngoroutine 1 [running]:\nmain.readIndexed({0x22d268, 0x400005a028}, {0xfffff2d33de3?, 0x0?})\n\t/src/go/conformance/test-read-conformance/main.go:364 +0x2f4\nmain.main()\n\t/src/go/conformance/test-read-conformance/main.go:391 +0x98\n",
+    "no_crcs:go_indexed_reads": "e\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x17a574]\n\ngoroutine 1 [running]:\nmain.readIndexed({0x22d268, 0x400005a028}, {0xffffca052de6?, 0x0?})\n\t/src/go/conformance/test-read-conformance/main.go:364 +0x2f4\nmain.main()\n\t/src/go/conformance/test-read-conformance/main.go:391 +0x98\n"
+   },
+   "total": 206
+  },
+  "conformance:go_indexed_on_py_output": {
+   "expected": 8,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 8,
+   "run": 8
+  },
+  "conformance:go_streamed_on_py_output": {
+   "expected": 208,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 208,
+   "run": 208
+  },
+  "conformance:py_indexed_reader": {
+   "expected": 16,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 16,
+   "run": 16
+  },
+  "conformance:py_streamed_reader": {
+   "expected": 416,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 416,
+   "run": 416
+  },
+  "conformance:py_writer": {
+   "expected": 208,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 208,
+   "run": 208
+  },
+  "conformance:rust_indexed_on_py_output": {
+   "expected": 16,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 16,
+   "run": 16
+  },
+  "conformance:rust_streamed_on_py_output": {
+   "expected": 208,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 208,
+   "run": 208
+  },
+  "submission_shape": {
+   "compile_err": "",
+   "compile_rc": 0,
+   "files": 15,
+   "forbidden": [],
+   "missing": [],
+   "non_python_files": [],
+   "ok": true
+  },
+  "upstream_pytest": {
+   "collected": 36,
+   "exit_code": 0,
+   "failed": 0,
+   "ok": true,
+   "passed": 36,
+   "skipped": 0,
+   "xfail": 0
+  }
+ },
+ "reward": 0
+}

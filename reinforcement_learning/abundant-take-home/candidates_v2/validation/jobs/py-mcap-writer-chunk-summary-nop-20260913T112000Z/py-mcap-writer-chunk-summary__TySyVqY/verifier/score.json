@@ -1,0 +1,124 @@
+{
+ "groups": {
+  "authored_checks": {
+   "failed": {
+    "generate": "Traceback (most recent call last):\n  File \"<string>\", line 35, in <module>\n  File \"<string>\", line 17, in multi\n  File \"/workspace/repo/python/mcap/mcap/writer.py\", line 126, in __init__\n    raise NotImplementedError(\nNotImplementedError: chunked writing, indexes, statistics and the summary section "
+   },
+   "missing_ids": [
+    "empty_groups:record_sequence",
+    "multi_lz4:chunk_crc",
+    "multi_zstd:go_indexed_reads",
+    "multi_zstd:go_streamed_reads",
+    "multi_zstd:rust_indexed_reads",
+    "multi_zstd:rust_streamed_reads",
+    "ordering:attachment_before_chunk"
+   ],
+   "ok": false,
+   "passed": 0,
+   "skipped": {},
+   "total": 1
+  },
+  "conformance:go_indexed_on_py_output": {
+   "expected": 8,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": false,
+   "passed": 0,
+   "run": 0
+  },
+  "conformance:go_streamed_on_py_output": {
+   "expected": 208,
+   "failed_count": 6,
+   "failed_examples": [
+    "NoData",
+    "OneAttachment",
+    "OneMessage",
+    "OneMetadata",
+    "OneSchemalessMessage",
+    "TenMessages"
+   ],
+   "ok": false,
+   "passed": 0,
+   "run": 6
+  },
+  "conformance:py_indexed_reader": {
+   "expected": 16,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 16,
+   "run": 16
+  },
+  "conformance:py_streamed_reader": {
+   "expected": 416,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": true,
+   "passed": 416,
+   "run": 416
+  },
+  "conformance:py_writer": {
+   "expected": 208,
+   "failed_count": 208,
+   "failed_examples": [
+    "NoData-st-sum",
+    "NoData-st",
+    "NoData",
+    "OneAttachment-ax-st-sum",
+    "OneAttachment-ax-st",
+    "OneAttachment-ax-sum",
+    "OneAttachment-ax",
+    "OneAttachment-st-sum",
+    "OneAttachment-st",
+    "OneAttachment",
+    "OneMessage-ch-chx-mx-rch-rsh-st-sum",
+    "OneMessage-ch-chx-mx-rch-rsh-st"
+   ],
+   "ok": false,
+   "passed": 0,
+   "run": 208
+  },
+  "conformance:rust_indexed_on_py_output": {
+   "expected": 16,
+   "failed_count": 0,
+   "failed_examples": [],
+   "ok": false,
+   "passed": 0,
+   "run": 0
+  },
+  "conformance:rust_streamed_on_py_output": {
+   "expected": 208,
+   "failed_count": 6,
+   "failed_examples": [
+    "NoData",
+    "OneAttachment",
+    "OneMessage",
+    "OneMetadata",
+    "OneSchemalessMessage",
+    "TenMessages"
+   ],
+   "ok": false,
+   "passed": 0,
+   "run": 6
+  },
+  "submission_shape": {
+   "compile_err": "",
+   "compile_rc": 0,
+   "files": 14,
+   "forbidden": [],
+   "missing": [],
+   "non_python_files": [],
+   "ok": true
+  },
+  "upstream_pytest": {
+   "collected": 36,
+   "exit_code": 1,
+   "failed": 16,
+   "ok": false,
+   "passed": 20,
+   "skipped": 0,
+   "xfail": 0
+  }
+ },
+ "reward": 0
+}

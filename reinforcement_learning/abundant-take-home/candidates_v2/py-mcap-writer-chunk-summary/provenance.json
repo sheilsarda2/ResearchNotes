@@ -1,0 +1,243 @@
+{
+  "task_id": "py-mcap-writer-chunk-summary",
+  "language": "python",
+  "form": "B",
+  "created_at": "2026-09-13",
+  "upstream": {
+    "repo": "https://github.com/foxglove/mcap",
+    "subdir": "python/mcap",
+    "base_commit": "aebd536bd474a2f242e13e4e5bce496b873bf7ee",
+    "base_commit_date": "2026-09-09T11:47:07-04:00",
+    "base_commit_subject": "cpp: bump docker images from Ubuntu 20.04 to 22.04 (#1832)",
+    "license": "MIT",
+    "package_version": "mcap 1.4.0",
+    "pruning": "agent and verifier trees keep LICENSE, README.md, python/mcap, website/docs/spec, testdata/; agent tree adds only tests/conformance/data/OneMessage/OneMessage.{mcap,json}; verifier tree adds the full tests/conformance/data corpus; other language implementations and the TS conformance scripts are omitted from both",
+    "archives": {
+      "environment/upstream.tar.gz": {
+        "files": 47,
+        "bytes": 44579,
+        "sha256": "d03d27877cdcbc767f7630ccc42e0f26b0354c8caca7fd10a3996cc625c585d8"
+      },
+      "tests/image-source/pristine.tar.gz": {
+        "files": 878,
+        "bytes": 89665,
+        "sha256": "4f5cfceecfa659486a40e11065a54690a464b9ddb9471b07fa441cd7049f76fa"
+      },
+      "tests/image-source/reference-src.tar.gz": {
+        "files": 166,
+        "bytes": 330761,
+        "sha256": "04190851596a2611138cecb784dd716f0a1d90e607bf3fc66a2945dbd9fb8942"
+      }
+    },
+    "archive_method": "construction/build_archives.py: deterministic tar (sorted, uid/gid 0, mtime = commit time, gzip mtime 0) from a git worktree at the base commit with Git LFS objects smudged; git archive was not used because it emits LFS pointer files"
+  },
+  "feature": {
+    "kind": "excision",
+    "ref": "mcap.writer chunked writing + compression + Message Index + Chunk Index + Attachment/Metadata Index + Statistics + summary section + Summary Offsets + footer summary CRC; write() serializers of Chunk, ChunkIndex, MessageIndex, AttachmentIndex, MetadataIndex, Statistics, SummaryOffset; mcap/_chunk_builder.py removed",
+    "merged_at": null,
+    "gold_patch": {
+      "files": 3,
+      "additions": 379,
+      "deletions": 22,
+      "new_files": [
+        "python/mcap/mcap/_chunk_builder.py"
+      ]
+    },
+    "excised_state": {
+      "writer_conformance": "0/208",
+      "reader_conformance": "416/416 streamed, 16/16 indexed",
+      "upstream_pytest": "20 passed, 16 failed (all NotImplementedError) of 36 selected",
+      "authored_checks": "fails at generate (NotImplementedError)"
+    }
+  },
+  "oracle": {
+    "type": "conformance_corpus+cross_impl_differential",
+    "reference": "tests/conformance/data (416 variants; 208 non-pad writer cases byte-identical; 416 streamed + 16 indexed reader cases) via the pristine python/mcap/tests/run_{writer,reader}_test.py; Rust examples conformance_reader / conformance_indexed_reader and Go conformance/test-read-conformance built from the same commit read every Python-written corpus file and 7 authored files; verifier-owned byte-level structural checks; upstream python/mcap/tests (36 tests, timing test deselected)",
+    "expected_counts": {
+      "py_writer": 208,
+      "py_streamed_reader": 416,
+      "py_indexed_reader": 16,
+      "rust_streamed_on_py_output": 208,
+      "go_streamed_on_py_output": 208,
+      "rust_indexed_on_py_output": 16,
+      "go_indexed_on_py_output": 8,
+      "authored_checks_min": 210,
+      "authored_checks_expected": 214,
+      "upstream_pytest": 36
+    },
+    "restore_from_pristine": [
+      "python/mcap/tests",
+      "python/mcap/pyproject.toml",
+      "python/mcap/setup.cfg",
+      "tests/conformance/data",
+      "testdata"
+    ]
+  },
+  "contamination": {
+    "tier": "C_public",
+    "notes": "Reference solution is upstream main; TypeScript (McapWriter.ts, generate-inputs.ts), Go, Rust, C++ writers implement the same layout publicly. Sibling implementations and the corpus generator are removed from the agent tree; no interface shift applied in this phase (candidate shift: WriterOptions dataclass + renamed IndexType members, with regenerated runner mapping)."
+  },
+  "horizon": {
+    "proxy": "379 lines restored across 3 files (1 new module); 7 record serializers; subsystems: chunk buffering + size-threshold finalization, 3 compression modes, message index, chunk index, attachment/metadata index, statistics, 6-group summary ordering, summary offsets incl. empty groups, 2 CRCs (chunk, summary) + data CRC interplay; 14 spec sections (File Structure, Data Section, Use of chunk records, Summary Section, Summary Offset Section, Footer, Chunk, Message Index, Chunk Index, Attachment Index, Metadata Index, Statistics, Summary Offset, Serialization); byte-exactness on 208 variants; 16 upstream tests pinning unstated edge rules",
+    "hypothesis_steps": ">75",
+    "measured": null
+  },
+  "demand": {
+    "evidence": [
+      "https://github.com/foxglove/mcap/pull/1739 (python: read chunks without message indexes, 2026-06-18; index semantics actively changing)",
+      "https://github.com/foxglove/mcap/pull/1702 (Standardize writer library strings, 2026-06-10)",
+      "https://github.com/foxglove/mcap/pull/818 (Python: enable_crcs / enable_data_crcs writer options)",
+      "https://github.com/foxglove/mcap/pull/846 (python/mcap: fix statistics deserialization)",
+      "https://github.com/foxglove/mcap/pull/1640 (typescript: message index caching option, 2026-04-24)",
+      "tests/conformance harness with py-writer runner in CI (.github/workflows/ci.yml conformance-python) shows byte-compatibility of the Python writer is a maintained contract"
+    ]
+  },
+  "derivability": [
+    {
+      "assertion": "conformance:py_writer 208/208 byte-identical (pristine run_writer_test.py)",
+      "instruction_ref": "R16; R1-R14"
+    },
+    {
+      "assertion": "conformance:py_streamed_reader 416/416, py_indexed_reader 16/16",
+      "instruction_ref": "R15, R16 (reader runs)"
+    },
+    {
+      "assertion": "conformance:rust_streamed_on_py_output 208, go_streamed_on_py_output 208, rust_indexed 16, go_indexed 8: reference reader sees same records in Python output as in corpus file",
+      "instruction_ref": "R17"
+    },
+    {
+      "assertion": "submission_shape: only .py/py.typed under python/mcap/mcap; required modules present; no subprocess/_pytest/atexit//logs/reference-binary strings; compiles",
+      "instruction_ref": "Scope and rules (bullets 1-3)"
+    },
+    {
+      "assertion": "authored *:footer, *:summary_present, *:data_end",
+      "instruction_ref": "R1, R13"
+    },
+    {
+      "assertion": "authored *:data_section_crc (enable_data_crcs=True) and *:data_section_crc_zero / empty_groups:data_crc_default_zero",
+      "instruction_ref": "R9"
+    },
+    {
+      "assertion": "authored *:summary_crc / *:summary_crc_zero / empty_groups:summary_crc",
+      "instruction_ref": "R13"
+    },
+    {
+      "assertion": "authored *:data_section_ops (only Header/Schema/Channel/Message/Chunk/MessageIndex/Attachment/Metadata before DataEnd, Header first)",
+      "instruction_ref": "R1, R3 (spec 'Data Section')"
+    },
+    {
+      "assertion": "authored *:summary_ops_allowed, *:summary_group_order",
+      "instruction_ref": "R11"
+    },
+    {
+      "assertion": "authored *:summary_offset_ops, *:summary_offset_groups (exactly the six enabled groups in order), *:summary_offset_points_to_group, *:summary_offset_empty_group",
+      "instruction_ref": "R12"
+    },
+    {
+      "assertion": "authored *:summary_schemas, *:summary_channels (ids 1,2 / 1,2,3 in registration order, copies of registered records)",
+      "instruction_ref": "R2, R11(1)(2)"
+    },
+    {
+      "assertion": "authored *:statistics_present, *:statistics_values, empty_groups:statistics_zero",
+      "instruction_ref": "R10"
+    },
+    {
+      "assertion": "authored *:chunk_count_multiple, *:chunk_size_threshold (all but last chunk > chunk_size), *:chunk_has_messages",
+      "instruction_ref": "R4"
+    },
+    {
+      "assertion": "authored *:chunk_index_points_to_chunk, *:chunk_sizes, *:chunk_time_range",
+      "instruction_ref": "R7, R5"
+    },
+    {
+      "assertion": "authored *:chunk_compression, *:chunk_uncompressed_size (zstd/lz4/none decode), *:chunk_crc, *:chunk_crc_zero",
+      "instruction_ref": "R5"
+    },
+    {
+      "assertion": "authored *:chunk_inner_ops (only Schema/Channel/Message inside chunks), *:chunk_messages_complete, *:no_loose_messages",
+      "instruction_ref": "R3"
+    },
+    {
+      "assertion": "authored *:message_index_ops, *:message_index_offsets_map (contiguous after chunk, order of first message per channel, offsets equal actual record positions), *:message_index_entries (log_time, offset within uncompressed buffer, in add order)",
+      "instruction_ref": "R6, R7"
+    },
+    {
+      "assertion": "authored *:attachment_index_count, *:attachment_index_points_to_attachment, *:metadata_index_points_to_metadata",
+      "instruction_ref": "R8"
+    },
+    {
+      "assertion": "authored unchunked:unchunked_no_chunks, unchunked:unchunked_messages",
+      "instruction_ref": "R3 (use_chunking=False sentence)"
+    },
+    {
+      "assertion": "authored empty_groups:only_statistics, six_summary_offsets, empty_group_lengths, group_starts_monotonic, data_section_header_only, record_sequence (Go)",
+      "instruction_ref": "R12 (last sentence), R11, R4"
+    },
+    {
+      "assertion": "authored empty_groups:library_identifier (profile '' and library startswith 'mcap-python/')",
+      "instruction_ref": "Public API (LIBRARY_IDENTIFIER paragraph)"
+    },
+    {
+      "assertion": "authored ordering:attachment_before_chunk, ordering:single_chunk, ordering:chunk_holds_all_messages, ordering:go_attachment_before_messages",
+      "instruction_ref": "R3 (attachments/metadata written immediately, before the accumulating chunk, without finalizing it), R4"
+    },
+    {
+      "assertion": "authored *:go_streamed_reads/messages, *:rust_streamed_reads/messages (all messages recovered in write order)",
+      "instruction_ref": "R17"
+    },
+    {
+      "assertion": "authored *:go_indexed_reads/messages, *:rust_indexed_reads/messages (same message set, non-decreasing log_time)",
+      "instruction_ref": "R17"
+    },
+    {
+      "assertion": "upstream_pytest 36/36: test_writer (lz4 chunk metadata, default library id, zstd 741 / lz4 779 byte sizes, out-of-order statistics), test_records (Statistics roundtrip), test_chunk_log_time, test_reader (Writer defaults, IndexType.CHUNK only, no-summary writer, 10-record start/finish file), test_read_crc_validation (record.write for all record types)",
+      "instruction_ref": "R5 (compressor defaults), R10, R12 (10 records), R14 (roundtrip), R7 (message_index_offsets empty when MESSAGE disabled), Public API"
+    }
+  ],
+  "build": {
+    "agent_image_gb": null,
+    "verifier_image_gb": null,
+    "build_minutes": null,
+    "verifier_minutes": null,
+    "host": "not built yet (authoring host: macOS arm64, Docker 29.5.3; Python-side checks run in a local 3.10 venv)",
+    "estimates": {
+      "agent_build_min": "2-3",
+      "verifier_build_min": "10-15",
+      "verifier_run_min": "3-6"
+    },
+    "base_images": {
+      "python": "python:3.10.21-slim-bookworm@sha256:68d914ec641a0b69267ce65184d000a2bc3a9ee2590ab702b82250ab2385735a",
+      "rust_builder": "rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57",
+      "go_builder": "golang:1.22.12-bookworm@sha256:3d699e4d15d0f8f13c9195c0632a16702b8cbdece2955af1c23b37ae5d55a253"
+    },
+    "oracle_wall_seconds": 94,
+    "env_setup_seconds": 7,
+    "verifier_seconds": 81,
+    "nop_wall_seconds": 109
+  },
+  "validation": {
+    "oracle_reward": 1.0,
+    "nop_reward": 0.0,
+    "harbor_job": {
+      "oracle": "py-mcap-writer-chunk-summary-oracle-20260913T113203Z",
+      "nop": "py-mcap-writer-chunk-summary-nop-20260913T113203Z"
+    },
+    "local": {
+      "oracle_writer_conformance": "208/208",
+      "oracle_reader_conformance": "416/416 + 16/16",
+      "oracle_authored_byte_level": "167/167",
+      "oracle_pytest": "36/36",
+      "nop_writer_conformance": "0/208",
+      "nop_pytest": "20/36",
+      "patch_apply_check": "ok; restored tree identical to pristine package"
+    },
+    "harbor_version": "0.15.0",
+    "host": "Docker Desktop 29.5.3, aarch64, ~8.3 GB VM",
+    "oracle_exception": null,
+    "nop_exception": null
+  },
+  "funnel": {
+    "stage": "nop_pass",
+    "rejection_reason": null
+  }
+}

@@ -1,0 +1,43 @@
+version = "1.0"
+
+[metadata]
+author_name = "Sheil"
+author_email = ""
+difficulty = "hard"
+category = "software-engineering"
+tags = ["python", "form-b", "excision", "mcap", "binary-format", "serialization", "conformance-corpus", "cross-implementation", "crc", "indexing", "compression"]
+
+[agent]
+timeout_sec = 21600.0
+
+[verifier]
+timeout_sec = 3600.0
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+
+[environment.env]
+# Route model calls through the take-home gateway — keep this block in every
+# task you author. These values reach all phases (agent, verifier, solution).
+# The agent phase gets your ANTHROPIC_API_KEY from the terminal automatically;
+# if your verifier or solution also needs to call the model (e.g. an
+# LLM-as-judge verifier), add:  ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+# (harbor will ask to confirm host-environment access on each run; pass -y in
+# scripts).
+ANTHROPIC_BASE_URL = "https://take-home-automation.vercel.app"
+ANTHROPIC_API_BASE = "https://take-home-automation.vercel.app"
+
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 3600
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
+
+[[artifacts]]
+source = "/workspace/repo/python/mcap/mcap"
+destination = "submission/mcap"
+exclude = ["__pycache__", "*.pyc"]
