@@ -27,6 +27,7 @@ MODES = {'timeout', 'normal-background', 'buffered-timeout', 'startup-timeout', 
 SOURCES = {'scripts/benchmark_deadline.py', 'scripts/benchmark_process_guard.py',
            'scripts/benchmark_evidence.py', 'scripts/tests/test_benchmark_deadline.py'}
 LAUNCHERS = {'scripts/harbor-resource-runner.py', 'scripts/harbor-benchmark-runner.py',
+             'scripts/benchmark_task_selection.py',
              'scripts/run-candidate-screen.py', 'scripts/run-sonnet-confirmation.py',
              'scripts/benchmark_recovery.py', 'scripts/benchmark_networks.py',
              'scripts/benchmark_shared_admission.py', 'scripts/candidate-bench.py',
