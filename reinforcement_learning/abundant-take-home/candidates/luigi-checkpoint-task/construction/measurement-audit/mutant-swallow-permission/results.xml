@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.208" timestamp="2026-09-13T08:09:13.910431+00:00" hostname="bf862bac0cb3"><testcase classname="test_checkpoint_task" name="test_io_failures_propagate" time="0.078"><failure message="AssertionError: ('', 'Traceback (most recent call last):&#10;    File &quot;&lt;string&gt;&quot;, line 10, in &lt;module&gt;&#10;  AssertionError: unreadable journal was treated as absence or success&#10;  ')&#10;assert 1 == 0&#10; +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport sys\nfrom checkpoint_fixtures import Workflow\ntask = ...st):\n  File &quot;&lt;string&gt;&quot;, line 10, in &lt;module&gt;\nAssertionError: unreadable journal was treated as absence or success\n').returncode">task = Workflow(root=/tmp/pytest-of-root/pytest-0/test_io_failures_propagate0/workflow, cohort=a)
+
+    def test_io_failures_propagate(task):
+        # Real filesystem denial reaches os.open, imported aliases, builtins.open,
+        # pathlib and other legitimate readers alike. Root containers drop UID in
+        # the reader process so mode bits have their ordinary effect.
+        with tempfile.TemporaryDirectory(prefix="checkpoint-permission-") as directory:
+            protected = Workflow(str(Path(directory) / "workflow"))
+            generator, _ = suspend(protected)
+            generator.close()
+            root = Path(directory)
+            root.chmod(0o777)
+            for path in root.rglob("*"):
+                path.chmod(0o777 if path.is_dir() else 0o666)
+            journal = Path(protected.checkpoint_path())
+            journal.chmod(0)
+            code = """
+    import sys
+    from checkpoint_fixtures import Workflow
+    task = Workflow(sys.argv[1])
+    try:
+        task.complete()
+    except PermissionError:
+        print("permission propagated")
+    else:
+        raise AssertionError("unreadable journal was treated as absence or success")
+    """
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(Path(__file__).parent) + os.pathsep + environment.get("PYTHONPATH", "")
+            credentials = {"user": 65534, "group": 65534, "extra_groups": []} if os.geteuid() == 0 else {}
+            try:
+                result = subprocess.run([sys.executable, "-c", code, protected.root],
+                                        capture_output=True, text=True, timeout=20,
+                                        env=environment, **credentials)
+&gt;               assert result.returncode == 0, (result.stdout, result.stderr)
+E               AssertionError: ('', 'Traceback (most recent call last):
+E                   File "&lt;string&gt;", line 10, in &lt;module&gt;
+E                 AssertionError: unreadable journal was treated as absence or success
+E                 ')
+E               assert 1 == 0
+E                +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport sys\nfrom checkpoint_fixtures import Workflow\ntask = ...st):\n  File "&lt;string&gt;", line 10, in &lt;module&gt;\nAssertionError: unreadable journal was treated as absence or success\n').returncode
+
+/tests/test_checkpoint_task.py:411: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.071" timestamp="2026-09-13T00:38:12.574044-07:00" hostname="Mac.hsd1.ca.comcast.net"><testcase classname="candidates.luigi-checkpoint-task.tests.test_checkpoint_task" name="test_stale_suspended_generator_is_fenced" time="0.005"><failure message="Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointConflictError'&gt;">task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-160/test_stale_suspended_generator0/workflow, cohort=a)
+
+    def test_stale_suspended_generator_is_fenced(task):
+        older, requirements = suspend(task)
+        run_children(requirements)
+        newer, _ = suspend(task)
+&gt;       with pytest.raises(luigi.CheckpointConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointConflictError'&gt;
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:133: Failed</failure></testcase><testcase classname="candidates.luigi-checkpoint-task.tests.test_checkpoint_task" name="test_reset_cas_epoch_and_stale_continuation" time="0.004"><failure message="Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointConflictError'&gt;">task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-160/test_reset_cas_epoch_and_stale0/workflow, cohort=a)
+
+    def test_reset_cas_epoch_and_stale_continuation(task):
+        older, _ = suspend(task)
+        before = json.loads(Path(task.checkpoint_path()).read_text())["data"]["epoch"]
+        with pytest.raises(luigi.CheckpointConflictError):
+            task.reset_checkpoint(expected_sequence=0)
+        assert task.reset_checkpoint(expected_sequence=1)
+        assert task.checkpoint_status()["phase"] == "absent"
+&gt;       with pytest.raises(luigi.CheckpointConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointConflictError'&gt;
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:147: Failed</failure></testcase></testsuite></testsuites>

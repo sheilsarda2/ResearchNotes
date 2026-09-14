@@ -1,0 +1,65 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________________ test_io_failures_propagate __________________________
+
+task = Workflow(root=/tmp/pytest-of-root/pytest-0/test_io_failures_propagate0/workflow, cohort=a)
+
+    def test_io_failures_propagate(task):
+        # Real filesystem denial reaches os.open, imported aliases, builtins.open,
+        # pathlib and other legitimate readers alike. Root containers drop UID in
+        # the reader process so mode bits have their ordinary effect.
+        with tempfile.TemporaryDirectory(prefix="checkpoint-permission-") as directory:
+            protected = Workflow(str(Path(directory) / "workflow"))
+            generator, _ = suspend(protected)
+            generator.close()
+            root = Path(directory)
+            root.chmod(0o777)
+            for path in root.rglob("*"):
+                path.chmod(0o777 if path.is_dir() else 0o666)
+            journal = Path(protected.checkpoint_path())
+            journal.chmod(0)
+            code = """
+    import sys
+    from checkpoint_fixtures import Workflow
+    task = Workflow(sys.argv[1])
+    try:
+        task.complete()
+    except PermissionError:
+        print("permission propagated")
+    else:
+        raise AssertionError("unreadable journal was treated as absence or success")
+    """
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(Path(__file__).parent) + os.pathsep + environment.get("PYTHONPATH", "")
+            credentials = {"user": 65534, "group": 65534, "extra_groups": []} if os.geteuid() == 0 else {}
+            try:
+                result = subprocess.run([sys.executable, "-c", code, protected.root],
+                                        capture_output=True, text=True, timeout=20,
+                                        env=environment, **credentials)
+>               assert result.returncode == 0, (result.stdout, result.stderr)
+E               AssertionError: ('', 'Traceback (most recent call last):
+E                   File "<string>", line 10, in <module>
+E                 AssertionError: unreadable journal was treated as absence or success
+E                 ')
+E               assert 1 == 0
+E                +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport sys\nfrom checkpoint_fixtures import Workflow\ntask = ...st):\n  File "<string>", line 10, in <module>\nAssertionError: unreadable journal was treated as absence or success\n').returncode
+
+/tests/test_checkpoint_task.py:411: AssertionError
+=============================== warnings summary ===============================
+luigi/__init__.py:167
+  /workspace/repo/luigi/__init__.py:167: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+-------------------- generated xml file: /audit/results.xml --------------------
+=========================== short test summary info ============================
+FAILED ../../tests/test_checkpoint_task.py::test_io_failures_propagate - Asse...
+1 failed, 1 warning in 0.21s

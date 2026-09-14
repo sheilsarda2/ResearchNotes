@@ -1,0 +1,50 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+___________________ test_stale_suspended_generator_is_fenced ___________________
+
+task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-160/test_stale_suspended_generator0/workflow, cohort=a)
+
+    def test_stale_suspended_generator_is_fenced(task):
+        older, requirements = suspend(task)
+        run_children(requirements)
+        newer, _ = suspend(task)
+>       with pytest.raises(luigi.CheckpointConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'luigi.checkpoint.CheckpointConflictError'>
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:133: Failed
+_________________ test_reset_cas_epoch_and_stale_continuation __________________
+
+task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-160/test_reset_cas_epoch_and_stale0/workflow, cohort=a)
+
+    def test_reset_cas_epoch_and_stale_continuation(task):
+        older, _ = suspend(task)
+        before = json.loads(Path(task.checkpoint_path()).read_text())["data"]["epoch"]
+        with pytest.raises(luigi.CheckpointConflictError):
+            task.reset_checkpoint(expected_sequence=0)
+        assert task.reset_checkpoint(expected_sequence=1)
+        assert task.checkpoint_status()["phase"] == "absent"
+>       with pytest.raises(luigi.CheckpointConflictError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'luigi.checkpoint.CheckpointConflictError'>
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:147: Failed
+=============================== warnings summary ===============================
+luigi/__init__.py:167
+  /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/cache/luigi-checkpoint-task-work/luigi/__init__.py:167: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/luigi-checkpoint-task/construction/mutant-continuation_fence_removed.xml -
+=========================== short test summary info ============================
+FAILED ../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py::test_stale_suspended_generator_is_fenced
+FAILED ../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py::test_reset_cas_epoch_and_stale_continuation
+2 failed, 40 deselected, 1 warning in 0.07s

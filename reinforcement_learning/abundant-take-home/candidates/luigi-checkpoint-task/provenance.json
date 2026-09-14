@@ -1,0 +1,196 @@
+{
+  "task_id": "luigi-checkpoint-task",
+  "checked_date": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/spotify/luigi",
+    "commit": "715f65c4a56a908ef0a1df4df6fc33b8420e2e6c",
+    "commit_date": "2026-07-18",
+    "license": "Apache-2.0"
+  },
+  "archive": {
+    "path": "environment/upstream.tar.gz",
+    "sha256": "01870f93d481d0126ec57ef5b04a31f64abc70c5b6603ac40778e73837d68758",
+    "clean_git_archive": true
+  },
+  "golden_patch": {
+    "path": "solution/changes.patch",
+    "sha256": "9019f4561a210cde1f35b13bb9f899b06cc70c3cab35d17c8d05c918392fecb8",
+    "files": [
+      "luigi/__init__.py",
+      "luigi/checkpoint.py",
+      "luigi/worker.py",
+      "doc/tasks.rst",
+      "doc/checkpoint_tasks.rst"
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://luigi.readthedocs.io/en/latest/tasks.html#dynamic-dependencies",
+      "checked": "2026-09-13",
+      "finding": "Dynamic run resumes from scratch and requires idempotent task code."
+    },
+    {
+      "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/worker.py#L144-L174",
+      "checked": "2026-09-13",
+      "finding": "Worker creates a fresh run generator and returns dependency identities without retaining application state."
+    },
+    {
+      "url": "https://github.com/spotify/luigi/issues/1523",
+      "checked": "2026-09-13",
+      "finding": "Adjacent distributed scheduler persistence proposal, not the explicit task transition contract."
+    },
+    {
+      "url": "https://github.com/spotify/luigi/blob/715f65c4a56a908ef0a1df4df6fc33b8420e2e6c/luigi/task.py#L526-L543",
+      "checked": "2026-09-13",
+      "finding": "Normal task serialization omits private parameters; checkpoint scheduling explicitly retains complete round-trippable parameters."
+    }
+  ],
+  "original_contribution": "Opt-in explicit JSON state transitions with a checksummed durable journal, retained dynamic requirement structure, parameter-preserving native worker scheduling, output completion gates, sequence/epoch continuation fencing, version/identity guards and explicit reset.",
+  "public_solution_overlap": {
+    "assessment": "Ordinary output checkpoints and scheduler persistence are adjacent prior art. No full matching protocol found within bounded source/doc/web/issue searches. Expanded GitHub searches were rate limited, so this is not a universal absence claim.",
+    "research_details": "../../research/workflow-sources.json"
+  },
+  "validation": {
+    "docker_image": "abundant-luigi-checkpoint-task:dev",
+    "python": "3.12.11",
+    "network": "none during verifier",
+    "limits": {
+      "cpus": 2,
+      "memory": "4g"
+    },
+    "oracle": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "untouched_baseline": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 42,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "mutants": [
+      {
+        "mutant": "continuation_fence_removed",
+        "exit_code": 1,
+        "tests": 2,
+        "failures": 2,
+        "errors": 0
+      },
+      {
+        "mutant": "checksum_ignored",
+        "exit_code": 1,
+        "tests": 5,
+        "failures": 1,
+        "errors": 0
+      },
+      {
+        "mutant": "finish_gate_removed",
+        "exit_code": 1,
+        "tests": 1,
+        "failures": 1,
+        "errors": 0
+      }
+    ],
+    "harbor_oracle_nop": "Pending parent integration; fresh direct Docker oracle and baseline completed.",
+    "pre_measurement_audit_construction": {
+      "oracle": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "reward": 1,
+        "report": "construction/docker-oracle/results.xml"
+      },
+      "untouched_baseline": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 42,
+        "skipped": 0,
+        "reward": 0,
+        "report": "construction/docker-baseline/results.xml"
+      }
+    }
+  },
+  "horizon": {
+    "at_least_75_steps": "hypothesis only",
+    "basis": "Interacting transition persistence, dependency reconstruction, native worker cache semantics, lock lifecycle, replay receipts, reset/version state and fault recovery; not inferred from lines of code.",
+    "measured_model_headroom": null,
+    "paid_model_trials_run": false
+  },
+  "limitations": [
+    "POSIX local filesystems; no distributed or network-filesystem locking guarantees.",
+    "External effects before a durable transition commit can repeat; no exactly-once side-effect claim.",
+    "Dependency task classes must be importable and their complete parameters must round-trip.",
+    "Corrupt journals fail closed and require separate quiescent administrative archival/removal; reset only accepts structurally valid same-identity state.",
+    "A failed commit call can already have committed if failure occurs after atomic replacement."
+  ],
+  "measurement_audit": {
+    "date": "2026-09-13",
+    "report": "construction/measurement-audit/report.md",
+    "results": "construction/measurement-audit/results.json",
+    "changes": [
+      "Normalized ordinary nested yielded requirements to DynamicRequirements only within the verifier helper; neither class nor wrapper type is required from the implementation. The instruction explicitly confirms both forms.",
+      "Replaced os.open-only monkeypatching with real filesystem permission denial in a separate reader process.",
+      "Removed an assertion that a private completion-cache entry must be popped. The test still requires the missing child to be returned for scheduling and the real workflow to finish; the contract permits bypassing stale cached completion.",
+      "No golden source changed. A representative alternate implementation yields ordinary nested structures and integrates them with native worker scheduling, including private parameters."
+    ],
+    "current_oracle": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "current_untouched_baseline": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 42,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "valid_variants": {
+      "open-alias": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/open-alias/results.xml",
+        "reward": 1
+      },
+      "pathlib-reader": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/pathlib-reader/results.xml",
+        "reward": 1
+      },
+      "plain-nested-yields": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/plain-nested-yields/results.xml",
+        "reward": 1
+      }
+    },
+    "affected_negative_controls": {
+      "mutant-swallow-permission": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "report": "construction/measurement-audit/mutant-swallow-permission/results.xml"
+      }
+    }
+  },
+  "integration_validation_index": "../../research/shortlist.json"
+}

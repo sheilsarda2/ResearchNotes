@@ -1,0 +1,31 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_finish_needs_outputs_and_removed_outputs_need_reset ___________
+
+task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-162/test_finish_needs_outputs_and_0/workflow, cohort=a)
+
+    def test_finish_needs_outputs_and_removed_outputs_need_reset(task):
+        invalid = InvalidWorkflow(task.root, mode="missing_outputs")
+>       with pytest.raises(luigi.CheckpointOutputError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'luigi.checkpoint.CheckpointOutputError'>
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:212: Failed
+=============================== warnings summary ===============================
+luigi/__init__.py:167
+  /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/research/cache/luigi-checkpoint-task-work/luigi/__init__.py:167: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/luigi-checkpoint-task/construction/mutant-finish_gate_removed.xml -
+=========================== short test summary info ============================
+FAILED ../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py::test_finish_needs_outputs_and_removed_outputs_need_reset
+1 failed, 41 deselected, 1 warning in 0.05s

@@ -1,0 +1,22 @@
+..................................................                       [100%]
+=============================== warnings summary ===============================
+luigi/__init__.py:167
+  /workspace/repo/luigi/__init__.py:167: DeprecationWarning: 
+          Autoloading range tasks by default has been deprecated and will be removed in a future version.
+          To get the behavior now add an option to luigi.cfg:
+  
+            [core]
+              autoload_range: false
+  
+          Alternately set the option to true to continue with existing behaviour and suppress this warning.
+      
+    warnings.warn(warning_message, DeprecationWarning)
+
+: 9 warnings
+test/worker_test.py: 1 warning
+  /usr/local/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarning: This process (pid=10) is multi-threaded, use of fork() may lead to deadlocks in the child.
+    self.pid = os.fork()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---------------- generated xml file: /logs/verifier/results.xml ----------------
+50 passed, 11 warnings in 4.21s

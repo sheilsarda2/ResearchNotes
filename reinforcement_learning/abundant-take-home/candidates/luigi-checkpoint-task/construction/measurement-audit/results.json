@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-13",
+  "status": "complete",
+  "scope": "Verifier false-negative audit; no golden source changes or paid model runs.",
+  "runtime": "Fresh Python 3.12.11 Docker containers, network none, 2 CPUs, 4 GiB RAM.",
+  "changes": [
+    "Normalized ordinary nested yielded requirements to DynamicRequirements only within the verifier helper; neither class nor wrapper type is required from the implementation. The instruction explicitly confirms both forms.",
+    "Replaced os.open-only monkeypatching with real filesystem permission denial in a separate reader process.",
+    "Removed an assertion that a private completion-cache entry must be popped. The test still requires the missing child to be returned for scheduling and the real workflow to finish; the contract permits bypassing stale cached completion.",
+    "No golden source changed. A representative alternate implementation yields ordinary nested structures and integrates them with native worker scheduling, including private parameters."
+  ],
+  "results": {
+    "baseline": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 42,
+      "skipped": 0,
+      "report": "construction/measurement-audit/baseline/results.xml",
+      "reward": 0
+    },
+    "mutant-swallow-permission": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/mutant-swallow-permission/results.xml"
+    },
+    "open-alias": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/open-alias/results.xml",
+      "reward": 1
+    },
+    "oracle": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/oracle/results.xml",
+      "reward": 1
+    },
+    "pathlib-reader": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/pathlib-reader/results.xml",
+      "reward": 1
+    },
+    "plain-nested-yields": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "report": "construction/measurement-audit/plain-nested-yields/results.xml",
+      "reward": 1
+    }
+  },
+  "artifact_sha256": {
+    "instruction.md": "787f2e0cf56b02bc44e24c7c7711f07d02bba9b9084b37006dbff80d42340b2d",
+    "tests/test.sh": "f27d81d19606613db1b38581f323b3851c3a46a6ae342435cbb7db018088fbb5",
+    "tests/test_checkpoint_task.py": "600de12ed63dfbd4356c6274398560dc2964c5a4ecf00590ab9b068cc915bdee"
+  },
+  "whole_task_frozen_after_this_report": true
+}

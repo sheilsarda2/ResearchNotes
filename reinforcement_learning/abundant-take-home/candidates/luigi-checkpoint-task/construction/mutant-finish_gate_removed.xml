@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.052" timestamp="2026-09-13T00:38:12.978624-07:00" hostname="Mac.hsd1.ca.comcast.net"><testcase classname="candidates.luigi-checkpoint-task.tests.test_checkpoint_task" name="test_finish_needs_outputs_and_removed_outputs_need_reset" time="0.002"><failure message="Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointOutputError'&gt;">task = Workflow(root=/private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/pytest-of-sheil/pytest-162/test_finish_needs_outputs_and_0/workflow, cohort=a)
+
+    def test_finish_needs_outputs_and_removed_outputs_need_reset(task):
+        invalid = InvalidWorkflow(task.root, mode="missing_outputs")
+&gt;       with pytest.raises(luigi.CheckpointOutputError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'luigi.checkpoint.CheckpointOutputError'&gt;
+
+../../../candidates/luigi-checkpoint-task/tests/test_checkpoint_task.py:212: Failed</failure></testcase></testsuite></testsuites>
