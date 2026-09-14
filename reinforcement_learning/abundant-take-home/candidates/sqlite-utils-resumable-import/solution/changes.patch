@@ -1,0 +1,363 @@
+diff --git a/docs/cli.rst b/docs/cli.rst
+index 78c33b8..d206b59 100644
+--- a/docs/cli.rst
++++ b/docs/cli.rst
+@@ -11,6 +11,36 @@ Once :ref:`installed <installation>` the tool should be available as ``sqlite-ut
+ .. contents:: :local:
+    :class: this-will-duplicate-information-and-it-is-still-useful-here
+ 
++.. _cli_import_resumable:
++
++Resumable NDJSON imports
++=======================
++
++``import-resumable`` imports an immutable local UTF-8 NDJSON file and records a
++durable checkpoint with each batch:
++
++.. code-block:: bash
++
++    sqlite-utils import-resumable events.db events events.ndjson \
++        --import-id daily-2026-09-13 --pk id --batch-size 100 --alter
++
++Run the same command after interruption to continue from committed progress.
++Successful output is a JSON object containing ``import_id``, ``rows_committed``,
++``byte_offset`` and ``completed``. Expected failures print ``Error:`` and exit
++nonzero. Repeat ``--pk`` for compound keys; ``--upsert`` updates matching keys and
++``--alter`` permits new columns. Batch size defaults to 100 and may change on
++resume. Source bytes, destination and insertion options must otherwise match the
++ID's existing metadata, including when the import has completed.
++
++LF/CRLF, blank lines, a leading UTF-8 BOM and a final object without a newline
++are accepted. Malformed or incomplete final records fail their batch. Correcting
++or appending to the file changes its identity and cannot silently resume under
++the same ID. Stdin, views and virtual tables are not supported.
++
++Rows, schema changes and each checkpoint commit together. See
++:ref:`the Python API <python_api_resumable_import>` for metadata and recovery
++details, and for post-commit progress callbacks.
++
+ .. _cli_query:
+ 
+ Running SQL queries
+diff --git a/docs/python-api.rst b/docs/python-api.rst
+index d515642..6a16561 100644
+--- a/docs/python-api.rst
++++ b/docs/python-api.rst
+@@ -7,6 +7,58 @@
+ .. contents:: :local:
+    :class: this-will-duplicate-information-and-it-is-still-useful-here
+ 
++.. _python_api_resumable_import:
++
++Resuming a local NDJSON import
++=============================
++
++Use ``table.insert_file_resumable()`` when a large import must continue after
++interruption without repeating committed rows:
++
++.. code-block:: python
++
++    db = Database("events.db")
++    state = db["events"].insert_file_resumable(
++        "events.ndjson", import_id="daily-2026-09-13", pk="id",
++        batch_size=100, alter=True, upsert=False, progress=print,
++    )
++
++The result and progress notifications contain ``import_id``, ``rows_committed``,
++``byte_offset`` and ``completed``. Counts are cumulative source objects, including
++objects that update existing keys. Progress callbacks run after the checkpoint
++commits; their exceptions propagate without undoing that checkpoint. Notifications
++are independent dictionaries. A trailing-whitespace or empty-file checkpoint may
++contain no new objects. Completed imports return immediately without callbacks.
++
++Files must be immutable, regular local UTF-8 NDJSON files containing one JSON
++object per nonblank line. A leading BOM, CRLF/LF, Unicode and a final object without
++a newline are accepted. Incomplete JSON, scalar/array records and NaN/Infinity are
++errors. Input is streamed one batch at a time, after a full-file SHA-256 scan.
++Empty files complete without requiring creation of the destination table.
++
++Metadata is stored in ``_sqlite_utils_imports``, keyed by ``import_id``. Its
++``table_name``, ``source_sha256``, ``options_json``, ``byte_offset``,
++``rows_committed`` and ``completed`` columns describe identity and durable progress.
++The options JSON contains ``pk`` (list or null), ``alter`` and ``upsert``.
++Do not edit this metadata or use its table as an import destination.
++
++Reusing an ID requires identical source bytes, destination table and insertion
++options, even after completion. Moving the identical file or changing batch size
++is allowed. A single PK name is equivalent to a one-element sequence. Mismatches
++raise ``ValueError`` before mutation. Repaired or appended bytes are a different
++source and cannot silently reuse the same ID. Views and virtual tables are not
++supported.
++
++Each batch's rows, newly created table or columns and progress update share one
++transaction. Failures roll back the whole current batch, including insertion
++sub-batches and trigger side effects; previous checkpoints remain committed.
++Reopen the database and call the method with the same ID to resume. The method
++rejects an existing caller transaction with ``TransactionError`` because its
++checkpoints must commit durably. Concurrent source edits, external metadata/data
++changes and concurrent import workers are outside this interface's contract.
++
++The equivalent CLI is :ref:`import-resumable <cli_import_resumable>`.
++
+ .. _python_api_getting_started:
+ 
+ Getting started
+diff --git a/sqlite_utils/cli.py b/sqlite_utils/cli.py
+index c230902..d1bbe0f 100644
+--- a/sqlite_utils/cli.py
++++ b/sqlite_utils/cli.py
+@@ -30,6 +30,7 @@ from sqlite_utils.db import (
+     NoTable,
+     NoView,
+     PrimaryKeyRequired,
++    TransactionError,
+     quote_identifier,
+ )
+ from sqlite_utils.plugins import ensure_plugins_loaded, get_plugins, pm
+@@ -976,6 +977,32 @@ def import_options(fn):
+     return fn
+ 
+ 
++@cli.command(name="import-resumable")
++@click.argument("path", type=click.Path(dir_okay=False, allow_dash=False))
++@click.argument("table")
++@click.argument("file", type=click.Path(exists=True, dir_okay=False, allow_dash=False))
++@click.option("--import-id", required=True, help="Persistent identity for this import")
++@click.option("--batch-size", type=click.IntRange(min=1), default=100, show_default=True)
++@click.option("--pk", multiple=True, help="Primary key column (repeat for compound keys)")
++@click.option("--alter", is_flag=True, help="Add columns when new fields appear")
++@click.option("--upsert", is_flag=True, help="Update rows with matching primary keys")
++def import_resumable(path, table, file, import_id, batch_size, pk, alter, upsert):
++    """Import a local UTF-8 NDJSON FILE with durable batch checkpoints."""
++    try:
++        db = sqlite_utils.Database(path)
++        _register_db_for_cleanup(db)
++        result = db.table(table).insert_file_resumable(
++            file, import_id=import_id, batch_size=batch_size,
++            pk=list(pk) if pk else None, alter=alter, upsert=upsert,
++        )
++    except (
++        ValueError, OSError, sqlite3.Error, NoTable, InvalidColumns,
++        PrimaryKeyRequired, AlterError, TransactionError,
++    ) as ex:
++        raise click.ClickException(str(ex)) from ex
++    click.echo(json.dumps(result, ensure_ascii=False))
++
++
+ def insert_upsert_options(*, require_pk=False):
+     def inner(fn):
+         for decorator in reversed(
+diff --git a/sqlite_utils/db.py b/sqlite_utils/db.py
+index c011d9b..227c04e 100644
+--- a/sqlite_utils/db.py
++++ b/sqlite_utils/db.py
+@@ -4670,6 +4670,30 @@ class Table(Queryable):
+             strict=strict,
+         )
+ 
++    def insert_file_resumable(
++        self,
++        path,
++        *,
++        import_id: str,
++        batch_size: int = 100,
++        pk: str | list[str] | tuple[str, ...] | None = None,
++        alter: bool = False,
++        upsert: bool = False,
++        progress=None,
++    ) -> dict[str, Any]:
++        """Import an immutable UTF-8 NDJSON file using durable batch checkpoints.
++
++        Reuse ``import_id`` with identical source bytes and insertion options to
++        resume. ``progress`` receives cumulative state after each committed
++        checkpoint. See :ref:`python_api_resumable_import` for the full contract.
++        """
++        from .resumable import insert_file_resumable
++
++        return insert_file_resumable(
++            self, path, import_id=import_id, batch_size=batch_size, pk=pk,
++            alter=alter, upsert=upsert, progress=progress,
++        )
++
+     def insert_all(
+         self,
+         records: Iterable[dict[str, Any]] | Iterable[Sequence[Any]],
+diff --git a/sqlite_utils/resumable.py b/sqlite_utils/resumable.py
+new file mode 100644
+index 0000000..a53b2be
+--- /dev/null
++++ b/sqlite_utils/resumable.py
+@@ -0,0 +1,173 @@
++"""Durable, bounded-memory imports of immutable local NDJSON files."""
++
++import hashlib
++import json
++import os
++import stat
++from collections.abc import Callable
++from pathlib import Path
++from typing import TYPE_CHECKING, Any, BinaryIO
++
++from .db import fold_identifier_case
++
++if TYPE_CHECKING:
++    from .db import Table
++
++
++IMPORTS_TABLE = "_sqlite_utils_imports"
++
++
++def _state(conn, import_id):
++    exists = conn.execute(
++        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", [IMPORTS_TABLE]
++    ).fetchone()
++    if not exists:
++        return None
++    row = conn.execute(
++        "SELECT table_name, source_sha256, options_json, byte_offset, "
++        "rows_committed, completed FROM _sqlite_utils_imports WHERE import_id=?",
++        [import_id],
++    ).fetchone()
++    return tuple(row) if row is not None else None
++
++
++def _result(import_id, offset, count, completed):
++    return {
++        "import_id": import_id,
++        "byte_offset": offset,
++        "rows_committed": count,
++        "completed": bool(completed),
++    }
++
++
++def _reject_constant(value):
++    raise ValueError(f"Non-JSON number {value}")
++
++
++def _read_batch(stream: BinaryIO, size: int, batch_size: int):
++    rows = []
++    while len(rows) < batch_size:
++        start = stream.tell()
++        line = stream.readline()
++        if not line:
++            break
++        try:
++            text = line.decode("utf-8-sig" if start == 0 else "utf-8")
++            if not text.strip():
++                continue
++            record = json.loads(text, parse_constant=_reject_constant)
++            if not isinstance(record, dict):
++                raise ValueError("expected a JSON object")
++        except (UnicodeError, ValueError) as ex:
++            raise ValueError(f"Invalid NDJSON at byte {start}: {ex}") from ex
++        rows.append(record)
++    offset = stream.tell()
++    return rows, offset, offset == size
++
++
++def insert_file_resumable(
++    table: "Table",
++    path: str | os.PathLike,
++    *,
++    import_id: str,
++    batch_size: int = 100,
++    pk: str | list[str] | tuple[str, ...] | None = None,
++    alter: bool = False,
++    upsert: bool = False,
++    progress: Callable[[dict[str, Any]], None] | None = None,
++) -> dict[str, Any]:
++    from .db import TransactionError
++
++    if not isinstance(import_id, str) or not import_id:
++        raise ValueError("import_id must be a non-empty string")
++    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
++        raise ValueError("batch_size must be a positive integer")
++    if not isinstance(alter, bool) or not isinstance(upsert, bool):
++        raise ValueError("alter and upsert must be booleans")
++    if progress is not None and not callable(progress):
++        raise ValueError("progress must be callable")
++    if pk is not None:
++        if isinstance(pk, str):
++            pk = [pk]
++        elif isinstance(pk, (list, tuple)):
++            pk = list(pk)
++        else:
++            raise ValueError("pk must be a column name or sequence of column names")
++        if not pk or any(not isinstance(c, str) or not c for c in pk):
++            raise ValueError("pk must contain non-empty column names")
++        if len({fold_identifier_case(c) for c in pk}) != len(pk):
++            raise ValueError("pk cannot contain duplicate columns")
++    if fold_identifier_case(table.name) == IMPORTS_TABLE:
++        raise ValueError(f"{IMPORTS_TABLE} is reserved for import checkpoints")
++    db = table.db
++    if db.conn.in_transaction:
++        raise TransactionError("Resumable imports cannot run inside a transaction")
++    if fold_identifier_case(table.name) in {
++        fold_identifier_case(name) for name in db.view_names()
++    } or (table.exists() and table.virtual_table_using):
++        raise ValueError("Resumable imports require an ordinary table")
++    path = Path(path)
++    if not path.is_file():
++        raise ValueError("Resumable imports require a regular local file")
++    options = json.dumps(
++        {"pk": pk, "alter": alter, "upsert": upsert},
++        sort_keys=True,
++        separators=(",", ":"),
++    )
++    identity_table = fold_identifier_case(table.name)
++    with path.open("rb") as stream:
++        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
++            raise ValueError("Resumable imports require a regular local file")
++        size = os.fstat(stream.fileno()).st_size
++        digest = hashlib.sha256()
++        for block in iter(lambda: stream.read(1024 * 1024), b""):
++            digest.update(block)
++        fingerprint = digest.hexdigest()
++        prior = _state(db.conn, import_id)
++        identity = (identity_table, fingerprint, options)
++        if prior is not None and prior[:3] != identity:
++            raise ValueError("Import identity mismatch: table, source bytes or options changed")
++        offset, count, completed = prior[3:] if prior else (0, 0, False)
++        if offset < 0 or offset > size or count < 0:
++            raise ValueError("Invalid stored import checkpoint")
++        if completed:
++            return _result(import_id, offset, count, True)
++        stream.seek(offset)
++        while True:
++            rows, next_offset, completed = _read_batch(stream, size, batch_size)
++            next_count = count + len(rows)
++            with db.atomic():
++                # Another importer must not be able to advance a stale checkpoint.
++                if _state(db.conn, import_id) != prior:
++                    raise ValueError("Import progress changed; retry from its new checkpoint")
++                db.execute(
++                    "CREATE TABLE IF NOT EXISTS _sqlite_utils_imports ("
++                    "import_id TEXT PRIMARY KEY, table_name TEXT NOT NULL, "
++                    "source_sha256 TEXT NOT NULL, options_json TEXT NOT NULL, "
++                    "byte_offset INTEGER NOT NULL, rows_committed INTEGER NOT NULL, "
++                    "completed INTEGER NOT NULL CHECK(completed IN (0, 1)))"
++                )
++                if rows:
++                    table.insert_all(
++                        rows,
++                        pk=pk,
++                        alter=alter,
++                        upsert=upsert,
++                        batch_size=batch_size,
++                    )
++                db.execute(
++                    "INSERT INTO _sqlite_utils_imports "
++                    "(import_id, table_name, source_sha256, options_json, "
++                    "byte_offset, rows_committed, completed) VALUES (?, ?, ?, ?, ?, ?, ?) "
++                    "ON CONFLICT(import_id) DO UPDATE SET "
++                    "byte_offset=excluded.byte_offset, rows_committed=excluded.rows_committed, "
++                    "completed=excluded.completed",
++                    [import_id, *identity, next_offset, next_count, int(completed)],
++                )
++            offset, count = next_offset, next_count
++            prior = (*identity, offset, count, int(completed))
++            result = _result(import_id, offset, count, completed)
++            if progress is not None:
++                progress(dict(result))
++            if completed:
++                return result

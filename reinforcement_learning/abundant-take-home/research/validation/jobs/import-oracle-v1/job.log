@@ -1,0 +1,61 @@
+Skipping image OS validation for hb__sqlite-utils-resumable-import: docker inspect returned 1
+Collecting main service artifacts
+Trial sqlite-utils-resumable-import__DQQGWzT failed: Docker compose command failed for environment sqlite-utils-resumable-import. Command: docker compose --project-name sqlite-utils-resumable-import__dqqgwzt__verifier__trial --project-directory /Users/sheil/Development/sheil_research/reinforcement_learning/abundant-take-home/candidates/sqlite-utils-resumable-import/tests -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpvk16ut56/sqlite-utils-resumable-import__DQQGWzT__verifier__trial-docker-compose-resources.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-build.yaml -f /private/var/folders/b0/v3qd88297k9gnttz4fhbfqcc0000gn/T/tmpjiaqg8qq/docker-compose-mounts.json -f /Users/sheil/.cache/uv/archive-v0/R8j51ydLfsuTqh87/lib/python3.14/site-packages/harbor/environments/docker/docker-compose-no-network.yaml build. Return code: 1. Stdout:  Image sqlite-utils-resumable-import__dqqgwzt__verifier__trial-main Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 796B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 878B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 401.03kB done
+#5 DONE 0.0s
+
+#6 [1/9] FROM docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7
+#6 resolve docker.io/library/python:3.12.11-slim-bookworm@sha256:519591d6871b7bc437060736b9f7456b8731f1499a57e22e6c285135ae657bf7 0.0s done
+#6 DONE 0.0s
+
+#7 [2/9] RUN apt-get update && apt-get install -y --no-install-recommends bash git curl ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [3/9] WORKDIR /workspace/repo
+#8 CACHED
+
+#9 [4/9] COPY upstream.tar.gz /tmp/upstream.tar.gz
+#9 ERROR: failed to calculate checksum of ref 0uwjaf6mx9mfzc4iguyrv3bup::6m6y8usoj0mqxn107w4kyuqbw: "/upstream.tar.gz": not found
+------
+ > [4/9] COPY upstream.tar.gz /tmp/upstream.tar.gz:
+------
+Dockerfile:6
+
+--------------------
+
+   4 |         && rm -rf /var/lib/apt/lists/*
+
+   5 |     WORKDIR /workspace/repo
+
+   6 | >>> COPY upstream.tar.gz /tmp/upstream.tar.gz
+
+   7 |     RUN tar -xzf /tmp/upstream.tar.gz -C /workspace/repo && rm /tmp/upstream.tar.gz
+
+   8 |     COPY image-source/requirements.txt /tmp/requirements.txt
+
+--------------------
+
+failed to solve: failed to compute cache key: failed to calculate checksum of ref 0uwjaf6mx9mfzc4iguyrv3bup::6m6y8usoj0mqxn107w4kyuqbw: "/upstream.tar.gz": not found
+
+
+
+View build details: docker-desktop://dashboard/build/default/default/ucu6gwusqdk4inznwt9vmiz7w
+
+. Stderr: None. 
+Not retrying trial because the maximum number of retries has been reached

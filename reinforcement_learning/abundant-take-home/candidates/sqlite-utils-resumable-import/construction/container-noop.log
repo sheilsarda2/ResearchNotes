@@ -1,0 +1,317 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FFFFFF..................... [ 39%]
+........................................................................ [ 79%]
+......................................                                   [100%]
+=================================== FAILURES ===================================
+________________ test_api_persistent_identity_callback_and_noop ________________
+/tests/test_resumable_import.py:87: in test_api_persistent_identity_callback_and_noop
+    result = db["events"].insert_file_resumable(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+________ test_unicode_byte_checkpoint_and_final_record_without_newline _________
+/tests/test_resumable_import.py:118: in test_unicode_byte_checkpoint_and_final_record_without_newline
+    db["events"].insert_file_resumable(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+________________________ test_empty_input_completion[] _________________________
+/tests/test_resumable_import.py:137: in test_empty_input_completion
+    result = db["events"].insert_file_resumable(source, import_id="job")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________________ test_empty_input_completion[ \r\n\n\t] ____________________
+/tests/test_resumable_import.py:137: in test_empty_input_completion
+    result = db["events"].insert_file_resumable(source, import_id="job")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__________________ test_empty_input_completion[\xef\xbb\xbf] ___________________
+/tests/test_resumable_import.py:137: in test_empty_input_completion
+    result = db["events"].insert_file_resumable(source, import_id="job")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_______________ test_empty_input_completion[\xef\xbb\xbf\r\n \n] _______________
+/tests/test_resumable_import.py:137: in test_empty_input_completion
+    result = db["events"].insert_file_resumable(source, import_id="job")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__________________ test_trailing_blank_lines_are_checkpointed __________________
+/tests/test_resumable_import.py:149: in test_trailing_blank_lines_are_checkpointed
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=1, progress=pause)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___ test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects ___
+/tests/test_resumable_import.py:166: in test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects
+    db["events"].insert_file_resumable(source, import_id="job", pk="id", alter=True, batch_size=2, progress=pause)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__________ test_row_failure_preserves_previous_batches_and_can_resume __________
+/tests/test_resumable_import.py:191: in test_row_failure_preserves_previous_batches_and_can_resume
+    db["events"].insert_file_resumable(source, import_id="job", pk="id", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+______________ test_internal_sql_subbatches_are_one_logical_batch ______________
+/tests/test_resumable_import.py:213: in test_internal_sql_subbatches_are_one_logical_batch
+    db["events"].insert_file_resumable(source, import_id="job", pk="id", batch_size=3)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_______ test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":3] _______
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+________ test_bad_late_line_does_not_consume_or_commit_its_batch[[]\n] _________
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_______ test_bad_late_line_does_not_consume_or_commit_its_batch[null\n] ________
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_bad_late_line_does_not_consume_or_commit_its_batch[4\n] _________
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____ test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":NaN}\n] _____
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__ test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":Infinity}\n] __
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___ test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":"\xff"}\n] ___
+/tests/test_resumable_import.py:227: in test_bad_late_line_does_not_consume_or_commit_its_batch
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_first_batch_failure_creates_no_schema_or_checkpoint ___________
+/tests/test_resumable_import.py:246: in test_first_batch_failure_creates_no_schema_or_checkpoint
+    db["events"].insert_file_resumable(source, import_id="job", batch_size=5)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_abrupt_exit_before_checkpoint_commit_then_reopen _____________
+/tests/test_resumable_import.py:255: in test_abrupt_exit_before_checkpoint_commit_then_reopen
+    db["events"].insert_file_resumable(source, import_id="job", pk="id", batch_size=2, progress=pause)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+________________ test_abrupt_exit_after_commit_then_cli_resume _________________
+/tests/test_resumable_import.py:284: in test_abrupt_exit_after_commit_then_cli_resume
+    assert proc.returncode == 74, proc.stderr
+E   AssertionError: Traceback (most recent call last):
+E       File "<string>", line 5, in <module>
+E     AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+E     
+E   assert 1 == 74
+E    +  where 1 = CompletedProcess(args=['/usr/local/bin/python', '-c', '\nimport os,sys\nfrom sqlite_utils import Database\ndb=Database...  File "<string>", line 5, in <module>\nAttributeError: \'Table\' object has no attribute \'insert_file_resumable\'\n').returncode
+_________ test_identity_changes_rejected_before_mutation[source-True] __________
+/tests/test_resumable_import.py:301: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_identity_changes_rejected_before_mutation[source-False] _________
+/tests/test_resumable_import.py:304: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, progress=pause, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__________ test_identity_changes_rejected_before_mutation[table-True] __________
+/tests/test_resumable_import.py:301: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_identity_changes_rejected_before_mutation[table-False] __________
+/tests/test_resumable_import.py:304: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, progress=pause, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_identity_changes_rejected_before_mutation[pk-True] ____________
+/tests/test_resumable_import.py:301: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_identity_changes_rejected_before_mutation[pk-False] ___________
+/tests/test_resumable_import.py:304: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, progress=pause, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+__________ test_identity_changes_rejected_before_mutation[alter-True] __________
+/tests/test_resumable_import.py:301: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_identity_changes_rejected_before_mutation[alter-False] __________
+/tests/test_resumable_import.py:304: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, progress=pause, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_identity_changes_rejected_before_mutation[upsert-True] __________
+/tests/test_resumable_import.py:301: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_identity_changes_rejected_before_mutation[upsert-False] _________
+/tests/test_resumable_import.py:304: in test_identity_changes_rejected_before_mutation
+    db["events"].insert_file_resumable(source, progress=pause, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+______________ test_upsert_compound_keys_and_inferred_primary_key ______________
+/tests/test_resumable_import.py:330: in test_upsert_compound_keys_and_inferred_primary_key
+    result = db["events"].insert_file_resumable(source, import_id="job", upsert=True, batch_size=2)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+______________ test_two_import_ids_same_destination_and_alter_cli ______________
+/tests/test_resumable_import.py:353: in test_two_import_ids_same_destination_and_alter_cli
+    assert proc.returncode == 0, proc.stderr
+E   AssertionError: Usage: python -m sqlite_utils query [OPTIONS] PATH SQL
+E     Try 'python -m sqlite_utils query --help' for help.
+E     
+E     Error: No such option '--import-id'.
+E     
+E   assert 2 == 0
+E    +  where 2 = CompletedProcess(args=['/usr/local/bin/python', '-m', 'sqlite_utils', 'import-resumable', '/tmp/pytest-of-root/pytest-...ery [OPTIONS] PATH SQL\nTry 'python -m sqlite_utils query --help' for help.\n\nError: No such option '--import-id'.\n").returncode
+____________ test_invalid_arguments_do_not_mutate_database[kwargs0] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs1] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs2] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs3] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs4] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs5] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs6] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs7] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs8] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_invalid_arguments_do_not_mutate_database[kwargs9] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_invalid_arguments_do_not_mutate_database[kwargs10] ____________
+/tests/test_resumable_import.py:366: in test_invalid_arguments_do_not_mutate_database
+    db["events"].insert_file_resumable(source, **{"import_id": "job", **kwargs})
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_________ test_open_transaction_refused_without_consuming_or_mutating __________
+/tests/test_resumable_import.py:378: in test_open_transaction_refused_without_consuming_or_mutating
+    db["events"].insert_file_resumable(source, import_id="job")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_unsupported_targets_and_sources_rejected[virtual] ____________
+/tests/test_resumable_import.py:402: in test_unsupported_targets_and_sources_rejected
+    db.table(table).insert_file_resumable(source, import_id="job")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_unsupported_targets_and_sources_rejected[reserved] ____________
+/tests/test_resumable_import.py:402: in test_unsupported_targets_and_sources_rejected
+    db.table(table).insert_file_resumable(source, import_id="job")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+___________ test_unsupported_targets_and_sources_rejected[directory] ___________
+/tests/test_resumable_import.py:402: in test_unsupported_targets_and_sources_rejected
+    db.table(table).insert_file_resumable(source, import_id="job")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+____________ test_unsupported_targets_and_sources_rejected[missing] ____________
+/tests/test_resumable_import.py:402: in test_unsupported_targets_and_sources_rejected
+    db.table(table).insert_file_resumable(source, import_id="job")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+_______ test_cli_errors_are_concise_and_do_not_mark_failed_file_complete _______
+/tests/test_resumable_import.py:413: in test_cli_errors_are_concise_and_do_not_mark_failed_file_complete
+    assert checkpoint(target)["completed"] == 0
+           ^^^^^^^^^^^^^^^^^^
+/tests/test_resumable_import.py:33: in checkpoint
+    row = conn.execute(
+E   sqlite3.OperationalError: no such table: _sqlite_utils_imports
+____________ test_input_is_streamed_and_file_bytes_remain_unchanged ____________
+/tests/test_resumable_import.py:452: in test_input_is_streamed_and_file_bytes_remain_unchanged
+    result = db["events"].insert_file_resumable(source, import_id="job", pk="id", batch_size=7)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'Table' object has no attribute 'insert_file_resumable'
+=========================== short test summary info ============================
+FAILED ../../tests/test_resumable_import.py::test_api_persistent_identity_callback_and_noop
+FAILED ../../tests/test_resumable_import.py::test_unicode_byte_checkpoint_and_final_record_without_newline
+FAILED ../../tests/test_resumable_import.py::test_empty_input_completion[] - ...
+FAILED ../../tests/test_resumable_import.py::test_empty_input_completion[ \r\n\n\t]
+FAILED ../../tests/test_resumable_import.py::test_empty_input_completion[\xef\xbb\xbf]
+FAILED ../../tests/test_resumable_import.py::test_empty_input_completion[\xef\xbb\xbf\r\n \n]
+FAILED ../../tests/test_resumable_import.py::test_trailing_blank_lines_are_checkpointed
+FAILED ../../tests/test_resumable_import.py::test_checkpoint_write_failure_rolls_back_data_schema_and_trigger_effects
+FAILED ../../tests/test_resumable_import.py::test_row_failure_preserves_previous_batches_and_can_resume
+FAILED ../../tests/test_resumable_import.py::test_internal_sql_subbatches_are_one_logical_batch
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":3]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[[]\n]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[null\n]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[4\n]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":NaN}\n]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":Infinity}\n]
+FAILED ../../tests/test_resumable_import.py::test_bad_late_line_does_not_consume_or_commit_its_batch[{"id":"\xff"}\n]
+FAILED ../../tests/test_resumable_import.py::test_first_batch_failure_creates_no_schema_or_checkpoint
+FAILED ../../tests/test_resumable_import.py::test_abrupt_exit_before_checkpoint_commit_then_reopen
+FAILED ../../tests/test_resumable_import.py::test_abrupt_exit_after_commit_then_cli_resume
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[source-True]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[source-False]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[table-True]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[table-False]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[pk-True]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[pk-False]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[alter-True]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[alter-False]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[upsert-True]
+FAILED ../../tests/test_resumable_import.py::test_identity_changes_rejected_before_mutation[upsert-False]
+FAILED ../../tests/test_resumable_import.py::test_upsert_compound_keys_and_inferred_primary_key
+FAILED ../../tests/test_resumable_import.py::test_two_import_ids_same_destination_and_alter_cli
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs0]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs1]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs2]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs3]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs4]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs5]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs6]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs7]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs8]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs9]
+FAILED ../../tests/test_resumable_import.py::test_invalid_arguments_do_not_mutate_database[kwargs10]
+FAILED ../../tests/test_resumable_import.py::test_open_transaction_refused_without_consuming_or_mutating
+FAILED ../../tests/test_resumable_import.py::test_unsupported_targets_and_sources_rejected[virtual]
+FAILED ../../tests/test_resumable_import.py::test_unsupported_targets_and_sources_rejected[reserved]
+FAILED ../../tests/test_resumable_import.py::test_unsupported_targets_and_sources_rejected[directory]
+FAILED ../../tests/test_resumable_import.py::test_unsupported_targets_and_sources_rejected[missing]
+FAILED ../../tests/test_resumable_import.py::test_cli_errors_are_concise_and_do_not_mark_failed_file_complete
+FAILED ../../tests/test_resumable_import.py::test_input_is_streamed_and_file_bytes_remain_unchanged
+50 failed, 132 passed in 1.44s

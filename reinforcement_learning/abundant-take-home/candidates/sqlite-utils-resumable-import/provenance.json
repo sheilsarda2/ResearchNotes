@@ -1,0 +1,115 @@
+{
+  "task_id": "sqlite-utils-resumable-import",
+  "created_at": "2026-09-13",
+  "upstream": {
+    "url": "https://github.com/simonw/sqlite-utils",
+    "commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "commit_date": "2026-09-01T21:44:52-07:00",
+    "license": "Apache-2.0",
+    "version": "4.2.1",
+    "source_archive_sha256": "e4dabb4ddb41e8b7cddd56fccc26b020f816d8c8eff1db4fcc4dc8bb1c14c307",
+    "archive_method": "git archive --format=tar.gz of the exact commit, with upstream LICENSE and tests; no history or solution"
+  },
+  "original_contribution": "New integrated Table.insert_file_resumable API and import-resumable CLI using stable file/options identity and atomic data/schema/checkpoint batches; recovery contract includes controlled process termination and malformed final records.",
+  "sources": [
+    {
+      "url": "https://github.com/simonw/sqlite-utils/tree/85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+      "checked_at": "2026-09-13",
+      "use": "Pinned source and feature inspection"
+    },
+    {
+      "url": "https://sqlite-utils.datasette.io/en/stable/changelog.html",
+      "checked_at": "2026-09-13",
+      "use": "Avoid duplicating existing atomic(), migrations and recent insertion behavior"
+    },
+    {
+      "url": "https://sqlite-utils.datasette.io/en/stable/migrations.html",
+      "checked_at": "2026-09-13",
+      "use": "Existing metadata-plus-state transaction pattern"
+    },
+    {
+      "url": "https://github.com/simonw/sqlite-utils/issues",
+      "checked_at": "2026-09-13",
+      "use": "Open issue/PR freshness audit; inspected API results through #868"
+    }
+  ],
+  "public_solution_overlap": {
+    "exact_solution_found": false,
+    "qualification": "No matching implementation found in pinned source, inspected open issues/PRs or targeted web search; not an exhaustive proof across all historical forks. Existing db.atomic() is reused, not presented as new. Byte-progress PRs concern progress display rather than durable recovery."
+  },
+  "verifier": {
+    "authored_contract_cases": 51,
+    "fixed_upstream_regressions": 131,
+    "upstream_test_files": [
+      "tests/test_atomic.py",
+      "tests/test_upsert.py",
+      "tests/test_cli_insert.py",
+      "tests/test_mutator_transactions.py"
+    ],
+    "upstream_fixture": "tests/conftest.py",
+    "copy_source_commit": "85b1be10c81d9dd3567e36faf8dd411e4a8789bd",
+    "checks": "API, actual CLI subprocesses, SQLite trigger failure, abrupt process exit before/after checkpoint commit, fresh connection inspection, rollback of schema and row changes, identity mismatch, source byte offsets, composite PK upserts, streaming guard",
+    "model_grading": false
+  },
+  "horizon": {
+    "status": "unmeasured hypothesis",
+    "hypothesis": "Dependency-aware work across input framing, insertion sub-batches, transaction ownership, persisted identity, callbacks, CLI error handling and recovery validation may require sustained multi-step engineering. Code size alone is not a horizon measure.",
+    "model_runs": 0,
+    "model_headroom_established": false
+  },
+  "construction": {
+    "oracle_patch_sha256": "31f41588732c543e91f7e4a0afff4c7de1ae540e629f55698046cb3116dbf091",
+    "local_python": "3.12.13",
+    "local_oracle": "182 passed in 1.46s; construction/local-oracle.xml",
+    "container_validation": {
+      "image": "abundant-candidate-sqlite-resumable:85b1be1",
+      "python": "3.12.11",
+      "sqlite": "3.40.1",
+      "architecture": "aarch64",
+      "network": "none",
+      "cpus": 2,
+      "memory_mb": 4096,
+      "oracle": {
+        "exit_code": 0,
+        "collected": 182,
+        "outcomes": {
+          "passed": 182,
+          "failed": 0,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 1
+      },
+      "noop": {
+        "exit_code": 1,
+        "collected": 182,
+        "outcomes": {
+          "passed": 132,
+          "failed": 50,
+          "skipped": 0,
+          "xfail": 0
+        },
+        "reward": 0
+      },
+      "evidence": [
+        "construction/docker-build.log",
+        "construction/container-oracle.log",
+        "construction/container-oracle/results.xml",
+        "construction/container-oracle/diagnostics.json",
+        "construction/container-noop.log",
+        "construction/container-noop/results.xml",
+        "construction/container-noop/diagnostics.json"
+      ]
+    },
+    "harbor_validation": "Current accepted Harbor oracle/nop results and exact revision bindings are maintained in ../../research/shortlist.json; local construction runs below remain historical evidence.",
+    "verifier_sha256": "00c8b01602df02d0fce453261c37db63804ae7f1d3fb988f0d115b03b5ec2414",
+    "original_materials_check": "git diff --exit-code c1ae968 against the listed original take-home paths passed (run from abundant-take-home directory)"
+  },
+  "scope_limits": [
+    "Immutable regular local UTF-8 NDJSON input during invocation",
+    "No concurrent workers/leases or externally modified target/metadata",
+    "No CSV, compression, arbitrary converters or virtual-table imports",
+    "Full-file hash scan on every invocation is permitted"
+  ],
+  "integration_validation_index": "../../research/shortlist.json"
+}
